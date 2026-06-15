@@ -1,0 +1,366 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package com.llamacloud_prod.api.services
+
+import com.github.tomakehurst.wiremock.client.WireMock.anyUrl
+import com.github.tomakehurst.wiremock.client.WireMock.equalTo
+import com.github.tomakehurst.wiremock.client.WireMock.get
+import com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor
+import com.github.tomakehurst.wiremock.client.WireMock.matchingJsonPath
+import com.github.tomakehurst.wiremock.client.WireMock.ok
+import com.github.tomakehurst.wiremock.client.WireMock.post
+import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
+import com.github.tomakehurst.wiremock.client.WireMock.stubFor
+import com.github.tomakehurst.wiremock.client.WireMock.verify
+import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
+import com.github.tomakehurst.wiremock.junit5.WireMockTest
+import com.llamacloud_prod.api.client.LlamaCloudClient
+import com.llamacloud_prod.api.client.okhttp.LlamaCloudOkHttpClient
+import com.llamacloud_prod.api.core.JsonValue
+import com.llamacloud_prod.api.models.parsing.ParsingCreateParams
+import com.llamacloud_prod.api.models.parsing.ParsingLanguages
+import com.llamacloud_prod.api.models.pipelines.PipelineListParams
+import com.llamacloud_prod.api.models.pipelines.PipelineType
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.parallel.ResourceLock
+
+@WireMockTest
+@ResourceLock("https://github.com/wiremock/wiremock/issues/169")
+internal class ServiceParamsTest {
+
+    private lateinit var client: LlamaCloudClient
+
+    @BeforeEach
+    fun beforeEach(wmRuntimeInfo: WireMockRuntimeInfo) {
+        client =
+            LlamaCloudOkHttpClient.builder()
+                .baseUrl(wmRuntimeInfo.httpBaseUrl)
+                .apiKey("My API Key")
+                .build()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun list() {
+        val pipelineService = client.pipelines()
+        stubFor(get(anyUrl()).willReturn(ok("[]")))
+
+        pipelineService.list(
+            PipelineListParams.builder()
+                .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .pipelineName("pipeline_name")
+                .pipelineType(PipelineType.PLAYGROUND)
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .projectName("project_name")
+                .putAdditionalHeader("Secret-Header", "42")
+                .putAdditionalQueryParam("secret_query_param", "42")
+                .build()
+        )
+
+        verify(
+            getRequestedFor(anyUrl())
+                .withHeader("Secret-Header", equalTo("42"))
+                .withQueryParam("secret_query_param", equalTo("42"))
+        )
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun create() {
+        val parsingService = client.parsing()
+        stubFor(post(anyUrl()).willReturn(ok("{}")))
+
+        parsingService.create(
+            ParsingCreateParams.builder()
+                .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .tier(ParsingCreateParams.Tier.FAST)
+                .version(ParsingCreateParams.Version.LATEST)
+                .agenticOptions(
+                    ParsingCreateParams.AgenticOptions.builder()
+                        .customPrompt("custom_prompt")
+                        .build()
+                )
+                .clientName("client_name")
+                .cropBox(
+                    ParsingCreateParams.CropBox.builder()
+                        .bottom(0.0)
+                        .left(0.0)
+                        .right(0.0)
+                        .top(0.0)
+                        .build()
+                )
+                .disableCache(true)
+                .fastOptions(JsonValue.from(mapOf<String, Any>()))
+                .fileId("file_id")
+                .httpProxy("https:")
+                .inputOptions(
+                    ParsingCreateParams.InputOptions.builder()
+                        .html(
+                            ParsingCreateParams.InputOptions.Html.builder()
+                                .makeAllElementsVisible(true)
+                                .removeFixedElements(true)
+                                .removeNavigationElements(true)
+                                .build()
+                        )
+                        .pdf(JsonValue.from(mapOf<String, Any>()))
+                        .presentation(
+                            ParsingCreateParams.InputOptions.Presentation.builder()
+                                .outOfBoundsContent(true)
+                                .skipEmbeddedData(true)
+                                .build()
+                        )
+                        .spreadsheet(
+                            ParsingCreateParams.InputOptions.Spreadsheet.builder()
+                                .detectSubTablesInSheets(true)
+                                .forceFormulaComputationInSheets(true)
+                                .includeHiddenSheets(true)
+                                .build()
+                        )
+                        .build()
+                )
+                .outputOptions(
+                    ParsingCreateParams.OutputOptions.builder()
+                        .additionalOutputs(
+                            listOf("stripped_md", "concatenated_stripped_txt", "word_bbox")
+                        )
+                        .extractPrintedPageNumber(true)
+                        .granularBboxes(
+                            listOf(
+                                ParsingCreateParams.OutputOptions.GranularBbox.WORD,
+                                ParsingCreateParams.OutputOptions.GranularBbox.LINE,
+                                ParsingCreateParams.OutputOptions.GranularBbox.CELL,
+                            )
+                        )
+                        .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.SCREENSHOT)
+                        .markdown(
+                            ParsingCreateParams.OutputOptions.Markdown.builder()
+                                .annotateLinks(true)
+                                .inlineImages(true)
+                                .tables(
+                                    ParsingCreateParams.OutputOptions.Markdown.Tables.builder()
+                                        .compactMarkdownTables(true)
+                                        .markdownTableMultilineSeparator(
+                                            "markdown_table_multiline_separator"
+                                        )
+                                        .mergeContinuedTables(true)
+                                        .outputTablesAsMarkdown(true)
+                                        .build()
+                                )
+                                .build()
+                        )
+                        .spatialText(
+                            ParsingCreateParams.OutputOptions.SpatialText.builder()
+                                .doNotUnrollColumns(true)
+                                .preserveLayoutAlignmentAcrossPages(true)
+                                .preserveVerySmallText(true)
+                                .build()
+                        )
+                        .tablesAsSpreadsheet(
+                            ParsingCreateParams.OutputOptions.TablesAsSpreadsheet.builder()
+                                .enable(true)
+                                .guessSheetName(true)
+                                .build()
+                        )
+                        .build()
+                )
+                .pageRanges(
+                    ParsingCreateParams.PageRanges.builder()
+                        .maxPages(1L)
+                        .targetPages("target_pages")
+                        .build()
+                )
+                .processingControl(
+                    ParsingCreateParams.ProcessingControl.builder()
+                        .jobFailureConditions(
+                            ParsingCreateParams.ProcessingControl.JobFailureConditions.builder()
+                                .allowedPageFailureRatio(1.0)
+                                .failOnBuggyFont(true)
+                                .failOnImageExtractionError(true)
+                                .failOnImageOcrError(true)
+                                .failOnMarkdownReconstructionError(true)
+                                .build()
+                        )
+                        .timeouts(
+                            ParsingCreateParams.ProcessingControl.Timeouts.builder()
+                                .baseInSeconds(1L)
+                                .extraTimePerPageInSeconds(1L)
+                                .build()
+                        )
+                        .build()
+                )
+                .processingOptions(
+                    ParsingCreateParams.ProcessingOptions.builder()
+                        .aggressiveTableExtraction(true)
+                        .addAutoModeConfiguration(
+                            ParsingCreateParams.ProcessingOptions.AutoModeConfiguration.builder()
+                                .parsingConf(
+                                    ParsingCreateParams.ProcessingOptions.AutoModeConfiguration
+                                        .ParsingConf
+                                        .builder()
+                                        .adaptiveLongTable(true)
+                                        .aggressiveTableExtraction(true)
+                                        .cropBox(
+                                            ParsingCreateParams.ProcessingOptions
+                                                .AutoModeConfiguration
+                                                .ParsingConf
+                                                .CropBox
+                                                .builder()
+                                                .bottom(0.0)
+                                                .left(0.0)
+                                                .right(0.0)
+                                                .top(0.0)
+                                                .build()
+                                        )
+                                        .customPrompt("custom_prompt")
+                                        .extractLayout(true)
+                                        .highResOcr(true)
+                                        .ignore(
+                                            ParsingCreateParams.ProcessingOptions
+                                                .AutoModeConfiguration
+                                                .ParsingConf
+                                                .Ignore
+                                                .builder()
+                                                .ignoreDiagonalText(true)
+                                                .ignoreHiddenText(true)
+                                                .build()
+                                        )
+                                        .language("language")
+                                        .outlinedTableExtraction(true)
+                                        .presentation(
+                                            ParsingCreateParams.ProcessingOptions
+                                                .AutoModeConfiguration
+                                                .ParsingConf
+                                                .Presentation
+                                                .builder()
+                                                .outOfBoundsContent(true)
+                                                .skipEmbeddedData(true)
+                                                .build()
+                                        )
+                                        .spatialText(
+                                            ParsingCreateParams.ProcessingOptions
+                                                .AutoModeConfiguration
+                                                .ParsingConf
+                                                .SpatialText
+                                                .builder()
+                                                .doNotUnrollColumns(true)
+                                                .preserveLayoutAlignmentAcrossPages(true)
+                                                .preserveVerySmallText(true)
+                                                .build()
+                                        )
+                                        .specializedChartParsing(
+                                            ParsingCreateParams.ProcessingOptions
+                                                .AutoModeConfiguration
+                                                .ParsingConf
+                                                .SpecializedChartParsing
+                                                .AGENTIC_PLUS
+                                        )
+                                        .tier(
+                                            ParsingCreateParams.ProcessingOptions
+                                                .AutoModeConfiguration
+                                                .ParsingConf
+                                                .Tier
+                                                .AGENTIC
+                                        )
+                                        .version(
+                                            ParsingCreateParams.ProcessingOptions
+                                                .AutoModeConfiguration
+                                                .ParsingConf
+                                                .Version
+                                                .LATEST
+                                        )
+                                        .build()
+                                )
+                                .filenameMatchGlob("*.txt")
+                                .addFilenameMatchGlobList("string")
+                                .filenameRegexp("filename_regexp")
+                                .filenameRegexpMode("filename_regexp_mode")
+                                .fullPageImageInPage(true)
+                                .fullPageImageInPageThreshold(0.0)
+                                .imageInPage(true)
+                                .layoutElementInPage("layout_element_in_page")
+                                .layoutElementInPageConfidenceThreshold(0.0)
+                                .pageContainsAtLeastNCharts(0L)
+                                .pageContainsAtLeastNImages(0L)
+                                .pageContainsAtLeastNLayoutElements(0L)
+                                .pageContainsAtLeastNLines(0L)
+                                .pageContainsAtLeastNLinks(0L)
+                                .pageContainsAtLeastNNumbers(0L)
+                                .pageContainsAtLeastNPercentNumbers(0L)
+                                .pageContainsAtLeastNTables(0L)
+                                .pageContainsAtLeastNWords(0L)
+                                .pageContainsAtMostNCharts(0L)
+                                .pageContainsAtMostNImages(0L)
+                                .pageContainsAtMostNLayoutElements(0L)
+                                .pageContainsAtMostNLines(0L)
+                                .pageContainsAtMostNLinks(0L)
+                                .pageContainsAtMostNNumbers(0L)
+                                .pageContainsAtMostNPercentNumbers(0L)
+                                .pageContainsAtMostNTables(0L)
+                                .pageContainsAtMostNWords(0L)
+                                .pageLongerThanNChars(0L)
+                                .pageMdError(true)
+                                .pageShorterThanNChars(0L)
+                                .regexpInPage("regexp_in_page")
+                                .regexpInPageMode("regexp_in_page_mode")
+                                .tableInPage(true)
+                                .textInPage("text_in_page")
+                                .triggerMode("trigger_mode")
+                                .build()
+                        )
+                        .costOptimizer(
+                            ParsingCreateParams.ProcessingOptions.CostOptimizer.builder()
+                                .enable(true)
+                                .build()
+                        )
+                        .disableHeuristics(true)
+                        .ignore(
+                            ParsingCreateParams.ProcessingOptions.Ignore.builder()
+                                .ignoreDiagonalText(true)
+                                .ignoreHiddenText(true)
+                                .ignoreTextInImage(true)
+                                .build()
+                        )
+                        .ocrParameters(
+                            ParsingCreateParams.ProcessingOptions.OcrParameters.builder()
+                                .addLanguage(ParsingLanguages.AF)
+                                .build()
+                        )
+                        .specializedChartParsing(
+                            ParsingCreateParams.ProcessingOptions.SpecializedChartParsing
+                                .AGENTIC_PLUS
+                        )
+                        .build()
+                )
+                .sourceUrl("https:")
+                .addWebhookConfiguration(
+                    ParsingCreateParams.WebhookConfiguration.builder()
+                        .addWebhookEvent("parse.success")
+                        .addWebhookEvent("parse.error")
+                        .webhookHeaders(
+                            ParsingCreateParams.WebhookConfiguration.WebhookHeaders.builder()
+                                .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                .build()
+                        )
+                        .webhookOutputFormat(
+                            ParsingCreateParams.WebhookConfiguration.WebhookOutputFormat.JSON
+                        )
+                        .webhookUrl("https:")
+                        .build()
+                )
+                .putAdditionalHeader("Secret-Header", "42")
+                .putAdditionalQueryParam("secret_query_param", "42")
+                .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))
+                .build()
+        )
+
+        verify(
+            postRequestedFor(anyUrl())
+                .withHeader("Secret-Header", equalTo("42"))
+                .withQueryParam("secret_query_param", equalTo("42"))
+                .withRequestBody(matchingJsonPath("$.secretProperty", equalTo("42")))
+        )
+    }
+}

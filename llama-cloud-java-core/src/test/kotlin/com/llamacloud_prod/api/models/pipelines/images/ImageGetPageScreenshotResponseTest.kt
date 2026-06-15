@@ -1,0 +1,31 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package com.llamacloud_prod.api.models.pipelines.images
+
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.llamacloud_prod.api.core.jsonMapper
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+
+internal class ImageGetPageScreenshotResponseTest {
+
+    @Test
+    fun create() {
+        val imageGetPageScreenshotResponse = ImageGetPageScreenshotResponse.builder().build()
+    }
+
+    @Test
+    fun roundtrip() {
+        val jsonMapper = jsonMapper()
+        val imageGetPageScreenshotResponse = ImageGetPageScreenshotResponse.builder().build()
+
+        val roundtrippedImageGetPageScreenshotResponse =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(imageGetPageScreenshotResponse),
+                jacksonTypeRef<ImageGetPageScreenshotResponse>(),
+            )
+
+        assertThat(roundtrippedImageGetPageScreenshotResponse)
+            .isEqualTo(imageGetPageScreenshotResponse)
+    }
+}
