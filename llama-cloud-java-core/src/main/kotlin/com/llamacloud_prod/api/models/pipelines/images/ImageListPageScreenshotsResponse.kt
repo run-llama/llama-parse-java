@@ -1,0 +1,410 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package com.llamacloud_prod.api.models.pipelines.images
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter
+import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.llamacloud_prod.api.core.ExcludeMissing
+import com.llamacloud_prod.api.core.JsonField
+import com.llamacloud_prod.api.core.JsonMissing
+import com.llamacloud_prod.api.core.JsonValue
+import com.llamacloud_prod.api.core.checkRequired
+import com.llamacloud_prod.api.core.toImmutable
+import com.llamacloud_prod.api.errors.LlamaCloudInvalidDataException
+import java.util.Collections
+import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
+
+class ImageListPageScreenshotsResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
+private constructor(
+    private val fileId: JsonField<String>,
+    private val imageSize: JsonField<Long>,
+    private val pageIndex: JsonField<Long>,
+    private val metadata: JsonField<Metadata>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
+) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("file_id") @ExcludeMissing fileId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("image_size") @ExcludeMissing imageSize: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("page_index") @ExcludeMissing pageIndex: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("metadata") @ExcludeMissing metadata: JsonField<Metadata> = JsonMissing.of(),
+    ) : this(fileId, imageSize, pageIndex, metadata, mutableMapOf())
+
+    /**
+     * The ID of the file that the page screenshot was taken from
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun fileId(): String = fileId.getRequired("file_id")
+
+    /**
+     * The size of the image in bytes
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun imageSize(): Long = imageSize.getRequired("image_size")
+
+    /**
+     * The index of the page for which the screenshot is taken (0-indexed)
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun pageIndex(): Long = pageIndex.getRequired("page_index")
+
+    /**
+     * Metadata for the screenshot
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun metadata(): Optional<Metadata> = metadata.getOptional("metadata")
+
+    /**
+     * Returns the raw JSON value of [fileId].
+     *
+     * Unlike [fileId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("file_id") @ExcludeMissing fun _fileId(): JsonField<String> = fileId
+
+    /**
+     * Returns the raw JSON value of [imageSize].
+     *
+     * Unlike [imageSize], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("image_size") @ExcludeMissing fun _imageSize(): JsonField<Long> = imageSize
+
+    /**
+     * Returns the raw JSON value of [pageIndex].
+     *
+     * Unlike [pageIndex], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("page_index") @ExcludeMissing fun _pageIndex(): JsonField<Long> = pageIndex
+
+    /**
+     * Returns the raw JSON value of [metadata].
+     *
+     * Unlike [metadata], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("metadata") @ExcludeMissing fun _metadata(): JsonField<Metadata> = metadata
+
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
+    @JsonAnyGetter
+    @ExcludeMissing
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
+
+    fun toBuilder() = Builder().from(this)
+
+    companion object {
+
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ImageListPageScreenshotsResponse].
+         *
+         * The following fields are required:
+         * ```java
+         * .fileId()
+         * .imageSize()
+         * .pageIndex()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [ImageListPageScreenshotsResponse]. */
+    class Builder internal constructor() {
+
+        private var fileId: JsonField<String>? = null
+        private var imageSize: JsonField<Long>? = null
+        private var pageIndex: JsonField<Long>? = null
+        private var metadata: JsonField<Metadata> = JsonMissing.of()
+        private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+        @JvmSynthetic
+        internal fun from(imageListPageScreenshotsResponse: ImageListPageScreenshotsResponse) =
+            apply {
+                fileId = imageListPageScreenshotsResponse.fileId
+                imageSize = imageListPageScreenshotsResponse.imageSize
+                pageIndex = imageListPageScreenshotsResponse.pageIndex
+                metadata = imageListPageScreenshotsResponse.metadata
+                additionalProperties =
+                    imageListPageScreenshotsResponse.additionalProperties.toMutableMap()
+            }
+
+        /** The ID of the file that the page screenshot was taken from */
+        fun fileId(fileId: String) = fileId(JsonField.of(fileId))
+
+        /**
+         * Sets [Builder.fileId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.fileId] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun fileId(fileId: JsonField<String>) = apply { this.fileId = fileId }
+
+        /** The size of the image in bytes */
+        fun imageSize(imageSize: Long) = imageSize(JsonField.of(imageSize))
+
+        /**
+         * Sets [Builder.imageSize] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.imageSize] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun imageSize(imageSize: JsonField<Long>) = apply { this.imageSize = imageSize }
+
+        /** The index of the page for which the screenshot is taken (0-indexed) */
+        fun pageIndex(pageIndex: Long) = pageIndex(JsonField.of(pageIndex))
+
+        /**
+         * Sets [Builder.pageIndex] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pageIndex] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun pageIndex(pageIndex: JsonField<Long>) = apply { this.pageIndex = pageIndex }
+
+        /** Metadata for the screenshot */
+        fun metadata(metadata: Metadata?) = metadata(JsonField.ofNullable(metadata))
+
+        /** Alias for calling [Builder.metadata] with `metadata.orElse(null)`. */
+        fun metadata(metadata: Optional<Metadata>) = metadata(metadata.getOrNull())
+
+        /**
+         * Sets [Builder.metadata] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.metadata] with a well-typed [Metadata] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun metadata(metadata: JsonField<Metadata>) = apply { this.metadata = metadata }
+
+        fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+            this.additionalProperties.clear()
+            putAllAdditionalProperties(additionalProperties)
+        }
+
+        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+            additionalProperties.put(key, value)
+        }
+
+        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+            this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
+        }
+
+        /**
+         * Returns an immutable instance of [ImageListPageScreenshotsResponse].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .fileId()
+         * .imageSize()
+         * .pageIndex()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): ImageListPageScreenshotsResponse =
+            ImageListPageScreenshotsResponse(
+                checkRequired("fileId", fileId),
+                checkRequired("imageSize", imageSize),
+                checkRequired("pageIndex", pageIndex),
+                metadata,
+                additionalProperties.toMutableMap(),
+            )
+    }
+
+    private var validated: Boolean = false
+
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
+    fun validate(): ImageListPageScreenshotsResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        fileId()
+        imageSize()
+        pageIndex()
+        metadata().ifPresent { it.validate() }
+        validated = true
+    }
+
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LlamaCloudInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (if (fileId.asKnown().isPresent) 1 else 0) +
+            (if (imageSize.asKnown().isPresent) 1 else 0) +
+            (if (pageIndex.asKnown().isPresent) 1 else 0) +
+            (metadata.asKnown().getOrNull()?.validity() ?: 0)
+
+    /** Metadata for the screenshot */
+    class Metadata
+    @JsonCreator
+    private constructor(
+        @com.fasterxml.jackson.annotation.JsonValue
+        private val additionalProperties: Map<String, JsonValue>
+    ) {
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Metadata]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Metadata]. */
+        class Builder internal constructor() {
+
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(metadata: Metadata) = apply {
+                additionalProperties = metadata.additionalProperties.toMutableMap()
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Metadata].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Metadata = Metadata(additionalProperties.toImmutable())
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): Metadata = apply {
+            if (validated) {
+                return@apply
+            }
+
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Metadata && additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() = "Metadata{additionalProperties=$additionalProperties}"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is ImageListPageScreenshotsResponse &&
+            fileId == other.fileId &&
+            imageSize == other.imageSize &&
+            pageIndex == other.pageIndex &&
+            metadata == other.metadata &&
+            additionalProperties == other.additionalProperties
+    }
+
+    private val hashCode: Int by lazy {
+        Objects.hash(fileId, imageSize, pageIndex, metadata, additionalProperties)
+    }
+
+    override fun hashCode(): Int = hashCode
+
+    override fun toString() =
+        "ImageListPageScreenshotsResponse{fileId=$fileId, imageSize=$imageSize, pageIndex=$pageIndex, metadata=$metadata, additionalProperties=$additionalProperties}"
+}
