@@ -17,40 +17,40 @@ import com.llamacloud_prod.api.core.http.json
 import com.llamacloud_prod.api.core.http.parseable
 import com.llamacloud_prod.api.core.prepareAsync
 import com.llamacloud_prod.api.models.retrievers.CompositeRetrievalResult
-import com.llamacloud_prod.api.models.retrievers.retriever.RetrieverSearchParams
+import com.llamacloud_prod.api.models.retrievers.query.QuerySearchParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
-class RetrieverServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
-    RetrieverServiceAsync {
+class QueryServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    QueryServiceAsync {
 
-    private val withRawResponse: RetrieverServiceAsync.WithRawResponse by lazy {
+    private val withRawResponse: QueryServiceAsync.WithRawResponse by lazy {
         WithRawResponseImpl(clientOptions)
     }
 
-    override fun withRawResponse(): RetrieverServiceAsync.WithRawResponse = withRawResponse
+    override fun withRawResponse(): QueryServiceAsync.WithRawResponse = withRawResponse
 
-    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): RetrieverServiceAsync =
-        RetrieverServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): QueryServiceAsync =
+        QueryServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun search(
-        params: RetrieverSearchParams,
+        params: QuerySearchParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<CompositeRetrievalResult> =
         // post /api/v1/retrievers/{retriever_id}/retrieve
         withRawResponse().search(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        RetrieverServiceAsync.WithRawResponse {
+        QueryServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<HttpResponse> =
             errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
-        ): RetrieverServiceAsync.WithRawResponse =
-            RetrieverServiceAsyncImpl.WithRawResponseImpl(
+        ): QueryServiceAsync.WithRawResponse =
+            QueryServiceAsyncImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
@@ -58,7 +58,7 @@ class RetrieverServiceAsyncImpl internal constructor(private val clientOptions: 
             jsonHandler<CompositeRetrievalResult>(clientOptions.jsonMapper)
 
         override fun search(
-            params: RetrieverSearchParams,
+            params: QuerySearchParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<CompositeRetrievalResult>> {
             // We check here instead of in the params builder because this can be specified

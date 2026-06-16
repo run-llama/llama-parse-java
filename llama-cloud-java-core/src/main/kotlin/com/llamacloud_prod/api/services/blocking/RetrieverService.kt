@@ -17,8 +17,7 @@ import com.llamacloud_prod.api.models.retrievers.RetrieverListParams
 import com.llamacloud_prod.api.models.retrievers.RetrieverSearchParams
 import com.llamacloud_prod.api.models.retrievers.RetrieverUpdateParams
 import com.llamacloud_prod.api.models.retrievers.RetrieverUpsertParams
-import com.llamacloud_prod.api.services.blocking.RetrieverService
-import com.llamacloud_prod.api.services.blocking.retrievers.RetrieverService
+import com.llamacloud_prod.api.services.blocking.retrievers.QueryService
 import java.util.function.Consumer
 
 interface RetrieverService {
@@ -35,7 +34,7 @@ interface RetrieverService {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): RetrieverService
 
-    fun retriever(): RetrieverService
+    fun query(): QueryService
 
     /** Create a new Retriever. */
     fun create(params: RetrieverCreateParams): Retriever = create(params, RequestOptions.none())
@@ -196,7 +195,7 @@ interface RetrieverService {
          */
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): RetrieverService.WithRawResponse
 
-        fun retriever(): RetrieverService.WithRawResponse
+        fun query(): QueryService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /api/v1/retrievers`, but is otherwise the same as

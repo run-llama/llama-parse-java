@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package com.llamacloud_prod.api.models.retrievers.retriever
+package com.llamacloud_prod.api.models.retrievers.query
 
 import com.llamacloud_prod.api.core.http.QueryParams
 import com.llamacloud_prod.api.models.retrievers.CompositeRetrievalMode
@@ -8,11 +8,11 @@ import com.llamacloud_prod.api.models.retrievers.ReRankConfig
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class RetrieverSearchParamsTest {
+internal class QuerySearchParamsTest {
 
     @Test
     fun create() {
-        RetrieverSearchParams.builder()
+        QuerySearchParams.builder()
             .retrieverId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -28,7 +28,7 @@ internal class RetrieverSearchParamsTest {
     @Test
     fun pathParams() {
         val params =
-            RetrieverSearchParams.builder()
+            QuerySearchParams.builder()
                 .retrieverId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .query("x")
                 .build()
@@ -41,7 +41,7 @@ internal class RetrieverSearchParamsTest {
     @Test
     fun queryParams() {
         val params =
-            RetrieverSearchParams.builder()
+            QuerySearchParams.builder()
                 .retrieverId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -67,7 +67,7 @@ internal class RetrieverSearchParamsTest {
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params =
-            RetrieverSearchParams.builder()
+            QuerySearchParams.builder()
                 .retrieverId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .query("x")
                 .build()
@@ -80,7 +80,7 @@ internal class RetrieverSearchParamsTest {
     @Test
     fun body() {
         val params =
-            RetrieverSearchParams.builder()
+            QuerySearchParams.builder()
                 .retrieverId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -106,7 +106,7 @@ internal class RetrieverSearchParamsTest {
     @Test
     fun bodyWithoutOptionalFields() {
         val params =
-            RetrieverSearchParams.builder()
+            QuerySearchParams.builder()
                 .retrieverId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .query("x")
                 .build()

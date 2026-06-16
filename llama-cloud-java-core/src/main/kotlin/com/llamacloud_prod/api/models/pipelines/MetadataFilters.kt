@@ -642,14 +642,17 @@ private constructor(
                 /** Alias for calling [value] with `Value.ofString(string)`. */
                 fun value(string: String) = value(Value.ofString(string))
 
-                /** Alias for calling [value] with `Value.ofStrings(strings)`. */
-                fun valueOfStrings(strings: List<String>) = value(Value.ofStrings(strings))
+                /** Alias for calling [value] with `Value.ofStringArray(stringArray)`. */
+                fun valueOfStringArray(stringArray: List<String>) =
+                    value(Value.ofStringArray(stringArray))
 
-                /** Alias for calling [value] with `Value.ofNumber(number)`. */
-                fun valueOfNumber(number: List<Double>) = value(Value.ofNumber(number))
+                /** Alias for calling [value] with `Value.ofNumberArray(numberArray)`. */
+                fun valueOfNumberArray(numberArray: List<Double>) =
+                    value(Value.ofNumberArray(numberArray))
 
-                /** Alias for calling [value] with `Value.ofInteger(integer)`. */
-                fun valueOfInteger(integer: List<Long>) = value(Value.ofInteger(integer))
+                /** Alias for calling [value] with `Value.ofIntegerArray(integerArray)`. */
+                fun valueOfIntegerArray(integerArray: List<Long>) =
+                    value(Value.ofIntegerArray(integerArray))
 
                 /** Vector store filter operator. */
                 fun operator(operator: Operator) = operator(JsonField.of(operator))
@@ -756,9 +759,9 @@ private constructor(
             private constructor(
                 private val number: Double? = null,
                 private val string: String? = null,
-                private val strings: List<String>? = null,
-                private val number: List<Double>? = null,
-                private val integer: List<Long>? = null,
+                private val stringArray: List<String>? = null,
+                private val numberArray: List<Double>? = null,
+                private val integerArray: List<Long>? = null,
                 private val _json: JsonValue? = null,
             ) {
 
@@ -766,31 +769,31 @@ private constructor(
 
                 fun string(): Optional<String> = Optional.ofNullable(string)
 
-                fun strings(): Optional<List<String>> = Optional.ofNullable(strings)
+                fun stringArray(): Optional<List<String>> = Optional.ofNullable(stringArray)
 
-                fun number(): Optional<List<Double>> = Optional.ofNullable(number)
+                fun numberArray(): Optional<List<Double>> = Optional.ofNullable(numberArray)
 
-                fun integer(): Optional<List<Long>> = Optional.ofNullable(integer)
+                fun integerArray(): Optional<List<Long>> = Optional.ofNullable(integerArray)
 
                 fun isNumber(): Boolean = number != null
 
                 fun isString(): Boolean = string != null
 
-                fun isStrings(): Boolean = strings != null
+                fun isStringArray(): Boolean = stringArray != null
 
-                fun isNumber(): Boolean = number != null
+                fun isNumberArray(): Boolean = numberArray != null
 
-                fun isInteger(): Boolean = integer != null
+                fun isIntegerArray(): Boolean = integerArray != null
 
                 fun asNumber(): Double = number.getOrThrow("number")
 
                 fun asString(): String = string.getOrThrow("string")
 
-                fun asStrings(): List<String> = strings.getOrThrow("strings")
+                fun asStringArray(): List<String> = stringArray.getOrThrow("stringArray")
 
-                fun asNumber(): List<Double> = number.getOrThrow("number")
+                fun asNumberArray(): List<Double> = numberArray.getOrThrow("numberArray")
 
-                fun asInteger(): List<Long> = integer.getOrThrow("integer")
+                fun asIntegerArray(): List<Long> = integerArray.getOrThrow("integerArray")
 
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
@@ -828,9 +831,9 @@ private constructor(
                     when {
                         number != null -> visitor.visitNumber(number)
                         string != null -> visitor.visitString(string)
-                        strings != null -> visitor.visitStrings(strings)
-                        number != null -> visitor.visitNumber(number)
-                        integer != null -> visitor.visitInteger(integer)
+                        stringArray != null -> visitor.visitStringArray(stringArray)
+                        numberArray != null -> visitor.visitNumberArray(numberArray)
+                        integerArray != null -> visitor.visitIntegerArray(integerArray)
                         else -> visitor.unknown(_json)
                     }
 
@@ -857,11 +860,11 @@ private constructor(
 
                             override fun visitString(string: String) {}
 
-                            override fun visitStrings(strings: List<String>) {}
+                            override fun visitStringArray(stringArray: List<String>) {}
 
-                            override fun visitNumber(number: List<Double>) {}
+                            override fun visitNumberArray(numberArray: List<Double>) {}
 
-                            override fun visitInteger(integer: List<Long>) {}
+                            override fun visitIntegerArray(integerArray: List<Long>) {}
                         }
                     )
                     validated = true
@@ -889,11 +892,14 @@ private constructor(
 
                             override fun visitString(string: String) = 1
 
-                            override fun visitStrings(strings: List<String>) = strings.size
+                            override fun visitStringArray(stringArray: List<String>) =
+                                stringArray.size
 
-                            override fun visitNumber(number: List<Double>) = number.size
+                            override fun visitNumberArray(numberArray: List<Double>) =
+                                numberArray.size
 
-                            override fun visitInteger(integer: List<Long>) = integer.size
+                            override fun visitIntegerArray(integerArray: List<Long>) =
+                                integerArray.size
 
                             override fun unknown(json: JsonValue?) = 0
                         }
@@ -907,21 +913,21 @@ private constructor(
                     return other is Value &&
                         number == other.number &&
                         string == other.string &&
-                        strings == other.strings &&
-                        number == other.number &&
-                        integer == other.integer
+                        stringArray == other.stringArray &&
+                        numberArray == other.numberArray &&
+                        integerArray == other.integerArray
                 }
 
                 override fun hashCode(): Int =
-                    Objects.hash(number, string, strings, number, integer)
+                    Objects.hash(number, string, stringArray, numberArray, integerArray)
 
                 override fun toString(): String =
                     when {
                         number != null -> "Value{number=$number}"
                         string != null -> "Value{string=$string}"
-                        strings != null -> "Value{strings=$strings}"
-                        number != null -> "Value{number=$number}"
-                        integer != null -> "Value{integer=$integer}"
+                        stringArray != null -> "Value{stringArray=$stringArray}"
+                        numberArray != null -> "Value{numberArray=$numberArray}"
+                        integerArray != null -> "Value{integerArray=$integerArray}"
                         _json != null -> "Value{_unknown=$_json}"
                         else -> throw IllegalStateException("Invalid Value")
                     }
@@ -933,13 +939,16 @@ private constructor(
                     @JvmStatic fun ofString(string: String) = Value(string = string)
 
                     @JvmStatic
-                    fun ofStrings(strings: List<String>) = Value(strings = strings.toImmutable())
+                    fun ofStringArray(stringArray: List<String>) =
+                        Value(stringArray = stringArray.toImmutable())
 
                     @JvmStatic
-                    fun ofNumber(number: List<Double>) = Value(number = number.toImmutable())
+                    fun ofNumberArray(numberArray: List<Double>) =
+                        Value(numberArray = numberArray.toImmutable())
 
                     @JvmStatic
-                    fun ofInteger(integer: List<Long>) = Value(integer = integer.toImmutable())
+                    fun ofIntegerArray(integerArray: List<Long>) =
+                        Value(integerArray = integerArray.toImmutable())
                 }
 
                 /**
@@ -952,11 +961,11 @@ private constructor(
 
                     fun visitString(string: String): T
 
-                    fun visitStrings(strings: List<String>): T
+                    fun visitStringArray(stringArray: List<String>): T
 
-                    fun visitNumber(number: List<Double>): T
+                    fun visitNumberArray(numberArray: List<Double>): T
 
-                    fun visitInteger(integer: List<Long>): T
+                    fun visitIntegerArray(integerArray: List<Long>): T
 
                     /**
                      * Maps an unknown variant of [Value] to a value of type [T].
@@ -987,13 +996,13 @@ private constructor(
                                         Value(number = it, _json = json)
                                     },
                                     tryDeserialize(node, jacksonTypeRef<List<String>>())?.let {
-                                        Value(strings = it, _json = json)
+                                        Value(stringArray = it, _json = json)
                                     },
                                     tryDeserialize(node, jacksonTypeRef<List<Double>>())?.let {
-                                        Value(number = it, _json = json)
+                                        Value(numberArray = it, _json = json)
                                     },
                                     tryDeserialize(node, jacksonTypeRef<List<Long>>())?.let {
-                                        Value(integer = it, _json = json)
+                                        Value(integerArray = it, _json = json)
                                     },
                                 )
                                 .filterNotNull()
@@ -1023,9 +1032,9 @@ private constructor(
                         when {
                             value.number != null -> generator.writeObject(value.number)
                             value.string != null -> generator.writeObject(value.string)
-                            value.strings != null -> generator.writeObject(value.strings)
-                            value.number != null -> generator.writeObject(value.number)
-                            value.integer != null -> generator.writeObject(value.integer)
+                            value.stringArray != null -> generator.writeObject(value.stringArray)
+                            value.numberArray != null -> generator.writeObject(value.numberArray)
+                            value.integerArray != null -> generator.writeObject(value.integerArray)
                             value._json != null -> generator.writeObject(value._json)
                             else -> throw IllegalStateException("Invalid Value")
                         }

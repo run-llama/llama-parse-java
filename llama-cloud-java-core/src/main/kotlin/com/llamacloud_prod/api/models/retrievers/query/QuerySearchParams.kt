@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package com.llamacloud_prod.api.models.retrievers.retriever
+package com.llamacloud_prod.api.models.retrievers.query
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
@@ -23,7 +23,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Retrieve data using a Retriever. */
-class RetrieverSearchParams
+class QuerySearchParams
 private constructor(
     private val retrieverId: String?,
     private val organizationId: String?,
@@ -113,7 +113,7 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [RetrieverSearchParams].
+         * Returns a mutable builder for constructing an instance of [QuerySearchParams].
          *
          * The following fields are required:
          * ```java
@@ -123,7 +123,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [RetrieverSearchParams]. */
+    /** A builder for [QuerySearchParams]. */
     class Builder internal constructor() {
 
         private var retrieverId: String? = null
@@ -134,13 +134,13 @@ private constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
-        internal fun from(retrieverSearchParams: RetrieverSearchParams) = apply {
-            retrieverId = retrieverSearchParams.retrieverId
-            organizationId = retrieverSearchParams.organizationId
-            projectId = retrieverSearchParams.projectId
-            body = retrieverSearchParams.body.toBuilder()
-            additionalHeaders = retrieverSearchParams.additionalHeaders.toBuilder()
-            additionalQueryParams = retrieverSearchParams.additionalQueryParams.toBuilder()
+        internal fun from(querySearchParams: QuerySearchParams) = apply {
+            retrieverId = querySearchParams.retrieverId
+            organizationId = querySearchParams.organizationId
+            projectId = querySearchParams.projectId
+            body = querySearchParams.body.toBuilder()
+            additionalHeaders = querySearchParams.additionalHeaders.toBuilder()
+            additionalQueryParams = querySearchParams.additionalQueryParams.toBuilder()
         }
 
         fun retrieverId(retrieverId: String?) = apply { this.retrieverId = retrieverId }
@@ -353,7 +353,7 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [RetrieverSearchParams].
+         * Returns an immutable instance of [QuerySearchParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -364,8 +364,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): RetrieverSearchParams =
-            RetrieverSearchParams(
+        fun build(): QuerySearchParams =
+            QuerySearchParams(
                 retrieverId,
                 organizationId,
                 projectId,
@@ -709,7 +709,7 @@ private constructor(
             return true
         }
 
-        return other is RetrieverSearchParams &&
+        return other is QuerySearchParams &&
             retrieverId == other.retrieverId &&
             organizationId == other.organizationId &&
             projectId == other.projectId &&
@@ -729,5 +729,5 @@ private constructor(
         )
 
     override fun toString() =
-        "RetrieverSearchParams{retrieverId=$retrieverId, organizationId=$organizationId, projectId=$projectId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "QuerySearchParams{retrieverId=$retrieverId, organizationId=$organizationId, projectId=$projectId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

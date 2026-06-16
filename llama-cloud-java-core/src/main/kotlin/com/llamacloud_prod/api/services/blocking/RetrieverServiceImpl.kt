@@ -26,10 +26,8 @@ import com.llamacloud_prod.api.models.retrievers.RetrieverListParams
 import com.llamacloud_prod.api.models.retrievers.RetrieverSearchParams
 import com.llamacloud_prod.api.models.retrievers.RetrieverUpdateParams
 import com.llamacloud_prod.api.models.retrievers.RetrieverUpsertParams
-import com.llamacloud_prod.api.services.blocking.RetrieverService
-import com.llamacloud_prod.api.services.blocking.RetrieverServiceImpl
-import com.llamacloud_prod.api.services.blocking.retrievers.RetrieverService
-import com.llamacloud_prod.api.services.blocking.retrievers.RetrieverServiceImpl
+import com.llamacloud_prod.api.services.blocking.retrievers.QueryService
+import com.llamacloud_prod.api.services.blocking.retrievers.QueryServiceImpl
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -40,14 +38,14 @@ class RetrieverServiceImpl internal constructor(private val clientOptions: Clien
         WithRawResponseImpl(clientOptions)
     }
 
-    private val retriever: RetrieverService by lazy { RetrieverServiceImpl(clientOptions) }
+    private val query: QueryService by lazy { QueryServiceImpl(clientOptions) }
 
     override fun withRawResponse(): RetrieverService.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): RetrieverService =
         RetrieverServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
-    override fun retriever(): RetrieverService = retriever
+    override fun query(): QueryService = query
 
     override fun create(params: RetrieverCreateParams, requestOptions: RequestOptions): Retriever =
         // post /api/v1/retrievers
@@ -90,8 +88,8 @@ class RetrieverServiceImpl internal constructor(private val clientOptions: Clien
         private val errorHandler: Handler<HttpResponse> =
             errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
-        private val retriever: RetrieverService.WithRawResponse by lazy {
-            RetrieverServiceImpl.WithRawResponseImpl(clientOptions)
+        private val query: QueryService.WithRawResponse by lazy {
+            QueryServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
         override fun withOptions(
@@ -101,7 +99,7 @@ class RetrieverServiceImpl internal constructor(private val clientOptions: Clien
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        override fun retriever(): RetrieverService.WithRawResponse = retriever
+        override fun query(): QueryService.WithRawResponse = query
 
         private val createHandler: Handler<Retriever> =
             jsonHandler<Retriever>(clientOptions.jsonMapper)
