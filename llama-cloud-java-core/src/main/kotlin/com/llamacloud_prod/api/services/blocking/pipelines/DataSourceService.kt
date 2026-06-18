@@ -31,10 +31,12 @@ interface DataSourceService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): DataSourceService
 
     /** Update the configuration of a data source in a pipeline. */
+    @Deprecated("deprecated")
     fun update(dataSourceId: String, params: DataSourceUpdateParams): PipelineDataSource =
         update(dataSourceId, params, RequestOptions.none())
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(
         dataSourceId: String,
         params: DataSourceUpdateParams,
@@ -43,20 +45,24 @@ interface DataSourceService {
         update(params.toBuilder().dataSourceId(dataSourceId).build(), requestOptions)
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(params: DataSourceUpdateParams): PipelineDataSource =
         update(params, RequestOptions.none())
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(
         params: DataSourceUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PipelineDataSource
 
     /** Get data sources for a pipeline. */
+    @Deprecated("deprecated")
     fun getDataSources(pipelineId: String): List<PipelineDataSource> =
         getDataSources(pipelineId, DataSourceGetDataSourcesParams.none())
 
     /** @see getDataSources */
+    @Deprecated("deprecated")
     fun getDataSources(
         pipelineId: String,
         params: DataSourceGetDataSourcesParams = DataSourceGetDataSourcesParams.none(),
@@ -65,22 +71,26 @@ interface DataSourceService {
         getDataSources(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see getDataSources */
+    @Deprecated("deprecated")
     fun getDataSources(
         pipelineId: String,
         params: DataSourceGetDataSourcesParams = DataSourceGetDataSourcesParams.none(),
     ): List<PipelineDataSource> = getDataSources(pipelineId, params, RequestOptions.none())
 
     /** @see getDataSources */
+    @Deprecated("deprecated")
     fun getDataSources(
         params: DataSourceGetDataSourcesParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<PipelineDataSource>
 
     /** @see getDataSources */
+    @Deprecated("deprecated")
     fun getDataSources(params: DataSourceGetDataSourcesParams): List<PipelineDataSource> =
         getDataSources(params, RequestOptions.none())
 
     /** @see getDataSources */
+    @Deprecated("deprecated")
     fun getDataSources(
         pipelineId: String,
         requestOptions: RequestOptions,
@@ -88,12 +98,14 @@ interface DataSourceService {
         getDataSources(pipelineId, DataSourceGetDataSourcesParams.none(), requestOptions)
 
     /** Get the status of a data source for a pipeline. */
+    @Deprecated("deprecated")
     fun getStatus(
         dataSourceId: String,
         params: DataSourceGetStatusParams,
     ): ManagedIngestionStatusResponse = getStatus(dataSourceId, params, RequestOptions.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         dataSourceId: String,
         params: DataSourceGetStatusParams,
@@ -102,20 +114,24 @@ interface DataSourceService {
         getStatus(params.toBuilder().dataSourceId(dataSourceId).build(), requestOptions)
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(params: DataSourceGetStatusParams): ManagedIngestionStatusResponse =
         getStatus(params, RequestOptions.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         params: DataSourceGetStatusParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ManagedIngestionStatusResponse
 
     /** Run incremental ingestion: pull upstream changes from the data source into the data sink. */
+    @Deprecated("deprecated")
     fun sync(dataSourceId: String, params: DataSourceSyncParams): Pipeline =
         sync(dataSourceId, params, RequestOptions.none())
 
     /** @see sync */
+    @Deprecated("deprecated")
     fun sync(
         dataSourceId: String,
         params: DataSourceSyncParams,
@@ -123,21 +139,25 @@ interface DataSourceService {
     ): Pipeline = sync(params.toBuilder().dataSourceId(dataSourceId).build(), requestOptions)
 
     /** @see sync */
+    @Deprecated("deprecated")
     fun sync(params: DataSourceSyncParams): Pipeline = sync(params, RequestOptions.none())
 
     /** @see sync */
+    @Deprecated("deprecated")
     fun sync(
         params: DataSourceSyncParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Pipeline
 
     /** Add data sources to a pipeline. */
+    @Deprecated("deprecated")
     fun updateDataSources(
         pipelineId: String,
         params: DataSourceUpdateDataSourcesParams,
     ): List<PipelineDataSource> = updateDataSources(pipelineId, params, RequestOptions.none())
 
     /** @see updateDataSources */
+    @Deprecated("deprecated")
     fun updateDataSources(
         pipelineId: String,
         params: DataSourceUpdateDataSourcesParams,
@@ -146,10 +166,12 @@ interface DataSourceService {
         updateDataSources(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see updateDataSources */
+    @Deprecated("deprecated")
     fun updateDataSources(params: DataSourceUpdateDataSourcesParams): List<PipelineDataSource> =
         updateDataSources(params, RequestOptions.none())
 
     /** @see updateDataSources */
+    @Deprecated("deprecated")
     fun updateDataSources(
         params: DataSourceUpdateDataSourcesParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -172,6 +194,7 @@ interface DataSourceService {
          * /api/v1/pipelines/{pipeline_id}/data-sources/{data_source_id}`, but is otherwise the same
          * as [DataSourceService.update].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(
             dataSourceId: String,
@@ -179,6 +202,7 @@ interface DataSourceService {
         ): HttpResponseFor<PipelineDataSource> = update(dataSourceId, params, RequestOptions.none())
 
         /** @see update */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(
             dataSourceId: String,
@@ -188,11 +212,13 @@ interface DataSourceService {
             update(params.toBuilder().dataSourceId(dataSourceId).build(), requestOptions)
 
         /** @see update */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(params: DataSourceUpdateParams): HttpResponseFor<PipelineDataSource> =
             update(params, RequestOptions.none())
 
         /** @see update */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(
             params: DataSourceUpdateParams,
@@ -203,11 +229,13 @@ interface DataSourceService {
          * Returns a raw HTTP response for `get /api/v1/pipelines/{pipeline_id}/data-sources`, but
          * is otherwise the same as [DataSourceService.getDataSources].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getDataSources(pipelineId: String): HttpResponseFor<List<PipelineDataSource>> =
             getDataSources(pipelineId, DataSourceGetDataSourcesParams.none())
 
         /** @see getDataSources */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getDataSources(
             pipelineId: String,
@@ -217,6 +245,7 @@ interface DataSourceService {
             getDataSources(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see getDataSources */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getDataSources(
             pipelineId: String,
@@ -225,6 +254,7 @@ interface DataSourceService {
             getDataSources(pipelineId, params, RequestOptions.none())
 
         /** @see getDataSources */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getDataSources(
             params: DataSourceGetDataSourcesParams,
@@ -232,12 +262,14 @@ interface DataSourceService {
         ): HttpResponseFor<List<PipelineDataSource>>
 
         /** @see getDataSources */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getDataSources(
             params: DataSourceGetDataSourcesParams
         ): HttpResponseFor<List<PipelineDataSource>> = getDataSources(params, RequestOptions.none())
 
         /** @see getDataSources */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getDataSources(
             pipelineId: String,
@@ -250,6 +282,7 @@ interface DataSourceService {
          * /api/v1/pipelines/{pipeline_id}/data-sources/{data_source_id}/status`, but is otherwise
          * the same as [DataSourceService.getStatus].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             dataSourceId: String,
@@ -258,6 +291,7 @@ interface DataSourceService {
             getStatus(dataSourceId, params, RequestOptions.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             dataSourceId: String,
@@ -267,6 +301,7 @@ interface DataSourceService {
             getStatus(params.toBuilder().dataSourceId(dataSourceId).build(), requestOptions)
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             params: DataSourceGetStatusParams
@@ -274,6 +309,7 @@ interface DataSourceService {
             getStatus(params, RequestOptions.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             params: DataSourceGetStatusParams,
@@ -285,11 +321,13 @@ interface DataSourceService {
          * /api/v1/pipelines/{pipeline_id}/data-sources/{data_source_id}/sync`, but is otherwise the
          * same as [DataSourceService.sync].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun sync(dataSourceId: String, params: DataSourceSyncParams): HttpResponseFor<Pipeline> =
             sync(dataSourceId, params, RequestOptions.none())
 
         /** @see sync */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun sync(
             dataSourceId: String,
@@ -299,11 +337,13 @@ interface DataSourceService {
             sync(params.toBuilder().dataSourceId(dataSourceId).build(), requestOptions)
 
         /** @see sync */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun sync(params: DataSourceSyncParams): HttpResponseFor<Pipeline> =
             sync(params, RequestOptions.none())
 
         /** @see sync */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun sync(
             params: DataSourceSyncParams,
@@ -314,6 +354,7 @@ interface DataSourceService {
          * Returns a raw HTTP response for `put /api/v1/pipelines/{pipeline_id}/data-sources`, but
          * is otherwise the same as [DataSourceService.updateDataSources].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun updateDataSources(
             pipelineId: String,
@@ -322,6 +363,7 @@ interface DataSourceService {
             updateDataSources(pipelineId, params, RequestOptions.none())
 
         /** @see updateDataSources */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun updateDataSources(
             pipelineId: String,
@@ -331,6 +373,7 @@ interface DataSourceService {
             updateDataSources(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see updateDataSources */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun updateDataSources(
             params: DataSourceUpdateDataSourcesParams
@@ -338,6 +381,7 @@ interface DataSourceService {
             updateDataSources(params, RequestOptions.none())
 
         /** @see updateDataSources */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun updateDataSources(
             params: DataSourceUpdateDataSourcesParams,

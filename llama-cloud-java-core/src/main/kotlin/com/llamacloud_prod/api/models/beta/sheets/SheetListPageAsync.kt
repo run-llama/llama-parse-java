@@ -13,6 +13,7 @@ import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
 /** @see SheetServiceAsync.list */
+@Deprecated("deprecated")
 class SheetListPageAsync
 private constructor(
     private val service: SheetServiceAsync,

@@ -15,6 +15,7 @@ import kotlin.jvm.optionals.getOrNull
  * Returns document counts, sync progress, and the last effective timestamp. Only available for
  * managed pipelines.
  */
+@Deprecated("deprecated")
 class PipelineGetStatusParams
 private constructor(
     private val pipelineId: String?,

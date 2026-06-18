@@ -12,6 +12,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Cancel all running sync jobs for a pipeline. */
+@Deprecated("deprecated")
 class SyncCancelParams
 private constructor(
     private val pipelineId: String?,

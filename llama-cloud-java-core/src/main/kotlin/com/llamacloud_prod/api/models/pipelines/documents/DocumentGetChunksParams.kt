@@ -11,6 +11,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Return a list of chunks for a pipeline document. */
+@Deprecated("deprecated")
 class DocumentGetChunksParams
 private constructor(
     private val pipelineId: String,

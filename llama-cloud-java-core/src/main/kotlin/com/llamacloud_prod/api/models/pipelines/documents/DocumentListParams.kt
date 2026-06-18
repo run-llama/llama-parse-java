@@ -14,6 +14,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Return a list of documents for a pipeline. */
+@Deprecated("deprecated")
 class DocumentListParams
 private constructor(
     private val pipelineId: String?,

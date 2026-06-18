@@ -10,6 +10,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Get a pipeline by ID. */
+@Deprecated("deprecated")
 class PipelineGetParams
 private constructor(
     private val pipelineId: String?,

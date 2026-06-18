@@ -59,16 +59,19 @@ interface PipelineServiceAsync {
      * A pipeline connects data sources to a vector store for RAG. After creation, call `POST
      * /pipelines/{id}/sync` to start ingesting documents.
      */
+    @Deprecated("deprecated")
     fun create(params: PipelineCreateParams): CompletableFuture<Pipeline> =
         create(params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         params: PipelineCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Pipeline>
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         pipelineCreate: PipelineCreate,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -79,6 +82,7 @@ interface PipelineServiceAsync {
         )
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(pipelineCreate: PipelineCreate): CompletableFuture<Pipeline> =
         create(pipelineCreate, RequestOptions.none())
 
@@ -88,6 +92,7 @@ interface PipelineServiceAsync {
      * Searches the pipeline's vector store using the provided query and retrieval parameters.
      * Supports dense, sparse, and hybrid search modes with configurable top-k and reranking.
      */
+    @Deprecated("deprecated")
     fun retrieve(
         pipelineId: String,
         params: PipelineRetrieveParams,
@@ -95,6 +100,7 @@ interface PipelineServiceAsync {
         retrieve(pipelineId, params, RequestOptions.none())
 
     /** @see retrieve */
+    @Deprecated("deprecated")
     fun retrieve(
         pipelineId: String,
         params: PipelineRetrieveParams,
@@ -103,20 +109,24 @@ interface PipelineServiceAsync {
         retrieve(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see retrieve */
+    @Deprecated("deprecated")
     fun retrieve(params: PipelineRetrieveParams): CompletableFuture<PipelineRetrieveResponse> =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
+    @Deprecated("deprecated")
     fun retrieve(
         params: PipelineRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PipelineRetrieveResponse>
 
     /** Update an existing pipeline's configuration. */
+    @Deprecated("deprecated")
     fun update(pipelineId: String): CompletableFuture<Pipeline> =
         update(pipelineId, PipelineUpdateParams.none())
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(
         pipelineId: String,
         params: PipelineUpdateParams = PipelineUpdateParams.none(),
@@ -125,40 +135,48 @@ interface PipelineServiceAsync {
         update(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(
         pipelineId: String,
         params: PipelineUpdateParams = PipelineUpdateParams.none(),
     ): CompletableFuture<Pipeline> = update(pipelineId, params, RequestOptions.none())
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(
         params: PipelineUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Pipeline>
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(params: PipelineUpdateParams): CompletableFuture<Pipeline> =
         update(params, RequestOptions.none())
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(pipelineId: String, requestOptions: RequestOptions): CompletableFuture<Pipeline> =
         update(pipelineId, PipelineUpdateParams.none(), requestOptions)
 
     /** Search for pipelines by name, type, or project. */
+    @Deprecated("deprecated")
     fun list(): CompletableFuture<List<Pipeline>> = list(PipelineListParams.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: PipelineListParams = PipelineListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<Pipeline>>
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: PipelineListParams = PipelineListParams.none()
     ): CompletableFuture<List<Pipeline>> = list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(requestOptions: RequestOptions): CompletableFuture<List<Pipeline>> =
         list(PipelineListParams.none(), requestOptions)
 
@@ -167,10 +185,12 @@ interface PipelineServiceAsync {
      *
      * Removes pipeline files, data sources, and vector store data. This operation is irreversible.
      */
+    @Deprecated("deprecated")
     fun delete(pipelineId: String): CompletableFuture<Void?> =
         delete(pipelineId, PipelineDeleteParams.none())
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(
         pipelineId: String,
         params: PipelineDeleteParams = PipelineDeleteParams.none(),
@@ -179,30 +199,36 @@ interface PipelineServiceAsync {
         delete(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(
         pipelineId: String,
         params: PipelineDeleteParams = PipelineDeleteParams.none(),
     ): CompletableFuture<Void?> = delete(pipelineId, params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(
         params: PipelineDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(params: PipelineDeleteParams): CompletableFuture<Void?> =
         delete(params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(pipelineId: String, requestOptions: RequestOptions): CompletableFuture<Void?> =
         delete(pipelineId, PipelineDeleteParams.none(), requestOptions)
 
     /** Get a pipeline by ID. */
+    @Deprecated("deprecated")
     fun get(pipelineId: String): CompletableFuture<Pipeline> =
         get(pipelineId, PipelineGetParams.none())
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(
         pipelineId: String,
         params: PipelineGetParams = PipelineGetParams.none(),
@@ -211,22 +237,26 @@ interface PipelineServiceAsync {
         get(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(
         pipelineId: String,
         params: PipelineGetParams = PipelineGetParams.none(),
     ): CompletableFuture<Pipeline> = get(pipelineId, params, RequestOptions.none())
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(
         params: PipelineGetParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Pipeline>
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(params: PipelineGetParams): CompletableFuture<Pipeline> =
         get(params, RequestOptions.none())
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(pipelineId: String, requestOptions: RequestOptions): CompletableFuture<Pipeline> =
         get(pipelineId, PipelineGetParams.none(), requestOptions)
 
@@ -236,10 +266,12 @@ interface PipelineServiceAsync {
      * Returns document counts, sync progress, and the last effective timestamp. Only available for
      * managed pipelines.
      */
+    @Deprecated("deprecated")
     fun getStatus(pipelineId: String): CompletableFuture<ManagedIngestionStatusResponse> =
         getStatus(pipelineId, PipelineGetStatusParams.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         pipelineId: String,
         params: PipelineGetStatusParams = PipelineGetStatusParams.none(),
@@ -248,6 +280,7 @@ interface PipelineServiceAsync {
         getStatus(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         pipelineId: String,
         params: PipelineGetStatusParams = PipelineGetStatusParams.none(),
@@ -255,17 +288,20 @@ interface PipelineServiceAsync {
         getStatus(pipelineId, params, RequestOptions.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         params: PipelineGetStatusParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagedIngestionStatusResponse>
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         params: PipelineGetStatusParams
     ): CompletableFuture<ManagedIngestionStatusResponse> = getStatus(params, RequestOptions.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         pipelineId: String,
         requestOptions: RequestOptions,
@@ -278,16 +314,19 @@ interface PipelineServiceAsync {
      * Updates the pipeline if one with the same name and project already exists, otherwise creates
      * a new one.
      */
+    @Deprecated("deprecated")
     fun upsert(params: PipelineUpsertParams): CompletableFuture<Pipeline> =
         upsert(params, RequestOptions.none())
 
     /** @see upsert */
+    @Deprecated("deprecated")
     fun upsert(
         params: PipelineUpsertParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Pipeline>
 
     /** @see upsert */
+    @Deprecated("deprecated")
     fun upsert(
         pipelineCreate: PipelineCreate,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -298,6 +337,7 @@ interface PipelineServiceAsync {
         )
 
     /** @see upsert */
+    @Deprecated("deprecated")
     fun upsert(pipelineCreate: PipelineCreate): CompletableFuture<Pipeline> =
         upsert(pipelineCreate, RequestOptions.none())
 
@@ -331,16 +371,19 @@ interface PipelineServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/pipelines`, but is otherwise the same as
          * [PipelineServiceAsync.create].
          */
+        @Deprecated("deprecated")
         fun create(params: PipelineCreateParams): CompletableFuture<HttpResponseFor<Pipeline>> =
             create(params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             params: PipelineCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Pipeline>>
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             pipelineCreate: PipelineCreate,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -351,6 +394,7 @@ interface PipelineServiceAsync {
             )
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(pipelineCreate: PipelineCreate): CompletableFuture<HttpResponseFor<Pipeline>> =
             create(pipelineCreate, RequestOptions.none())
 
@@ -358,6 +402,7 @@ interface PipelineServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/pipelines/{pipeline_id}/retrieve`, but is
          * otherwise the same as [PipelineServiceAsync.retrieve].
          */
+        @Deprecated("deprecated")
         fun retrieve(
             pipelineId: String,
             params: PipelineRetrieveParams,
@@ -365,6 +410,7 @@ interface PipelineServiceAsync {
             retrieve(pipelineId, params, RequestOptions.none())
 
         /** @see retrieve */
+        @Deprecated("deprecated")
         fun retrieve(
             pipelineId: String,
             params: PipelineRetrieveParams,
@@ -373,12 +419,14 @@ interface PipelineServiceAsync {
             retrieve(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see retrieve */
+        @Deprecated("deprecated")
         fun retrieve(
             params: PipelineRetrieveParams
         ): CompletableFuture<HttpResponseFor<PipelineRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
+        @Deprecated("deprecated")
         fun retrieve(
             params: PipelineRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -388,10 +436,12 @@ interface PipelineServiceAsync {
          * Returns a raw HTTP response for `put /api/v1/pipelines/{pipeline_id}`, but is otherwise
          * the same as [PipelineServiceAsync.update].
          */
+        @Deprecated("deprecated")
         fun update(pipelineId: String): CompletableFuture<HttpResponseFor<Pipeline>> =
             update(pipelineId, PipelineUpdateParams.none())
 
         /** @see update */
+        @Deprecated("deprecated")
         fun update(
             pipelineId: String,
             params: PipelineUpdateParams = PipelineUpdateParams.none(),
@@ -400,6 +450,7 @@ interface PipelineServiceAsync {
             update(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see update */
+        @Deprecated("deprecated")
         fun update(
             pipelineId: String,
             params: PipelineUpdateParams = PipelineUpdateParams.none(),
@@ -407,16 +458,19 @@ interface PipelineServiceAsync {
             update(pipelineId, params, RequestOptions.none())
 
         /** @see update */
+        @Deprecated("deprecated")
         fun update(
             params: PipelineUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Pipeline>>
 
         /** @see update */
+        @Deprecated("deprecated")
         fun update(params: PipelineUpdateParams): CompletableFuture<HttpResponseFor<Pipeline>> =
             update(params, RequestOptions.none())
 
         /** @see update */
+        @Deprecated("deprecated")
         fun update(
             pipelineId: String,
             requestOptions: RequestOptions,
@@ -427,21 +481,25 @@ interface PipelineServiceAsync {
          * Returns a raw HTTP response for `get /api/v1/pipelines`, but is otherwise the same as
          * [PipelineServiceAsync.list].
          */
+        @Deprecated("deprecated")
         fun list(): CompletableFuture<HttpResponseFor<List<Pipeline>>> =
             list(PipelineListParams.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             params: PipelineListParams = PipelineListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<Pipeline>>>
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             params: PipelineListParams = PipelineListParams.none()
         ): CompletableFuture<HttpResponseFor<List<Pipeline>>> = list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<List<Pipeline>>> =
@@ -451,10 +509,12 @@ interface PipelineServiceAsync {
          * Returns a raw HTTP response for `delete /api/v1/pipelines/{pipeline_id}`, but is
          * otherwise the same as [PipelineServiceAsync.delete].
          */
+        @Deprecated("deprecated")
         fun delete(pipelineId: String): CompletableFuture<HttpResponse> =
             delete(pipelineId, PipelineDeleteParams.none())
 
         /** @see delete */
+        @Deprecated("deprecated")
         fun delete(
             pipelineId: String,
             params: PipelineDeleteParams = PipelineDeleteParams.none(),
@@ -463,22 +523,26 @@ interface PipelineServiceAsync {
             delete(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see delete */
+        @Deprecated("deprecated")
         fun delete(
             pipelineId: String,
             params: PipelineDeleteParams = PipelineDeleteParams.none(),
         ): CompletableFuture<HttpResponse> = delete(pipelineId, params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("deprecated")
         fun delete(
             params: PipelineDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
         /** @see delete */
+        @Deprecated("deprecated")
         fun delete(params: PipelineDeleteParams): CompletableFuture<HttpResponse> =
             delete(params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("deprecated")
         fun delete(
             pipelineId: String,
             requestOptions: RequestOptions,
@@ -489,10 +553,12 @@ interface PipelineServiceAsync {
          * Returns a raw HTTP response for `get /api/v1/pipelines/{pipeline_id}`, but is otherwise
          * the same as [PipelineServiceAsync.get].
          */
+        @Deprecated("deprecated")
         fun get(pipelineId: String): CompletableFuture<HttpResponseFor<Pipeline>> =
             get(pipelineId, PipelineGetParams.none())
 
         /** @see get */
+        @Deprecated("deprecated")
         fun get(
             pipelineId: String,
             params: PipelineGetParams = PipelineGetParams.none(),
@@ -501,6 +567,7 @@ interface PipelineServiceAsync {
             get(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see get */
+        @Deprecated("deprecated")
         fun get(
             pipelineId: String,
             params: PipelineGetParams = PipelineGetParams.none(),
@@ -508,16 +575,19 @@ interface PipelineServiceAsync {
             get(pipelineId, params, RequestOptions.none())
 
         /** @see get */
+        @Deprecated("deprecated")
         fun get(
             params: PipelineGetParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Pipeline>>
 
         /** @see get */
+        @Deprecated("deprecated")
         fun get(params: PipelineGetParams): CompletableFuture<HttpResponseFor<Pipeline>> =
             get(params, RequestOptions.none())
 
         /** @see get */
+        @Deprecated("deprecated")
         fun get(
             pipelineId: String,
             requestOptions: RequestOptions,
@@ -528,12 +598,14 @@ interface PipelineServiceAsync {
          * Returns a raw HTTP response for `get /api/v1/pipelines/{pipeline_id}/status`, but is
          * otherwise the same as [PipelineServiceAsync.getStatus].
          */
+        @Deprecated("deprecated")
         fun getStatus(
             pipelineId: String
         ): CompletableFuture<HttpResponseFor<ManagedIngestionStatusResponse>> =
             getStatus(pipelineId, PipelineGetStatusParams.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         fun getStatus(
             pipelineId: String,
             params: PipelineGetStatusParams = PipelineGetStatusParams.none(),
@@ -542,6 +614,7 @@ interface PipelineServiceAsync {
             getStatus(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         fun getStatus(
             pipelineId: String,
             params: PipelineGetStatusParams = PipelineGetStatusParams.none(),
@@ -549,18 +622,21 @@ interface PipelineServiceAsync {
             getStatus(pipelineId, params, RequestOptions.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         fun getStatus(
             params: PipelineGetStatusParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ManagedIngestionStatusResponse>>
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         fun getStatus(
             params: PipelineGetStatusParams
         ): CompletableFuture<HttpResponseFor<ManagedIngestionStatusResponse>> =
             getStatus(params, RequestOptions.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         fun getStatus(
             pipelineId: String,
             requestOptions: RequestOptions,
@@ -571,16 +647,19 @@ interface PipelineServiceAsync {
          * Returns a raw HTTP response for `put /api/v1/pipelines`, but is otherwise the same as
          * [PipelineServiceAsync.upsert].
          */
+        @Deprecated("deprecated")
         fun upsert(params: PipelineUpsertParams): CompletableFuture<HttpResponseFor<Pipeline>> =
             upsert(params, RequestOptions.none())
 
         /** @see upsert */
+        @Deprecated("deprecated")
         fun upsert(
             params: PipelineUpsertParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Pipeline>>
 
         /** @see upsert */
+        @Deprecated("deprecated")
         fun upsert(
             pipelineCreate: PipelineCreate,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -591,6 +670,7 @@ interface PipelineServiceAsync {
             )
 
         /** @see upsert */
+        @Deprecated("deprecated")
         fun upsert(pipelineCreate: PipelineCreate): CompletableFuture<HttpResponseFor<Pipeline>> =
             upsert(pipelineCreate, RequestOptions.none())
     }

@@ -14,6 +14,7 @@ import kotlin.jvm.optionals.getOrDefault
 import kotlin.jvm.optionals.getOrNull
 
 /** @see DocumentServiceAsync.list */
+@Deprecated("deprecated")
 class DocumentListPageAsync
 private constructor(
     private val service: DocumentServiceAsync,

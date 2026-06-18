@@ -31,6 +31,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Update an existing pipeline's configuration. */
+@Deprecated("deprecated")
 class PipelineUpdateParams
 private constructor(
     private val pipelineId: String?,

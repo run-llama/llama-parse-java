@@ -11,10 +11,8 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/**
- * Delete a spreadsheet parsing job and its associated data. Experimental: not production-ready and
- * subject to change.
- */
+/** Delete a spreadsheet parsing job and its associated data. */
+@Deprecated("deprecated")
 class SheetDeleteJobParams
 private constructor(
     private val spreadsheetJobId: String?,

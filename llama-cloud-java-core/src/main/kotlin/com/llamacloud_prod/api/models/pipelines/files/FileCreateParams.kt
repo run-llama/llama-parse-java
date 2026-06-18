@@ -22,6 +22,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Add files to a pipeline. */
+@Deprecated("deprecated")
 class FileCreateParams
 private constructor(
     private val pipelineId: String?,
