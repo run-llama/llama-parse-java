@@ -23,6 +23,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Run incremental ingestion: pull upstream changes from the data source into the data sink. */
+@Deprecated("deprecated")
 class DataSourceSyncParams
 private constructor(
     private val pipelineId: String,

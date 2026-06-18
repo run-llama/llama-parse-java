@@ -24,6 +24,7 @@ import kotlin.io.path.name
 import kotlin.jvm.optionals.getOrNull
 
 /** Import metadata for a pipeline. */
+@Deprecated("deprecated")
 class MetadataCreateParams
 private constructor(
     private val pipelineId: String?,

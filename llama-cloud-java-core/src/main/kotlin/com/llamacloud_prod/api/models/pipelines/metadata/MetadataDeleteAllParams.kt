@@ -12,6 +12,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Delete metadata for all files in a pipeline. */
+@Deprecated("deprecated")
 class MetadataDeleteAllParams
 private constructor(
     private val pipelineId: String?,

@@ -25,6 +25,7 @@ internal class CloudConfluenceDataSourceTest {
                 .pageIds("page_ids")
                 .spaceKey("space_key")
                 .supportsAccessControl(true)
+                .syncPermissions(true)
                 .userName("user_name")
                 .build()
 
@@ -42,6 +43,7 @@ internal class CloudConfluenceDataSourceTest {
         assertThat(cloudConfluenceDataSource.pageIds()).contains("page_ids")
         assertThat(cloudConfluenceDataSource.spaceKey()).contains("space_key")
         assertThat(cloudConfluenceDataSource.supportsAccessControl()).contains(true)
+        assertThat(cloudConfluenceDataSource.syncPermissions()).contains(true)
         assertThat(cloudConfluenceDataSource.userName()).contains("user_name")
     }
 
@@ -62,6 +64,7 @@ internal class CloudConfluenceDataSourceTest {
                 .pageIds("page_ids")
                 .spaceKey("space_key")
                 .supportsAccessControl(true)
+                .syncPermissions(true)
                 .userName("user_name")
                 .build()
 

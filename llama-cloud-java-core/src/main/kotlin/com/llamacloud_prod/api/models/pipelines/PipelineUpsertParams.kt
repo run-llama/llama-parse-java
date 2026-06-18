@@ -17,6 +17,7 @@ import kotlin.jvm.optionals.getOrNull
  * Updates the pipeline if one with the same name and project already exists, otherwise creates a
  * new one.
  */
+@Deprecated("deprecated")
 class PipelineUpsertParams
 private constructor(
     private val organizationId: String?,

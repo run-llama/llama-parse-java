@@ -22,6 +22,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Update a file for a pipeline. */
+@Deprecated("deprecated")
 class FileUpdateParams
 private constructor(
     private val pipelineId: String,

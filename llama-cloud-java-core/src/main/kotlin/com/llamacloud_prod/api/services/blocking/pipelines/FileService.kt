@@ -34,10 +34,12 @@ interface FileService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): FileService
 
     /** Add files to a pipeline. */
+    @Deprecated("deprecated")
     fun create(pipelineId: String, params: FileCreateParams): List<PipelineFile> =
         create(pipelineId, params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         pipelineId: String,
         params: FileCreateParams,
@@ -46,19 +48,23 @@ interface FileService {
         create(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(params: FileCreateParams): List<PipelineFile> = create(params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         params: FileCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<PipelineFile>
 
     /** Update a file for a pipeline. */
+    @Deprecated("deprecated")
     fun update(fileId: String, params: FileUpdateParams): PipelineFile =
         update(fileId, params, RequestOptions.none())
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(
         fileId: String,
         params: FileUpdateParams,
@@ -66,9 +72,11 @@ interface FileService {
     ): PipelineFile = update(params.toBuilder().fileId(fileId).build(), requestOptions)
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(params: FileUpdateParams): PipelineFile = update(params, RequestOptions.none())
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(
         params: FileUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -108,10 +116,12 @@ interface FileService {
         list(pipelineId, FileListParams.none(), requestOptions)
 
     /** Delete a file from a pipeline. */
+    @Deprecated("deprecated")
     fun delete(fileId: String, params: FileDeleteParams) =
         delete(fileId, params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(
         fileId: String,
         params: FileDeleteParams,
@@ -119,16 +129,20 @@ interface FileService {
     ) = delete(params.toBuilder().fileId(fileId).build(), requestOptions)
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(params: FileDeleteParams) = delete(params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(params: FileDeleteParams, requestOptions: RequestOptions = RequestOptions.none())
 
     /** Get status of a file for a pipeline. */
+    @Deprecated("deprecated")
     fun getStatus(fileId: String, params: FileGetStatusParams): ManagedIngestionStatusResponse =
         getStatus(fileId, params, RequestOptions.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         fileId: String,
         params: FileGetStatusParams,
@@ -137,20 +151,24 @@ interface FileService {
         getStatus(params.toBuilder().fileId(fileId).build(), requestOptions)
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(params: FileGetStatusParams): ManagedIngestionStatusResponse =
         getStatus(params, RequestOptions.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         params: FileGetStatusParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ManagedIngestionStatusResponse
 
     /** Get files for a pipeline. */
+    @Deprecated("deprecated")
     fun getStatusCounts(pipelineId: String): FileGetStatusCountsResponse =
         getStatusCounts(pipelineId, FileGetStatusCountsParams.none())
 
     /** @see getStatusCounts */
+    @Deprecated("deprecated")
     fun getStatusCounts(
         pipelineId: String,
         params: FileGetStatusCountsParams = FileGetStatusCountsParams.none(),
@@ -159,22 +177,26 @@ interface FileService {
         getStatusCounts(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see getStatusCounts */
+    @Deprecated("deprecated")
     fun getStatusCounts(
         pipelineId: String,
         params: FileGetStatusCountsParams = FileGetStatusCountsParams.none(),
     ): FileGetStatusCountsResponse = getStatusCounts(pipelineId, params, RequestOptions.none())
 
     /** @see getStatusCounts */
+    @Deprecated("deprecated")
     fun getStatusCounts(
         params: FileGetStatusCountsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FileGetStatusCountsResponse
 
     /** @see getStatusCounts */
+    @Deprecated("deprecated")
     fun getStatusCounts(params: FileGetStatusCountsParams): FileGetStatusCountsResponse =
         getStatusCounts(params, RequestOptions.none())
 
     /** @see getStatusCounts */
+    @Deprecated("deprecated")
     fun getStatusCounts(
         pipelineId: String,
         requestOptions: RequestOptions,
@@ -195,6 +217,7 @@ interface FileService {
          * Returns a raw HTTP response for `put /api/v1/pipelines/{pipeline_id}/files`, but is
          * otherwise the same as [FileService.create].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun create(
             pipelineId: String,
@@ -202,6 +225,7 @@ interface FileService {
         ): HttpResponseFor<List<PipelineFile>> = create(pipelineId, params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun create(
             pipelineId: String,
@@ -211,11 +235,13 @@ interface FileService {
             create(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see create */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun create(params: FileCreateParams): HttpResponseFor<List<PipelineFile>> =
             create(params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun create(
             params: FileCreateParams,
@@ -226,11 +252,13 @@ interface FileService {
          * Returns a raw HTTP response for `put /api/v1/pipelines/{pipeline_id}/files/{file_id}`,
          * but is otherwise the same as [FileService.update].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(fileId: String, params: FileUpdateParams): HttpResponseFor<PipelineFile> =
             update(fileId, params, RequestOptions.none())
 
         /** @see update */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(
             fileId: String,
@@ -240,11 +268,13 @@ interface FileService {
             update(params.toBuilder().fileId(fileId).build(), requestOptions)
 
         /** @see update */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(params: FileUpdateParams): HttpResponseFor<PipelineFile> =
             update(params, RequestOptions.none())
 
         /** @see update */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(
             params: FileUpdateParams,
@@ -304,11 +334,13 @@ interface FileService {
          * Returns a raw HTTP response for `delete /api/v1/pipelines/{pipeline_id}/files/{file_id}`,
          * but is otherwise the same as [FileService.delete].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun delete(fileId: String, params: FileDeleteParams): HttpResponse =
             delete(fileId, params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun delete(
             fileId: String,
@@ -317,10 +349,12 @@ interface FileService {
         ): HttpResponse = delete(params.toBuilder().fileId(fileId).build(), requestOptions)
 
         /** @see delete */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun delete(params: FileDeleteParams): HttpResponse = delete(params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun delete(
             params: FileDeleteParams,
@@ -332,6 +366,7 @@ interface FileService {
          * /api/v1/pipelines/{pipeline_id}/files/{file_id}/status`, but is otherwise the same as
          * [FileService.getStatus].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             fileId: String,
@@ -340,6 +375,7 @@ interface FileService {
             getStatus(fileId, params, RequestOptions.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             fileId: String,
@@ -349,6 +385,7 @@ interface FileService {
             getStatus(params.toBuilder().fileId(fileId).build(), requestOptions)
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             params: FileGetStatusParams
@@ -356,6 +393,7 @@ interface FileService {
             getStatus(params, RequestOptions.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             params: FileGetStatusParams,
@@ -367,11 +405,13 @@ interface FileService {
          * /api/v1/pipelines/{pipeline_id}/files/status-counts`, but is otherwise the same as
          * [FileService.getStatusCounts].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatusCounts(pipelineId: String): HttpResponseFor<FileGetStatusCountsResponse> =
             getStatusCounts(pipelineId, FileGetStatusCountsParams.none())
 
         /** @see getStatusCounts */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatusCounts(
             pipelineId: String,
@@ -381,6 +421,7 @@ interface FileService {
             getStatusCounts(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see getStatusCounts */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatusCounts(
             pipelineId: String,
@@ -389,6 +430,7 @@ interface FileService {
             getStatusCounts(pipelineId, params, RequestOptions.none())
 
         /** @see getStatusCounts */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatusCounts(
             params: FileGetStatusCountsParams,
@@ -396,6 +438,7 @@ interface FileService {
         ): HttpResponseFor<FileGetStatusCountsResponse>
 
         /** @see getStatusCounts */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatusCounts(
             params: FileGetStatusCountsParams
@@ -403,6 +446,7 @@ interface FileService {
             getStatusCounts(params, RequestOptions.none())
 
         /** @see getStatusCounts */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatusCounts(
             pipelineId: String,

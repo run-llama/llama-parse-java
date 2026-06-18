@@ -11,6 +11,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Get status of a file for a pipeline. */
+@Deprecated("deprecated")
 class FileGetStatusParams
 private constructor(
     private val pipelineId: String,

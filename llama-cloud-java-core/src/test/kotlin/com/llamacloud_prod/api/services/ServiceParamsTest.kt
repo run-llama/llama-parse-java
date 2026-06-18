@@ -84,6 +84,7 @@ internal class ServiceParamsTest {
                         .build()
                 )
                 .clientName("client_name")
+                .configurationId("configuration_id")
                 .cropBox(
                     ParsingCreateParams.CropBox.builder()
                         .bottom(0.0)
@@ -103,6 +104,11 @@ internal class ServiceParamsTest {
                                 .makeAllElementsVisible(true)
                                 .removeFixedElements(true)
                                 .removeNavigationElements(true)
+                                .build()
+                        )
+                        .image(
+                            ParsingCreateParams.InputOptions.Image.builder()
+                                .cameraPhotoCorrection(true)
                                 .build()
                         )
                         .pdf(JsonValue.from(mapOf<String, Any>()))

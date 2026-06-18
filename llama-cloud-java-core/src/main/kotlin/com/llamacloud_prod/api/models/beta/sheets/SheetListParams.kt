@@ -16,7 +16,8 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** List spreadsheet parsing jobs. Experimental: not production-ready and subject to change. */
+/** List spreadsheet parsing jobs. */
+@Deprecated("deprecated")
 class SheetListParams
 private constructor(
     private val configurationId: String?,

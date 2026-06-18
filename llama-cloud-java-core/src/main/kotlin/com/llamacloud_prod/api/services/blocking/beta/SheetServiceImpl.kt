@@ -41,14 +41,17 @@ class SheetServiceImpl internal constructor(private val clientOptions: ClientOpt
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): SheetService =
         SheetServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("deprecated")
     override fun create(params: SheetCreateParams, requestOptions: RequestOptions): SheetsJob =
         // post /api/v1/beta/sheets/jobs
         withRawResponse().create(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun list(params: SheetListParams, requestOptions: RequestOptions): SheetListPage =
         // get /api/v1/beta/sheets/jobs
         withRawResponse().list(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun deleteJob(
         params: SheetDeleteJobParams,
         requestOptions: RequestOptions,
@@ -56,10 +59,12 @@ class SheetServiceImpl internal constructor(private val clientOptions: ClientOpt
         // delete /api/v1/beta/sheets/jobs/{spreadsheet_job_id}
         withRawResponse().deleteJob(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun get(params: SheetGetParams, requestOptions: RequestOptions): SheetsJob =
         // get /api/v1/beta/sheets/jobs/{spreadsheet_job_id}
         withRawResponse().get(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun getResultTable(
         params: SheetGetResultTableParams,
         requestOptions: RequestOptions,
@@ -84,6 +89,7 @@ class SheetServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val createHandler: Handler<SheetsJob> =
             jsonHandler<SheetsJob>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun create(
             params: SheetCreateParams,
             requestOptions: RequestOptions,
@@ -112,6 +118,7 @@ class SheetServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val listHandler: Handler<SheetListPageResponse> =
             jsonHandler<SheetListPageResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun list(
             params: SheetListParams,
             requestOptions: RequestOptions,
@@ -146,6 +153,7 @@ class SheetServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val deleteJobHandler: Handler<SheetDeleteJobResponse> =
             jsonHandler<SheetDeleteJobResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun deleteJob(
             params: SheetDeleteJobParams,
             requestOptions: RequestOptions,
@@ -177,6 +185,7 @@ class SheetServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val getHandler: Handler<SheetsJob> =
             jsonHandler<SheetsJob>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun get(
             params: SheetGetParams,
             requestOptions: RequestOptions,
@@ -207,6 +216,7 @@ class SheetServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val getResultTableHandler: Handler<PresignedUrl> =
             jsonHandler<PresignedUrl>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun getResultTable(
             params: SheetGetResultTableParams,
             requestOptions: RequestOptions,

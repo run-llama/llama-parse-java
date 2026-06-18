@@ -46,6 +46,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DocumentService =
         DocumentServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("deprecated")
     override fun create(
         params: DocumentCreateParams,
         requestOptions: RequestOptions,
@@ -53,6 +54,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         // post /api/v1/pipelines/{pipeline_id}/documents
         withRawResponse().create(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun list(
         params: DocumentListParams,
         requestOptions: RequestOptions,
@@ -60,15 +62,18 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         // get /api/v1/pipelines/{pipeline_id}/documents/paginated
         withRawResponse().list(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun delete(params: DocumentDeleteParams, requestOptions: RequestOptions) {
         // delete /api/v1/pipelines/{pipeline_id}/documents/{document_id}
         withRawResponse().delete(params, requestOptions)
     }
 
+    @Deprecated("deprecated")
     override fun get(params: DocumentGetParams, requestOptions: RequestOptions): CloudDocument =
         // get /api/v1/pipelines/{pipeline_id}/documents/{document_id}
         withRawResponse().get(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun getChunks(
         params: DocumentGetChunksParams,
         requestOptions: RequestOptions,
@@ -76,6 +81,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         // get /api/v1/pipelines/{pipeline_id}/documents/{document_id}/chunks
         withRawResponse().getChunks(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun getStatus(
         params: DocumentGetStatusParams,
         requestOptions: RequestOptions,
@@ -83,6 +89,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         // get /api/v1/pipelines/{pipeline_id}/documents/{document_id}/status
         withRawResponse().getStatus(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun sync(
         params: DocumentSyncParams,
         requestOptions: RequestOptions,
@@ -90,6 +97,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         // post /api/v1/pipelines/{pipeline_id}/documents/{document_id}/sync
         withRawResponse().sync(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun upsert(
         params: DocumentUpsertParams,
         requestOptions: RequestOptions,
@@ -113,6 +121,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         private val createHandler: Handler<List<CloudDocument>> =
             jsonHandler<List<CloudDocument>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun create(
             params: DocumentCreateParams,
             requestOptions: RequestOptions,
@@ -144,6 +153,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         private val listHandler: Handler<DocumentListPageResponse> =
             jsonHandler<DocumentListPageResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun list(
             params: DocumentListParams,
             requestOptions: RequestOptions,
@@ -187,6 +197,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
 
         private val deleteHandler: Handler<Void?> = emptyHandler()
 
+        @Deprecated("deprecated")
         override fun delete(
             params: DocumentDeleteParams,
             requestOptions: RequestOptions,
@@ -219,6 +230,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         private val getHandler: Handler<CloudDocument> =
             jsonHandler<CloudDocument>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun get(
             params: DocumentGetParams,
             requestOptions: RequestOptions,
@@ -256,6 +268,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         private val getChunksHandler: Handler<List<TextNode>> =
             jsonHandler<List<TextNode>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun getChunks(
             params: DocumentGetChunksParams,
             requestOptions: RequestOptions,
@@ -294,6 +307,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         private val getStatusHandler: Handler<ManagedIngestionStatusResponse> =
             jsonHandler<ManagedIngestionStatusResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun getStatus(
             params: DocumentGetStatusParams,
             requestOptions: RequestOptions,
@@ -332,6 +346,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         private val syncHandler: Handler<DocumentSyncResponse> =
             jsonHandler<DocumentSyncResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun sync(
             params: DocumentSyncParams,
             requestOptions: RequestOptions,
@@ -371,6 +386,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         private val upsertHandler: Handler<List<CloudDocument>> =
             jsonHandler<List<CloudDocument>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun upsert(
             params: DocumentUpsertParams,
             requestOptions: RequestOptions,

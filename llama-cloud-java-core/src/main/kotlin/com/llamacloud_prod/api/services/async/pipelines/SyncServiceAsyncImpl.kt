@@ -35,6 +35,7 @@ class SyncServiceAsyncImpl internal constructor(private val clientOptions: Clien
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): SyncServiceAsync =
         SyncServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("deprecated")
     override fun create(
         params: SyncCreateParams,
         requestOptions: RequestOptions,
@@ -42,6 +43,7 @@ class SyncServiceAsyncImpl internal constructor(private val clientOptions: Clien
         // post /api/v1/pipelines/{pipeline_id}/sync
         withRawResponse().create(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun cancel(
         params: SyncCancelParams,
         requestOptions: RequestOptions,
@@ -65,6 +67,7 @@ class SyncServiceAsyncImpl internal constructor(private val clientOptions: Clien
         private val createHandler: Handler<Pipeline> =
             jsonHandler<Pipeline>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun create(
             params: SyncCreateParams,
             requestOptions: RequestOptions,
@@ -99,6 +102,7 @@ class SyncServiceAsyncImpl internal constructor(private val clientOptions: Clien
         private val cancelHandler: Handler<Pipeline> =
             jsonHandler<Pipeline>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun cancel(
             params: SyncCancelParams,
             requestOptions: RequestOptions,

@@ -41,6 +41,11 @@ internal class ParseV2ParametersTest {
                                 .removeNavigationElements(true)
                                 .build()
                         )
+                        .image(
+                            ParseV2Parameters.InputOptions.Image.builder()
+                                .cameraPhotoCorrection(true)
+                                .build()
+                        )
                         .pdf(JsonValue.from(mapOf<String, Any>()))
                         .presentation(
                             ParseV2Parameters.InputOptions.Presentation.builder()
@@ -314,6 +319,11 @@ internal class ParseV2ParametersTest {
                             .removeNavigationElements(true)
                             .build()
                     )
+                    .image(
+                        ParseV2Parameters.InputOptions.Image.builder()
+                            .cameraPhotoCorrection(true)
+                            .build()
+                    )
                     .pdf(JsonValue.from(mapOf<String, Any>()))
                     .presentation(
                         ParseV2Parameters.InputOptions.Presentation.builder()
@@ -585,6 +595,11 @@ internal class ParseV2ParametersTest {
                                 .makeAllElementsVisible(true)
                                 .removeFixedElements(true)
                                 .removeNavigationElements(true)
+                                .build()
+                        )
+                        .image(
+                            ParseV2Parameters.InputOptions.Image.builder()
+                                .cameraPhotoCorrection(true)
                                 .build()
                         )
                         .pdf(JsonValue.from(mapOf<String, Any>()))

@@ -37,12 +37,14 @@ interface DocumentServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): DocumentServiceAsync
 
     /** Batch create documents for a pipeline. */
+    @Deprecated("deprecated")
     fun create(
         pipelineId: String,
         params: DocumentCreateParams,
     ): CompletableFuture<List<CloudDocument>> = create(pipelineId, params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         pipelineId: String,
         params: DocumentCreateParams,
@@ -51,20 +53,24 @@ interface DocumentServiceAsync {
         create(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(params: DocumentCreateParams): CompletableFuture<List<CloudDocument>> =
         create(params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         params: DocumentCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<CloudDocument>>
 
     /** Return a list of documents for a pipeline. */
+    @Deprecated("deprecated")
     fun list(pipelineId: String): CompletableFuture<DocumentListPageAsync> =
         list(pipelineId, DocumentListParams.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         pipelineId: String,
         params: DocumentListParams = DocumentListParams.none(),
@@ -73,22 +79,26 @@ interface DocumentServiceAsync {
         list(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         pipelineId: String,
         params: DocumentListParams = DocumentListParams.none(),
     ): CompletableFuture<DocumentListPageAsync> = list(pipelineId, params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: DocumentListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DocumentListPageAsync>
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(params: DocumentListParams): CompletableFuture<DocumentListPageAsync> =
         list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         pipelineId: String,
         requestOptions: RequestOptions,
@@ -96,10 +106,12 @@ interface DocumentServiceAsync {
         list(pipelineId, DocumentListParams.none(), requestOptions)
 
     /** Delete a document from a pipeline; runs async (vectors first, then MongoDB record). */
+    @Deprecated("deprecated")
     fun delete(documentId: String, params: DocumentDeleteParams): CompletableFuture<Void?> =
         delete(documentId, params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(
         documentId: String,
         params: DocumentDeleteParams,
@@ -108,20 +120,24 @@ interface DocumentServiceAsync {
         delete(params.toBuilder().documentId(documentId).build(), requestOptions)
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(params: DocumentDeleteParams): CompletableFuture<Void?> =
         delete(params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(
         params: DocumentDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /** Return a single document for a pipeline. */
+    @Deprecated("deprecated")
     fun get(documentId: String, params: DocumentGetParams): CompletableFuture<CloudDocument> =
         get(documentId, params, RequestOptions.none())
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(
         documentId: String,
         params: DocumentGetParams,
@@ -130,22 +146,26 @@ interface DocumentServiceAsync {
         get(params.toBuilder().documentId(documentId).build(), requestOptions)
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(params: DocumentGetParams): CompletableFuture<CloudDocument> =
         get(params, RequestOptions.none())
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(
         params: DocumentGetParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CloudDocument>
 
     /** Return a list of chunks for a pipeline document. */
+    @Deprecated("deprecated")
     fun getChunks(
         documentId: String,
         params: DocumentGetChunksParams,
     ): CompletableFuture<List<TextNode>> = getChunks(documentId, params, RequestOptions.none())
 
     /** @see getChunks */
+    @Deprecated("deprecated")
     fun getChunks(
         documentId: String,
         params: DocumentGetChunksParams,
@@ -154,16 +174,19 @@ interface DocumentServiceAsync {
         getChunks(params.toBuilder().documentId(documentId).build(), requestOptions)
 
     /** @see getChunks */
+    @Deprecated("deprecated")
     fun getChunks(params: DocumentGetChunksParams): CompletableFuture<List<TextNode>> =
         getChunks(params, RequestOptions.none())
 
     /** @see getChunks */
+    @Deprecated("deprecated")
     fun getChunks(
         params: DocumentGetChunksParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<TextNode>>
 
     /** Return a single document for a pipeline. */
+    @Deprecated("deprecated")
     fun getStatus(
         documentId: String,
         params: DocumentGetStatusParams,
@@ -171,6 +194,7 @@ interface DocumentServiceAsync {
         getStatus(documentId, params, RequestOptions.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         documentId: String,
         params: DocumentGetStatusParams,
@@ -179,23 +203,27 @@ interface DocumentServiceAsync {
         getStatus(params.toBuilder().documentId(documentId).build(), requestOptions)
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         params: DocumentGetStatusParams
     ): CompletableFuture<ManagedIngestionStatusResponse> = getStatus(params, RequestOptions.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         params: DocumentGetStatusParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagedIngestionStatusResponse>
 
     /** Sync a specific document for a pipeline. */
+    @Deprecated("deprecated")
     fun sync(
         documentId: String,
         params: DocumentSyncParams,
     ): CompletableFuture<DocumentSyncResponse> = sync(documentId, params, RequestOptions.none())
 
     /** @see sync */
+    @Deprecated("deprecated")
     fun sync(
         documentId: String,
         params: DocumentSyncParams,
@@ -204,22 +232,26 @@ interface DocumentServiceAsync {
         sync(params.toBuilder().documentId(documentId).build(), requestOptions)
 
     /** @see sync */
+    @Deprecated("deprecated")
     fun sync(params: DocumentSyncParams): CompletableFuture<DocumentSyncResponse> =
         sync(params, RequestOptions.none())
 
     /** @see sync */
+    @Deprecated("deprecated")
     fun sync(
         params: DocumentSyncParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DocumentSyncResponse>
 
     /** Batch create or update a document for a pipeline. */
+    @Deprecated("deprecated")
     fun upsert(
         pipelineId: String,
         params: DocumentUpsertParams,
     ): CompletableFuture<List<CloudDocument>> = upsert(pipelineId, params, RequestOptions.none())
 
     /** @see upsert */
+    @Deprecated("deprecated")
     fun upsert(
         pipelineId: String,
         params: DocumentUpsertParams,
@@ -228,10 +260,12 @@ interface DocumentServiceAsync {
         upsert(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see upsert */
+    @Deprecated("deprecated")
     fun upsert(params: DocumentUpsertParams): CompletableFuture<List<CloudDocument>> =
         upsert(params, RequestOptions.none())
 
     /** @see upsert */
+    @Deprecated("deprecated")
     fun upsert(
         params: DocumentUpsertParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -255,6 +289,7 @@ interface DocumentServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/pipelines/{pipeline_id}/documents`, but is
          * otherwise the same as [DocumentServiceAsync.create].
          */
+        @Deprecated("deprecated")
         fun create(
             pipelineId: String,
             params: DocumentCreateParams,
@@ -262,6 +297,7 @@ interface DocumentServiceAsync {
             create(pipelineId, params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             pipelineId: String,
             params: DocumentCreateParams,
@@ -270,12 +306,14 @@ interface DocumentServiceAsync {
             create(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             params: DocumentCreateParams
         ): CompletableFuture<HttpResponseFor<List<CloudDocument>>> =
             create(params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             params: DocumentCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -286,10 +324,12 @@ interface DocumentServiceAsync {
          * /api/v1/pipelines/{pipeline_id}/documents/paginated`, but is otherwise the same as
          * [DocumentServiceAsync.list].
          */
+        @Deprecated("deprecated")
         fun list(pipelineId: String): CompletableFuture<HttpResponseFor<DocumentListPageAsync>> =
             list(pipelineId, DocumentListParams.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             pipelineId: String,
             params: DocumentListParams = DocumentListParams.none(),
@@ -298,6 +338,7 @@ interface DocumentServiceAsync {
             list(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             pipelineId: String,
             params: DocumentListParams = DocumentListParams.none(),
@@ -305,18 +346,21 @@ interface DocumentServiceAsync {
             list(pipelineId, params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             params: DocumentListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DocumentListPageAsync>>
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             params: DocumentListParams
         ): CompletableFuture<HttpResponseFor<DocumentListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             pipelineId: String,
             requestOptions: RequestOptions,
@@ -328,12 +372,14 @@ interface DocumentServiceAsync {
          * /api/v1/pipelines/{pipeline_id}/documents/{document_id}`, but is otherwise the same as
          * [DocumentServiceAsync.delete].
          */
+        @Deprecated("deprecated")
         fun delete(
             documentId: String,
             params: DocumentDeleteParams,
         ): CompletableFuture<HttpResponse> = delete(documentId, params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("deprecated")
         fun delete(
             documentId: String,
             params: DocumentDeleteParams,
@@ -342,10 +388,12 @@ interface DocumentServiceAsync {
             delete(params.toBuilder().documentId(documentId).build(), requestOptions)
 
         /** @see delete */
+        @Deprecated("deprecated")
         fun delete(params: DocumentDeleteParams): CompletableFuture<HttpResponse> =
             delete(params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("deprecated")
         fun delete(
             params: DocumentDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -356,6 +404,7 @@ interface DocumentServiceAsync {
          * /api/v1/pipelines/{pipeline_id}/documents/{document_id}`, but is otherwise the same as
          * [DocumentServiceAsync.get].
          */
+        @Deprecated("deprecated")
         fun get(
             documentId: String,
             params: DocumentGetParams,
@@ -363,6 +412,7 @@ interface DocumentServiceAsync {
             get(documentId, params, RequestOptions.none())
 
         /** @see get */
+        @Deprecated("deprecated")
         fun get(
             documentId: String,
             params: DocumentGetParams,
@@ -371,10 +421,12 @@ interface DocumentServiceAsync {
             get(params.toBuilder().documentId(documentId).build(), requestOptions)
 
         /** @see get */
+        @Deprecated("deprecated")
         fun get(params: DocumentGetParams): CompletableFuture<HttpResponseFor<CloudDocument>> =
             get(params, RequestOptions.none())
 
         /** @see get */
+        @Deprecated("deprecated")
         fun get(
             params: DocumentGetParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -385,6 +437,7 @@ interface DocumentServiceAsync {
          * /api/v1/pipelines/{pipeline_id}/documents/{document_id}/chunks`, but is otherwise the
          * same as [DocumentServiceAsync.getChunks].
          */
+        @Deprecated("deprecated")
         fun getChunks(
             documentId: String,
             params: DocumentGetChunksParams,
@@ -392,6 +445,7 @@ interface DocumentServiceAsync {
             getChunks(documentId, params, RequestOptions.none())
 
         /** @see getChunks */
+        @Deprecated("deprecated")
         fun getChunks(
             documentId: String,
             params: DocumentGetChunksParams,
@@ -400,12 +454,14 @@ interface DocumentServiceAsync {
             getChunks(params.toBuilder().documentId(documentId).build(), requestOptions)
 
         /** @see getChunks */
+        @Deprecated("deprecated")
         fun getChunks(
             params: DocumentGetChunksParams
         ): CompletableFuture<HttpResponseFor<List<TextNode>>> =
             getChunks(params, RequestOptions.none())
 
         /** @see getChunks */
+        @Deprecated("deprecated")
         fun getChunks(
             params: DocumentGetChunksParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -416,6 +472,7 @@ interface DocumentServiceAsync {
          * /api/v1/pipelines/{pipeline_id}/documents/{document_id}/status`, but is otherwise the
          * same as [DocumentServiceAsync.getStatus].
          */
+        @Deprecated("deprecated")
         fun getStatus(
             documentId: String,
             params: DocumentGetStatusParams,
@@ -423,6 +480,7 @@ interface DocumentServiceAsync {
             getStatus(documentId, params, RequestOptions.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         fun getStatus(
             documentId: String,
             params: DocumentGetStatusParams,
@@ -431,12 +489,14 @@ interface DocumentServiceAsync {
             getStatus(params.toBuilder().documentId(documentId).build(), requestOptions)
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         fun getStatus(
             params: DocumentGetStatusParams
         ): CompletableFuture<HttpResponseFor<ManagedIngestionStatusResponse>> =
             getStatus(params, RequestOptions.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         fun getStatus(
             params: DocumentGetStatusParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -447,6 +507,7 @@ interface DocumentServiceAsync {
          * /api/v1/pipelines/{pipeline_id}/documents/{document_id}/sync`, but is otherwise the same
          * as [DocumentServiceAsync.sync].
          */
+        @Deprecated("deprecated")
         fun sync(
             documentId: String,
             params: DocumentSyncParams,
@@ -454,6 +515,7 @@ interface DocumentServiceAsync {
             sync(documentId, params, RequestOptions.none())
 
         /** @see sync */
+        @Deprecated("deprecated")
         fun sync(
             documentId: String,
             params: DocumentSyncParams,
@@ -462,12 +524,14 @@ interface DocumentServiceAsync {
             sync(params.toBuilder().documentId(documentId).build(), requestOptions)
 
         /** @see sync */
+        @Deprecated("deprecated")
         fun sync(
             params: DocumentSyncParams
         ): CompletableFuture<HttpResponseFor<DocumentSyncResponse>> =
             sync(params, RequestOptions.none())
 
         /** @see sync */
+        @Deprecated("deprecated")
         fun sync(
             params: DocumentSyncParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -477,6 +541,7 @@ interface DocumentServiceAsync {
          * Returns a raw HTTP response for `put /api/v1/pipelines/{pipeline_id}/documents`, but is
          * otherwise the same as [DocumentServiceAsync.upsert].
          */
+        @Deprecated("deprecated")
         fun upsert(
             pipelineId: String,
             params: DocumentUpsertParams,
@@ -484,6 +549,7 @@ interface DocumentServiceAsync {
             upsert(pipelineId, params, RequestOptions.none())
 
         /** @see upsert */
+        @Deprecated("deprecated")
         fun upsert(
             pipelineId: String,
             params: DocumentUpsertParams,
@@ -492,12 +558,14 @@ interface DocumentServiceAsync {
             upsert(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see upsert */
+        @Deprecated("deprecated")
         fun upsert(
             params: DocumentUpsertParams
         ): CompletableFuture<HttpResponseFor<List<CloudDocument>>> =
             upsert(params, RequestOptions.none())
 
         /** @see upsert */
+        @Deprecated("deprecated")
         fun upsert(
             params: DocumentUpsertParams,
             requestOptions: RequestOptions = RequestOptions.none(),

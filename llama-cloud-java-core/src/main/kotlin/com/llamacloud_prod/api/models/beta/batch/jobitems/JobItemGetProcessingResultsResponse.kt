@@ -9833,6 +9833,16 @@ private constructor(
 
                                 @JvmField val SHEETS_CANCELLED = of("sheets.cancelled")
 
+                                @JvmField val SPLIT_PENDING = of("split.pending")
+
+                                @JvmField val SPLIT_PROCESSING = of("split.processing")
+
+                                @JvmField val SPLIT_SUCCESS = of("split.success")
+
+                                @JvmField val SPLIT_ERROR = of("split.error")
+
+                                @JvmField val SPLIT_CANCELLED = of("split.cancelled")
+
                                 @JvmField val UNMAPPED_EVENT = of("unmapped_event")
 
                                 @JvmStatic fun of(value: String) = WebhookEvent(JsonField.of(value))
@@ -9862,6 +9872,11 @@ private constructor(
                                 SHEETS_ERROR,
                                 SHEETS_PARTIAL_SUCCESS,
                                 SHEETS_CANCELLED,
+                                SPLIT_PENDING,
+                                SPLIT_PROCESSING,
+                                SPLIT_SUCCESS,
+                                SPLIT_ERROR,
+                                SPLIT_CANCELLED,
                                 UNMAPPED_EVENT,
                             }
 
@@ -9899,6 +9914,11 @@ private constructor(
                                 SHEETS_ERROR,
                                 SHEETS_PARTIAL_SUCCESS,
                                 SHEETS_CANCELLED,
+                                SPLIT_PENDING,
+                                SPLIT_PROCESSING,
+                                SPLIT_SUCCESS,
+                                SPLIT_ERROR,
+                                SPLIT_CANCELLED,
                                 UNMAPPED_EVENT,
                                 /**
                                  * An enum member indicating that [WebhookEvent] was instantiated
@@ -9939,6 +9959,11 @@ private constructor(
                                     SHEETS_ERROR -> Value.SHEETS_ERROR
                                     SHEETS_PARTIAL_SUCCESS -> Value.SHEETS_PARTIAL_SUCCESS
                                     SHEETS_CANCELLED -> Value.SHEETS_CANCELLED
+                                    SPLIT_PENDING -> Value.SPLIT_PENDING
+                                    SPLIT_PROCESSING -> Value.SPLIT_PROCESSING
+                                    SPLIT_SUCCESS -> Value.SPLIT_SUCCESS
+                                    SPLIT_ERROR -> Value.SPLIT_ERROR
+                                    SPLIT_CANCELLED -> Value.SPLIT_CANCELLED
                                     UNMAPPED_EVENT -> Value.UNMAPPED_EVENT
                                     else -> Value._UNKNOWN
                                 }
@@ -9976,6 +10001,11 @@ private constructor(
                                     SHEETS_ERROR -> Known.SHEETS_ERROR
                                     SHEETS_PARTIAL_SUCCESS -> Known.SHEETS_PARTIAL_SUCCESS
                                     SHEETS_CANCELLED -> Known.SHEETS_CANCELLED
+                                    SPLIT_PENDING -> Known.SPLIT_PENDING
+                                    SPLIT_PROCESSING -> Known.SPLIT_PROCESSING
+                                    SPLIT_SUCCESS -> Known.SPLIT_SUCCESS
+                                    SPLIT_ERROR -> Known.SPLIT_ERROR
+                                    SPLIT_CANCELLED -> Known.SPLIT_CANCELLED
                                     UNMAPPED_EVENT -> Known.UNMAPPED_EVENT
                                     else ->
                                         throw LlamaCloudInvalidDataException(

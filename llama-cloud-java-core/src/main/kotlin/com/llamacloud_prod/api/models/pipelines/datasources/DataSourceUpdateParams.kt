@@ -21,6 +21,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Update the configuration of a data source in a pipeline. */
+@Deprecated("deprecated")
 class DataSourceUpdateParams
 private constructor(
     private val pipelineId: String,

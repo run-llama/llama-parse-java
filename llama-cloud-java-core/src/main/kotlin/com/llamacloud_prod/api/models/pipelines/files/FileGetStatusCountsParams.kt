@@ -10,6 +10,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Get files for a pipeline. */
+@Deprecated("deprecated")
 class FileGetStatusCountsParams
 private constructor(
     private val pipelineId: String?,

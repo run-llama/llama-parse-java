@@ -82,6 +82,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
 
     override fun documents(): DocumentServiceAsync = documents
 
+    @Deprecated("deprecated")
     override fun create(
         params: PipelineCreateParams,
         requestOptions: RequestOptions,
@@ -89,6 +90,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         // post /api/v1/pipelines
         withRawResponse().create(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun retrieve(
         params: PipelineRetrieveParams,
         requestOptions: RequestOptions,
@@ -96,6 +98,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         // post /api/v1/pipelines/{pipeline_id}/retrieve
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun update(
         params: PipelineUpdateParams,
         requestOptions: RequestOptions,
@@ -103,6 +106,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         // put /api/v1/pipelines/{pipeline_id}
         withRawResponse().update(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun list(
         params: PipelineListParams,
         requestOptions: RequestOptions,
@@ -110,6 +114,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         // get /api/v1/pipelines
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun delete(
         params: PipelineDeleteParams,
         requestOptions: RequestOptions,
@@ -117,6 +122,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         // delete /api/v1/pipelines/{pipeline_id}
         withRawResponse().delete(params, requestOptions).thenAccept {}
 
+    @Deprecated("deprecated")
     override fun get(
         params: PipelineGetParams,
         requestOptions: RequestOptions,
@@ -124,6 +130,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         // get /api/v1/pipelines/{pipeline_id}
         withRawResponse().get(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun getStatus(
         params: PipelineGetStatusParams,
         requestOptions: RequestOptions,
@@ -131,6 +138,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         // get /api/v1/pipelines/{pipeline_id}/status
         withRawResponse().getStatus(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun upsert(
         params: PipelineUpsertParams,
         requestOptions: RequestOptions,
@@ -190,6 +198,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         private val createHandler: Handler<Pipeline> =
             jsonHandler<Pipeline>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun create(
             params: PipelineCreateParams,
             requestOptions: RequestOptions,
@@ -221,6 +230,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         private val retrieveHandler: Handler<PipelineRetrieveResponse> =
             jsonHandler<PipelineRetrieveResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun retrieve(
             params: PipelineRetrieveParams,
             requestOptions: RequestOptions,
@@ -255,6 +265,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         private val updateHandler: Handler<Pipeline> =
             jsonHandler<Pipeline>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun update(
             params: PipelineUpdateParams,
             requestOptions: RequestOptions,
@@ -289,6 +300,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         private val listHandler: Handler<List<Pipeline>> =
             jsonHandler<List<Pipeline>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun list(
             params: PipelineListParams,
             requestOptions: RequestOptions,
@@ -318,6 +330,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
 
         private val deleteHandler: Handler<Void?> = emptyHandler()
 
+        @Deprecated("deprecated")
         override fun delete(
             params: PipelineDeleteParams,
             requestOptions: RequestOptions,
@@ -345,6 +358,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
 
         private val getHandler: Handler<Pipeline> = jsonHandler<Pipeline>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun get(
             params: PipelineGetParams,
             requestOptions: RequestOptions,
@@ -378,6 +392,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         private val getStatusHandler: Handler<ManagedIngestionStatusResponse> =
             jsonHandler<ManagedIngestionStatusResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun getStatus(
             params: PipelineGetStatusParams,
             requestOptions: RequestOptions,
@@ -411,6 +426,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
         private val upsertHandler: Handler<Pipeline> =
             jsonHandler<Pipeline>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun upsert(
             params: PipelineUpsertParams,
             requestOptions: RequestOptions,

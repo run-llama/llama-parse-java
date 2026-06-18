@@ -27,6 +27,7 @@ import kotlin.jvm.optionals.getOrNull
  * Searches the pipeline's vector store using the provided query and retrieval parameters. Supports
  * dense, sparse, and hybrid search modes with configurable top-k and reranking.
  */
+@Deprecated("deprecated")
 class PipelineRetrieveParams
 private constructor(
     private val pipelineId: String?,

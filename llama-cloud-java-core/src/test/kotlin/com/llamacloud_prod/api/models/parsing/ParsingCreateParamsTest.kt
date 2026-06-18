@@ -21,6 +21,7 @@ internal class ParsingCreateParamsTest {
                 ParsingCreateParams.AgenticOptions.builder().customPrompt("custom_prompt").build()
             )
             .clientName("client_name")
+            .configurationId("configuration_id")
             .cropBox(
                 ParsingCreateParams.CropBox.builder()
                     .bottom(0.0)
@@ -40,6 +41,11 @@ internal class ParsingCreateParamsTest {
                             .makeAllElementsVisible(true)
                             .removeFixedElements(true)
                             .removeNavigationElements(true)
+                            .build()
+                    )
+                    .image(
+                        ParsingCreateParams.InputOptions.Image.builder()
+                            .cameraPhotoCorrection(true)
                             .build()
                     )
                     .pdf(JsonValue.from(mapOf<String, Any>()))
@@ -296,6 +302,7 @@ internal class ParsingCreateParamsTest {
                         .build()
                 )
                 .clientName("client_name")
+                .configurationId("configuration_id")
                 .cropBox(
                     ParsingCreateParams.CropBox.builder()
                         .bottom(0.0)
@@ -315,6 +322,11 @@ internal class ParsingCreateParamsTest {
                                 .makeAllElementsVisible(true)
                                 .removeFixedElements(true)
                                 .removeNavigationElements(true)
+                                .build()
+                        )
+                        .image(
+                            ParsingCreateParams.InputOptions.Image.builder()
+                                .cameraPhotoCorrection(true)
                                 .build()
                         )
                         .pdf(JsonValue.from(mapOf<String, Any>()))
@@ -602,6 +614,7 @@ internal class ParsingCreateParamsTest {
                         .build()
                 )
                 .clientName("client_name")
+                .configurationId("configuration_id")
                 .cropBox(
                     ParsingCreateParams.CropBox.builder()
                         .bottom(0.0)
@@ -621,6 +634,11 @@ internal class ParsingCreateParamsTest {
                                 .makeAllElementsVisible(true)
                                 .removeFixedElements(true)
                                 .removeNavigationElements(true)
+                                .build()
+                        )
+                        .image(
+                            ParsingCreateParams.InputOptions.Image.builder()
+                                .cameraPhotoCorrection(true)
                                 .build()
                         )
                         .pdf(JsonValue.from(mapOf<String, Any>()))
@@ -879,6 +897,7 @@ internal class ParsingCreateParamsTest {
                 ParsingCreateParams.AgenticOptions.builder().customPrompt("custom_prompt").build()
             )
         assertThat(body.clientName()).contains("client_name")
+        assertThat(body.configurationId()).contains("configuration_id")
         assertThat(body.cropBox())
             .contains(
                 ParsingCreateParams.CropBox.builder()
@@ -900,6 +919,11 @@ internal class ParsingCreateParamsTest {
                             .makeAllElementsVisible(true)
                             .removeFixedElements(true)
                             .removeNavigationElements(true)
+                            .build()
+                    )
+                    .image(
+                        ParsingCreateParams.InputOptions.Image.builder()
+                            .cameraPhotoCorrection(true)
                             .build()
                     )
                     .pdf(JsonValue.from(mapOf<String, Any>()))

@@ -11,6 +11,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** @see SheetService.list */
+@Deprecated("deprecated")
 class SheetListPage
 private constructor(
     private val service: SheetService,

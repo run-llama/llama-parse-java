@@ -42,6 +42,7 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): FileService =
         FileServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("deprecated")
     override fun create(
         params: FileCreateParams,
         requestOptions: RequestOptions,
@@ -49,6 +50,7 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
         // put /api/v1/pipelines/{pipeline_id}/files
         withRawResponse().create(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun update(params: FileUpdateParams, requestOptions: RequestOptions): PipelineFile =
         // put /api/v1/pipelines/{pipeline_id}/files/{file_id}
         withRawResponse().update(params, requestOptions).parse()
@@ -58,11 +60,13 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
         // get /api/v1/pipelines/{pipeline_id}/files2
         withRawResponse().list(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun delete(params: FileDeleteParams, requestOptions: RequestOptions) {
         // delete /api/v1/pipelines/{pipeline_id}/files/{file_id}
         withRawResponse().delete(params, requestOptions)
     }
 
+    @Deprecated("deprecated")
     override fun getStatus(
         params: FileGetStatusParams,
         requestOptions: RequestOptions,
@@ -70,6 +74,7 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
         // get /api/v1/pipelines/{pipeline_id}/files/{file_id}/status
         withRawResponse().getStatus(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun getStatusCounts(
         params: FileGetStatusCountsParams,
         requestOptions: RequestOptions,
@@ -93,6 +98,7 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
         private val createHandler: Handler<List<PipelineFile>> =
             jsonHandler<List<PipelineFile>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun create(
             params: FileCreateParams,
             requestOptions: RequestOptions,
@@ -124,6 +130,7 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
         private val updateHandler: Handler<PipelineFile> =
             jsonHandler<PipelineFile>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun update(
             params: FileUpdateParams,
             requestOptions: RequestOptions,
@@ -199,6 +206,7 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
 
         private val deleteHandler: Handler<Void?> = emptyHandler()
 
+        @Deprecated("deprecated")
         override fun delete(
             params: FileDeleteParams,
             requestOptions: RequestOptions,
@@ -231,6 +239,7 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
         private val getStatusHandler: Handler<ManagedIngestionStatusResponse> =
             jsonHandler<ManagedIngestionStatusResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun getStatus(
             params: FileGetStatusParams,
             requestOptions: RequestOptions,
@@ -269,6 +278,7 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
         private val getStatusCountsHandler: Handler<FileGetStatusCountsResponse> =
             jsonHandler<FileGetStatusCountsResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun getStatusCounts(
             params: FileGetStatusCountsParams,
             requestOptions: RequestOptions,

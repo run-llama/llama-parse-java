@@ -38,42 +38,44 @@ interface SheetService {
      * `configuration_id` (a saved configuration preset). If neither is provided, a default
      * configuration is used. Optionally include `webhook_configurations` to receive `sheets.*`
      * status notifications.
-     *
-     * Experimental: not production-ready and subject to change.
      */
+    @Deprecated("deprecated")
     fun create(params: SheetCreateParams): SheetsJob = create(params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         params: SheetCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SheetsJob
 
-    /** List spreadsheet parsing jobs. Experimental: not production-ready and subject to change. */
-    fun list(): SheetListPage = list(SheetListParams.none())
+    /** List spreadsheet parsing jobs. */
+    @Deprecated("deprecated") fun list(): SheetListPage = list(SheetListParams.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: SheetListParams = SheetListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SheetListPage
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(params: SheetListParams = SheetListParams.none()): SheetListPage =
         list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(requestOptions: RequestOptions): SheetListPage =
         list(SheetListParams.none(), requestOptions)
 
-    /**
-     * Delete a spreadsheet parsing job and its associated data. Experimental: not production-ready
-     * and subject to change.
-     */
+    /** Delete a spreadsheet parsing job and its associated data. */
+    @Deprecated("deprecated")
     fun deleteJob(spreadsheetJobId: String): SheetDeleteJobResponse =
         deleteJob(spreadsheetJobId, SheetDeleteJobParams.none())
 
     /** @see deleteJob */
+    @Deprecated("deprecated")
     fun deleteJob(
         spreadsheetJobId: String,
         params: SheetDeleteJobParams = SheetDeleteJobParams.none(),
@@ -82,22 +84,26 @@ interface SheetService {
         deleteJob(params.toBuilder().spreadsheetJobId(spreadsheetJobId).build(), requestOptions)
 
     /** @see deleteJob */
+    @Deprecated("deprecated")
     fun deleteJob(
         spreadsheetJobId: String,
         params: SheetDeleteJobParams = SheetDeleteJobParams.none(),
     ): SheetDeleteJobResponse = deleteJob(spreadsheetJobId, params, RequestOptions.none())
 
     /** @see deleteJob */
+    @Deprecated("deprecated")
     fun deleteJob(
         params: SheetDeleteJobParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SheetDeleteJobResponse
 
     /** @see deleteJob */
+    @Deprecated("deprecated")
     fun deleteJob(params: SheetDeleteJobParams): SheetDeleteJobResponse =
         deleteJob(params, RequestOptions.none())
 
     /** @see deleteJob */
+    @Deprecated("deprecated")
     fun deleteJob(
         spreadsheetJobId: String,
         requestOptions: RequestOptions,
@@ -106,12 +112,13 @@ interface SheetService {
 
     /**
      * Get a spreadsheet parsing job. When `include_results=True` (default), embeds extracted
-     * regions and results if complete, skipping the separate `/results` call. Experimental: not
-     * production-ready and subject to change.
+     * regions and results if complete, skipping the separate `/results` call.
      */
+    @Deprecated("deprecated")
     fun get(spreadsheetJobId: String): SheetsJob = get(spreadsheetJobId, SheetGetParams.none())
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(
         spreadsheetJobId: String,
         params: SheetGetParams = SheetGetParams.none(),
@@ -120,32 +127,35 @@ interface SheetService {
         get(params.toBuilder().spreadsheetJobId(spreadsheetJobId).build(), requestOptions)
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(spreadsheetJobId: String, params: SheetGetParams = SheetGetParams.none()): SheetsJob =
         get(spreadsheetJobId, params, RequestOptions.none())
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(
         params: SheetGetParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SheetsJob
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(params: SheetGetParams): SheetsJob = get(params, RequestOptions.none())
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(spreadsheetJobId: String, requestOptions: RequestOptions): SheetsJob =
         get(spreadsheetJobId, SheetGetParams.none(), requestOptions)
 
-    /**
-     * Generate a presigned URL to download a specific extracted region. Experimental: not
-     * production-ready and subject to change.
-     */
+    /** Generate a presigned URL to download a specific extracted region. */
+    @Deprecated("deprecated")
     fun getResultTable(
         regionType: SheetGetResultTableParams.RegionType,
         params: SheetGetResultTableParams,
     ): PresignedUrl = getResultTable(regionType, params, RequestOptions.none())
 
     /** @see getResultTable */
+    @Deprecated("deprecated")
     fun getResultTable(
         regionType: SheetGetResultTableParams.RegionType,
         params: SheetGetResultTableParams,
@@ -154,10 +164,12 @@ interface SheetService {
         getResultTable(params.toBuilder().regionType(regionType).build(), requestOptions)
 
     /** @see getResultTable */
+    @Deprecated("deprecated")
     fun getResultTable(params: SheetGetResultTableParams): PresignedUrl =
         getResultTable(params, RequestOptions.none())
 
     /** @see getResultTable */
+    @Deprecated("deprecated")
     fun getResultTable(
         params: SheetGetResultTableParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -177,11 +189,13 @@ interface SheetService {
          * Returns a raw HTTP response for `post /api/v1/beta/sheets/jobs`, but is otherwise the
          * same as [SheetService.create].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun create(params: SheetCreateParams): HttpResponseFor<SheetsJob> =
             create(params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun create(
             params: SheetCreateParams,
@@ -192,9 +206,12 @@ interface SheetService {
          * Returns a raw HTTP response for `get /api/v1/beta/sheets/jobs`, but is otherwise the same
          * as [SheetService.list].
          */
-        @MustBeClosed fun list(): HttpResponseFor<SheetListPage> = list(SheetListParams.none())
+        @Deprecated("deprecated")
+        @MustBeClosed
+        fun list(): HttpResponseFor<SheetListPage> = list(SheetListParams.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: SheetListParams = SheetListParams.none(),
@@ -202,11 +219,13 @@ interface SheetService {
         ): HttpResponseFor<SheetListPage>
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(params: SheetListParams = SheetListParams.none()): HttpResponseFor<SheetListPage> =
             list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<SheetListPage> =
             list(SheetListParams.none(), requestOptions)
@@ -215,11 +234,13 @@ interface SheetService {
          * Returns a raw HTTP response for `delete /api/v1/beta/sheets/jobs/{spreadsheet_job_id}`,
          * but is otherwise the same as [SheetService.deleteJob].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun deleteJob(spreadsheetJobId: String): HttpResponseFor<SheetDeleteJobResponse> =
             deleteJob(spreadsheetJobId, SheetDeleteJobParams.none())
 
         /** @see deleteJob */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun deleteJob(
             spreadsheetJobId: String,
@@ -229,6 +250,7 @@ interface SheetService {
             deleteJob(params.toBuilder().spreadsheetJobId(spreadsheetJobId).build(), requestOptions)
 
         /** @see deleteJob */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun deleteJob(
             spreadsheetJobId: String,
@@ -237,6 +259,7 @@ interface SheetService {
             deleteJob(spreadsheetJobId, params, RequestOptions.none())
 
         /** @see deleteJob */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun deleteJob(
             params: SheetDeleteJobParams,
@@ -244,11 +267,13 @@ interface SheetService {
         ): HttpResponseFor<SheetDeleteJobResponse>
 
         /** @see deleteJob */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun deleteJob(params: SheetDeleteJobParams): HttpResponseFor<SheetDeleteJobResponse> =
             deleteJob(params, RequestOptions.none())
 
         /** @see deleteJob */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun deleteJob(
             spreadsheetJobId: String,
@@ -260,11 +285,13 @@ interface SheetService {
          * Returns a raw HTTP response for `get /api/v1/beta/sheets/jobs/{spreadsheet_job_id}`, but
          * is otherwise the same as [SheetService.get].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(spreadsheetJobId: String): HttpResponseFor<SheetsJob> =
             get(spreadsheetJobId, SheetGetParams.none())
 
         /** @see get */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(
             spreadsheetJobId: String,
@@ -274,6 +301,7 @@ interface SheetService {
             get(params.toBuilder().spreadsheetJobId(spreadsheetJobId).build(), requestOptions)
 
         /** @see get */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(
             spreadsheetJobId: String,
@@ -281,6 +309,7 @@ interface SheetService {
         ): HttpResponseFor<SheetsJob> = get(spreadsheetJobId, params, RequestOptions.none())
 
         /** @see get */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(
             params: SheetGetParams,
@@ -288,11 +317,13 @@ interface SheetService {
         ): HttpResponseFor<SheetsJob>
 
         /** @see get */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(params: SheetGetParams): HttpResponseFor<SheetsJob> =
             get(params, RequestOptions.none())
 
         /** @see get */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(
             spreadsheetJobId: String,
@@ -304,6 +335,7 @@ interface SheetService {
          * /api/v1/beta/sheets/jobs/{spreadsheet_job_id}/regions/{region_id}/result/{region_type}`,
          * but is otherwise the same as [SheetService.getResultTable].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getResultTable(
             regionType: SheetGetResultTableParams.RegionType,
@@ -311,6 +343,7 @@ interface SheetService {
         ): HttpResponseFor<PresignedUrl> = getResultTable(regionType, params, RequestOptions.none())
 
         /** @see getResultTable */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getResultTable(
             regionType: SheetGetResultTableParams.RegionType,
@@ -320,11 +353,13 @@ interface SheetService {
             getResultTable(params.toBuilder().regionType(regionType).build(), requestOptions)
 
         /** @see getResultTable */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getResultTable(params: SheetGetResultTableParams): HttpResponseFor<PresignedUrl> =
             getResultTable(params, RequestOptions.none())
 
         /** @see getResultTable */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getResultTable(
             params: SheetGetResultTableParams,
