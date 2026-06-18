@@ -164,7 +164,9 @@ private constructor(
 
     /**
      * Use 'latest' for the latest release for the selected tier or a date string (YYYY-MM-DD
-     * format) to pin to the nearest release at or before that date.
+     * format) to pin to the nearest release at or before that date. Job responses always report the
+     * concrete resolved version the job runs, fixed at job creation; saved configurations keep the
+     * value as provided.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -483,7 +485,9 @@ private constructor(
 
         /**
          * Use 'latest' for the latest release for the selected tier or a date string (YYYY-MM-DD
-         * format) to pin to the nearest release at or before that date.
+         * format) to pin to the nearest release at or before that date. Job responses always report
+         * the concrete resolved version the job runs, fixed at job creation; saved configurations
+         * keep the value as provided.
          */
         fun version(version: String) = version(JsonField.of(version))
 

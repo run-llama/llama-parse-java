@@ -59,15 +59,18 @@ interface PipelineService {
      * A pipeline connects data sources to a vector store for RAG. After creation, call `POST
      * /pipelines/{id}/sync` to start ingesting documents.
      */
+    @Deprecated("deprecated")
     fun create(params: PipelineCreateParams): Pipeline = create(params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         params: PipelineCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Pipeline
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         pipelineCreate: PipelineCreate,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -78,6 +81,7 @@ interface PipelineService {
         )
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(pipelineCreate: PipelineCreate): Pipeline =
         create(pipelineCreate, RequestOptions.none())
 
@@ -87,10 +91,12 @@ interface PipelineService {
      * Searches the pipeline's vector store using the provided query and retrieval parameters.
      * Supports dense, sparse, and hybrid search modes with configurable top-k and reranking.
      */
+    @Deprecated("deprecated")
     fun retrieve(pipelineId: String, params: PipelineRetrieveParams): PipelineRetrieveResponse =
         retrieve(pipelineId, params, RequestOptions.none())
 
     /** @see retrieve */
+    @Deprecated("deprecated")
     fun retrieve(
         pipelineId: String,
         params: PipelineRetrieveParams,
@@ -99,19 +105,23 @@ interface PipelineService {
         retrieve(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see retrieve */
+    @Deprecated("deprecated")
     fun retrieve(params: PipelineRetrieveParams): PipelineRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
+    @Deprecated("deprecated")
     fun retrieve(
         params: PipelineRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PipelineRetrieveResponse
 
     /** Update an existing pipeline's configuration. */
+    @Deprecated("deprecated")
     fun update(pipelineId: String): Pipeline = update(pipelineId, PipelineUpdateParams.none())
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(
         pipelineId: String,
         params: PipelineUpdateParams = PipelineUpdateParams.none(),
@@ -119,38 +129,45 @@ interface PipelineService {
     ): Pipeline = update(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(
         pipelineId: String,
         params: PipelineUpdateParams = PipelineUpdateParams.none(),
     ): Pipeline = update(pipelineId, params, RequestOptions.none())
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(
         params: PipelineUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Pipeline
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(params: PipelineUpdateParams): Pipeline = update(params, RequestOptions.none())
 
     /** @see update */
+    @Deprecated("deprecated")
     fun update(pipelineId: String, requestOptions: RequestOptions): Pipeline =
         update(pipelineId, PipelineUpdateParams.none(), requestOptions)
 
     /** Search for pipelines by name, type, or project. */
-    fun list(): List<Pipeline> = list(PipelineListParams.none())
+    @Deprecated("deprecated") fun list(): List<Pipeline> = list(PipelineListParams.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: PipelineListParams = PipelineListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<Pipeline>
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(params: PipelineListParams = PipelineListParams.none()): List<Pipeline> =
         list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(requestOptions: RequestOptions): List<Pipeline> =
         list(PipelineListParams.none(), requestOptions)
 
@@ -159,9 +176,11 @@ interface PipelineService {
      *
      * Removes pipeline files, data sources, and vector store data. This operation is irreversible.
      */
+    @Deprecated("deprecated")
     fun delete(pipelineId: String) = delete(pipelineId, PipelineDeleteParams.none())
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(
         pipelineId: String,
         params: PipelineDeleteParams = PipelineDeleteParams.none(),
@@ -169,23 +188,29 @@ interface PipelineService {
     ) = delete(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(pipelineId: String, params: PipelineDeleteParams = PipelineDeleteParams.none()) =
         delete(pipelineId, params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(params: PipelineDeleteParams, requestOptions: RequestOptions = RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(params: PipelineDeleteParams) = delete(params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("deprecated")
     fun delete(pipelineId: String, requestOptions: RequestOptions) =
         delete(pipelineId, PipelineDeleteParams.none(), requestOptions)
 
     /** Get a pipeline by ID. */
+    @Deprecated("deprecated")
     fun get(pipelineId: String): Pipeline = get(pipelineId, PipelineGetParams.none())
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(
         pipelineId: String,
         params: PipelineGetParams = PipelineGetParams.none(),
@@ -193,19 +218,23 @@ interface PipelineService {
     ): Pipeline = get(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(pipelineId: String, params: PipelineGetParams = PipelineGetParams.none()): Pipeline =
         get(pipelineId, params, RequestOptions.none())
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(
         params: PipelineGetParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Pipeline
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(params: PipelineGetParams): Pipeline = get(params, RequestOptions.none())
 
     /** @see get */
+    @Deprecated("deprecated")
     fun get(pipelineId: String, requestOptions: RequestOptions): Pipeline =
         get(pipelineId, PipelineGetParams.none(), requestOptions)
 
@@ -215,10 +244,12 @@ interface PipelineService {
      * Returns document counts, sync progress, and the last effective timestamp. Only available for
      * managed pipelines.
      */
+    @Deprecated("deprecated")
     fun getStatus(pipelineId: String): ManagedIngestionStatusResponse =
         getStatus(pipelineId, PipelineGetStatusParams.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         pipelineId: String,
         params: PipelineGetStatusParams = PipelineGetStatusParams.none(),
@@ -227,22 +258,26 @@ interface PipelineService {
         getStatus(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         pipelineId: String,
         params: PipelineGetStatusParams = PipelineGetStatusParams.none(),
     ): ManagedIngestionStatusResponse = getStatus(pipelineId, params, RequestOptions.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         params: PipelineGetStatusParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ManagedIngestionStatusResponse
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(params: PipelineGetStatusParams): ManagedIngestionStatusResponse =
         getStatus(params, RequestOptions.none())
 
     /** @see getStatus */
+    @Deprecated("deprecated")
     fun getStatus(
         pipelineId: String,
         requestOptions: RequestOptions,
@@ -255,15 +290,18 @@ interface PipelineService {
      * Updates the pipeline if one with the same name and project already exists, otherwise creates
      * a new one.
      */
+    @Deprecated("deprecated")
     fun upsert(params: PipelineUpsertParams): Pipeline = upsert(params, RequestOptions.none())
 
     /** @see upsert */
+    @Deprecated("deprecated")
     fun upsert(
         params: PipelineUpsertParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Pipeline
 
     /** @see upsert */
+    @Deprecated("deprecated")
     fun upsert(
         pipelineCreate: PipelineCreate,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -274,6 +312,7 @@ interface PipelineService {
         )
 
     /** @see upsert */
+    @Deprecated("deprecated")
     fun upsert(pipelineCreate: PipelineCreate): Pipeline =
         upsert(pipelineCreate, RequestOptions.none())
 
@@ -303,11 +342,13 @@ interface PipelineService {
          * Returns a raw HTTP response for `post /api/v1/pipelines`, but is otherwise the same as
          * [PipelineService.create].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun create(params: PipelineCreateParams): HttpResponseFor<Pipeline> =
             create(params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun create(
             params: PipelineCreateParams,
@@ -315,6 +356,7 @@ interface PipelineService {
         ): HttpResponseFor<Pipeline>
 
         /** @see create */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun create(
             pipelineCreate: PipelineCreate,
@@ -326,6 +368,7 @@ interface PipelineService {
             )
 
         /** @see create */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun create(pipelineCreate: PipelineCreate): HttpResponseFor<Pipeline> =
             create(pipelineCreate, RequestOptions.none())
@@ -334,6 +377,7 @@ interface PipelineService {
          * Returns a raw HTTP response for `post /api/v1/pipelines/{pipeline_id}/retrieve`, but is
          * otherwise the same as [PipelineService.retrieve].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun retrieve(
             pipelineId: String,
@@ -342,6 +386,7 @@ interface PipelineService {
             retrieve(pipelineId, params, RequestOptions.none())
 
         /** @see retrieve */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun retrieve(
             pipelineId: String,
@@ -351,11 +396,13 @@ interface PipelineService {
             retrieve(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see retrieve */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun retrieve(params: PipelineRetrieveParams): HttpResponseFor<PipelineRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun retrieve(
             params: PipelineRetrieveParams,
@@ -366,11 +413,13 @@ interface PipelineService {
          * Returns a raw HTTP response for `put /api/v1/pipelines/{pipeline_id}`, but is otherwise
          * the same as [PipelineService.update].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(pipelineId: String): HttpResponseFor<Pipeline> =
             update(pipelineId, PipelineUpdateParams.none())
 
         /** @see update */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(
             pipelineId: String,
@@ -380,6 +429,7 @@ interface PipelineService {
             update(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see update */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(
             pipelineId: String,
@@ -387,6 +437,7 @@ interface PipelineService {
         ): HttpResponseFor<Pipeline> = update(pipelineId, params, RequestOptions.none())
 
         /** @see update */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(
             params: PipelineUpdateParams,
@@ -394,11 +445,13 @@ interface PipelineService {
         ): HttpResponseFor<Pipeline>
 
         /** @see update */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(params: PipelineUpdateParams): HttpResponseFor<Pipeline> =
             update(params, RequestOptions.none())
 
         /** @see update */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun update(pipelineId: String, requestOptions: RequestOptions): HttpResponseFor<Pipeline> =
             update(pipelineId, PipelineUpdateParams.none(), requestOptions)
@@ -407,9 +460,12 @@ interface PipelineService {
          * Returns a raw HTTP response for `get /api/v1/pipelines`, but is otherwise the same as
          * [PipelineService.list].
          */
-        @MustBeClosed fun list(): HttpResponseFor<List<Pipeline>> = list(PipelineListParams.none())
+        @Deprecated("deprecated")
+        @MustBeClosed
+        fun list(): HttpResponseFor<List<Pipeline>> = list(PipelineListParams.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: PipelineListParams = PipelineListParams.none(),
@@ -417,12 +473,14 @@ interface PipelineService {
         ): HttpResponseFor<List<Pipeline>>
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: PipelineListParams = PipelineListParams.none()
         ): HttpResponseFor<List<Pipeline>> = list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<List<Pipeline>> =
             list(PipelineListParams.none(), requestOptions)
@@ -431,11 +489,13 @@ interface PipelineService {
          * Returns a raw HTTP response for `delete /api/v1/pipelines/{pipeline_id}`, but is
          * otherwise the same as [PipelineService.delete].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun delete(pipelineId: String): HttpResponse =
             delete(pipelineId, PipelineDeleteParams.none())
 
         /** @see delete */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun delete(
             pipelineId: String,
@@ -444,6 +504,7 @@ interface PipelineService {
         ): HttpResponse = delete(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see delete */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun delete(
             pipelineId: String,
@@ -451,6 +512,7 @@ interface PipelineService {
         ): HttpResponse = delete(pipelineId, params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun delete(
             params: PipelineDeleteParams,
@@ -458,11 +520,13 @@ interface PipelineService {
         ): HttpResponse
 
         /** @see delete */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun delete(params: PipelineDeleteParams): HttpResponse =
             delete(params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun delete(pipelineId: String, requestOptions: RequestOptions): HttpResponse =
             delete(pipelineId, PipelineDeleteParams.none(), requestOptions)
@@ -471,11 +535,13 @@ interface PipelineService {
          * Returns a raw HTTP response for `get /api/v1/pipelines/{pipeline_id}`, but is otherwise
          * the same as [PipelineService.get].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(pipelineId: String): HttpResponseFor<Pipeline> =
             get(pipelineId, PipelineGetParams.none())
 
         /** @see get */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(
             pipelineId: String,
@@ -485,6 +551,7 @@ interface PipelineService {
             get(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see get */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(
             pipelineId: String,
@@ -492,6 +559,7 @@ interface PipelineService {
         ): HttpResponseFor<Pipeline> = get(pipelineId, params, RequestOptions.none())
 
         /** @see get */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(
             params: PipelineGetParams,
@@ -499,11 +567,13 @@ interface PipelineService {
         ): HttpResponseFor<Pipeline>
 
         /** @see get */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(params: PipelineGetParams): HttpResponseFor<Pipeline> =
             get(params, RequestOptions.none())
 
         /** @see get */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun get(pipelineId: String, requestOptions: RequestOptions): HttpResponseFor<Pipeline> =
             get(pipelineId, PipelineGetParams.none(), requestOptions)
@@ -512,11 +582,13 @@ interface PipelineService {
          * Returns a raw HTTP response for `get /api/v1/pipelines/{pipeline_id}/status`, but is
          * otherwise the same as [PipelineService.getStatus].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(pipelineId: String): HttpResponseFor<ManagedIngestionStatusResponse> =
             getStatus(pipelineId, PipelineGetStatusParams.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             pipelineId: String,
@@ -526,6 +598,7 @@ interface PipelineService {
             getStatus(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             pipelineId: String,
@@ -534,6 +607,7 @@ interface PipelineService {
             getStatus(pipelineId, params, RequestOptions.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             params: PipelineGetStatusParams,
@@ -541,6 +615,7 @@ interface PipelineService {
         ): HttpResponseFor<ManagedIngestionStatusResponse>
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             params: PipelineGetStatusParams
@@ -548,6 +623,7 @@ interface PipelineService {
             getStatus(params, RequestOptions.none())
 
         /** @see getStatus */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getStatus(
             pipelineId: String,
@@ -559,11 +635,13 @@ interface PipelineService {
          * Returns a raw HTTP response for `put /api/v1/pipelines`, but is otherwise the same as
          * [PipelineService.upsert].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun upsert(params: PipelineUpsertParams): HttpResponseFor<Pipeline> =
             upsert(params, RequestOptions.none())
 
         /** @see upsert */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun upsert(
             params: PipelineUpsertParams,
@@ -571,6 +649,7 @@ interface PipelineService {
         ): HttpResponseFor<Pipeline>
 
         /** @see upsert */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun upsert(
             pipelineCreate: PipelineCreate,
@@ -582,6 +661,7 @@ interface PipelineService {
             )
 
         /** @see upsert */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun upsert(pipelineCreate: PipelineCreate): HttpResponseFor<Pipeline> =
             upsert(pipelineCreate, RequestOptions.none())

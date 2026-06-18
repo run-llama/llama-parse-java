@@ -10,6 +10,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Get data sources for a pipeline. */
+@Deprecated("deprecated")
 class DataSourceGetDataSourcesParams
 private constructor(
     private val pipelineId: String?,

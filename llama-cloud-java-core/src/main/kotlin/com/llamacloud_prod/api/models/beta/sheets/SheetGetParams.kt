@@ -12,9 +12,9 @@ import kotlin.jvm.optionals.getOrNull
 
 /**
  * Get a spreadsheet parsing job. When `include_results=True` (default), embeds extracted regions
- * and results if complete, skipping the separate `/results` call. Experimental: not
- * production-ready and subject to change.
+ * and results if complete, skipping the separate `/results` call.
  */
+@Deprecated("deprecated")
 class SheetGetParams
 private constructor(
     private val spreadsheetJobId: String?,

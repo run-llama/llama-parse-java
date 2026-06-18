@@ -11,6 +11,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Get the status of a data source for a pipeline. */
+@Deprecated("deprecated")
 class DataSourceGetStatusParams
 private constructor(
     private val pipelineId: String,

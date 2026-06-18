@@ -13,6 +13,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Delete a document from a pipeline; runs async (vectors first, then MongoDB record). */
+@Deprecated("deprecated")
 class DocumentDeleteParams
 private constructor(
     private val pipelineId: String,

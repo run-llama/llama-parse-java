@@ -32,6 +32,7 @@ private constructor(
     private val pageIds: JsonField<String>,
     private val spaceKey: JsonField<String>,
     private val supportsAccessControl: JsonField<Boolean>,
+    private val syncPermissions: JsonField<Boolean>,
     private val userName: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -60,6 +61,9 @@ private constructor(
         @JsonProperty("supports_access_control")
         @ExcludeMissing
         supportsAccessControl: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("sync_permissions")
+        @ExcludeMissing
+        syncPermissions: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("user_name") @ExcludeMissing userName: JsonField<String> = JsonMissing.of(),
     ) : this(
         authenticationMechanism,
@@ -74,6 +78,7 @@ private constructor(
         pageIds,
         spaceKey,
         supportsAccessControl,
+        syncPermissions,
         userName,
         mutableMapOf(),
     )
@@ -182,6 +187,17 @@ private constructor(
         supportsAccessControl.getOptional("supports_access_control")
 
     /**
+     * Whether to fetch space-level permissions (allowed users/groups) and attach them to document
+     * metadata for access control. Disable for Confluence Server/Data Center versions whose
+     * permission APIs are unavailable (e.g. the JSON-RPC API removed in Data Center 9.2.6+), which
+     * otherwise surface as 401 errors during sync.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun syncPermissions(): Optional<Boolean> = syncPermissions.getOptional("sync_permissions")
+
+    /**
      * The username to use for authentication.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -288,6 +304,15 @@ private constructor(
     fun _supportsAccessControl(): JsonField<Boolean> = supportsAccessControl
 
     /**
+     * Returns the raw JSON value of [syncPermissions].
+     *
+     * Unlike [syncPermissions], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("sync_permissions")
+    @ExcludeMissing
+    fun _syncPermissions(): JsonField<Boolean> = syncPermissions
+
+    /**
      * Returns the raw JSON value of [userName].
      *
      * Unlike [userName], this method doesn't throw if the JSON field has an unexpected type.
@@ -335,6 +360,7 @@ private constructor(
         private var pageIds: JsonField<String> = JsonMissing.of()
         private var spaceKey: JsonField<String> = JsonMissing.of()
         private var supportsAccessControl: JsonField<Boolean> = JsonMissing.of()
+        private var syncPermissions: JsonField<Boolean> = JsonMissing.of()
         private var userName: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -352,6 +378,7 @@ private constructor(
             pageIds = cloudConfluenceDataSource.pageIds
             spaceKey = cloudConfluenceDataSource.spaceKey
             supportsAccessControl = cloudConfluenceDataSource.supportsAccessControl
+            syncPermissions = cloudConfluenceDataSource.syncPermissions
             userName = cloudConfluenceDataSource.userName
             additionalProperties = cloudConfluenceDataSource.additionalProperties.toMutableMap()
         }
@@ -531,6 +558,26 @@ private constructor(
             this.supportsAccessControl = supportsAccessControl
         }
 
+        /**
+         * Whether to fetch space-level permissions (allowed users/groups) and attach them to
+         * document metadata for access control. Disable for Confluence Server/Data Center versions
+         * whose permission APIs are unavailable (e.g. the JSON-RPC API removed in Data Center
+         * 9.2.6+), which otherwise surface as 401 errors during sync.
+         */
+        fun syncPermissions(syncPermissions: Boolean) =
+            syncPermissions(JsonField.of(syncPermissions))
+
+        /**
+         * Sets [Builder.syncPermissions] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.syncPermissions] with a well-typed [Boolean] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun syncPermissions(syncPermissions: JsonField<Boolean>) = apply {
+            this.syncPermissions = syncPermissions
+        }
+
         /** The username to use for authentication. */
         fun userName(userName: String?) = userName(JsonField.ofNullable(userName))
 
@@ -591,6 +638,7 @@ private constructor(
                 pageIds,
                 spaceKey,
                 supportsAccessControl,
+                syncPermissions,
                 userName,
                 additionalProperties.toMutableMap(),
             )
@@ -623,6 +671,7 @@ private constructor(
         pageIds()
         spaceKey()
         supportsAccessControl()
+        syncPermissions()
         userName()
         validated = true
     }
@@ -654,6 +703,7 @@ private constructor(
             (if (pageIds.asKnown().isPresent) 1 else 0) +
             (if (spaceKey.asKnown().isPresent) 1 else 0) +
             (if (supportsAccessControl.asKnown().isPresent) 1 else 0) +
+            (if (syncPermissions.asKnown().isPresent) 1 else 0) +
             (if (userName.asKnown().isPresent) 1 else 0)
 
     override fun equals(other: Any?): Boolean {
@@ -674,6 +724,7 @@ private constructor(
             pageIds == other.pageIds &&
             spaceKey == other.spaceKey &&
             supportsAccessControl == other.supportsAccessControl &&
+            syncPermissions == other.syncPermissions &&
             userName == other.userName &&
             additionalProperties == other.additionalProperties
     }
@@ -692,6 +743,7 @@ private constructor(
             pageIds,
             spaceKey,
             supportsAccessControl,
+            syncPermissions,
             userName,
             additionalProperties,
         )
@@ -700,5 +752,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CloudConfluenceDataSource{authenticationMechanism=$authenticationMechanism, serverUrl=$serverUrl, apiToken=$apiToken, className=$className, cql=$cql, failureHandling=$failureHandling, indexRestrictedPages=$indexRestrictedPages, keepMarkdownFormat=$keepMarkdownFormat, label=$label, pageIds=$pageIds, spaceKey=$spaceKey, supportsAccessControl=$supportsAccessControl, userName=$userName, additionalProperties=$additionalProperties}"
+        "CloudConfluenceDataSource{authenticationMechanism=$authenticationMechanism, serverUrl=$serverUrl, apiToken=$apiToken, className=$className, cql=$cql, failureHandling=$failureHandling, indexRestrictedPages=$indexRestrictedPages, keepMarkdownFormat=$keepMarkdownFormat, label=$label, pageIds=$pageIds, spaceKey=$spaceKey, supportsAccessControl=$supportsAccessControl, syncPermissions=$syncPermissions, userName=$userName, additionalProperties=$additionalProperties}"
 }

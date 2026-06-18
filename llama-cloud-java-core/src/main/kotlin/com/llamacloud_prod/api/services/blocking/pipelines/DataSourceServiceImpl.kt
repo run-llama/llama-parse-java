@@ -39,6 +39,7 @@ class DataSourceServiceImpl internal constructor(private val clientOptions: Clie
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DataSourceService =
         DataSourceServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("deprecated")
     override fun update(
         params: DataSourceUpdateParams,
         requestOptions: RequestOptions,
@@ -46,6 +47,7 @@ class DataSourceServiceImpl internal constructor(private val clientOptions: Clie
         // put /api/v1/pipelines/{pipeline_id}/data-sources/{data_source_id}
         withRawResponse().update(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun getDataSources(
         params: DataSourceGetDataSourcesParams,
         requestOptions: RequestOptions,
@@ -53,6 +55,7 @@ class DataSourceServiceImpl internal constructor(private val clientOptions: Clie
         // get /api/v1/pipelines/{pipeline_id}/data-sources
         withRawResponse().getDataSources(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun getStatus(
         params: DataSourceGetStatusParams,
         requestOptions: RequestOptions,
@@ -60,10 +63,12 @@ class DataSourceServiceImpl internal constructor(private val clientOptions: Clie
         // get /api/v1/pipelines/{pipeline_id}/data-sources/{data_source_id}/status
         withRawResponse().getStatus(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun sync(params: DataSourceSyncParams, requestOptions: RequestOptions): Pipeline =
         // post /api/v1/pipelines/{pipeline_id}/data-sources/{data_source_id}/sync
         withRawResponse().sync(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun updateDataSources(
         params: DataSourceUpdateDataSourcesParams,
         requestOptions: RequestOptions,
@@ -87,6 +92,7 @@ class DataSourceServiceImpl internal constructor(private val clientOptions: Clie
         private val updateHandler: Handler<PipelineDataSource> =
             jsonHandler<PipelineDataSource>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun update(
             params: DataSourceUpdateParams,
             requestOptions: RequestOptions,
@@ -125,6 +131,7 @@ class DataSourceServiceImpl internal constructor(private val clientOptions: Clie
         private val getDataSourcesHandler: Handler<List<PipelineDataSource>> =
             jsonHandler<List<PipelineDataSource>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun getDataSources(
             params: DataSourceGetDataSourcesParams,
             requestOptions: RequestOptions,
@@ -155,6 +162,7 @@ class DataSourceServiceImpl internal constructor(private val clientOptions: Clie
         private val getStatusHandler: Handler<ManagedIngestionStatusResponse> =
             jsonHandler<ManagedIngestionStatusResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun getStatus(
             params: DataSourceGetStatusParams,
             requestOptions: RequestOptions,
@@ -192,6 +200,7 @@ class DataSourceServiceImpl internal constructor(private val clientOptions: Clie
 
         private val syncHandler: Handler<Pipeline> = jsonHandler<Pipeline>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun sync(
             params: DataSourceSyncParams,
             requestOptions: RequestOptions,
@@ -231,6 +240,7 @@ class DataSourceServiceImpl internal constructor(private val clientOptions: Clie
         private val updateDataSourcesHandler: Handler<List<PipelineDataSource>> =
             jsonHandler<List<PipelineDataSource>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun updateDataSources(
             params: DataSourceUpdateDataSourcesParams,
             requestOptions: RequestOptions,

@@ -76,9 +76,9 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2025-12-11`
-     * - `cost_effective`: `2026-06-05`
-     * - `agentic`: `2026-06-04`
-     * - `agentic_plus`: `2026-06-04`
+     * - `cost_effective`: `2026-06-11`
+     * - `agentic`: `2026-06-11`
+     * - `agentic_plus`: `2026-06-11`
      *
      * Full list: `GET /api/v2/parse/versions`.
      *
@@ -106,6 +106,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun clientName(): Optional<String> = body.clientName()
+
+    /**
+     * ID of a saved parse configuration. When set, `tier` and `version` default to the saved
+     * configuration's values — omit them or pass `'configured'`.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun configurationId(): Optional<String> = body.configurationId()
 
     /**
      * Crop boundaries to process only a portion of each page. Values are ratios 0-1 from page edges
@@ -239,6 +248,13 @@ private constructor(
      * Unlike [clientName], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _clientName(): JsonField<String> = body._clientName()
+
+    /**
+     * Returns the raw JSON value of [configurationId].
+     *
+     * Unlike [configurationId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _configurationId(): JsonField<String> = body._configurationId()
 
     /**
      * Returns the raw JSON value of [cropBox].
@@ -383,7 +399,7 @@ private constructor(
          * - [version]
          * - [agenticOptions]
          * - [clientName]
-         * - [cropBox]
+         * - [configurationId]
          * - etc.
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
@@ -403,13 +419,21 @@ private constructor(
         fun tier(tier: JsonField<Tier>) = apply { body.tier(tier) }
 
         /**
+         * Sets [tier] to an arbitrary [String].
+         *
+         * You should usually call [tier] with a well-typed [Tier] constant instead. This method is
+         * primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun tier(value: String) = apply { body.tier(value) }
+
+        /**
          * Version for the selected tier. Use `latest`, or pin one of that tier's dated versions.
          *
          * Current `latest` by tier:
          * - `fast`: `2025-12-11`
-         * - `cost_effective`: `2026-06-05`
-         * - `agentic`: `2026-06-04`
-         * - `agentic_plus`: `2026-06-04`
+         * - `cost_effective`: `2026-06-11`
+         * - `agentic`: `2026-06-11`
+         * - `agentic_plus`: `2026-06-11`
          *
          * Full list: `GET /api/v2/parse/versions`.
          */
@@ -473,6 +497,29 @@ private constructor(
          * value.
          */
         fun clientName(clientName: JsonField<String>) = apply { body.clientName(clientName) }
+
+        /**
+         * ID of a saved parse configuration. When set, `tier` and `version` default to the saved
+         * configuration's values — omit them or pass `'configured'`.
+         */
+        fun configurationId(configurationId: String?) = apply {
+            body.configurationId(configurationId)
+        }
+
+        /** Alias for calling [Builder.configurationId] with `configurationId.orElse(null)`. */
+        fun configurationId(configurationId: Optional<String>) =
+            configurationId(configurationId.getOrNull())
+
+        /**
+         * Sets [Builder.configurationId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.configurationId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun configurationId(configurationId: JsonField<String>) = apply {
+            body.configurationId(configurationId)
+        }
 
         /**
          * Crop boundaries to process only a portion of each page. Values are ratios 0-1 from page
@@ -841,6 +888,7 @@ private constructor(
         private val version: JsonField<Version>,
         private val agenticOptions: JsonField<AgenticOptions>,
         private val clientName: JsonField<String>,
+        private val configurationId: JsonField<String>,
         private val cropBox: JsonField<CropBox>,
         private val disableCache: JsonField<Boolean>,
         private val fastOptions: JsonValue,
@@ -866,6 +914,9 @@ private constructor(
             @JsonProperty("client_name")
             @ExcludeMissing
             clientName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("configuration_id")
+            @ExcludeMissing
+            configurationId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("crop_box")
             @ExcludeMissing
             cropBox: JsonField<CropBox> = JsonMissing.of(),
@@ -903,6 +954,7 @@ private constructor(
             version,
             agenticOptions,
             clientName,
+            configurationId,
             cropBox,
             disableCache,
             fastOptions,
@@ -932,9 +984,9 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2025-12-11`
-         * - `cost_effective`: `2026-06-05`
-         * - `agentic`: `2026-06-04`
-         * - `agentic_plus`: `2026-06-04`
+         * - `cost_effective`: `2026-06-11`
+         * - `agentic`: `2026-06-11`
+         * - `agentic_plus`: `2026-06-11`
          *
          * Full list: `GET /api/v2/parse/versions`.
          *
@@ -963,6 +1015,15 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun clientName(): Optional<String> = clientName.getOptional("client_name")
+
+        /**
+         * ID of a saved parse configuration. When set, `tier` and `version` default to the saved
+         * configuration's values — omit them or pass `'configured'`.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun configurationId(): Optional<String> = configurationId.getOptional("configuration_id")
 
         /**
          * Crop boundaries to process only a portion of each page. Values are ratios 0-1 from page
@@ -1108,6 +1169,16 @@ private constructor(
         fun _clientName(): JsonField<String> = clientName
 
         /**
+         * Returns the raw JSON value of [configurationId].
+         *
+         * Unlike [configurationId], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("configuration_id")
+        @ExcludeMissing
+        fun _configurationId(): JsonField<String> = configurationId
+
+        /**
          * Returns the raw JSON value of [cropBox].
          *
          * Unlike [cropBox], this method doesn't throw if the JSON field has an unexpected type.
@@ -1237,6 +1308,7 @@ private constructor(
             private var version: JsonField<Version>? = null
             private var agenticOptions: JsonField<AgenticOptions> = JsonMissing.of()
             private var clientName: JsonField<String> = JsonMissing.of()
+            private var configurationId: JsonField<String> = JsonMissing.of()
             private var cropBox: JsonField<CropBox> = JsonMissing.of()
             private var disableCache: JsonField<Boolean> = JsonMissing.of()
             private var fastOptions: JsonValue = JsonMissing.of()
@@ -1257,6 +1329,7 @@ private constructor(
                 version = body.version
                 agenticOptions = body.agenticOptions
                 clientName = body.clientName
+                configurationId = body.configurationId
                 cropBox = body.cropBox
                 disableCache = body.disableCache
                 fastOptions = body.fastOptions
@@ -1289,14 +1362,22 @@ private constructor(
             fun tier(tier: JsonField<Tier>) = apply { this.tier = tier }
 
             /**
+             * Sets [tier] to an arbitrary [String].
+             *
+             * You should usually call [tier] with a well-typed [Tier] constant instead. This method
+             * is primarily for setting the field to an undocumented or not yet supported value.
+             */
+            fun tier(value: String) = tier(Tier.of(value))
+
+            /**
              * Version for the selected tier. Use `latest`, or pin one of that tier's dated
              * versions.
              *
              * Current `latest` by tier:
              * - `fast`: `2025-12-11`
-             * - `cost_effective`: `2026-06-05`
-             * - `agentic`: `2026-06-04`
-             * - `agentic_plus`: `2026-06-04`
+             * - `cost_effective`: `2026-06-11`
+             * - `agentic`: `2026-06-11`
+             * - `agentic_plus`: `2026-06-11`
              *
              * Full list: `GET /api/v2/parse/versions`.
              */
@@ -1361,6 +1442,28 @@ private constructor(
              * supported value.
              */
             fun clientName(clientName: JsonField<String>) = apply { this.clientName = clientName }
+
+            /**
+             * ID of a saved parse configuration. When set, `tier` and `version` default to the
+             * saved configuration's values — omit them or pass `'configured'`.
+             */
+            fun configurationId(configurationId: String?) =
+                configurationId(JsonField.ofNullable(configurationId))
+
+            /** Alias for calling [Builder.configurationId] with `configurationId.orElse(null)`. */
+            fun configurationId(configurationId: Optional<String>) =
+                configurationId(configurationId.getOrNull())
+
+            /**
+             * Sets [Builder.configurationId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.configurationId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun configurationId(configurationId: JsonField<String>) = apply {
+                this.configurationId = configurationId
+            }
 
             /**
              * Crop boundaries to process only a portion of each page. Values are ratios 0-1 from
@@ -1609,6 +1712,7 @@ private constructor(
                     checkRequired("version", version),
                     agenticOptions,
                     clientName,
+                    configurationId,
                     cropBox,
                     disableCache,
                     fastOptions,
@@ -1641,10 +1745,11 @@ private constructor(
                 return@apply
             }
 
-            tier().validate()
+            tier()
             version()
             agenticOptions().ifPresent { it.validate() }
             clientName()
+            configurationId()
             cropBox().ifPresent { it.validate() }
             disableCache()
             fileId()
@@ -1675,10 +1780,11 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (tier.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (tier.asKnown().isPresent) 1 else 0) +
                 (if (version.asKnown().isPresent) 1 else 0) +
                 (agenticOptions.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (clientName.asKnown().isPresent) 1 else 0) +
+                (if (configurationId.asKnown().isPresent) 1 else 0) +
                 (cropBox.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (disableCache.asKnown().isPresent) 1 else 0) +
                 (if (fileId.asKnown().isPresent) 1 else 0) +
@@ -1701,6 +1807,7 @@ private constructor(
                 version == other.version &&
                 agenticOptions == other.agenticOptions &&
                 clientName == other.clientName &&
+                configurationId == other.configurationId &&
                 cropBox == other.cropBox &&
                 disableCache == other.disableCache &&
                 fastOptions == other.fastOptions &&
@@ -1722,6 +1829,7 @@ private constructor(
                 version,
                 agenticOptions,
                 clientName,
+                configurationId,
                 cropBox,
                 disableCache,
                 fastOptions,
@@ -1741,7 +1849,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{tier=$tier, version=$version, agenticOptions=$agenticOptions, clientName=$clientName, cropBox=$cropBox, disableCache=$disableCache, fastOptions=$fastOptions, fileId=$fileId, httpProxy=$httpProxy, inputOptions=$inputOptions, outputOptions=$outputOptions, pageRanges=$pageRanges, processingControl=$processingControl, processingOptions=$processingOptions, sourceUrl=$sourceUrl, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
+            "Body{tier=$tier, version=$version, agenticOptions=$agenticOptions, clientName=$clientName, configurationId=$configurationId, cropBox=$cropBox, disableCache=$disableCache, fastOptions=$fastOptions, fileId=$fileId, httpProxy=$httpProxy, inputOptions=$inputOptions, outputOptions=$outputOptions, pageRanges=$pageRanges, processingControl=$processingControl, processingOptions=$processingOptions, sourceUrl=$sourceUrl, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
     }
 
     /**
@@ -1901,9 +2009,9 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2025-12-11`
-     * - `cost_effective`: `2026-06-05`
-     * - `agentic`: `2026-06-04`
-     * - `agentic_plus`: `2026-06-04`
+     * - `cost_effective`: `2026-06-11`
+     * - `agentic`: `2026-06-11`
+     * - `agentic_plus`: `2026-06-11`
      *
      * Full list: `GET /api/v2/parse/versions`.
      */
@@ -1923,9 +2031,7 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
-            @JvmField val _2026_06_05 = of("2026-06-05")
-
-            @JvmField val _2026_06_04 = of("2026-06-04")
+            @JvmField val _2026_06_11 = of("2026-06-11")
 
             @JvmField val _2025_12_11 = of("2025-12-11")
 
@@ -1935,8 +2041,7 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
-            _2026_06_05,
-            _2026_06_04,
+            _2026_06_11,
             _2025_12_11,
         }
 
@@ -1951,8 +2056,7 @@ private constructor(
          */
         enum class Value {
             LATEST,
-            _2026_06_05,
-            _2026_06_04,
+            _2026_06_11,
             _2025_12_11,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
             _UNKNOWN,
@@ -1968,8 +2072,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
-                _2026_06_05 -> Value._2026_06_05
-                _2026_06_04 -> Value._2026_06_04
+                _2026_06_11 -> Value._2026_06_11
                 _2025_12_11 -> Value._2025_12_11
                 else -> Value._UNKNOWN
             }
@@ -1986,8 +2089,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
-                _2026_06_05 -> Known._2026_06_05
-                _2026_06_04 -> Known._2026_06_04
+                _2026_06_11 -> Known._2026_06_11
                 _2025_12_11 -> Known._2025_12_11
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
             }
@@ -2555,6 +2657,7 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val html: JsonField<Html>,
+        private val image: JsonField<Image>,
         private val pdf: JsonValue,
         private val presentation: JsonField<Presentation>,
         private val spreadsheet: JsonField<Spreadsheet>,
@@ -2564,6 +2667,7 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("html") @ExcludeMissing html: JsonField<Html> = JsonMissing.of(),
+            @JsonProperty("image") @ExcludeMissing image: JsonField<Image> = JsonMissing.of(),
             @JsonProperty("pdf") @ExcludeMissing pdf: JsonValue = JsonMissing.of(),
             @JsonProperty("presentation")
             @ExcludeMissing
@@ -2571,7 +2675,7 @@ private constructor(
             @JsonProperty("spreadsheet")
             @ExcludeMissing
             spreadsheet: JsonField<Spreadsheet> = JsonMissing.of(),
-        ) : this(html, pdf, presentation, spreadsheet, mutableMapOf())
+        ) : this(html, image, pdf, presentation, spreadsheet, mutableMapOf())
 
         /**
          * HTML/web page parsing options (applies to .html, .htm files)
@@ -2580,6 +2684,14 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun html(): Optional<Html> = html.getOptional("html")
+
+        /**
+         * Image parsing options (applies to .jpg, .jpeg, .png, .webp files)
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun image(): Optional<Image> = image.getOptional("image")
 
         /**
          * PDF-specific parsing options (applies to .pdf files)
@@ -2613,6 +2725,13 @@ private constructor(
          * Unlike [html], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("html") @ExcludeMissing fun _html(): JsonField<Html> = html
+
+        /**
+         * Returns the raw JSON value of [image].
+         *
+         * Unlike [image], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("image") @ExcludeMissing fun _image(): JsonField<Image> = image
 
         /**
          * Returns the raw JSON value of [presentation].
@@ -2655,6 +2774,7 @@ private constructor(
         class Builder internal constructor() {
 
             private var html: JsonField<Html> = JsonMissing.of()
+            private var image: JsonField<Image> = JsonMissing.of()
             private var pdf: JsonValue = JsonMissing.of()
             private var presentation: JsonField<Presentation> = JsonMissing.of()
             private var spreadsheet: JsonField<Spreadsheet> = JsonMissing.of()
@@ -2663,6 +2783,7 @@ private constructor(
             @JvmSynthetic
             internal fun from(inputOptions: InputOptions) = apply {
                 html = inputOptions.html
+                image = inputOptions.image
                 pdf = inputOptions.pdf
                 presentation = inputOptions.presentation
                 spreadsheet = inputOptions.spreadsheet
@@ -2680,6 +2801,18 @@ private constructor(
              * value.
              */
             fun html(html: JsonField<Html>) = apply { this.html = html }
+
+            /** Image parsing options (applies to .jpg, .jpeg, .png, .webp files) */
+            fun image(image: Image) = image(JsonField.of(image))
+
+            /**
+             * Sets [Builder.image] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.image] with a well-typed [Image] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun image(image: JsonField<Image>) = apply { this.image = image }
 
             /** PDF-specific parsing options (applies to .pdf files) */
             fun pdf(pdf: JsonValue) = apply { this.pdf = pdf }
@@ -2739,6 +2872,7 @@ private constructor(
             fun build(): InputOptions =
                 InputOptions(
                     html,
+                    image,
                     pdf,
                     presentation,
                     spreadsheet,
@@ -2763,6 +2897,7 @@ private constructor(
             }
 
             html().ifPresent { it.validate() }
+            image().ifPresent { it.validate() }
             presentation().ifPresent { it.validate() }
             spreadsheet().ifPresent { it.validate() }
             validated = true
@@ -2785,6 +2920,7 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (html.asKnown().getOrNull()?.validity() ?: 0) +
+                (image.asKnown().getOrNull()?.validity() ?: 0) +
                 (presentation.asKnown().getOrNull()?.validity() ?: 0) +
                 (spreadsheet.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -3111,6 +3247,199 @@ private constructor(
 
             override fun toString() =
                 "Html{makeAllElementsVisible=$makeAllElementsVisible, removeFixedElements=$removeFixedElements, removeNavigationElements=$removeNavigationElements, additionalProperties=$additionalProperties}"
+        }
+
+        /** Image parsing options (applies to .jpg, .jpeg, .png, .webp files) */
+        class Image
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val cameraPhotoCorrection: JsonField<Boolean>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("camera_photo_correction")
+                @ExcludeMissing
+                cameraPhotoCorrection: JsonField<Boolean> = JsonMissing.of()
+            ) : this(cameraPhotoCorrection, mutableMapOf())
+
+            /**
+             * Detect documents photographed with a camera (e.g. phone scans of receipts or forms),
+             * then crop, perspective-correct, and flatten uneven lighting and shadows before
+             * parsing. Supports JPEG, PNG, WebP, and HEIC/HEIF inputs. Improves results when the
+             * document is tilted or surrounded by background. Images that already look like clean
+             * scans are left untouched
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun cameraPhotoCorrection(): Optional<Boolean> =
+                cameraPhotoCorrection.getOptional("camera_photo_correction")
+
+            /**
+             * Returns the raw JSON value of [cameraPhotoCorrection].
+             *
+             * Unlike [cameraPhotoCorrection], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("camera_photo_correction")
+            @ExcludeMissing
+            fun _cameraPhotoCorrection(): JsonField<Boolean> = cameraPhotoCorrection
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Image]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Image]. */
+            class Builder internal constructor() {
+
+                private var cameraPhotoCorrection: JsonField<Boolean> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(image: Image) = apply {
+                    cameraPhotoCorrection = image.cameraPhotoCorrection
+                    additionalProperties = image.additionalProperties.toMutableMap()
+                }
+
+                /**
+                 * Detect documents photographed with a camera (e.g. phone scans of receipts or
+                 * forms), then crop, perspective-correct, and flatten uneven lighting and shadows
+                 * before parsing. Supports JPEG, PNG, WebP, and HEIC/HEIF inputs. Improves results
+                 * when the document is tilted or surrounded by background. Images that already look
+                 * like clean scans are left untouched
+                 */
+                fun cameraPhotoCorrection(cameraPhotoCorrection: Boolean?) =
+                    cameraPhotoCorrection(JsonField.ofNullable(cameraPhotoCorrection))
+
+                /**
+                 * Alias for [Builder.cameraPhotoCorrection].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun cameraPhotoCorrection(cameraPhotoCorrection: Boolean) =
+                    cameraPhotoCorrection(cameraPhotoCorrection as Boolean?)
+
+                /**
+                 * Alias for calling [Builder.cameraPhotoCorrection] with
+                 * `cameraPhotoCorrection.orElse(null)`.
+                 */
+                fun cameraPhotoCorrection(cameraPhotoCorrection: Optional<Boolean>) =
+                    cameraPhotoCorrection(cameraPhotoCorrection.getOrNull())
+
+                /**
+                 * Sets [Builder.cameraPhotoCorrection] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.cameraPhotoCorrection] with a well-typed
+                 * [Boolean] value instead. This method is primarily for setting the field to an
+                 * undocumented or not yet supported value.
+                 */
+                fun cameraPhotoCorrection(cameraPhotoCorrection: JsonField<Boolean>) = apply {
+                    this.cameraPhotoCorrection = cameraPhotoCorrection
+                }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Image].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Image =
+                    Image(cameraPhotoCorrection, additionalProperties.toMutableMap())
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
+            fun validate(): Image = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                cameraPhotoCorrection()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LlamaCloudInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int = (if (cameraPhotoCorrection.asKnown().isPresent) 1 else 0)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Image &&
+                    cameraPhotoCorrection == other.cameraPhotoCorrection &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(cameraPhotoCorrection, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Image{cameraPhotoCorrection=$cameraPhotoCorrection, additionalProperties=$additionalProperties}"
         }
 
         /** Presentation parsing options (applies to .pptx, .ppt, .odp, .key files) */
@@ -3705,6 +4034,7 @@ private constructor(
 
             return other is InputOptions &&
                 html == other.html &&
+                image == other.image &&
                 pdf == other.pdf &&
                 presentation == other.presentation &&
                 spreadsheet == other.spreadsheet &&
@@ -3712,13 +4042,13 @@ private constructor(
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(html, pdf, presentation, spreadsheet, additionalProperties)
+            Objects.hash(html, image, pdf, presentation, spreadsheet, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "InputOptions{html=$html, pdf=$pdf, presentation=$presentation, spreadsheet=$spreadsheet, additionalProperties=$additionalProperties}"
+            "InputOptions{html=$html, image=$image, pdf=$pdf, presentation=$presentation, spreadsheet=$spreadsheet, additionalProperties=$additionalProperties}"
     }
 
     /** Output formatting options for markdown, text, and extracted images */
@@ -10109,9 +10439,9 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2025-12-11`
-                 * - `cost_effective`: `2026-06-05`
-                 * - `agentic`: `2026-06-04`
-                 * - `agentic_plus`: `2026-06-04`
+                 * - `cost_effective`: `2026-06-11`
+                 * - `agentic`: `2026-06-11`
+                 * - `agentic_plus`: `2026-06-11`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  *
@@ -10613,9 +10943,9 @@ private constructor(
                      *
                      * Current `latest` by tier:
                      * - `fast`: `2025-12-11`
-                     * - `cost_effective`: `2026-06-05`
-                     * - `agentic`: `2026-06-04`
-                     * - `agentic_plus`: `2026-06-04`
+                     * - `cost_effective`: `2026-06-11`
+                     * - `agentic`: `2026-06-11`
+                     * - `agentic_plus`: `2026-06-11`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
                      */
@@ -12227,9 +12557,9 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2025-12-11`
-                 * - `cost_effective`: `2026-06-05`
-                 * - `agentic`: `2026-06-04`
-                 * - `agentic_plus`: `2026-06-04`
+                 * - `cost_effective`: `2026-06-11`
+                 * - `agentic`: `2026-06-11`
+                 * - `agentic_plus`: `2026-06-11`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  */
@@ -12252,9 +12582,7 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
-                        @JvmField val _2026_06_05 = of("2026-06-05")
-
-                        @JvmField val _2026_06_04 = of("2026-06-04")
+                        @JvmField val _2026_06_11 = of("2026-06-11")
 
                         @JvmField val _2025_12_11 = of("2025-12-11")
 
@@ -12264,8 +12592,7 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
-                        _2026_06_05,
-                        _2026_06_04,
+                        _2026_06_11,
                         _2025_12_11,
                     }
 
@@ -12280,8 +12607,7 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
-                        _2026_06_05,
-                        _2026_06_04,
+                        _2026_06_11,
                         _2025_12_11,
                         /**
                          * An enum member indicating that [Version] was instantiated with an unknown
@@ -12300,8 +12626,7 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
-                            _2026_06_05 -> Value._2026_06_05
-                            _2026_06_04 -> Value._2026_06_04
+                            _2026_06_11 -> Value._2026_06_11
                             _2025_12_11 -> Value._2025_12_11
                             else -> Value._UNKNOWN
                         }
@@ -12318,8 +12643,7 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
-                            _2026_06_05 -> Known._2026_06_05
-                            _2026_06_04 -> Known._2026_06_04
+                            _2026_06_11 -> Known._2026_06_11
                             _2025_12_11 -> Known._2025_12_11
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
                         }

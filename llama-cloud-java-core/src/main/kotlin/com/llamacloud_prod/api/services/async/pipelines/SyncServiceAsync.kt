@@ -31,10 +31,12 @@ interface SyncServiceAsync {
      * Processes new and updated documents from data sources and files, then updates the index for
      * retrieval.
      */
+    @Deprecated("deprecated")
     fun create(pipelineId: String): CompletableFuture<Pipeline> =
         create(pipelineId, SyncCreateParams.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         pipelineId: String,
         params: SyncCreateParams = SyncCreateParams.none(),
@@ -43,30 +45,36 @@ interface SyncServiceAsync {
         create(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         pipelineId: String,
         params: SyncCreateParams = SyncCreateParams.none(),
     ): CompletableFuture<Pipeline> = create(pipelineId, params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         params: SyncCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Pipeline>
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(params: SyncCreateParams): CompletableFuture<Pipeline> =
         create(params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(pipelineId: String, requestOptions: RequestOptions): CompletableFuture<Pipeline> =
         create(pipelineId, SyncCreateParams.none(), requestOptions)
 
     /** Cancel all running sync jobs for a pipeline. */
+    @Deprecated("deprecated")
     fun cancel(pipelineId: String): CompletableFuture<Pipeline> =
         cancel(pipelineId, SyncCancelParams.none())
 
     /** @see cancel */
+    @Deprecated("deprecated")
     fun cancel(
         pipelineId: String,
         params: SyncCancelParams = SyncCancelParams.none(),
@@ -75,22 +83,26 @@ interface SyncServiceAsync {
         cancel(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see cancel */
+    @Deprecated("deprecated")
     fun cancel(
         pipelineId: String,
         params: SyncCancelParams = SyncCancelParams.none(),
     ): CompletableFuture<Pipeline> = cancel(pipelineId, params, RequestOptions.none())
 
     /** @see cancel */
+    @Deprecated("deprecated")
     fun cancel(
         params: SyncCancelParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Pipeline>
 
     /** @see cancel */
+    @Deprecated("deprecated")
     fun cancel(params: SyncCancelParams): CompletableFuture<Pipeline> =
         cancel(params, RequestOptions.none())
 
     /** @see cancel */
+    @Deprecated("deprecated")
     fun cancel(pipelineId: String, requestOptions: RequestOptions): CompletableFuture<Pipeline> =
         cancel(pipelineId, SyncCancelParams.none(), requestOptions)
 
@@ -108,10 +120,12 @@ interface SyncServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/pipelines/{pipeline_id}/sync`, but is
          * otherwise the same as [SyncServiceAsync.create].
          */
+        @Deprecated("deprecated")
         fun create(pipelineId: String): CompletableFuture<HttpResponseFor<Pipeline>> =
             create(pipelineId, SyncCreateParams.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             pipelineId: String,
             params: SyncCreateParams = SyncCreateParams.none(),
@@ -120,6 +134,7 @@ interface SyncServiceAsync {
             create(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             pipelineId: String,
             params: SyncCreateParams = SyncCreateParams.none(),
@@ -127,16 +142,19 @@ interface SyncServiceAsync {
             create(pipelineId, params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             params: SyncCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Pipeline>>
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(params: SyncCreateParams): CompletableFuture<HttpResponseFor<Pipeline>> =
             create(params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             pipelineId: String,
             requestOptions: RequestOptions,
@@ -147,10 +165,12 @@ interface SyncServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/pipelines/{pipeline_id}/sync/cancel`, but
          * is otherwise the same as [SyncServiceAsync.cancel].
          */
+        @Deprecated("deprecated")
         fun cancel(pipelineId: String): CompletableFuture<HttpResponseFor<Pipeline>> =
             cancel(pipelineId, SyncCancelParams.none())
 
         /** @see cancel */
+        @Deprecated("deprecated")
         fun cancel(
             pipelineId: String,
             params: SyncCancelParams = SyncCancelParams.none(),
@@ -159,6 +179,7 @@ interface SyncServiceAsync {
             cancel(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see cancel */
+        @Deprecated("deprecated")
         fun cancel(
             pipelineId: String,
             params: SyncCancelParams = SyncCancelParams.none(),
@@ -166,16 +187,19 @@ interface SyncServiceAsync {
             cancel(pipelineId, params, RequestOptions.none())
 
         /** @see cancel */
+        @Deprecated("deprecated")
         fun cancel(
             params: SyncCancelParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Pipeline>>
 
         /** @see cancel */
+        @Deprecated("deprecated")
         fun cancel(params: SyncCancelParams): CompletableFuture<HttpResponseFor<Pipeline>> =
             cancel(params, RequestOptions.none())
 
         /** @see cancel */
+        @Deprecated("deprecated")
         fun cancel(
             pipelineId: String,
             requestOptions: RequestOptions,

@@ -12,6 +12,7 @@ import kotlin.jvm.optionals.getOrDefault
 import kotlin.jvm.optionals.getOrNull
 
 /** @see DocumentService.list */
+@Deprecated("deprecated")
 class DocumentListPage
 private constructor(
     private val service: DocumentService,

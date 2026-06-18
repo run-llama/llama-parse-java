@@ -17,6 +17,7 @@ import kotlin.jvm.optionals.getOrNull
  * A pipeline connects data sources to a vector store for RAG. After creation, call `POST
  * /pipelines/{id}/sync` to start ingesting documents.
  */
+@Deprecated("deprecated")
 class PipelineCreateParams
 private constructor(
     private val organizationId: String?,

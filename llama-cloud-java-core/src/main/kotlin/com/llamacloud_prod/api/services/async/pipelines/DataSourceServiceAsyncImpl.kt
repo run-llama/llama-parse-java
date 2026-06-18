@@ -40,6 +40,7 @@ class DataSourceServiceAsyncImpl internal constructor(private val clientOptions:
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DataSourceServiceAsync =
         DataSourceServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("deprecated")
     override fun update(
         params: DataSourceUpdateParams,
         requestOptions: RequestOptions,
@@ -47,6 +48,7 @@ class DataSourceServiceAsyncImpl internal constructor(private val clientOptions:
         // put /api/v1/pipelines/{pipeline_id}/data-sources/{data_source_id}
         withRawResponse().update(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun getDataSources(
         params: DataSourceGetDataSourcesParams,
         requestOptions: RequestOptions,
@@ -54,6 +56,7 @@ class DataSourceServiceAsyncImpl internal constructor(private val clientOptions:
         // get /api/v1/pipelines/{pipeline_id}/data-sources
         withRawResponse().getDataSources(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun getStatus(
         params: DataSourceGetStatusParams,
         requestOptions: RequestOptions,
@@ -61,6 +64,7 @@ class DataSourceServiceAsyncImpl internal constructor(private val clientOptions:
         // get /api/v1/pipelines/{pipeline_id}/data-sources/{data_source_id}/status
         withRawResponse().getStatus(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun sync(
         params: DataSourceSyncParams,
         requestOptions: RequestOptions,
@@ -68,6 +72,7 @@ class DataSourceServiceAsyncImpl internal constructor(private val clientOptions:
         // post /api/v1/pipelines/{pipeline_id}/data-sources/{data_source_id}/sync
         withRawResponse().sync(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun updateDataSources(
         params: DataSourceUpdateDataSourcesParams,
         requestOptions: RequestOptions,
@@ -91,6 +96,7 @@ class DataSourceServiceAsyncImpl internal constructor(private val clientOptions:
         private val updateHandler: Handler<PipelineDataSource> =
             jsonHandler<PipelineDataSource>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun update(
             params: DataSourceUpdateParams,
             requestOptions: RequestOptions,
@@ -132,6 +138,7 @@ class DataSourceServiceAsyncImpl internal constructor(private val clientOptions:
         private val getDataSourcesHandler: Handler<List<PipelineDataSource>> =
             jsonHandler<List<PipelineDataSource>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun getDataSources(
             params: DataSourceGetDataSourcesParams,
             requestOptions: RequestOptions,
@@ -165,6 +172,7 @@ class DataSourceServiceAsyncImpl internal constructor(private val clientOptions:
         private val getStatusHandler: Handler<ManagedIngestionStatusResponse> =
             jsonHandler<ManagedIngestionStatusResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun getStatus(
             params: DataSourceGetStatusParams,
             requestOptions: RequestOptions,
@@ -205,6 +213,7 @@ class DataSourceServiceAsyncImpl internal constructor(private val clientOptions:
 
         private val syncHandler: Handler<Pipeline> = jsonHandler<Pipeline>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun sync(
             params: DataSourceSyncParams,
             requestOptions: RequestOptions,
@@ -247,6 +256,7 @@ class DataSourceServiceAsyncImpl internal constructor(private val clientOptions:
         private val updateDataSourcesHandler: Handler<List<PipelineDataSource>> =
             jsonHandler<List<PipelineDataSource>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun updateDataSources(
             params: DataSourceUpdateDataSourcesParams,
             requestOptions: RequestOptions,

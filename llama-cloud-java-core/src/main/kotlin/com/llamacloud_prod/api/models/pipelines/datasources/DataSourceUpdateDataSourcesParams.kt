@@ -22,6 +22,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Add data sources to a pipeline. */
+@Deprecated("deprecated")
 class DataSourceUpdateDataSourcesParams
 private constructor(
     private val pipelineId: String?,

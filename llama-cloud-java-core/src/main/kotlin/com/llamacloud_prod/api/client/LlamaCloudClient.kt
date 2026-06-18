@@ -16,6 +16,7 @@ import com.llamacloud_prod.api.services.blocking.ParsingService
 import com.llamacloud_prod.api.services.blocking.PipelineService
 import com.llamacloud_prod.api.services.blocking.ProjectService
 import com.llamacloud_prod.api.services.blocking.RetrieverService
+import com.llamacloud_prod.api.services.blocking.SheetService
 import java.util.function.Consumer
 
 /**
@@ -55,6 +56,8 @@ interface LlamaCloudClient {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): LlamaCloudClient
 
     fun files(): FileService
+
+    fun sheets(): SheetService
 
     fun parsing(): ParsingService
 
@@ -104,6 +107,8 @@ interface LlamaCloudClient {
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): LlamaCloudClient.WithRawResponse
 
         fun files(): FileService.WithRawResponse
+
+        fun sheets(): SheetService.WithRawResponse
 
         fun parsing(): ParsingService.WithRawResponse
 

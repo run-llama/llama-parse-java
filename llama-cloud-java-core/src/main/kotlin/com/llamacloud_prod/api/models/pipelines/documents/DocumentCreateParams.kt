@@ -12,6 +12,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Batch create documents for a pipeline. */
+@Deprecated("deprecated")
 class DocumentCreateParams
 private constructor(
     private val pipelineId: String?,

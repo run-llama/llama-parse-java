@@ -27,12 +27,14 @@ interface MetadataServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): MetadataServiceAsync
 
     /** Import metadata for a pipeline. */
+    @Deprecated("deprecated")
     fun create(
         pipelineId: String,
         params: MetadataCreateParams,
     ): CompletableFuture<MetadataCreateResponse> = create(pipelineId, params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         pipelineId: String,
         params: MetadataCreateParams,
@@ -41,20 +43,24 @@ interface MetadataServiceAsync {
         create(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(params: MetadataCreateParams): CompletableFuture<MetadataCreateResponse> =
         create(params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("deprecated")
     fun create(
         params: MetadataCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<MetadataCreateResponse>
 
     /** Delete metadata for all files in a pipeline. */
+    @Deprecated("deprecated")
     fun deleteAll(pipelineId: String): CompletableFuture<Void?> =
         deleteAll(pipelineId, MetadataDeleteAllParams.none())
 
     /** @see deleteAll */
+    @Deprecated("deprecated")
     fun deleteAll(
         pipelineId: String,
         params: MetadataDeleteAllParams = MetadataDeleteAllParams.none(),
@@ -63,22 +69,26 @@ interface MetadataServiceAsync {
         deleteAll(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
     /** @see deleteAll */
+    @Deprecated("deprecated")
     fun deleteAll(
         pipelineId: String,
         params: MetadataDeleteAllParams = MetadataDeleteAllParams.none(),
     ): CompletableFuture<Void?> = deleteAll(pipelineId, params, RequestOptions.none())
 
     /** @see deleteAll */
+    @Deprecated("deprecated")
     fun deleteAll(
         params: MetadataDeleteAllParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /** @see deleteAll */
+    @Deprecated("deprecated")
     fun deleteAll(params: MetadataDeleteAllParams): CompletableFuture<Void?> =
         deleteAll(params, RequestOptions.none())
 
     /** @see deleteAll */
+    @Deprecated("deprecated")
     fun deleteAll(pipelineId: String, requestOptions: RequestOptions): CompletableFuture<Void?> =
         deleteAll(pipelineId, MetadataDeleteAllParams.none(), requestOptions)
 
@@ -100,6 +110,7 @@ interface MetadataServiceAsync {
          * Returns a raw HTTP response for `put /api/v1/pipelines/{pipeline_id}/metadata`, but is
          * otherwise the same as [MetadataServiceAsync.create].
          */
+        @Deprecated("deprecated")
         fun create(
             pipelineId: String,
             params: MetadataCreateParams,
@@ -107,6 +118,7 @@ interface MetadataServiceAsync {
             create(pipelineId, params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             pipelineId: String,
             params: MetadataCreateParams,
@@ -115,12 +127,14 @@ interface MetadataServiceAsync {
             create(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             params: MetadataCreateParams
         ): CompletableFuture<HttpResponseFor<MetadataCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("deprecated")
         fun create(
             params: MetadataCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -130,10 +144,12 @@ interface MetadataServiceAsync {
          * Returns a raw HTTP response for `delete /api/v1/pipelines/{pipeline_id}/metadata`, but is
          * otherwise the same as [MetadataServiceAsync.deleteAll].
          */
+        @Deprecated("deprecated")
         fun deleteAll(pipelineId: String): CompletableFuture<HttpResponse> =
             deleteAll(pipelineId, MetadataDeleteAllParams.none())
 
         /** @see deleteAll */
+        @Deprecated("deprecated")
         fun deleteAll(
             pipelineId: String,
             params: MetadataDeleteAllParams = MetadataDeleteAllParams.none(),
@@ -142,22 +158,26 @@ interface MetadataServiceAsync {
             deleteAll(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
 
         /** @see deleteAll */
+        @Deprecated("deprecated")
         fun deleteAll(
             pipelineId: String,
             params: MetadataDeleteAllParams = MetadataDeleteAllParams.none(),
         ): CompletableFuture<HttpResponse> = deleteAll(pipelineId, params, RequestOptions.none())
 
         /** @see deleteAll */
+        @Deprecated("deprecated")
         fun deleteAll(
             params: MetadataDeleteAllParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
         /** @see deleteAll */
+        @Deprecated("deprecated")
         fun deleteAll(params: MetadataDeleteAllParams): CompletableFuture<HttpResponse> =
             deleteAll(params, RequestOptions.none())
 
         /** @see deleteAll */
+        @Deprecated("deprecated")
         fun deleteAll(
             pipelineId: String,
             requestOptions: RequestOptions,
