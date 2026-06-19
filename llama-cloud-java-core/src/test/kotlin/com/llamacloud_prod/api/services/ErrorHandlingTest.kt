@@ -22,8 +22,6 @@ import com.llamacloud_prod.api.errors.RateLimitException
 import com.llamacloud_prod.api.errors.UnauthorizedException
 import com.llamacloud_prod.api.errors.UnexpectedStatusCodeException
 import com.llamacloud_prod.api.errors.UnprocessableEntityException
-import com.llamacloud_prod.api.models.pipelines.PipelineListParams
-import com.llamacloud_prod.api.models.pipelines.PipelineType
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.entry
 import org.junit.jupiter.api.BeforeEach
@@ -60,8 +58,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList400() {
-        val pipelineService = client.pipelines()
+    fun indexesList400() {
+        val indexService = client.beta().indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -69,18 +67,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<BadRequestException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<BadRequestException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(400)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -88,8 +75,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList400WithRawResponse() {
-        val pipelineService = client.pipelines().withRawResponse()
+    fun indexesList400WithRawResponse() {
+        val indexService = client.beta().indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -97,18 +84,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<BadRequestException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<BadRequestException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(400)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -116,8 +92,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList401() {
-        val pipelineService = client.pipelines()
+    fun indexesList401() {
+        val indexService = client.beta().indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -125,18 +101,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnauthorizedException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnauthorizedException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(401)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -144,8 +109,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList401WithRawResponse() {
-        val pipelineService = client.pipelines().withRawResponse()
+    fun indexesList401WithRawResponse() {
+        val indexService = client.beta().indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -153,18 +118,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnauthorizedException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnauthorizedException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(401)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -172,8 +126,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList403() {
-        val pipelineService = client.pipelines()
+    fun indexesList403() {
+        val indexService = client.beta().indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -181,18 +135,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<PermissionDeniedException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<PermissionDeniedException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(403)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -200,8 +143,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList403WithRawResponse() {
-        val pipelineService = client.pipelines().withRawResponse()
+    fun indexesList403WithRawResponse() {
+        val indexService = client.beta().indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -209,18 +152,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<PermissionDeniedException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<PermissionDeniedException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(403)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -228,8 +160,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList404() {
-        val pipelineService = client.pipelines()
+    fun indexesList404() {
+        val indexService = client.beta().indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -237,18 +169,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<NotFoundException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<NotFoundException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(404)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -256,8 +177,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList404WithRawResponse() {
-        val pipelineService = client.pipelines().withRawResponse()
+    fun indexesList404WithRawResponse() {
+        val indexService = client.beta().indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -265,18 +186,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<NotFoundException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<NotFoundException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(404)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -284,8 +194,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList422() {
-        val pipelineService = client.pipelines()
+    fun indexesList422() {
+        val indexService = client.beta().indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -293,18 +203,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnprocessableEntityException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnprocessableEntityException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(422)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -312,8 +211,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList422WithRawResponse() {
-        val pipelineService = client.pipelines().withRawResponse()
+    fun indexesList422WithRawResponse() {
+        val indexService = client.beta().indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -321,18 +220,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnprocessableEntityException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnprocessableEntityException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(422)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -340,8 +228,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList429() {
-        val pipelineService = client.pipelines()
+    fun indexesList429() {
+        val indexService = client.beta().indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -349,18 +237,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<RateLimitException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<RateLimitException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(429)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -368,8 +245,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList429WithRawResponse() {
-        val pipelineService = client.pipelines().withRawResponse()
+    fun indexesList429WithRawResponse() {
+        val indexService = client.beta().indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -377,18 +254,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<RateLimitException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<RateLimitException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(429)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -396,8 +262,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList500() {
-        val pipelineService = client.pipelines()
+    fun indexesList500() {
+        val indexService = client.beta().indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -405,18 +271,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<InternalServerException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<InternalServerException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(500)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -424,8 +279,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList500WithRawResponse() {
-        val pipelineService = client.pipelines().withRawResponse()
+    fun indexesList500WithRawResponse() {
+        val indexService = client.beta().indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -433,18 +288,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<InternalServerException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<InternalServerException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(500)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -452,8 +296,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList999() {
-        val pipelineService = client.pipelines()
+    fun indexesList999() {
+        val indexService = client.beta().indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -461,18 +305,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnexpectedStatusCodeException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnexpectedStatusCodeException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(999)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -480,8 +313,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesList999WithRawResponse() {
-        val pipelineService = client.pipelines().withRawResponse()
+    fun indexesList999WithRawResponse() {
+        val indexService = client.beta().indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -489,18 +322,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnexpectedStatusCodeException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnexpectedStatusCodeException> { indexService.list() }
 
         assertThat(e.statusCode()).isEqualTo(999)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -508,25 +330,14 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun pipelinesListInvalidJsonBody() {
-        val pipelineService = client.pipelines()
+    fun indexesListInvalidJsonBody() {
+        val indexService = client.beta().indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(status(200).withHeader(HEADER_NAME, HEADER_VALUE).withBody(NOT_JSON))
         )
 
-        val e =
-            assertThrows<LlamaCloudException> {
-                pipelineService.list(
-                    PipelineListParams.builder()
-                        .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .pipelineName("pipeline_name")
-                        .pipelineType(PipelineType.PLAYGROUND)
-                        .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .projectName("project_name")
-                        .build()
-                )
-            }
+        val e = assertThrows<LlamaCloudException> { indexService.list() }
 
         assertThat(e).hasMessage("Error reading response")
     }

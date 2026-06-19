@@ -271,24 +271,24 @@ To access this data, prefix any HTTP method call on a client or service with `wi
 ```java
 import com.llamacloud_prod.api.core.http.Headers;
 import com.llamacloud_prod.api.core.http.HttpResponseFor;
-import com.llamacloud_prod.api.models.pipelines.Pipeline;
-import com.llamacloud_prod.api.models.pipelines.PipelineListParams;
+import com.llamacloud_prod.api.models.beta.indexes.IndexListPage;
+import com.llamacloud_prod.api.models.beta.indexes.IndexListParams;
 
-PipelineListParams params = PipelineListParams.builder()
+IndexListParams params = IndexListParams.builder()
     .projectId("my-project-id")
     .build();
-HttpResponseFor<List<Pipeline>> pipelines = client.pipelines().withRawResponse().list(params);
+HttpResponseFor<IndexListPage> page = client.beta().indexes().withRawResponse().list(params);
 
-int statusCode = pipelines.statusCode();
-Headers headers = pipelines.headers();
+int statusCode = page.statusCode();
+Headers headers = page.headers();
 ```
 
 You can still deserialize the response into an instance of a Java class if needed:
 
 ```java
-import com.llamacloud_prod.api.models.pipelines.Pipeline;
+import com.llamacloud_prod.api.models.beta.indexes.IndexListPage;
 
-List<Pipeline> parsedPipelines = pipelines.parse();
+IndexListPage parsedPage = page.parse();
 ```
 
 ## Error handling
@@ -497,9 +497,9 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
-import com.llamacloud_prod.api.models.pipelines.Pipeline;
+import com.llamacloud_prod.api.models.beta.indexes.IndexListPage;
 
-List<Pipeline> pipelines = client.pipelines().list(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
+IndexListPage page = client.beta().indexes().list(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
 ```
 
 Or configure the default for all method calls at the client level:

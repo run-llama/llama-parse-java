@@ -17,10 +17,9 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import com.llamacloud_prod.api.client.LlamaCloudClient
 import com.llamacloud_prod.api.client.okhttp.LlamaCloudOkHttpClient
 import com.llamacloud_prod.api.core.JsonValue
+import com.llamacloud_prod.api.models.beta.indexes.IndexListParams
 import com.llamacloud_prod.api.models.parsing.ParsingCreateParams
 import com.llamacloud_prod.api.models.parsing.ParsingLanguages
-import com.llamacloud_prod.api.models.pipelines.PipelineListParams
-import com.llamacloud_prod.api.models.pipelines.PipelineType
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -44,16 +43,11 @@ internal class ServiceParamsTest {
     @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
-        val pipelineService = client.pipelines()
-        stubFor(get(anyUrl()).willReturn(ok("[]")))
+        val indexService = client.beta().indexes()
+        stubFor(get(anyUrl()).willReturn(ok("{}")))
 
-        pipelineService.list(
-            PipelineListParams.builder()
-                .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .pipelineName("pipeline_name")
-                .pipelineType(PipelineType.PLAYGROUND)
-                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .projectName("project_name")
+        indexService.list(
+            IndexListParams.builder()
                 .putAdditionalHeader("Secret-Header", "42")
                 .putAdditionalQueryParam("secret_query_param", "42")
                 .build()
