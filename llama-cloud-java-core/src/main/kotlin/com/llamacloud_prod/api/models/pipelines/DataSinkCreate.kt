@@ -1076,32 +1076,32 @@ private constructor(
 
         companion object {
 
+            @JvmField val ASTRA_DB = of("ASTRA_DB")
+
+            @JvmField val AZUREAI_SEARCH = of("AZUREAI_SEARCH")
+
+            @JvmField val MILVUS = of("MILVUS")
+
+            @JvmField val MONGODB_ATLAS = of("MONGODB_ATLAS")
+
             @JvmField val PINECONE = of("PINECONE")
 
             @JvmField val POSTGRES = of("POSTGRES")
 
             @JvmField val QDRANT = of("QDRANT")
 
-            @JvmField val AZUREAI_SEARCH = of("AZUREAI_SEARCH")
-
-            @JvmField val MONGODB_ATLAS = of("MONGODB_ATLAS")
-
-            @JvmField val MILVUS = of("MILVUS")
-
-            @JvmField val ASTRA_DB = of("ASTRA_DB")
-
             @JvmStatic fun of(value: String) = SinkType(JsonField.of(value))
         }
 
         /** An enum containing [SinkType]'s known values. */
         enum class Known {
+            ASTRA_DB,
+            AZUREAI_SEARCH,
+            MILVUS,
+            MONGODB_ATLAS,
             PINECONE,
             POSTGRES,
             QDRANT,
-            AZUREAI_SEARCH,
-            MONGODB_ATLAS,
-            MILVUS,
-            ASTRA_DB,
         }
 
         /**
@@ -1114,13 +1114,13 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            ASTRA_DB,
+            AZUREAI_SEARCH,
+            MILVUS,
+            MONGODB_ATLAS,
             PINECONE,
             POSTGRES,
             QDRANT,
-            AZUREAI_SEARCH,
-            MONGODB_ATLAS,
-            MILVUS,
-            ASTRA_DB,
             /** An enum member indicating that [SinkType] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -1134,13 +1134,13 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                ASTRA_DB -> Value.ASTRA_DB
+                AZUREAI_SEARCH -> Value.AZUREAI_SEARCH
+                MILVUS -> Value.MILVUS
+                MONGODB_ATLAS -> Value.MONGODB_ATLAS
                 PINECONE -> Value.PINECONE
                 POSTGRES -> Value.POSTGRES
                 QDRANT -> Value.QDRANT
-                AZUREAI_SEARCH -> Value.AZUREAI_SEARCH
-                MONGODB_ATLAS -> Value.MONGODB_ATLAS
-                MILVUS -> Value.MILVUS
-                ASTRA_DB -> Value.ASTRA_DB
                 else -> Value._UNKNOWN
             }
 
@@ -1155,13 +1155,13 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                ASTRA_DB -> Known.ASTRA_DB
+                AZUREAI_SEARCH -> Known.AZUREAI_SEARCH
+                MILVUS -> Known.MILVUS
+                MONGODB_ATLAS -> Known.MONGODB_ATLAS
                 PINECONE -> Known.PINECONE
                 POSTGRES -> Known.POSTGRES
                 QDRANT -> Known.QDRANT
-                AZUREAI_SEARCH -> Known.AZUREAI_SEARCH
-                MONGODB_ATLAS -> Known.MONGODB_ATLAS
-                MILVUS -> Known.MILVUS
-                ASTRA_DB -> Known.ASTRA_DB
                 else -> throw LlamaCloudInvalidDataException("Unknown SinkType: $value")
             }
 

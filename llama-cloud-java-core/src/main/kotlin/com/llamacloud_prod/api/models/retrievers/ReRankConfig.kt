@@ -198,29 +198,29 @@ private constructor(
 
         companion object {
 
-            @JvmField val SYSTEM_DEFAULT = of("system_default")
-
-            @JvmField val LLM = of("llm")
+            @JvmField val BEDROCK = of("bedrock")
 
             @JvmField val COHERE = of("cohere")
 
-            @JvmField val BEDROCK = of("bedrock")
+            @JvmField val DISABLED = of("disabled")
+
+            @JvmField val LLM = of("llm")
 
             @JvmField val SCORE = of("score")
 
-            @JvmField val DISABLED = of("disabled")
+            @JvmField val SYSTEM_DEFAULT = of("system_default")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
         /** An enum containing [Type]'s known values. */
         enum class Known {
-            SYSTEM_DEFAULT,
-            LLM,
-            COHERE,
             BEDROCK,
-            SCORE,
+            COHERE,
             DISABLED,
+            LLM,
+            SCORE,
+            SYSTEM_DEFAULT,
         }
 
         /**
@@ -233,12 +233,12 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            SYSTEM_DEFAULT,
-            LLM,
-            COHERE,
             BEDROCK,
-            SCORE,
+            COHERE,
             DISABLED,
+            LLM,
+            SCORE,
+            SYSTEM_DEFAULT,
             /** An enum member indicating that [Type] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -252,12 +252,12 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                SYSTEM_DEFAULT -> Value.SYSTEM_DEFAULT
-                LLM -> Value.LLM
-                COHERE -> Value.COHERE
                 BEDROCK -> Value.BEDROCK
-                SCORE -> Value.SCORE
+                COHERE -> Value.COHERE
                 DISABLED -> Value.DISABLED
+                LLM -> Value.LLM
+                SCORE -> Value.SCORE
+                SYSTEM_DEFAULT -> Value.SYSTEM_DEFAULT
                 else -> Value._UNKNOWN
             }
 
@@ -272,12 +272,12 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                SYSTEM_DEFAULT -> Known.SYSTEM_DEFAULT
-                LLM -> Known.LLM
-                COHERE -> Known.COHERE
                 BEDROCK -> Known.BEDROCK
-                SCORE -> Known.SCORE
+                COHERE -> Known.COHERE
                 DISABLED -> Known.DISABLED
+                LLM -> Known.LLM
+                SCORE -> Known.SCORE
+                SYSTEM_DEFAULT -> Known.SYSTEM_DEFAULT
                 else -> throw LlamaCloudInvalidDataException("Unknown Type: $value")
             }
 

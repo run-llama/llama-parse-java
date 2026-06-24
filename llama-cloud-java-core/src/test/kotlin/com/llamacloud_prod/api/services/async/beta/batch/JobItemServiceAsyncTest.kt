@@ -31,7 +31,7 @@ internal class JobItemServiceAsyncTest {
             jobItemServiceAsync.getProcessingResults(
                 JobItemGetProcessingResultsParams.builder()
                     .itemId("item_id")
-                    .jobType(JobItemGetProcessingResultsParams.JobType.PARSE)
+                    .jobType(JobItemGetProcessingResultsParams.JobType.CLASSIFY)
                     .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()

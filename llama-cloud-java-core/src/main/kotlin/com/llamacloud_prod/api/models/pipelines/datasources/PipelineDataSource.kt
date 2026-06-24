@@ -1632,44 +1632,44 @@ private constructor(
 
         companion object {
 
-            @JvmField val S3 = of("S3")
-
             @JvmField val AZURE_STORAGE_BLOB = of("AZURE_STORAGE_BLOB")
 
-            @JvmField val GOOGLE_DRIVE = of("GOOGLE_DRIVE")
-
-            @JvmField val MICROSOFT_ONEDRIVE = of("MICROSOFT_ONEDRIVE")
-
-            @JvmField val MICROSOFT_SHAREPOINT = of("MICROSOFT_SHAREPOINT")
-
-            @JvmField val SLACK = of("SLACK")
-
-            @JvmField val NOTION_PAGE = of("NOTION_PAGE")
+            @JvmField val BOX = of("BOX")
 
             @JvmField val CONFLUENCE = of("CONFLUENCE")
+
+            @JvmField val GOOGLE_DRIVE = of("GOOGLE_DRIVE")
 
             @JvmField val JIRA = of("JIRA")
 
             @JvmField val JIRA_V2 = of("JIRA_V2")
 
-            @JvmField val BOX = of("BOX")
+            @JvmField val MICROSOFT_ONEDRIVE = of("MICROSOFT_ONEDRIVE")
+
+            @JvmField val MICROSOFT_SHAREPOINT = of("MICROSOFT_SHAREPOINT")
+
+            @JvmField val NOTION_PAGE = of("NOTION_PAGE")
+
+            @JvmField val S3 = of("S3")
+
+            @JvmField val SLACK = of("SLACK")
 
             @JvmStatic fun of(value: String) = SourceType(JsonField.of(value))
         }
 
         /** An enum containing [SourceType]'s known values. */
         enum class Known {
-            S3,
             AZURE_STORAGE_BLOB,
-            GOOGLE_DRIVE,
-            MICROSOFT_ONEDRIVE,
-            MICROSOFT_SHAREPOINT,
-            SLACK,
-            NOTION_PAGE,
+            BOX,
             CONFLUENCE,
+            GOOGLE_DRIVE,
             JIRA,
             JIRA_V2,
-            BOX,
+            MICROSOFT_ONEDRIVE,
+            MICROSOFT_SHAREPOINT,
+            NOTION_PAGE,
+            S3,
+            SLACK,
         }
 
         /**
@@ -1682,17 +1682,17 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            S3,
             AZURE_STORAGE_BLOB,
-            GOOGLE_DRIVE,
-            MICROSOFT_ONEDRIVE,
-            MICROSOFT_SHAREPOINT,
-            SLACK,
-            NOTION_PAGE,
+            BOX,
             CONFLUENCE,
+            GOOGLE_DRIVE,
             JIRA,
             JIRA_V2,
-            BOX,
+            MICROSOFT_ONEDRIVE,
+            MICROSOFT_SHAREPOINT,
+            NOTION_PAGE,
+            S3,
+            SLACK,
             /**
              * An enum member indicating that [SourceType] was instantiated with an unknown value.
              */
@@ -1708,17 +1708,17 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                S3 -> Value.S3
                 AZURE_STORAGE_BLOB -> Value.AZURE_STORAGE_BLOB
-                GOOGLE_DRIVE -> Value.GOOGLE_DRIVE
-                MICROSOFT_ONEDRIVE -> Value.MICROSOFT_ONEDRIVE
-                MICROSOFT_SHAREPOINT -> Value.MICROSOFT_SHAREPOINT
-                SLACK -> Value.SLACK
-                NOTION_PAGE -> Value.NOTION_PAGE
+                BOX -> Value.BOX
                 CONFLUENCE -> Value.CONFLUENCE
+                GOOGLE_DRIVE -> Value.GOOGLE_DRIVE
                 JIRA -> Value.JIRA
                 JIRA_V2 -> Value.JIRA_V2
-                BOX -> Value.BOX
+                MICROSOFT_ONEDRIVE -> Value.MICROSOFT_ONEDRIVE
+                MICROSOFT_SHAREPOINT -> Value.MICROSOFT_SHAREPOINT
+                NOTION_PAGE -> Value.NOTION_PAGE
+                S3 -> Value.S3
+                SLACK -> Value.SLACK
                 else -> Value._UNKNOWN
             }
 
@@ -1733,17 +1733,17 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                S3 -> Known.S3
                 AZURE_STORAGE_BLOB -> Known.AZURE_STORAGE_BLOB
-                GOOGLE_DRIVE -> Known.GOOGLE_DRIVE
-                MICROSOFT_ONEDRIVE -> Known.MICROSOFT_ONEDRIVE
-                MICROSOFT_SHAREPOINT -> Known.MICROSOFT_SHAREPOINT
-                SLACK -> Known.SLACK
-                NOTION_PAGE -> Known.NOTION_PAGE
+                BOX -> Known.BOX
                 CONFLUENCE -> Known.CONFLUENCE
+                GOOGLE_DRIVE -> Known.GOOGLE_DRIVE
                 JIRA -> Known.JIRA
                 JIRA_V2 -> Known.JIRA_V2
-                BOX -> Known.BOX
+                MICROSOFT_ONEDRIVE -> Known.MICROSOFT_ONEDRIVE
+                MICROSOFT_SHAREPOINT -> Known.MICROSOFT_SHAREPOINT
+                NOTION_PAGE -> Known.NOTION_PAGE
+                S3 -> Known.S3
+                SLACK -> Known.SLACK
                 else -> throw LlamaCloudInvalidDataException("Unknown SourceType: $value")
             }
 
@@ -1934,26 +1934,26 @@ private constructor(
 
         companion object {
 
-            @JvmField val NOT_STARTED = of("NOT_STARTED")
-
-            @JvmField val IN_PROGRESS = of("IN_PROGRESS")
-
-            @JvmField val SUCCESS = of("SUCCESS")
+            @JvmField val CANCELLED = of("CANCELLED")
 
             @JvmField val ERROR = of("ERROR")
 
-            @JvmField val CANCELLED = of("CANCELLED")
+            @JvmField val IN_PROGRESS = of("IN_PROGRESS")
+
+            @JvmField val NOT_STARTED = of("NOT_STARTED")
+
+            @JvmField val SUCCESS = of("SUCCESS")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
 
         /** An enum containing [Status]'s known values. */
         enum class Known {
-            NOT_STARTED,
-            IN_PROGRESS,
-            SUCCESS,
-            ERROR,
             CANCELLED,
+            ERROR,
+            IN_PROGRESS,
+            NOT_STARTED,
+            SUCCESS,
         }
 
         /**
@@ -1966,11 +1966,11 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            NOT_STARTED,
-            IN_PROGRESS,
-            SUCCESS,
-            ERROR,
             CANCELLED,
+            ERROR,
+            IN_PROGRESS,
+            NOT_STARTED,
+            SUCCESS,
             /** An enum member indicating that [Status] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -1984,11 +1984,11 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                NOT_STARTED -> Value.NOT_STARTED
-                IN_PROGRESS -> Value.IN_PROGRESS
-                SUCCESS -> Value.SUCCESS
-                ERROR -> Value.ERROR
                 CANCELLED -> Value.CANCELLED
+                ERROR -> Value.ERROR
+                IN_PROGRESS -> Value.IN_PROGRESS
+                NOT_STARTED -> Value.NOT_STARTED
+                SUCCESS -> Value.SUCCESS
                 else -> Value._UNKNOWN
             }
 
@@ -2003,11 +2003,11 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                NOT_STARTED -> Known.NOT_STARTED
-                IN_PROGRESS -> Known.IN_PROGRESS
-                SUCCESS -> Known.SUCCESS
-                ERROR -> Known.ERROR
                 CANCELLED -> Known.CANCELLED
+                ERROR -> Known.ERROR
+                IN_PROGRESS -> Known.IN_PROGRESS
+                NOT_STARTED -> Known.NOT_STARTED
+                SUCCESS -> Known.SUCCESS
                 else -> throw LlamaCloudInvalidDataException("Unknown Status: $value")
             }
 

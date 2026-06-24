@@ -101,7 +101,7 @@ internal class ProGuardCompatibilityTest {
     @Test
     fun failPageModeRoundtrip() {
         val jsonMapper = jsonMapper()
-        val failPageMode = FailPageMode.RAW_TEXT
+        val failPageMode = FailPageMode.BLANK_PAGE
 
         val roundtrippedFailPageMode =
             jsonMapper.readValue(

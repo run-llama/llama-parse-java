@@ -141,7 +141,7 @@ internal class SheetServiceAsyncTest {
                 SheetGetResultTableParams.builder()
                     .spreadsheetJobId("spreadsheet_job_id")
                     .regionId("region_id")
-                    .regionType(SheetGetResultTableParams.RegionType.TABLE)
+                    .regionType(SheetGetResultTableParams.RegionType.CELL_METADATA)
                     .expiresAtSeconds(0L)
                     .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

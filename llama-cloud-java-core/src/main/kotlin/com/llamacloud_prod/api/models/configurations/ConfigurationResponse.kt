@@ -265,19 +265,20 @@ private constructor(
          */
         fun parameters(parameters: JsonField<Parameters>) = apply { this.parameters = parameters }
 
-        /** Alias for calling [parameters] with `Parameters.ofSplitV1(splitV1)`. */
-        fun parameters(splitV1: SplitV1Parameters) = parameters(Parameters.ofSplitV1(splitV1))
+        /** Alias for calling [parameters] with `Parameters.ofClassifyV2(classifyV2)`. */
+        fun parameters(classifyV2: ClassifyV2Parameters) =
+            parameters(Parameters.ofClassifyV2(classifyV2))
 
         /**
          * Alias for calling [parameters] with the following:
          * ```java
-         * SplitV1Parameters.builder()
-         *     .categories(categories)
+         * ClassifyV2Parameters.builder()
+         *     .rules(rules)
          *     .build()
          * ```
          */
-        fun splitV1Parameters(categories: List<SplitCategory>) =
-            parameters(SplitV1Parameters.builder().categories(categories).build())
+        fun classifyV2Parameters(rules: List<ClassifyV2Parameters.Rule>) =
+            parameters(ClassifyV2Parameters.builder().rules(rules).build())
 
         /** Alias for calling [parameters] with `Parameters.ofExtractV2(extractV2)`. */
         fun parameters(extractV2: ExtractV2Parameters) =
@@ -294,23 +295,22 @@ private constructor(
         fun extractV2Parameters(dataSchema: ExtractV2Parameters.DataSchema) =
             parameters(ExtractV2Parameters.builder().dataSchema(dataSchema).build())
 
-        /** Alias for calling [parameters] with `Parameters.ofClassifyV2(classifyV2)`. */
-        fun parameters(classifyV2: ClassifyV2Parameters) =
-            parameters(Parameters.ofClassifyV2(classifyV2))
+        /** Alias for calling [parameters] with `Parameters.ofParseV2(parseV2)`. */
+        fun parameters(parseV2: ParseV2Parameters) = parameters(Parameters.ofParseV2(parseV2))
+
+        /** Alias for calling [parameters] with `Parameters.ofSplitV1(splitV1)`. */
+        fun parameters(splitV1: SplitV1Parameters) = parameters(Parameters.ofSplitV1(splitV1))
 
         /**
          * Alias for calling [parameters] with the following:
          * ```java
-         * ClassifyV2Parameters.builder()
-         *     .rules(rules)
+         * SplitV1Parameters.builder()
+         *     .categories(categories)
          *     .build()
          * ```
          */
-        fun classifyV2Parameters(rules: List<ClassifyV2Parameters.Rule>) =
-            parameters(ClassifyV2Parameters.builder().rules(rules).build())
-
-        /** Alias for calling [parameters] with `Parameters.ofParseV2(parseV2)`. */
-        fun parameters(parseV2: ParseV2Parameters) = parameters(Parameters.ofParseV2(parseV2))
+        fun splitV1Parameters(categories: List<SplitCategory>) =
+            parameters(SplitV1Parameters.builder().categories(categories).build())
 
         /** Alias for calling [parameters] with `Parameters.ofSpreadsheetV1(spreadsheetV1)`. */
         fun parameters(spreadsheetV1: Parameters.SpreadsheetV1) =
@@ -475,23 +475,20 @@ private constructor(
     @JsonSerialize(using = Parameters.Serializer::class)
     class Parameters
     private constructor(
-        private val splitV1: SplitV1Parameters? = null,
-        private val extractV2: ExtractV2Parameters? = null,
         private val classifyV2: ClassifyV2Parameters? = null,
+        private val extractV2: ExtractV2Parameters? = null,
         private val parseV2: ParseV2Parameters? = null,
+        private val splitV1: SplitV1Parameters? = null,
         private val spreadsheetV1: SpreadsheetV1? = null,
         private val unknown: UntypedParameters? = null,
         private val _json: JsonValue? = null,
     ) {
 
-        /** Typed parameters for a *split v1* product configuration. */
-        fun splitV1(): Optional<SplitV1Parameters> = Optional.ofNullable(splitV1)
+        /** Typed parameters for a *classify v2* product configuration. */
+        fun classifyV2(): Optional<ClassifyV2Parameters> = Optional.ofNullable(classifyV2)
 
         /** Typed parameters for an *extract v2* product configuration. */
         fun extractV2(): Optional<ExtractV2Parameters> = Optional.ofNullable(extractV2)
-
-        /** Typed parameters for a *classify v2* product configuration. */
-        fun classifyV2(): Optional<ClassifyV2Parameters> = Optional.ofNullable(classifyV2)
 
         /**
          * Configuration for LlamaParse v2 document parsing.
@@ -500,6 +497,9 @@ private constructor(
          * webhook delivery. Refer to the LlamaParse documentation for details on each field.
          */
         fun parseV2(): Optional<ParseV2Parameters> = Optional.ofNullable(parseV2)
+
+        /** Typed parameters for a *split v1* product configuration. */
+        fun splitV1(): Optional<SplitV1Parameters> = Optional.ofNullable(splitV1)
 
         /** Typed parameters for a *spreadsheet v1* product configuration. */
         fun spreadsheetV1(): Optional<SpreadsheetV1> = Optional.ofNullable(spreadsheetV1)
@@ -511,26 +511,23 @@ private constructor(
          */
         fun unknown(): Optional<UntypedParameters> = Optional.ofNullable(unknown)
 
-        fun isSplitV1(): Boolean = splitV1 != null
+        fun isClassifyV2(): Boolean = classifyV2 != null
 
         fun isExtractV2(): Boolean = extractV2 != null
 
-        fun isClassifyV2(): Boolean = classifyV2 != null
-
         fun isParseV2(): Boolean = parseV2 != null
+
+        fun isSplitV1(): Boolean = splitV1 != null
 
         fun isSpreadsheetV1(): Boolean = spreadsheetV1 != null
 
         fun isUnknown(): Boolean = unknown != null
 
-        /** Typed parameters for a *split v1* product configuration. */
-        fun asSplitV1(): SplitV1Parameters = splitV1.getOrThrow("splitV1")
+        /** Typed parameters for a *classify v2* product configuration. */
+        fun asClassifyV2(): ClassifyV2Parameters = classifyV2.getOrThrow("classifyV2")
 
         /** Typed parameters for an *extract v2* product configuration. */
         fun asExtractV2(): ExtractV2Parameters = extractV2.getOrThrow("extractV2")
-
-        /** Typed parameters for a *classify v2* product configuration. */
-        fun asClassifyV2(): ClassifyV2Parameters = classifyV2.getOrThrow("classifyV2")
 
         /**
          * Configuration for LlamaParse v2 document parsing.
@@ -539,6 +536,9 @@ private constructor(
          * webhook delivery. Refer to the LlamaParse documentation for details on each field.
          */
         fun asParseV2(): ParseV2Parameters = parseV2.getOrThrow("parseV2")
+
+        /** Typed parameters for a *split v1* product configuration. */
+        fun asSplitV1(): SplitV1Parameters = splitV1.getOrThrow("splitV1")
 
         /** Typed parameters for a *spreadsheet v1* product configuration. */
         fun asSpreadsheetV1(): SpreadsheetV1 = spreadsheetV1.getOrThrow("spreadsheetV1")
@@ -564,8 +564,8 @@ private constructor(
          *
          * Optional<String> result = parameters.accept(new Parameters.Visitor<Optional<String>>() {
          *     @Override
-         *     public Optional<String> visitSplitV1(SplitV1Parameters splitV1) {
-         *         return Optional.of(splitV1.toString());
+         *     public Optional<String> visitClassifyV2(ClassifyV2Parameters classifyV2) {
+         *         return Optional.of(classifyV2.toString());
          *     }
          *
          *     // ...
@@ -583,10 +583,10 @@ private constructor(
          */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
-                splitV1 != null -> visitor.visitSplitV1(splitV1)
-                extractV2 != null -> visitor.visitExtractV2(extractV2)
                 classifyV2 != null -> visitor.visitClassifyV2(classifyV2)
+                extractV2 != null -> visitor.visitExtractV2(extractV2)
                 parseV2 != null -> visitor.visitParseV2(parseV2)
+                splitV1 != null -> visitor.visitSplitV1(splitV1)
                 spreadsheetV1 != null -> visitor.visitSpreadsheetV1(spreadsheetV1)
                 unknown != null -> visitor.visitUnknown(unknown)
                 else -> visitor.unknown(_json)
@@ -610,20 +610,20 @@ private constructor(
 
             accept(
                 object : Visitor<Unit> {
-                    override fun visitSplitV1(splitV1: SplitV1Parameters) {
-                        splitV1.validate()
+                    override fun visitClassifyV2(classifyV2: ClassifyV2Parameters) {
+                        classifyV2.validate()
                     }
 
                     override fun visitExtractV2(extractV2: ExtractV2Parameters) {
                         extractV2.validate()
                     }
 
-                    override fun visitClassifyV2(classifyV2: ClassifyV2Parameters) {
-                        classifyV2.validate()
-                    }
-
                     override fun visitParseV2(parseV2: ParseV2Parameters) {
                         parseV2.validate()
+                    }
+
+                    override fun visitSplitV1(splitV1: SplitV1Parameters) {
+                        splitV1.validate()
                     }
 
                     override fun visitSpreadsheetV1(spreadsheetV1: SpreadsheetV1) {
@@ -656,15 +656,15 @@ private constructor(
         internal fun validity(): Int =
             accept(
                 object : Visitor<Int> {
-                    override fun visitSplitV1(splitV1: SplitV1Parameters) = splitV1.validity()
+                    override fun visitClassifyV2(classifyV2: ClassifyV2Parameters) =
+                        classifyV2.validity()
 
                     override fun visitExtractV2(extractV2: ExtractV2Parameters) =
                         extractV2.validity()
 
-                    override fun visitClassifyV2(classifyV2: ClassifyV2Parameters) =
-                        classifyV2.validity()
-
                     override fun visitParseV2(parseV2: ParseV2Parameters) = parseV2.validity()
+
+                    override fun visitSplitV1(splitV1: SplitV1Parameters) = splitV1.validity()
 
                     override fun visitSpreadsheetV1(spreadsheetV1: SpreadsheetV1) =
                         spreadsheetV1.validity()
@@ -681,23 +681,23 @@ private constructor(
             }
 
             return other is Parameters &&
-                splitV1 == other.splitV1 &&
-                extractV2 == other.extractV2 &&
                 classifyV2 == other.classifyV2 &&
+                extractV2 == other.extractV2 &&
                 parseV2 == other.parseV2 &&
+                splitV1 == other.splitV1 &&
                 spreadsheetV1 == other.spreadsheetV1 &&
                 unknown == other.unknown
         }
 
         override fun hashCode(): Int =
-            Objects.hash(splitV1, extractV2, classifyV2, parseV2, spreadsheetV1, unknown)
+            Objects.hash(classifyV2, extractV2, parseV2, splitV1, spreadsheetV1, unknown)
 
         override fun toString(): String =
             when {
-                splitV1 != null -> "Parameters{splitV1=$splitV1}"
-                extractV2 != null -> "Parameters{extractV2=$extractV2}"
                 classifyV2 != null -> "Parameters{classifyV2=$classifyV2}"
+                extractV2 != null -> "Parameters{extractV2=$extractV2}"
                 parseV2 != null -> "Parameters{parseV2=$parseV2}"
+                splitV1 != null -> "Parameters{splitV1=$splitV1}"
                 spreadsheetV1 != null -> "Parameters{spreadsheetV1=$spreadsheetV1}"
                 unknown != null -> "Parameters{unknown=$unknown}"
                 _json != null -> "Parameters{_unknown=$_json}"
@@ -706,16 +706,13 @@ private constructor(
 
         companion object {
 
-            /** Typed parameters for a *split v1* product configuration. */
-            @JvmStatic fun ofSplitV1(splitV1: SplitV1Parameters) = Parameters(splitV1 = splitV1)
+            /** Typed parameters for a *classify v2* product configuration. */
+            @JvmStatic
+            fun ofClassifyV2(classifyV2: ClassifyV2Parameters) = Parameters(classifyV2 = classifyV2)
 
             /** Typed parameters for an *extract v2* product configuration. */
             @JvmStatic
             fun ofExtractV2(extractV2: ExtractV2Parameters) = Parameters(extractV2 = extractV2)
-
-            /** Typed parameters for a *classify v2* product configuration. */
-            @JvmStatic
-            fun ofClassifyV2(classifyV2: ClassifyV2Parameters) = Parameters(classifyV2 = classifyV2)
 
             /**
              * Configuration for LlamaParse v2 document parsing.
@@ -724,6 +721,9 @@ private constructor(
              * webhook delivery. Refer to the LlamaParse documentation for details on each field.
              */
             @JvmStatic fun ofParseV2(parseV2: ParseV2Parameters) = Parameters(parseV2 = parseV2)
+
+            /** Typed parameters for a *split v1* product configuration. */
+            @JvmStatic fun ofSplitV1(splitV1: SplitV1Parameters) = Parameters(splitV1 = splitV1)
 
             /** Typed parameters for a *spreadsheet v1* product configuration. */
             @JvmStatic
@@ -743,14 +743,11 @@ private constructor(
          */
         interface Visitor<out T> {
 
-            /** Typed parameters for a *split v1* product configuration. */
-            fun visitSplitV1(splitV1: SplitV1Parameters): T
+            /** Typed parameters for a *classify v2* product configuration. */
+            fun visitClassifyV2(classifyV2: ClassifyV2Parameters): T
 
             /** Typed parameters for an *extract v2* product configuration. */
             fun visitExtractV2(extractV2: ExtractV2Parameters): T
-
-            /** Typed parameters for a *classify v2* product configuration. */
-            fun visitClassifyV2(classifyV2: ClassifyV2Parameters): T
 
             /**
              * Configuration for LlamaParse v2 document parsing.
@@ -759,6 +756,9 @@ private constructor(
              * webhook delivery. Refer to the LlamaParse documentation for details on each field.
              */
             fun visitParseV2(parseV2: ParseV2Parameters): T
+
+            /** Typed parameters for a *split v1* product configuration. */
+            fun visitSplitV1(splitV1: SplitV1Parameters): T
 
             /** Typed parameters for a *spreadsheet v1* product configuration. */
             fun visitSpreadsheetV1(spreadsheetV1: SpreadsheetV1): T
@@ -793,9 +793,9 @@ private constructor(
                     json.asObject().getOrNull()?.get("product_type")?.asString()?.getOrNull()
 
                 when (productType) {
-                    "split_v1" -> {
-                        return tryDeserialize(node, jacksonTypeRef<SplitV1Parameters>())?.let {
-                            Parameters(splitV1 = it, _json = json)
+                    "classify_v2" -> {
+                        return tryDeserialize(node, jacksonTypeRef<ClassifyV2Parameters>())?.let {
+                            Parameters(classifyV2 = it, _json = json)
                         } ?: Parameters(_json = json)
                     }
                     "extract_v2" -> {
@@ -803,14 +803,14 @@ private constructor(
                             Parameters(extractV2 = it, _json = json)
                         } ?: Parameters(_json = json)
                     }
-                    "classify_v2" -> {
-                        return tryDeserialize(node, jacksonTypeRef<ClassifyV2Parameters>())?.let {
-                            Parameters(classifyV2 = it, _json = json)
-                        } ?: Parameters(_json = json)
-                    }
                     "parse_v2" -> {
                         return tryDeserialize(node, jacksonTypeRef<ParseV2Parameters>())?.let {
                             Parameters(parseV2 = it, _json = json)
+                        } ?: Parameters(_json = json)
+                    }
+                    "split_v1" -> {
+                        return tryDeserialize(node, jacksonTypeRef<SplitV1Parameters>())?.let {
+                            Parameters(splitV1 = it, _json = json)
                         } ?: Parameters(_json = json)
                     }
                     "spreadsheet_v1" -> {
@@ -837,10 +837,10 @@ private constructor(
                 provider: SerializerProvider,
             ) {
                 when {
-                    value.splitV1 != null -> generator.writeObject(value.splitV1)
-                    value.extractV2 != null -> generator.writeObject(value.extractV2)
                     value.classifyV2 != null -> generator.writeObject(value.classifyV2)
+                    value.extractV2 != null -> generator.writeObject(value.extractV2)
                     value.parseV2 != null -> generator.writeObject(value.parseV2)
+                    value.splitV1 != null -> generator.writeObject(value.splitV1)
                     value.spreadsheetV1 != null -> generator.writeObject(value.spreadsheetV1)
                     value.unknown != null -> generator.writeObject(value.unknown)
                     value._json != null -> generator.writeObject(value._json)
@@ -1622,13 +1622,13 @@ private constructor(
 
         companion object {
 
-            @JvmField val SPLIT_V1 = of("split_v1")
+            @JvmField val CLASSIFY_V2 = of("classify_v2")
 
             @JvmField val EXTRACT_V2 = of("extract_v2")
 
-            @JvmField val CLASSIFY_V2 = of("classify_v2")
-
             @JvmField val PARSE_V2 = of("parse_v2")
+
+            @JvmField val SPLIT_V1 = of("split_v1")
 
             @JvmField val SPREADSHEET_V1 = of("spreadsheet_v1")
 
@@ -1639,10 +1639,10 @@ private constructor(
 
         /** An enum containing [ProductType]'s known values. */
         enum class Known {
-            SPLIT_V1,
-            EXTRACT_V2,
             CLASSIFY_V2,
+            EXTRACT_V2,
             PARSE_V2,
+            SPLIT_V1,
             SPREADSHEET_V1,
             UNKNOWN,
         }
@@ -1657,10 +1657,10 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            SPLIT_V1,
-            EXTRACT_V2,
             CLASSIFY_V2,
+            EXTRACT_V2,
             PARSE_V2,
+            SPLIT_V1,
             SPREADSHEET_V1,
             UNKNOWN,
             /**
@@ -1678,10 +1678,10 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                SPLIT_V1 -> Value.SPLIT_V1
-                EXTRACT_V2 -> Value.EXTRACT_V2
                 CLASSIFY_V2 -> Value.CLASSIFY_V2
+                EXTRACT_V2 -> Value.EXTRACT_V2
                 PARSE_V2 -> Value.PARSE_V2
+                SPLIT_V1 -> Value.SPLIT_V1
                 SPREADSHEET_V1 -> Value.SPREADSHEET_V1
                 UNKNOWN -> Value.UNKNOWN
                 else -> Value._UNKNOWN
@@ -1698,10 +1698,10 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                SPLIT_V1 -> Known.SPLIT_V1
-                EXTRACT_V2 -> Known.EXTRACT_V2
                 CLASSIFY_V2 -> Known.CLASSIFY_V2
+                EXTRACT_V2 -> Known.EXTRACT_V2
                 PARSE_V2 -> Known.PARSE_V2
+                SPLIT_V1 -> Known.SPLIT_V1
                 SPREADSHEET_V1 -> Known.SPREADSHEET_V1
                 UNKNOWN -> Known.UNKNOWN
                 else -> throw LlamaCloudInvalidDataException("Unknown ProductType: $value")

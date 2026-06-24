@@ -13,20 +13,19 @@ internal class PgVectorHnswSettingsTest {
     fun create() {
         val pgVectorHnswSettings =
             PgVectorHnswSettings.builder()
-                .distanceMethod(PgVectorHnswSettings.DistanceMethod.L2)
+                .distanceMethod(PgVectorHnswSettings.DistanceMethod.COSINE)
                 .efConstruction(1L)
                 .efSearch(1L)
                 .m(1L)
-                .vectorType(PgVectorHnswSettings.VectorType.VECTOR)
+                .vectorType(PgVectorHnswSettings.VectorType.BIT)
                 .build()
 
         assertThat(pgVectorHnswSettings.distanceMethod())
-            .contains(PgVectorHnswSettings.DistanceMethod.L2)
+            .contains(PgVectorHnswSettings.DistanceMethod.COSINE)
         assertThat(pgVectorHnswSettings.efConstruction()).contains(1L)
         assertThat(pgVectorHnswSettings.efSearch()).contains(1L)
         assertThat(pgVectorHnswSettings.m()).contains(1L)
-        assertThat(pgVectorHnswSettings.vectorType())
-            .contains(PgVectorHnswSettings.VectorType.VECTOR)
+        assertThat(pgVectorHnswSettings.vectorType()).contains(PgVectorHnswSettings.VectorType.BIT)
     }
 
     @Test
@@ -34,11 +33,11 @@ internal class PgVectorHnswSettingsTest {
         val jsonMapper = jsonMapper()
         val pgVectorHnswSettings =
             PgVectorHnswSettings.builder()
-                .distanceMethod(PgVectorHnswSettings.DistanceMethod.L2)
+                .distanceMethod(PgVectorHnswSettings.DistanceMethod.COSINE)
                 .efConstruction(1L)
                 .efSearch(1L)
                 .m(1L)
-                .vectorType(PgVectorHnswSettings.VectorType.VECTOR)
+                .vectorType(PgVectorHnswSettings.VectorType.BIT)
                 .build()
 
         val roundtrippedPgVectorHnswSettings =

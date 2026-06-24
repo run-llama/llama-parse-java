@@ -25,7 +25,7 @@ internal class ExtractListParamsTest {
             .pageSize(0L)
             .pageToken("page_token")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .status(ExtractListParams.Status.PENDING)
+            .status(ExtractListParams.Status.CANCELLED)
             .build()
     }
 
@@ -46,7 +46,7 @@ internal class ExtractListParamsTest {
                 .pageSize(0L)
                 .pageToken("page_token")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .status(ExtractListParams.Status.PENDING)
+                .status(ExtractListParams.Status.CANCELLED)
                 .build()
 
         val queryParams = params._queryParams()
@@ -67,7 +67,7 @@ internal class ExtractListParamsTest {
                     .put("page_size", "0")
                     .put("page_token", "page_token")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .put("status", "PENDING")
+                    .put("status", "CANCELLED")
                     .build()
             )
     }

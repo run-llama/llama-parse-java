@@ -21,17 +21,17 @@ class PipelineType @JsonCreator private constructor(private val value: JsonField
 
     companion object {
 
-        @JvmField val PLAYGROUND = of("PLAYGROUND")
-
         @JvmField val MANAGED = of("MANAGED")
+
+        @JvmField val PLAYGROUND = of("PLAYGROUND")
 
         @JvmStatic fun of(value: String) = PipelineType(JsonField.of(value))
     }
 
     /** An enum containing [PipelineType]'s known values. */
     enum class Known {
-        PLAYGROUND,
         MANAGED,
+        PLAYGROUND,
     }
 
     /**
@@ -44,8 +44,8 @@ class PipelineType @JsonCreator private constructor(private val value: JsonField
      * - It was constructed with an arbitrary value using the [of] method.
      */
     enum class Value {
-        PLAYGROUND,
         MANAGED,
+        PLAYGROUND,
         /** An enum member indicating that [PipelineType] was instantiated with an unknown value. */
         _UNKNOWN,
     }
@@ -59,8 +59,8 @@ class PipelineType @JsonCreator private constructor(private val value: JsonField
      */
     fun value(): Value =
         when (this) {
-            PLAYGROUND -> Value.PLAYGROUND
             MANAGED -> Value.MANAGED
+            PLAYGROUND -> Value.PLAYGROUND
             else -> Value._UNKNOWN
         }
 
@@ -75,8 +75,8 @@ class PipelineType @JsonCreator private constructor(private val value: JsonField
      */
     fun known(): Known =
         when (this) {
-            PLAYGROUND -> Known.PLAYGROUND
             MANAGED -> Known.MANAGED
+            PLAYGROUND -> Known.PLAYGROUND
             else -> throw LlamaCloudInvalidDataException("Unknown PipelineType: $value")
         }
 

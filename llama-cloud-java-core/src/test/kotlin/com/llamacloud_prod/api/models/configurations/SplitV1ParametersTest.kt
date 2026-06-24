@@ -18,7 +18,7 @@ internal class SplitV1ParametersTest {
                 .splittingStrategy(
                     SplitV1Parameters.SplittingStrategy.builder()
                         .allowUncategorized(
-                            SplitV1Parameters.SplittingStrategy.AllowUncategorized.INCLUDE
+                            SplitV1Parameters.SplittingStrategy.AllowUncategorized.FORBID
                         )
                         .build()
                 )
@@ -30,7 +30,7 @@ internal class SplitV1ParametersTest {
             .contains(
                 SplitV1Parameters.SplittingStrategy.builder()
                     .allowUncategorized(
-                        SplitV1Parameters.SplittingStrategy.AllowUncategorized.INCLUDE
+                        SplitV1Parameters.SplittingStrategy.AllowUncategorized.FORBID
                     )
                     .build()
             )
@@ -45,7 +45,7 @@ internal class SplitV1ParametersTest {
                 .splittingStrategy(
                     SplitV1Parameters.SplittingStrategy.builder()
                         .allowUncategorized(
-                            SplitV1Parameters.SplittingStrategy.AllowUncategorized.INCLUDE
+                            SplitV1Parameters.SplittingStrategy.AllowUncategorized.FORBID
                         )
                         .build()
                 )

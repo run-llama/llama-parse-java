@@ -13,7 +13,7 @@ internal class CloudBoxDataSourceTest {
     fun create() {
         val cloudBoxDataSource =
             CloudBoxDataSource.builder()
-                .authenticationMechanism(CloudBoxDataSource.AuthenticationMechanism.DEVELOPER_TOKEN)
+                .authenticationMechanism(CloudBoxDataSource.AuthenticationMechanism.CCG)
                 .className("class_name")
                 .clientId("client_id")
                 .clientSecret("client_secret")
@@ -25,7 +25,7 @@ internal class CloudBoxDataSourceTest {
                 .build()
 
         assertThat(cloudBoxDataSource.authenticationMechanism())
-            .isEqualTo(CloudBoxDataSource.AuthenticationMechanism.DEVELOPER_TOKEN)
+            .isEqualTo(CloudBoxDataSource.AuthenticationMechanism.CCG)
         assertThat(cloudBoxDataSource.className()).contains("class_name")
         assertThat(cloudBoxDataSource.clientId()).contains("client_id")
         assertThat(cloudBoxDataSource.clientSecret()).contains("client_secret")
@@ -41,7 +41,7 @@ internal class CloudBoxDataSourceTest {
         val jsonMapper = jsonMapper()
         val cloudBoxDataSource =
             CloudBoxDataSource.builder()
-                .authenticationMechanism(CloudBoxDataSource.AuthenticationMechanism.DEVELOPER_TOKEN)
+                .authenticationMechanism(CloudBoxDataSource.AuthenticationMechanism.CCG)
                 .className("class_name")
                 .clientId("client_id")
                 .clientSecret("client_secret")

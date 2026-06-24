@@ -20,7 +20,7 @@ internal class SplitListParamsTest {
             .pageSize(0L)
             .pageToken("page_token")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .status(SplitListParams.Status.PENDING)
+            .status(SplitListParams.Status.CANCELLED)
             .build()
     }
 
@@ -36,7 +36,7 @@ internal class SplitListParamsTest {
                 .pageSize(0L)
                 .pageToken("page_token")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .status(SplitListParams.Status.PENDING)
+                .status(SplitListParams.Status.CANCELLED)
                 .build()
 
         val queryParams = params._queryParams()
@@ -52,7 +52,7 @@ internal class SplitListParamsTest {
                     .put("page_size", "0")
                     .put("page_token", "page_token")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .put("status", "pending")
+                    .put("status", "cancelled")
                     .build()
             )
     }

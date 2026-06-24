@@ -11,18 +11,16 @@ internal class ReRankConfigTest {
 
     @Test
     fun create() {
-        val reRankConfig =
-            ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.SYSTEM_DEFAULT).build()
+        val reRankConfig = ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.BEDROCK).build()
 
         assertThat(reRankConfig.topN()).contains(1L)
-        assertThat(reRankConfig.type()).contains(ReRankConfig.Type.SYSTEM_DEFAULT)
+        assertThat(reRankConfig.type()).contains(ReRankConfig.Type.BEDROCK)
     }
 
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val reRankConfig =
-            ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.SYSTEM_DEFAULT).build()
+        val reRankConfig = ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.BEDROCK).build()
 
         val roundtrippedReRankConfig =
             jsonMapper.readValue(

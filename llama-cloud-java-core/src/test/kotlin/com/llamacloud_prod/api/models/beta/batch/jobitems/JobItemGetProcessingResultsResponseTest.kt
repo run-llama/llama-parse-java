@@ -108,7 +108,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                                 .BatchParseJobRecordCreate
                                                 .Parameters
                                                 .ImagesToSave
-                                                .SCREENSHOT
+                                                .EMBEDDED
                                         )
                                         .inlineImagesInMarkdown(true)
                                         .inputS3Path("input_s3_path")
@@ -121,7 +121,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                         .jobTimeoutInSeconds(0.0)
                                         .keepPageSeparatorWhenMergingTables(true)
                                         .lang("lang")
-                                        .addLanguage(ParsingLanguages.AF)
+                                        .addLanguage(ParsingLanguages.ABQ)
                                         .layoutAware(true)
                                         .lineLevelBoundingBox(true)
                                         .markdownTableMultilineHeaderSeparator(
@@ -145,7 +145,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                         .pagePrefix("page_prefix")
                                         .pageSeparator("page_separator")
                                         .pageSuffix("page_suffix")
-                                        .parseMode(ParsingMode.PARSE_PAGE_WITHOUT_LLM)
+                                        .parseMode(ParsingMode.PARSE_DOCUMENT_WITH_AGENT)
                                         .parsingInstruction("parsing_instruction")
                                         .pipelineId("pipeline_id")
                                         .preciseBoundingBox(true)
@@ -161,11 +161,11 @@ internal class JobItemGetProcessingResultsResponseTest {
                                                 .BatchParseJobRecordCreate
                                                 .Parameters
                                                 .Priority
-                                                .LOW
+                                                .CRITICAL
                                         )
                                         .projectId("project_id")
                                         .removeHiddenText(true)
-                                        .replaceFailedPageMode(FailPageMode.RAW_TEXT)
+                                        .replaceFailedPageMode(FailPageMode.BLANK_PAGE)
                                         .replaceFailedPageWithErrorMessagePrefix(
                                             "replace_failed_page_with_error_message_prefix"
                                         )
@@ -287,7 +287,9 @@ internal class JobItemGetProcessingResultsResponseTest {
                                 .webhookUrl("webhook_url")
                                 .build()
                         )
-                        .jobType(JobItemGetProcessingResultsResponse.ProcessingResult.JobType.PARSE)
+                        .jobType(
+                            JobItemGetProcessingResultsResponse.ProcessingResult.JobType.CLASSIFY
+                        )
                         .outputS3Path("output_s3_path")
                         .parametersHash("parameters_hash")
                         .processedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -385,7 +387,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                             .BatchParseJobRecordCreate
                                             .Parameters
                                             .ImagesToSave
-                                            .SCREENSHOT
+                                            .EMBEDDED
                                     )
                                     .inlineImagesInMarkdown(true)
                                     .inputS3Path("input_s3_path")
@@ -398,7 +400,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                     .jobTimeoutInSeconds(0.0)
                                     .keepPageSeparatorWhenMergingTables(true)
                                     .lang("lang")
-                                    .addLanguage(ParsingLanguages.AF)
+                                    .addLanguage(ParsingLanguages.ABQ)
                                     .layoutAware(true)
                                     .lineLevelBoundingBox(true)
                                     .markdownTableMultilineHeaderSeparator(
@@ -422,7 +424,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                     .pagePrefix("page_prefix")
                                     .pageSeparator("page_separator")
                                     .pageSuffix("page_suffix")
-                                    .parseMode(ParsingMode.PARSE_PAGE_WITHOUT_LLM)
+                                    .parseMode(ParsingMode.PARSE_DOCUMENT_WITH_AGENT)
                                     .parsingInstruction("parsing_instruction")
                                     .pipelineId("pipeline_id")
                                     .preciseBoundingBox(true)
@@ -438,11 +440,11 @@ internal class JobItemGetProcessingResultsResponseTest {
                                             .BatchParseJobRecordCreate
                                             .Parameters
                                             .Priority
-                                            .LOW
+                                            .CRITICAL
                                     )
                                     .projectId("project_id")
                                     .removeHiddenText(true)
-                                    .replaceFailedPageMode(FailPageMode.RAW_TEXT)
+                                    .replaceFailedPageMode(FailPageMode.BLANK_PAGE)
                                     .replaceFailedPageWithErrorMessagePrefix(
                                         "replace_failed_page_with_error_message_prefix"
                                     )
@@ -559,7 +561,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                             .webhookUrl("webhook_url")
                             .build()
                     )
-                    .jobType(JobItemGetProcessingResultsResponse.ProcessingResult.JobType.PARSE)
+                    .jobType(JobItemGetProcessingResultsResponse.ProcessingResult.JobType.CLASSIFY)
                     .outputS3Path("output_s3_path")
                     .parametersHash("parameters_hash")
                     .processedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -663,7 +665,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                                 .BatchParseJobRecordCreate
                                                 .Parameters
                                                 .ImagesToSave
-                                                .SCREENSHOT
+                                                .EMBEDDED
                                         )
                                         .inlineImagesInMarkdown(true)
                                         .inputS3Path("input_s3_path")
@@ -676,7 +678,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                         .jobTimeoutInSeconds(0.0)
                                         .keepPageSeparatorWhenMergingTables(true)
                                         .lang("lang")
-                                        .addLanguage(ParsingLanguages.AF)
+                                        .addLanguage(ParsingLanguages.ABQ)
                                         .layoutAware(true)
                                         .lineLevelBoundingBox(true)
                                         .markdownTableMultilineHeaderSeparator(
@@ -700,7 +702,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                         .pagePrefix("page_prefix")
                                         .pageSeparator("page_separator")
                                         .pageSuffix("page_suffix")
-                                        .parseMode(ParsingMode.PARSE_PAGE_WITHOUT_LLM)
+                                        .parseMode(ParsingMode.PARSE_DOCUMENT_WITH_AGENT)
                                         .parsingInstruction("parsing_instruction")
                                         .pipelineId("pipeline_id")
                                         .preciseBoundingBox(true)
@@ -716,11 +718,11 @@ internal class JobItemGetProcessingResultsResponseTest {
                                                 .BatchParseJobRecordCreate
                                                 .Parameters
                                                 .Priority
-                                                .LOW
+                                                .CRITICAL
                                         )
                                         .projectId("project_id")
                                         .removeHiddenText(true)
-                                        .replaceFailedPageMode(FailPageMode.RAW_TEXT)
+                                        .replaceFailedPageMode(FailPageMode.BLANK_PAGE)
                                         .replaceFailedPageWithErrorMessagePrefix(
                                             "replace_failed_page_with_error_message_prefix"
                                         )
@@ -842,7 +844,9 @@ internal class JobItemGetProcessingResultsResponseTest {
                                 .webhookUrl("webhook_url")
                                 .build()
                         )
-                        .jobType(JobItemGetProcessingResultsResponse.ProcessingResult.JobType.PARSE)
+                        .jobType(
+                            JobItemGetProcessingResultsResponse.ProcessingResult.JobType.CLASSIFY
+                        )
                         .outputS3Path("output_s3_path")
                         .parametersHash("parameters_hash")
                         .processedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))

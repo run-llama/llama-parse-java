@@ -28,7 +28,7 @@ internal class BatchListResponseTest {
                 )
                 .projectId("project_id")
                 .sourceDirectoryId("source_directory_id")
-                .status(BatchListResponse.Status.PENDING)
+                .status(BatchListResponse.Status.CANCELLED)
                 .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .addResult(
                     BatchListResponse.Result.builder()
@@ -59,7 +59,7 @@ internal class BatchListResponseTest {
             )
         assertThat(batchListResponse.projectId()).isEqualTo("project_id")
         assertThat(batchListResponse.sourceDirectoryId()).isEqualTo("source_directory_id")
-        assertThat(batchListResponse.status()).isEqualTo(BatchListResponse.Status.PENDING)
+        assertThat(batchListResponse.status()).isEqualTo(BatchListResponse.Status.CANCELLED)
         assertThat(batchListResponse.createdAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(batchListResponse.results().getOrNull())
@@ -97,7 +97,7 @@ internal class BatchListResponseTest {
                 )
                 .projectId("project_id")
                 .sourceDirectoryId("source_directory_id")
-                .status(BatchListResponse.Status.PENDING)
+                .status(BatchListResponse.Status.CANCELLED)
                 .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .addResult(
                     BatchListResponse.Result.builder()

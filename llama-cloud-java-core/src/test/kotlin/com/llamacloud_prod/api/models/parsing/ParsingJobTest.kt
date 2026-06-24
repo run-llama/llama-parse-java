@@ -14,13 +14,13 @@ internal class ParsingJobTest {
         val parsingJob =
             ParsingJob.builder()
                 .id("id")
-                .status(StatusEnum.PENDING)
+                .status(StatusEnum.CANCELLED)
                 .errorCode("error_code")
                 .errorMessage("error_message")
                 .build()
 
         assertThat(parsingJob.id()).isEqualTo("id")
-        assertThat(parsingJob.status()).isEqualTo(StatusEnum.PENDING)
+        assertThat(parsingJob.status()).isEqualTo(StatusEnum.CANCELLED)
         assertThat(parsingJob.errorCode()).contains("error_code")
         assertThat(parsingJob.errorMessage()).contains("error_message")
     }
@@ -31,7 +31,7 @@ internal class ParsingJobTest {
         val parsingJob =
             ParsingJob.builder()
                 .id("id")
-                .status(StatusEnum.PENDING)
+                .status(StatusEnum.CANCELLED)
                 .errorCode("error_code")
                 .errorMessage("error_message")
                 .build()

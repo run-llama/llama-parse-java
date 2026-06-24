@@ -39,15 +39,15 @@ internal class ExtractServiceAsyncTest {
                                                 "properties",
                                                 JsonValue.from(
                                                     mapOf(
-                                                        "vendor_name" to "bar",
                                                         "total_amount" to "bar",
+                                                        "vendor_name" to "bar",
                                                     )
                                                 ),
                                             )
                                             .putAdditionalProperty(
                                                 "required",
                                                 JsonValue.from(
-                                                    listOf("vendor_name", "total_amount")
+                                                    listOf("total_amount", "vendor_name")
                                                 ),
                                             )
                                             .putAdditionalProperty("type", JsonValue.from("object"))
@@ -201,17 +201,17 @@ internal class ExtractServiceAsyncTest {
                                 "properties",
                                 JsonValue.from(
                                     mapOf(
-                                        "vendor_name" to "bar",
                                         "invoice_number" to "bar",
-                                        "total_amount" to "bar",
                                         "line_items" to "bar",
+                                        "total_amount" to "bar",
+                                        "vendor_name" to "bar",
                                     )
                                 ),
                             )
                             .putAdditionalProperty(
                                 "required",
                                 JsonValue.from(
-                                    listOf("vendor_name", "invoice_number", "total_amount")
+                                    listOf("invoice_number", "total_amount", "vendor_name")
                                 ),
                             )
                             .putAdditionalProperty("type", JsonValue.from("object"))

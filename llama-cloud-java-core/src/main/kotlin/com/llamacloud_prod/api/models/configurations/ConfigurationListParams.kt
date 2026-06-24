@@ -304,13 +304,13 @@ private constructor(
 
         companion object {
 
-            @JvmField val SPLIT_V1 = of("split_v1")
+            @JvmField val CLASSIFY_V2 = of("classify_v2")
 
             @JvmField val EXTRACT_V2 = of("extract_v2")
 
-            @JvmField val CLASSIFY_V2 = of("classify_v2")
-
             @JvmField val PARSE_V2 = of("parse_v2")
+
+            @JvmField val SPLIT_V1 = of("split_v1")
 
             @JvmField val SPREADSHEET_V1 = of("spreadsheet_v1")
 
@@ -321,10 +321,10 @@ private constructor(
 
         /** An enum containing [ProductType]'s known values. */
         enum class Known {
-            SPLIT_V1,
-            EXTRACT_V2,
             CLASSIFY_V2,
+            EXTRACT_V2,
             PARSE_V2,
+            SPLIT_V1,
             SPREADSHEET_V1,
             UNKNOWN,
         }
@@ -339,10 +339,10 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            SPLIT_V1,
-            EXTRACT_V2,
             CLASSIFY_V2,
+            EXTRACT_V2,
             PARSE_V2,
+            SPLIT_V1,
             SPREADSHEET_V1,
             UNKNOWN,
             /**
@@ -360,10 +360,10 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                SPLIT_V1 -> Value.SPLIT_V1
-                EXTRACT_V2 -> Value.EXTRACT_V2
                 CLASSIFY_V2 -> Value.CLASSIFY_V2
+                EXTRACT_V2 -> Value.EXTRACT_V2
                 PARSE_V2 -> Value.PARSE_V2
+                SPLIT_V1 -> Value.SPLIT_V1
                 SPREADSHEET_V1 -> Value.SPREADSHEET_V1
                 UNKNOWN -> Value.UNKNOWN
                 else -> Value._UNKNOWN
@@ -380,10 +380,10 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                SPLIT_V1 -> Known.SPLIT_V1
-                EXTRACT_V2 -> Known.EXTRACT_V2
                 CLASSIFY_V2 -> Known.CLASSIFY_V2
+                EXTRACT_V2 -> Known.EXTRACT_V2
                 PARSE_V2 -> Known.PARSE_V2
+                SPLIT_V1 -> Known.SPLIT_V1
                 SPREADSHEET_V1 -> Known.SPREADSHEET_V1
                 UNKNOWN -> Known.UNKNOWN
                 else -> throw LlamaCloudInvalidDataException("Unknown ProductType: $value")

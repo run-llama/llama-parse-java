@@ -16,7 +16,7 @@ internal class ParseV2ParametersTest {
     fun create() {
         val parseV2Parameters =
             ParseV2Parameters.builder()
-                .tier(ParseV2Parameters.Tier.FAST)
+                .tier(ParseV2Parameters.Tier.AGENTIC)
                 .version(ParseV2Parameters.Version.LATEST)
                 .agenticOptions(
                     ParseV2Parameters.AgenticOptions.builder().customPrompt("custom_prompt").build()
@@ -75,7 +75,7 @@ internal class ParseV2ParametersTest {
                                 ParseV2Parameters.OutputOptions.GranularBbox.CELL,
                             )
                         )
-                        .addImagesToSave(ParseV2Parameters.OutputOptions.ImagesToSave.SCREENSHOT)
+                        .addImagesToSave(ParseV2Parameters.OutputOptions.ImagesToSave.EMBEDDED)
                         .markdown(
                             ParseV2Parameters.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
@@ -196,7 +196,7 @@ internal class ParseV2ParametersTest {
                                                 .AutoModeConfiguration
                                                 .ParsingConf
                                                 .SpecializedChartParsing
-                                                .AGENTIC_PLUS
+                                                .AGENTIC
                                         )
                                         .tier(
                                             ParseV2Parameters.ProcessingOptions
@@ -266,11 +266,11 @@ internal class ParseV2ParametersTest {
                         )
                         .ocrParameters(
                             ParseV2Parameters.ProcessingOptions.OcrParameters.builder()
-                                .addLanguage(ParsingLanguages.AF)
+                                .addLanguage(ParsingLanguages.ABQ)
                                 .build()
                         )
                         .specializedChartParsing(
-                            ParseV2Parameters.ProcessingOptions.SpecializedChartParsing.AGENTIC_PLUS
+                            ParseV2Parameters.ProcessingOptions.SpecializedChartParsing.AGENTIC
                         )
                         .build()
                 )
@@ -291,7 +291,7 @@ internal class ParseV2ParametersTest {
                 )
                 .build()
 
-        assertThat(parseV2Parameters.tier()).isEqualTo(ParseV2Parameters.Tier.FAST)
+        assertThat(parseV2Parameters.tier()).isEqualTo(ParseV2Parameters.Tier.AGENTIC)
         assertThat(parseV2Parameters.version()).isEqualTo(ParseV2Parameters.Version.LATEST)
         assertThat(parseV2Parameters.agenticOptions())
             .contains(
@@ -354,7 +354,7 @@ internal class ParseV2ParametersTest {
                             ParseV2Parameters.OutputOptions.GranularBbox.CELL,
                         )
                     )
-                    .addImagesToSave(ParseV2Parameters.OutputOptions.ImagesToSave.SCREENSHOT)
+                    .addImagesToSave(ParseV2Parameters.OutputOptions.ImagesToSave.EMBEDDED)
                     .markdown(
                         ParseV2Parameters.OutputOptions.Markdown.builder()
                             .annotateLinks(true)
@@ -473,7 +473,7 @@ internal class ParseV2ParametersTest {
                                         ParseV2Parameters.ProcessingOptions.AutoModeConfiguration
                                             .ParsingConf
                                             .SpecializedChartParsing
-                                            .AGENTIC_PLUS
+                                            .AGENTIC
                                     )
                                     .tier(
                                         ParseV2Parameters.ProcessingOptions.AutoModeConfiguration
@@ -541,11 +541,11 @@ internal class ParseV2ParametersTest {
                     )
                     .ocrParameters(
                         ParseV2Parameters.ProcessingOptions.OcrParameters.builder()
-                            .addLanguage(ParsingLanguages.AF)
+                            .addLanguage(ParsingLanguages.ABQ)
                             .build()
                     )
                     .specializedChartParsing(
-                        ParseV2Parameters.ProcessingOptions.SpecializedChartParsing.AGENTIC_PLUS
+                        ParseV2Parameters.ProcessingOptions.SpecializedChartParsing.AGENTIC
                     )
                     .build()
             )
@@ -572,7 +572,7 @@ internal class ParseV2ParametersTest {
         val jsonMapper = jsonMapper()
         val parseV2Parameters =
             ParseV2Parameters.builder()
-                .tier(ParseV2Parameters.Tier.FAST)
+                .tier(ParseV2Parameters.Tier.AGENTIC)
                 .version(ParseV2Parameters.Version.LATEST)
                 .agenticOptions(
                     ParseV2Parameters.AgenticOptions.builder().customPrompt("custom_prompt").build()
@@ -631,7 +631,7 @@ internal class ParseV2ParametersTest {
                                 ParseV2Parameters.OutputOptions.GranularBbox.CELL,
                             )
                         )
-                        .addImagesToSave(ParseV2Parameters.OutputOptions.ImagesToSave.SCREENSHOT)
+                        .addImagesToSave(ParseV2Parameters.OutputOptions.ImagesToSave.EMBEDDED)
                         .markdown(
                             ParseV2Parameters.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
@@ -752,7 +752,7 @@ internal class ParseV2ParametersTest {
                                                 .AutoModeConfiguration
                                                 .ParsingConf
                                                 .SpecializedChartParsing
-                                                .AGENTIC_PLUS
+                                                .AGENTIC
                                         )
                                         .tier(
                                             ParseV2Parameters.ProcessingOptions
@@ -822,11 +822,11 @@ internal class ParseV2ParametersTest {
                         )
                         .ocrParameters(
                             ParseV2Parameters.ProcessingOptions.OcrParameters.builder()
-                                .addLanguage(ParsingLanguages.AF)
+                                .addLanguage(ParsingLanguages.ABQ)
                                 .build()
                         )
                         .specializedChartParsing(
-                            ParseV2Parameters.ProcessingOptions.SpecializedChartParsing.AGENTIC_PLUS
+                            ParseV2Parameters.ProcessingOptions.SpecializedChartParsing.AGENTIC
                         )
                         .build()
                 )

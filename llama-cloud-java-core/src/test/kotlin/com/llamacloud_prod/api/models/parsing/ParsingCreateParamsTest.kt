@@ -77,7 +77,7 @@ internal class ParsingCreateParamsTest {
                             ParsingCreateParams.OutputOptions.GranularBbox.CELL,
                         )
                     )
-                    .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.SCREENSHOT)
+                    .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.EMBEDDED)
                     .markdown(
                         ParsingCreateParams.OutputOptions.Markdown.builder()
                             .annotateLinks(true)
@@ -193,7 +193,7 @@ internal class ParsingCreateParamsTest {
                                         ParsingCreateParams.ProcessingOptions.AutoModeConfiguration
                                             .ParsingConf
                                             .SpecializedChartParsing
-                                            .AGENTIC_PLUS
+                                            .AGENTIC
                                     )
                                     .tier(
                                         ParsingCreateParams.ProcessingOptions.AutoModeConfiguration
@@ -261,11 +261,11 @@ internal class ParsingCreateParamsTest {
                     )
                     .ocrParameters(
                         ParsingCreateParams.ProcessingOptions.OcrParameters.builder()
-                            .addLanguage(ParsingLanguages.AF)
+                            .addLanguage(ParsingLanguages.ABQ)
                             .build()
                     )
                     .specializedChartParsing(
-                        ParsingCreateParams.ProcessingOptions.SpecializedChartParsing.AGENTIC_PLUS
+                        ParsingCreateParams.ProcessingOptions.SpecializedChartParsing.AGENTIC
                     )
                     .build()
             )
@@ -358,7 +358,7 @@ internal class ParsingCreateParamsTest {
                                 ParsingCreateParams.OutputOptions.GranularBbox.CELL,
                             )
                         )
-                        .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.SCREENSHOT)
+                        .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.EMBEDDED)
                         .markdown(
                             ParsingCreateParams.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
@@ -479,7 +479,7 @@ internal class ParsingCreateParamsTest {
                                                 .AutoModeConfiguration
                                                 .ParsingConf
                                                 .SpecializedChartParsing
-                                                .AGENTIC_PLUS
+                                                .AGENTIC
                                         )
                                         .tier(
                                             ParsingCreateParams.ProcessingOptions
@@ -549,12 +549,11 @@ internal class ParsingCreateParamsTest {
                         )
                         .ocrParameters(
                             ParsingCreateParams.ProcessingOptions.OcrParameters.builder()
-                                .addLanguage(ParsingLanguages.AF)
+                                .addLanguage(ParsingLanguages.ABQ)
                                 .build()
                         )
                         .specializedChartParsing(
-                            ParsingCreateParams.ProcessingOptions.SpecializedChartParsing
-                                .AGENTIC_PLUS
+                            ParsingCreateParams.ProcessingOptions.SpecializedChartParsing.AGENTIC
                         )
                         .build()
                 )
@@ -670,7 +669,7 @@ internal class ParsingCreateParamsTest {
                                 ParsingCreateParams.OutputOptions.GranularBbox.CELL,
                             )
                         )
-                        .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.SCREENSHOT)
+                        .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.EMBEDDED)
                         .markdown(
                             ParsingCreateParams.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
@@ -791,7 +790,7 @@ internal class ParsingCreateParamsTest {
                                                 .AutoModeConfiguration
                                                 .ParsingConf
                                                 .SpecializedChartParsing
-                                                .AGENTIC_PLUS
+                                                .AGENTIC
                                         )
                                         .tier(
                                             ParsingCreateParams.ProcessingOptions
@@ -861,12 +860,11 @@ internal class ParsingCreateParamsTest {
                         )
                         .ocrParameters(
                             ParsingCreateParams.ProcessingOptions.OcrParameters.builder()
-                                .addLanguage(ParsingLanguages.AF)
+                                .addLanguage(ParsingLanguages.ABQ)
                                 .build()
                         )
                         .specializedChartParsing(
-                            ParsingCreateParams.ProcessingOptions.SpecializedChartParsing
-                                .AGENTIC_PLUS
+                            ParsingCreateParams.ProcessingOptions.SpecializedChartParsing.AGENTIC
                         )
                         .build()
                 )
@@ -956,7 +954,7 @@ internal class ParsingCreateParamsTest {
                             ParsingCreateParams.OutputOptions.GranularBbox.CELL,
                         )
                     )
-                    .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.SCREENSHOT)
+                    .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.EMBEDDED)
                     .markdown(
                         ParsingCreateParams.OutputOptions.Markdown.builder()
                             .annotateLinks(true)
@@ -1075,7 +1073,7 @@ internal class ParsingCreateParamsTest {
                                         ParsingCreateParams.ProcessingOptions.AutoModeConfiguration
                                             .ParsingConf
                                             .SpecializedChartParsing
-                                            .AGENTIC_PLUS
+                                            .AGENTIC
                                     )
                                     .tier(
                                         ParsingCreateParams.ProcessingOptions.AutoModeConfiguration
@@ -1143,11 +1141,11 @@ internal class ParsingCreateParamsTest {
                     )
                     .ocrParameters(
                         ParsingCreateParams.ProcessingOptions.OcrParameters.builder()
-                            .addLanguage(ParsingLanguages.AF)
+                            .addLanguage(ParsingLanguages.ABQ)
                             .build()
                     )
                     .specializedChartParsing(
-                        ParsingCreateParams.ProcessingOptions.SpecializedChartParsing.AGENTIC_PLUS
+                        ParsingCreateParams.ProcessingOptions.SpecializedChartParsing.AGENTIC
                     )
                     .build()
             )

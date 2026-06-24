@@ -36,7 +36,7 @@ internal class JobServiceTest {
                     .mode(JobCreateParams.Mode.FAST)
                     .parsingConfiguration(
                         ClassifyParsingConfiguration.builder()
-                            .lang(ParsingLanguages.AF)
+                            .lang(ParsingLanguages.ABQ)
                             .maxPages(0L)
                             .addTargetPage(0L)
                             .build()

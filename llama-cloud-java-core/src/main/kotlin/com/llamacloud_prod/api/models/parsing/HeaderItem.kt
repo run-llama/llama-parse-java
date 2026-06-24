@@ -176,26 +176,26 @@ private constructor(
                 (items ?: JsonField.of(mutableListOf())).also { checkKnown("items", it).add(item) }
         }
 
-        /** Alias for calling [addItem] with `Item.ofText(text)`. */
-        fun addItem(text: TextItem) = addItem(Item.ofText(text))
-
-        /** Alias for calling [addItem] with `Item.ofHeading(heading)`. */
-        fun addItem(heading: HeadingItem) = addItem(Item.ofHeading(heading))
-
-        /** Alias for calling [addItem] with `Item.ofList(list)`. */
-        fun addItem(list: ListItem) = addItem(Item.ofList(list))
-
         /** Alias for calling [addItem] with `Item.ofCode(code)`. */
         fun addItem(code: CodeItem) = addItem(Item.ofCode(code))
 
-        /** Alias for calling [addItem] with `Item.ofTable(table)`. */
-        fun addItem(table: TableItem) = addItem(Item.ofTable(table))
+        /** Alias for calling [addItem] with `Item.ofHeading(heading)`. */
+        fun addItem(heading: HeadingItem) = addItem(Item.ofHeading(heading))
 
         /** Alias for calling [addItem] with `Item.ofImage(image)`. */
         fun addItem(image: ImageItem) = addItem(Item.ofImage(image))
 
         /** Alias for calling [addItem] with `Item.ofLink(link)`. */
         fun addItem(link: LinkItem) = addItem(Item.ofLink(link))
+
+        /** Alias for calling [addItem] with `Item.ofList(list)`. */
+        fun addItem(list: ListItem) = addItem(Item.ofList(list))
+
+        /** Alias for calling [addItem] with `Item.ofTable(table)`. */
+        fun addItem(table: TableItem) = addItem(Item.ofTable(table))
+
+        /** Alias for calling [addItem] with `Item.ofText(text)`. */
+        fun addItem(text: TextItem) = addItem(Item.ofText(text))
 
         /** Markdown representation preserving formatting */
         fun md(md: String) = md(JsonField.of(md))
@@ -335,57 +335,57 @@ private constructor(
     @JsonSerialize(using = Item.Serializer::class)
     class Item
     private constructor(
-        private val text: TextItem? = null,
-        private val heading: HeadingItem? = null,
-        private val list: ListItem? = null,
         private val code: CodeItem? = null,
-        private val table: TableItem? = null,
+        private val heading: HeadingItem? = null,
         private val image: ImageItem? = null,
         private val link: LinkItem? = null,
+        private val list: ListItem? = null,
+        private val table: TableItem? = null,
+        private val text: TextItem? = null,
         private val _json: JsonValue? = null,
     ) {
 
-        fun text(): Optional<TextItem> = Optional.ofNullable(text)
-
-        fun heading(): Optional<HeadingItem> = Optional.ofNullable(heading)
-
-        fun list(): Optional<ListItem> = Optional.ofNullable(list)
-
         fun code(): Optional<CodeItem> = Optional.ofNullable(code)
 
-        fun table(): Optional<TableItem> = Optional.ofNullable(table)
+        fun heading(): Optional<HeadingItem> = Optional.ofNullable(heading)
 
         fun image(): Optional<ImageItem> = Optional.ofNullable(image)
 
         fun link(): Optional<LinkItem> = Optional.ofNullable(link)
 
-        fun isText(): Boolean = text != null
+        fun list(): Optional<ListItem> = Optional.ofNullable(list)
 
-        fun isHeading(): Boolean = heading != null
+        fun table(): Optional<TableItem> = Optional.ofNullable(table)
 
-        fun isList(): Boolean = list != null
+        fun text(): Optional<TextItem> = Optional.ofNullable(text)
 
         fun isCode(): Boolean = code != null
 
-        fun isTable(): Boolean = table != null
+        fun isHeading(): Boolean = heading != null
 
         fun isImage(): Boolean = image != null
 
         fun isLink(): Boolean = link != null
 
-        fun asText(): TextItem = text.getOrThrow("text")
+        fun isList(): Boolean = list != null
 
-        fun asHeading(): HeadingItem = heading.getOrThrow("heading")
+        fun isTable(): Boolean = table != null
 
-        fun asList(): ListItem = list.getOrThrow("list")
+        fun isText(): Boolean = text != null
 
         fun asCode(): CodeItem = code.getOrThrow("code")
 
-        fun asTable(): TableItem = table.getOrThrow("table")
+        fun asHeading(): HeadingItem = heading.getOrThrow("heading")
 
         fun asImage(): ImageItem = image.getOrThrow("image")
 
         fun asLink(): LinkItem = link.getOrThrow("link")
+
+        fun asList(): ListItem = list.getOrThrow("list")
+
+        fun asTable(): TableItem = table.getOrThrow("table")
+
+        fun asText(): TextItem = text.getOrThrow("text")
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
@@ -401,8 +401,8 @@ private constructor(
          *
          * Optional<String> result = item.accept(new Item.Visitor<Optional<String>>() {
          *     @Override
-         *     public Optional<String> visitText(TextItem text) {
-         *         return Optional.of(text.toString());
+         *     public Optional<String> visitCode(CodeItem code) {
+         *         return Optional.of(code.toString());
          *     }
          *
          *     // ...
@@ -420,13 +420,13 @@ private constructor(
          */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
-                text != null -> visitor.visitText(text)
-                heading != null -> visitor.visitHeading(heading)
-                list != null -> visitor.visitList(list)
                 code != null -> visitor.visitCode(code)
-                table != null -> visitor.visitTable(table)
+                heading != null -> visitor.visitHeading(heading)
                 image != null -> visitor.visitImage(image)
                 link != null -> visitor.visitLink(link)
+                list != null -> visitor.visitList(list)
+                table != null -> visitor.visitTable(table)
+                text != null -> visitor.visitText(text)
                 else -> visitor.unknown(_json)
             }
 
@@ -448,24 +448,12 @@ private constructor(
 
             accept(
                 object : Visitor<Unit> {
-                    override fun visitText(text: TextItem) {
-                        text.validate()
-                    }
-
-                    override fun visitHeading(heading: HeadingItem) {
-                        heading.validate()
-                    }
-
-                    override fun visitList(list: ListItem) {
-                        list.validate()
-                    }
-
                     override fun visitCode(code: CodeItem) {
                         code.validate()
                     }
 
-                    override fun visitTable(table: TableItem) {
-                        table.validate()
+                    override fun visitHeading(heading: HeadingItem) {
+                        heading.validate()
                     }
 
                     override fun visitImage(image: ImageItem) {
@@ -474,6 +462,18 @@ private constructor(
 
                     override fun visitLink(link: LinkItem) {
                         link.validate()
+                    }
+
+                    override fun visitList(list: ListItem) {
+                        list.validate()
+                    }
+
+                    override fun visitTable(table: TableItem) {
+                        table.validate()
+                    }
+
+                    override fun visitText(text: TextItem) {
+                        text.validate()
                     }
                 }
             )
@@ -498,19 +498,19 @@ private constructor(
         internal fun validity(): Int =
             accept(
                 object : Visitor<Int> {
-                    override fun visitText(text: TextItem) = text.validity()
-
-                    override fun visitHeading(heading: HeadingItem) = heading.validity()
-
-                    override fun visitList(list: ListItem) = list.validity()
-
                     override fun visitCode(code: CodeItem) = code.validity()
 
-                    override fun visitTable(table: TableItem) = table.validity()
+                    override fun visitHeading(heading: HeadingItem) = heading.validity()
 
                     override fun visitImage(image: ImageItem) = image.validity()
 
                     override fun visitLink(link: LinkItem) = link.validity()
+
+                    override fun visitList(list: ListItem) = list.validity()
+
+                    override fun visitTable(table: TableItem) = table.validity()
+
+                    override fun visitText(text: TextItem) = text.validity()
 
                     override fun unknown(json: JsonValue?) = 0
                 }
@@ -522,63 +522,63 @@ private constructor(
             }
 
             return other is Item &&
-                text == other.text &&
-                heading == other.heading &&
-                list == other.list &&
                 code == other.code &&
-                table == other.table &&
+                heading == other.heading &&
                 image == other.image &&
-                link == other.link
+                link == other.link &&
+                list == other.list &&
+                table == other.table &&
+                text == other.text
         }
 
-        override fun hashCode(): Int = Objects.hash(text, heading, list, code, table, image, link)
+        override fun hashCode(): Int = Objects.hash(code, heading, image, link, list, table, text)
 
         override fun toString(): String =
             when {
-                text != null -> "Item{text=$text}"
-                heading != null -> "Item{heading=$heading}"
-                list != null -> "Item{list=$list}"
                 code != null -> "Item{code=$code}"
-                table != null -> "Item{table=$table}"
+                heading != null -> "Item{heading=$heading}"
                 image != null -> "Item{image=$image}"
                 link != null -> "Item{link=$link}"
+                list != null -> "Item{list=$list}"
+                table != null -> "Item{table=$table}"
+                text != null -> "Item{text=$text}"
                 _json != null -> "Item{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid Item")
             }
 
         companion object {
 
-            @JvmStatic fun ofText(text: TextItem) = Item(text = text)
-
-            @JvmStatic fun ofHeading(heading: HeadingItem) = Item(heading = heading)
-
-            @JvmStatic fun ofList(list: ListItem) = Item(list = list)
-
             @JvmStatic fun ofCode(code: CodeItem) = Item(code = code)
 
-            @JvmStatic fun ofTable(table: TableItem) = Item(table = table)
+            @JvmStatic fun ofHeading(heading: HeadingItem) = Item(heading = heading)
 
             @JvmStatic fun ofImage(image: ImageItem) = Item(image = image)
 
             @JvmStatic fun ofLink(link: LinkItem) = Item(link = link)
+
+            @JvmStatic fun ofList(list: ListItem) = Item(list = list)
+
+            @JvmStatic fun ofTable(table: TableItem) = Item(table = table)
+
+            @JvmStatic fun ofText(text: TextItem) = Item(text = text)
         }
 
         /** An interface that defines how to map each variant of [Item] to a value of type [T]. */
         interface Visitor<out T> {
 
-            fun visitText(text: TextItem): T
-
-            fun visitHeading(heading: HeadingItem): T
-
-            fun visitList(list: ListItem): T
-
             fun visitCode(code: CodeItem): T
 
-            fun visitTable(table: TableItem): T
+            fun visitHeading(heading: HeadingItem): T
 
             fun visitImage(image: ImageItem): T
 
             fun visitLink(link: LinkItem): T
+
+            fun visitList(list: ListItem): T
+
+            fun visitTable(table: TableItem): T
+
+            fun visitText(text: TextItem): T
 
             /**
              * Maps an unknown variant of [Item] to a value of type [T].
@@ -601,29 +601,14 @@ private constructor(
                 val type = json.asObject().getOrNull()?.get("type")?.asString()?.getOrNull()
 
                 when (type) {
-                    "text" -> {
-                        return tryDeserialize(node, jacksonTypeRef<TextItem>())?.let {
-                            Item(text = it, _json = json)
-                        } ?: Item(_json = json)
-                    }
-                    "heading" -> {
-                        return tryDeserialize(node, jacksonTypeRef<HeadingItem>())?.let {
-                            Item(heading = it, _json = json)
-                        } ?: Item(_json = json)
-                    }
-                    "list" -> {
-                        return tryDeserialize(node, jacksonTypeRef<ListItem>())?.let {
-                            Item(list = it, _json = json)
-                        } ?: Item(_json = json)
-                    }
                     "code" -> {
                         return tryDeserialize(node, jacksonTypeRef<CodeItem>())?.let {
                             Item(code = it, _json = json)
                         } ?: Item(_json = json)
                     }
-                    "table" -> {
-                        return tryDeserialize(node, jacksonTypeRef<TableItem>())?.let {
-                            Item(table = it, _json = json)
+                    "heading" -> {
+                        return tryDeserialize(node, jacksonTypeRef<HeadingItem>())?.let {
+                            Item(heading = it, _json = json)
                         } ?: Item(_json = json)
                     }
                     "image" -> {
@@ -634,6 +619,21 @@ private constructor(
                     "link" -> {
                         return tryDeserialize(node, jacksonTypeRef<LinkItem>())?.let {
                             Item(link = it, _json = json)
+                        } ?: Item(_json = json)
+                    }
+                    "list" -> {
+                        return tryDeserialize(node, jacksonTypeRef<ListItem>())?.let {
+                            Item(list = it, _json = json)
+                        } ?: Item(_json = json)
+                    }
+                    "table" -> {
+                        return tryDeserialize(node, jacksonTypeRef<TableItem>())?.let {
+                            Item(table = it, _json = json)
+                        } ?: Item(_json = json)
+                    }
+                    "text" -> {
+                        return tryDeserialize(node, jacksonTypeRef<TextItem>())?.let {
+                            Item(text = it, _json = json)
                         } ?: Item(_json = json)
                     }
                 }
@@ -650,13 +650,13 @@ private constructor(
                 provider: SerializerProvider,
             ) {
                 when {
-                    value.text != null -> generator.writeObject(value.text)
-                    value.heading != null -> generator.writeObject(value.heading)
-                    value.list != null -> generator.writeObject(value.list)
                     value.code != null -> generator.writeObject(value.code)
-                    value.table != null -> generator.writeObject(value.table)
+                    value.heading != null -> generator.writeObject(value.heading)
                     value.image != null -> generator.writeObject(value.image)
                     value.link != null -> generator.writeObject(value.link)
+                    value.list != null -> generator.writeObject(value.list)
+                    value.table != null -> generator.writeObject(value.table)
+                    value.text != null -> generator.writeObject(value.text)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid Item")
                 }

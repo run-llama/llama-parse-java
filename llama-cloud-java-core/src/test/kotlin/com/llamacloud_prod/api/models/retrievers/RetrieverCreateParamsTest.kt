@@ -34,7 +34,7 @@ internal class RetrieverCreateParamsTest {
                                     .enableReranking(true)
                                     .filesTopK(1L)
                                     .rerankTopN(1L)
-                                    .retrievalMode(RetrievalMode.CHUNKS)
+                                    .retrievalMode(RetrievalMode.AUTO_ROUTED)
                                     .retrieveImageNodes(true)
                                     .retrievePageFigureNodes(true)
                                     .retrievePageScreenshotNodes(true)
@@ -47,7 +47,7 @@ internal class RetrieverCreateParamsTest {
                                                     .operator(
                                                         MetadataFilters.Filter.MetadataFilter
                                                             .Operator
-                                                            .EQUALS
+                                                            .NOT_EQUALS
                                                     )
                                                     .build()
                                             )
@@ -95,7 +95,7 @@ internal class RetrieverCreateParamsTest {
                                         .enableReranking(true)
                                         .filesTopK(1L)
                                         .rerankTopN(1L)
-                                        .retrievalMode(RetrievalMode.CHUNKS)
+                                        .retrievalMode(RetrievalMode.AUTO_ROUTED)
                                         .retrieveImageNodes(true)
                                         .retrievePageFigureNodes(true)
                                         .retrievePageScreenshotNodes(true)
@@ -108,7 +108,7 @@ internal class RetrieverCreateParamsTest {
                                                         .operator(
                                                             MetadataFilters.Filter.MetadataFilter
                                                                 .Operator
-                                                                .EQUALS
+                                                                .NOT_EQUALS
                                                         )
                                                         .build()
                                                 )
@@ -179,7 +179,7 @@ internal class RetrieverCreateParamsTest {
                                         .enableReranking(true)
                                         .filesTopK(1L)
                                         .rerankTopN(1L)
-                                        .retrievalMode(RetrievalMode.CHUNKS)
+                                        .retrievalMode(RetrievalMode.AUTO_ROUTED)
                                         .retrieveImageNodes(true)
                                         .retrievePageFigureNodes(true)
                                         .retrievePageScreenshotNodes(true)
@@ -192,7 +192,7 @@ internal class RetrieverCreateParamsTest {
                                                         .operator(
                                                             MetadataFilters.Filter.MetadataFilter
                                                                 .Operator
-                                                                .EQUALS
+                                                                .NOT_EQUALS
                                                         )
                                                         .build()
                                                 )
@@ -237,7 +237,7 @@ internal class RetrieverCreateParamsTest {
                                     .enableReranking(true)
                                     .filesTopK(1L)
                                     .rerankTopN(1L)
-                                    .retrievalMode(RetrievalMode.CHUNKS)
+                                    .retrievalMode(RetrievalMode.AUTO_ROUTED)
                                     .retrieveImageNodes(true)
                                     .retrievePageFigureNodes(true)
                                     .retrievePageScreenshotNodes(true)
@@ -250,7 +250,7 @@ internal class RetrieverCreateParamsTest {
                                                     .operator(
                                                         MetadataFilters.Filter.MetadataFilter
                                                             .Operator
-                                                            .EQUALS
+                                                            .NOT_EQUALS
                                                     )
                                                     .build()
                                             )

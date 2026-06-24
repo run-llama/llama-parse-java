@@ -17,10 +17,8 @@ internal class QuerySearchParamsTest {
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .query("x")
-            .mode(CompositeRetrievalMode.ROUTING)
-            .rerankConfig(
-                ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.SYSTEM_DEFAULT).build()
-            )
+            .mode(CompositeRetrievalMode.FULL)
+            .rerankConfig(ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.BEDROCK).build())
             .rerankTopN(0L)
             .build()
     }
@@ -46,9 +44,9 @@ internal class QuerySearchParamsTest {
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .query("x")
-                .mode(CompositeRetrievalMode.ROUTING)
+                .mode(CompositeRetrievalMode.FULL)
                 .rerankConfig(
-                    ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.SYSTEM_DEFAULT).build()
+                    ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.BEDROCK).build()
                 )
                 .rerankTopN(0L)
                 .build()
@@ -85,9 +83,9 @@ internal class QuerySearchParamsTest {
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .query("x")
-                .mode(CompositeRetrievalMode.ROUTING)
+                .mode(CompositeRetrievalMode.FULL)
                 .rerankConfig(
-                    ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.SYSTEM_DEFAULT).build()
+                    ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.BEDROCK).build()
                 )
                 .rerankTopN(0L)
                 .build()
@@ -95,11 +93,9 @@ internal class QuerySearchParamsTest {
         val body = params._body()
 
         assertThat(body.query()).isEqualTo("x")
-        assertThat(body.mode()).contains(CompositeRetrievalMode.ROUTING)
+        assertThat(body.mode()).contains(CompositeRetrievalMode.FULL)
         assertThat(body.rerankConfig())
-            .contains(
-                ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.SYSTEM_DEFAULT).build()
-            )
+            .contains(ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.BEDROCK).build())
         assertThat(body.rerankTopN()).contains(0L)
     }
 

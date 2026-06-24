@@ -76,9 +76,9 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2025-12-11`
-     * - `cost_effective`: `2026-06-11`
-     * - `agentic`: `2026-06-11`
-     * - `agentic_plus`: `2026-06-11`
+     * - `cost_effective`: `2026-06-18`
+     * - `agentic`: `2026-06-18`
+     * - `agentic_plus`: `2026-06-18`
      *
      * Full list: `GET /api/v2/parse/versions`.
      *
@@ -431,9 +431,9 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2025-12-11`
-         * - `cost_effective`: `2026-06-11`
-         * - `agentic`: `2026-06-11`
-         * - `agentic_plus`: `2026-06-11`
+         * - `cost_effective`: `2026-06-18`
+         * - `agentic`: `2026-06-18`
+         * - `agentic_plus`: `2026-06-18`
          *
          * Full list: `GET /api/v2/parse/versions`.
          */
@@ -984,9 +984,9 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2025-12-11`
-         * - `cost_effective`: `2026-06-11`
-         * - `agentic`: `2026-06-11`
-         * - `agentic_plus`: `2026-06-11`
+         * - `cost_effective`: `2026-06-18`
+         * - `agentic`: `2026-06-18`
+         * - `agentic_plus`: `2026-06-18`
          *
          * Full list: `GET /api/v2/parse/versions`.
          *
@@ -1375,9 +1375,9 @@ private constructor(
              *
              * Current `latest` by tier:
              * - `fast`: `2025-12-11`
-             * - `cost_effective`: `2026-06-11`
-             * - `agentic`: `2026-06-11`
-             * - `agentic_plus`: `2026-06-11`
+             * - `cost_effective`: `2026-06-18`
+             * - `agentic`: `2026-06-18`
+             * - `agentic_plus`: `2026-06-18`
              *
              * Full list: `GET /api/v2/parse/versions`.
              */
@@ -2009,9 +2009,9 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2025-12-11`
-     * - `cost_effective`: `2026-06-11`
-     * - `agentic`: `2026-06-11`
-     * - `agentic_plus`: `2026-06-11`
+     * - `cost_effective`: `2026-06-18`
+     * - `agentic`: `2026-06-18`
+     * - `agentic_plus`: `2026-06-18`
      *
      * Full list: `GET /api/v2/parse/versions`.
      */
@@ -2031,7 +2031,7 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
-            @JvmField val _2026_06_11 = of("2026-06-11")
+            @JvmField val _2026_06_18 = of("2026-06-18")
 
             @JvmField val _2025_12_11 = of("2025-12-11")
 
@@ -2041,7 +2041,7 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
-            _2026_06_11,
+            _2026_06_18,
             _2025_12_11,
         }
 
@@ -2056,7 +2056,7 @@ private constructor(
          */
         enum class Value {
             LATEST,
-            _2026_06_11,
+            _2026_06_18,
             _2025_12_11,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
             _UNKNOWN,
@@ -2072,7 +2072,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
-                _2026_06_11 -> Value._2026_06_11
+                _2026_06_18 -> Value._2026_06_18
                 _2025_12_11 -> Value._2025_12_11
                 else -> Value._UNKNOWN
             }
@@ -2089,7 +2089,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
-                _2026_06_11 -> Known._2026_06_11
+                _2026_06_18 -> Known._2026_06_18
                 _2025_12_11 -> Known._2025_12_11
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
             }
@@ -4719,20 +4719,20 @@ private constructor(
 
             companion object {
 
-                @JvmField val SCREENSHOT = of("screenshot")
-
                 @JvmField val EMBEDDED = of("embedded")
 
                 @JvmField val LAYOUT = of("layout")
+
+                @JvmField val SCREENSHOT = of("screenshot")
 
                 @JvmStatic fun of(value: String) = ImagesToSave(JsonField.of(value))
             }
 
             /** An enum containing [ImagesToSave]'s known values. */
             enum class Known {
-                SCREENSHOT,
                 EMBEDDED,
                 LAYOUT,
+                SCREENSHOT,
             }
 
             /**
@@ -4745,9 +4745,9 @@ private constructor(
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
-                SCREENSHOT,
                 EMBEDDED,
                 LAYOUT,
+                SCREENSHOT,
                 /**
                  * An enum member indicating that [ImagesToSave] was instantiated with an unknown
                  * value.
@@ -4764,9 +4764,9 @@ private constructor(
              */
             fun value(): Value =
                 when (this) {
-                    SCREENSHOT -> Value.SCREENSHOT
                     EMBEDDED -> Value.EMBEDDED
                     LAYOUT -> Value.LAYOUT
+                    SCREENSHOT -> Value.SCREENSHOT
                     else -> Value._UNKNOWN
                 }
 
@@ -4781,9 +4781,9 @@ private constructor(
              */
             fun known(): Known =
                 when (this) {
-                    SCREENSHOT -> Known.SCREENSHOT
                     EMBEDDED -> Known.EMBEDDED
                     LAYOUT -> Known.LAYOUT
+                    SCREENSHOT -> Known.SCREENSHOT
                     else -> throw LlamaCloudInvalidDataException("Unknown ImagesToSave: $value")
                 }
 
@@ -10439,9 +10439,9 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2025-12-11`
-                 * - `cost_effective`: `2026-06-11`
-                 * - `agentic`: `2026-06-11`
-                 * - `agentic_plus`: `2026-06-11`
+                 * - `cost_effective`: `2026-06-18`
+                 * - `agentic`: `2026-06-18`
+                 * - `agentic_plus`: `2026-06-18`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  *
@@ -10943,9 +10943,9 @@ private constructor(
                      *
                      * Current `latest` by tier:
                      * - `fast`: `2025-12-11`
-                     * - `cost_effective`: `2026-06-11`
-                     * - `agentic`: `2026-06-11`
-                     * - `agentic_plus`: `2026-06-11`
+                     * - `cost_effective`: `2026-06-18`
+                     * - `agentic`: `2026-06-18`
+                     * - `agentic_plus`: `2026-06-18`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
                      */
@@ -12256,9 +12256,9 @@ private constructor(
 
                     companion object {
 
-                        @JvmField val AGENTIC_PLUS = of("agentic_plus")
-
                         @JvmField val AGENTIC = of("agentic")
+
+                        @JvmField val AGENTIC_PLUS = of("agentic_plus")
 
                         @JvmField val EFFICIENT = of("efficient")
 
@@ -12268,8 +12268,8 @@ private constructor(
 
                     /** An enum containing [SpecializedChartParsing]'s known values. */
                     enum class Known {
-                        AGENTIC_PLUS,
                         AGENTIC,
+                        AGENTIC_PLUS,
                         EFFICIENT,
                     }
 
@@ -12285,8 +12285,8 @@ private constructor(
                      * - It was constructed with an arbitrary value using the [of] method.
                      */
                     enum class Value {
-                        AGENTIC_PLUS,
                         AGENTIC,
+                        AGENTIC_PLUS,
                         EFFICIENT,
                         /**
                          * An enum member indicating that [SpecializedChartParsing] was instantiated
@@ -12304,8 +12304,8 @@ private constructor(
                      */
                     fun value(): Value =
                         when (this) {
-                            AGENTIC_PLUS -> Value.AGENTIC_PLUS
                             AGENTIC -> Value.AGENTIC
+                            AGENTIC_PLUS -> Value.AGENTIC_PLUS
                             EFFICIENT -> Value.EFFICIENT
                             else -> Value._UNKNOWN
                         }
@@ -12321,8 +12321,8 @@ private constructor(
                      */
                     fun known(): Known =
                         when (this) {
-                            AGENTIC_PLUS -> Known.AGENTIC_PLUS
                             AGENTIC -> Known.AGENTIC
+                            AGENTIC_PLUS -> Known.AGENTIC_PLUS
                             EFFICIENT -> Known.EFFICIENT
                             else ->
                                 throw LlamaCloudInvalidDataException(
@@ -12412,23 +12412,23 @@ private constructor(
 
                     companion object {
 
-                        @JvmField val FAST = of("fast")
-
-                        @JvmField val COST_EFFECTIVE = of("cost_effective")
-
                         @JvmField val AGENTIC = of("agentic")
 
                         @JvmField val AGENTIC_PLUS = of("agentic_plus")
+
+                        @JvmField val COST_EFFECTIVE = of("cost_effective")
+
+                        @JvmField val FAST = of("fast")
 
                         @JvmStatic fun of(value: String) = Tier(JsonField.of(value))
                     }
 
                     /** An enum containing [Tier]'s known values. */
                     enum class Known {
-                        FAST,
-                        COST_EFFECTIVE,
                         AGENTIC,
                         AGENTIC_PLUS,
+                        COST_EFFECTIVE,
+                        FAST,
                     }
 
                     /**
@@ -12441,10 +12441,10 @@ private constructor(
                      * - It was constructed with an arbitrary value using the [of] method.
                      */
                     enum class Value {
-                        FAST,
-                        COST_EFFECTIVE,
                         AGENTIC,
                         AGENTIC_PLUS,
+                        COST_EFFECTIVE,
+                        FAST,
                         /**
                          * An enum member indicating that [Tier] was instantiated with an unknown
                          * value.
@@ -12461,10 +12461,10 @@ private constructor(
                      */
                     fun value(): Value =
                         when (this) {
-                            FAST -> Value.FAST
-                            COST_EFFECTIVE -> Value.COST_EFFECTIVE
                             AGENTIC -> Value.AGENTIC
                             AGENTIC_PLUS -> Value.AGENTIC_PLUS
+                            COST_EFFECTIVE -> Value.COST_EFFECTIVE
+                            FAST -> Value.FAST
                             else -> Value._UNKNOWN
                         }
 
@@ -12479,10 +12479,10 @@ private constructor(
                      */
                     fun known(): Known =
                         when (this) {
-                            FAST -> Known.FAST
-                            COST_EFFECTIVE -> Known.COST_EFFECTIVE
                             AGENTIC -> Known.AGENTIC
                             AGENTIC_PLUS -> Known.AGENTIC_PLUS
+                            COST_EFFECTIVE -> Known.COST_EFFECTIVE
+                            FAST -> Known.FAST
                             else -> throw LlamaCloudInvalidDataException("Unknown Tier: $value")
                         }
 
@@ -12557,9 +12557,9 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2025-12-11`
-                 * - `cost_effective`: `2026-06-11`
-                 * - `agentic`: `2026-06-11`
-                 * - `agentic_plus`: `2026-06-11`
+                 * - `cost_effective`: `2026-06-18`
+                 * - `agentic`: `2026-06-18`
+                 * - `agentic_plus`: `2026-06-18`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  */
@@ -12582,7 +12582,7 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
-                        @JvmField val _2026_06_11 = of("2026-06-11")
+                        @JvmField val _2026_06_18 = of("2026-06-18")
 
                         @JvmField val _2025_12_11 = of("2025-12-11")
 
@@ -12592,7 +12592,7 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
-                        _2026_06_11,
+                        _2026_06_18,
                         _2025_12_11,
                     }
 
@@ -12607,7 +12607,7 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
-                        _2026_06_11,
+                        _2026_06_18,
                         _2025_12_11,
                         /**
                          * An enum member indicating that [Version] was instantiated with an unknown
@@ -12626,7 +12626,7 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
-                            _2026_06_11 -> Value._2026_06_11
+                            _2026_06_18 -> Value._2026_06_18
                             _2025_12_11 -> Value._2025_12_11
                             else -> Value._UNKNOWN
                         }
@@ -12643,7 +12643,7 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
-                            _2026_06_11 -> Known._2026_06_11
+                            _2026_06_18 -> Known._2026_06_18
                             _2025_12_11 -> Known._2025_12_11
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
                         }
@@ -18559,9 +18559,9 @@ private constructor(
 
             companion object {
 
-                @JvmField val AGENTIC_PLUS = of("agentic_plus")
-
                 @JvmField val AGENTIC = of("agentic")
+
+                @JvmField val AGENTIC_PLUS = of("agentic_plus")
 
                 @JvmField val EFFICIENT = of("efficient")
 
@@ -18570,8 +18570,8 @@ private constructor(
 
             /** An enum containing [SpecializedChartParsing]'s known values. */
             enum class Known {
-                AGENTIC_PLUS,
                 AGENTIC,
+                AGENTIC_PLUS,
                 EFFICIENT,
             }
 
@@ -18587,8 +18587,8 @@ private constructor(
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
-                AGENTIC_PLUS,
                 AGENTIC,
+                AGENTIC_PLUS,
                 EFFICIENT,
                 /**
                  * An enum member indicating that [SpecializedChartParsing] was instantiated with an
@@ -18606,8 +18606,8 @@ private constructor(
              */
             fun value(): Value =
                 when (this) {
-                    AGENTIC_PLUS -> Value.AGENTIC_PLUS
                     AGENTIC -> Value.AGENTIC
+                    AGENTIC_PLUS -> Value.AGENTIC_PLUS
                     EFFICIENT -> Value.EFFICIENT
                     else -> Value._UNKNOWN
                 }
@@ -18623,8 +18623,8 @@ private constructor(
              */
             fun known(): Known =
                 when (this) {
-                    AGENTIC_PLUS -> Known.AGENTIC_PLUS
                     AGENTIC -> Known.AGENTIC
+                    AGENTIC_PLUS -> Known.AGENTIC_PLUS
                     EFFICIENT -> Known.EFFICIENT
                     else ->
                         throw LlamaCloudInvalidDataException(
@@ -19188,17 +19188,17 @@ private constructor(
 
             companion object {
 
-                @JvmField val STRING = of("string")
-
                 @JvmField val JSON = of("json")
+
+                @JvmField val STRING = of("string")
 
                 @JvmStatic fun of(value: String) = WebhookOutputFormat(JsonField.of(value))
             }
 
             /** An enum containing [WebhookOutputFormat]'s known values. */
             enum class Known {
-                STRING,
                 JSON,
+                STRING,
             }
 
             /**
@@ -19213,8 +19213,8 @@ private constructor(
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
-                STRING,
                 JSON,
+                STRING,
                 /**
                  * An enum member indicating that [WebhookOutputFormat] was instantiated with an
                  * unknown value.
@@ -19231,8 +19231,8 @@ private constructor(
              */
             fun value(): Value =
                 when (this) {
-                    STRING -> Value.STRING
                     JSON -> Value.JSON
+                    STRING -> Value.STRING
                     else -> Value._UNKNOWN
                 }
 
@@ -19247,8 +19247,8 @@ private constructor(
              */
             fun known(): Known =
                 when (this) {
-                    STRING -> Known.STRING
                     JSON -> Known.JSON
+                    STRING -> Known.STRING
                     else ->
                         throw LlamaCloudInvalidDataException("Unknown WebhookOutputFormat: $value")
                 }

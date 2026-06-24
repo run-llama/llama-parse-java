@@ -445,9 +445,9 @@ private constructor(
 
             companion object {
 
-                @JvmField val INCLUDE = of("include")
-
                 @JvmField val FORBID = of("forbid")
+
+                @JvmField val INCLUDE = of("include")
 
                 @JvmField val OMIT = of("omit")
 
@@ -456,8 +456,8 @@ private constructor(
 
             /** An enum containing [AllowUncategorized]'s known values. */
             enum class Known {
-                INCLUDE,
                 FORBID,
+                INCLUDE,
                 OMIT,
             }
 
@@ -473,8 +473,8 @@ private constructor(
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
-                INCLUDE,
                 FORBID,
+                INCLUDE,
                 OMIT,
                 /**
                  * An enum member indicating that [AllowUncategorized] was instantiated with an
@@ -492,8 +492,8 @@ private constructor(
              */
             fun value(): Value =
                 when (this) {
-                    INCLUDE -> Value.INCLUDE
                     FORBID -> Value.FORBID
+                    INCLUDE -> Value.INCLUDE
                     OMIT -> Value.OMIT
                     else -> Value._UNKNOWN
                 }
@@ -509,8 +509,8 @@ private constructor(
              */
             fun known(): Known =
                 when (this) {
-                    INCLUDE -> Known.INCLUDE
                     FORBID -> Known.FORBID
+                    INCLUDE -> Known.INCLUDE
                     OMIT -> Known.OMIT
                     else ->
                         throw LlamaCloudInvalidDataException("Unknown AllowUncategorized: $value")

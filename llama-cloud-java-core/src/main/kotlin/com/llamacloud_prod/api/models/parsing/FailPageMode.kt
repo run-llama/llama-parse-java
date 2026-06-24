@@ -21,20 +21,20 @@ class FailPageMode @JsonCreator private constructor(private val value: JsonField
 
     companion object {
 
-        @JvmField val RAW_TEXT = of("raw_text")
-
         @JvmField val BLANK_PAGE = of("blank_page")
 
         @JvmField val ERROR_MESSAGE = of("error_message")
+
+        @JvmField val RAW_TEXT = of("raw_text")
 
         @JvmStatic fun of(value: String) = FailPageMode(JsonField.of(value))
     }
 
     /** An enum containing [FailPageMode]'s known values. */
     enum class Known {
-        RAW_TEXT,
         BLANK_PAGE,
         ERROR_MESSAGE,
+        RAW_TEXT,
     }
 
     /**
@@ -47,9 +47,9 @@ class FailPageMode @JsonCreator private constructor(private val value: JsonField
      * - It was constructed with an arbitrary value using the [of] method.
      */
     enum class Value {
-        RAW_TEXT,
         BLANK_PAGE,
         ERROR_MESSAGE,
+        RAW_TEXT,
         /** An enum member indicating that [FailPageMode] was instantiated with an unknown value. */
         _UNKNOWN,
     }
@@ -63,9 +63,9 @@ class FailPageMode @JsonCreator private constructor(private val value: JsonField
      */
     fun value(): Value =
         when (this) {
-            RAW_TEXT -> Value.RAW_TEXT
             BLANK_PAGE -> Value.BLANK_PAGE
             ERROR_MESSAGE -> Value.ERROR_MESSAGE
+            RAW_TEXT -> Value.RAW_TEXT
             else -> Value._UNKNOWN
         }
 
@@ -80,9 +80,9 @@ class FailPageMode @JsonCreator private constructor(private val value: JsonField
      */
     fun known(): Known =
         when (this) {
-            RAW_TEXT -> Known.RAW_TEXT
             BLANK_PAGE -> Known.BLANK_PAGE
             ERROR_MESSAGE -> Known.ERROR_MESSAGE
+            RAW_TEXT -> Known.RAW_TEXT
             else -> throw LlamaCloudInvalidDataException("Unknown FailPageMode: $value")
         }
 

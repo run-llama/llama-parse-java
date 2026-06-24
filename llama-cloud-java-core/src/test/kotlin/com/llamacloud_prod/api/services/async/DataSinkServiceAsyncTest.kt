@@ -32,7 +32,7 @@ internal class DataSinkServiceAsyncTest {
                                     .build()
                             )
                             .name("name")
-                            .sinkType(DataSinkCreate.SinkType.PINECONE)
+                            .sinkType(DataSinkCreate.SinkType.ASTRA_DB)
                             .build()
                     )
                     .build()
@@ -52,7 +52,7 @@ internal class DataSinkServiceAsyncTest {
             dataSinkServiceAsync.update(
                 DataSinkUpdateParams.builder()
                     .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .sinkType(DataSinkUpdateParams.SinkType.PINECONE)
+                    .sinkType(DataSinkUpdateParams.SinkType.ASTRA_DB)
                     .component(
                         DataSinkUpdateParams.Component.UnionMember0.builder()
                             .putAdditionalProperty("foo", JsonValue.from("bar"))

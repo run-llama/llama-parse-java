@@ -21,7 +21,7 @@ internal class SplitCreateParamsTest {
                         SplitCreateParams.Configuration.SplittingStrategy.builder()
                             .allowUncategorized(
                                 SplitCreateParams.Configuration.SplittingStrategy.AllowUncategorized
-                                    .INCLUDE
+                                    .FORBID
                             )
                             .build()
                     )
@@ -46,7 +46,7 @@ internal class SplitCreateParamsTest {
                                 .allowUncategorized(
                                     SplitCreateParams.Configuration.SplittingStrategy
                                         .AllowUncategorized
-                                        .INCLUDE
+                                        .FORBID
                                 )
                                 .build()
                         )
@@ -93,7 +93,7 @@ internal class SplitCreateParamsTest {
                                 .allowUncategorized(
                                     SplitCreateParams.Configuration.SplittingStrategy
                                         .AllowUncategorized
-                                        .INCLUDE
+                                        .FORBID
                                 )
                                 .build()
                         )
@@ -114,7 +114,7 @@ internal class SplitCreateParamsTest {
                         SplitCreateParams.Configuration.SplittingStrategy.builder()
                             .allowUncategorized(
                                 SplitCreateParams.Configuration.SplittingStrategy.AllowUncategorized
-                                    .INCLUDE
+                                    .FORBID
                             )
                             .build()
                     )

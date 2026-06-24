@@ -21,35 +21,35 @@ class MessageRole @JsonCreator private constructor(private val value: JsonField<
 
     companion object {
 
-        @JvmField val SYSTEM = of("system")
-
-        @JvmField val DEVELOPER = of("developer")
-
-        @JvmField val USER = of("user")
-
         @JvmField val ASSISTANT = of("assistant")
-
-        @JvmField val FUNCTION = of("function")
-
-        @JvmField val TOOL = of("tool")
 
         @JvmField val CHATBOT = of("chatbot")
 
+        @JvmField val DEVELOPER = of("developer")
+
+        @JvmField val FUNCTION = of("function")
+
         @JvmField val MODEL = of("model")
+
+        @JvmField val SYSTEM = of("system")
+
+        @JvmField val TOOL = of("tool")
+
+        @JvmField val USER = of("user")
 
         @JvmStatic fun of(value: String) = MessageRole(JsonField.of(value))
     }
 
     /** An enum containing [MessageRole]'s known values. */
     enum class Known {
-        SYSTEM,
-        DEVELOPER,
-        USER,
         ASSISTANT,
-        FUNCTION,
-        TOOL,
         CHATBOT,
+        DEVELOPER,
+        FUNCTION,
         MODEL,
+        SYSTEM,
+        TOOL,
+        USER,
     }
 
     /**
@@ -62,14 +62,14 @@ class MessageRole @JsonCreator private constructor(private val value: JsonField<
      * - It was constructed with an arbitrary value using the [of] method.
      */
     enum class Value {
-        SYSTEM,
-        DEVELOPER,
-        USER,
         ASSISTANT,
-        FUNCTION,
-        TOOL,
         CHATBOT,
+        DEVELOPER,
+        FUNCTION,
         MODEL,
+        SYSTEM,
+        TOOL,
+        USER,
         /** An enum member indicating that [MessageRole] was instantiated with an unknown value. */
         _UNKNOWN,
     }
@@ -83,14 +83,14 @@ class MessageRole @JsonCreator private constructor(private val value: JsonField<
      */
     fun value(): Value =
         when (this) {
-            SYSTEM -> Value.SYSTEM
-            DEVELOPER -> Value.DEVELOPER
-            USER -> Value.USER
             ASSISTANT -> Value.ASSISTANT
-            FUNCTION -> Value.FUNCTION
-            TOOL -> Value.TOOL
             CHATBOT -> Value.CHATBOT
+            DEVELOPER -> Value.DEVELOPER
+            FUNCTION -> Value.FUNCTION
             MODEL -> Value.MODEL
+            SYSTEM -> Value.SYSTEM
+            TOOL -> Value.TOOL
+            USER -> Value.USER
             else -> Value._UNKNOWN
         }
 
@@ -105,14 +105,14 @@ class MessageRole @JsonCreator private constructor(private val value: JsonField<
      */
     fun known(): Known =
         when (this) {
-            SYSTEM -> Known.SYSTEM
-            DEVELOPER -> Known.DEVELOPER
-            USER -> Known.USER
             ASSISTANT -> Known.ASSISTANT
-            FUNCTION -> Known.FUNCTION
-            TOOL -> Known.TOOL
             CHATBOT -> Known.CHATBOT
+            DEVELOPER -> Known.DEVELOPER
+            FUNCTION -> Known.FUNCTION
             MODEL -> Known.MODEL
+            SYSTEM -> Known.SYSTEM
+            TOOL -> Known.TOOL
+            USER -> Known.USER
             else -> throw LlamaCloudInvalidDataException("Unknown MessageRole: $value")
         }
 

@@ -1394,26 +1394,26 @@ private constructor(
 
         companion object {
 
-            @JvmField val NOT_STARTED = of("NOT_STARTED")
-
-            @JvmField val IN_PROGRESS = of("IN_PROGRESS")
-
-            @JvmField val SUCCESS = of("SUCCESS")
+            @JvmField val CANCELLED = of("CANCELLED")
 
             @JvmField val ERROR = of("ERROR")
 
-            @JvmField val CANCELLED = of("CANCELLED")
+            @JvmField val IN_PROGRESS = of("IN_PROGRESS")
+
+            @JvmField val NOT_STARTED = of("NOT_STARTED")
+
+            @JvmField val SUCCESS = of("SUCCESS")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
 
         /** An enum containing [Status]'s known values. */
         enum class Known {
-            NOT_STARTED,
-            IN_PROGRESS,
-            SUCCESS,
-            ERROR,
             CANCELLED,
+            ERROR,
+            IN_PROGRESS,
+            NOT_STARTED,
+            SUCCESS,
         }
 
         /**
@@ -1426,11 +1426,11 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            NOT_STARTED,
-            IN_PROGRESS,
-            SUCCESS,
-            ERROR,
             CANCELLED,
+            ERROR,
+            IN_PROGRESS,
+            NOT_STARTED,
+            SUCCESS,
             /** An enum member indicating that [Status] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -1444,11 +1444,11 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                NOT_STARTED -> Value.NOT_STARTED
-                IN_PROGRESS -> Value.IN_PROGRESS
-                SUCCESS -> Value.SUCCESS
-                ERROR -> Value.ERROR
                 CANCELLED -> Value.CANCELLED
+                ERROR -> Value.ERROR
+                IN_PROGRESS -> Value.IN_PROGRESS
+                NOT_STARTED -> Value.NOT_STARTED
+                SUCCESS -> Value.SUCCESS
                 else -> Value._UNKNOWN
             }
 
@@ -1463,11 +1463,11 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                NOT_STARTED -> Known.NOT_STARTED
-                IN_PROGRESS -> Known.IN_PROGRESS
-                SUCCESS -> Known.SUCCESS
-                ERROR -> Known.ERROR
                 CANCELLED -> Known.CANCELLED
+                ERROR -> Known.ERROR
+                IN_PROGRESS -> Known.IN_PROGRESS
+                NOT_STARTED -> Known.NOT_STARTED
+                SUCCESS -> Known.SUCCESS
                 else -> throw LlamaCloudInvalidDataException("Unknown Status: $value")
             }
 

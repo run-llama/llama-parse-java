@@ -29,7 +29,7 @@ internal class DataSourceServiceTest {
                             .build()
                     )
                     .name("name")
-                    .sourceType(DataSourceCreateParams.SourceType.S3)
+                    .sourceType(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
                     .customMetadata(
                         DataSourceCreateParams.CustomMetadata.builder()
                             .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
@@ -51,7 +51,7 @@ internal class DataSourceServiceTest {
             dataSourceService.update(
                 DataSourceUpdateParams.builder()
                     .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .sourceType(DataSourceUpdateParams.SourceType.S3)
+                    .sourceType(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
                     .component(
                         DataSourceUpdateParams.Component.UnionMember0.builder()
                             .putAdditionalProperty("foo", JsonValue.from("bar"))

@@ -15,7 +15,7 @@ internal class FooterItemTest {
         val footerItem =
             FooterItem.builder()
                 .addItem(
-                    TextItem.builder()
+                    CodeItem.builder()
                         .md("md")
                         .value("value")
                         .addBbox(
@@ -31,7 +31,8 @@ internal class FooterItemTest {
                                 .startIndex(0L)
                                 .build()
                         )
-                        .type(TextItem.Type.TEXT)
+                        .language("language")
+                        .type(CodeItem.Type.CODE)
                         .build()
                 )
                 .md("md")
@@ -53,8 +54,8 @@ internal class FooterItemTest {
 
         assertThat(footerItem.items())
             .containsExactly(
-                FooterItem.Item.ofText(
-                    TextItem.builder()
+                FooterItem.Item.ofCode(
+                    CodeItem.builder()
                         .md("md")
                         .value("value")
                         .addBbox(
@@ -70,7 +71,8 @@ internal class FooterItemTest {
                                 .startIndex(0L)
                                 .build()
                         )
-                        .type(TextItem.Type.TEXT)
+                        .language("language")
+                        .type(CodeItem.Type.CODE)
                         .build()
                 )
             )
@@ -98,7 +100,7 @@ internal class FooterItemTest {
         val footerItem =
             FooterItem.builder()
                 .addItem(
-                    TextItem.builder()
+                    CodeItem.builder()
                         .md("md")
                         .value("value")
                         .addBbox(
@@ -114,7 +116,8 @@ internal class FooterItemTest {
                                 .startIndex(0L)
                                 .build()
                         )
-                        .type(TextItem.Type.TEXT)
+                        .language("language")
+                        .type(CodeItem.Type.CODE)
                         .build()
                 )
                 .md("md")
