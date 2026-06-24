@@ -1,25 +1,25 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package com.llamacloud_prod.api.services.async.retrievers
+package com.llamacloud_prod.api.services.blocking.retrievers
 
-import com.llamacloud_prod.api.client.okhttp.LlamaCloudOkHttpClientAsync
+import com.llamacloud_prod.api.client.okhttp.LlamaCloudOkHttpClient
 import com.llamacloud_prod.api.models.retrievers.CompositeRetrievalMode
 import com.llamacloud_prod.api.models.retrievers.ReRankConfig
-import com.llamacloud_prod.api.models.retrievers.retriever.RetrieverSearchParams
+import com.llamacloud_prod.api.models.retrievers.query.QuerySearchParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
-internal class RetrieverServiceAsyncTest {
+internal class QueryServiceTest {
 
     @Disabled("Mock server tests are disabled")
     @Test
     fun search() {
-        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
-        val retrieverServiceAsync = client.retrievers().retriever()
+        val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
+        val queryService = client.retrievers().query()
 
-        val compositeRetrievalResultFuture =
-            retrieverServiceAsync.search(
-                RetrieverSearchParams.builder()
+        val compositeRetrievalResult =
+            queryService.search(
+                QuerySearchParams.builder()
                     .retrieverId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -35,7 +35,6 @@ internal class RetrieverServiceAsyncTest {
                     .build()
             )
 
-        val compositeRetrievalResult = compositeRetrievalResultFuture.get()
         compositeRetrievalResult.validate()
     }
 }

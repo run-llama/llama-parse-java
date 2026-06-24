@@ -26,9 +26,9 @@ configure<PublishingExtension> {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/stainless-sdks/llamacloud-prod-java.git")
-                    developerConnection.set("scm:git:git://github.com/stainless-sdks/llamacloud-prod-java.git")
-                    url.set("https://github.com/stainless-sdks/llamacloud-prod-java")
+                    connection.set("scm:git:git://github.com/run-llama/llama-parse-java.git")
+                    developerConnection.set("scm:git:git://github.com/run-llama/llama-parse-java.git")
+                    url.set("https://github.com/run-llama/llama-parse-java")
                 }
 
                 versionMapping {

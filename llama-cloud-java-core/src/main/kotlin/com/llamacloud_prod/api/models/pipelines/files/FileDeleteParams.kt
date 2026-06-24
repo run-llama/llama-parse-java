@@ -13,6 +13,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Delete a file from a pipeline. */
+@Deprecated("deprecated")
 class FileDeleteParams
 private constructor(
     private val pipelineId: String,

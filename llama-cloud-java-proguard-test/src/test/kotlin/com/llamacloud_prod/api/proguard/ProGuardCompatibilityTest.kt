@@ -4,9 +4,11 @@ package com.llamacloud_prod.api.proguard
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.llamacloud_prod.api.client.okhttp.LlamaCloudOkHttpClient
+import com.llamacloud_prod.api.core.JsonValue
 import com.llamacloud_prod.api.core.jsonMapper
-import com.llamacloud_prod.api.models.pipelines.AdvancedModeTransformConfig
-import com.llamacloud_prod.api.models.pipelines.MessageRole
+import com.llamacloud_prod.api.models.beta.indexes.IndexCreateResponse
+import com.llamacloud_prod.api.models.parsing.FailPageMode
+import java.time.OffsetDateTime
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.jvm.javaMethod
 import org.assertj.core.api.Assertions.assertThat
@@ -49,6 +51,7 @@ internal class ProGuardCompatibilityTest {
 
         assertThat(client).isNotNull()
         assertThat(client.files()).isNotNull()
+        assertThat(client.sheets()).isNotNull()
         assertThat(client.parsing()).isNotNull()
         assertThat(client.extract()).isNotNull()
         assertThat(client.classifier()).isNotNull()
@@ -64,49 +67,48 @@ internal class ProGuardCompatibilityTest {
     }
 
     @Test
-    fun advancedModeTransformConfigRoundtrip() {
+    fun indexCreateResponseRoundtrip() {
         val jsonMapper = jsonMapper()
-        val advancedModeTransformConfig =
-            AdvancedModeTransformConfig.builder()
-                .chunkingConfig(
-                    AdvancedModeTransformConfig.ChunkingConfig.NoneChunkingConfig.builder()
-                        .mode(
-                            AdvancedModeTransformConfig.ChunkingConfig.NoneChunkingConfig.Mode.NONE
-                        )
+        val indexCreateResponse =
+            IndexCreateResponse.builder()
+                .id("id")
+                .exportConfigId("export_config_id")
+                .name("name")
+                .projectId("project_id")
+                .sourceDirectoryId("source_directory_id")
+                .syncConfigId("sync_config_id")
+                .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .description("description")
+                .lastExportedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .lastSyncedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .metadata(
+                    IndexCreateResponse.Metadata.builder()
+                        .putAdditionalProperty("foo", JsonValue.from("bar"))
                         .build()
                 )
-                .mode(AdvancedModeTransformConfig.Mode.ADVANCED)
-                .segmentationConfig(
-                    AdvancedModeTransformConfig.SegmentationConfig.NoneSegmentationConfig.builder()
-                        .mode(
-                            AdvancedModeTransformConfig.SegmentationConfig.NoneSegmentationConfig
-                                .Mode
-                                .NONE
-                        )
-                        .build()
-                )
+                .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
 
-        val roundtrippedAdvancedModeTransformConfig =
+        val roundtrippedIndexCreateResponse =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(advancedModeTransformConfig),
-                jacksonTypeRef<AdvancedModeTransformConfig>(),
+                jsonMapper.writeValueAsString(indexCreateResponse),
+                jacksonTypeRef<IndexCreateResponse>(),
             )
 
-        assertThat(roundtrippedAdvancedModeTransformConfig).isEqualTo(advancedModeTransformConfig)
+        assertThat(roundtrippedIndexCreateResponse).isEqualTo(indexCreateResponse)
     }
 
     @Test
-    fun messageRoleRoundtrip() {
+    fun failPageModeRoundtrip() {
         val jsonMapper = jsonMapper()
-        val messageRole = MessageRole.SYSTEM
+        val failPageMode = FailPageMode.RAW_TEXT
 
-        val roundtrippedMessageRole =
+        val roundtrippedFailPageMode =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(messageRole),
-                jacksonTypeRef<MessageRole>(),
+                jsonMapper.writeValueAsString(failPageMode),
+                jacksonTypeRef<FailPageMode>(),
             )
 
-        assertThat(roundtrippedMessageRole).isEqualTo(messageRole)
+        assertThat(roundtrippedFailPageMode).isEqualTo(failPageMode)
     }
 }

@@ -30,6 +30,8 @@ import com.llamacloud_prod.api.services.async.ProjectServiceAsync
 import com.llamacloud_prod.api.services.async.ProjectServiceAsyncImpl
 import com.llamacloud_prod.api.services.async.RetrieverServiceAsync
 import com.llamacloud_prod.api.services.async.RetrieverServiceAsyncImpl
+import com.llamacloud_prod.api.services.async.SheetServiceAsync
+import com.llamacloud_prod.api.services.async.SheetServiceAsyncImpl
 import java.util.function.Consumer
 
 class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : LlamaCloudClientAsync {
@@ -50,6 +52,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
     }
 
     private val files: FileServiceAsync by lazy { FileServiceAsyncImpl(clientOptionsWithUserAgent) }
+
+    private val sheets: SheetServiceAsync by lazy {
+        SheetServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
 
     private val parsing: ParsingServiceAsync by lazy {
         ParsingServiceAsyncImpl(clientOptionsWithUserAgent)
@@ -106,6 +112,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
     override fun files(): FileServiceAsync = files
 
+    override fun sheets(): SheetServiceAsync = sheets
+
     override fun parsing(): ParsingServiceAsync = parsing
 
     override fun extract(): ExtractServiceAsync = extract
@@ -137,6 +145,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
         private val files: FileServiceAsync.WithRawResponse by lazy {
             FileServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val sheets: SheetServiceAsync.WithRawResponse by lazy {
+            SheetServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val parsing: ParsingServiceAsync.WithRawResponse by lazy {
@@ -195,6 +207,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
             )
 
         override fun files(): FileServiceAsync.WithRawResponse = files
+
+        override fun sheets(): SheetServiceAsync.WithRawResponse = sheets
 
         override fun parsing(): ParsingServiceAsync.WithRawResponse = parsing
 

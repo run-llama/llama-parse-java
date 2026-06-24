@@ -30,6 +30,8 @@ import com.llamacloud_prod.api.services.blocking.ProjectService
 import com.llamacloud_prod.api.services.blocking.ProjectServiceImpl
 import com.llamacloud_prod.api.services.blocking.RetrieverService
 import com.llamacloud_prod.api.services.blocking.RetrieverServiceImpl
+import com.llamacloud_prod.api.services.blocking.SheetService
+import com.llamacloud_prod.api.services.blocking.SheetServiceImpl
 import java.util.function.Consumer
 
 class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaCloudClient {
@@ -50,6 +52,8 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
     }
 
     private val files: FileService by lazy { FileServiceImpl(clientOptionsWithUserAgent) }
+
+    private val sheets: SheetService by lazy { SheetServiceImpl(clientOptionsWithUserAgent) }
 
     private val parsing: ParsingService by lazy { ParsingServiceImpl(clientOptionsWithUserAgent) }
 
@@ -98,6 +102,8 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
     override fun files(): FileService = files
 
+    override fun sheets(): SheetService = sheets
+
     override fun parsing(): ParsingService = parsing
 
     override fun extract(): ExtractService = extract
@@ -129,6 +135,10 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
         private val files: FileService.WithRawResponse by lazy {
             FileServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val sheets: SheetService.WithRawResponse by lazy {
+            SheetServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val parsing: ParsingService.WithRawResponse by lazy {
@@ -187,6 +197,8 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
             )
 
         override fun files(): FileService.WithRawResponse = files
+
+        override fun sheets(): SheetService.WithRawResponse = sheets
 
         override fun parsing(): ParsingService.WithRawResponse = parsing
 

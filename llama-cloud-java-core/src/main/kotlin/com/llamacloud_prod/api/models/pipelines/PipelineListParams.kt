@@ -10,6 +10,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Search for pipelines by name, type, or project. */
+@Deprecated("deprecated")
 class PipelineListParams
 private constructor(
     private val organizationId: String?,

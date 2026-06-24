@@ -13,6 +13,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Sync a specific document for a pipeline. */
+@Deprecated("deprecated")
 class DocumentSyncParams
 private constructor(
     private val pipelineId: String,

@@ -16,8 +16,7 @@ import com.llamacloud_prod.api.models.retrievers.RetrieverListParams
 import com.llamacloud_prod.api.models.retrievers.RetrieverSearchParams
 import com.llamacloud_prod.api.models.retrievers.RetrieverUpdateParams
 import com.llamacloud_prod.api.models.retrievers.RetrieverUpsertParams
-import com.llamacloud_prod.api.services.async.RetrieverServiceAsync
-import com.llamacloud_prod.api.services.async.retrievers.RetrieverServiceAsync
+import com.llamacloud_prod.api.services.async.retrievers.QueryServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -35,7 +34,7 @@ interface RetrieverServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): RetrieverServiceAsync
 
-    fun retriever(): RetrieverServiceAsync
+    fun query(): QueryServiceAsync
 
     /** Create a new Retriever. */
     fun create(params: RetrieverCreateParams): CompletableFuture<Retriever> =
@@ -213,7 +212,7 @@ interface RetrieverServiceAsync {
             modifier: Consumer<ClientOptions.Builder>
         ): RetrieverServiceAsync.WithRawResponse
 
-        fun retriever(): RetrieverServiceAsync.WithRawResponse
+        fun query(): QueryServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /api/v1/retrievers`, but is otherwise the same as

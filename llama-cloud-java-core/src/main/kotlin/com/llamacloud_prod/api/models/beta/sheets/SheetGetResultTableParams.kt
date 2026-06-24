@@ -14,10 +14,8 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/**
- * Generate a presigned URL to download a specific extracted region. Experimental: not
- * production-ready and subject to change.
- */
+/** Generate a presigned URL to download a specific extracted region. */
+@Deprecated("deprecated")
 class SheetGetResultTableParams
 private constructor(
     private val spreadsheetJobId: String,

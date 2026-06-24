@@ -17,6 +17,7 @@ import kotlin.jvm.optionals.getOrNull
  * Processes new and updated documents from data sources and files, then updates the index for
  * retrieval.
  */
+@Deprecated("deprecated")
 class SyncCreateParams
 private constructor(
     private val pipelineId: String?,

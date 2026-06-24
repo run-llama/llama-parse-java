@@ -36,6 +36,7 @@ class MetadataServiceImpl internal constructor(private val clientOptions: Client
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): MetadataService =
         MetadataServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("deprecated")
     override fun create(
         params: MetadataCreateParams,
         requestOptions: RequestOptions,
@@ -43,6 +44,7 @@ class MetadataServiceImpl internal constructor(private val clientOptions: Client
         // put /api/v1/pipelines/{pipeline_id}/metadata
         withRawResponse().create(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun deleteAll(params: MetadataDeleteAllParams, requestOptions: RequestOptions) {
         // delete /api/v1/pipelines/{pipeline_id}/metadata
         withRawResponse().deleteAll(params, requestOptions)
@@ -64,6 +66,7 @@ class MetadataServiceImpl internal constructor(private val clientOptions: Client
         private val createHandler: Handler<MetadataCreateResponse> =
             jsonHandler<MetadataCreateResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun create(
             params: MetadataCreateParams,
             requestOptions: RequestOptions,
@@ -94,6 +97,7 @@ class MetadataServiceImpl internal constructor(private val clientOptions: Client
 
         private val deleteAllHandler: Handler<Void?> = emptyHandler()
 
+        @Deprecated("deprecated")
         override fun deleteAll(
             params: MetadataDeleteAllParams,
             requestOptions: RequestOptions,

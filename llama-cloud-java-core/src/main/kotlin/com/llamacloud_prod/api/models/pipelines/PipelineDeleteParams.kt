@@ -16,6 +16,7 @@ import kotlin.jvm.optionals.getOrNull
  *
  * Removes pipeline files, data sources, and vector store data. This operation is irreversible.
  */
+@Deprecated("deprecated")
 class PipelineDeleteParams
 private constructor(
     private val pipelineId: String?,
