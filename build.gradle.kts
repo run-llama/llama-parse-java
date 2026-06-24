@@ -9,7 +9,7 @@ repositories {
 
 allprojects {
     group = "com.llamacloud_prod.api"
-    version = "0.0.1" // x-release-please-version
+    version = "0.0.2" // x-release-please-version
 }
 
 subprojects {
