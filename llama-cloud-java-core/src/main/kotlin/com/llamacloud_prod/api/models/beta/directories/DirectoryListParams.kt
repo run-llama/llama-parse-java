@@ -8,6 +8,7 @@ import com.llamacloud_prod.api.core.JsonField
 import com.llamacloud_prod.api.core.Params
 import com.llamacloud_prod.api.core.http.Headers
 import com.llamacloud_prod.api.core.http.QueryParams
+import com.llamacloud_prod.api.core.toImmutable
 import com.llamacloud_prod.api.errors.LlamaCloudInvalidDataException
 import java.util.Objects
 import java.util.Optional
@@ -23,12 +24,15 @@ private constructor(
     private val pageToken: String?,
     private val projectId: String?,
     private val type: Type?,
+    private val types: List<DirectoryTypesItem>?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
+    /** Include deleted directories. */
     fun includeDeleted(): Optional<Boolean> = Optional.ofNullable(includeDeleted)
 
+    /** Directory name to match. */
     fun name(): Optional<String> = Optional.ofNullable(name)
 
     fun organizationId(): Optional<String> = Optional.ofNullable(organizationId)
@@ -39,7 +43,11 @@ private constructor(
 
     fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
+    /** Directory type to include. */
     fun type(): Optional<Type> = Optional.ofNullable(type)
+
+    /** Filter by one or more directory types. Repeat the parameter for multiple values. */
+    fun types(): Optional<List<DirectoryTypesItem>> = Optional.ofNullable(types)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -67,6 +75,7 @@ private constructor(
         private var pageToken: String? = null
         private var projectId: String? = null
         private var type: Type? = null
+        private var types: MutableList<DirectoryTypesItem>? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -79,10 +88,12 @@ private constructor(
             pageToken = directoryListParams.pageToken
             projectId = directoryListParams.projectId
             type = directoryListParams.type
+            types = directoryListParams.types?.toMutableList()
             additionalHeaders = directoryListParams.additionalHeaders.toBuilder()
             additionalQueryParams = directoryListParams.additionalQueryParams.toBuilder()
         }
 
+        /** Include deleted directories. */
         fun includeDeleted(includeDeleted: Boolean?) = apply {
             this.includeDeleted = includeDeleted
         }
@@ -98,6 +109,7 @@ private constructor(
         fun includeDeleted(includeDeleted: Optional<Boolean>) =
             includeDeleted(includeDeleted.getOrNull())
 
+        /** Directory name to match. */
         fun name(name: String?) = apply { this.name = name }
 
         /** Alias for calling [Builder.name] with `name.orElse(null)`. */
@@ -131,10 +143,26 @@ private constructor(
         /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
         fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
+        /** Directory type to include. */
         fun type(type: Type?) = apply { this.type = type }
 
         /** Alias for calling [Builder.type] with `type.orElse(null)`. */
         fun type(type: Optional<Type>) = type(type.getOrNull())
+
+        /** Filter by one or more directory types. Repeat the parameter for multiple values. */
+        fun types(types: List<DirectoryTypesItem>?) = apply { this.types = types?.toMutableList() }
+
+        /** Alias for calling [Builder.types] with `types.orElse(null)`. */
+        fun types(types: Optional<List<DirectoryTypesItem>>) = types(types.getOrNull())
+
+        /**
+         * Adds a single [DirectoryTypesItem] to [types].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addType(type: DirectoryTypesItem) = apply {
+            types = (types ?: mutableListOf()).apply { add(type) }
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -248,6 +276,7 @@ private constructor(
                 pageToken,
                 projectId,
                 type,
+                types?.toImmutable(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -265,10 +294,12 @@ private constructor(
                 pageToken?.let { put("page_token", it) }
                 projectId?.let { put("project_id", it) }
                 type?.let { put("type", it.toString()) }
+                types?.forEach { put("types", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
 
+    /** Directory type to include. */
     class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
@@ -411,6 +442,153 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    class DirectoryTypesItem
+    @JsonCreator
+    private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val EPHEMERAL = of("ephemeral")
+
+            @JvmField val INDEX = of("index")
+
+            @JvmField val USER = of("user")
+
+            @JvmStatic fun of(value: String) = DirectoryTypesItem(JsonField.of(value))
+        }
+
+        /** An enum containing [DirectoryTypesItem]'s known values. */
+        enum class Known {
+            EPHEMERAL,
+            INDEX,
+            USER,
+        }
+
+        /**
+         * An enum containing [DirectoryTypesItem]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [DirectoryTypesItem] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            EPHEMERAL,
+            INDEX,
+            USER,
+            /**
+             * An enum member indicating that [DirectoryTypesItem] was instantiated with an unknown
+             * value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                EPHEMERAL -> Value.EPHEMERAL
+                INDEX -> Value.INDEX
+                USER -> Value.USER
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                EPHEMERAL -> Known.EPHEMERAL
+                INDEX -> Known.INDEX
+                USER -> Known.USER
+                else -> throw LlamaCloudInvalidDataException("Unknown DirectoryTypesItem: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                LlamaCloudInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): DirectoryTypesItem = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is DirectoryTypesItem && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -424,6 +602,7 @@ private constructor(
             pageToken == other.pageToken &&
             projectId == other.projectId &&
             type == other.type &&
+            types == other.types &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
@@ -437,10 +616,11 @@ private constructor(
             pageToken,
             projectId,
             type,
+            types,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "DirectoryListParams{includeDeleted=$includeDeleted, name=$name, organizationId=$organizationId, pageSize=$pageSize, pageToken=$pageToken, projectId=$projectId, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "DirectoryListParams{includeDeleted=$includeDeleted, name=$name, organizationId=$organizationId, pageSize=$pageSize, pageToken=$pageToken, projectId=$projectId, type=$type, types=$types, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
