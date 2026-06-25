@@ -27,7 +27,7 @@ private constructor(
     /**
      * The HTTP client to use in the SDK.
      *
-     * Use the one published in `llama-cloud-java-client-okhttp` or implement your own.
+     * Use the one published in `llama-cloud-client-okhttp` or implement your own.
      *
      * This class takes ownership of the client and closes it when closed.
      */
@@ -199,7 +199,7 @@ private constructor(
         /**
          * The HTTP client to use in the SDK.
          *
-         * Use the one published in `llama-cloud-java-client-okhttp` or implement your own.
+         * Use the one published in `llama-cloud-client-okhttp` or implement your own.
          *
          * This class takes ownership of the client and closes it when closed.
          */

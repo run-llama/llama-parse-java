@@ -8,8 +8,8 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":llama-cloud-java-core"))
-    implementation(project(":llama-cloud-java-client-okhttp"))
+    implementation(project(":llama-cloud-core"))
+    implementation(project(":llama-cloud-client-okhttp"))
 }
 
 tasks.withType<JavaCompile>().configureEach {
@@ -18,8 +18,8 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 application {
-    // Use `./gradlew :llama-cloud-java-example:run` to run `Main`
-    // Use `./gradlew :llama-cloud-java-example:run -Pexample=Something` to run `SomethingExample`
+    // Use `./gradlew :llama-cloud-example:run` to run `Main`
+    // Use `./gradlew :llama-cloud-example:run -Pexample=Something` to run `SomethingExample`
     mainClass = "com.llamacloud_prod.api.example.${
         if (project.hasProperty("example"))
             "${project.property("example")}Example"

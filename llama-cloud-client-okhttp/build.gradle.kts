@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":llama-cloud-java-core"))
+    api(project(":llama-cloud-core"))
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 

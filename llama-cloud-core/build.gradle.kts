@@ -29,7 +29,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2")
 
     testImplementation(kotlin("test"))
-    testImplementation(project(":llama-cloud-java-client-okhttp"))
+    testImplementation(project(":llama-cloud-client-okhttp"))
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.35.2")
     testImplementation("org.assertj:assertj-core:3.27.7")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")

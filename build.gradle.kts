@@ -8,7 +8,7 @@ repositories {
 }
 
 allprojects {
-    group = "com.llamacloud_prod.api"
+    group = "ai.llamaindex"
     version = "0.0.1" // x-release-please-version
 }
 
@@ -31,7 +31,7 @@ subprojects {
 // Avoid race conditions between `dokkaJavadocCollector` and `dokkaJavadocJar` tasks
 tasks.named("dokkaJavadocCollector").configure {
     subprojects.flatMap { it.tasks }
-        .filter { it.project.name != "llama-cloud-java" && it.name == "dokkaJavadocJar" }
+        .filter { it.project.name != "llama-cloud" && it.name == "dokkaJavadocJar" }
         .forEach { mustRunAfter(it) }
 }
 
