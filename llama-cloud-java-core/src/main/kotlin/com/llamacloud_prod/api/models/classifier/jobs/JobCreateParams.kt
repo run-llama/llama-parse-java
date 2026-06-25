@@ -1410,17 +1410,17 @@ private constructor(
 
             companion object {
 
-                @JvmField val STRING = of("string")
-
                 @JvmField val JSON = of("json")
+
+                @JvmField val STRING = of("string")
 
                 @JvmStatic fun of(value: String) = WebhookOutputFormat(JsonField.of(value))
             }
 
             /** An enum containing [WebhookOutputFormat]'s known values. */
             enum class Known {
-                STRING,
                 JSON,
+                STRING,
             }
 
             /**
@@ -1435,8 +1435,8 @@ private constructor(
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
-                STRING,
                 JSON,
+                STRING,
                 /**
                  * An enum member indicating that [WebhookOutputFormat] was instantiated with an
                  * unknown value.
@@ -1453,8 +1453,8 @@ private constructor(
              */
             fun value(): Value =
                 when (this) {
-                    STRING -> Value.STRING
                     JSON -> Value.JSON
+                    STRING -> Value.STRING
                     else -> Value._UNKNOWN
                 }
 
@@ -1469,8 +1469,8 @@ private constructor(
              */
             fun known(): Known =
                 when (this) {
-                    STRING -> Known.STRING
                     JSON -> Known.JSON
+                    STRING -> Known.STRING
                     else ->
                         throw LlamaCloudInvalidDataException("Unknown WebhookOutputFormat: $value")
                 }

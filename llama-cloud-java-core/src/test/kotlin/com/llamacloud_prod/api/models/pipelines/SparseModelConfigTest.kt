@@ -14,11 +14,11 @@ internal class SparseModelConfigTest {
         val sparseModelConfig =
             SparseModelConfig.builder()
                 .className("class_name")
-                .modelType(SparseModelConfig.ModelType.SPLADE)
+                .modelType(SparseModelConfig.ModelType.AUTO)
                 .build()
 
         assertThat(sparseModelConfig.className()).contains("class_name")
-        assertThat(sparseModelConfig.modelType()).contains(SparseModelConfig.ModelType.SPLADE)
+        assertThat(sparseModelConfig.modelType()).contains(SparseModelConfig.ModelType.AUTO)
     }
 
     @Test
@@ -27,7 +27,7 @@ internal class SparseModelConfigTest {
         val sparseModelConfig =
             SparseModelConfig.builder()
                 .className("class_name")
-                .modelType(SparseModelConfig.ModelType.SPLADE)
+                .modelType(SparseModelConfig.ModelType.AUTO)
                 .build()
 
         val roundtrippedSparseModelConfig =

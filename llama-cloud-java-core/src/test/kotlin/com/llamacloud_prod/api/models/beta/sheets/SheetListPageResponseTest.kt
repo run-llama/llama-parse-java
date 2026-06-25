@@ -36,7 +36,7 @@ internal class SheetListPageResponseTest {
                         .createdAt("created_at")
                         .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .status(SheetsJob.Status.PENDING)
+                        .status(SheetsJob.Status.CANCELLED)
                         .updatedAt("updated_at")
                         .userId("user_id")
                         .config(
@@ -162,7 +162,7 @@ internal class SheetListPageResponseTest {
                     .createdAt("created_at")
                     .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .status(SheetsJob.Status.PENDING)
+                    .status(SheetsJob.Status.CANCELLED)
                     .updatedAt("updated_at")
                     .userId("user_id")
                     .config(
@@ -292,7 +292,7 @@ internal class SheetListPageResponseTest {
                         .createdAt("created_at")
                         .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .status(SheetsJob.Status.PENDING)
+                        .status(SheetsJob.Status.CANCELLED)
                         .updatedAt("updated_at")
                         .userId("user_id")
                         .config(

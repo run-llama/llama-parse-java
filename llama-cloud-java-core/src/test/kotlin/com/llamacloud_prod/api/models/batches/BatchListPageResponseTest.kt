@@ -29,7 +29,7 @@ internal class BatchListPageResponseTest {
                         )
                         .projectId("project_id")
                         .sourceDirectoryId("source_directory_id")
-                        .status(BatchListResponse.Status.PENDING)
+                        .status(BatchListResponse.Status.CANCELLED)
                         .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .addResult(
                             BatchListResponse.Result.builder()
@@ -66,7 +66,7 @@ internal class BatchListPageResponseTest {
                     )
                     .projectId("project_id")
                     .sourceDirectoryId("source_directory_id")
-                    .status(BatchListResponse.Status.PENDING)
+                    .status(BatchListResponse.Status.CANCELLED)
                     .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .addResult(
                         BatchListResponse.Result.builder()
@@ -107,7 +107,7 @@ internal class BatchListPageResponseTest {
                         )
                         .projectId("project_id")
                         .sourceDirectoryId("source_directory_id")
-                        .status(BatchListResponse.Status.PENDING)
+                        .status(BatchListResponse.Status.CANCELLED)
                         .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .addResult(
                             BatchListResponse.Result.builder()

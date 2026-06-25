@@ -1161,27 +1161,11 @@ private constructor(
 
             companion object {
 
-                @JvmField val EXTRACT_PENDING = of("extract.pending")
+                @JvmField val CLASSIFY_CANCELLED = of("classify.cancelled")
 
-                @JvmField val EXTRACT_SUCCESS = of("extract.success")
+                @JvmField val CLASSIFY_ERROR = of("classify.error")
 
-                @JvmField val EXTRACT_ERROR = of("extract.error")
-
-                @JvmField val EXTRACT_PARTIAL_SUCCESS = of("extract.partial_success")
-
-                @JvmField val EXTRACT_CANCELLED = of("extract.cancelled")
-
-                @JvmField val PARSE_PENDING = of("parse.pending")
-
-                @JvmField val PARSE_RUNNING = of("parse.running")
-
-                @JvmField val PARSE_SUCCESS = of("parse.success")
-
-                @JvmField val PARSE_ERROR = of("parse.error")
-
-                @JvmField val PARSE_PARTIAL_SUCCESS = of("parse.partial_success")
-
-                @JvmField val PARSE_CANCELLED = of("parse.cancelled")
+                @JvmField val CLASSIFY_PARTIAL_SUCCESS = of("classify.partial_success")
 
                 @JvmField val CLASSIFY_PENDING = of("classify.pending")
 
@@ -1189,31 +1173,47 @@ private constructor(
 
                 @JvmField val CLASSIFY_SUCCESS = of("classify.success")
 
-                @JvmField val CLASSIFY_ERROR = of("classify.error")
+                @JvmField val EXTRACT_CANCELLED = of("extract.cancelled")
 
-                @JvmField val CLASSIFY_PARTIAL_SUCCESS = of("classify.partial_success")
+                @JvmField val EXTRACT_ERROR = of("extract.error")
 
-                @JvmField val CLASSIFY_CANCELLED = of("classify.cancelled")
+                @JvmField val EXTRACT_PARTIAL_SUCCESS = of("extract.partial_success")
 
-                @JvmField val SHEETS_PENDING = of("sheets.pending")
+                @JvmField val EXTRACT_PENDING = of("extract.pending")
 
-                @JvmField val SHEETS_SUCCESS = of("sheets.success")
+                @JvmField val EXTRACT_SUCCESS = of("extract.success")
+
+                @JvmField val PARSE_CANCELLED = of("parse.cancelled")
+
+                @JvmField val PARSE_ERROR = of("parse.error")
+
+                @JvmField val PARSE_PARTIAL_SUCCESS = of("parse.partial_success")
+
+                @JvmField val PARSE_PENDING = of("parse.pending")
+
+                @JvmField val PARSE_RUNNING = of("parse.running")
+
+                @JvmField val PARSE_SUCCESS = of("parse.success")
+
+                @JvmField val SHEETS_CANCELLED = of("sheets.cancelled")
 
                 @JvmField val SHEETS_ERROR = of("sheets.error")
 
                 @JvmField val SHEETS_PARTIAL_SUCCESS = of("sheets.partial_success")
 
-                @JvmField val SHEETS_CANCELLED = of("sheets.cancelled")
+                @JvmField val SHEETS_PENDING = of("sheets.pending")
+
+                @JvmField val SHEETS_SUCCESS = of("sheets.success")
+
+                @JvmField val SPLIT_CANCELLED = of("split.cancelled")
+
+                @JvmField val SPLIT_ERROR = of("split.error")
 
                 @JvmField val SPLIT_PENDING = of("split.pending")
 
                 @JvmField val SPLIT_PROCESSING = of("split.processing")
 
                 @JvmField val SPLIT_SUCCESS = of("split.success")
-
-                @JvmField val SPLIT_ERROR = of("split.error")
-
-                @JvmField val SPLIT_CANCELLED = of("split.cancelled")
 
                 @JvmField val UNMAPPED_EVENT = of("unmapped_event")
 
@@ -1222,33 +1222,33 @@ private constructor(
 
             /** An enum containing [WebhookEvent]'s known values. */
             enum class Known {
-                EXTRACT_PENDING,
-                EXTRACT_SUCCESS,
-                EXTRACT_ERROR,
-                EXTRACT_PARTIAL_SUCCESS,
-                EXTRACT_CANCELLED,
-                PARSE_PENDING,
-                PARSE_RUNNING,
-                PARSE_SUCCESS,
-                PARSE_ERROR,
-                PARSE_PARTIAL_SUCCESS,
-                PARSE_CANCELLED,
+                CLASSIFY_CANCELLED,
+                CLASSIFY_ERROR,
+                CLASSIFY_PARTIAL_SUCCESS,
                 CLASSIFY_PENDING,
                 CLASSIFY_RUNNING,
                 CLASSIFY_SUCCESS,
-                CLASSIFY_ERROR,
-                CLASSIFY_PARTIAL_SUCCESS,
-                CLASSIFY_CANCELLED,
-                SHEETS_PENDING,
-                SHEETS_SUCCESS,
+                EXTRACT_CANCELLED,
+                EXTRACT_ERROR,
+                EXTRACT_PARTIAL_SUCCESS,
+                EXTRACT_PENDING,
+                EXTRACT_SUCCESS,
+                PARSE_CANCELLED,
+                PARSE_ERROR,
+                PARSE_PARTIAL_SUCCESS,
+                PARSE_PENDING,
+                PARSE_RUNNING,
+                PARSE_SUCCESS,
+                SHEETS_CANCELLED,
                 SHEETS_ERROR,
                 SHEETS_PARTIAL_SUCCESS,
-                SHEETS_CANCELLED,
+                SHEETS_PENDING,
+                SHEETS_SUCCESS,
+                SPLIT_CANCELLED,
+                SPLIT_ERROR,
                 SPLIT_PENDING,
                 SPLIT_PROCESSING,
                 SPLIT_SUCCESS,
-                SPLIT_ERROR,
-                SPLIT_CANCELLED,
                 UNMAPPED_EVENT,
             }
 
@@ -1262,33 +1262,33 @@ private constructor(
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
-                EXTRACT_PENDING,
-                EXTRACT_SUCCESS,
-                EXTRACT_ERROR,
-                EXTRACT_PARTIAL_SUCCESS,
-                EXTRACT_CANCELLED,
-                PARSE_PENDING,
-                PARSE_RUNNING,
-                PARSE_SUCCESS,
-                PARSE_ERROR,
-                PARSE_PARTIAL_SUCCESS,
-                PARSE_CANCELLED,
+                CLASSIFY_CANCELLED,
+                CLASSIFY_ERROR,
+                CLASSIFY_PARTIAL_SUCCESS,
                 CLASSIFY_PENDING,
                 CLASSIFY_RUNNING,
                 CLASSIFY_SUCCESS,
-                CLASSIFY_ERROR,
-                CLASSIFY_PARTIAL_SUCCESS,
-                CLASSIFY_CANCELLED,
-                SHEETS_PENDING,
-                SHEETS_SUCCESS,
+                EXTRACT_CANCELLED,
+                EXTRACT_ERROR,
+                EXTRACT_PARTIAL_SUCCESS,
+                EXTRACT_PENDING,
+                EXTRACT_SUCCESS,
+                PARSE_CANCELLED,
+                PARSE_ERROR,
+                PARSE_PARTIAL_SUCCESS,
+                PARSE_PENDING,
+                PARSE_RUNNING,
+                PARSE_SUCCESS,
+                SHEETS_CANCELLED,
                 SHEETS_ERROR,
                 SHEETS_PARTIAL_SUCCESS,
-                SHEETS_CANCELLED,
+                SHEETS_PENDING,
+                SHEETS_SUCCESS,
+                SPLIT_CANCELLED,
+                SPLIT_ERROR,
                 SPLIT_PENDING,
                 SPLIT_PROCESSING,
                 SPLIT_SUCCESS,
-                SPLIT_ERROR,
-                SPLIT_CANCELLED,
                 UNMAPPED_EVENT,
                 /**
                  * An enum member indicating that [WebhookEvent] was instantiated with an unknown
@@ -1306,33 +1306,33 @@ private constructor(
              */
             fun value(): Value =
                 when (this) {
-                    EXTRACT_PENDING -> Value.EXTRACT_PENDING
-                    EXTRACT_SUCCESS -> Value.EXTRACT_SUCCESS
-                    EXTRACT_ERROR -> Value.EXTRACT_ERROR
-                    EXTRACT_PARTIAL_SUCCESS -> Value.EXTRACT_PARTIAL_SUCCESS
-                    EXTRACT_CANCELLED -> Value.EXTRACT_CANCELLED
-                    PARSE_PENDING -> Value.PARSE_PENDING
-                    PARSE_RUNNING -> Value.PARSE_RUNNING
-                    PARSE_SUCCESS -> Value.PARSE_SUCCESS
-                    PARSE_ERROR -> Value.PARSE_ERROR
-                    PARSE_PARTIAL_SUCCESS -> Value.PARSE_PARTIAL_SUCCESS
-                    PARSE_CANCELLED -> Value.PARSE_CANCELLED
+                    CLASSIFY_CANCELLED -> Value.CLASSIFY_CANCELLED
+                    CLASSIFY_ERROR -> Value.CLASSIFY_ERROR
+                    CLASSIFY_PARTIAL_SUCCESS -> Value.CLASSIFY_PARTIAL_SUCCESS
                     CLASSIFY_PENDING -> Value.CLASSIFY_PENDING
                     CLASSIFY_RUNNING -> Value.CLASSIFY_RUNNING
                     CLASSIFY_SUCCESS -> Value.CLASSIFY_SUCCESS
-                    CLASSIFY_ERROR -> Value.CLASSIFY_ERROR
-                    CLASSIFY_PARTIAL_SUCCESS -> Value.CLASSIFY_PARTIAL_SUCCESS
-                    CLASSIFY_CANCELLED -> Value.CLASSIFY_CANCELLED
-                    SHEETS_PENDING -> Value.SHEETS_PENDING
-                    SHEETS_SUCCESS -> Value.SHEETS_SUCCESS
+                    EXTRACT_CANCELLED -> Value.EXTRACT_CANCELLED
+                    EXTRACT_ERROR -> Value.EXTRACT_ERROR
+                    EXTRACT_PARTIAL_SUCCESS -> Value.EXTRACT_PARTIAL_SUCCESS
+                    EXTRACT_PENDING -> Value.EXTRACT_PENDING
+                    EXTRACT_SUCCESS -> Value.EXTRACT_SUCCESS
+                    PARSE_CANCELLED -> Value.PARSE_CANCELLED
+                    PARSE_ERROR -> Value.PARSE_ERROR
+                    PARSE_PARTIAL_SUCCESS -> Value.PARSE_PARTIAL_SUCCESS
+                    PARSE_PENDING -> Value.PARSE_PENDING
+                    PARSE_RUNNING -> Value.PARSE_RUNNING
+                    PARSE_SUCCESS -> Value.PARSE_SUCCESS
+                    SHEETS_CANCELLED -> Value.SHEETS_CANCELLED
                     SHEETS_ERROR -> Value.SHEETS_ERROR
                     SHEETS_PARTIAL_SUCCESS -> Value.SHEETS_PARTIAL_SUCCESS
-                    SHEETS_CANCELLED -> Value.SHEETS_CANCELLED
+                    SHEETS_PENDING -> Value.SHEETS_PENDING
+                    SHEETS_SUCCESS -> Value.SHEETS_SUCCESS
+                    SPLIT_CANCELLED -> Value.SPLIT_CANCELLED
+                    SPLIT_ERROR -> Value.SPLIT_ERROR
                     SPLIT_PENDING -> Value.SPLIT_PENDING
                     SPLIT_PROCESSING -> Value.SPLIT_PROCESSING
                     SPLIT_SUCCESS -> Value.SPLIT_SUCCESS
-                    SPLIT_ERROR -> Value.SPLIT_ERROR
-                    SPLIT_CANCELLED -> Value.SPLIT_CANCELLED
                     UNMAPPED_EVENT -> Value.UNMAPPED_EVENT
                     else -> Value._UNKNOWN
                 }
@@ -1348,33 +1348,33 @@ private constructor(
              */
             fun known(): Known =
                 when (this) {
-                    EXTRACT_PENDING -> Known.EXTRACT_PENDING
-                    EXTRACT_SUCCESS -> Known.EXTRACT_SUCCESS
-                    EXTRACT_ERROR -> Known.EXTRACT_ERROR
-                    EXTRACT_PARTIAL_SUCCESS -> Known.EXTRACT_PARTIAL_SUCCESS
-                    EXTRACT_CANCELLED -> Known.EXTRACT_CANCELLED
-                    PARSE_PENDING -> Known.PARSE_PENDING
-                    PARSE_RUNNING -> Known.PARSE_RUNNING
-                    PARSE_SUCCESS -> Known.PARSE_SUCCESS
-                    PARSE_ERROR -> Known.PARSE_ERROR
-                    PARSE_PARTIAL_SUCCESS -> Known.PARSE_PARTIAL_SUCCESS
-                    PARSE_CANCELLED -> Known.PARSE_CANCELLED
+                    CLASSIFY_CANCELLED -> Known.CLASSIFY_CANCELLED
+                    CLASSIFY_ERROR -> Known.CLASSIFY_ERROR
+                    CLASSIFY_PARTIAL_SUCCESS -> Known.CLASSIFY_PARTIAL_SUCCESS
                     CLASSIFY_PENDING -> Known.CLASSIFY_PENDING
                     CLASSIFY_RUNNING -> Known.CLASSIFY_RUNNING
                     CLASSIFY_SUCCESS -> Known.CLASSIFY_SUCCESS
-                    CLASSIFY_ERROR -> Known.CLASSIFY_ERROR
-                    CLASSIFY_PARTIAL_SUCCESS -> Known.CLASSIFY_PARTIAL_SUCCESS
-                    CLASSIFY_CANCELLED -> Known.CLASSIFY_CANCELLED
-                    SHEETS_PENDING -> Known.SHEETS_PENDING
-                    SHEETS_SUCCESS -> Known.SHEETS_SUCCESS
+                    EXTRACT_CANCELLED -> Known.EXTRACT_CANCELLED
+                    EXTRACT_ERROR -> Known.EXTRACT_ERROR
+                    EXTRACT_PARTIAL_SUCCESS -> Known.EXTRACT_PARTIAL_SUCCESS
+                    EXTRACT_PENDING -> Known.EXTRACT_PENDING
+                    EXTRACT_SUCCESS -> Known.EXTRACT_SUCCESS
+                    PARSE_CANCELLED -> Known.PARSE_CANCELLED
+                    PARSE_ERROR -> Known.PARSE_ERROR
+                    PARSE_PARTIAL_SUCCESS -> Known.PARSE_PARTIAL_SUCCESS
+                    PARSE_PENDING -> Known.PARSE_PENDING
+                    PARSE_RUNNING -> Known.PARSE_RUNNING
+                    PARSE_SUCCESS -> Known.PARSE_SUCCESS
+                    SHEETS_CANCELLED -> Known.SHEETS_CANCELLED
                     SHEETS_ERROR -> Known.SHEETS_ERROR
                     SHEETS_PARTIAL_SUCCESS -> Known.SHEETS_PARTIAL_SUCCESS
-                    SHEETS_CANCELLED -> Known.SHEETS_CANCELLED
+                    SHEETS_PENDING -> Known.SHEETS_PENDING
+                    SHEETS_SUCCESS -> Known.SHEETS_SUCCESS
+                    SPLIT_CANCELLED -> Known.SPLIT_CANCELLED
+                    SPLIT_ERROR -> Known.SPLIT_ERROR
                     SPLIT_PENDING -> Known.SPLIT_PENDING
                     SPLIT_PROCESSING -> Known.SPLIT_PROCESSING
                     SPLIT_SUCCESS -> Known.SPLIT_SUCCESS
-                    SPLIT_ERROR -> Known.SPLIT_ERROR
-                    SPLIT_CANCELLED -> Known.SPLIT_CANCELLED
                     UNMAPPED_EVENT -> Known.UNMAPPED_EVENT
                     else -> throw LlamaCloudInvalidDataException("Unknown WebhookEvent: $value")
                 }

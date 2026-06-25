@@ -20,7 +20,7 @@ internal class DataSourceCreateParamsTest {
                     .build()
             )
             .name("name")
-            .sourceType(DataSourceCreateParams.SourceType.S3)
+            .sourceType(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
             .customMetadata(
                 DataSourceCreateParams.CustomMetadata.builder()
                     .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
@@ -41,7 +41,7 @@ internal class DataSourceCreateParamsTest {
                         .build()
                 )
                 .name("name")
-                .sourceType(DataSourceCreateParams.SourceType.S3)
+                .sourceType(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
                 .customMetadata(
                     DataSourceCreateParams.CustomMetadata.builder()
                         .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
@@ -70,7 +70,7 @@ internal class DataSourceCreateParamsTest {
                         .build()
                 )
                 .name("name")
-                .sourceType(DataSourceCreateParams.SourceType.S3)
+                .sourceType(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
                 .build()
 
         val queryParams = params._queryParams()
@@ -90,7 +90,7 @@ internal class DataSourceCreateParamsTest {
                         .build()
                 )
                 .name("name")
-                .sourceType(DataSourceCreateParams.SourceType.S3)
+                .sourceType(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
                 .customMetadata(
                     DataSourceCreateParams.CustomMetadata.builder()
                         .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
@@ -109,7 +109,8 @@ internal class DataSourceCreateParamsTest {
                 )
             )
         assertThat(body.name()).isEqualTo("name")
-        assertThat(body.sourceType()).isEqualTo(DataSourceCreateParams.SourceType.S3)
+        assertThat(body.sourceType())
+            .isEqualTo(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
         assertThat(body.customMetadata())
             .contains(
                 DataSourceCreateParams.CustomMetadata.builder()
@@ -128,7 +129,7 @@ internal class DataSourceCreateParamsTest {
                         .build()
                 )
                 .name("name")
-                .sourceType(DataSourceCreateParams.SourceType.S3)
+                .sourceType(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
                 .build()
 
         val body = params._body()
@@ -142,6 +143,7 @@ internal class DataSourceCreateParamsTest {
                 )
             )
         assertThat(body.name()).isEqualTo("name")
-        assertThat(body.sourceType()).isEqualTo(DataSourceCreateParams.SourceType.S3)
+        assertThat(body.sourceType())
+            .isEqualTo(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
     }
 }

@@ -23,17 +23,17 @@ private constructor(private val value: JsonField<String>) : Enum {
 
     companion object {
 
-        @JvmField val ROUTING = of("routing")
-
         @JvmField val FULL = of("full")
+
+        @JvmField val ROUTING = of("routing")
 
         @JvmStatic fun of(value: String) = CompositeRetrievalMode(JsonField.of(value))
     }
 
     /** An enum containing [CompositeRetrievalMode]'s known values. */
     enum class Known {
-        ROUTING,
         FULL,
+        ROUTING,
     }
 
     /**
@@ -46,8 +46,8 @@ private constructor(private val value: JsonField<String>) : Enum {
      * - It was constructed with an arbitrary value using the [of] method.
      */
     enum class Value {
-        ROUTING,
         FULL,
+        ROUTING,
         /**
          * An enum member indicating that [CompositeRetrievalMode] was instantiated with an unknown
          * value.
@@ -64,8 +64,8 @@ private constructor(private val value: JsonField<String>) : Enum {
      */
     fun value(): Value =
         when (this) {
-            ROUTING -> Value.ROUTING
             FULL -> Value.FULL
+            ROUTING -> Value.ROUTING
             else -> Value._UNKNOWN
         }
 
@@ -80,8 +80,8 @@ private constructor(private val value: JsonField<String>) : Enum {
      */
     fun known(): Known =
         when (this) {
-            ROUTING -> Known.ROUTING
             FULL -> Known.FULL
+            ROUTING -> Known.ROUTING
             else -> throw LlamaCloudInvalidDataException("Unknown CompositeRetrievalMode: $value")
         }
 

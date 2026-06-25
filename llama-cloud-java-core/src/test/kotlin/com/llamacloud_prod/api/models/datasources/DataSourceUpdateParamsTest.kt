@@ -12,7 +12,7 @@ internal class DataSourceUpdateParamsTest {
     fun create() {
         DataSourceUpdateParams.builder()
             .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .sourceType(DataSourceUpdateParams.SourceType.S3)
+            .sourceType(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
             .component(
                 DataSourceUpdateParams.Component.UnionMember0.builder()
                     .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -32,7 +32,7 @@ internal class DataSourceUpdateParamsTest {
         val params =
             DataSourceUpdateParams.builder()
                 .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .sourceType(DataSourceUpdateParams.SourceType.S3)
+                .sourceType(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -45,7 +45,7 @@ internal class DataSourceUpdateParamsTest {
         val params =
             DataSourceUpdateParams.builder()
                 .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .sourceType(DataSourceUpdateParams.SourceType.S3)
+                .sourceType(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
                 .component(
                     DataSourceUpdateParams.Component.UnionMember0.builder()
                         .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -61,7 +61,8 @@ internal class DataSourceUpdateParamsTest {
 
         val body = params._body()
 
-        assertThat(body.sourceType()).isEqualTo(DataSourceUpdateParams.SourceType.S3)
+        assertThat(body.sourceType())
+            .isEqualTo(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
         assertThat(body.component())
             .contains(
                 DataSourceUpdateParams.Component.ofUnionMember0(
@@ -84,11 +85,12 @@ internal class DataSourceUpdateParamsTest {
         val params =
             DataSourceUpdateParams.builder()
                 .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .sourceType(DataSourceUpdateParams.SourceType.S3)
+                .sourceType(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
                 .build()
 
         val body = params._body()
 
-        assertThat(body.sourceType()).isEqualTo(DataSourceUpdateParams.SourceType.S3)
+        assertThat(body.sourceType())
+            .isEqualTo(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
     }
 }

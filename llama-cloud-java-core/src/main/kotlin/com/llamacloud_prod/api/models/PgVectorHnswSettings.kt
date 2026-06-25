@@ -321,29 +321,29 @@ private constructor(
 
         companion object {
 
-            @JvmField val L2 = of("l2")
-
-            @JvmField val IP = of("ip")
-
             @JvmField val COSINE = of("cosine")
-
-            @JvmField val L1 = of("l1")
 
             @JvmField val HAMMING = of("hamming")
 
+            @JvmField val IP = of("ip")
+
             @JvmField val JACCARD = of("jaccard")
+
+            @JvmField val L1 = of("l1")
+
+            @JvmField val L2 = of("l2")
 
             @JvmStatic fun of(value: String) = DistanceMethod(JsonField.of(value))
         }
 
         /** An enum containing [DistanceMethod]'s known values. */
         enum class Known {
-            L2,
-            IP,
             COSINE,
-            L1,
             HAMMING,
+            IP,
             JACCARD,
+            L1,
+            L2,
         }
 
         /**
@@ -356,12 +356,12 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            L2,
-            IP,
             COSINE,
-            L1,
             HAMMING,
+            IP,
             JACCARD,
+            L1,
+            L2,
             /**
              * An enum member indicating that [DistanceMethod] was instantiated with an unknown
              * value.
@@ -378,12 +378,12 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                L2 -> Value.L2
-                IP -> Value.IP
                 COSINE -> Value.COSINE
-                L1 -> Value.L1
                 HAMMING -> Value.HAMMING
+                IP -> Value.IP
                 JACCARD -> Value.JACCARD
+                L1 -> Value.L1
+                L2 -> Value.L2
                 else -> Value._UNKNOWN
             }
 
@@ -398,12 +398,12 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                L2 -> Known.L2
-                IP -> Known.IP
                 COSINE -> Known.COSINE
-                L1 -> Known.L1
                 HAMMING -> Known.HAMMING
+                IP -> Known.IP
                 JACCARD -> Known.JACCARD
+                L1 -> Known.L1
+                L2 -> Known.L2
                 else -> throw LlamaCloudInvalidDataException("Unknown DistanceMethod: $value")
             }
 
@@ -485,23 +485,23 @@ private constructor(
 
         companion object {
 
-            @JvmField val VECTOR = of("vector")
+            @JvmField val BIT = of("bit")
 
             @JvmField val HALF_VEC = of("half_vec")
 
-            @JvmField val BIT = of("bit")
-
             @JvmField val SPARSE_VEC = of("sparse_vec")
+
+            @JvmField val VECTOR = of("vector")
 
             @JvmStatic fun of(value: String) = VectorType(JsonField.of(value))
         }
 
         /** An enum containing [VectorType]'s known values. */
         enum class Known {
-            VECTOR,
-            HALF_VEC,
             BIT,
+            HALF_VEC,
             SPARSE_VEC,
+            VECTOR,
         }
 
         /**
@@ -514,10 +514,10 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            VECTOR,
-            HALF_VEC,
             BIT,
+            HALF_VEC,
             SPARSE_VEC,
+            VECTOR,
             /**
              * An enum member indicating that [VectorType] was instantiated with an unknown value.
              */
@@ -533,10 +533,10 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                VECTOR -> Value.VECTOR
-                HALF_VEC -> Value.HALF_VEC
                 BIT -> Value.BIT
+                HALF_VEC -> Value.HALF_VEC
                 SPARSE_VEC -> Value.SPARSE_VEC
+                VECTOR -> Value.VECTOR
                 else -> Value._UNKNOWN
             }
 
@@ -551,10 +551,10 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                VECTOR -> Known.VECTOR
-                HALF_VEC -> Known.HALF_VEC
                 BIT -> Known.BIT
+                HALF_VEC -> Known.HALF_VEC
                 SPARSE_VEC -> Known.SPARSE_VEC
+                VECTOR -> Known.VECTOR
                 else -> throw LlamaCloudInvalidDataException("Unknown VectorType: $value")
             }
 

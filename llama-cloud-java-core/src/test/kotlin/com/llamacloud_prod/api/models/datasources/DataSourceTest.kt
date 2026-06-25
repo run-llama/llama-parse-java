@@ -23,7 +23,7 @@ internal class DataSourceTest {
                 )
                 .name("name")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .sourceType(DataSource.SourceType.S3)
+                .sourceType(DataSource.SourceType.AZURE_STORAGE_BLOB)
                 .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .customMetadata(
                     DataSource.CustomMetadata.builder()
@@ -49,7 +49,7 @@ internal class DataSourceTest {
             )
         assertThat(dataSource.name()).isEqualTo("name")
         assertThat(dataSource.projectId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(dataSource.sourceType()).isEqualTo(DataSource.SourceType.S3)
+        assertThat(dataSource.sourceType()).isEqualTo(DataSource.SourceType.AZURE_STORAGE_BLOB)
         assertThat(dataSource.createdAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(dataSource.customMetadata())
@@ -81,7 +81,7 @@ internal class DataSourceTest {
                 )
                 .name("name")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .sourceType(DataSource.SourceType.S3)
+                .sourceType(DataSource.SourceType.AZURE_STORAGE_BLOB)
                 .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .customMetadata(
                     DataSource.CustomMetadata.builder()

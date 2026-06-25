@@ -29,7 +29,7 @@ internal class RetrieverPipelineTest {
                         .enableReranking(true)
                         .filesTopK(1L)
                         .rerankTopN(1L)
-                        .retrievalMode(RetrievalMode.CHUNKS)
+                        .retrievalMode(RetrievalMode.AUTO_ROUTED)
                         .retrieveImageNodes(true)
                         .retrievePageFigureNodes(true)
                         .retrievePageScreenshotNodes(true)
@@ -40,7 +40,8 @@ internal class RetrieverPipelineTest {
                                         .key("key")
                                         .value(0.0)
                                         .operator(
-                                            MetadataFilters.Filter.MetadataFilter.Operator.EQUALS
+                                            MetadataFilters.Filter.MetadataFilter.Operator
+                                                .NOT_EQUALS
                                         )
                                         .build()
                                 )
@@ -70,7 +71,7 @@ internal class RetrieverPipelineTest {
                     .enableReranking(true)
                     .filesTopK(1L)
                     .rerankTopN(1L)
-                    .retrievalMode(RetrievalMode.CHUNKS)
+                    .retrievalMode(RetrievalMode.AUTO_ROUTED)
                     .retrieveImageNodes(true)
                     .retrievePageFigureNodes(true)
                     .retrievePageScreenshotNodes(true)
@@ -80,7 +81,9 @@ internal class RetrieverPipelineTest {
                                 MetadataFilters.Filter.MetadataFilter.builder()
                                     .key("key")
                                     .value(0.0)
-                                    .operator(MetadataFilters.Filter.MetadataFilter.Operator.EQUALS)
+                                    .operator(
+                                        MetadataFilters.Filter.MetadataFilter.Operator.NOT_EQUALS
+                                    )
                                     .build()
                             )
                             .condition(MetadataFilters.Condition.AND)
@@ -113,7 +116,7 @@ internal class RetrieverPipelineTest {
                         .enableReranking(true)
                         .filesTopK(1L)
                         .rerankTopN(1L)
-                        .retrievalMode(RetrievalMode.CHUNKS)
+                        .retrievalMode(RetrievalMode.AUTO_ROUTED)
                         .retrieveImageNodes(true)
                         .retrievePageFigureNodes(true)
                         .retrievePageScreenshotNodes(true)
@@ -124,7 +127,8 @@ internal class RetrieverPipelineTest {
                                         .key("key")
                                         .value(0.0)
                                         .operator(
-                                            MetadataFilters.Filter.MetadataFilter.Operator.EQUALS
+                                            MetadataFilters.Filter.MetadataFilter.Operator
+                                                .NOT_EQUALS
                                         )
                                         .build()
                                 )

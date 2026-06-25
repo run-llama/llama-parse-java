@@ -4,7 +4,6 @@ package com.llamacloud_prod.api.models.configurations
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.llamacloud_prod.api.core.jsonMapper
-import com.llamacloud_prod.api.models.beta.split.SplitCategory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -16,13 +15,21 @@ internal class ConfigurationCreateTest {
             ConfigurationCreate.builder()
                 .name("x")
                 .parameters(
-                    SplitV1Parameters.builder()
-                        .addCategory(SplitCategory.builder().name("x").description("x").build())
-                        .splittingStrategy(
-                            SplitV1Parameters.SplittingStrategy.builder()
-                                .allowUncategorized(
-                                    SplitV1Parameters.SplittingStrategy.AllowUncategorized.INCLUDE
+                    ClassifyV2Parameters.builder()
+                        .addRule(
+                            ClassifyV2Parameters.Rule.builder()
+                                .description(
+                                    "contains invoice number, line items, and total amount"
                                 )
+                                .type("invoice")
+                                .build()
+                        )
+                        .mode(ClassifyV2Parameters.Mode.FAST)
+                        .parsingConfiguration(
+                            ClassifyV2Parameters.ParsingConfiguration.builder()
+                                .lang("en")
+                                .maxPages(10L)
+                                .targetPages("1,3,5-7")
                                 .build()
                         )
                         .build()
@@ -32,14 +39,22 @@ internal class ConfigurationCreateTest {
         assertThat(configurationCreate.name()).isEqualTo("x")
         assertThat(configurationCreate.parameters())
             .isEqualTo(
-                ConfigurationCreate.Parameters.ofSplitV1(
-                    SplitV1Parameters.builder()
-                        .addCategory(SplitCategory.builder().name("x").description("x").build())
-                        .splittingStrategy(
-                            SplitV1Parameters.SplittingStrategy.builder()
-                                .allowUncategorized(
-                                    SplitV1Parameters.SplittingStrategy.AllowUncategorized.INCLUDE
+                ConfigurationCreate.Parameters.ofClassifyV2(
+                    ClassifyV2Parameters.builder()
+                        .addRule(
+                            ClassifyV2Parameters.Rule.builder()
+                                .description(
+                                    "contains invoice number, line items, and total amount"
                                 )
+                                .type("invoice")
+                                .build()
+                        )
+                        .mode(ClassifyV2Parameters.Mode.FAST)
+                        .parsingConfiguration(
+                            ClassifyV2Parameters.ParsingConfiguration.builder()
+                                .lang("en")
+                                .maxPages(10L)
+                                .targetPages("1,3,5-7")
                                 .build()
                         )
                         .build()
@@ -54,13 +69,21 @@ internal class ConfigurationCreateTest {
             ConfigurationCreate.builder()
                 .name("x")
                 .parameters(
-                    SplitV1Parameters.builder()
-                        .addCategory(SplitCategory.builder().name("x").description("x").build())
-                        .splittingStrategy(
-                            SplitV1Parameters.SplittingStrategy.builder()
-                                .allowUncategorized(
-                                    SplitV1Parameters.SplittingStrategy.AllowUncategorized.INCLUDE
+                    ClassifyV2Parameters.builder()
+                        .addRule(
+                            ClassifyV2Parameters.Rule.builder()
+                                .description(
+                                    "contains invoice number, line items, and total amount"
                                 )
+                                .type("invoice")
+                                .build()
+                        )
+                        .mode(ClassifyV2Parameters.Mode.FAST)
+                        .parsingConfiguration(
+                            ClassifyV2Parameters.ParsingConfiguration.builder()
+                                .lang("en")
+                                .maxPages(10L)
+                                .targetPages("1,3,5-7")
                                 .build()
                         )
                         .build()

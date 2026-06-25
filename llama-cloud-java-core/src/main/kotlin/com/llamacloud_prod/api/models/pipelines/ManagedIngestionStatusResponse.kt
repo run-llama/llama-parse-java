@@ -364,29 +364,29 @@ private constructor(
 
         companion object {
 
-            @JvmField val NOT_STARTED = of("NOT_STARTED")
-
-            @JvmField val IN_PROGRESS = of("IN_PROGRESS")
-
-            @JvmField val SUCCESS = of("SUCCESS")
+            @JvmField val CANCELLED = of("CANCELLED")
 
             @JvmField val ERROR = of("ERROR")
 
+            @JvmField val IN_PROGRESS = of("IN_PROGRESS")
+
+            @JvmField val NOT_STARTED = of("NOT_STARTED")
+
             @JvmField val PARTIAL_SUCCESS = of("PARTIAL_SUCCESS")
 
-            @JvmField val CANCELLED = of("CANCELLED")
+            @JvmField val SUCCESS = of("SUCCESS")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
 
         /** An enum containing [Status]'s known values. */
         enum class Known {
-            NOT_STARTED,
-            IN_PROGRESS,
-            SUCCESS,
-            ERROR,
-            PARTIAL_SUCCESS,
             CANCELLED,
+            ERROR,
+            IN_PROGRESS,
+            NOT_STARTED,
+            PARTIAL_SUCCESS,
+            SUCCESS,
         }
 
         /**
@@ -399,12 +399,12 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            NOT_STARTED,
-            IN_PROGRESS,
-            SUCCESS,
-            ERROR,
-            PARTIAL_SUCCESS,
             CANCELLED,
+            ERROR,
+            IN_PROGRESS,
+            NOT_STARTED,
+            PARTIAL_SUCCESS,
+            SUCCESS,
             /** An enum member indicating that [Status] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -418,12 +418,12 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                NOT_STARTED -> Value.NOT_STARTED
-                IN_PROGRESS -> Value.IN_PROGRESS
-                SUCCESS -> Value.SUCCESS
-                ERROR -> Value.ERROR
-                PARTIAL_SUCCESS -> Value.PARTIAL_SUCCESS
                 CANCELLED -> Value.CANCELLED
+                ERROR -> Value.ERROR
+                IN_PROGRESS -> Value.IN_PROGRESS
+                NOT_STARTED -> Value.NOT_STARTED
+                PARTIAL_SUCCESS -> Value.PARTIAL_SUCCESS
+                SUCCESS -> Value.SUCCESS
                 else -> Value._UNKNOWN
             }
 
@@ -438,12 +438,12 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                NOT_STARTED -> Known.NOT_STARTED
-                IN_PROGRESS -> Known.IN_PROGRESS
-                SUCCESS -> Known.SUCCESS
-                ERROR -> Known.ERROR
-                PARTIAL_SUCCESS -> Known.PARTIAL_SUCCESS
                 CANCELLED -> Known.CANCELLED
+                ERROR -> Known.ERROR
+                IN_PROGRESS -> Known.IN_PROGRESS
+                NOT_STARTED -> Known.NOT_STARTED
+                PARTIAL_SUCCESS -> Known.PARTIAL_SUCCESS
+                SUCCESS -> Known.SUCCESS
                 else -> throw LlamaCloudInvalidDataException("Unknown Status: $value")
             }
 
@@ -749,32 +749,32 @@ private constructor(
 
             companion object {
 
-                @JvmField val MANAGED_INGESTION = of("MANAGED_INGESTION")
-
                 @JvmField val DATA_SOURCE = of("DATA_SOURCE")
 
                 @JvmField val FILE_UPDATER = of("FILE_UPDATER")
 
+                @JvmField val INGESTION = of("INGESTION")
+
+                @JvmField val MANAGED_INGESTION = of("MANAGED_INGESTION")
+
+                @JvmField val METADATA_UPDATE = of("METADATA_UPDATE")
+
                 @JvmField val PARSE = of("PARSE")
 
                 @JvmField val TRANSFORM = of("TRANSFORM")
-
-                @JvmField val INGESTION = of("INGESTION")
-
-                @JvmField val METADATA_UPDATE = of("METADATA_UPDATE")
 
                 @JvmStatic fun of(value: String) = Step(JsonField.of(value))
             }
 
             /** An enum containing [Step]'s known values. */
             enum class Known {
-                MANAGED_INGESTION,
                 DATA_SOURCE,
                 FILE_UPDATER,
+                INGESTION,
+                MANAGED_INGESTION,
+                METADATA_UPDATE,
                 PARSE,
                 TRANSFORM,
-                INGESTION,
-                METADATA_UPDATE,
             }
 
             /**
@@ -787,13 +787,13 @@ private constructor(
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
-                MANAGED_INGESTION,
                 DATA_SOURCE,
                 FILE_UPDATER,
+                INGESTION,
+                MANAGED_INGESTION,
+                METADATA_UPDATE,
                 PARSE,
                 TRANSFORM,
-                INGESTION,
-                METADATA_UPDATE,
                 /** An enum member indicating that [Step] was instantiated with an unknown value. */
                 _UNKNOWN,
             }
@@ -807,13 +807,13 @@ private constructor(
              */
             fun value(): Value =
                 when (this) {
-                    MANAGED_INGESTION -> Value.MANAGED_INGESTION
                     DATA_SOURCE -> Value.DATA_SOURCE
                     FILE_UPDATER -> Value.FILE_UPDATER
+                    INGESTION -> Value.INGESTION
+                    MANAGED_INGESTION -> Value.MANAGED_INGESTION
+                    METADATA_UPDATE -> Value.METADATA_UPDATE
                     PARSE -> Value.PARSE
                     TRANSFORM -> Value.TRANSFORM
-                    INGESTION -> Value.INGESTION
-                    METADATA_UPDATE -> Value.METADATA_UPDATE
                     else -> Value._UNKNOWN
                 }
 
@@ -828,13 +828,13 @@ private constructor(
              */
             fun known(): Known =
                 when (this) {
-                    MANAGED_INGESTION -> Known.MANAGED_INGESTION
                     DATA_SOURCE -> Known.DATA_SOURCE
                     FILE_UPDATER -> Known.FILE_UPDATER
+                    INGESTION -> Known.INGESTION
+                    MANAGED_INGESTION -> Known.MANAGED_INGESTION
+                    METADATA_UPDATE -> Known.METADATA_UPDATE
                     PARSE -> Known.PARSE
                     TRANSFORM -> Known.TRANSFORM
-                    INGESTION -> Known.INGESTION
-                    METADATA_UPDATE -> Known.METADATA_UPDATE
                     else -> throw LlamaCloudInvalidDataException("Unknown Step: $value")
                 }
 

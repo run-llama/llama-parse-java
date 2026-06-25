@@ -15,12 +15,12 @@ internal class ClassifyParsingConfigurationTest {
     fun create() {
         val classifyParsingConfiguration =
             ClassifyParsingConfiguration.builder()
-                .lang(ParsingLanguages.AF)
+                .lang(ParsingLanguages.ABQ)
                 .maxPages(0L)
                 .addTargetPage(0L)
                 .build()
 
-        assertThat(classifyParsingConfiguration.lang()).contains(ParsingLanguages.AF)
+        assertThat(classifyParsingConfiguration.lang()).contains(ParsingLanguages.ABQ)
         assertThat(classifyParsingConfiguration.maxPages()).contains(0L)
         assertThat(classifyParsingConfiguration.targetPages().getOrNull()).containsExactly(0L)
     }
@@ -30,7 +30,7 @@ internal class ClassifyParsingConfigurationTest {
         val jsonMapper = jsonMapper()
         val classifyParsingConfiguration =
             ClassifyParsingConfiguration.builder()
-                .lang(ParsingLanguages.AF)
+                .lang(ParsingLanguages.ABQ)
                 .maxPages(0L)
                 .addTargetPage(0L)
                 .build()

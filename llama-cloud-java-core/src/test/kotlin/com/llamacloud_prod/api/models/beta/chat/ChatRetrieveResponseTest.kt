@@ -14,7 +14,21 @@ internal class ChatRetrieveResponseTest {
     fun create() {
         val chatRetrieveResponse =
             ChatRetrieveResponse.builder()
-                .addThinkingDeltaEvent("content")
+                .addEvent(
+                    ChatRetrieveResponse.Event.Stop.builder()
+                        .error("error")
+                        .isError(true)
+                        .usage(
+                            ChatRetrieveResponse.Event.Stop.Usage.builder()
+                                .durationMs(0.0)
+                                .totalInputTokens(0L)
+                                .totalOutputTokens(0L)
+                                .turns(0L)
+                                .build()
+                        )
+                        .type(ChatRetrieveResponse.Event.Stop.Type.STOP)
+                        .build()
+                )
                 .lastUpdatedAt("2026-04-22T12:34:41.342245")
                 .sessionId("ses-abc123")
                 .generatedTitle("What were the main findings in Q3?...")
@@ -35,10 +49,19 @@ internal class ChatRetrieveResponseTest {
 
         assertThat(chatRetrieveResponse.events())
             .containsExactly(
-                ChatRetrieveResponse.Event.ofThinkingDelta(
-                    ChatRetrieveResponse.Event.ThinkingDelta.builder()
-                        .content("content")
-                        .type(ChatRetrieveResponse.Event.ThinkingDelta.Type.THINKING_DELTA)
+                ChatRetrieveResponse.Event.ofStop(
+                    ChatRetrieveResponse.Event.Stop.builder()
+                        .error("error")
+                        .isError(true)
+                        .usage(
+                            ChatRetrieveResponse.Event.Stop.Usage.builder()
+                                .durationMs(0.0)
+                                .totalInputTokens(0L)
+                                .totalOutputTokens(0L)
+                                .turns(0L)
+                                .build()
+                        )
+                        .type(ChatRetrieveResponse.Event.Stop.Type.STOP)
                         .build()
                 )
             )
@@ -67,7 +90,21 @@ internal class ChatRetrieveResponseTest {
         val jsonMapper = jsonMapper()
         val chatRetrieveResponse =
             ChatRetrieveResponse.builder()
-                .addThinkingDeltaEvent("content")
+                .addEvent(
+                    ChatRetrieveResponse.Event.Stop.builder()
+                        .error("error")
+                        .isError(true)
+                        .usage(
+                            ChatRetrieveResponse.Event.Stop.Usage.builder()
+                                .durationMs(0.0)
+                                .totalInputTokens(0L)
+                                .totalOutputTokens(0L)
+                                .turns(0L)
+                                .build()
+                        )
+                        .type(ChatRetrieveResponse.Event.Stop.Type.STOP)
+                        .build()
+                )
                 .lastUpdatedAt("2026-04-22T12:34:41.342245")
                 .sessionId("ses-abc123")
                 .generatedTitle("What were the main findings in Q3?...")

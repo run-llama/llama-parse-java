@@ -280,20 +280,20 @@ private constructor(
 
         companion object {
 
-            @JvmField val TABLE = of("table")
+            @JvmField val CELL_METADATA = of("cell_metadata")
 
             @JvmField val EXTRA = of("extra")
 
-            @JvmField val CELL_METADATA = of("cell_metadata")
+            @JvmField val TABLE = of("table")
 
             @JvmStatic fun of(value: String) = RegionType(JsonField.of(value))
         }
 
         /** An enum containing [RegionType]'s known values. */
         enum class Known {
-            TABLE,
-            EXTRA,
             CELL_METADATA,
+            EXTRA,
+            TABLE,
         }
 
         /**
@@ -306,9 +306,9 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            TABLE,
-            EXTRA,
             CELL_METADATA,
+            EXTRA,
+            TABLE,
             /**
              * An enum member indicating that [RegionType] was instantiated with an unknown value.
              */
@@ -324,9 +324,9 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                TABLE -> Value.TABLE
-                EXTRA -> Value.EXTRA
                 CELL_METADATA -> Value.CELL_METADATA
+                EXTRA -> Value.EXTRA
+                TABLE -> Value.TABLE
                 else -> Value._UNKNOWN
             }
 
@@ -341,9 +341,9 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                TABLE -> Known.TABLE
-                EXTRA -> Known.EXTRA
                 CELL_METADATA -> Known.CELL_METADATA
+                EXTRA -> Known.EXTRA
+                TABLE -> Known.TABLE
                 else -> throw LlamaCloudInvalidDataException("Unknown RegionType: $value")
             }
 

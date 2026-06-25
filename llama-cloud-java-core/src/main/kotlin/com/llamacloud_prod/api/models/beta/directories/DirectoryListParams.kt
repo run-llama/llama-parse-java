@@ -283,20 +283,20 @@ private constructor(
 
         companion object {
 
-            @JvmField val USER = of("user")
+            @JvmField val EPHEMERAL = of("ephemeral")
 
             @JvmField val INDEX = of("index")
 
-            @JvmField val EPHEMERAL = of("ephemeral")
+            @JvmField val USER = of("user")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
         /** An enum containing [Type]'s known values. */
         enum class Known {
-            USER,
-            INDEX,
             EPHEMERAL,
+            INDEX,
+            USER,
         }
 
         /**
@@ -309,9 +309,9 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            USER,
-            INDEX,
             EPHEMERAL,
+            INDEX,
+            USER,
             /** An enum member indicating that [Type] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -325,9 +325,9 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                USER -> Value.USER
-                INDEX -> Value.INDEX
                 EPHEMERAL -> Value.EPHEMERAL
+                INDEX -> Value.INDEX
+                USER -> Value.USER
                 else -> Value._UNKNOWN
             }
 
@@ -342,9 +342,9 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                USER -> Known.USER
-                INDEX -> Known.INDEX
                 EPHEMERAL -> Known.EPHEMERAL
+                INDEX -> Known.INDEX
+                USER -> Known.USER
                 else -> throw LlamaCloudInvalidDataException("Unknown Type: $value")
             }
 

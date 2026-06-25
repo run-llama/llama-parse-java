@@ -1086,9 +1086,9 @@ private constructor(
 
             @JvmField val CLS = of("cls")
 
-            @JvmField val MEAN = of("mean")
-
             @JvmField val LAST = of("last")
+
+            @JvmField val MEAN = of("mean")
 
             @JvmStatic fun of(value: String) = Pooling(JsonField.of(value))
         }
@@ -1096,8 +1096,8 @@ private constructor(
         /** An enum containing [Pooling]'s known values. */
         enum class Known {
             CLS,
-            MEAN,
             LAST,
+            MEAN,
         }
 
         /**
@@ -1111,8 +1111,8 @@ private constructor(
          */
         enum class Value {
             CLS,
-            MEAN,
             LAST,
+            MEAN,
             /** An enum member indicating that [Pooling] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -1127,8 +1127,8 @@ private constructor(
         fun value(): Value =
             when (this) {
                 CLS -> Value.CLS
-                MEAN -> Value.MEAN
                 LAST -> Value.LAST
+                MEAN -> Value.MEAN
                 else -> Value._UNKNOWN
             }
 
@@ -1144,8 +1144,8 @@ private constructor(
         fun known(): Known =
             when (this) {
                 CLS -> Known.CLS
-                MEAN -> Known.MEAN
                 LAST -> Known.LAST
+                MEAN -> Known.MEAN
                 else -> throw LlamaCloudInvalidDataException("Unknown Pooling: $value")
             }
 

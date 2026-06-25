@@ -240,26 +240,8 @@ private constructor(
                 }
         }
 
-        /** Alias for calling [addEvent] with `Event.ofThinkingDelta(thinkingDelta)`. */
-        fun addEvent(thinkingDelta: Event.ThinkingDelta) =
-            addEvent(Event.ofThinkingDelta(thinkingDelta))
-
-        /**
-         * Alias for calling [addEvent] with the following:
-         * ```java
-         * Event.ThinkingDelta.builder()
-         *     .type(ChatRetrieveResponse.Event.ThinkingDelta.Type.THINKING_DELTA)
-         *     .content(content)
-         *     .build()
-         * ```
-         */
-        fun addThinkingDeltaEvent(content: String) =
-            addEvent(
-                Event.ThinkingDelta.builder()
-                    .type(ChatRetrieveResponse.Event.ThinkingDelta.Type.THINKING_DELTA)
-                    .content(content)
-                    .build()
-            )
+        /** Alias for calling [addEvent] with `Event.ofStop(stop)`. */
+        fun addEvent(stop: Event.Stop) = addEvent(Event.ofStop(stop))
 
         /** Alias for calling [addEvent] with `Event.ofTextDelta(textDelta)`. */
         fun addEvent(textDelta: Event.TextDelta) = addEvent(Event.ofTextDelta(textDelta))
@@ -277,26 +259,6 @@ private constructor(
             addEvent(
                 Event.TextDelta.builder()
                     .type(ChatRetrieveResponse.Event.TextDelta.Type.TEXT_DELTA)
-                    .content(content)
-                    .build()
-            )
-
-        /** Alias for calling [addEvent] with `Event.ofThinking(thinking)`. */
-        fun addEvent(thinking: Event.Thinking) = addEvent(Event.ofThinking(thinking))
-
-        /**
-         * Alias for calling [addEvent] with the following:
-         * ```java
-         * Event.Thinking.builder()
-         *     .type(ChatRetrieveResponse.Event.Thinking.Type.THINKING)
-         *     .content(content)
-         *     .build()
-         * ```
-         */
-        fun addThinkingEvent(content: String) =
-            addEvent(
-                Event.Thinking.builder()
-                    .type(ChatRetrieveResponse.Event.Thinking.Type.THINKING)
                     .content(content)
                     .build()
             )
@@ -321,14 +283,52 @@ private constructor(
                     .build()
             )
 
+        /** Alias for calling [addEvent] with `Event.ofThinkingDelta(thinkingDelta)`. */
+        fun addEvent(thinkingDelta: Event.ThinkingDelta) =
+            addEvent(Event.ofThinkingDelta(thinkingDelta))
+
+        /**
+         * Alias for calling [addEvent] with the following:
+         * ```java
+         * Event.ThinkingDelta.builder()
+         *     .type(ChatRetrieveResponse.Event.ThinkingDelta.Type.THINKING_DELTA)
+         *     .content(content)
+         *     .build()
+         * ```
+         */
+        fun addThinkingDeltaEvent(content: String) =
+            addEvent(
+                Event.ThinkingDelta.builder()
+                    .type(ChatRetrieveResponse.Event.ThinkingDelta.Type.THINKING_DELTA)
+                    .content(content)
+                    .build()
+            )
+
+        /** Alias for calling [addEvent] with `Event.ofThinking(thinking)`. */
+        fun addEvent(thinking: Event.Thinking) = addEvent(Event.ofThinking(thinking))
+
+        /**
+         * Alias for calling [addEvent] with the following:
+         * ```java
+         * Event.Thinking.builder()
+         *     .type(ChatRetrieveResponse.Event.Thinking.Type.THINKING)
+         *     .content(content)
+         *     .build()
+         * ```
+         */
+        fun addThinkingEvent(content: String) =
+            addEvent(
+                Event.Thinking.builder()
+                    .type(ChatRetrieveResponse.Event.Thinking.Type.THINKING)
+                    .content(content)
+                    .build()
+            )
+
         /** Alias for calling [addEvent] with `Event.ofToolCall(toolCall)`. */
         fun addEvent(toolCall: Event.ToolCall) = addEvent(Event.ofToolCall(toolCall))
 
         /** Alias for calling [addEvent] with `Event.ofToolResult(toolResult)`. */
         fun addEvent(toolResult: Event.ToolResult) = addEvent(Event.ofToolResult(toolResult))
-
-        /** Alias for calling [addEvent] with `Event.ofStop(stop)`. */
-        fun addEvent(stop: Event.Stop) = addEvent(Event.ofStop(stop))
 
         /** Alias for calling [addEvent] with `Event.ofUserInput(userInput)`. */
         fun addEvent(userInput: Event.UserInput) = addEvent(Event.ofUserInput(userInput))
@@ -539,62 +539,62 @@ private constructor(
     @JsonSerialize(using = Event.Serializer::class)
     class Event
     private constructor(
-        private val thinkingDelta: ThinkingDelta? = null,
+        private val stop: Stop? = null,
         private val textDelta: TextDelta? = null,
-        private val thinking: Thinking? = null,
         private val text: Text? = null,
+        private val thinkingDelta: ThinkingDelta? = null,
+        private val thinking: Thinking? = null,
         private val toolCall: ToolCall? = null,
         private val toolResult: ToolResult? = null,
-        private val stop: Stop? = null,
         private val userInput: UserInput? = null,
         private val _json: JsonValue? = null,
     ) {
 
-        fun thinkingDelta(): Optional<ThinkingDelta> = Optional.ofNullable(thinkingDelta)
+        fun stop(): Optional<Stop> = Optional.ofNullable(stop)
 
         fun textDelta(): Optional<TextDelta> = Optional.ofNullable(textDelta)
 
-        fun thinking(): Optional<Thinking> = Optional.ofNullable(thinking)
-
         fun text(): Optional<Text> = Optional.ofNullable(text)
+
+        fun thinkingDelta(): Optional<ThinkingDelta> = Optional.ofNullable(thinkingDelta)
+
+        fun thinking(): Optional<Thinking> = Optional.ofNullable(thinking)
 
         fun toolCall(): Optional<ToolCall> = Optional.ofNullable(toolCall)
 
         fun toolResult(): Optional<ToolResult> = Optional.ofNullable(toolResult)
 
-        fun stop(): Optional<Stop> = Optional.ofNullable(stop)
-
         fun userInput(): Optional<UserInput> = Optional.ofNullable(userInput)
 
-        fun isThinkingDelta(): Boolean = thinkingDelta != null
+        fun isStop(): Boolean = stop != null
 
         fun isTextDelta(): Boolean = textDelta != null
 
-        fun isThinking(): Boolean = thinking != null
-
         fun isText(): Boolean = text != null
+
+        fun isThinkingDelta(): Boolean = thinkingDelta != null
+
+        fun isThinking(): Boolean = thinking != null
 
         fun isToolCall(): Boolean = toolCall != null
 
         fun isToolResult(): Boolean = toolResult != null
 
-        fun isStop(): Boolean = stop != null
-
         fun isUserInput(): Boolean = userInput != null
 
-        fun asThinkingDelta(): ThinkingDelta = thinkingDelta.getOrThrow("thinkingDelta")
+        fun asStop(): Stop = stop.getOrThrow("stop")
 
         fun asTextDelta(): TextDelta = textDelta.getOrThrow("textDelta")
 
-        fun asThinking(): Thinking = thinking.getOrThrow("thinking")
-
         fun asText(): Text = text.getOrThrow("text")
+
+        fun asThinkingDelta(): ThinkingDelta = thinkingDelta.getOrThrow("thinkingDelta")
+
+        fun asThinking(): Thinking = thinking.getOrThrow("thinking")
 
         fun asToolCall(): ToolCall = toolCall.getOrThrow("toolCall")
 
         fun asToolResult(): ToolResult = toolResult.getOrThrow("toolResult")
-
-        fun asStop(): Stop = stop.getOrThrow("stop")
 
         fun asUserInput(): UserInput = userInput.getOrThrow("userInput")
 
@@ -612,8 +612,8 @@ private constructor(
          *
          * Optional<String> result = event.accept(new Event.Visitor<Optional<String>>() {
          *     @Override
-         *     public Optional<String> visitThinkingDelta(ThinkingDelta thinkingDelta) {
-         *         return Optional.of(thinkingDelta.toString());
+         *     public Optional<String> visitStop(Stop stop) {
+         *         return Optional.of(stop.toString());
          *     }
          *
          *     // ...
@@ -631,13 +631,13 @@ private constructor(
          */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
-                thinkingDelta != null -> visitor.visitThinkingDelta(thinkingDelta)
+                stop != null -> visitor.visitStop(stop)
                 textDelta != null -> visitor.visitTextDelta(textDelta)
-                thinking != null -> visitor.visitThinking(thinking)
                 text != null -> visitor.visitText(text)
+                thinkingDelta != null -> visitor.visitThinkingDelta(thinkingDelta)
+                thinking != null -> visitor.visitThinking(thinking)
                 toolCall != null -> visitor.visitToolCall(toolCall)
                 toolResult != null -> visitor.visitToolResult(toolResult)
-                stop != null -> visitor.visitStop(stop)
                 userInput != null -> visitor.visitUserInput(userInput)
                 else -> visitor.unknown(_json)
             }
@@ -660,20 +660,24 @@ private constructor(
 
             accept(
                 object : Visitor<Unit> {
-                    override fun visitThinkingDelta(thinkingDelta: ThinkingDelta) {
-                        thinkingDelta.validate()
+                    override fun visitStop(stop: Stop) {
+                        stop.validate()
                     }
 
                     override fun visitTextDelta(textDelta: TextDelta) {
                         textDelta.validate()
                     }
 
-                    override fun visitThinking(thinking: Thinking) {
-                        thinking.validate()
-                    }
-
                     override fun visitText(text: Text) {
                         text.validate()
+                    }
+
+                    override fun visitThinkingDelta(thinkingDelta: ThinkingDelta) {
+                        thinkingDelta.validate()
+                    }
+
+                    override fun visitThinking(thinking: Thinking) {
+                        thinking.validate()
                     }
 
                     override fun visitToolCall(toolCall: ToolCall) {
@@ -682,10 +686,6 @@ private constructor(
 
                     override fun visitToolResult(toolResult: ToolResult) {
                         toolResult.validate()
-                    }
-
-                    override fun visitStop(stop: Stop) {
-                        stop.validate()
                     }
 
                     override fun visitUserInput(userInput: UserInput) {
@@ -714,20 +714,20 @@ private constructor(
         internal fun validity(): Int =
             accept(
                 object : Visitor<Int> {
-                    override fun visitThinkingDelta(thinkingDelta: ThinkingDelta) =
-                        thinkingDelta.validity()
+                    override fun visitStop(stop: Stop) = stop.validity()
 
                     override fun visitTextDelta(textDelta: TextDelta) = textDelta.validity()
 
-                    override fun visitThinking(thinking: Thinking) = thinking.validity()
-
                     override fun visitText(text: Text) = text.validity()
+
+                    override fun visitThinkingDelta(thinkingDelta: ThinkingDelta) =
+                        thinkingDelta.validity()
+
+                    override fun visitThinking(thinking: Thinking) = thinking.validity()
 
                     override fun visitToolCall(toolCall: ToolCall) = toolCall.validity()
 
                     override fun visitToolResult(toolResult: ToolResult) = toolResult.validity()
-
-                    override fun visitStop(stop: Stop) = stop.validity()
 
                     override fun visitUserInput(userInput: UserInput) = userInput.validity()
 
@@ -741,37 +741,37 @@ private constructor(
             }
 
             return other is Event &&
-                thinkingDelta == other.thinkingDelta &&
+                stop == other.stop &&
                 textDelta == other.textDelta &&
-                thinking == other.thinking &&
                 text == other.text &&
+                thinkingDelta == other.thinkingDelta &&
+                thinking == other.thinking &&
                 toolCall == other.toolCall &&
                 toolResult == other.toolResult &&
-                stop == other.stop &&
                 userInput == other.userInput
         }
 
         override fun hashCode(): Int =
             Objects.hash(
-                thinkingDelta,
+                stop,
                 textDelta,
-                thinking,
                 text,
+                thinkingDelta,
+                thinking,
                 toolCall,
                 toolResult,
-                stop,
                 userInput,
             )
 
         override fun toString(): String =
             when {
-                thinkingDelta != null -> "Event{thinkingDelta=$thinkingDelta}"
+                stop != null -> "Event{stop=$stop}"
                 textDelta != null -> "Event{textDelta=$textDelta}"
-                thinking != null -> "Event{thinking=$thinking}"
                 text != null -> "Event{text=$text}"
+                thinkingDelta != null -> "Event{thinkingDelta=$thinkingDelta}"
+                thinking != null -> "Event{thinking=$thinking}"
                 toolCall != null -> "Event{toolCall=$toolCall}"
                 toolResult != null -> "Event{toolResult=$toolResult}"
-                stop != null -> "Event{stop=$stop}"
                 userInput != null -> "Event{userInput=$userInput}"
                 _json != null -> "Event{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid Event")
@@ -779,20 +779,20 @@ private constructor(
 
         companion object {
 
-            @JvmStatic
-            fun ofThinkingDelta(thinkingDelta: ThinkingDelta) = Event(thinkingDelta = thinkingDelta)
+            @JvmStatic fun ofStop(stop: Stop) = Event(stop = stop)
 
             @JvmStatic fun ofTextDelta(textDelta: TextDelta) = Event(textDelta = textDelta)
 
-            @JvmStatic fun ofThinking(thinking: Thinking) = Event(thinking = thinking)
-
             @JvmStatic fun ofText(text: Text) = Event(text = text)
+
+            @JvmStatic
+            fun ofThinkingDelta(thinkingDelta: ThinkingDelta) = Event(thinkingDelta = thinkingDelta)
+
+            @JvmStatic fun ofThinking(thinking: Thinking) = Event(thinking = thinking)
 
             @JvmStatic fun ofToolCall(toolCall: ToolCall) = Event(toolCall = toolCall)
 
             @JvmStatic fun ofToolResult(toolResult: ToolResult) = Event(toolResult = toolResult)
-
-            @JvmStatic fun ofStop(stop: Stop) = Event(stop = stop)
 
             @JvmStatic fun ofUserInput(userInput: UserInput) = Event(userInput = userInput)
         }
@@ -800,19 +800,19 @@ private constructor(
         /** An interface that defines how to map each variant of [Event] to a value of type [T]. */
         interface Visitor<out T> {
 
-            fun visitThinkingDelta(thinkingDelta: ThinkingDelta): T
+            fun visitStop(stop: Stop): T
 
             fun visitTextDelta(textDelta: TextDelta): T
 
-            fun visitThinking(thinking: Thinking): T
-
             fun visitText(text: Text): T
+
+            fun visitThinkingDelta(thinkingDelta: ThinkingDelta): T
+
+            fun visitThinking(thinking: Thinking): T
 
             fun visitToolCall(toolCall: ToolCall): T
 
             fun visitToolResult(toolResult: ToolResult): T
-
-            fun visitStop(stop: Stop): T
 
             fun visitUserInput(userInput: UserInput): T
 
@@ -838,9 +838,9 @@ private constructor(
                 val type = json.asObject().getOrNull()?.get("type")?.asString()?.getOrNull()
 
                 when (type) {
-                    "thinking_delta" -> {
-                        return tryDeserialize(node, jacksonTypeRef<ThinkingDelta>())?.let {
-                            Event(thinkingDelta = it, _json = json)
+                    "stop" -> {
+                        return tryDeserialize(node, jacksonTypeRef<Stop>())?.let {
+                            Event(stop = it, _json = json)
                         } ?: Event(_json = json)
                     }
                     "text_delta" -> {
@@ -848,14 +848,19 @@ private constructor(
                             Event(textDelta = it, _json = json)
                         } ?: Event(_json = json)
                     }
-                    "thinking" -> {
-                        return tryDeserialize(node, jacksonTypeRef<Thinking>())?.let {
-                            Event(thinking = it, _json = json)
-                        } ?: Event(_json = json)
-                    }
                     "text" -> {
                         return tryDeserialize(node, jacksonTypeRef<Text>())?.let {
                             Event(text = it, _json = json)
+                        } ?: Event(_json = json)
+                    }
+                    "thinking_delta" -> {
+                        return tryDeserialize(node, jacksonTypeRef<ThinkingDelta>())?.let {
+                            Event(thinkingDelta = it, _json = json)
+                        } ?: Event(_json = json)
+                    }
+                    "thinking" -> {
+                        return tryDeserialize(node, jacksonTypeRef<Thinking>())?.let {
+                            Event(thinking = it, _json = json)
                         } ?: Event(_json = json)
                     }
                     "tool_call" -> {
@@ -866,11 +871,6 @@ private constructor(
                     "tool_result" -> {
                         return tryDeserialize(node, jacksonTypeRef<ToolResult>())?.let {
                             Event(toolResult = it, _json = json)
-                        } ?: Event(_json = json)
-                    }
-                    "stop" -> {
-                        return tryDeserialize(node, jacksonTypeRef<Stop>())?.let {
-                            Event(stop = it, _json = json)
                         } ?: Event(_json = json)
                     }
                     "user_input" -> {
@@ -892,13 +892,13 @@ private constructor(
                 provider: SerializerProvider,
             ) {
                 when {
-                    value.thinkingDelta != null -> generator.writeObject(value.thinkingDelta)
+                    value.stop != null -> generator.writeObject(value.stop)
                     value.textDelta != null -> generator.writeObject(value.textDelta)
-                    value.thinking != null -> generator.writeObject(value.thinking)
                     value.text != null -> generator.writeObject(value.text)
+                    value.thinkingDelta != null -> generator.writeObject(value.thinkingDelta)
+                    value.thinking != null -> generator.writeObject(value.thinking)
                     value.toolCall != null -> generator.writeObject(value.toolCall)
                     value.toolResult != null -> generator.writeObject(value.toolResult)
-                    value.stop != null -> generator.writeObject(value.stop)
                     value.userInput != null -> generator.writeObject(value.userInput)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid Event")
@@ -906,28 +906,45 @@ private constructor(
             }
         }
 
-        class ThinkingDelta
+        class Stop
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
-            private val content: JsonField<String>,
+            private val error: JsonField<String>,
+            private val isError: JsonField<Boolean>,
+            private val usage: JsonField<Usage>,
             private val type: JsonField<Type>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
             @JsonCreator
             private constructor(
-                @JsonProperty("content")
+                @JsonProperty("error") @ExcludeMissing error: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("is_error")
                 @ExcludeMissing
-                content: JsonField<String> = JsonMissing.of(),
+                isError: JsonField<Boolean> = JsonMissing.of(),
+                @JsonProperty("usage") @ExcludeMissing usage: JsonField<Usage> = JsonMissing.of(),
                 @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-            ) : this(content, type, mutableMapOf())
+            ) : this(error, isError, usage, type, mutableMapOf())
+
+            /**
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun error(): Optional<String> = error.getOptional("error")
 
             /**
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
              *   unexpectedly missing or null (e.g. if the server responded with an unexpected
              *   value).
              */
-            fun content(): String = content.getRequired("content")
+            fun isError(): Boolean = isError.getRequired("is_error")
+
+            /**
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun usage(): Usage = usage.getRequired("usage")
 
             /**
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
@@ -936,11 +953,25 @@ private constructor(
             fun type(): Optional<Type> = type.getOptional("type")
 
             /**
-             * Returns the raw JSON value of [content].
+             * Returns the raw JSON value of [error].
              *
-             * Unlike [content], this method doesn't throw if the JSON field has an unexpected type.
+             * Unlike [error], this method doesn't throw if the JSON field has an unexpected type.
              */
-            @JsonProperty("content") @ExcludeMissing fun _content(): JsonField<String> = content
+            @JsonProperty("error") @ExcludeMissing fun _error(): JsonField<String> = error
+
+            /**
+             * Returns the raw JSON value of [isError].
+             *
+             * Unlike [isError], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("is_error") @ExcludeMissing fun _isError(): JsonField<Boolean> = isError
+
+            /**
+             * Returns the raw JSON value of [usage].
+             *
+             * Unlike [usage], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("usage") @ExcludeMissing fun _usage(): JsonField<Usage> = usage
 
             /**
              * Returns the raw JSON value of [type].
@@ -964,40 +995,71 @@ private constructor(
             companion object {
 
                 /**
-                 * Returns a mutable builder for constructing an instance of [ThinkingDelta].
+                 * Returns a mutable builder for constructing an instance of [Stop].
                  *
                  * The following fields are required:
                  * ```java
-                 * .content()
+                 * .error()
+                 * .isError()
+                 * .usage()
                  * ```
                  */
                 @JvmStatic fun builder() = Builder()
             }
 
-            /** A builder for [ThinkingDelta]. */
+            /** A builder for [Stop]. */
             class Builder internal constructor() {
 
-                private var content: JsonField<String>? = null
+                private var error: JsonField<String>? = null
+                private var isError: JsonField<Boolean>? = null
+                private var usage: JsonField<Usage>? = null
                 private var type: JsonField<Type> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
-                internal fun from(thinkingDelta: ThinkingDelta) = apply {
-                    content = thinkingDelta.content
-                    type = thinkingDelta.type
-                    additionalProperties = thinkingDelta.additionalProperties.toMutableMap()
+                internal fun from(stop: Stop) = apply {
+                    error = stop.error
+                    isError = stop.isError
+                    usage = stop.usage
+                    type = stop.type
+                    additionalProperties = stop.additionalProperties.toMutableMap()
                 }
 
-                fun content(content: String) = content(JsonField.of(content))
+                fun error(error: String?) = error(JsonField.ofNullable(error))
+
+                /** Alias for calling [Builder.error] with `error.orElse(null)`. */
+                fun error(error: Optional<String>) = error(error.getOrNull())
 
                 /**
-                 * Sets [Builder.content] to an arbitrary JSON value.
+                 * Sets [Builder.error] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.content] with a well-typed [String] value
+                 * You should usually call [Builder.error] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun error(error: JsonField<String>) = apply { this.error = error }
+
+                fun isError(isError: Boolean) = isError(JsonField.of(isError))
+
+                /**
+                 * Sets [Builder.isError] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.isError] with a well-typed [Boolean] value
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun content(content: JsonField<String>) = apply { this.content = content }
+                fun isError(isError: JsonField<Boolean>) = apply { this.isError = isError }
+
+                fun usage(usage: Usage) = usage(JsonField.of(usage))
+
+                /**
+                 * Sets [Builder.usage] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.usage] with a well-typed [Usage] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun usage(usage: JsonField<Usage>) = apply { this.usage = usage }
 
                 fun type(type: Type) = type(JsonField.of(type))
 
@@ -1033,20 +1095,24 @@ private constructor(
                 }
 
                 /**
-                 * Returns an immutable instance of [ThinkingDelta].
+                 * Returns an immutable instance of [Stop].
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
                  *
                  * The following fields are required:
                  * ```java
-                 * .content()
+                 * .error()
+                 * .isError()
+                 * .usage()
                  * ```
                  *
                  * @throws IllegalStateException if any required field is unset.
                  */
-                fun build(): ThinkingDelta =
-                    ThinkingDelta(
-                        checkRequired("content", content),
+                fun build(): Stop =
+                    Stop(
+                        checkRequired("error", error),
+                        checkRequired("isError", isError),
+                        checkRequired("usage", usage),
                         type,
                         additionalProperties.toMutableMap(),
                     )
@@ -1064,12 +1130,14 @@ private constructor(
              * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
              *   its expected type.
              */
-            fun validate(): ThinkingDelta = apply {
+            fun validate(): Stop = apply {
                 if (validated) {
                     return@apply
                 }
 
-                content()
+                error()
+                isError()
+                usage().validate()
                 type().ifPresent { it.validate() }
                 validated = true
             }
@@ -1090,8 +1158,327 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (if (content.asKnown().isPresent) 1 else 0) +
+                (if (error.asKnown().isPresent) 1 else 0) +
+                    (if (isError.asKnown().isPresent) 1 else 0) +
+                    (usage.asKnown().getOrNull()?.validity() ?: 0) +
                     (type.asKnown().getOrNull()?.validity() ?: 0)
+
+            class Usage
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+            private constructor(
+                private val durationMs: JsonField<Double>,
+                private val totalInputTokens: JsonField<Long>,
+                private val totalOutputTokens: JsonField<Long>,
+                private val turns: JsonField<Long>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
+            ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("duration_ms")
+                    @ExcludeMissing
+                    durationMs: JsonField<Double> = JsonMissing.of(),
+                    @JsonProperty("total_input_tokens")
+                    @ExcludeMissing
+                    totalInputTokens: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("total_output_tokens")
+                    @ExcludeMissing
+                    totalOutputTokens: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("turns") @ExcludeMissing turns: JsonField<Long> = JsonMissing.of(),
+                ) : this(durationMs, totalInputTokens, totalOutputTokens, turns, mutableMapOf())
+
+                /**
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun durationMs(): Optional<Double> = durationMs.getOptional("duration_ms")
+
+                /**
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun totalInputTokens(): Optional<Long> =
+                    totalInputTokens.getOptional("total_input_tokens")
+
+                /**
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun totalOutputTokens(): Optional<Long> =
+                    totalOutputTokens.getOptional("total_output_tokens")
+
+                /**
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun turns(): Optional<Long> = turns.getOptional("turns")
+
+                /**
+                 * Returns the raw JSON value of [durationMs].
+                 *
+                 * Unlike [durationMs], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("duration_ms")
+                @ExcludeMissing
+                fun _durationMs(): JsonField<Double> = durationMs
+
+                /**
+                 * Returns the raw JSON value of [totalInputTokens].
+                 *
+                 * Unlike [totalInputTokens], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("total_input_tokens")
+                @ExcludeMissing
+                fun _totalInputTokens(): JsonField<Long> = totalInputTokens
+
+                /**
+                 * Returns the raw JSON value of [totalOutputTokens].
+                 *
+                 * Unlike [totalOutputTokens], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("total_output_tokens")
+                @ExcludeMissing
+                fun _totalOutputTokens(): JsonField<Long> = totalOutputTokens
+
+                /**
+                 * Returns the raw JSON value of [turns].
+                 *
+                 * Unlike [turns], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("turns") @ExcludeMissing fun _turns(): JsonField<Long> = turns
+
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    /** Returns a mutable builder for constructing an instance of [Usage]. */
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                /** A builder for [Usage]. */
+                class Builder internal constructor() {
+
+                    private var durationMs: JsonField<Double> = JsonMissing.of()
+                    private var totalInputTokens: JsonField<Long> = JsonMissing.of()
+                    private var totalOutputTokens: JsonField<Long> = JsonMissing.of()
+                    private var turns: JsonField<Long> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(usage: Usage) = apply {
+                        durationMs = usage.durationMs
+                        totalInputTokens = usage.totalInputTokens
+                        totalOutputTokens = usage.totalOutputTokens
+                        turns = usage.turns
+                        additionalProperties = usage.additionalProperties.toMutableMap()
+                    }
+
+                    fun durationMs(durationMs: Double) = durationMs(JsonField.of(durationMs))
+
+                    /**
+                     * Sets [Builder.durationMs] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.durationMs] with a well-typed [Double] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun durationMs(durationMs: JsonField<Double>) = apply {
+                        this.durationMs = durationMs
+                    }
+
+                    fun totalInputTokens(totalInputTokens: Long?) =
+                        totalInputTokens(JsonField.ofNullable(totalInputTokens))
+
+                    /**
+                     * Alias for [Builder.totalInputTokens].
+                     *
+                     * This unboxed primitive overload exists for backwards compatibility.
+                     */
+                    fun totalInputTokens(totalInputTokens: Long) =
+                        totalInputTokens(totalInputTokens as Long?)
+
+                    /**
+                     * Alias for calling [Builder.totalInputTokens] with
+                     * `totalInputTokens.orElse(null)`.
+                     */
+                    fun totalInputTokens(totalInputTokens: Optional<Long>) =
+                        totalInputTokens(totalInputTokens.getOrNull())
+
+                    /**
+                     * Sets [Builder.totalInputTokens] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.totalInputTokens] with a well-typed [Long]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
+                    fun totalInputTokens(totalInputTokens: JsonField<Long>) = apply {
+                        this.totalInputTokens = totalInputTokens
+                    }
+
+                    fun totalOutputTokens(totalOutputTokens: Long?) =
+                        totalOutputTokens(JsonField.ofNullable(totalOutputTokens))
+
+                    /**
+                     * Alias for [Builder.totalOutputTokens].
+                     *
+                     * This unboxed primitive overload exists for backwards compatibility.
+                     */
+                    fun totalOutputTokens(totalOutputTokens: Long) =
+                        totalOutputTokens(totalOutputTokens as Long?)
+
+                    /**
+                     * Alias for calling [Builder.totalOutputTokens] with
+                     * `totalOutputTokens.orElse(null)`.
+                     */
+                    fun totalOutputTokens(totalOutputTokens: Optional<Long>) =
+                        totalOutputTokens(totalOutputTokens.getOrNull())
+
+                    /**
+                     * Sets [Builder.totalOutputTokens] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.totalOutputTokens] with a well-typed [Long]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
+                    fun totalOutputTokens(totalOutputTokens: JsonField<Long>) = apply {
+                        this.totalOutputTokens = totalOutputTokens
+                    }
+
+                    fun turns(turns: Long) = turns(JsonField.of(turns))
+
+                    /**
+                     * Sets [Builder.turns] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.turns] with a well-typed [Long] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun turns(turns: JsonField<Long>) = apply { this.turns = turns }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
+
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
+
+                    /**
+                     * Returns an immutable instance of [Usage].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     */
+                    fun build(): Usage =
+                        Usage(
+                            durationMs,
+                            totalInputTokens,
+                            totalOutputTokens,
+                            turns,
+                            additionalProperties.toMutableMap(),
+                        )
+                }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LlamaCloudInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
+                fun validate(): Usage = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    durationMs()
+                    totalInputTokens()
+                    totalOutputTokens()
+                    turns()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LlamaCloudInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (if (durationMs.asKnown().isPresent) 1 else 0) +
+                        (if (totalInputTokens.asKnown().isPresent) 1 else 0) +
+                        (if (totalOutputTokens.asKnown().isPresent) 1 else 0) +
+                        (if (turns.asKnown().isPresent) 1 else 0)
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Usage &&
+                        durationMs == other.durationMs &&
+                        totalInputTokens == other.totalInputTokens &&
+                        totalOutputTokens == other.totalOutputTokens &&
+                        turns == other.turns &&
+                        additionalProperties == other.additionalProperties
+                }
+
+                private val hashCode: Int by lazy {
+                    Objects.hash(
+                        durationMs,
+                        totalInputTokens,
+                        totalOutputTokens,
+                        turns,
+                        additionalProperties,
+                    )
+                }
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "Usage{durationMs=$durationMs, totalInputTokens=$totalInputTokens, totalOutputTokens=$totalOutputTokens, turns=$turns, additionalProperties=$additionalProperties}"
+            }
 
             class Type @JsonCreator private constructor(private val value: JsonField<String>) :
                 Enum {
@@ -1108,14 +1495,14 @@ private constructor(
 
                 companion object {
 
-                    @JvmField val THINKING_DELTA = of("thinking_delta")
+                    @JvmField val STOP = of("stop")
 
                     @JvmStatic fun of(value: String) = Type(JsonField.of(value))
                 }
 
                 /** An enum containing [Type]'s known values. */
                 enum class Known {
-                    THINKING_DELTA
+                    STOP
                 }
 
                 /**
@@ -1128,7 +1515,7 @@ private constructor(
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
-                    THINKING_DELTA,
+                    STOP,
                     /**
                      * An enum member indicating that [Type] was instantiated with an unknown value.
                      */
@@ -1144,7 +1531,7 @@ private constructor(
                  */
                 fun value(): Value =
                     when (this) {
-                        THINKING_DELTA -> Value.THINKING_DELTA
+                        STOP -> Value.STOP
                         else -> Value._UNKNOWN
                     }
 
@@ -1159,7 +1546,7 @@ private constructor(
                  */
                 fun known(): Known =
                     when (this) {
-                        THINKING_DELTA -> Known.THINKING_DELTA
+                        STOP -> Known.STOP
                         else -> throw LlamaCloudInvalidDataException("Unknown Type: $value")
                     }
 
@@ -1232,18 +1619,22 @@ private constructor(
                     return true
                 }
 
-                return other is ThinkingDelta &&
-                    content == other.content &&
+                return other is Stop &&
+                    error == other.error &&
+                    isError == other.isError &&
+                    usage == other.usage &&
                     type == other.type &&
                     additionalProperties == other.additionalProperties
             }
 
-            private val hashCode: Int by lazy { Objects.hash(content, type, additionalProperties) }
+            private val hashCode: Int by lazy {
+                Objects.hash(error, isError, usage, type, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "ThinkingDelta{content=$content, type=$type, additionalProperties=$additionalProperties}"
+                "Stop{error=$error, isError=$isError, usage=$usage, type=$type, additionalProperties=$additionalProperties}"
         }
 
         class TextDelta
@@ -1586,346 +1977,6 @@ private constructor(
                 "TextDelta{content=$content, type=$type, additionalProperties=$additionalProperties}"
         }
 
-        class Thinking
-        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-        private constructor(
-            private val content: JsonField<String>,
-            private val type: JsonField<Type>,
-            private val additionalProperties: MutableMap<String, JsonValue>,
-        ) {
-
-            @JsonCreator
-            private constructor(
-                @JsonProperty("content")
-                @ExcludeMissing
-                content: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-            ) : this(content, type, mutableMapOf())
-
-            /**
-             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
-             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun content(): String = content.getRequired("content")
-
-            /**
-             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun type(): Optional<Type> = type.getOptional("type")
-
-            /**
-             * Returns the raw JSON value of [content].
-             *
-             * Unlike [content], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("content") @ExcludeMissing fun _content(): JsonField<String> = content
-
-            /**
-             * Returns the raw JSON value of [type].
-             *
-             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
-
-            @JsonAnySetter
-            private fun putAdditionalProperty(key: String, value: JsonValue) {
-                additionalProperties.put(key, value)
-            }
-
-            @JsonAnyGetter
-            @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> =
-                Collections.unmodifiableMap(additionalProperties)
-
-            fun toBuilder() = Builder().from(this)
-
-            companion object {
-
-                /**
-                 * Returns a mutable builder for constructing an instance of [Thinking].
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .content()
-                 * ```
-                 */
-                @JvmStatic fun builder() = Builder()
-            }
-
-            /** A builder for [Thinking]. */
-            class Builder internal constructor() {
-
-                private var content: JsonField<String>? = null
-                private var type: JsonField<Type> = JsonMissing.of()
-                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-                @JvmSynthetic
-                internal fun from(thinking: Thinking) = apply {
-                    content = thinking.content
-                    type = thinking.type
-                    additionalProperties = thinking.additionalProperties.toMutableMap()
-                }
-
-                fun content(content: String) = content(JsonField.of(content))
-
-                /**
-                 * Sets [Builder.content] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.content] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun content(content: JsonField<String>) = apply { this.content = content }
-
-                fun type(type: Type) = type(JsonField.of(type))
-
-                /**
-                 * Sets [Builder.type] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.type] with a well-typed [Type] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun type(type: JsonField<Type>) = apply { this.type = type }
-
-                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.clear()
-                    putAllAdditionalProperties(additionalProperties)
-                }
-
-                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    additionalProperties.put(key, value)
-                }
-
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
-
-                fun removeAdditionalProperty(key: String) = apply {
-                    additionalProperties.remove(key)
-                }
-
-                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                    keys.forEach(::removeAdditionalProperty)
-                }
-
-                /**
-                 * Returns an immutable instance of [Thinking].
-                 *
-                 * Further updates to this [Builder] will not mutate the returned instance.
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .content()
-                 * ```
-                 *
-                 * @throws IllegalStateException if any required field is unset.
-                 */
-                fun build(): Thinking =
-                    Thinking(
-                        checkRequired("content", content),
-                        type,
-                        additionalProperties.toMutableMap(),
-                    )
-            }
-
-            private var validated: Boolean = false
-
-            /**
-             * Validates that the types of all values in this object match their expected types
-             * recursively.
-             *
-             * This method is _not_ forwards compatible with new types from the API for existing
-             * fields.
-             *
-             * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
-             *   its expected type.
-             */
-            fun validate(): Thinking = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                content()
-                type().ifPresent { it.validate() }
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: LlamaCloudInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic
-            internal fun validity(): Int =
-                (if (content.asKnown().isPresent) 1 else 0) +
-                    (type.asKnown().getOrNull()?.validity() ?: 0)
-
-            class Type @JsonCreator private constructor(private val value: JsonField<String>) :
-                Enum {
-
-                /**
-                 * Returns this class instance's raw value.
-                 *
-                 * This is usually only useful if this instance was deserialized from data that
-                 * doesn't match any known member, and you want to know that value. For example, if
-                 * the SDK is on an older version than the API, then the API may respond with new
-                 * members that the SDK is unaware of.
-                 */
-                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-                companion object {
-
-                    @JvmField val THINKING = of("thinking")
-
-                    @JvmStatic fun of(value: String) = Type(JsonField.of(value))
-                }
-
-                /** An enum containing [Type]'s known values. */
-                enum class Known {
-                    THINKING
-                }
-
-                /**
-                 * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
-                 *
-                 * An instance of [Type] can contain an unknown value in a couple of cases:
-                 * - It was deserialized from data that doesn't match any known member. For example,
-                 *   if the SDK is on an older version than the API, then the API may respond with
-                 *   new members that the SDK is unaware of.
-                 * - It was constructed with an arbitrary value using the [of] method.
-                 */
-                enum class Value {
-                    THINKING,
-                    /**
-                     * An enum member indicating that [Type] was instantiated with an unknown value.
-                     */
-                    _UNKNOWN,
-                }
-
-                /**
-                 * Returns an enum member corresponding to this class instance's value, or
-                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-                 *
-                 * Use the [known] method instead if you're certain the value is always known or if
-                 * you want to throw for the unknown case.
-                 */
-                fun value(): Value =
-                    when (this) {
-                        THINKING -> Value.THINKING
-                        else -> Value._UNKNOWN
-                    }
-
-                /**
-                 * Returns an enum member corresponding to this class instance's value.
-                 *
-                 * Use the [value] method instead if you're uncertain the value is always known and
-                 * don't want to throw for the unknown case.
-                 *
-                 * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
-                 *   known member.
-                 */
-                fun known(): Known =
-                    when (this) {
-                        THINKING -> Known.THINKING
-                        else -> throw LlamaCloudInvalidDataException("Unknown Type: $value")
-                    }
-
-                /**
-                 * Returns this class instance's primitive wire representation.
-                 *
-                 * This differs from the [toString] method because that method is primarily for
-                 * debugging and generally doesn't throw.
-                 *
-                 * @throws LlamaCloudInvalidDataException if this class instance's value does not
-                 *   have the expected primitive type.
-                 */
-                fun asString(): String =
-                    _value().asString().orElseThrow {
-                        LlamaCloudInvalidDataException("Value is not a String")
-                    }
-
-                private var validated: Boolean = false
-
-                /**
-                 * Validates that the types of all values in this object match their expected types
-                 * recursively.
-                 *
-                 * This method is _not_ forwards compatible with new types from the API for existing
-                 * fields.
-                 *
-                 * @throws LlamaCloudInvalidDataException if any value type in this object doesn't
-                 *   match its expected type.
-                 */
-                fun validate(): Type = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    known()
-                    validated = true
-                }
-
-                fun isValid(): Boolean =
-                    try {
-                        validate()
-                        true
-                    } catch (e: LlamaCloudInvalidDataException) {
-                        false
-                    }
-
-                /**
-                 * Returns a score indicating how many valid values are contained in this object
-                 * recursively.
-                 *
-                 * Used for best match union deserialization.
-                 */
-                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is Type && value == other.value
-                }
-
-                override fun hashCode() = value.hashCode()
-
-                override fun toString() = value.toString()
-            }
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Thinking &&
-                    content == other.content &&
-                    type == other.type &&
-                    additionalProperties == other.additionalProperties
-            }
-
-            private val hashCode: Int by lazy { Objects.hash(content, type, additionalProperties) }
-
-            override fun hashCode(): Int = hashCode
-
-            override fun toString() =
-                "Thinking{content=$content, type=$type, additionalProperties=$additionalProperties}"
-        }
-
         class Text
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
@@ -2264,6 +2315,686 @@ private constructor(
 
             override fun toString() =
                 "Text{content=$content, type=$type, additionalProperties=$additionalProperties}"
+        }
+
+        class ThinkingDelta
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val content: JsonField<String>,
+            private val type: JsonField<Type>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("content")
+                @ExcludeMissing
+                content: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+            ) : this(content, type, mutableMapOf())
+
+            /**
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun content(): String = content.getRequired("content")
+
+            /**
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun type(): Optional<Type> = type.getOptional("type")
+
+            /**
+             * Returns the raw JSON value of [content].
+             *
+             * Unlike [content], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("content") @ExcludeMissing fun _content(): JsonField<String> = content
+
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of [ThinkingDelta].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .content()
+                 * ```
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [ThinkingDelta]. */
+            class Builder internal constructor() {
+
+                private var content: JsonField<String>? = null
+                private var type: JsonField<Type> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(thinkingDelta: ThinkingDelta) = apply {
+                    content = thinkingDelta.content
+                    type = thinkingDelta.type
+                    additionalProperties = thinkingDelta.additionalProperties.toMutableMap()
+                }
+
+                fun content(content: String) = content(JsonField.of(content))
+
+                /**
+                 * Sets [Builder.content] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.content] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun content(content: JsonField<String>) = apply { this.content = content }
+
+                fun type(type: Type) = type(JsonField.of(type))
+
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [Type] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun type(type: JsonField<Type>) = apply { this.type = type }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [ThinkingDelta].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .content()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
+                fun build(): ThinkingDelta =
+                    ThinkingDelta(
+                        checkRequired("content", content),
+                        type,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
+            fun validate(): ThinkingDelta = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                content()
+                type().ifPresent { it.validate() }
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LlamaCloudInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (content.asKnown().isPresent) 1 else 0) +
+                    (type.asKnown().getOrNull()?.validity() ?: 0)
+
+            class Type @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val THINKING_DELTA = of("thinking_delta")
+
+                    @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                }
+
+                /** An enum containing [Type]'s known values. */
+                enum class Known {
+                    THINKING_DELTA
+                }
+
+                /**
+                 * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Type] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    THINKING_DELTA,
+                    /**
+                     * An enum member indicating that [Type] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        THINKING_DELTA -> Value.THINKING_DELTA
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        THINKING_DELTA -> Known.THINKING_DELTA
+                        else -> throw LlamaCloudInvalidDataException("Unknown Type: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value does not
+                 *   have the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LlamaCloudInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LlamaCloudInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
+                fun validate(): Type = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LlamaCloudInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Type && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is ThinkingDelta &&
+                    content == other.content &&
+                    type == other.type &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy { Objects.hash(content, type, additionalProperties) }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "ThinkingDelta{content=$content, type=$type, additionalProperties=$additionalProperties}"
+        }
+
+        class Thinking
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val content: JsonField<String>,
+            private val type: JsonField<Type>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("content")
+                @ExcludeMissing
+                content: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+            ) : this(content, type, mutableMapOf())
+
+            /**
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun content(): String = content.getRequired("content")
+
+            /**
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun type(): Optional<Type> = type.getOptional("type")
+
+            /**
+             * Returns the raw JSON value of [content].
+             *
+             * Unlike [content], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("content") @ExcludeMissing fun _content(): JsonField<String> = content
+
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of [Thinking].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .content()
+                 * ```
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Thinking]. */
+            class Builder internal constructor() {
+
+                private var content: JsonField<String>? = null
+                private var type: JsonField<Type> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(thinking: Thinking) = apply {
+                    content = thinking.content
+                    type = thinking.type
+                    additionalProperties = thinking.additionalProperties.toMutableMap()
+                }
+
+                fun content(content: String) = content(JsonField.of(content))
+
+                /**
+                 * Sets [Builder.content] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.content] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun content(content: JsonField<String>) = apply { this.content = content }
+
+                fun type(type: Type) = type(JsonField.of(type))
+
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [Type] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun type(type: JsonField<Type>) = apply { this.type = type }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Thinking].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .content()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
+                fun build(): Thinking =
+                    Thinking(
+                        checkRequired("content", content),
+                        type,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
+            fun validate(): Thinking = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                content()
+                type().ifPresent { it.validate() }
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LlamaCloudInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (content.asKnown().isPresent) 1 else 0) +
+                    (type.asKnown().getOrNull()?.validity() ?: 0)
+
+            class Type @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val THINKING = of("thinking")
+
+                    @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                }
+
+                /** An enum containing [Type]'s known values. */
+                enum class Known {
+                    THINKING
+                }
+
+                /**
+                 * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Type] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    THINKING,
+                    /**
+                     * An enum member indicating that [Type] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        THINKING -> Value.THINKING
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        THINKING -> Known.THINKING
+                        else -> throw LlamaCloudInvalidDataException("Unknown Type: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value does not
+                 *   have the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LlamaCloudInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LlamaCloudInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
+                fun validate(): Type = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LlamaCloudInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Type && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Thinking &&
+                    content == other.content &&
+                    type == other.type &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy { Objects.hash(content, type, additionalProperties) }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Thinking{content=$content, type=$type, additionalProperties=$additionalProperties}"
         }
 
         class ToolCall
@@ -3466,737 +4197,6 @@ private constructor(
 
             override fun toString() =
                 "ToolResult{callId=$callId, name=$name, result=$result, imageAttachment=$imageAttachment, type=$type, additionalProperties=$additionalProperties}"
-        }
-
-        class Stop
-        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-        private constructor(
-            private val error: JsonField<String>,
-            private val isError: JsonField<Boolean>,
-            private val usage: JsonField<Usage>,
-            private val type: JsonField<Type>,
-            private val additionalProperties: MutableMap<String, JsonValue>,
-        ) {
-
-            @JsonCreator
-            private constructor(
-                @JsonProperty("error") @ExcludeMissing error: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("is_error")
-                @ExcludeMissing
-                isError: JsonField<Boolean> = JsonMissing.of(),
-                @JsonProperty("usage") @ExcludeMissing usage: JsonField<Usage> = JsonMissing.of(),
-                @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-            ) : this(error, isError, usage, type, mutableMapOf())
-
-            /**
-             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun error(): Optional<String> = error.getOptional("error")
-
-            /**
-             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
-             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun isError(): Boolean = isError.getRequired("is_error")
-
-            /**
-             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
-             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun usage(): Usage = usage.getRequired("usage")
-
-            /**
-             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun type(): Optional<Type> = type.getOptional("type")
-
-            /**
-             * Returns the raw JSON value of [error].
-             *
-             * Unlike [error], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("error") @ExcludeMissing fun _error(): JsonField<String> = error
-
-            /**
-             * Returns the raw JSON value of [isError].
-             *
-             * Unlike [isError], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("is_error") @ExcludeMissing fun _isError(): JsonField<Boolean> = isError
-
-            /**
-             * Returns the raw JSON value of [usage].
-             *
-             * Unlike [usage], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("usage") @ExcludeMissing fun _usage(): JsonField<Usage> = usage
-
-            /**
-             * Returns the raw JSON value of [type].
-             *
-             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
-
-            @JsonAnySetter
-            private fun putAdditionalProperty(key: String, value: JsonValue) {
-                additionalProperties.put(key, value)
-            }
-
-            @JsonAnyGetter
-            @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> =
-                Collections.unmodifiableMap(additionalProperties)
-
-            fun toBuilder() = Builder().from(this)
-
-            companion object {
-
-                /**
-                 * Returns a mutable builder for constructing an instance of [Stop].
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .error()
-                 * .isError()
-                 * .usage()
-                 * ```
-                 */
-                @JvmStatic fun builder() = Builder()
-            }
-
-            /** A builder for [Stop]. */
-            class Builder internal constructor() {
-
-                private var error: JsonField<String>? = null
-                private var isError: JsonField<Boolean>? = null
-                private var usage: JsonField<Usage>? = null
-                private var type: JsonField<Type> = JsonMissing.of()
-                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-                @JvmSynthetic
-                internal fun from(stop: Stop) = apply {
-                    error = stop.error
-                    isError = stop.isError
-                    usage = stop.usage
-                    type = stop.type
-                    additionalProperties = stop.additionalProperties.toMutableMap()
-                }
-
-                fun error(error: String?) = error(JsonField.ofNullable(error))
-
-                /** Alias for calling [Builder.error] with `error.orElse(null)`. */
-                fun error(error: Optional<String>) = error(error.getOrNull())
-
-                /**
-                 * Sets [Builder.error] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.error] with a well-typed [String] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun error(error: JsonField<String>) = apply { this.error = error }
-
-                fun isError(isError: Boolean) = isError(JsonField.of(isError))
-
-                /**
-                 * Sets [Builder.isError] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.isError] with a well-typed [Boolean] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun isError(isError: JsonField<Boolean>) = apply { this.isError = isError }
-
-                fun usage(usage: Usage) = usage(JsonField.of(usage))
-
-                /**
-                 * Sets [Builder.usage] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.usage] with a well-typed [Usage] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun usage(usage: JsonField<Usage>) = apply { this.usage = usage }
-
-                fun type(type: Type) = type(JsonField.of(type))
-
-                /**
-                 * Sets [Builder.type] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.type] with a well-typed [Type] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun type(type: JsonField<Type>) = apply { this.type = type }
-
-                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.clear()
-                    putAllAdditionalProperties(additionalProperties)
-                }
-
-                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    additionalProperties.put(key, value)
-                }
-
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
-
-                fun removeAdditionalProperty(key: String) = apply {
-                    additionalProperties.remove(key)
-                }
-
-                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                    keys.forEach(::removeAdditionalProperty)
-                }
-
-                /**
-                 * Returns an immutable instance of [Stop].
-                 *
-                 * Further updates to this [Builder] will not mutate the returned instance.
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .error()
-                 * .isError()
-                 * .usage()
-                 * ```
-                 *
-                 * @throws IllegalStateException if any required field is unset.
-                 */
-                fun build(): Stop =
-                    Stop(
-                        checkRequired("error", error),
-                        checkRequired("isError", isError),
-                        checkRequired("usage", usage),
-                        type,
-                        additionalProperties.toMutableMap(),
-                    )
-            }
-
-            private var validated: Boolean = false
-
-            /**
-             * Validates that the types of all values in this object match their expected types
-             * recursively.
-             *
-             * This method is _not_ forwards compatible with new types from the API for existing
-             * fields.
-             *
-             * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
-             *   its expected type.
-             */
-            fun validate(): Stop = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                error()
-                isError()
-                usage().validate()
-                type().ifPresent { it.validate() }
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: LlamaCloudInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic
-            internal fun validity(): Int =
-                (if (error.asKnown().isPresent) 1 else 0) +
-                    (if (isError.asKnown().isPresent) 1 else 0) +
-                    (usage.asKnown().getOrNull()?.validity() ?: 0) +
-                    (type.asKnown().getOrNull()?.validity() ?: 0)
-
-            class Usage
-            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-            private constructor(
-                private val durationMs: JsonField<Double>,
-                private val totalInputTokens: JsonField<Long>,
-                private val totalOutputTokens: JsonField<Long>,
-                private val turns: JsonField<Long>,
-                private val additionalProperties: MutableMap<String, JsonValue>,
-            ) {
-
-                @JsonCreator
-                private constructor(
-                    @JsonProperty("duration_ms")
-                    @ExcludeMissing
-                    durationMs: JsonField<Double> = JsonMissing.of(),
-                    @JsonProperty("total_input_tokens")
-                    @ExcludeMissing
-                    totalInputTokens: JsonField<Long> = JsonMissing.of(),
-                    @JsonProperty("total_output_tokens")
-                    @ExcludeMissing
-                    totalOutputTokens: JsonField<Long> = JsonMissing.of(),
-                    @JsonProperty("turns") @ExcludeMissing turns: JsonField<Long> = JsonMissing.of(),
-                ) : this(durationMs, totalInputTokens, totalOutputTokens, turns, mutableMapOf())
-
-                /**
-                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
-                 *   (e.g. if the server responded with an unexpected value).
-                 */
-                fun durationMs(): Optional<Double> = durationMs.getOptional("duration_ms")
-
-                /**
-                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
-                 *   (e.g. if the server responded with an unexpected value).
-                 */
-                fun totalInputTokens(): Optional<Long> =
-                    totalInputTokens.getOptional("total_input_tokens")
-
-                /**
-                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
-                 *   (e.g. if the server responded with an unexpected value).
-                 */
-                fun totalOutputTokens(): Optional<Long> =
-                    totalOutputTokens.getOptional("total_output_tokens")
-
-                /**
-                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
-                 *   (e.g. if the server responded with an unexpected value).
-                 */
-                fun turns(): Optional<Long> = turns.getOptional("turns")
-
-                /**
-                 * Returns the raw JSON value of [durationMs].
-                 *
-                 * Unlike [durationMs], this method doesn't throw if the JSON field has an
-                 * unexpected type.
-                 */
-                @JsonProperty("duration_ms")
-                @ExcludeMissing
-                fun _durationMs(): JsonField<Double> = durationMs
-
-                /**
-                 * Returns the raw JSON value of [totalInputTokens].
-                 *
-                 * Unlike [totalInputTokens], this method doesn't throw if the JSON field has an
-                 * unexpected type.
-                 */
-                @JsonProperty("total_input_tokens")
-                @ExcludeMissing
-                fun _totalInputTokens(): JsonField<Long> = totalInputTokens
-
-                /**
-                 * Returns the raw JSON value of [totalOutputTokens].
-                 *
-                 * Unlike [totalOutputTokens], this method doesn't throw if the JSON field has an
-                 * unexpected type.
-                 */
-                @JsonProperty("total_output_tokens")
-                @ExcludeMissing
-                fun _totalOutputTokens(): JsonField<Long> = totalOutputTokens
-
-                /**
-                 * Returns the raw JSON value of [turns].
-                 *
-                 * Unlike [turns], this method doesn't throw if the JSON field has an unexpected
-                 * type.
-                 */
-                @JsonProperty("turns") @ExcludeMissing fun _turns(): JsonField<Long> = turns
-
-                @JsonAnySetter
-                private fun putAdditionalProperty(key: String, value: JsonValue) {
-                    additionalProperties.put(key, value)
-                }
-
-                @JsonAnyGetter
-                @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> =
-                    Collections.unmodifiableMap(additionalProperties)
-
-                fun toBuilder() = Builder().from(this)
-
-                companion object {
-
-                    /** Returns a mutable builder for constructing an instance of [Usage]. */
-                    @JvmStatic fun builder() = Builder()
-                }
-
-                /** A builder for [Usage]. */
-                class Builder internal constructor() {
-
-                    private var durationMs: JsonField<Double> = JsonMissing.of()
-                    private var totalInputTokens: JsonField<Long> = JsonMissing.of()
-                    private var totalOutputTokens: JsonField<Long> = JsonMissing.of()
-                    private var turns: JsonField<Long> = JsonMissing.of()
-                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-                    @JvmSynthetic
-                    internal fun from(usage: Usage) = apply {
-                        durationMs = usage.durationMs
-                        totalInputTokens = usage.totalInputTokens
-                        totalOutputTokens = usage.totalOutputTokens
-                        turns = usage.turns
-                        additionalProperties = usage.additionalProperties.toMutableMap()
-                    }
-
-                    fun durationMs(durationMs: Double) = durationMs(JsonField.of(durationMs))
-
-                    /**
-                     * Sets [Builder.durationMs] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.durationMs] with a well-typed [Double] value
-                     * instead. This method is primarily for setting the field to an undocumented or
-                     * not yet supported value.
-                     */
-                    fun durationMs(durationMs: JsonField<Double>) = apply {
-                        this.durationMs = durationMs
-                    }
-
-                    fun totalInputTokens(totalInputTokens: Long?) =
-                        totalInputTokens(JsonField.ofNullable(totalInputTokens))
-
-                    /**
-                     * Alias for [Builder.totalInputTokens].
-                     *
-                     * This unboxed primitive overload exists for backwards compatibility.
-                     */
-                    fun totalInputTokens(totalInputTokens: Long) =
-                        totalInputTokens(totalInputTokens as Long?)
-
-                    /**
-                     * Alias for calling [Builder.totalInputTokens] with
-                     * `totalInputTokens.orElse(null)`.
-                     */
-                    fun totalInputTokens(totalInputTokens: Optional<Long>) =
-                        totalInputTokens(totalInputTokens.getOrNull())
-
-                    /**
-                     * Sets [Builder.totalInputTokens] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.totalInputTokens] with a well-typed [Long]
-                     * value instead. This method is primarily for setting the field to an
-                     * undocumented or not yet supported value.
-                     */
-                    fun totalInputTokens(totalInputTokens: JsonField<Long>) = apply {
-                        this.totalInputTokens = totalInputTokens
-                    }
-
-                    fun totalOutputTokens(totalOutputTokens: Long?) =
-                        totalOutputTokens(JsonField.ofNullable(totalOutputTokens))
-
-                    /**
-                     * Alias for [Builder.totalOutputTokens].
-                     *
-                     * This unboxed primitive overload exists for backwards compatibility.
-                     */
-                    fun totalOutputTokens(totalOutputTokens: Long) =
-                        totalOutputTokens(totalOutputTokens as Long?)
-
-                    /**
-                     * Alias for calling [Builder.totalOutputTokens] with
-                     * `totalOutputTokens.orElse(null)`.
-                     */
-                    fun totalOutputTokens(totalOutputTokens: Optional<Long>) =
-                        totalOutputTokens(totalOutputTokens.getOrNull())
-
-                    /**
-                     * Sets [Builder.totalOutputTokens] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.totalOutputTokens] with a well-typed [Long]
-                     * value instead. This method is primarily for setting the field to an
-                     * undocumented or not yet supported value.
-                     */
-                    fun totalOutputTokens(totalOutputTokens: JsonField<Long>) = apply {
-                        this.totalOutputTokens = totalOutputTokens
-                    }
-
-                    fun turns(turns: Long) = turns(JsonField.of(turns))
-
-                    /**
-                     * Sets [Builder.turns] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.turns] with a well-typed [Long] value
-                     * instead. This method is primarily for setting the field to an undocumented or
-                     * not yet supported value.
-                     */
-                    fun turns(turns: JsonField<Long>) = apply { this.turns = turns }
-
-                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                        this.additionalProperties.clear()
-                        putAllAdditionalProperties(additionalProperties)
-                    }
-
-                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                        additionalProperties.put(key, value)
-                    }
-
-                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                        apply {
-                            this.additionalProperties.putAll(additionalProperties)
-                        }
-
-                    fun removeAdditionalProperty(key: String) = apply {
-                        additionalProperties.remove(key)
-                    }
-
-                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                        keys.forEach(::removeAdditionalProperty)
-                    }
-
-                    /**
-                     * Returns an immutable instance of [Usage].
-                     *
-                     * Further updates to this [Builder] will not mutate the returned instance.
-                     */
-                    fun build(): Usage =
-                        Usage(
-                            durationMs,
-                            totalInputTokens,
-                            totalOutputTokens,
-                            turns,
-                            additionalProperties.toMutableMap(),
-                        )
-                }
-
-                private var validated: Boolean = false
-
-                /**
-                 * Validates that the types of all values in this object match their expected types
-                 * recursively.
-                 *
-                 * This method is _not_ forwards compatible with new types from the API for existing
-                 * fields.
-                 *
-                 * @throws LlamaCloudInvalidDataException if any value type in this object doesn't
-                 *   match its expected type.
-                 */
-                fun validate(): Usage = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    durationMs()
-                    totalInputTokens()
-                    totalOutputTokens()
-                    turns()
-                    validated = true
-                }
-
-                fun isValid(): Boolean =
-                    try {
-                        validate()
-                        true
-                    } catch (e: LlamaCloudInvalidDataException) {
-                        false
-                    }
-
-                /**
-                 * Returns a score indicating how many valid values are contained in this object
-                 * recursively.
-                 *
-                 * Used for best match union deserialization.
-                 */
-                @JvmSynthetic
-                internal fun validity(): Int =
-                    (if (durationMs.asKnown().isPresent) 1 else 0) +
-                        (if (totalInputTokens.asKnown().isPresent) 1 else 0) +
-                        (if (totalOutputTokens.asKnown().isPresent) 1 else 0) +
-                        (if (turns.asKnown().isPresent) 1 else 0)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is Usage &&
-                        durationMs == other.durationMs &&
-                        totalInputTokens == other.totalInputTokens &&
-                        totalOutputTokens == other.totalOutputTokens &&
-                        turns == other.turns &&
-                        additionalProperties == other.additionalProperties
-                }
-
-                private val hashCode: Int by lazy {
-                    Objects.hash(
-                        durationMs,
-                        totalInputTokens,
-                        totalOutputTokens,
-                        turns,
-                        additionalProperties,
-                    )
-                }
-
-                override fun hashCode(): Int = hashCode
-
-                override fun toString() =
-                    "Usage{durationMs=$durationMs, totalInputTokens=$totalInputTokens, totalOutputTokens=$totalOutputTokens, turns=$turns, additionalProperties=$additionalProperties}"
-            }
-
-            class Type @JsonCreator private constructor(private val value: JsonField<String>) :
-                Enum {
-
-                /**
-                 * Returns this class instance's raw value.
-                 *
-                 * This is usually only useful if this instance was deserialized from data that
-                 * doesn't match any known member, and you want to know that value. For example, if
-                 * the SDK is on an older version than the API, then the API may respond with new
-                 * members that the SDK is unaware of.
-                 */
-                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-                companion object {
-
-                    @JvmField val STOP = of("stop")
-
-                    @JvmStatic fun of(value: String) = Type(JsonField.of(value))
-                }
-
-                /** An enum containing [Type]'s known values. */
-                enum class Known {
-                    STOP
-                }
-
-                /**
-                 * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
-                 *
-                 * An instance of [Type] can contain an unknown value in a couple of cases:
-                 * - It was deserialized from data that doesn't match any known member. For example,
-                 *   if the SDK is on an older version than the API, then the API may respond with
-                 *   new members that the SDK is unaware of.
-                 * - It was constructed with an arbitrary value using the [of] method.
-                 */
-                enum class Value {
-                    STOP,
-                    /**
-                     * An enum member indicating that [Type] was instantiated with an unknown value.
-                     */
-                    _UNKNOWN,
-                }
-
-                /**
-                 * Returns an enum member corresponding to this class instance's value, or
-                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-                 *
-                 * Use the [known] method instead if you're certain the value is always known or if
-                 * you want to throw for the unknown case.
-                 */
-                fun value(): Value =
-                    when (this) {
-                        STOP -> Value.STOP
-                        else -> Value._UNKNOWN
-                    }
-
-                /**
-                 * Returns an enum member corresponding to this class instance's value.
-                 *
-                 * Use the [value] method instead if you're uncertain the value is always known and
-                 * don't want to throw for the unknown case.
-                 *
-                 * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
-                 *   known member.
-                 */
-                fun known(): Known =
-                    when (this) {
-                        STOP -> Known.STOP
-                        else -> throw LlamaCloudInvalidDataException("Unknown Type: $value")
-                    }
-
-                /**
-                 * Returns this class instance's primitive wire representation.
-                 *
-                 * This differs from the [toString] method because that method is primarily for
-                 * debugging and generally doesn't throw.
-                 *
-                 * @throws LlamaCloudInvalidDataException if this class instance's value does not
-                 *   have the expected primitive type.
-                 */
-                fun asString(): String =
-                    _value().asString().orElseThrow {
-                        LlamaCloudInvalidDataException("Value is not a String")
-                    }
-
-                private var validated: Boolean = false
-
-                /**
-                 * Validates that the types of all values in this object match their expected types
-                 * recursively.
-                 *
-                 * This method is _not_ forwards compatible with new types from the API for existing
-                 * fields.
-                 *
-                 * @throws LlamaCloudInvalidDataException if any value type in this object doesn't
-                 *   match its expected type.
-                 */
-                fun validate(): Type = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    known()
-                    validated = true
-                }
-
-                fun isValid(): Boolean =
-                    try {
-                        validate()
-                        true
-                    } catch (e: LlamaCloudInvalidDataException) {
-                        false
-                    }
-
-                /**
-                 * Returns a score indicating how many valid values are contained in this object
-                 * recursively.
-                 *
-                 * Used for best match union deserialization.
-                 */
-                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is Type && value == other.value
-                }
-
-                override fun hashCode() = value.hashCode()
-
-                override fun toString() = value.toString()
-            }
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Stop &&
-                    error == other.error &&
-                    isError == other.isError &&
-                    usage == other.usage &&
-                    type == other.type &&
-                    additionalProperties == other.additionalProperties
-            }
-
-            private val hashCode: Int by lazy {
-                Objects.hash(error, isError, usage, type, additionalProperties)
-            }
-
-            override fun hashCode(): Int = hashCode
-
-            override fun toString() =
-                "Stop{error=$error, isError=$isError, usage=$usage, type=$type, additionalProperties=$additionalProperties}"
         }
 
         class UserInput

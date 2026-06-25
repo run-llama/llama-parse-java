@@ -27,7 +27,7 @@ internal class DirectoryListResponseTest {
                         .putAdditionalProperty("foo", JsonValue.from("bar"))
                         .build()
                 )
-                .type(DirectoryListResponse.Type.USER)
+                .type(DirectoryListResponse.Type.EPHEMERAL)
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
 
@@ -47,7 +47,7 @@ internal class DirectoryListResponseTest {
                     .putAdditionalProperty("foo", JsonValue.from("bar"))
                     .build()
             )
-        assertThat(directoryListResponse.type()).contains(DirectoryListResponse.Type.USER)
+        assertThat(directoryListResponse.type()).contains(DirectoryListResponse.Type.EPHEMERAL)
         assertThat(directoryListResponse.updatedAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
     }
@@ -69,7 +69,7 @@ internal class DirectoryListResponseTest {
                         .putAdditionalProperty("foo", JsonValue.from("bar"))
                         .build()
                 )
-                .type(DirectoryListResponse.Type.USER)
+                .type(DirectoryListResponse.Type.EPHEMERAL)
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
 

@@ -88,7 +88,7 @@ internal class ParsingServiceTest {
                                 )
                             )
                             .addImagesToSave(
-                                ParsingCreateParams.OutputOptions.ImagesToSave.SCREENSHOT
+                                ParsingCreateParams.OutputOptions.ImagesToSave.EMBEDDED
                             )
                             .markdown(
                                 ParsingCreateParams.OutputOptions.Markdown.builder()
@@ -211,7 +211,7 @@ internal class ParsingServiceTest {
                                                     .AutoModeConfiguration
                                                     .ParsingConf
                                                     .SpecializedChartParsing
-                                                    .AGENTIC_PLUS
+                                                    .AGENTIC
                                             )
                                             .tier(
                                                 ParsingCreateParams.ProcessingOptions
@@ -281,12 +281,12 @@ internal class ParsingServiceTest {
                             )
                             .ocrParameters(
                                 ParsingCreateParams.ProcessingOptions.OcrParameters.builder()
-                                    .addLanguage(ParsingLanguages.AF)
+                                    .addLanguage(ParsingLanguages.ABQ)
                                     .build()
                             )
                             .specializedChartParsing(
                                 ParsingCreateParams.ProcessingOptions.SpecializedChartParsing
-                                    .AGENTIC_PLUS
+                                    .AGENTIC
                             )
                             .build()
                     )

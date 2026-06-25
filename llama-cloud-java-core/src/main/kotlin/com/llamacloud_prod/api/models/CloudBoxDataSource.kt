@@ -516,17 +516,17 @@ private constructor(
 
         companion object {
 
-            @JvmField val DEVELOPER_TOKEN = of("developer_token")
-
             @JvmField val CCG = of("ccg")
+
+            @JvmField val DEVELOPER_TOKEN = of("developer_token")
 
             @JvmStatic fun of(value: String) = AuthenticationMechanism(JsonField.of(value))
         }
 
         /** An enum containing [AuthenticationMechanism]'s known values. */
         enum class Known {
-            DEVELOPER_TOKEN,
             CCG,
+            DEVELOPER_TOKEN,
         }
 
         /**
@@ -541,8 +541,8 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            DEVELOPER_TOKEN,
             CCG,
+            DEVELOPER_TOKEN,
             /**
              * An enum member indicating that [AuthenticationMechanism] was instantiated with an
              * unknown value.
@@ -559,8 +559,8 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                DEVELOPER_TOKEN -> Value.DEVELOPER_TOKEN
                 CCG -> Value.CCG
+                DEVELOPER_TOKEN -> Value.DEVELOPER_TOKEN
                 else -> Value._UNKNOWN
             }
 
@@ -575,8 +575,8 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                DEVELOPER_TOKEN -> Known.DEVELOPER_TOKEN
                 CCG -> Known.CCG
+                DEVELOPER_TOKEN -> Known.DEVELOPER_TOKEN
                 else ->
                     throw LlamaCloudInvalidDataException("Unknown AuthenticationMechanism: $value")
             }

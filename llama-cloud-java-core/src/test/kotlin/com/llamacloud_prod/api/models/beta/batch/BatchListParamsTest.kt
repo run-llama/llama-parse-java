@@ -12,12 +12,12 @@ internal class BatchListParamsTest {
     fun create() {
         BatchListParams.builder()
             .directoryId("directory_id")
-            .jobType(BatchListParams.JobType.PARSE)
+            .jobType(BatchListParams.JobType.CLASSIFY)
             .limit(1L)
             .offset(0L)
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .status(BatchListParams.Status.PENDING)
+            .status(BatchListParams.Status.CANCELLED)
             .build()
     }
 
@@ -26,12 +26,12 @@ internal class BatchListParamsTest {
         val params =
             BatchListParams.builder()
                 .directoryId("directory_id")
-                .jobType(BatchListParams.JobType.PARSE)
+                .jobType(BatchListParams.JobType.CLASSIFY)
                 .limit(1L)
                 .offset(0L)
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .status(BatchListParams.Status.PENDING)
+                .status(BatchListParams.Status.CANCELLED)
                 .build()
 
         val queryParams = params._queryParams()
@@ -40,12 +40,12 @@ internal class BatchListParamsTest {
             .isEqualTo(
                 QueryParams.builder()
                     .put("directory_id", "directory_id")
-                    .put("job_type", "parse")
+                    .put("job_type", "classify")
                     .put("limit", "1")
                     .put("offset", "0")
                     .put("organization_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .put("status", "pending")
+                    .put("status", "cancelled")
                     .build()
             )
     }

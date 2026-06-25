@@ -51,7 +51,7 @@ internal class RetrieverServiceTest {
                                             .enableReranking(true)
                                             .filesTopK(1L)
                                             .rerankTopN(1L)
-                                            .retrievalMode(RetrievalMode.CHUNKS)
+                                            .retrievalMode(RetrievalMode.AUTO_ROUTED)
                                             .retrieveImageNodes(true)
                                             .retrievePageFigureNodes(true)
                                             .retrievePageScreenshotNodes(true)
@@ -66,7 +66,7 @@ internal class RetrieverServiceTest {
                                                                 MetadataFilters.Filter
                                                                     .MetadataFilter
                                                                     .Operator
-                                                                    .EQUALS
+                                                                    .NOT_EQUALS
                                                             )
                                                             .build()
                                                     )
@@ -121,7 +121,7 @@ internal class RetrieverServiceTest {
                                     .enableReranking(true)
                                     .filesTopK(1L)
                                     .rerankTopN(1L)
-                                    .retrievalMode(RetrievalMode.CHUNKS)
+                                    .retrievalMode(RetrievalMode.AUTO_ROUTED)
                                     .retrieveImageNodes(true)
                                     .retrievePageFigureNodes(true)
                                     .retrievePageScreenshotNodes(true)
@@ -134,7 +134,7 @@ internal class RetrieverServiceTest {
                                                     .operator(
                                                         MetadataFilters.Filter.MetadataFilter
                                                             .Operator
-                                                            .EQUALS
+                                                            .NOT_EQUALS
                                                     )
                                                     .build()
                                             )
@@ -224,7 +224,7 @@ internal class RetrieverServiceTest {
                     .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .query("x")
-                    .mode(CompositeRetrievalMode.ROUTING)
+                    .mode(CompositeRetrievalMode.FULL)
                     .addPipeline(
                         RetrieverPipeline.builder()
                             .description("description")
@@ -239,7 +239,7 @@ internal class RetrieverServiceTest {
                                     .enableReranking(true)
                                     .filesTopK(1L)
                                     .rerankTopN(1L)
-                                    .retrievalMode(RetrievalMode.CHUNKS)
+                                    .retrievalMode(RetrievalMode.AUTO_ROUTED)
                                     .retrieveImageNodes(true)
                                     .retrievePageFigureNodes(true)
                                     .retrievePageScreenshotNodes(true)
@@ -252,7 +252,7 @@ internal class RetrieverServiceTest {
                                                     .operator(
                                                         MetadataFilters.Filter.MetadataFilter
                                                             .Operator
-                                                            .EQUALS
+                                                            .NOT_EQUALS
                                                     )
                                                     .build()
                                             )
@@ -273,10 +273,7 @@ internal class RetrieverServiceTest {
                             .build()
                     )
                     .rerankConfig(
-                        ReRankConfig.builder()
-                            .topN(1L)
-                            .type(ReRankConfig.Type.SYSTEM_DEFAULT)
-                            .build()
+                        ReRankConfig.builder().topN(1L).type(ReRankConfig.Type.BEDROCK).build()
                     )
                     .rerankTopN(0L)
                     .build()
@@ -313,7 +310,7 @@ internal class RetrieverServiceTest {
                                             .enableReranking(true)
                                             .filesTopK(1L)
                                             .rerankTopN(1L)
-                                            .retrievalMode(RetrievalMode.CHUNKS)
+                                            .retrievalMode(RetrievalMode.AUTO_ROUTED)
                                             .retrieveImageNodes(true)
                                             .retrievePageFigureNodes(true)
                                             .retrievePageScreenshotNodes(true)
@@ -328,7 +325,7 @@ internal class RetrieverServiceTest {
                                                                 MetadataFilters.Filter
                                                                     .MetadataFilter
                                                                     .Operator
-                                                                    .EQUALS
+                                                                    .NOT_EQUALS
                                                             )
                                                             .build()
                                                     )

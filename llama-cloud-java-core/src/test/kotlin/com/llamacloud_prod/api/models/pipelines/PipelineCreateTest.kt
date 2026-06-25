@@ -26,7 +26,7 @@ internal class PipelineCreateTest {
                                 .build()
                         )
                         .name("name")
-                        .sinkType(DataSinkCreate.SinkType.PINECONE)
+                        .sinkType(DataSinkCreate.SinkType.ASTRA_DB)
                         .build()
                 )
                 .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -109,7 +109,7 @@ internal class PipelineCreateTest {
                         .htmlRemoveNavigationElements(true)
                         .httpProxy("http_proxy")
                         .ignoreDocumentElementsForLayoutDetection(true)
-                        .addImagesToSave(LlamaParseParameters.ImagesToSave.SCREENSHOT)
+                        .addImagesToSave(LlamaParseParameters.ImagesToSave.EMBEDDED)
                         .inlineImagesInMarkdown(true)
                         .inputS3Path("input_s3_path")
                         .inputS3Region("input_s3_region")
@@ -120,7 +120,7 @@ internal class PipelineCreateTest {
                         .jobTimeoutExtraTimePerPageInSeconds(0.0)
                         .jobTimeoutInSeconds(0.0)
                         .keepPageSeparatorWhenMergingTables(true)
-                        .addLanguage(ParsingLanguages.AF)
+                        .addLanguage(ParsingLanguages.ABQ)
                         .layoutAware(true)
                         .lineLevelBoundingBox(true)
                         .markdownTableMultilineHeaderSeparator(
@@ -143,7 +143,7 @@ internal class PipelineCreateTest {
                         .pagePrefix("page_prefix")
                         .pageSeparator("page_separator")
                         .pageSuffix("page_suffix")
-                        .parseMode(ParsingMode.PARSE_PAGE_WITHOUT_LLM)
+                        .parseMode(ParsingMode.PARSE_DOCUMENT_WITH_AGENT)
                         .parsingInstruction("parsing_instruction")
                         .preciseBoundingBox(true)
                         .premiumMode(true)
@@ -152,10 +152,10 @@ internal class PipelineCreateTest {
                         .preserveLayoutAlignmentAcrossPages(true)
                         .preserveVerySmallText(true)
                         .preset("preset")
-                        .priority(LlamaParseParameters.Priority.LOW)
+                        .priority(LlamaParseParameters.Priority.CRITICAL)
                         .projectId("project_id")
                         .removeHiddenText(true)
-                        .replaceFailedPageMode(FailPageMode.RAW_TEXT)
+                        .replaceFailedPageMode(FailPageMode.BLANK_PAGE)
                         .replaceFailedPageWithErrorMessagePrefix(
                             "replace_failed_page_with_error_message_prefix"
                         )
@@ -221,7 +221,7 @@ internal class PipelineCreateTest {
                         .addExcludedLlmMetadataKey("string")
                         .build()
                 )
-                .pipelineType(PipelineType.PLAYGROUND)
+                .pipelineType(PipelineType.MANAGED)
                 .presetRetrievalParameters(
                     PresetRetrievalParams.builder()
                         .alpha(0.0)
@@ -231,7 +231,7 @@ internal class PipelineCreateTest {
                         .enableReranking(true)
                         .filesTopK(1L)
                         .rerankTopN(1L)
-                        .retrievalMode(RetrievalMode.CHUNKS)
+                        .retrievalMode(RetrievalMode.AUTO_ROUTED)
                         .retrieveImageNodes(true)
                         .retrievePageFigureNodes(true)
                         .retrievePageScreenshotNodes(true)
@@ -242,7 +242,8 @@ internal class PipelineCreateTest {
                                         .key("key")
                                         .value(0.0)
                                         .operator(
-                                            MetadataFilters.Filter.MetadataFilter.Operator.EQUALS
+                                            MetadataFilters.Filter.MetadataFilter.Operator
+                                                .NOT_EQUALS
                                         )
                                         .build()
                                 )
@@ -260,7 +261,7 @@ internal class PipelineCreateTest {
                 .sparseModelConfig(
                     SparseModelConfig.builder()
                         .className("class_name")
-                        .modelType(SparseModelConfig.ModelType.SPLADE)
+                        .modelType(SparseModelConfig.ModelType.AUTO)
                         .build()
                 )
                 .status("status")
@@ -283,7 +284,7 @@ internal class PipelineCreateTest {
                             .build()
                     )
                     .name("name")
-                    .sinkType(DataSinkCreate.SinkType.PINECONE)
+                    .sinkType(DataSinkCreate.SinkType.ASTRA_DB)
                     .build()
             )
         assertThat(pipelineCreate.dataSinkId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -371,7 +372,7 @@ internal class PipelineCreateTest {
                     .htmlRemoveNavigationElements(true)
                     .httpProxy("http_proxy")
                     .ignoreDocumentElementsForLayoutDetection(true)
-                    .addImagesToSave(LlamaParseParameters.ImagesToSave.SCREENSHOT)
+                    .addImagesToSave(LlamaParseParameters.ImagesToSave.EMBEDDED)
                     .inlineImagesInMarkdown(true)
                     .inputS3Path("input_s3_path")
                     .inputS3Region("input_s3_region")
@@ -382,7 +383,7 @@ internal class PipelineCreateTest {
                     .jobTimeoutExtraTimePerPageInSeconds(0.0)
                     .jobTimeoutInSeconds(0.0)
                     .keepPageSeparatorWhenMergingTables(true)
-                    .addLanguage(ParsingLanguages.AF)
+                    .addLanguage(ParsingLanguages.ABQ)
                     .layoutAware(true)
                     .lineLevelBoundingBox(true)
                     .markdownTableMultilineHeaderSeparator(
@@ -405,7 +406,7 @@ internal class PipelineCreateTest {
                     .pagePrefix("page_prefix")
                     .pageSeparator("page_separator")
                     .pageSuffix("page_suffix")
-                    .parseMode(ParsingMode.PARSE_PAGE_WITHOUT_LLM)
+                    .parseMode(ParsingMode.PARSE_DOCUMENT_WITH_AGENT)
                     .parsingInstruction("parsing_instruction")
                     .preciseBoundingBox(true)
                     .premiumMode(true)
@@ -414,10 +415,10 @@ internal class PipelineCreateTest {
                     .preserveLayoutAlignmentAcrossPages(true)
                     .preserveVerySmallText(true)
                     .preset("preset")
-                    .priority(LlamaParseParameters.Priority.LOW)
+                    .priority(LlamaParseParameters.Priority.CRITICAL)
                     .projectId("project_id")
                     .removeHiddenText(true)
-                    .replaceFailedPageMode(FailPageMode.RAW_TEXT)
+                    .replaceFailedPageMode(FailPageMode.BLANK_PAGE)
                     .replaceFailedPageWithErrorMessagePrefix(
                         "replace_failed_page_with_error_message_prefix"
                     )
@@ -482,7 +483,7 @@ internal class PipelineCreateTest {
                     .addExcludedLlmMetadataKey("string")
                     .build()
             )
-        assertThat(pipelineCreate.pipelineType()).contains(PipelineType.PLAYGROUND)
+        assertThat(pipelineCreate.pipelineType()).contains(PipelineType.MANAGED)
         assertThat(pipelineCreate.presetRetrievalParameters())
             .contains(
                 PresetRetrievalParams.builder()
@@ -493,7 +494,7 @@ internal class PipelineCreateTest {
                     .enableReranking(true)
                     .filesTopK(1L)
                     .rerankTopN(1L)
-                    .retrievalMode(RetrievalMode.CHUNKS)
+                    .retrievalMode(RetrievalMode.AUTO_ROUTED)
                     .retrieveImageNodes(true)
                     .retrievePageFigureNodes(true)
                     .retrievePageScreenshotNodes(true)
@@ -503,7 +504,9 @@ internal class PipelineCreateTest {
                                 MetadataFilters.Filter.MetadataFilter.builder()
                                     .key("key")
                                     .value(0.0)
-                                    .operator(MetadataFilters.Filter.MetadataFilter.Operator.EQUALS)
+                                    .operator(
+                                        MetadataFilters.Filter.MetadataFilter.Operator.NOT_EQUALS
+                                    )
                                     .build()
                             )
                             .condition(MetadataFilters.Condition.AND)
@@ -521,7 +524,7 @@ internal class PipelineCreateTest {
             .contains(
                 SparseModelConfig.builder()
                     .className("class_name")
-                    .modelType(SparseModelConfig.ModelType.SPLADE)
+                    .modelType(SparseModelConfig.ModelType.AUTO)
                     .build()
             )
         assertThat(pipelineCreate.status()).contains("status")
@@ -551,7 +554,7 @@ internal class PipelineCreateTest {
                                 .build()
                         )
                         .name("name")
-                        .sinkType(DataSinkCreate.SinkType.PINECONE)
+                        .sinkType(DataSinkCreate.SinkType.ASTRA_DB)
                         .build()
                 )
                 .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -634,7 +637,7 @@ internal class PipelineCreateTest {
                         .htmlRemoveNavigationElements(true)
                         .httpProxy("http_proxy")
                         .ignoreDocumentElementsForLayoutDetection(true)
-                        .addImagesToSave(LlamaParseParameters.ImagesToSave.SCREENSHOT)
+                        .addImagesToSave(LlamaParseParameters.ImagesToSave.EMBEDDED)
                         .inlineImagesInMarkdown(true)
                         .inputS3Path("input_s3_path")
                         .inputS3Region("input_s3_region")
@@ -645,7 +648,7 @@ internal class PipelineCreateTest {
                         .jobTimeoutExtraTimePerPageInSeconds(0.0)
                         .jobTimeoutInSeconds(0.0)
                         .keepPageSeparatorWhenMergingTables(true)
-                        .addLanguage(ParsingLanguages.AF)
+                        .addLanguage(ParsingLanguages.ABQ)
                         .layoutAware(true)
                         .lineLevelBoundingBox(true)
                         .markdownTableMultilineHeaderSeparator(
@@ -668,7 +671,7 @@ internal class PipelineCreateTest {
                         .pagePrefix("page_prefix")
                         .pageSeparator("page_separator")
                         .pageSuffix("page_suffix")
-                        .parseMode(ParsingMode.PARSE_PAGE_WITHOUT_LLM)
+                        .parseMode(ParsingMode.PARSE_DOCUMENT_WITH_AGENT)
                         .parsingInstruction("parsing_instruction")
                         .preciseBoundingBox(true)
                         .premiumMode(true)
@@ -677,10 +680,10 @@ internal class PipelineCreateTest {
                         .preserveLayoutAlignmentAcrossPages(true)
                         .preserveVerySmallText(true)
                         .preset("preset")
-                        .priority(LlamaParseParameters.Priority.LOW)
+                        .priority(LlamaParseParameters.Priority.CRITICAL)
                         .projectId("project_id")
                         .removeHiddenText(true)
-                        .replaceFailedPageMode(FailPageMode.RAW_TEXT)
+                        .replaceFailedPageMode(FailPageMode.BLANK_PAGE)
                         .replaceFailedPageWithErrorMessagePrefix(
                             "replace_failed_page_with_error_message_prefix"
                         )
@@ -746,7 +749,7 @@ internal class PipelineCreateTest {
                         .addExcludedLlmMetadataKey("string")
                         .build()
                 )
-                .pipelineType(PipelineType.PLAYGROUND)
+                .pipelineType(PipelineType.MANAGED)
                 .presetRetrievalParameters(
                     PresetRetrievalParams.builder()
                         .alpha(0.0)
@@ -756,7 +759,7 @@ internal class PipelineCreateTest {
                         .enableReranking(true)
                         .filesTopK(1L)
                         .rerankTopN(1L)
-                        .retrievalMode(RetrievalMode.CHUNKS)
+                        .retrievalMode(RetrievalMode.AUTO_ROUTED)
                         .retrieveImageNodes(true)
                         .retrievePageFigureNodes(true)
                         .retrievePageScreenshotNodes(true)
@@ -767,7 +770,8 @@ internal class PipelineCreateTest {
                                         .key("key")
                                         .value(0.0)
                                         .operator(
-                                            MetadataFilters.Filter.MetadataFilter.Operator.EQUALS
+                                            MetadataFilters.Filter.MetadataFilter.Operator
+                                                .NOT_EQUALS
                                         )
                                         .build()
                                 )
@@ -785,7 +789,7 @@ internal class PipelineCreateTest {
                 .sparseModelConfig(
                     SparseModelConfig.builder()
                         .className("class_name")
-                        .modelType(SparseModelConfig.ModelType.SPLADE)
+                        .modelType(SparseModelConfig.ModelType.AUTO)
                         .build()
                 )
                 .status("status")

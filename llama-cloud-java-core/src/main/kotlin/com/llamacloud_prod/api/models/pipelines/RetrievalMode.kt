@@ -20,23 +20,23 @@ class RetrievalMode @JsonCreator private constructor(private val value: JsonFiel
 
     companion object {
 
-        @JvmField val CHUNKS = of("chunks")
+        @JvmField val AUTO_ROUTED = of("auto_routed")
 
-        @JvmField val FILES_VIA_METADATA = of("files_via_metadata")
+        @JvmField val CHUNKS = of("chunks")
 
         @JvmField val FILES_VIA_CONTENT = of("files_via_content")
 
-        @JvmField val AUTO_ROUTED = of("auto_routed")
+        @JvmField val FILES_VIA_METADATA = of("files_via_metadata")
 
         @JvmStatic fun of(value: String) = RetrievalMode(JsonField.of(value))
     }
 
     /** An enum containing [RetrievalMode]'s known values. */
     enum class Known {
-        CHUNKS,
-        FILES_VIA_METADATA,
-        FILES_VIA_CONTENT,
         AUTO_ROUTED,
+        CHUNKS,
+        FILES_VIA_CONTENT,
+        FILES_VIA_METADATA,
     }
 
     /**
@@ -49,10 +49,10 @@ class RetrievalMode @JsonCreator private constructor(private val value: JsonFiel
      * - It was constructed with an arbitrary value using the [of] method.
      */
     enum class Value {
-        CHUNKS,
-        FILES_VIA_METADATA,
-        FILES_VIA_CONTENT,
         AUTO_ROUTED,
+        CHUNKS,
+        FILES_VIA_CONTENT,
+        FILES_VIA_METADATA,
         /**
          * An enum member indicating that [RetrievalMode] was instantiated with an unknown value.
          */
@@ -68,10 +68,10 @@ class RetrievalMode @JsonCreator private constructor(private val value: JsonFiel
      */
     fun value(): Value =
         when (this) {
-            CHUNKS -> Value.CHUNKS
-            FILES_VIA_METADATA -> Value.FILES_VIA_METADATA
-            FILES_VIA_CONTENT -> Value.FILES_VIA_CONTENT
             AUTO_ROUTED -> Value.AUTO_ROUTED
+            CHUNKS -> Value.CHUNKS
+            FILES_VIA_CONTENT -> Value.FILES_VIA_CONTENT
+            FILES_VIA_METADATA -> Value.FILES_VIA_METADATA
             else -> Value._UNKNOWN
         }
 
@@ -86,10 +86,10 @@ class RetrievalMode @JsonCreator private constructor(private val value: JsonFiel
      */
     fun known(): Known =
         when (this) {
-            CHUNKS -> Known.CHUNKS
-            FILES_VIA_METADATA -> Known.FILES_VIA_METADATA
-            FILES_VIA_CONTENT -> Known.FILES_VIA_CONTENT
             AUTO_ROUTED -> Known.AUTO_ROUTED
+            CHUNKS -> Known.CHUNKS
+            FILES_VIA_CONTENT -> Known.FILES_VIA_CONTENT
+            FILES_VIA_METADATA -> Known.FILES_VIA_METADATA
             else -> throw LlamaCloudInvalidDataException("Unknown RetrievalMode: $value")
         }
 

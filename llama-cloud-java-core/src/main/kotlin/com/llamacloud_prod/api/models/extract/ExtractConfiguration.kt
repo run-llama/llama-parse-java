@@ -880,17 +880,17 @@ private constructor(
 
         companion object {
 
-            @JvmField val COST_EFFECTIVE = of("cost_effective")
-
             @JvmField val AGENTIC = of("agentic")
+
+            @JvmField val COST_EFFECTIVE = of("cost_effective")
 
             @JvmStatic fun of(value: String) = Tier(JsonField.of(value))
         }
 
         /** An enum containing [Tier]'s known values. */
         enum class Known {
-            COST_EFFECTIVE,
             AGENTIC,
+            COST_EFFECTIVE,
         }
 
         /**
@@ -903,8 +903,8 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            COST_EFFECTIVE,
             AGENTIC,
+            COST_EFFECTIVE,
             /** An enum member indicating that [Tier] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -918,8 +918,8 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                COST_EFFECTIVE -> Value.COST_EFFECTIVE
                 AGENTIC -> Value.AGENTIC
+                COST_EFFECTIVE -> Value.COST_EFFECTIVE
                 else -> Value._UNKNOWN
             }
 
@@ -934,8 +934,8 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                COST_EFFECTIVE -> Known.COST_EFFECTIVE
                 AGENTIC -> Known.AGENTIC
+                COST_EFFECTIVE -> Known.COST_EFFECTIVE
                 else -> throw LlamaCloudInvalidDataException("Unknown Tier: $value")
             }
 

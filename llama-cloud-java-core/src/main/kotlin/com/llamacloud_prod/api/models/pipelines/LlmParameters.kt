@@ -404,16 +404,6 @@ private constructor(
 
         companion object {
 
-            @JvmField val GPT_4_O = of("GPT_4O")
-
-            @JvmField val GPT_4_O_MINI = of("GPT_4O_MINI")
-
-            @JvmField val GPT_4_1 = of("GPT_4_1")
-
-            @JvmField val GPT_4_1_NANO = of("GPT_4_1_NANO")
-
-            @JvmField val GPT_4_1_MINI = of("GPT_4_1_MINI")
-
             @JvmField val AZURE_OPENAI_GPT_4_O = of("AZURE_OPENAI_GPT_4O")
 
             @JvmField val AZURE_OPENAI_GPT_4_O_MINI = of("AZURE_OPENAI_GPT_4O_MINI")
@@ -424,30 +414,40 @@ private constructor(
 
             @JvmField val AZURE_OPENAI_GPT_4_1_NANO = of("AZURE_OPENAI_GPT_4_1_NANO")
 
-            @JvmField val CLAUDE_4_5_SONNET = of("CLAUDE_4_5_SONNET")
-
             @JvmField val BEDROCK_CLAUDE_3_5_SONNET_V1 = of("BEDROCK_CLAUDE_3_5_SONNET_V1")
 
             @JvmField val BEDROCK_CLAUDE_3_5_SONNET_V2 = of("BEDROCK_CLAUDE_3_5_SONNET_V2")
+
+            @JvmField val CLAUDE_4_5_SONNET = of("CLAUDE_4_5_SONNET")
+
+            @JvmField val GPT_4_O = of("GPT_4O")
+
+            @JvmField val GPT_4_O_MINI = of("GPT_4O_MINI")
+
+            @JvmField val GPT_4_1 = of("GPT_4_1")
+
+            @JvmField val GPT_4_1_MINI = of("GPT_4_1_MINI")
+
+            @JvmField val GPT_4_1_NANO = of("GPT_4_1_NANO")
 
             @JvmStatic fun of(value: String) = ModelName(JsonField.of(value))
         }
 
         /** An enum containing [ModelName]'s known values. */
         enum class Known {
-            GPT_4_O,
-            GPT_4_O_MINI,
-            GPT_4_1,
-            GPT_4_1_NANO,
-            GPT_4_1_MINI,
             AZURE_OPENAI_GPT_4_O,
             AZURE_OPENAI_GPT_4_O_MINI,
             AZURE_OPENAI_GPT_4_1,
             AZURE_OPENAI_GPT_4_1_MINI,
             AZURE_OPENAI_GPT_4_1_NANO,
-            CLAUDE_4_5_SONNET,
             BEDROCK_CLAUDE_3_5_SONNET_V1,
             BEDROCK_CLAUDE_3_5_SONNET_V2,
+            CLAUDE_4_5_SONNET,
+            GPT_4_O,
+            GPT_4_O_MINI,
+            GPT_4_1,
+            GPT_4_1_MINI,
+            GPT_4_1_NANO,
         }
 
         /**
@@ -460,19 +460,19 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            GPT_4_O,
-            GPT_4_O_MINI,
-            GPT_4_1,
-            GPT_4_1_NANO,
-            GPT_4_1_MINI,
             AZURE_OPENAI_GPT_4_O,
             AZURE_OPENAI_GPT_4_O_MINI,
             AZURE_OPENAI_GPT_4_1,
             AZURE_OPENAI_GPT_4_1_MINI,
             AZURE_OPENAI_GPT_4_1_NANO,
-            CLAUDE_4_5_SONNET,
             BEDROCK_CLAUDE_3_5_SONNET_V1,
             BEDROCK_CLAUDE_3_5_SONNET_V2,
+            CLAUDE_4_5_SONNET,
+            GPT_4_O,
+            GPT_4_O_MINI,
+            GPT_4_1,
+            GPT_4_1_MINI,
+            GPT_4_1_NANO,
             /**
              * An enum member indicating that [ModelName] was instantiated with an unknown value.
              */
@@ -488,19 +488,19 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                GPT_4_O -> Value.GPT_4_O
-                GPT_4_O_MINI -> Value.GPT_4_O_MINI
-                GPT_4_1 -> Value.GPT_4_1
-                GPT_4_1_NANO -> Value.GPT_4_1_NANO
-                GPT_4_1_MINI -> Value.GPT_4_1_MINI
                 AZURE_OPENAI_GPT_4_O -> Value.AZURE_OPENAI_GPT_4_O
                 AZURE_OPENAI_GPT_4_O_MINI -> Value.AZURE_OPENAI_GPT_4_O_MINI
                 AZURE_OPENAI_GPT_4_1 -> Value.AZURE_OPENAI_GPT_4_1
                 AZURE_OPENAI_GPT_4_1_MINI -> Value.AZURE_OPENAI_GPT_4_1_MINI
                 AZURE_OPENAI_GPT_4_1_NANO -> Value.AZURE_OPENAI_GPT_4_1_NANO
-                CLAUDE_4_5_SONNET -> Value.CLAUDE_4_5_SONNET
                 BEDROCK_CLAUDE_3_5_SONNET_V1 -> Value.BEDROCK_CLAUDE_3_5_SONNET_V1
                 BEDROCK_CLAUDE_3_5_SONNET_V2 -> Value.BEDROCK_CLAUDE_3_5_SONNET_V2
+                CLAUDE_4_5_SONNET -> Value.CLAUDE_4_5_SONNET
+                GPT_4_O -> Value.GPT_4_O
+                GPT_4_O_MINI -> Value.GPT_4_O_MINI
+                GPT_4_1 -> Value.GPT_4_1
+                GPT_4_1_MINI -> Value.GPT_4_1_MINI
+                GPT_4_1_NANO -> Value.GPT_4_1_NANO
                 else -> Value._UNKNOWN
             }
 
@@ -515,19 +515,19 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                GPT_4_O -> Known.GPT_4_O
-                GPT_4_O_MINI -> Known.GPT_4_O_MINI
-                GPT_4_1 -> Known.GPT_4_1
-                GPT_4_1_NANO -> Known.GPT_4_1_NANO
-                GPT_4_1_MINI -> Known.GPT_4_1_MINI
                 AZURE_OPENAI_GPT_4_O -> Known.AZURE_OPENAI_GPT_4_O
                 AZURE_OPENAI_GPT_4_O_MINI -> Known.AZURE_OPENAI_GPT_4_O_MINI
                 AZURE_OPENAI_GPT_4_1 -> Known.AZURE_OPENAI_GPT_4_1
                 AZURE_OPENAI_GPT_4_1_MINI -> Known.AZURE_OPENAI_GPT_4_1_MINI
                 AZURE_OPENAI_GPT_4_1_NANO -> Known.AZURE_OPENAI_GPT_4_1_NANO
-                CLAUDE_4_5_SONNET -> Known.CLAUDE_4_5_SONNET
                 BEDROCK_CLAUDE_3_5_SONNET_V1 -> Known.BEDROCK_CLAUDE_3_5_SONNET_V1
                 BEDROCK_CLAUDE_3_5_SONNET_V2 -> Known.BEDROCK_CLAUDE_3_5_SONNET_V2
+                CLAUDE_4_5_SONNET -> Known.CLAUDE_4_5_SONNET
+                GPT_4_O -> Known.GPT_4_O
+                GPT_4_O_MINI -> Known.GPT_4_O_MINI
+                GPT_4_1 -> Known.GPT_4_1
+                GPT_4_1_MINI -> Known.GPT_4_1_MINI
+                GPT_4_1_NANO -> Known.GPT_4_1_NANO
                 else -> throw LlamaCloudInvalidDataException("Unknown ModelName: $value")
             }
 

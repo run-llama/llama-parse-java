@@ -134,7 +134,7 @@ internal class ServiceParamsTest {
                                 ParsingCreateParams.OutputOptions.GranularBbox.CELL,
                             )
                         )
-                        .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.SCREENSHOT)
+                        .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.EMBEDDED)
                         .markdown(
                             ParsingCreateParams.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
@@ -255,7 +255,7 @@ internal class ServiceParamsTest {
                                                 .AutoModeConfiguration
                                                 .ParsingConf
                                                 .SpecializedChartParsing
-                                                .AGENTIC_PLUS
+                                                .AGENTIC
                                         )
                                         .tier(
                                             ParsingCreateParams.ProcessingOptions
@@ -325,12 +325,11 @@ internal class ServiceParamsTest {
                         )
                         .ocrParameters(
                             ParsingCreateParams.ProcessingOptions.OcrParameters.builder()
-                                .addLanguage(ParsingLanguages.AF)
+                                .addLanguage(ParsingLanguages.ABQ)
                                 .build()
                         )
                         .specializedChartParsing(
-                            ParsingCreateParams.ProcessingOptions.SpecializedChartParsing
-                                .AGENTIC_PLUS
+                            ParsingCreateParams.ProcessingOptions.SpecializedChartParsing.AGENTIC
                         )
                         .build()
                 )

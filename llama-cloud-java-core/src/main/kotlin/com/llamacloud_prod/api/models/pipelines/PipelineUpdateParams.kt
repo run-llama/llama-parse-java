@@ -346,6 +346,14 @@ private constructor(
 
         /**
          * Alias for calling [embeddingConfig] with
+         * `EmbeddingConfig.ofBedrockEmbedding(bedrockEmbedding)`.
+         */
+        fun embeddingConfig(bedrockEmbedding: BedrockEmbeddingConfig) = apply {
+            body.embeddingConfig(bedrockEmbedding)
+        }
+
+        /**
+         * Alias for calling [embeddingConfig] with
          * `EmbeddingConfig.ofCohereEmbedding(cohereEmbedding)`.
          */
         fun embeddingConfig(cohereEmbedding: CohereEmbeddingConfig) = apply {
@@ -383,14 +391,6 @@ private constructor(
          */
         fun embeddingConfig(vertexaiEmbedding: VertexAiEmbeddingConfig) = apply {
             body.embeddingConfig(vertexaiEmbedding)
-        }
-
-        /**
-         * Alias for calling [embeddingConfig] with
-         * `EmbeddingConfig.ofBedrockEmbedding(bedrockEmbedding)`.
-         */
-        fun embeddingConfig(bedrockEmbedding: BedrockEmbeddingConfig) = apply {
-            body.embeddingConfig(bedrockEmbedding)
         }
 
         /**
@@ -1143,6 +1143,13 @@ private constructor(
 
             /**
              * Alias for calling [embeddingConfig] with
+             * `EmbeddingConfig.ofBedrockEmbedding(bedrockEmbedding)`.
+             */
+            fun embeddingConfig(bedrockEmbedding: BedrockEmbeddingConfig) =
+                embeddingConfig(EmbeddingConfig.ofBedrockEmbedding(bedrockEmbedding))
+
+            /**
+             * Alias for calling [embeddingConfig] with
              * `EmbeddingConfig.ofCohereEmbedding(cohereEmbedding)`.
              */
             fun embeddingConfig(cohereEmbedding: CohereEmbeddingConfig) =
@@ -1175,13 +1182,6 @@ private constructor(
              */
             fun embeddingConfig(vertexaiEmbedding: VertexAiEmbeddingConfig) =
                 embeddingConfig(EmbeddingConfig.ofVertexaiEmbedding(vertexaiEmbedding))
-
-            /**
-             * Alias for calling [embeddingConfig] with
-             * `EmbeddingConfig.ofBedrockEmbedding(bedrockEmbedding)`.
-             */
-            fun embeddingConfig(bedrockEmbedding: BedrockEmbeddingConfig) =
-                embeddingConfig(EmbeddingConfig.ofBedrockEmbedding(bedrockEmbedding))
 
             /**
              * Embedding model config ID. When provided instead of embedding_config, the embedding
@@ -1540,17 +1540,20 @@ private constructor(
     class EmbeddingConfig
     private constructor(
         private val azureEmbedding: AzureOpenAIEmbeddingConfig? = null,
+        private val bedrockEmbedding: BedrockEmbeddingConfig? = null,
         private val cohereEmbedding: CohereEmbeddingConfig? = null,
         private val geminiEmbedding: GeminiEmbeddingConfig? = null,
         private val huggingfaceApiEmbedding: HuggingFaceInferenceApiEmbeddingConfig? = null,
         private val openaiEmbedding: OpenAIEmbeddingConfig? = null,
         private val vertexaiEmbedding: VertexAiEmbeddingConfig? = null,
-        private val bedrockEmbedding: BedrockEmbeddingConfig? = null,
         private val _json: JsonValue? = null,
     ) {
 
         fun azureEmbedding(): Optional<AzureOpenAIEmbeddingConfig> =
             Optional.ofNullable(azureEmbedding)
+
+        fun bedrockEmbedding(): Optional<BedrockEmbeddingConfig> =
+            Optional.ofNullable(bedrockEmbedding)
 
         fun cohereEmbedding(): Optional<CohereEmbeddingConfig> =
             Optional.ofNullable(cohereEmbedding)
@@ -1567,10 +1570,9 @@ private constructor(
         fun vertexaiEmbedding(): Optional<VertexAiEmbeddingConfig> =
             Optional.ofNullable(vertexaiEmbedding)
 
-        fun bedrockEmbedding(): Optional<BedrockEmbeddingConfig> =
-            Optional.ofNullable(bedrockEmbedding)
-
         fun isAzureEmbedding(): Boolean = azureEmbedding != null
+
+        fun isBedrockEmbedding(): Boolean = bedrockEmbedding != null
 
         fun isCohereEmbedding(): Boolean = cohereEmbedding != null
 
@@ -1582,10 +1584,11 @@ private constructor(
 
         fun isVertexaiEmbedding(): Boolean = vertexaiEmbedding != null
 
-        fun isBedrockEmbedding(): Boolean = bedrockEmbedding != null
-
         fun asAzureEmbedding(): AzureOpenAIEmbeddingConfig =
             azureEmbedding.getOrThrow("azureEmbedding")
+
+        fun asBedrockEmbedding(): BedrockEmbeddingConfig =
+            bedrockEmbedding.getOrThrow("bedrockEmbedding")
 
         fun asCohereEmbedding(): CohereEmbeddingConfig =
             cohereEmbedding.getOrThrow("cohereEmbedding")
@@ -1601,9 +1604,6 @@ private constructor(
 
         fun asVertexaiEmbedding(): VertexAiEmbeddingConfig =
             vertexaiEmbedding.getOrThrow("vertexaiEmbedding")
-
-        fun asBedrockEmbedding(): BedrockEmbeddingConfig =
-            bedrockEmbedding.getOrThrow("bedrockEmbedding")
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
@@ -1639,13 +1639,13 @@ private constructor(
         fun <T> accept(visitor: Visitor<T>): T =
             when {
                 azureEmbedding != null -> visitor.visitAzureEmbedding(azureEmbedding)
+                bedrockEmbedding != null -> visitor.visitBedrockEmbedding(bedrockEmbedding)
                 cohereEmbedding != null -> visitor.visitCohereEmbedding(cohereEmbedding)
                 geminiEmbedding != null -> visitor.visitGeminiEmbedding(geminiEmbedding)
                 huggingfaceApiEmbedding != null ->
                     visitor.visitHuggingfaceApiEmbedding(huggingfaceApiEmbedding)
                 openaiEmbedding != null -> visitor.visitOpenAIEmbedding(openaiEmbedding)
                 vertexaiEmbedding != null -> visitor.visitVertexaiEmbedding(vertexaiEmbedding)
-                bedrockEmbedding != null -> visitor.visitBedrockEmbedding(bedrockEmbedding)
                 else -> visitor.unknown(_json)
             }
 
@@ -1671,6 +1671,10 @@ private constructor(
                         azureEmbedding.validate()
                     }
 
+                    override fun visitBedrockEmbedding(bedrockEmbedding: BedrockEmbeddingConfig) {
+                        bedrockEmbedding.validate()
+                    }
+
                     override fun visitCohereEmbedding(cohereEmbedding: CohereEmbeddingConfig) {
                         cohereEmbedding.validate()
                     }
@@ -1693,10 +1697,6 @@ private constructor(
                         vertexaiEmbedding: VertexAiEmbeddingConfig
                     ) {
                         vertexaiEmbedding.validate()
-                    }
-
-                    override fun visitBedrockEmbedding(bedrockEmbedding: BedrockEmbeddingConfig) {
-                        bedrockEmbedding.validate()
                     }
                 }
             )
@@ -1724,6 +1724,9 @@ private constructor(
                     override fun visitAzureEmbedding(azureEmbedding: AzureOpenAIEmbeddingConfig) =
                         azureEmbedding.validity()
 
+                    override fun visitBedrockEmbedding(bedrockEmbedding: BedrockEmbeddingConfig) =
+                        bedrockEmbedding.validity()
+
                     override fun visitCohereEmbedding(cohereEmbedding: CohereEmbeddingConfig) =
                         cohereEmbedding.validity()
 
@@ -1741,9 +1744,6 @@ private constructor(
                         vertexaiEmbedding: VertexAiEmbeddingConfig
                     ) = vertexaiEmbedding.validity()
 
-                    override fun visitBedrockEmbedding(bedrockEmbedding: BedrockEmbeddingConfig) =
-                        bedrockEmbedding.validity()
-
                     override fun unknown(json: JsonValue?) = 0
                 }
             )
@@ -1755,35 +1755,35 @@ private constructor(
 
             return other is EmbeddingConfig &&
                 azureEmbedding == other.azureEmbedding &&
+                bedrockEmbedding == other.bedrockEmbedding &&
                 cohereEmbedding == other.cohereEmbedding &&
                 geminiEmbedding == other.geminiEmbedding &&
                 huggingfaceApiEmbedding == other.huggingfaceApiEmbedding &&
                 openaiEmbedding == other.openaiEmbedding &&
-                vertexaiEmbedding == other.vertexaiEmbedding &&
-                bedrockEmbedding == other.bedrockEmbedding
+                vertexaiEmbedding == other.vertexaiEmbedding
         }
 
         override fun hashCode(): Int =
             Objects.hash(
                 azureEmbedding,
+                bedrockEmbedding,
                 cohereEmbedding,
                 geminiEmbedding,
                 huggingfaceApiEmbedding,
                 openaiEmbedding,
                 vertexaiEmbedding,
-                bedrockEmbedding,
             )
 
         override fun toString(): String =
             when {
                 azureEmbedding != null -> "EmbeddingConfig{azureEmbedding=$azureEmbedding}"
+                bedrockEmbedding != null -> "EmbeddingConfig{bedrockEmbedding=$bedrockEmbedding}"
                 cohereEmbedding != null -> "EmbeddingConfig{cohereEmbedding=$cohereEmbedding}"
                 geminiEmbedding != null -> "EmbeddingConfig{geminiEmbedding=$geminiEmbedding}"
                 huggingfaceApiEmbedding != null ->
                     "EmbeddingConfig{huggingfaceApiEmbedding=$huggingfaceApiEmbedding}"
                 openaiEmbedding != null -> "EmbeddingConfig{openaiEmbedding=$openaiEmbedding}"
                 vertexaiEmbedding != null -> "EmbeddingConfig{vertexaiEmbedding=$vertexaiEmbedding}"
-                bedrockEmbedding != null -> "EmbeddingConfig{bedrockEmbedding=$bedrockEmbedding}"
                 _json != null -> "EmbeddingConfig{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid EmbeddingConfig")
             }
@@ -1793,6 +1793,10 @@ private constructor(
             @JvmStatic
             fun ofAzureEmbedding(azureEmbedding: AzureOpenAIEmbeddingConfig) =
                 EmbeddingConfig(azureEmbedding = azureEmbedding)
+
+            @JvmStatic
+            fun ofBedrockEmbedding(bedrockEmbedding: BedrockEmbeddingConfig) =
+                EmbeddingConfig(bedrockEmbedding = bedrockEmbedding)
 
             @JvmStatic
             fun ofCohereEmbedding(cohereEmbedding: CohereEmbeddingConfig) =
@@ -1814,10 +1818,6 @@ private constructor(
             @JvmStatic
             fun ofVertexaiEmbedding(vertexaiEmbedding: VertexAiEmbeddingConfig) =
                 EmbeddingConfig(vertexaiEmbedding = vertexaiEmbedding)
-
-            @JvmStatic
-            fun ofBedrockEmbedding(bedrockEmbedding: BedrockEmbeddingConfig) =
-                EmbeddingConfig(bedrockEmbedding = bedrockEmbedding)
         }
 
         /**
@@ -1827,6 +1827,8 @@ private constructor(
         interface Visitor<out T> {
 
             fun visitAzureEmbedding(azureEmbedding: AzureOpenAIEmbeddingConfig): T
+
+            fun visitBedrockEmbedding(bedrockEmbedding: BedrockEmbeddingConfig): T
 
             fun visitCohereEmbedding(cohereEmbedding: CohereEmbeddingConfig): T
 
@@ -1839,8 +1841,6 @@ private constructor(
             fun visitOpenAIEmbedding(openaiEmbedding: OpenAIEmbeddingConfig): T
 
             fun visitVertexaiEmbedding(vertexaiEmbedding: VertexAiEmbeddingConfig): T
-
-            fun visitBedrockEmbedding(bedrockEmbedding: BedrockEmbeddingConfig): T
 
             /**
              * Maps an unknown variant of [EmbeddingConfig] to a value of type [T].
@@ -1868,6 +1868,11 @@ private constructor(
                         return tryDeserialize(node, jacksonTypeRef<AzureOpenAIEmbeddingConfig>())
                             ?.let { EmbeddingConfig(azureEmbedding = it, _json = json) }
                             ?: EmbeddingConfig(_json = json)
+                    }
+                    "BEDROCK_EMBEDDING" -> {
+                        return tryDeserialize(node, jacksonTypeRef<BedrockEmbeddingConfig>())?.let {
+                            EmbeddingConfig(bedrockEmbedding = it, _json = json)
+                        } ?: EmbeddingConfig(_json = json)
                     }
                     "COHERE_EMBEDDING" -> {
                         return tryDeserialize(node, jacksonTypeRef<CohereEmbeddingConfig>())?.let {
@@ -1897,11 +1902,6 @@ private constructor(
                             ?.let { EmbeddingConfig(vertexaiEmbedding = it, _json = json) }
                             ?: EmbeddingConfig(_json = json)
                     }
-                    "BEDROCK_EMBEDDING" -> {
-                        return tryDeserialize(node, jacksonTypeRef<BedrockEmbeddingConfig>())?.let {
-                            EmbeddingConfig(bedrockEmbedding = it, _json = json)
-                        } ?: EmbeddingConfig(_json = json)
-                    }
                 }
 
                 return EmbeddingConfig(_json = json)
@@ -1917,6 +1917,7 @@ private constructor(
             ) {
                 when {
                     value.azureEmbedding != null -> generator.writeObject(value.azureEmbedding)
+                    value.bedrockEmbedding != null -> generator.writeObject(value.bedrockEmbedding)
                     value.cohereEmbedding != null -> generator.writeObject(value.cohereEmbedding)
                     value.geminiEmbedding != null -> generator.writeObject(value.geminiEmbedding)
                     value.huggingfaceApiEmbedding != null ->
@@ -1924,7 +1925,6 @@ private constructor(
                     value.openaiEmbedding != null -> generator.writeObject(value.openaiEmbedding)
                     value.vertexaiEmbedding != null ->
                         generator.writeObject(value.vertexaiEmbedding)
-                    value.bedrockEmbedding != null -> generator.writeObject(value.bedrockEmbedding)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid EmbeddingConfig")
                 }

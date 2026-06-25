@@ -33,7 +33,7 @@ internal class RetrieverCreateTest {
                                 .enableReranking(true)
                                 .filesTopK(1L)
                                 .rerankTopN(1L)
-                                .retrievalMode(RetrievalMode.CHUNKS)
+                                .retrievalMode(RetrievalMode.AUTO_ROUTED)
                                 .retrieveImageNodes(true)
                                 .retrievePageFigureNodes(true)
                                 .retrievePageScreenshotNodes(true)
@@ -45,7 +45,7 @@ internal class RetrieverCreateTest {
                                                 .value(0.0)
                                                 .operator(
                                                     MetadataFilters.Filter.MetadataFilter.Operator
-                                                        .EQUALS
+                                                        .NOT_EQUALS
                                                 )
                                                 .build()
                                         )
@@ -83,7 +83,7 @@ internal class RetrieverCreateTest {
                             .enableReranking(true)
                             .filesTopK(1L)
                             .rerankTopN(1L)
-                            .retrievalMode(RetrievalMode.CHUNKS)
+                            .retrievalMode(RetrievalMode.AUTO_ROUTED)
                             .retrieveImageNodes(true)
                             .retrievePageFigureNodes(true)
                             .retrievePageScreenshotNodes(true)
@@ -95,7 +95,7 @@ internal class RetrieverCreateTest {
                                             .value(0.0)
                                             .operator(
                                                 MetadataFilters.Filter.MetadataFilter.Operator
-                                                    .EQUALS
+                                                    .NOT_EQUALS
                                             )
                                             .build()
                                     )
@@ -137,7 +137,7 @@ internal class RetrieverCreateTest {
                                 .enableReranking(true)
                                 .filesTopK(1L)
                                 .rerankTopN(1L)
-                                .retrievalMode(RetrievalMode.CHUNKS)
+                                .retrievalMode(RetrievalMode.AUTO_ROUTED)
                                 .retrieveImageNodes(true)
                                 .retrievePageFigureNodes(true)
                                 .retrievePageScreenshotNodes(true)
@@ -149,7 +149,7 @@ internal class RetrieverCreateTest {
                                                 .value(0.0)
                                                 .operator(
                                                     MetadataFilters.Filter.MetadataFilter.Operator
-                                                        .EQUALS
+                                                        .NOT_EQUALS
                                                 )
                                                 .build()
                                         )
