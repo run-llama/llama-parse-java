@@ -24,7 +24,7 @@ private constructor(
     private val pageToken: String?,
     private val projectId: String?,
     private val type: Type?,
-    private val types: List<Type>?,
+    private val types: List<DirectoryTypesItem>?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -47,7 +47,7 @@ private constructor(
     fun type(): Optional<Type> = Optional.ofNullable(type)
 
     /** Filter by one or more directory types. Repeat the parameter for multiple values. */
-    fun types(): Optional<List<Type>> = Optional.ofNullable(types)
+    fun types(): Optional<List<DirectoryTypesItem>> = Optional.ofNullable(types)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -75,7 +75,7 @@ private constructor(
         private var pageToken: String? = null
         private var projectId: String? = null
         private var type: Type? = null
-        private var types: MutableList<Type>? = null
+        private var types: MutableList<DirectoryTypesItem>? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -150,17 +150,19 @@ private constructor(
         fun type(type: Optional<Type>) = type(type.getOrNull())
 
         /** Filter by one or more directory types. Repeat the parameter for multiple values. */
-        fun types(types: List<Type>?) = apply { this.types = types?.toMutableList() }
+        fun types(types: List<DirectoryTypesItem>?) = apply { this.types = types?.toMutableList() }
 
         /** Alias for calling [Builder.types] with `types.orElse(null)`. */
-        fun types(types: Optional<List<Type>>) = types(types.getOrNull())
+        fun types(types: Optional<List<DirectoryTypesItem>>) = types(types.getOrNull())
 
         /**
-         * Adds a single [Type] to [types].
+         * Adds a single [DirectoryTypesItem] to [types].
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addType(type: Type) = apply { types = (types ?: mutableListOf()).apply { add(type) } }
+        fun addType(type: DirectoryTypesItem) = apply {
+            types = (types ?: mutableListOf()).apply { add(type) }
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -440,7 +442,9 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+    class DirectoryTypesItem
+    @JsonCreator
+    private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -460,10 +464,10 @@ private constructor(
 
             @JvmField val USER = of("user")
 
-            @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+            @JvmStatic fun of(value: String) = DirectoryTypesItem(JsonField.of(value))
         }
 
-        /** An enum containing [Type]'s known values. */
+        /** An enum containing [DirectoryTypesItem]'s known values. */
         enum class Known {
             EPHEMERAL,
             INDEX,
@@ -471,9 +475,9 @@ private constructor(
         }
 
         /**
-         * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+         * An enum containing [DirectoryTypesItem]'s known values, as well as an [_UNKNOWN] member.
          *
-         * An instance of [Type] can contain an unknown value in a couple of cases:
+         * An instance of [DirectoryTypesItem] can contain an unknown value in a couple of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
@@ -483,7 +487,10 @@ private constructor(
             EPHEMERAL,
             INDEX,
             USER,
-            /** An enum member indicating that [Type] was instantiated with an unknown value. */
+            /**
+             * An enum member indicating that [DirectoryTypesItem] was instantiated with an unknown
+             * value.
+             */
             _UNKNOWN,
         }
 
@@ -516,7 +523,7 @@ private constructor(
                 EPHEMERAL -> Known.EPHEMERAL
                 INDEX -> Known.INDEX
                 USER -> Known.USER
-                else -> throw LlamaCloudInvalidDataException("Unknown Type: $value")
+                else -> throw LlamaCloudInvalidDataException("Unknown DirectoryTypesItem: $value")
             }
 
         /**
@@ -544,7 +551,7 @@ private constructor(
          * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
          *   expected type.
          */
-        fun validate(): Type = apply {
+        fun validate(): DirectoryTypesItem = apply {
             if (validated) {
                 return@apply
             }
@@ -574,7 +581,7 @@ private constructor(
                 return true
             }
 
-            return other is Type && value == other.value
+            return other is DirectoryTypesItem && value == other.value
         }
 
         override fun hashCode() = value.hashCode()

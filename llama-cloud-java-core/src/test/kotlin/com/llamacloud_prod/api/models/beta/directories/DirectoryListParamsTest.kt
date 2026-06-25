@@ -18,8 +18,8 @@ internal class DirectoryListParamsTest {
             .pageToken("page_token")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .type(DirectoryListParams.Type.EPHEMERAL)
-            .addType(DirectoryListParams.Type.EPHEMERAL)
-            .addType(DirectoryListParams.Type.INDEX)
+            .addType(DirectoryListParams.DirectoryTypesItem.EPHEMERAL)
+            .addType(DirectoryListParams.DirectoryTypesItem.INDEX)
             .build()
     }
 
@@ -34,8 +34,8 @@ internal class DirectoryListParamsTest {
                 .pageToken("page_token")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .type(DirectoryListParams.Type.EPHEMERAL)
-                .addType(DirectoryListParams.Type.EPHEMERAL)
-                .addType(DirectoryListParams.Type.INDEX)
+                .addType(DirectoryListParams.DirectoryTypesItem.EPHEMERAL)
+                .addType(DirectoryListParams.DirectoryTypesItem.INDEX)
                 .build()
 
         val queryParams = params._queryParams()
