@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":llama-cloud-java-client-okhttp"))
+    api(project(":llama-cloud-client-okhttp"))
 }
 
 // Redefine `dokkaJavadoc` to:

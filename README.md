@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.llamacloud_prod.api/llama-cloud-java)](https://central.sonatype.com/artifact/com.llamacloud_prod.api/llama-cloud-java/0.0.1)
-[![javadoc](https://javadoc.io/badge2/com.llamacloud_prod.api/llama-cloud-java/0.0.1/javadoc.svg)](https://javadoc.io/doc/com.llamacloud_prod.api/llama-cloud-java/0.0.1)
+[![Maven Central](https://img.shields.io/maven-central/v/com.llamacloud_prod.api/llama-cloud)](https://central.sonatype.com/artifact/com.llamacloud_prod.api/llama-cloud/0.0.1)
+[![javadoc](https://javadoc.io/badge2/com.llamacloud_prod.api/llama-cloud/0.0.1/javadoc.svg)](https://javadoc.io/doc/com.llamacloud_prod.api/llama-cloud/0.0.1)
 
 <!-- x-release-please-end -->
 
@@ -22,7 +22,7 @@ Use the Llama Cloud MCP Server to enable AI assistants to interact with this API
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [developers.llamaindex.ai](https://developers.llamaindex.ai/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.llamacloud_prod.api/llama-cloud-java/0.0.1).
+The REST API documentation can be found on [developers.llamaindex.ai](https://developers.llamaindex.ai/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.llamacloud_prod.api/llama-cloud/0.0.1).
 
 <!-- x-release-please-end -->
 
@@ -33,15 +33,15 @@ The REST API documentation can be found on [developers.llamaindex.ai](https://de
 ### Gradle
 
 ```kotlin
-implementation("com.llamacloud_prod.api:llama-cloud-java:0.0.1")
+implementation("ai.llamaindex:llama-cloud:0.0.1")
 ```
 
 ### Maven
 
 ```xml
 <dependency>
-  <groupId>com.llamacloud_prod.api</groupId>
-  <artifactId>llama-cloud-java</artifactId>
+  <groupId>ai.llamaindex</groupId>
+  <artifactId>llama-cloud</artifactId>
   <version>0.0.1</version>
 </dependency>
 ```
@@ -243,7 +243,7 @@ FileCreateParams params = FileCreateParams.builder()
 FileCreateResponse file = client.files().create(params);
 ```
 
-Note that when passing a non-`Path` its filename is unknown so it will not be included in the request. To manually set a filename, pass a [`MultipartField`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/core/Values.kt):
+Note that when passing a non-`Path` its filename is unknown so it will not be included in the request. To manually set a filename, pass a [`MultipartField`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/core/Values.kt):
 
 ```java
 import com.llamacloud_prod.api.core.MultipartField;
@@ -295,26 +295,26 @@ IndexListPage parsedPage = page.parse();
 
 The SDK throws custom unchecked exception types:
 
-- [`LlamaCloudServiceException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
+- [`LlamaCloudServiceException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
 
-  | Status | Exception                                                                                                                                |
-  | ------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
-  | 400    | [`BadRequestException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/BadRequestException.kt)                     |
-  | 401    | [`UnauthorizedException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/UnauthorizedException.kt)                 |
-  | 403    | [`PermissionDeniedException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/PermissionDeniedException.kt)         |
-  | 404    | [`NotFoundException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/NotFoundException.kt)                         |
-  | 422    | [`UnprocessableEntityException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/UnprocessableEntityException.kt)   |
-  | 429    | [`RateLimitException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/RateLimitException.kt)                       |
-  | 5xx    | [`InternalServerException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/InternalServerException.kt)             |
-  | others | [`UnexpectedStatusCodeException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/UnexpectedStatusCodeException.kt) |
+  | Status | Exception                                                                                                                           |
+  | ------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+  | 400    | [`BadRequestException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/BadRequestException.kt)                     |
+  | 401    | [`UnauthorizedException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/UnauthorizedException.kt)                 |
+  | 403    | [`PermissionDeniedException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/PermissionDeniedException.kt)         |
+  | 404    | [`NotFoundException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/NotFoundException.kt)                         |
+  | 422    | [`UnprocessableEntityException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/UnprocessableEntityException.kt)   |
+  | 429    | [`RateLimitException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/RateLimitException.kt)                       |
+  | 5xx    | [`InternalServerException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/InternalServerException.kt)             |
+  | others | [`UnexpectedStatusCodeException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/UnexpectedStatusCodeException.kt) |
 
-- [`LlamaCloudIoException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudIoException.kt): I/O networking errors.
+- [`LlamaCloudIoException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudIoException.kt): I/O networking errors.
 
-- [`LlamaCloudRetryableException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudRetryableException.kt): Generic error indicating a failure that could be retried by the client.
+- [`LlamaCloudRetryableException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudRetryableException.kt): Generic error indicating a failure that could be retried by the client.
 
-- [`LlamaCloudInvalidDataException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
+- [`LlamaCloudInvalidDataException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
-- [`LlamaCloudException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
+- [`LlamaCloudException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
 
 ## Pagination
 
@@ -344,7 +344,7 @@ page.autoPager()
     .forEach(extract -> System.out.println(extract));
 ```
 
-When using the asynchronous client, the method returns an [`AsyncStreamResponse`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/core/http/AsyncStreamResponse.kt):
+When using the asynchronous client, the method returns an [`AsyncStreamResponse`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/core/http/AsyncStreamResponse.kt):
 
 ```java
 import com.llamacloud_prod.api.core.http.AsyncStreamResponse;
@@ -445,7 +445,7 @@ LlamaCloudClient client = LlamaCloudOkHttpClient.builder()
 
 ## ProGuard and R8
 
-Although the SDK uses reflection, it is still usable with [ProGuard](https://github.com/Guardsquare/proguard) and [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because `llama-cloud-java-core` is published with a [configuration file](llama-cloud-java-core/src/main/resources/META-INF/proguard/llama-cloud-java-core.pro) containing [keep rules](https://www.guardsquare.com/manual/configuration/usage).
+Although the SDK uses reflection, it is still usable with [ProGuard](https://github.com/Guardsquare/proguard) and [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because `llama-cloud-core` is published with a [configuration file](llama-cloud-core/src/main/resources/META-INF/proguard/llama-cloud-core.pro) containing [keep rules](https://www.guardsquare.com/manual/configuration/usage).
 
 ProGuard and R8 should automatically detect and use the published rules, but you can also manually copy the keep rules if necessary.
 
@@ -455,7 +455,7 @@ The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON seri
 
 The SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the default version was overridden in your Maven or Gradle config).
 
-If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`LlamaCloudOkHttpClient`](llama-cloud-java-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClient.kt) or [`LlamaCloudOkHttpClientAsync`](llama-cloud-java-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClientAsync.kt).
+If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`LlamaCloudOkHttpClient`](llama-cloud-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClient.kt) or [`LlamaCloudOkHttpClientAsync`](llama-cloud-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClientAsync.kt).
 
 > [!CAUTION]
 > We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
@@ -594,15 +594,15 @@ LlamaCloudClient client = LlamaCloudOkHttpClient.builder()
 
 The SDK consists of three artifacts:
 
-- `llama-cloud-java-core`
+- `llama-cloud-core`
   - Contains core SDK logic
   - Does not depend on [OkHttp](https://square.github.io/okhttp)
-  - Exposes [`LlamaCloudClient`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClient.kt), [`LlamaCloudClientAsync`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientAsync.kt), [`LlamaCloudClientImpl`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientImpl.kt), and [`LlamaCloudClientAsyncImpl`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientAsyncImpl.kt), all of which can work with any HTTP client
-- `llama-cloud-java-client-okhttp`
+  - Exposes [`LlamaCloudClient`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClient.kt), [`LlamaCloudClientAsync`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientAsync.kt), [`LlamaCloudClientImpl`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientImpl.kt), and [`LlamaCloudClientAsyncImpl`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientAsyncImpl.kt), all of which can work with any HTTP client
+- `llama-cloud-client-okhttp`
   - Depends on [OkHttp](https://square.github.io/okhttp)
-  - Exposes [`LlamaCloudOkHttpClient`](llama-cloud-java-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClient.kt) and [`LlamaCloudOkHttpClientAsync`](llama-cloud-java-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClientAsync.kt), which provide a way to construct [`LlamaCloudClientImpl`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientImpl.kt) and [`LlamaCloudClientAsyncImpl`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientAsyncImpl.kt), respectively, using OkHttp
-- `llama-cloud-java`
-  - Depends on and exposes the APIs of both `llama-cloud-java-core` and `llama-cloud-java-client-okhttp`
+  - Exposes [`LlamaCloudOkHttpClient`](llama-cloud-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClient.kt) and [`LlamaCloudOkHttpClientAsync`](llama-cloud-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClientAsync.kt), which provide a way to construct [`LlamaCloudClientImpl`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientImpl.kt) and [`LlamaCloudClientAsyncImpl`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientAsyncImpl.kt), respectively, using OkHttp
+- `llama-cloud`
+  - Depends on and exposes the APIs of both `llama-cloud-core` and `llama-cloud-client-okhttp`
   - Does not have its own logic
 
 This structure allows replacing the SDK's default HTTP client without pulling in unnecessary dependencies.
@@ -614,17 +614,17 @@ This structure allows replacing the SDK's default HTTP client without pulling in
 
 To use a customized `OkHttpClient`:
 
-1. Replace your [`llama-cloud-java` dependency](#installation) with `llama-cloud-java-core`
-2. Copy `llama-cloud-java-client-okhttp`'s [`OkHttpClient`](llama-cloud-java-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/OkHttpClient.kt) class into your code and customize it
-3. Construct [`LlamaCloudClientImpl`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientImpl.kt) or [`LlamaCloudClientAsyncImpl`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientAsyncImpl.kt), similarly to [`LlamaCloudOkHttpClient`](llama-cloud-java-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClient.kt) or [`LlamaCloudOkHttpClientAsync`](llama-cloud-java-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClientAsync.kt), using your customized client
+1. Replace your [`llama-cloud` dependency](#installation) with `llama-cloud-core`
+2. Copy `llama-cloud-client-okhttp`'s [`OkHttpClient`](llama-cloud-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/OkHttpClient.kt) class into your code and customize it
+3. Construct [`LlamaCloudClientImpl`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientImpl.kt) or [`LlamaCloudClientAsyncImpl`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientAsyncImpl.kt), similarly to [`LlamaCloudOkHttpClient`](llama-cloud-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClient.kt) or [`LlamaCloudOkHttpClientAsync`](llama-cloud-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClientAsync.kt), using your customized client
 
 ### Completely custom HTTP client
 
 To use a completely custom HTTP client:
 
-1. Replace your [`llama-cloud-java` dependency](#installation) with `llama-cloud-java-core`
-2. Write a class that implements the [`HttpClient`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/core/http/HttpClient.kt) interface
-3. Construct [`LlamaCloudClientImpl`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientImpl.kt) or [`LlamaCloudClientAsyncImpl`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientAsyncImpl.kt), similarly to [`LlamaCloudOkHttpClient`](llama-cloud-java-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClient.kt) or [`LlamaCloudOkHttpClientAsync`](llama-cloud-java-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClientAsync.kt), using your new client class
+1. Replace your [`llama-cloud` dependency](#installation) with `llama-cloud-core`
+2. Write a class that implements the [`HttpClient`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/core/http/HttpClient.kt) interface
+3. Construct [`LlamaCloudClientImpl`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientImpl.kt) or [`LlamaCloudClientAsyncImpl`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/client/LlamaCloudClientAsyncImpl.kt), similarly to [`LlamaCloudOkHttpClient`](llama-cloud-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClient.kt) or [`LlamaCloudOkHttpClientAsync`](llama-cloud-client-okhttp/src/main/kotlin/com/llamacloud_prod/api/client/okhttp/LlamaCloudOkHttpClientAsync.kt), using your new client class
 
 ## Undocumented API functionality
 
@@ -662,7 +662,7 @@ ParsingCreateParams params = ParsingCreateParams.builder()
 
 These properties can be accessed on the nested built object later using the `_additionalProperties()` method.
 
-To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/core/Values.kt) object to its setter:
+To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/core/Values.kt) object to its setter:
 
 ```java
 import com.llamacloud_prod.api.core.JsonValue;
@@ -675,7 +675,7 @@ ParsingCreateParams params = ParsingCreateParams.builder()
     .build();
 ```
 
-The most straightforward way to create a [`JsonValue`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/core/Values.kt) is using its `from(...)` method:
+The most straightforward way to create a [`JsonValue`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/core/Values.kt) is using its `from(...)` method:
 
 ```java
 import com.llamacloud_prod.api.core.JsonValue;
@@ -716,7 +716,7 @@ JsonValue complexValue = JsonValue.from(Map.of(
 
 Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
 
-To forcibly omit a required parameter or property, pass [`JsonMissing`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/core/Values.kt):
+To forcibly omit a required parameter or property, pass [`JsonMissing`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/core/Values.kt):
 
 ```java
 import com.llamacloud_prod.api.core.JsonMissing;
@@ -787,7 +787,7 @@ if (tier.isMissing()) {
 
 In rare cases, the API may return a response that doesn't match the expected type. For example, the SDK may expect a property to contain a `String`, but the API could return something else.
 
-By default, the SDK will not throw an exception in this case. It will throw [`LlamaCloudInvalidDataException`](llama-cloud-java-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudInvalidDataException.kt) only if you directly access the property.
+By default, the SDK will not throw an exception in this case. It will throw [`LlamaCloudInvalidDataException`](llama-cloud-core/src/main/kotlin/com/llamacloud_prod/api/errors/LlamaCloudInvalidDataException.kt) only if you directly access the property.
 
 Validating the response is _not_ forwards compatible with new types from the API for existing fields.
 
