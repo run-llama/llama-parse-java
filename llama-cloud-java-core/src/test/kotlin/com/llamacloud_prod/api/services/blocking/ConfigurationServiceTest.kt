@@ -3,13 +3,12 @@
 package com.llamacloud_prod.api.services.blocking
 
 import com.llamacloud_prod.api.client.okhttp.LlamaCloudOkHttpClient
-import com.llamacloud_prod.api.models.beta.split.SplitCategory
+import com.llamacloud_prod.api.models.configurations.ClassifyV2Parameters
 import com.llamacloud_prod.api.models.configurations.ConfigurationCreate
 import com.llamacloud_prod.api.models.configurations.ConfigurationCreateParams
 import com.llamacloud_prod.api.models.configurations.ConfigurationDeleteParams
 import com.llamacloud_prod.api.models.configurations.ConfigurationRetrieveParams
 import com.llamacloud_prod.api.models.configurations.ConfigurationUpdateParams
-import com.llamacloud_prod.api.models.configurations.SplitV1Parameters
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
@@ -30,17 +29,21 @@ internal class ConfigurationServiceTest {
                         ConfigurationCreate.builder()
                             .name("x")
                             .parameters(
-                                SplitV1Parameters.builder()
-                                    .addCategory(
-                                        SplitCategory.builder().name("x").description("x").build()
-                                    )
-                                    .splittingStrategy(
-                                        SplitV1Parameters.SplittingStrategy.builder()
-                                            .allowUncategorized(
-                                                SplitV1Parameters.SplittingStrategy
-                                                    .AllowUncategorized
-                                                    .INCLUDE
+                                ClassifyV2Parameters.builder()
+                                    .addRule(
+                                        ClassifyV2Parameters.Rule.builder()
+                                            .description(
+                                                "contains invoice number, line items, and total amount"
                                             )
+                                            .type("invoice")
+                                            .build()
+                                    )
+                                    .mode(ClassifyV2Parameters.Mode.FAST)
+                                    .parsingConfiguration(
+                                        ClassifyV2Parameters.ParsingConfiguration.builder()
+                                            .lang("en")
+                                            .maxPages(10L)
+                                            .targetPages("1,3,5-7")
                                             .build()
                                     )
                                     .build()
@@ -85,14 +88,21 @@ internal class ConfigurationServiceTest {
                     .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .name("x")
                     .parameters(
-                        SplitV1Parameters.builder()
-                            .addCategory(SplitCategory.builder().name("x").description("x").build())
-                            .splittingStrategy(
-                                SplitV1Parameters.SplittingStrategy.builder()
-                                    .allowUncategorized(
-                                        SplitV1Parameters.SplittingStrategy.AllowUncategorized
-                                            .INCLUDE
+                        ClassifyV2Parameters.builder()
+                            .addRule(
+                                ClassifyV2Parameters.Rule.builder()
+                                    .description(
+                                        "contains invoice number, line items, and total amount"
                                     )
+                                    .type("invoice")
+                                    .build()
+                            )
+                            .mode(ClassifyV2Parameters.Mode.FAST)
+                            .parsingConfiguration(
+                                ClassifyV2Parameters.ParsingConfiguration.builder()
+                                    .lang("en")
+                                    .maxPages(10L)
+                                    .targetPages("1,3,5-7")
                                     .build()
                             )
                             .build()

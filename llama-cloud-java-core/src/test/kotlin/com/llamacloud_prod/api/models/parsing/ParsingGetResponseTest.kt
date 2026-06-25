@@ -19,7 +19,7 @@ internal class ParsingGetResponseTest {
                     ParsingGetResponse.Job.builder()
                         .id("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                         .projectId("prj-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
-                        .status(ParsingGetResponse.Job.Status.PENDING)
+                        .status(ParsingGetResponse.Job.Status.CANCELLED)
                         .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .errorMessage("error_message")
                         .name("Q4 Financial Report")
@@ -42,8 +42,7 @@ internal class ParsingGetResponseTest {
                                         .build()
                                 )
                                 .category(
-                                    ParsingGetResponse.ImagesContentMetadata.Image.Category
-                                        .SCREENSHOT
+                                    ParsingGetResponse.ImagesContentMetadata.Image.Category.EMBEDDED
                                 )
                                 .contentType("content_type")
                                 .presignedUrl("presigned_url")
@@ -58,7 +57,7 @@ internal class ParsingGetResponseTest {
                         .addPage(
                             ParsingGetResponse.Items.Page.StructuredResultPage.builder()
                                 .addItem(
-                                    TextItem.builder()
+                                    CodeItem.builder()
                                         .md("md")
                                         .value("value")
                                         .addBbox(
@@ -74,7 +73,8 @@ internal class ParsingGetResponseTest {
                                                 .startIndex(0L)
                                                 .build()
                                         )
-                                        .type(TextItem.Type.TEXT)
+                                        .language("language")
+                                        .type(CodeItem.Type.CODE)
                                         .build()
                                 )
                                 .pageHeight(0.0)
@@ -155,7 +155,7 @@ internal class ParsingGetResponseTest {
                 ParsingGetResponse.Job.builder()
                     .id("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                     .projectId("prj-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
-                    .status(ParsingGetResponse.Job.Status.PENDING)
+                    .status(ParsingGetResponse.Job.Status.CANCELLED)
                     .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .errorMessage("error_message")
                     .name("Q4 Financial Report")
@@ -179,7 +179,7 @@ internal class ParsingGetResponseTest {
                                     .build()
                             )
                             .category(
-                                ParsingGetResponse.ImagesContentMetadata.Image.Category.SCREENSHOT
+                                ParsingGetResponse.ImagesContentMetadata.Image.Category.EMBEDDED
                             )
                             .contentType("content_type")
                             .presignedUrl("presigned_url")
@@ -195,7 +195,7 @@ internal class ParsingGetResponseTest {
                     .addPage(
                         ParsingGetResponse.Items.Page.StructuredResultPage.builder()
                             .addItem(
-                                TextItem.builder()
+                                CodeItem.builder()
                                     .md("md")
                                     .value("value")
                                     .addBbox(
@@ -211,7 +211,8 @@ internal class ParsingGetResponseTest {
                                             .startIndex(0L)
                                             .build()
                                     )
-                                    .type(TextItem.Type.TEXT)
+                                    .language("language")
+                                    .type(CodeItem.Type.CODE)
                                     .build()
                             )
                             .pageHeight(0.0)
@@ -299,7 +300,7 @@ internal class ParsingGetResponseTest {
                     ParsingGetResponse.Job.builder()
                         .id("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                         .projectId("prj-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
-                        .status(ParsingGetResponse.Job.Status.PENDING)
+                        .status(ParsingGetResponse.Job.Status.CANCELLED)
                         .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .errorMessage("error_message")
                         .name("Q4 Financial Report")
@@ -322,8 +323,7 @@ internal class ParsingGetResponseTest {
                                         .build()
                                 )
                                 .category(
-                                    ParsingGetResponse.ImagesContentMetadata.Image.Category
-                                        .SCREENSHOT
+                                    ParsingGetResponse.ImagesContentMetadata.Image.Category.EMBEDDED
                                 )
                                 .contentType("content_type")
                                 .presignedUrl("presigned_url")
@@ -338,7 +338,7 @@ internal class ParsingGetResponseTest {
                         .addPage(
                             ParsingGetResponse.Items.Page.StructuredResultPage.builder()
                                 .addItem(
-                                    TextItem.builder()
+                                    CodeItem.builder()
                                         .md("md")
                                         .value("value")
                                         .addBbox(
@@ -354,7 +354,8 @@ internal class ParsingGetResponseTest {
                                                 .startIndex(0L)
                                                 .build()
                                         )
-                                        .type(TextItem.Type.TEXT)
+                                        .language("language")
+                                        .type(CodeItem.Type.CODE)
                                         .build()
                                 )
                                 .pageHeight(0.0)

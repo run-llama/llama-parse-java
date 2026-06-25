@@ -16,13 +16,13 @@ internal class BatchCancelResponseTest {
                 .jobId("job_id")
                 .message("message")
                 .processedItems(0L)
-                .status(BatchCancelResponse.Status.PENDING)
+                .status(BatchCancelResponse.Status.CANCELLED)
                 .build()
 
         assertThat(batchCancelResponse.jobId()).isEqualTo("job_id")
         assertThat(batchCancelResponse.message()).isEqualTo("message")
         assertThat(batchCancelResponse.processedItems()).isEqualTo(0L)
-        assertThat(batchCancelResponse.status()).isEqualTo(BatchCancelResponse.Status.PENDING)
+        assertThat(batchCancelResponse.status()).isEqualTo(BatchCancelResponse.Status.CANCELLED)
     }
 
     @Test
@@ -33,7 +33,7 @@ internal class BatchCancelResponseTest {
                 .jobId("job_id")
                 .message("message")
                 .processedItems(0L)
-                .status(BatchCancelResponse.Status.PENDING)
+                .status(BatchCancelResponse.Status.CANCELLED)
                 .build()
 
         val roundtrippedBatchCancelResponse =

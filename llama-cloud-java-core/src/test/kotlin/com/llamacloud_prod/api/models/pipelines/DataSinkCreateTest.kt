@@ -20,7 +20,7 @@ internal class DataSinkCreateTest {
                         .build()
                 )
                 .name("name")
-                .sinkType(DataSinkCreate.SinkType.PINECONE)
+                .sinkType(DataSinkCreate.SinkType.ASTRA_DB)
                 .build()
 
         assertThat(dataSinkCreate.component())
@@ -32,7 +32,7 @@ internal class DataSinkCreateTest {
                 )
             )
         assertThat(dataSinkCreate.name()).isEqualTo("name")
-        assertThat(dataSinkCreate.sinkType()).isEqualTo(DataSinkCreate.SinkType.PINECONE)
+        assertThat(dataSinkCreate.sinkType()).isEqualTo(DataSinkCreate.SinkType.ASTRA_DB)
     }
 
     @Test
@@ -46,7 +46,7 @@ internal class DataSinkCreateTest {
                         .build()
                 )
                 .name("name")
-                .sinkType(DataSinkCreate.SinkType.PINECONE)
+                .sinkType(DataSinkCreate.SinkType.ASTRA_DB)
                 .build()
 
         val roundtrippedDataSinkCreate =

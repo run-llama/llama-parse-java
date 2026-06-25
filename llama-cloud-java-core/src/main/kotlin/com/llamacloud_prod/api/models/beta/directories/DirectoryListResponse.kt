@@ -661,23 +661,23 @@ private constructor(
 
         companion object {
 
-            @JvmField val USER = of("user")
+            @JvmField val EPHEMERAL = of("ephemeral")
 
             @JvmField val INDEX = of("index")
 
-            @JvmField val EPHEMERAL = of("ephemeral")
-
             @JvmField val SYSTEM_EPHEMERAL = of("system_ephemeral")
+
+            @JvmField val USER = of("user")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
         /** An enum containing [Type]'s known values. */
         enum class Known {
-            USER,
-            INDEX,
             EPHEMERAL,
+            INDEX,
             SYSTEM_EPHEMERAL,
+            USER,
         }
 
         /**
@@ -690,10 +690,10 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            USER,
-            INDEX,
             EPHEMERAL,
+            INDEX,
             SYSTEM_EPHEMERAL,
+            USER,
             /** An enum member indicating that [Type] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -707,10 +707,10 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                USER -> Value.USER
-                INDEX -> Value.INDEX
                 EPHEMERAL -> Value.EPHEMERAL
+                INDEX -> Value.INDEX
                 SYSTEM_EPHEMERAL -> Value.SYSTEM_EPHEMERAL
+                USER -> Value.USER
                 else -> Value._UNKNOWN
             }
 
@@ -725,10 +725,10 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                USER -> Known.USER
-                INDEX -> Known.INDEX
                 EPHEMERAL -> Known.EPHEMERAL
+                INDEX -> Known.INDEX
                 SYSTEM_EPHEMERAL -> Known.SYSTEM_EPHEMERAL
+                USER -> Known.USER
                 else -> throw LlamaCloudInvalidDataException("Unknown Type: $value")
             }
 

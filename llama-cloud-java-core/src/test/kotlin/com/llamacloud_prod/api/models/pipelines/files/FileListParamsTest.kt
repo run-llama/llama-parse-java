@@ -18,8 +18,8 @@ internal class FileListParamsTest {
             .offset(0L)
             .onlyManuallyUploaded(true)
             .orderBy("order_by")
-            .addStatus(FileListParams.Status.NOT_STARTED)
-            .addStatus(FileListParams.Status.IN_PROGRESS)
+            .addStatus(FileListParams.Status.CANCELLED)
+            .addStatus(FileListParams.Status.ERROR)
             .build()
     }
 
@@ -44,8 +44,8 @@ internal class FileListParamsTest {
                 .offset(0L)
                 .onlyManuallyUploaded(true)
                 .orderBy("order_by")
-                .addStatus(FileListParams.Status.NOT_STARTED)
-                .addStatus(FileListParams.Status.IN_PROGRESS)
+                .addStatus(FileListParams.Status.CANCELLED)
+                .addStatus(FileListParams.Status.ERROR)
                 .build()
 
         val queryParams = params._queryParams()
@@ -59,8 +59,8 @@ internal class FileListParamsTest {
                     .put("offset", "0")
                     .put("only_manually_uploaded", "true")
                     .put("order_by", "order_by")
-                    .put("statuses", "NOT_STARTED")
-                    .put("statuses", "IN_PROGRESS")
+                    .put("statuses", "CANCELLED")
+                    .put("statuses", "ERROR")
                     .build()
             )
     }

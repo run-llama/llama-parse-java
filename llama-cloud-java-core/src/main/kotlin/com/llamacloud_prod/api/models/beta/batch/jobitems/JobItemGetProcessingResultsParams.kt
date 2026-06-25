@@ -248,20 +248,20 @@ private constructor(
 
         companion object {
 
-            @JvmField val PARSE = of("parse")
+            @JvmField val CLASSIFY = of("classify")
 
             @JvmField val EXTRACT = of("extract")
 
-            @JvmField val CLASSIFY = of("classify")
+            @JvmField val PARSE = of("parse")
 
             @JvmStatic fun of(value: String) = JobType(JsonField.of(value))
         }
 
         /** An enum containing [JobType]'s known values. */
         enum class Known {
-            PARSE,
-            EXTRACT,
             CLASSIFY,
+            EXTRACT,
+            PARSE,
         }
 
         /**
@@ -274,9 +274,9 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            PARSE,
-            EXTRACT,
             CLASSIFY,
+            EXTRACT,
+            PARSE,
             /** An enum member indicating that [JobType] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -290,9 +290,9 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                PARSE -> Value.PARSE
-                EXTRACT -> Value.EXTRACT
                 CLASSIFY -> Value.CLASSIFY
+                EXTRACT -> Value.EXTRACT
+                PARSE -> Value.PARSE
                 else -> Value._UNKNOWN
             }
 
@@ -307,9 +307,9 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                PARSE -> Known.PARSE
-                EXTRACT -> Known.EXTRACT
                 CLASSIFY -> Known.CLASSIFY
+                EXTRACT -> Known.EXTRACT
+                PARSE -> Known.PARSE
                 else -> throw LlamaCloudInvalidDataException("Unknown JobType: $value")
             }
 

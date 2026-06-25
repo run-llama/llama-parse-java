@@ -14,7 +14,7 @@ internal class LlmParametersTest {
         val llmParameters =
             LlmParameters.builder()
                 .className("class_name")
-                .modelName(LlmParameters.ModelName.GPT_4_O)
+                .modelName(LlmParameters.ModelName.AZURE_OPENAI_GPT_4_O)
                 .systemPrompt("system_prompt")
                 .temperature(0.0)
                 .useChainOfThoughtReasoning(true)
@@ -22,7 +22,7 @@ internal class LlmParametersTest {
                 .build()
 
         assertThat(llmParameters.className()).contains("class_name")
-        assertThat(llmParameters.modelName()).contains(LlmParameters.ModelName.GPT_4_O)
+        assertThat(llmParameters.modelName()).contains(LlmParameters.ModelName.AZURE_OPENAI_GPT_4_O)
         assertThat(llmParameters.systemPrompt()).contains("system_prompt")
         assertThat(llmParameters.temperature()).contains(0.0)
         assertThat(llmParameters.useChainOfThoughtReasoning()).contains(true)
@@ -35,7 +35,7 @@ internal class LlmParametersTest {
         val llmParameters =
             LlmParameters.builder()
                 .className("class_name")
-                .modelName(LlmParameters.ModelName.GPT_4_O)
+                .modelName(LlmParameters.ModelName.AZURE_OPENAI_GPT_4_O)
                 .systemPrompt("system_prompt")
                 .temperature(0.0)
                 .useChainOfThoughtReasoning(true)

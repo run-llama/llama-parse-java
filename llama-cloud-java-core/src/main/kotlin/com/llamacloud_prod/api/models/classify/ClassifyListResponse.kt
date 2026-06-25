@@ -724,20 +724,20 @@ private constructor(
 
         companion object {
 
-            @JvmField val URL = of("url")
-
             @JvmField val FILE_ID = of("file_id")
 
             @JvmField val PARSE_JOB_ID = of("parse_job_id")
+
+            @JvmField val URL = of("url")
 
             @JvmStatic fun of(value: String) = DocumentInputType(JsonField.of(value))
         }
 
         /** An enum containing [DocumentInputType]'s known values. */
         enum class Known {
-            URL,
             FILE_ID,
             PARSE_JOB_ID,
+            URL,
         }
 
         /**
@@ -750,9 +750,9 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            URL,
             FILE_ID,
             PARSE_JOB_ID,
+            URL,
             /**
              * An enum member indicating that [DocumentInputType] was instantiated with an unknown
              * value.
@@ -769,9 +769,9 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                URL -> Value.URL
                 FILE_ID -> Value.FILE_ID
                 PARSE_JOB_ID -> Value.PARSE_JOB_ID
+                URL -> Value.URL
                 else -> Value._UNKNOWN
             }
 
@@ -786,9 +786,9 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                URL -> Known.URL
                 FILE_ID -> Known.FILE_ID
                 PARSE_JOB_ID -> Known.PARSE_JOB_ID
+                URL -> Known.URL
                 else -> throw LlamaCloudInvalidDataException("Unknown DocumentInputType: $value")
             }
 
@@ -870,23 +870,23 @@ private constructor(
 
         companion object {
 
-            @JvmField val PENDING = of("PENDING")
-
-            @JvmField val RUNNING = of("RUNNING")
-
             @JvmField val COMPLETED = of("COMPLETED")
 
             @JvmField val FAILED = of("FAILED")
+
+            @JvmField val PENDING = of("PENDING")
+
+            @JvmField val RUNNING = of("RUNNING")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
 
         /** An enum containing [Status]'s known values. */
         enum class Known {
-            PENDING,
-            RUNNING,
             COMPLETED,
             FAILED,
+            PENDING,
+            RUNNING,
         }
 
         /**
@@ -899,10 +899,10 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            PENDING,
-            RUNNING,
             COMPLETED,
             FAILED,
+            PENDING,
+            RUNNING,
             /** An enum member indicating that [Status] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -916,10 +916,10 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                PENDING -> Value.PENDING
-                RUNNING -> Value.RUNNING
                 COMPLETED -> Value.COMPLETED
                 FAILED -> Value.FAILED
+                PENDING -> Value.PENDING
+                RUNNING -> Value.RUNNING
                 else -> Value._UNKNOWN
             }
 
@@ -934,10 +934,10 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                PENDING -> Known.PENDING
-                RUNNING -> Known.RUNNING
                 COMPLETED -> Known.COMPLETED
                 FAILED -> Known.FAILED
+                PENDING -> Known.PENDING
+                RUNNING -> Known.RUNNING
                 else -> throw LlamaCloudInvalidDataException("Unknown Status: $value")
             }
 

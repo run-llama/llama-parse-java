@@ -735,26 +735,26 @@ private constructor(
 
         companion object {
 
-            @JvmField val DEFAULT = of("default")
-
             @JvmField val CLASSIFICATION = of("classification")
 
             @JvmField val CLUSTERING = of("clustering")
 
-            @JvmField val SIMILARITY = of("similarity")
+            @JvmField val DEFAULT = of("default")
 
             @JvmField val RETRIEVAL = of("retrieval")
+
+            @JvmField val SIMILARITY = of("similarity")
 
             @JvmStatic fun of(value: String) = EmbedMode(JsonField.of(value))
         }
 
         /** An enum containing [EmbedMode]'s known values. */
         enum class Known {
-            DEFAULT,
             CLASSIFICATION,
             CLUSTERING,
-            SIMILARITY,
+            DEFAULT,
             RETRIEVAL,
+            SIMILARITY,
         }
 
         /**
@@ -767,11 +767,11 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            DEFAULT,
             CLASSIFICATION,
             CLUSTERING,
-            SIMILARITY,
+            DEFAULT,
             RETRIEVAL,
+            SIMILARITY,
             /**
              * An enum member indicating that [EmbedMode] was instantiated with an unknown value.
              */
@@ -787,11 +787,11 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                DEFAULT -> Value.DEFAULT
                 CLASSIFICATION -> Value.CLASSIFICATION
                 CLUSTERING -> Value.CLUSTERING
-                SIMILARITY -> Value.SIMILARITY
+                DEFAULT -> Value.DEFAULT
                 RETRIEVAL -> Value.RETRIEVAL
+                SIMILARITY -> Value.SIMILARITY
                 else -> Value._UNKNOWN
             }
 
@@ -806,11 +806,11 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                DEFAULT -> Known.DEFAULT
                 CLASSIFICATION -> Known.CLASSIFICATION
                 CLUSTERING -> Known.CLUSTERING
-                SIMILARITY -> Known.SIMILARITY
+                DEFAULT -> Known.DEFAULT
                 RETRIEVAL -> Known.RETRIEVAL
+                SIMILARITY -> Known.SIMILARITY
                 else -> throw LlamaCloudInvalidDataException("Unknown EmbedMode: $value")
             }
 

@@ -21,35 +21,35 @@ class ParsingMode @JsonCreator private constructor(private val value: JsonField<
 
     companion object {
 
-        @JvmField val PARSE_PAGE_WITHOUT_LLM = of("parse_page_without_llm")
-
-        @JvmField val PARSE_PAGE_WITH_LLM = of("parse_page_with_llm")
-
-        @JvmField val PARSE_PAGE_WITH_LVM = of("parse_page_with_lvm")
-
-        @JvmField val PARSE_PAGE_WITH_AGENT = of("parse_page_with_agent")
-
-        @JvmField val PARSE_PAGE_WITH_LAYOUT_AGENT = of("parse_page_with_layout_agent")
+        @JvmField val PARSE_DOCUMENT_WITH_AGENT = of("parse_document_with_agent")
 
         @JvmField val PARSE_DOCUMENT_WITH_LLM = of("parse_document_with_llm")
 
         @JvmField val PARSE_DOCUMENT_WITH_LVM = of("parse_document_with_lvm")
 
-        @JvmField val PARSE_DOCUMENT_WITH_AGENT = of("parse_document_with_agent")
+        @JvmField val PARSE_PAGE_WITH_AGENT = of("parse_page_with_agent")
+
+        @JvmField val PARSE_PAGE_WITH_LAYOUT_AGENT = of("parse_page_with_layout_agent")
+
+        @JvmField val PARSE_PAGE_WITH_LLM = of("parse_page_with_llm")
+
+        @JvmField val PARSE_PAGE_WITH_LVM = of("parse_page_with_lvm")
+
+        @JvmField val PARSE_PAGE_WITHOUT_LLM = of("parse_page_without_llm")
 
         @JvmStatic fun of(value: String) = ParsingMode(JsonField.of(value))
     }
 
     /** An enum containing [ParsingMode]'s known values. */
     enum class Known {
-        PARSE_PAGE_WITHOUT_LLM,
-        PARSE_PAGE_WITH_LLM,
-        PARSE_PAGE_WITH_LVM,
-        PARSE_PAGE_WITH_AGENT,
-        PARSE_PAGE_WITH_LAYOUT_AGENT,
+        PARSE_DOCUMENT_WITH_AGENT,
         PARSE_DOCUMENT_WITH_LLM,
         PARSE_DOCUMENT_WITH_LVM,
-        PARSE_DOCUMENT_WITH_AGENT,
+        PARSE_PAGE_WITH_AGENT,
+        PARSE_PAGE_WITH_LAYOUT_AGENT,
+        PARSE_PAGE_WITH_LLM,
+        PARSE_PAGE_WITH_LVM,
+        PARSE_PAGE_WITHOUT_LLM,
     }
 
     /**
@@ -62,14 +62,14 @@ class ParsingMode @JsonCreator private constructor(private val value: JsonField<
      * - It was constructed with an arbitrary value using the [of] method.
      */
     enum class Value {
-        PARSE_PAGE_WITHOUT_LLM,
-        PARSE_PAGE_WITH_LLM,
-        PARSE_PAGE_WITH_LVM,
-        PARSE_PAGE_WITH_AGENT,
-        PARSE_PAGE_WITH_LAYOUT_AGENT,
+        PARSE_DOCUMENT_WITH_AGENT,
         PARSE_DOCUMENT_WITH_LLM,
         PARSE_DOCUMENT_WITH_LVM,
-        PARSE_DOCUMENT_WITH_AGENT,
+        PARSE_PAGE_WITH_AGENT,
+        PARSE_PAGE_WITH_LAYOUT_AGENT,
+        PARSE_PAGE_WITH_LLM,
+        PARSE_PAGE_WITH_LVM,
+        PARSE_PAGE_WITHOUT_LLM,
         /** An enum member indicating that [ParsingMode] was instantiated with an unknown value. */
         _UNKNOWN,
     }
@@ -83,14 +83,14 @@ class ParsingMode @JsonCreator private constructor(private val value: JsonField<
      */
     fun value(): Value =
         when (this) {
-            PARSE_PAGE_WITHOUT_LLM -> Value.PARSE_PAGE_WITHOUT_LLM
-            PARSE_PAGE_WITH_LLM -> Value.PARSE_PAGE_WITH_LLM
-            PARSE_PAGE_WITH_LVM -> Value.PARSE_PAGE_WITH_LVM
-            PARSE_PAGE_WITH_AGENT -> Value.PARSE_PAGE_WITH_AGENT
-            PARSE_PAGE_WITH_LAYOUT_AGENT -> Value.PARSE_PAGE_WITH_LAYOUT_AGENT
+            PARSE_DOCUMENT_WITH_AGENT -> Value.PARSE_DOCUMENT_WITH_AGENT
             PARSE_DOCUMENT_WITH_LLM -> Value.PARSE_DOCUMENT_WITH_LLM
             PARSE_DOCUMENT_WITH_LVM -> Value.PARSE_DOCUMENT_WITH_LVM
-            PARSE_DOCUMENT_WITH_AGENT -> Value.PARSE_DOCUMENT_WITH_AGENT
+            PARSE_PAGE_WITH_AGENT -> Value.PARSE_PAGE_WITH_AGENT
+            PARSE_PAGE_WITH_LAYOUT_AGENT -> Value.PARSE_PAGE_WITH_LAYOUT_AGENT
+            PARSE_PAGE_WITH_LLM -> Value.PARSE_PAGE_WITH_LLM
+            PARSE_PAGE_WITH_LVM -> Value.PARSE_PAGE_WITH_LVM
+            PARSE_PAGE_WITHOUT_LLM -> Value.PARSE_PAGE_WITHOUT_LLM
             else -> Value._UNKNOWN
         }
 
@@ -105,14 +105,14 @@ class ParsingMode @JsonCreator private constructor(private val value: JsonField<
      */
     fun known(): Known =
         when (this) {
-            PARSE_PAGE_WITHOUT_LLM -> Known.PARSE_PAGE_WITHOUT_LLM
-            PARSE_PAGE_WITH_LLM -> Known.PARSE_PAGE_WITH_LLM
-            PARSE_PAGE_WITH_LVM -> Known.PARSE_PAGE_WITH_LVM
-            PARSE_PAGE_WITH_AGENT -> Known.PARSE_PAGE_WITH_AGENT
-            PARSE_PAGE_WITH_LAYOUT_AGENT -> Known.PARSE_PAGE_WITH_LAYOUT_AGENT
+            PARSE_DOCUMENT_WITH_AGENT -> Known.PARSE_DOCUMENT_WITH_AGENT
             PARSE_DOCUMENT_WITH_LLM -> Known.PARSE_DOCUMENT_WITH_LLM
             PARSE_DOCUMENT_WITH_LVM -> Known.PARSE_DOCUMENT_WITH_LVM
-            PARSE_DOCUMENT_WITH_AGENT -> Known.PARSE_DOCUMENT_WITH_AGENT
+            PARSE_PAGE_WITH_AGENT -> Known.PARSE_PAGE_WITH_AGENT
+            PARSE_PAGE_WITH_LAYOUT_AGENT -> Known.PARSE_PAGE_WITH_LAYOUT_AGENT
+            PARSE_PAGE_WITH_LLM -> Known.PARSE_PAGE_WITH_LLM
+            PARSE_PAGE_WITH_LVM -> Known.PARSE_PAGE_WITH_LVM
+            PARSE_PAGE_WITHOUT_LLM -> Known.PARSE_PAGE_WITHOUT_LLM
             else -> throw LlamaCloudInvalidDataException("Unknown ParsingMode: $value")
         }
 

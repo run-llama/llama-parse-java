@@ -13,7 +13,7 @@ internal class SheetGetResultTableParamsTest {
         SheetGetResultTableParams.builder()
             .spreadsheetJobId("spreadsheet_job_id")
             .regionId("region_id")
-            .regionType(SheetGetResultTableParams.RegionType.TABLE)
+            .regionType(SheetGetResultTableParams.RegionType.CELL_METADATA)
             .expiresAtSeconds(0L)
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -26,12 +26,12 @@ internal class SheetGetResultTableParamsTest {
             SheetGetResultTableParams.builder()
                 .spreadsheetJobId("spreadsheet_job_id")
                 .regionId("region_id")
-                .regionType(SheetGetResultTableParams.RegionType.TABLE)
+                .regionType(SheetGetResultTableParams.RegionType.CELL_METADATA)
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("spreadsheet_job_id")
         assertThat(params._pathParam(1)).isEqualTo("region_id")
-        assertThat(params._pathParam(2)).isEqualTo("table")
+        assertThat(params._pathParam(2)).isEqualTo("cell_metadata")
         // out-of-bound path param
         assertThat(params._pathParam(3)).isEqualTo("")
     }
@@ -42,7 +42,7 @@ internal class SheetGetResultTableParamsTest {
             SheetGetResultTableParams.builder()
                 .spreadsheetJobId("spreadsheet_job_id")
                 .regionId("region_id")
-                .regionType(SheetGetResultTableParams.RegionType.TABLE)
+                .regionType(SheetGetResultTableParams.RegionType.CELL_METADATA)
                 .expiresAtSeconds(0L)
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -66,7 +66,7 @@ internal class SheetGetResultTableParamsTest {
             SheetGetResultTableParams.builder()
                 .spreadsheetJobId("spreadsheet_job_id")
                 .regionId("region_id")
-                .regionType(SheetGetResultTableParams.RegionType.TABLE)
+                .regionType(SheetGetResultTableParams.RegionType.CELL_METADATA)
                 .build()
 
         val queryParams = params._queryParams()

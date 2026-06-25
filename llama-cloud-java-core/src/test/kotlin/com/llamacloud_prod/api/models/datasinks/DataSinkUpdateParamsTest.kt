@@ -12,7 +12,7 @@ internal class DataSinkUpdateParamsTest {
     fun create() {
         DataSinkUpdateParams.builder()
             .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .sinkType(DataSinkUpdateParams.SinkType.PINECONE)
+            .sinkType(DataSinkUpdateParams.SinkType.ASTRA_DB)
             .component(
                 DataSinkUpdateParams.Component.UnionMember0.builder()
                     .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -27,7 +27,7 @@ internal class DataSinkUpdateParamsTest {
         val params =
             DataSinkUpdateParams.builder()
                 .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .sinkType(DataSinkUpdateParams.SinkType.PINECONE)
+                .sinkType(DataSinkUpdateParams.SinkType.ASTRA_DB)
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -40,7 +40,7 @@ internal class DataSinkUpdateParamsTest {
         val params =
             DataSinkUpdateParams.builder()
                 .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .sinkType(DataSinkUpdateParams.SinkType.PINECONE)
+                .sinkType(DataSinkUpdateParams.SinkType.ASTRA_DB)
                 .component(
                     DataSinkUpdateParams.Component.UnionMember0.builder()
                         .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -51,7 +51,7 @@ internal class DataSinkUpdateParamsTest {
 
         val body = params._body()
 
-        assertThat(body.sinkType()).isEqualTo(DataSinkUpdateParams.SinkType.PINECONE)
+        assertThat(body.sinkType()).isEqualTo(DataSinkUpdateParams.SinkType.ASTRA_DB)
         assertThat(body.component())
             .contains(
                 DataSinkUpdateParams.Component.ofUnionMember0(
@@ -68,11 +68,11 @@ internal class DataSinkUpdateParamsTest {
         val params =
             DataSinkUpdateParams.builder()
                 .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .sinkType(DataSinkUpdateParams.SinkType.PINECONE)
+                .sinkType(DataSinkUpdateParams.SinkType.ASTRA_DB)
                 .build()
 
         val body = params._body()
 
-        assertThat(body.sinkType()).isEqualTo(DataSinkUpdateParams.SinkType.PINECONE)
+        assertThat(body.sinkType()).isEqualTo(DataSinkUpdateParams.SinkType.ASTRA_DB)
     }
 }

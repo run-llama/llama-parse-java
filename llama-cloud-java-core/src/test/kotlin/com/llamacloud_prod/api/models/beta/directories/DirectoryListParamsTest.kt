@@ -17,7 +17,7 @@ internal class DirectoryListParamsTest {
             .pageSize(0L)
             .pageToken("page_token")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .type(DirectoryListParams.Type.USER)
+            .type(DirectoryListParams.Type.EPHEMERAL)
             .build()
     }
 
@@ -31,7 +31,7 @@ internal class DirectoryListParamsTest {
                 .pageSize(0L)
                 .pageToken("page_token")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .type(DirectoryListParams.Type.USER)
+                .type(DirectoryListParams.Type.EPHEMERAL)
                 .build()
 
         val queryParams = params._queryParams()
@@ -45,7 +45,7 @@ internal class DirectoryListParamsTest {
                     .put("page_size", "0")
                     .put("page_token", "page_token")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .put("type", "user")
+                    .put("type", "ephemeral")
                     .build()
             )
     }

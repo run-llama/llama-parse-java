@@ -213,20 +213,20 @@ private constructor(
 
         companion object {
 
-            @JvmField val SPLADE = of("splade")
+            @JvmField val AUTO = of("auto")
 
             @JvmField val BM25 = of("bm25")
 
-            @JvmField val AUTO = of("auto")
+            @JvmField val SPLADE = of("splade")
 
             @JvmStatic fun of(value: String) = ModelType(JsonField.of(value))
         }
 
         /** An enum containing [ModelType]'s known values. */
         enum class Known {
-            SPLADE,
-            BM25,
             AUTO,
+            BM25,
+            SPLADE,
         }
 
         /**
@@ -239,9 +239,9 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            SPLADE,
-            BM25,
             AUTO,
+            BM25,
+            SPLADE,
             /**
              * An enum member indicating that [ModelType] was instantiated with an unknown value.
              */
@@ -257,9 +257,9 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                SPLADE -> Value.SPLADE
-                BM25 -> Value.BM25
                 AUTO -> Value.AUTO
+                BM25 -> Value.BM25
+                SPLADE -> Value.SPLADE
                 else -> Value._UNKNOWN
             }
 
@@ -274,9 +274,9 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                SPLADE -> Known.SPLADE
-                BM25 -> Known.BM25
                 AUTO -> Known.AUTO
+                BM25 -> Known.BM25
+                SPLADE -> Known.SPLADE
                 else -> throw LlamaCloudInvalidDataException("Unknown ModelType: $value")
             }
 

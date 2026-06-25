@@ -24,12 +24,12 @@ internal class ExtractCreateParamsTest {
                                     .putAdditionalProperty(
                                         "properties",
                                         JsonValue.from(
-                                            mapOf("vendor_name" to "bar", "total_amount" to "bar")
+                                            mapOf("total_amount" to "bar", "vendor_name" to "bar")
                                         ),
                                     )
                                     .putAdditionalProperty(
                                         "required",
-                                        JsonValue.from(listOf("vendor_name", "total_amount")),
+                                        JsonValue.from(listOf("total_amount", "vendor_name")),
                                     )
                                     .putAdditionalProperty("type", JsonValue.from("object"))
                                     .build()
@@ -91,14 +91,14 @@ internal class ExtractCreateParamsTest {
                                             "properties",
                                             JsonValue.from(
                                                 mapOf(
-                                                    "vendor_name" to "bar",
                                                     "total_amount" to "bar",
+                                                    "vendor_name" to "bar",
                                                 )
                                             ),
                                         )
                                         .putAdditionalProperty(
                                             "required",
-                                            JsonValue.from(listOf("vendor_name", "total_amount")),
+                                            JsonValue.from(listOf("total_amount", "vendor_name")),
                                         )
                                         .putAdditionalProperty("type", JsonValue.from("object"))
                                         .build()
@@ -187,14 +187,14 @@ internal class ExtractCreateParamsTest {
                                             "properties",
                                             JsonValue.from(
                                                 mapOf(
-                                                    "vendor_name" to "bar",
                                                     "total_amount" to "bar",
+                                                    "vendor_name" to "bar",
                                                 )
                                             ),
                                         )
                                         .putAdditionalProperty(
                                             "required",
-                                            JsonValue.from(listOf("vendor_name", "total_amount")),
+                                            JsonValue.from(listOf("total_amount", "vendor_name")),
                                         )
                                         .putAdditionalProperty("type", JsonValue.from("object"))
                                         .build()
@@ -252,12 +252,12 @@ internal class ExtractCreateParamsTest {
                                     .putAdditionalProperty(
                                         "properties",
                                         JsonValue.from(
-                                            mapOf("vendor_name" to "bar", "total_amount" to "bar")
+                                            mapOf("total_amount" to "bar", "vendor_name" to "bar")
                                         ),
                                     )
                                     .putAdditionalProperty(
                                         "required",
-                                        JsonValue.from(listOf("vendor_name", "total_amount")),
+                                        JsonValue.from(listOf("total_amount", "vendor_name")),
                                     )
                                     .putAdditionalProperty("type", JsonValue.from("object"))
                                     .build()

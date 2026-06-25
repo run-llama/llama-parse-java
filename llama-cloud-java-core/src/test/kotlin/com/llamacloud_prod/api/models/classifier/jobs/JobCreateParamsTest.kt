@@ -26,7 +26,7 @@ internal class JobCreateParamsTest {
             .mode(JobCreateParams.Mode.FAST)
             .parsingConfiguration(
                 ClassifyParsingConfiguration.builder()
-                    .lang(ParsingLanguages.AF)
+                    .lang(ParsingLanguages.ABQ)
                     .maxPages(0L)
                     .addTargetPage(0L)
                     .build()
@@ -65,7 +65,7 @@ internal class JobCreateParamsTest {
                 .mode(JobCreateParams.Mode.FAST)
                 .parsingConfiguration(
                     ClassifyParsingConfiguration.builder()
-                        .lang(ParsingLanguages.AF)
+                        .lang(ParsingLanguages.ABQ)
                         .maxPages(0L)
                         .addTargetPage(0L)
                         .build()
@@ -132,7 +132,7 @@ internal class JobCreateParamsTest {
                 .mode(JobCreateParams.Mode.FAST)
                 .parsingConfiguration(
                     ClassifyParsingConfiguration.builder()
-                        .lang(ParsingLanguages.AF)
+                        .lang(ParsingLanguages.ABQ)
                         .maxPages(0L)
                         .addTargetPage(0L)
                         .build()
@@ -168,7 +168,7 @@ internal class JobCreateParamsTest {
         assertThat(body.parsingConfiguration())
             .contains(
                 ClassifyParsingConfiguration.builder()
-                    .lang(ParsingLanguages.AF)
+                    .lang(ParsingLanguages.ABQ)
                     .maxPages(0L)
                     .addTargetPage(0L)
                     .build()

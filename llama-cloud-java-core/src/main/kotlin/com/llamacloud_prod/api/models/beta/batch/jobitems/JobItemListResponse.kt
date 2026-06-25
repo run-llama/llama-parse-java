@@ -548,29 +548,29 @@ private constructor(
 
         companion object {
 
-            @JvmField val PENDING = of("pending")
-
-            @JvmField val PROCESSING = of("processing")
+            @JvmField val CANCELLED = of("cancelled")
 
             @JvmField val COMPLETED = of("completed")
 
             @JvmField val FAILED = of("failed")
 
-            @JvmField val SKIPPED = of("skipped")
+            @JvmField val PENDING = of("pending")
 
-            @JvmField val CANCELLED = of("cancelled")
+            @JvmField val PROCESSING = of("processing")
+
+            @JvmField val SKIPPED = of("skipped")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
 
         /** An enum containing [Status]'s known values. */
         enum class Known {
-            PENDING,
-            PROCESSING,
+            CANCELLED,
             COMPLETED,
             FAILED,
+            PENDING,
+            PROCESSING,
             SKIPPED,
-            CANCELLED,
         }
 
         /**
@@ -583,12 +583,12 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            PENDING,
-            PROCESSING,
+            CANCELLED,
             COMPLETED,
             FAILED,
+            PENDING,
+            PROCESSING,
             SKIPPED,
-            CANCELLED,
             /** An enum member indicating that [Status] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -602,12 +602,12 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                PENDING -> Value.PENDING
-                PROCESSING -> Value.PROCESSING
+                CANCELLED -> Value.CANCELLED
                 COMPLETED -> Value.COMPLETED
                 FAILED -> Value.FAILED
+                PENDING -> Value.PENDING
+                PROCESSING -> Value.PROCESSING
                 SKIPPED -> Value.SKIPPED
-                CANCELLED -> Value.CANCELLED
                 else -> Value._UNKNOWN
             }
 
@@ -622,12 +622,12 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                PENDING -> Known.PENDING
-                PROCESSING -> Known.PROCESSING
+                CANCELLED -> Known.CANCELLED
                 COMPLETED -> Known.COMPLETED
                 FAILED -> Known.FAILED
+                PENDING -> Known.PENDING
+                PROCESSING -> Known.PROCESSING
                 SKIPPED -> Known.SKIPPED
-                CANCELLED -> Known.CANCELLED
                 else -> throw LlamaCloudInvalidDataException("Unknown Status: $value")
             }
 

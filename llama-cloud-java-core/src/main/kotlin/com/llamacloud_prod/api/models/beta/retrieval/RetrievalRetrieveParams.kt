@@ -1933,17 +1933,17 @@ private constructor(
 
                     @JvmField val EQ = of("eq")
 
-                    @JvmField val NE = of("ne")
-
                     @JvmField val GT = of("gt")
-
-                    @JvmField val LT = of("lt")
 
                     @JvmField val GTE = of("gte")
 
+                    @JvmField val IN = of("in")
+
+                    @JvmField val LT = of("lt")
+
                     @JvmField val LTE = of("lte")
 
-                    @JvmField val IN = of("in")
+                    @JvmField val NE = of("ne")
 
                     @JvmField val NIN = of("nin")
 
@@ -1953,12 +1953,12 @@ private constructor(
                 /** An enum containing [Operator]'s known values. */
                 enum class Known {
                     EQ,
-                    NE,
                     GT,
-                    LT,
                     GTE,
-                    LTE,
                     IN,
+                    LT,
+                    LTE,
+                    NE,
                     NIN,
                 }
 
@@ -1973,12 +1973,12 @@ private constructor(
                  */
                 enum class Value {
                     EQ,
-                    NE,
                     GT,
-                    LT,
                     GTE,
-                    LTE,
                     IN,
+                    LT,
+                    LTE,
+                    NE,
                     NIN,
                     /**
                      * An enum member indicating that [Operator] was instantiated with an unknown
@@ -1997,12 +1997,12 @@ private constructor(
                 fun value(): Value =
                     when (this) {
                         EQ -> Value.EQ
-                        NE -> Value.NE
                         GT -> Value.GT
-                        LT -> Value.LT
                         GTE -> Value.GTE
-                        LTE -> Value.LTE
                         IN -> Value.IN
+                        LT -> Value.LT
+                        LTE -> Value.LTE
+                        NE -> Value.NE
                         NIN -> Value.NIN
                         else -> Value._UNKNOWN
                     }
@@ -2019,12 +2019,12 @@ private constructor(
                 fun known(): Known =
                     when (this) {
                         EQ -> Known.EQ
-                        NE -> Known.NE
                         GT -> Known.GT
-                        LT -> Known.LT
                         GTE -> Known.GTE
-                        LTE -> Known.LTE
                         IN -> Known.IN
+                        LT -> Known.LT
+                        LTE -> Known.LTE
+                        NE -> Known.NE
                         NIN -> Known.NIN
                         else -> throw LlamaCloudInvalidDataException("Unknown Operator: $value")
                     }

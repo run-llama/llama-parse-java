@@ -32,7 +32,7 @@ internal class SplitServiceTest {
                                     .allowUncategorized(
                                         SplitCreateParams.Configuration.SplittingStrategy
                                             .AllowUncategorized
-                                            .INCLUDE
+                                            .FORBID
                                     )
                                     .build()
                             )

@@ -16,7 +16,7 @@ internal class JobItemListParamsTest {
             .offset(0L)
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .status(JobItemListParams.Status.PENDING)
+            .status(JobItemListParams.Status.CANCELLED)
             .build()
     }
 
@@ -38,7 +38,7 @@ internal class JobItemListParamsTest {
                 .offset(0L)
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .status(JobItemListParams.Status.PENDING)
+                .status(JobItemListParams.Status.CANCELLED)
                 .build()
 
         val queryParams = params._queryParams()
@@ -50,7 +50,7 @@ internal class JobItemListParamsTest {
                     .put("offset", "0")
                     .put("organization_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .put("status", "pending")
+                    .put("status", "cancelled")
                     .build()
             )
     }

@@ -332,26 +332,26 @@ private constructor(
 
         companion object {
 
-            @JvmField val PENDING = of("PENDING")
-
-            @JvmField val RUNNING = of("RUNNING")
+            @JvmField val CANCELLED = of("CANCELLED")
 
             @JvmField val COMPLETED = of("COMPLETED")
 
             @JvmField val FAILED = of("FAILED")
 
-            @JvmField val CANCELLED = of("CANCELLED")
+            @JvmField val PENDING = of("PENDING")
+
+            @JvmField val RUNNING = of("RUNNING")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
 
         /** An enum containing [Status]'s known values. */
         enum class Known {
-            PENDING,
-            RUNNING,
+            CANCELLED,
             COMPLETED,
             FAILED,
-            CANCELLED,
+            PENDING,
+            RUNNING,
         }
 
         /**
@@ -364,11 +364,11 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            PENDING,
-            RUNNING,
+            CANCELLED,
             COMPLETED,
             FAILED,
-            CANCELLED,
+            PENDING,
+            RUNNING,
             /** An enum member indicating that [Status] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -382,11 +382,11 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                PENDING -> Value.PENDING
-                RUNNING -> Value.RUNNING
+                CANCELLED -> Value.CANCELLED
                 COMPLETED -> Value.COMPLETED
                 FAILED -> Value.FAILED
-                CANCELLED -> Value.CANCELLED
+                PENDING -> Value.PENDING
+                RUNNING -> Value.RUNNING
                 else -> Value._UNKNOWN
             }
 
@@ -401,11 +401,11 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                PENDING -> Known.PENDING
-                RUNNING -> Known.RUNNING
+                CANCELLED -> Known.CANCELLED
                 COMPLETED -> Known.COMPLETED
                 FAILED -> Known.FAILED
-                CANCELLED -> Known.CANCELLED
+                PENDING -> Known.PENDING
+                RUNNING -> Known.RUNNING
                 else -> throw LlamaCloudInvalidDataException("Unknown Status: $value")
             }
 

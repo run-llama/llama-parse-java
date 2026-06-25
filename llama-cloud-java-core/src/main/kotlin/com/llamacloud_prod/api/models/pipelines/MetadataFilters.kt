@@ -1058,53 +1058,53 @@ private constructor(
 
                 companion object {
 
+                    @JvmField val NOT_EQUALS = of("!=")
+
+                    @JvmField val LESS = of("<")
+
+                    @JvmField val LESS_OR_EQUALS = of("<=")
+
                     @JvmField val EQUALS = of("==")
 
                     @JvmField val GREATER = of(">")
 
-                    @JvmField val LESS = of("<")
-
-                    @JvmField val NOT_EQUALS = of("!=")
-
                     @JvmField val GREATER_OR_EQUALS = of(">=")
 
-                    @JvmField val LESS_OR_EQUALS = of("<=")
-
-                    @JvmField val IN = of("in")
-
-                    @JvmField val NIN = of("nin")
+                    @JvmField val ALL = of("all")
 
                     @JvmField val ANY = of("any")
 
-                    @JvmField val ALL = of("all")
+                    @JvmField val CONTAINS = of("contains")
+
+                    @JvmField val IN = of("in")
+
+                    @JvmField val IS_EMPTY = of("is_empty")
+
+                    @JvmField val NIN = of("nin")
 
                     @JvmField val TEXT_MATCH = of("text_match")
 
                     @JvmField val TEXT_MATCH_INSENSITIVE = of("text_match_insensitive")
-
-                    @JvmField val CONTAINS = of("contains")
-
-                    @JvmField val IS_EMPTY = of("is_empty")
 
                     @JvmStatic fun of(value: String) = Operator(JsonField.of(value))
                 }
 
                 /** An enum containing [Operator]'s known values. */
                 enum class Known {
+                    NOT_EQUALS,
+                    LESS,
+                    LESS_OR_EQUALS,
                     EQUALS,
                     GREATER,
-                    LESS,
-                    NOT_EQUALS,
                     GREATER_OR_EQUALS,
-                    LESS_OR_EQUALS,
-                    IN,
-                    NIN,
-                    ANY,
                     ALL,
+                    ANY,
+                    CONTAINS,
+                    IN,
+                    IS_EMPTY,
+                    NIN,
                     TEXT_MATCH,
                     TEXT_MATCH_INSENSITIVE,
-                    CONTAINS,
-                    IS_EMPTY,
                 }
 
                 /**
@@ -1117,20 +1117,20 @@ private constructor(
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
+                    NOT_EQUALS,
+                    LESS,
+                    LESS_OR_EQUALS,
                     EQUALS,
                     GREATER,
-                    LESS,
-                    NOT_EQUALS,
                     GREATER_OR_EQUALS,
-                    LESS_OR_EQUALS,
-                    IN,
-                    NIN,
-                    ANY,
                     ALL,
+                    ANY,
+                    CONTAINS,
+                    IN,
+                    IS_EMPTY,
+                    NIN,
                     TEXT_MATCH,
                     TEXT_MATCH_INSENSITIVE,
-                    CONTAINS,
-                    IS_EMPTY,
                     /**
                      * An enum member indicating that [Operator] was instantiated with an unknown
                      * value.
@@ -1147,20 +1147,20 @@ private constructor(
                  */
                 fun value(): Value =
                     when (this) {
+                        NOT_EQUALS -> Value.NOT_EQUALS
+                        LESS -> Value.LESS
+                        LESS_OR_EQUALS -> Value.LESS_OR_EQUALS
                         EQUALS -> Value.EQUALS
                         GREATER -> Value.GREATER
-                        LESS -> Value.LESS
-                        NOT_EQUALS -> Value.NOT_EQUALS
                         GREATER_OR_EQUALS -> Value.GREATER_OR_EQUALS
-                        LESS_OR_EQUALS -> Value.LESS_OR_EQUALS
-                        IN -> Value.IN
-                        NIN -> Value.NIN
-                        ANY -> Value.ANY
                         ALL -> Value.ALL
+                        ANY -> Value.ANY
+                        CONTAINS -> Value.CONTAINS
+                        IN -> Value.IN
+                        IS_EMPTY -> Value.IS_EMPTY
+                        NIN -> Value.NIN
                         TEXT_MATCH -> Value.TEXT_MATCH
                         TEXT_MATCH_INSENSITIVE -> Value.TEXT_MATCH_INSENSITIVE
-                        CONTAINS -> Value.CONTAINS
-                        IS_EMPTY -> Value.IS_EMPTY
                         else -> Value._UNKNOWN
                     }
 
@@ -1175,20 +1175,20 @@ private constructor(
                  */
                 fun known(): Known =
                     when (this) {
+                        NOT_EQUALS -> Known.NOT_EQUALS
+                        LESS -> Known.LESS
+                        LESS_OR_EQUALS -> Known.LESS_OR_EQUALS
                         EQUALS -> Known.EQUALS
                         GREATER -> Known.GREATER
-                        LESS -> Known.LESS
-                        NOT_EQUALS -> Known.NOT_EQUALS
                         GREATER_OR_EQUALS -> Known.GREATER_OR_EQUALS
-                        LESS_OR_EQUALS -> Known.LESS_OR_EQUALS
-                        IN -> Known.IN
-                        NIN -> Known.NIN
-                        ANY -> Known.ANY
                         ALL -> Known.ALL
+                        ANY -> Known.ANY
+                        CONTAINS -> Known.CONTAINS
+                        IN -> Known.IN
+                        IS_EMPTY -> Known.IS_EMPTY
+                        NIN -> Known.NIN
                         TEXT_MATCH -> Known.TEXT_MATCH
                         TEXT_MATCH_INSENSITIVE -> Known.TEXT_MATCH_INSENSITIVE
-                        CONTAINS -> Known.CONTAINS
-                        IS_EMPTY -> Known.IS_EMPTY
                         else -> throw LlamaCloudInvalidDataException("Unknown Operator: $value")
                     }
 
@@ -1296,9 +1296,9 @@ private constructor(
 
             @JvmField val AND = of("and")
 
-            @JvmField val OR = of("or")
-
             @JvmField val NOT = of("not")
+
+            @JvmField val OR = of("or")
 
             @JvmStatic fun of(value: String) = Condition(JsonField.of(value))
         }
@@ -1306,8 +1306,8 @@ private constructor(
         /** An enum containing [Condition]'s known values. */
         enum class Known {
             AND,
-            OR,
             NOT,
+            OR,
         }
 
         /**
@@ -1321,8 +1321,8 @@ private constructor(
          */
         enum class Value {
             AND,
-            OR,
             NOT,
+            OR,
             /**
              * An enum member indicating that [Condition] was instantiated with an unknown value.
              */
@@ -1339,8 +1339,8 @@ private constructor(
         fun value(): Value =
             when (this) {
                 AND -> Value.AND
-                OR -> Value.OR
                 NOT -> Value.NOT
+                OR -> Value.OR
                 else -> Value._UNKNOWN
             }
 
@@ -1356,8 +1356,8 @@ private constructor(
         fun known(): Known =
             when (this) {
                 AND -> Known.AND
-                OR -> Known.OR
                 NOT -> Known.NOT
+                OR -> Known.OR
                 else -> throw LlamaCloudInvalidDataException("Unknown Condition: $value")
             }
 

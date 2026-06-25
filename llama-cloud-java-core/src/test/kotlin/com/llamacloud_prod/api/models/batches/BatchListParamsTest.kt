@@ -19,7 +19,7 @@ internal class BatchListParamsTest {
             .pageToken("page_token")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .sourceDirectoryId("source_directory_id")
-            .status(BatchListParams.Status.PENDING)
+            .status(BatchListParams.Status.CANCELLED)
             .build()
     }
 
@@ -34,7 +34,7 @@ internal class BatchListParamsTest {
                 .pageToken("page_token")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .sourceDirectoryId("source_directory_id")
-                .status(BatchListParams.Status.PENDING)
+                .status(BatchListParams.Status.CANCELLED)
                 .build()
 
         val queryParams = params._queryParams()
@@ -49,7 +49,7 @@ internal class BatchListParamsTest {
                     .put("page_token", "page_token")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("source_directory_id", "source_directory_id")
-                    .put("status", "PENDING")
+                    .put("status", "CANCELLED")
                     .build()
             )
     }

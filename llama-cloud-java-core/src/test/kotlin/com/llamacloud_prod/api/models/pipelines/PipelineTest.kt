@@ -21,23 +21,35 @@ internal class PipelineTest {
             Pipeline.builder()
                 .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .embeddingConfig(
-                    Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.builder()
+                    AzureOpenAIEmbeddingConfig.builder()
                         .component(
-                            Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.Component.builder()
-                                .className("class_name")
-                                .embedBatchSize(1L)
-                                .modelName(
-                                    Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.Component
-                                        .ModelName
-                                        .OPENAI_TEXT_EMBEDDING_3_SMALL
+                            AzureOpenAIEmbedding.builder()
+                                .additionalKwargs(
+                                    AzureOpenAIEmbedding.AdditionalKwargs.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                        .build()
                                 )
+                                .apiBase("api_base")
+                                .apiKey("api_key")
+                                .apiVersion("api_version")
+                                .azureDeployment("azure_deployment")
+                                .azureEndpoint("azure_endpoint")
+                                .className("class_name")
+                                .defaultHeaders(
+                                    AzureOpenAIEmbedding.DefaultHeaders.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from("string"))
+                                        .build()
+                                )
+                                .dimensions(0L)
+                                .embedBatchSize(1L)
+                                .maxRetries(0L)
+                                .modelName("model_name")
                                 .numWorkers(0L)
+                                .reuseClient(true)
+                                .timeout(0.0)
                                 .build()
                         )
-                        .type(
-                            Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.Type
-                                .MANAGED_OPENAI_EMBEDDING
-                        )
+                        .type(AzureOpenAIEmbeddingConfig.Type.AZURE_EMBEDDING)
                         .build()
                 )
                 .name("name")
@@ -60,7 +72,7 @@ internal class PipelineTest {
                         )
                         .name("name")
                         .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .sinkType(DataSink.SinkType.PINECONE)
+                        .sinkType(DataSink.SinkType.ASTRA_DB)
                         .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
@@ -156,7 +168,7 @@ internal class PipelineTest {
                         .htmlRemoveNavigationElements(true)
                         .httpProxy("http_proxy")
                         .ignoreDocumentElementsForLayoutDetection(true)
-                        .addImagesToSave(LlamaParseParameters.ImagesToSave.SCREENSHOT)
+                        .addImagesToSave(LlamaParseParameters.ImagesToSave.EMBEDDED)
                         .inlineImagesInMarkdown(true)
                         .inputS3Path("input_s3_path")
                         .inputS3Region("input_s3_region")
@@ -167,7 +179,7 @@ internal class PipelineTest {
                         .jobTimeoutExtraTimePerPageInSeconds(0.0)
                         .jobTimeoutInSeconds(0.0)
                         .keepPageSeparatorWhenMergingTables(true)
-                        .addLanguage(ParsingLanguages.AF)
+                        .addLanguage(ParsingLanguages.ABQ)
                         .layoutAware(true)
                         .lineLevelBoundingBox(true)
                         .markdownTableMultilineHeaderSeparator(
@@ -190,7 +202,7 @@ internal class PipelineTest {
                         .pagePrefix("page_prefix")
                         .pageSeparator("page_separator")
                         .pageSuffix("page_suffix")
-                        .parseMode(ParsingMode.PARSE_PAGE_WITHOUT_LLM)
+                        .parseMode(ParsingMode.PARSE_DOCUMENT_WITH_AGENT)
                         .parsingInstruction("parsing_instruction")
                         .preciseBoundingBox(true)
                         .premiumMode(true)
@@ -199,10 +211,10 @@ internal class PipelineTest {
                         .preserveLayoutAlignmentAcrossPages(true)
                         .preserveVerySmallText(true)
                         .preset("preset")
-                        .priority(LlamaParseParameters.Priority.LOW)
+                        .priority(LlamaParseParameters.Priority.CRITICAL)
                         .projectId("project_id")
                         .removeHiddenText(true)
-                        .replaceFailedPageMode(FailPageMode.RAW_TEXT)
+                        .replaceFailedPageMode(FailPageMode.BLANK_PAGE)
                         .replaceFailedPageWithErrorMessagePrefix(
                             "replace_failed_page_with_error_message_prefix"
                         )
@@ -268,7 +280,7 @@ internal class PipelineTest {
                         .addExcludedLlmMetadataKey("string")
                         .build()
                 )
-                .pipelineType(PipelineType.PLAYGROUND)
+                .pipelineType(PipelineType.MANAGED)
                 .presetRetrievalParameters(
                     PresetRetrievalParams.builder()
                         .alpha(0.0)
@@ -278,7 +290,7 @@ internal class PipelineTest {
                         .enableReranking(true)
                         .filesTopK(1L)
                         .rerankTopN(1L)
-                        .retrievalMode(RetrievalMode.CHUNKS)
+                        .retrievalMode(RetrievalMode.AUTO_ROUTED)
                         .retrieveImageNodes(true)
                         .retrievePageFigureNodes(true)
                         .retrievePageScreenshotNodes(true)
@@ -289,7 +301,8 @@ internal class PipelineTest {
                                         .key("key")
                                         .value(0.0)
                                         .operator(
-                                            MetadataFilters.Filter.MetadataFilter.Operator.EQUALS
+                                            MetadataFilters.Filter.MetadataFilter.Operator
+                                                .NOT_EQUALS
                                         )
                                         .build()
                                 )
@@ -307,7 +320,7 @@ internal class PipelineTest {
                 .sparseModelConfig(
                     SparseModelConfig.builder()
                         .className("class_name")
-                        .modelType(SparseModelConfig.ModelType.SPLADE)
+                        .modelType(SparseModelConfig.ModelType.AUTO)
                         .build()
                 )
                 .status(Pipeline.Status.CREATED)
@@ -324,24 +337,36 @@ internal class PipelineTest {
         assertThat(pipeline.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(pipeline.embeddingConfig())
             .isEqualTo(
-                Pipeline.EmbeddingConfig.ofManagedOpenAIEmbedding(
-                    Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.builder()
+                Pipeline.EmbeddingConfig.ofAzureEmbedding(
+                    AzureOpenAIEmbeddingConfig.builder()
                         .component(
-                            Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.Component.builder()
-                                .className("class_name")
-                                .embedBatchSize(1L)
-                                .modelName(
-                                    Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.Component
-                                        .ModelName
-                                        .OPENAI_TEXT_EMBEDDING_3_SMALL
+                            AzureOpenAIEmbedding.builder()
+                                .additionalKwargs(
+                                    AzureOpenAIEmbedding.AdditionalKwargs.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                        .build()
                                 )
+                                .apiBase("api_base")
+                                .apiKey("api_key")
+                                .apiVersion("api_version")
+                                .azureDeployment("azure_deployment")
+                                .azureEndpoint("azure_endpoint")
+                                .className("class_name")
+                                .defaultHeaders(
+                                    AzureOpenAIEmbedding.DefaultHeaders.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from("string"))
+                                        .build()
+                                )
+                                .dimensions(0L)
+                                .embedBatchSize(1L)
+                                .maxRetries(0L)
+                                .modelName("model_name")
                                 .numWorkers(0L)
+                                .reuseClient(true)
+                                .timeout(0.0)
                                 .build()
                         )
-                        .type(
-                            Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.Type
-                                .MANAGED_OPENAI_EMBEDDING
-                        )
+                        .type(AzureOpenAIEmbeddingConfig.Type.AZURE_EMBEDDING)
                         .build()
                 )
             )
@@ -367,7 +392,7 @@ internal class PipelineTest {
                     )
                     .name("name")
                     .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .sinkType(DataSink.SinkType.PINECONE)
+                    .sinkType(DataSink.SinkType.ASTRA_DB)
                     .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
@@ -463,7 +488,7 @@ internal class PipelineTest {
                     .htmlRemoveNavigationElements(true)
                     .httpProxy("http_proxy")
                     .ignoreDocumentElementsForLayoutDetection(true)
-                    .addImagesToSave(LlamaParseParameters.ImagesToSave.SCREENSHOT)
+                    .addImagesToSave(LlamaParseParameters.ImagesToSave.EMBEDDED)
                     .inlineImagesInMarkdown(true)
                     .inputS3Path("input_s3_path")
                     .inputS3Region("input_s3_region")
@@ -474,7 +499,7 @@ internal class PipelineTest {
                     .jobTimeoutExtraTimePerPageInSeconds(0.0)
                     .jobTimeoutInSeconds(0.0)
                     .keepPageSeparatorWhenMergingTables(true)
-                    .addLanguage(ParsingLanguages.AF)
+                    .addLanguage(ParsingLanguages.ABQ)
                     .layoutAware(true)
                     .lineLevelBoundingBox(true)
                     .markdownTableMultilineHeaderSeparator(
@@ -497,7 +522,7 @@ internal class PipelineTest {
                     .pagePrefix("page_prefix")
                     .pageSeparator("page_separator")
                     .pageSuffix("page_suffix")
-                    .parseMode(ParsingMode.PARSE_PAGE_WITHOUT_LLM)
+                    .parseMode(ParsingMode.PARSE_DOCUMENT_WITH_AGENT)
                     .parsingInstruction("parsing_instruction")
                     .preciseBoundingBox(true)
                     .premiumMode(true)
@@ -506,10 +531,10 @@ internal class PipelineTest {
                     .preserveLayoutAlignmentAcrossPages(true)
                     .preserveVerySmallText(true)
                     .preset("preset")
-                    .priority(LlamaParseParameters.Priority.LOW)
+                    .priority(LlamaParseParameters.Priority.CRITICAL)
                     .projectId("project_id")
                     .removeHiddenText(true)
-                    .replaceFailedPageMode(FailPageMode.RAW_TEXT)
+                    .replaceFailedPageMode(FailPageMode.BLANK_PAGE)
                     .replaceFailedPageWithErrorMessagePrefix(
                         "replace_failed_page_with_error_message_prefix"
                     )
@@ -573,7 +598,7 @@ internal class PipelineTest {
                     .addExcludedLlmMetadataKey("string")
                     .build()
             )
-        assertThat(pipeline.pipelineType()).contains(PipelineType.PLAYGROUND)
+        assertThat(pipeline.pipelineType()).contains(PipelineType.MANAGED)
         assertThat(pipeline.presetRetrievalParameters())
             .contains(
                 PresetRetrievalParams.builder()
@@ -584,7 +609,7 @@ internal class PipelineTest {
                     .enableReranking(true)
                     .filesTopK(1L)
                     .rerankTopN(1L)
-                    .retrievalMode(RetrievalMode.CHUNKS)
+                    .retrievalMode(RetrievalMode.AUTO_ROUTED)
                     .retrieveImageNodes(true)
                     .retrievePageFigureNodes(true)
                     .retrievePageScreenshotNodes(true)
@@ -594,7 +619,9 @@ internal class PipelineTest {
                                 MetadataFilters.Filter.MetadataFilter.builder()
                                     .key("key")
                                     .value(0.0)
-                                    .operator(MetadataFilters.Filter.MetadataFilter.Operator.EQUALS)
+                                    .operator(
+                                        MetadataFilters.Filter.MetadataFilter.Operator.NOT_EQUALS
+                                    )
                                     .build()
                             )
                             .condition(MetadataFilters.Condition.AND)
@@ -612,7 +639,7 @@ internal class PipelineTest {
             .contains(
                 SparseModelConfig.builder()
                     .className("class_name")
-                    .modelType(SparseModelConfig.ModelType.SPLADE)
+                    .modelType(SparseModelConfig.ModelType.AUTO)
                     .build()
             )
         assertThat(pipeline.status()).contains(Pipeline.Status.CREATED)
@@ -636,23 +663,35 @@ internal class PipelineTest {
             Pipeline.builder()
                 .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .embeddingConfig(
-                    Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.builder()
+                    AzureOpenAIEmbeddingConfig.builder()
                         .component(
-                            Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.Component.builder()
-                                .className("class_name")
-                                .embedBatchSize(1L)
-                                .modelName(
-                                    Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.Component
-                                        .ModelName
-                                        .OPENAI_TEXT_EMBEDDING_3_SMALL
+                            AzureOpenAIEmbedding.builder()
+                                .additionalKwargs(
+                                    AzureOpenAIEmbedding.AdditionalKwargs.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                        .build()
                                 )
+                                .apiBase("api_base")
+                                .apiKey("api_key")
+                                .apiVersion("api_version")
+                                .azureDeployment("azure_deployment")
+                                .azureEndpoint("azure_endpoint")
+                                .className("class_name")
+                                .defaultHeaders(
+                                    AzureOpenAIEmbedding.DefaultHeaders.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from("string"))
+                                        .build()
+                                )
+                                .dimensions(0L)
+                                .embedBatchSize(1L)
+                                .maxRetries(0L)
+                                .modelName("model_name")
                                 .numWorkers(0L)
+                                .reuseClient(true)
+                                .timeout(0.0)
                                 .build()
                         )
-                        .type(
-                            Pipeline.EmbeddingConfig.ManagedOpenAIEmbedding.Type
-                                .MANAGED_OPENAI_EMBEDDING
-                        )
+                        .type(AzureOpenAIEmbeddingConfig.Type.AZURE_EMBEDDING)
                         .build()
                 )
                 .name("name")
@@ -675,7 +714,7 @@ internal class PipelineTest {
                         )
                         .name("name")
                         .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .sinkType(DataSink.SinkType.PINECONE)
+                        .sinkType(DataSink.SinkType.ASTRA_DB)
                         .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
@@ -771,7 +810,7 @@ internal class PipelineTest {
                         .htmlRemoveNavigationElements(true)
                         .httpProxy("http_proxy")
                         .ignoreDocumentElementsForLayoutDetection(true)
-                        .addImagesToSave(LlamaParseParameters.ImagesToSave.SCREENSHOT)
+                        .addImagesToSave(LlamaParseParameters.ImagesToSave.EMBEDDED)
                         .inlineImagesInMarkdown(true)
                         .inputS3Path("input_s3_path")
                         .inputS3Region("input_s3_region")
@@ -782,7 +821,7 @@ internal class PipelineTest {
                         .jobTimeoutExtraTimePerPageInSeconds(0.0)
                         .jobTimeoutInSeconds(0.0)
                         .keepPageSeparatorWhenMergingTables(true)
-                        .addLanguage(ParsingLanguages.AF)
+                        .addLanguage(ParsingLanguages.ABQ)
                         .layoutAware(true)
                         .lineLevelBoundingBox(true)
                         .markdownTableMultilineHeaderSeparator(
@@ -805,7 +844,7 @@ internal class PipelineTest {
                         .pagePrefix("page_prefix")
                         .pageSeparator("page_separator")
                         .pageSuffix("page_suffix")
-                        .parseMode(ParsingMode.PARSE_PAGE_WITHOUT_LLM)
+                        .parseMode(ParsingMode.PARSE_DOCUMENT_WITH_AGENT)
                         .parsingInstruction("parsing_instruction")
                         .preciseBoundingBox(true)
                         .premiumMode(true)
@@ -814,10 +853,10 @@ internal class PipelineTest {
                         .preserveLayoutAlignmentAcrossPages(true)
                         .preserveVerySmallText(true)
                         .preset("preset")
-                        .priority(LlamaParseParameters.Priority.LOW)
+                        .priority(LlamaParseParameters.Priority.CRITICAL)
                         .projectId("project_id")
                         .removeHiddenText(true)
-                        .replaceFailedPageMode(FailPageMode.RAW_TEXT)
+                        .replaceFailedPageMode(FailPageMode.BLANK_PAGE)
                         .replaceFailedPageWithErrorMessagePrefix(
                             "replace_failed_page_with_error_message_prefix"
                         )
@@ -883,7 +922,7 @@ internal class PipelineTest {
                         .addExcludedLlmMetadataKey("string")
                         .build()
                 )
-                .pipelineType(PipelineType.PLAYGROUND)
+                .pipelineType(PipelineType.MANAGED)
                 .presetRetrievalParameters(
                     PresetRetrievalParams.builder()
                         .alpha(0.0)
@@ -893,7 +932,7 @@ internal class PipelineTest {
                         .enableReranking(true)
                         .filesTopK(1L)
                         .rerankTopN(1L)
-                        .retrievalMode(RetrievalMode.CHUNKS)
+                        .retrievalMode(RetrievalMode.AUTO_ROUTED)
                         .retrieveImageNodes(true)
                         .retrievePageFigureNodes(true)
                         .retrievePageScreenshotNodes(true)
@@ -904,7 +943,8 @@ internal class PipelineTest {
                                         .key("key")
                                         .value(0.0)
                                         .operator(
-                                            MetadataFilters.Filter.MetadataFilter.Operator.EQUALS
+                                            MetadataFilters.Filter.MetadataFilter.Operator
+                                                .NOT_EQUALS
                                         )
                                         .build()
                                 )
@@ -922,7 +962,7 @@ internal class PipelineTest {
                 .sparseModelConfig(
                     SparseModelConfig.builder()
                         .className("class_name")
-                        .modelType(SparseModelConfig.ModelType.SPLADE)
+                        .modelType(SparseModelConfig.ModelType.AUTO)
                         .build()
                 )
                 .status(Pipeline.Status.CREATED)

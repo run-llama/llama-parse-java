@@ -33,7 +33,7 @@ internal class SheetsJobTest {
                 .createdAt("created_at")
                 .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .status(SheetsJob.Status.PENDING)
+                .status(SheetsJob.Status.CANCELLED)
                 .updatedAt("updated_at")
                 .userId("user_id")
                 .config(
@@ -145,7 +145,7 @@ internal class SheetsJobTest {
         assertThat(sheetsJob.createdAt()).isEqualTo("created_at")
         assertThat(sheetsJob.fileId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(sheetsJob.projectId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(sheetsJob.status()).isEqualTo(SheetsJob.Status.PENDING)
+        assertThat(sheetsJob.status()).isEqualTo(SheetsJob.Status.CANCELLED)
         assertThat(sheetsJob.updatedAt()).isEqualTo("updated_at")
         assertThat(sheetsJob.userId()).isEqualTo("user_id")
         assertThat(sheetsJob.config())
@@ -264,7 +264,7 @@ internal class SheetsJobTest {
                 .createdAt("created_at")
                 .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .status(SheetsJob.Status.PENDING)
+                .status(SheetsJob.Status.CANCELLED)
                 .updatedAt("updated_at")
                 .userId("user_id")
                 .config(

@@ -4,7 +4,6 @@ package com.llamacloud_prod.api.models.configurations
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.llamacloud_prod.api.core.jsonMapper
-import com.llamacloud_prod.api.models.beta.split.SplitCategory
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -20,21 +19,26 @@ internal class ConfigurationListPageResponseTest {
                         .id("id")
                         .name("name")
                         .parameters(
-                            SplitV1Parameters.builder()
-                                .addCategory(
-                                    SplitCategory.builder().name("x").description("x").build()
-                                )
-                                .splittingStrategy(
-                                    SplitV1Parameters.SplittingStrategy.builder()
-                                        .allowUncategorized(
-                                            SplitV1Parameters.SplittingStrategy.AllowUncategorized
-                                                .INCLUDE
+                            ClassifyV2Parameters.builder()
+                                .addRule(
+                                    ClassifyV2Parameters.Rule.builder()
+                                        .description(
+                                            "contains invoice number, line items, and total amount"
                                         )
+                                        .type("invoice")
+                                        .build()
+                                )
+                                .mode(ClassifyV2Parameters.Mode.FAST)
+                                .parsingConfiguration(
+                                    ClassifyV2Parameters.ParsingConfiguration.builder()
+                                        .lang("en")
+                                        .maxPages(10L)
+                                        .targetPages("1,3,5-7")
                                         .build()
                                 )
                                 .build()
                         )
-                        .productType(ConfigurationResponse.ProductType.SPLIT_V1)
+                        .productType(ConfigurationResponse.ProductType.CLASSIFY_V2)
                         .version("version")
                         .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -50,19 +54,26 @@ internal class ConfigurationListPageResponseTest {
                     .id("id")
                     .name("name")
                     .parameters(
-                        SplitV1Parameters.builder()
-                            .addCategory(SplitCategory.builder().name("x").description("x").build())
-                            .splittingStrategy(
-                                SplitV1Parameters.SplittingStrategy.builder()
-                                    .allowUncategorized(
-                                        SplitV1Parameters.SplittingStrategy.AllowUncategorized
-                                            .INCLUDE
+                        ClassifyV2Parameters.builder()
+                            .addRule(
+                                ClassifyV2Parameters.Rule.builder()
+                                    .description(
+                                        "contains invoice number, line items, and total amount"
                                     )
+                                    .type("invoice")
+                                    .build()
+                            )
+                            .mode(ClassifyV2Parameters.Mode.FAST)
+                            .parsingConfiguration(
+                                ClassifyV2Parameters.ParsingConfiguration.builder()
+                                    .lang("en")
+                                    .maxPages(10L)
+                                    .targetPages("1,3,5-7")
                                     .build()
                             )
                             .build()
                     )
-                    .productType(ConfigurationResponse.ProductType.SPLIT_V1)
+                    .productType(ConfigurationResponse.ProductType.CLASSIFY_V2)
                     .version("version")
                     .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -82,21 +93,26 @@ internal class ConfigurationListPageResponseTest {
                         .id("id")
                         .name("name")
                         .parameters(
-                            SplitV1Parameters.builder()
-                                .addCategory(
-                                    SplitCategory.builder().name("x").description("x").build()
-                                )
-                                .splittingStrategy(
-                                    SplitV1Parameters.SplittingStrategy.builder()
-                                        .allowUncategorized(
-                                            SplitV1Parameters.SplittingStrategy.AllowUncategorized
-                                                .INCLUDE
+                            ClassifyV2Parameters.builder()
+                                .addRule(
+                                    ClassifyV2Parameters.Rule.builder()
+                                        .description(
+                                            "contains invoice number, line items, and total amount"
                                         )
+                                        .type("invoice")
+                                        .build()
+                                )
+                                .mode(ClassifyV2Parameters.Mode.FAST)
+                                .parsingConfiguration(
+                                    ClassifyV2Parameters.ParsingConfiguration.builder()
+                                        .lang("en")
+                                        .maxPages(10L)
+                                        .targetPages("1,3,5-7")
                                         .build()
                                 )
                                 .build()
                         )
-                        .productType(ConfigurationResponse.ProductType.SPLIT_V1)
+                        .productType(ConfigurationResponse.ProductType.CLASSIFY_V2)
                         .version("version")
                         .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
