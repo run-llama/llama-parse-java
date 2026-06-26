@@ -17,7 +17,6 @@ import com.llamacloud_prod.api.core.http.Headers
 import com.llamacloud_prod.api.core.http.QueryParams
 import com.llamacloud_prod.api.core.toImmutable
 import com.llamacloud_prod.api.errors.LlamaCloudInvalidDataException
-import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
@@ -54,14 +53,6 @@ private constructor(
     fun description(): Optional<String> = body.description()
 
     /**
-     * When this directory expires. Required for ephemeral directories.
-     *
-     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun expiresAt(): Optional<OffsetDateTime> = body.expiresAt()
-
-    /**
      * Reserved system-managed metadata.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -90,13 +81,6 @@ private constructor(
      * Unlike [description], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _description(): JsonField<String> = body._description()
-
-    /**
-     * Returns the raw JSON value of [expiresAt].
-     *
-     * Unlike [expiresAt], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    fun _expiresAt(): JsonField<OffsetDateTime> = body._expiresAt()
 
     /**
      * Returns the raw JSON value of [systemMetadata].
@@ -171,10 +155,8 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [name]
          * - [description]
-         * - [expiresAt]
          * - [systemMetadata]
          * - [type]
-         * - etc.
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
@@ -203,21 +185,6 @@ private constructor(
          * value.
          */
         fun description(description: JsonField<String>) = apply { body.description(description) }
-
-        /** When this directory expires. Required for ephemeral directories. */
-        fun expiresAt(expiresAt: OffsetDateTime?) = apply { body.expiresAt(expiresAt) }
-
-        /** Alias for calling [Builder.expiresAt] with `expiresAt.orElse(null)`. */
-        fun expiresAt(expiresAt: Optional<OffsetDateTime>) = expiresAt(expiresAt.getOrNull())
-
-        /**
-         * Sets [Builder.expiresAt] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.expiresAt] with a well-typed [OffsetDateTime] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
-         */
-        fun expiresAt(expiresAt: JsonField<OffsetDateTime>) = apply { body.expiresAt(expiresAt) }
 
         /** Reserved system-managed metadata. */
         fun systemMetadata(systemMetadata: SystemMetadata?) = apply {
@@ -408,7 +375,6 @@ private constructor(
     private constructor(
         private val name: JsonField<String>,
         private val description: JsonField<String>,
-        private val expiresAt: JsonField<OffsetDateTime>,
         private val systemMetadata: JsonField<SystemMetadata>,
         private val type: JsonField<Type>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -420,14 +386,11 @@ private constructor(
             @JsonProperty("description")
             @ExcludeMissing
             description: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("expires_at")
-            @ExcludeMissing
-            expiresAt: JsonField<OffsetDateTime> = JsonMissing.of(),
             @JsonProperty("system_metadata")
             @ExcludeMissing
             systemMetadata: JsonField<SystemMetadata> = JsonMissing.of(),
             @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-        ) : this(name, description, expiresAt, systemMetadata, type, mutableMapOf())
+        ) : this(name, description, systemMetadata, type, mutableMapOf())
 
         /**
          * Human-readable name for the directory.
@@ -444,14 +407,6 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun description(): Optional<String> = description.getOptional("description")
-
-        /**
-         * When this directory expires. Required for ephemeral directories.
-         *
-         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
-         *   the server responded with an unexpected value).
-         */
-        fun expiresAt(): Optional<OffsetDateTime> = expiresAt.getOptional("expires_at")
 
         /**
          * Reserved system-managed metadata.
@@ -485,15 +440,6 @@ private constructor(
         @JsonProperty("description")
         @ExcludeMissing
         fun _description(): JsonField<String> = description
-
-        /**
-         * Returns the raw JSON value of [expiresAt].
-         *
-         * Unlike [expiresAt], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("expires_at")
-        @ExcludeMissing
-        fun _expiresAt(): JsonField<OffsetDateTime> = expiresAt
 
         /**
          * Returns the raw JSON value of [systemMetadata].
@@ -542,7 +488,6 @@ private constructor(
 
             private var name: JsonField<String>? = null
             private var description: JsonField<String> = JsonMissing.of()
-            private var expiresAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var systemMetadata: JsonField<SystemMetadata> = JsonMissing.of()
             private var type: JsonField<Type> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -551,7 +496,6 @@ private constructor(
             internal fun from(body: Body) = apply {
                 name = body.name
                 description = body.description
-                expiresAt = body.expiresAt
                 systemMetadata = body.systemMetadata
                 type = body.type
                 additionalProperties = body.additionalProperties.toMutableMap()
@@ -584,23 +528,6 @@ private constructor(
              */
             fun description(description: JsonField<String>) = apply {
                 this.description = description
-            }
-
-            /** When this directory expires. Required for ephemeral directories. */
-            fun expiresAt(expiresAt: OffsetDateTime?) = expiresAt(JsonField.ofNullable(expiresAt))
-
-            /** Alias for calling [Builder.expiresAt] with `expiresAt.orElse(null)`. */
-            fun expiresAt(expiresAt: Optional<OffsetDateTime>) = expiresAt(expiresAt.getOrNull())
-
-            /**
-             * Sets [Builder.expiresAt] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.expiresAt] with a well-typed [OffsetDateTime] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun expiresAt(expiresAt: JsonField<OffsetDateTime>) = apply {
-                this.expiresAt = expiresAt
             }
 
             /** Reserved system-managed metadata. */
@@ -669,7 +596,6 @@ private constructor(
                 Body(
                     checkRequired("name", name),
                     description,
-                    expiresAt,
                     systemMetadata,
                     type,
                     additionalProperties.toMutableMap(),
@@ -694,7 +620,6 @@ private constructor(
 
             name()
             description()
-            expiresAt()
             systemMetadata().ifPresent { it.validate() }
             type().ifPresent { it.validate() }
             validated = true
@@ -718,7 +643,6 @@ private constructor(
         internal fun validity(): Int =
             (if (name.asKnown().isPresent) 1 else 0) +
                 (if (description.asKnown().isPresent) 1 else 0) +
-                (if (expiresAt.asKnown().isPresent) 1 else 0) +
                 (systemMetadata.asKnown().getOrNull()?.validity() ?: 0) +
                 (type.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -730,20 +654,19 @@ private constructor(
             return other is Body &&
                 name == other.name &&
                 description == other.description &&
-                expiresAt == other.expiresAt &&
                 systemMetadata == other.systemMetadata &&
                 type == other.type &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(name, description, expiresAt, systemMetadata, type, additionalProperties)
+            Objects.hash(name, description, systemMetadata, type, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{name=$name, description=$description, expiresAt=$expiresAt, systemMetadata=$systemMetadata, type=$type, additionalProperties=$additionalProperties}"
+            "Body{name=$name, description=$description, systemMetadata=$systemMetadata, type=$type, additionalProperties=$additionalProperties}"
     }
 
     /** Reserved system-managed metadata. */

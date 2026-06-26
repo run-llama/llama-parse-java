@@ -8,7 +8,6 @@ import com.llamacloud_prod.api.models.beta.directories.DirectoryCreateParams
 import com.llamacloud_prod.api.models.beta.directories.DirectoryDeleteParams
 import com.llamacloud_prod.api.models.beta.directories.DirectoryGetParams
 import com.llamacloud_prod.api.models.beta.directories.DirectoryUpdateParams
-import java.time.OffsetDateTime
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
@@ -27,7 +26,6 @@ internal class DirectoryServiceTest {
                     .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .name("x")
                     .description("description")
-                    .expiresAt(OffsetDateTime.parse("2026-05-10T00:00:00Z"))
                     .systemMetadata(
                         DirectoryCreateParams.SystemMetadata.builder()
                             .putAdditionalProperty("foo", JsonValue.from("bar"))
