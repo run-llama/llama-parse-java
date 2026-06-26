@@ -137,7 +137,7 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2025-12-11`
-     * - `cost_effective`: `2026-06-18`
+     * - `cost_effective`: `2026-06-26`
      * - `agentic`: `2026-06-18`
      * - `agentic_plus`: `2026-06-18`
      *
@@ -453,7 +453,7 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2025-12-11`
-         * - `cost_effective`: `2026-06-18`
+         * - `cost_effective`: `2026-06-26`
          * - `agentic`: `2026-06-18`
          * - `agentic_plus`: `2026-06-18`
          *
@@ -947,7 +947,7 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2025-12-11`
-     * - `cost_effective`: `2026-06-18`
+     * - `cost_effective`: `2026-06-26`
      * - `agentic`: `2026-06-18`
      * - `agentic_plus`: `2026-06-18`
      *
@@ -969,6 +969,8 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
+            @JvmField val _2026_06_26 = of("2026-06-26")
+
             @JvmField val _2026_06_18 = of("2026-06-18")
 
             @JvmField val _2025_12_11 = of("2025-12-11")
@@ -979,6 +981,7 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
+            _2026_06_26,
             _2026_06_18,
             _2025_12_11,
         }
@@ -994,6 +997,7 @@ private constructor(
          */
         enum class Value {
             LATEST,
+            _2026_06_26,
             _2026_06_18,
             _2025_12_11,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
@@ -1010,6 +1014,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
+                _2026_06_26 -> Value._2026_06_26
                 _2026_06_18 -> Value._2026_06_18
                 _2025_12_11 -> Value._2025_12_11
                 else -> Value._UNKNOWN
@@ -1027,6 +1032,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
+                _2026_06_26 -> Known._2026_06_26
                 _2026_06_18 -> Known._2026_06_18
                 _2025_12_11 -> Known._2025_12_11
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
@@ -9377,7 +9383,7 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2025-12-11`
-                 * - `cost_effective`: `2026-06-18`
+                 * - `cost_effective`: `2026-06-26`
                  * - `agentic`: `2026-06-18`
                  * - `agentic_plus`: `2026-06-18`
                  *
@@ -9881,7 +9887,7 @@ private constructor(
                      *
                      * Current `latest` by tier:
                      * - `fast`: `2025-12-11`
-                     * - `cost_effective`: `2026-06-18`
+                     * - `cost_effective`: `2026-06-26`
                      * - `agentic`: `2026-06-18`
                      * - `agentic_plus`: `2026-06-18`
                      *
@@ -11495,7 +11501,7 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2025-12-11`
-                 * - `cost_effective`: `2026-06-18`
+                 * - `cost_effective`: `2026-06-26`
                  * - `agentic`: `2026-06-18`
                  * - `agentic_plus`: `2026-06-18`
                  *
@@ -11520,6 +11526,8 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
+                        @JvmField val _2026_06_26 = of("2026-06-26")
+
                         @JvmField val _2026_06_18 = of("2026-06-18")
 
                         @JvmField val _2025_12_11 = of("2025-12-11")
@@ -11530,6 +11538,7 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
+                        _2026_06_26,
                         _2026_06_18,
                         _2025_12_11,
                     }
@@ -11545,6 +11554,7 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
+                        _2026_06_26,
                         _2026_06_18,
                         _2025_12_11,
                         /**
@@ -11564,6 +11574,7 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
+                            _2026_06_26 -> Value._2026_06_26
                             _2026_06_18 -> Value._2026_06_18
                             _2025_12_11 -> Value._2025_12_11
                             else -> Value._UNKNOWN
@@ -11581,6 +11592,7 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
+                            _2026_06_26 -> Known._2026_06_26
                             _2026_06_18 -> Known._2026_06_18
                             _2025_12_11 -> Known._2025_12_11
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
