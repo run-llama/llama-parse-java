@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/run-llama/llama-parse-java/compare/v1.0.0...v1.0.1) (2026-06-26)
+
+
+### Bug Fixes
+
+* **java:** publish via Sonatype Central Portal (sonatype_platform: portal) ([ab163b0](https://github.com/run-llama/llama-parse-java/commit/ab163b0677f42813b93cf3a96dc9315134d75b4b))
+
 ## [1.0.0](https://github.com/run-llama/llama-parse-java/compare/v0.0.1...v1.0.0) (2026-06-25)
 
 
