@@ -303,6 +303,7 @@ internal class ParsingServiceTest {
                             .webhookOutputFormat(
                                 ParsingCreateParams.WebhookConfiguration.WebhookOutputFormat.JSON
                             )
+                            .webhookSigningSecret("webhook_signing_secret")
                             .webhookUrl("https:")
                             .build()
                     )

@@ -261,6 +261,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                                         .build()
                                                 )
                                                 .webhookOutputFormat("json")
+                                                .webhookSigningSecret("whsec_...")
                                                 .webhookUrl(
                                                     "https://example.com/webhooks/llamacloud"
                                                 )
@@ -537,6 +538,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                                     .build()
                                             )
                                             .webhookOutputFormat("json")
+                                            .webhookSigningSecret("whsec_...")
                                             .webhookUrl("https://example.com/webhooks/llamacloud")
                                             .build()
                                     )
@@ -818,6 +820,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                                         .build()
                                                 )
                                                 .webhookOutputFormat("json")
+                                                .webhookSigningSecret("whsec_...")
                                                 .webhookUrl(
                                                     "https://example.com/webhooks/llamacloud"
                                                 )

@@ -43,6 +43,7 @@ internal class JobCreateParamsTest {
                     .webhookOutputFormat(
                         JobCreateParams.WebhookConfiguration.WebhookOutputFormat.JSON
                     )
+                    .webhookSigningSecret("webhook_signing_secret")
                     .webhookUrl("https:")
                     .build()
             )
@@ -82,6 +83,7 @@ internal class JobCreateParamsTest {
                         .webhookOutputFormat(
                             JobCreateParams.WebhookConfiguration.WebhookOutputFormat.JSON
                         )
+                        .webhookSigningSecret("webhook_signing_secret")
                         .webhookUrl("https:")
                         .build()
                 )
@@ -149,6 +151,7 @@ internal class JobCreateParamsTest {
                         .webhookOutputFormat(
                             JobCreateParams.WebhookConfiguration.WebhookOutputFormat.JSON
                         )
+                        .webhookSigningSecret("webhook_signing_secret")
                         .webhookUrl("https:")
                         .build()
                 )
@@ -186,6 +189,7 @@ internal class JobCreateParamsTest {
                     .webhookOutputFormat(
                         JobCreateParams.WebhookConfiguration.WebhookOutputFormat.JSON
                     )
+                    .webhookSigningSecret("webhook_signing_secret")
                     .webhookUrl("https:")
                     .build()
             )

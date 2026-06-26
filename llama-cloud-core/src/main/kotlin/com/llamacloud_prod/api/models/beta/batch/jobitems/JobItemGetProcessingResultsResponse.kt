@@ -9430,6 +9430,7 @@ private constructor(
                         private val webhookEvents: JsonField<List<WebhookEvent>>,
                         private val webhookHeaders: JsonField<WebhookHeaders>,
                         private val webhookOutputFormat: JsonField<String>,
+                        private val webhookSigningSecret: JsonField<String>,
                         private val webhookUrl: JsonField<String>,
                         private val additionalProperties: MutableMap<String, JsonValue>,
                     ) {
@@ -9445,6 +9446,9 @@ private constructor(
                             @JsonProperty("webhook_output_format")
                             @ExcludeMissing
                             webhookOutputFormat: JsonField<String> = JsonMissing.of(),
+                            @JsonProperty("webhook_signing_secret")
+                            @ExcludeMissing
+                            webhookSigningSecret: JsonField<String> = JsonMissing.of(),
                             @JsonProperty("webhook_url")
                             @ExcludeMissing
                             webhookUrl: JsonField<String> = JsonMissing.of(),
@@ -9452,6 +9456,7 @@ private constructor(
                             webhookEvents,
                             webhookHeaders,
                             webhookOutputFormat,
+                            webhookSigningSecret,
                             webhookUrl,
                             mutableMapOf(),
                         )
@@ -9486,6 +9491,19 @@ private constructor(
                          */
                         fun webhookOutputFormat(): Optional<String> =
                             webhookOutputFormat.getOptional("webhook_output_format")
+
+                        /**
+                         * Shared signing secret used to sign webhook deliveries. When set, each
+                         * request includes an HMAC-SHA256 signature of the request body in the
+                         * 'LC-Signature' header (value 'sha256=<hex>'). Recompute the HMAC over the
+                         * raw request body with this secret to verify the delivery is authentic.
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type (e.g. if the server responded with an unexpected
+                         *   value).
+                         */
+                        fun webhookSigningSecret(): Optional<String> =
+                            webhookSigningSecret.getOptional("webhook_signing_secret")
 
                         /**
                          * URL to receive webhook POST notifications
@@ -9527,6 +9545,16 @@ private constructor(
                         fun _webhookOutputFormat(): JsonField<String> = webhookOutputFormat
 
                         /**
+                         * Returns the raw JSON value of [webhookSigningSecret].
+                         *
+                         * Unlike [webhookSigningSecret], this method doesn't throw if the JSON
+                         * field has an unexpected type.
+                         */
+                        @JsonProperty("webhook_signing_secret")
+                        @ExcludeMissing
+                        fun _webhookSigningSecret(): JsonField<String> = webhookSigningSecret
+
+                        /**
                          * Returns the raw JSON value of [webhookUrl].
                          *
                          * Unlike [webhookUrl], this method doesn't throw if the JSON field has an
@@ -9563,6 +9591,7 @@ private constructor(
                             private var webhookEvents: JsonField<MutableList<WebhookEvent>>? = null
                             private var webhookHeaders: JsonField<WebhookHeaders> = JsonMissing.of()
                             private var webhookOutputFormat: JsonField<String> = JsonMissing.of()
+                            private var webhookSigningSecret: JsonField<String> = JsonMissing.of()
                             private var webhookUrl: JsonField<String> = JsonMissing.of()
                             private var additionalProperties: MutableMap<String, JsonValue> =
                                 mutableMapOf()
@@ -9573,6 +9602,7 @@ private constructor(
                                     webhookConfiguration.webhookEvents.map { it.toMutableList() }
                                 webhookHeaders = webhookConfiguration.webhookHeaders
                                 webhookOutputFormat = webhookConfiguration.webhookOutputFormat
+                                webhookSigningSecret = webhookConfiguration.webhookSigningSecret
                                 webhookUrl = webhookConfiguration.webhookUrl
                                 additionalProperties =
                                     webhookConfiguration.additionalProperties.toMutableMap()
@@ -9664,6 +9694,35 @@ private constructor(
                                     this.webhookOutputFormat = webhookOutputFormat
                                 }
 
+                            /**
+                             * Shared signing secret used to sign webhook deliveries. When set, each
+                             * request includes an HMAC-SHA256 signature of the request body in the
+                             * 'LC-Signature' header (value 'sha256=<hex>'). Recompute the HMAC over
+                             * the raw request body with this secret to verify the delivery is
+                             * authentic.
+                             */
+                            fun webhookSigningSecret(webhookSigningSecret: String?) =
+                                webhookSigningSecret(JsonField.ofNullable(webhookSigningSecret))
+
+                            /**
+                             * Alias for calling [Builder.webhookSigningSecret] with
+                             * `webhookSigningSecret.orElse(null)`.
+                             */
+                            fun webhookSigningSecret(webhookSigningSecret: Optional<String>) =
+                                webhookSigningSecret(webhookSigningSecret.getOrNull())
+
+                            /**
+                             * Sets [Builder.webhookSigningSecret] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.webhookSigningSecret] with a
+                             * well-typed [String] value instead. This method is primarily for
+                             * setting the field to an undocumented or not yet supported value.
+                             */
+                            fun webhookSigningSecret(webhookSigningSecret: JsonField<String>) =
+                                apply {
+                                    this.webhookSigningSecret = webhookSigningSecret
+                                }
+
                             /** URL to receive webhook POST notifications */
                             fun webhookUrl(webhookUrl: String?) =
                                 webhookUrl(JsonField.ofNullable(webhookUrl))
@@ -9719,6 +9778,7 @@ private constructor(
                                     (webhookEvents ?: JsonMissing.of()).map { it.toImmutable() },
                                     webhookHeaders,
                                     webhookOutputFormat,
+                                    webhookSigningSecret,
                                     webhookUrl,
                                     additionalProperties.toMutableMap(),
                                 )
@@ -9744,6 +9804,7 @@ private constructor(
                             webhookEvents().ifPresent { it.forEach { it.validate() } }
                             webhookHeaders().ifPresent { it.validate() }
                             webhookOutputFormat()
+                            webhookSigningSecret()
                             webhookUrl()
                             validated = true
                         }
@@ -9768,6 +9829,7 @@ private constructor(
                                 ?: 0) +
                                 (webhookHeaders.asKnown().getOrNull()?.validity() ?: 0) +
                                 (if (webhookOutputFormat.asKnown().isPresent) 1 else 0) +
+                                (if (webhookSigningSecret.asKnown().isPresent) 1 else 0) +
                                 (if (webhookUrl.asKnown().isPresent) 1 else 0)
 
                         class WebhookEvent
@@ -10213,6 +10275,7 @@ private constructor(
                                 webhookEvents == other.webhookEvents &&
                                 webhookHeaders == other.webhookHeaders &&
                                 webhookOutputFormat == other.webhookOutputFormat &&
+                                webhookSigningSecret == other.webhookSigningSecret &&
                                 webhookUrl == other.webhookUrl &&
                                 additionalProperties == other.additionalProperties
                         }
@@ -10222,6 +10285,7 @@ private constructor(
                                 webhookEvents,
                                 webhookHeaders,
                                 webhookOutputFormat,
+                                webhookSigningSecret,
                                 webhookUrl,
                                 additionalProperties,
                             )
@@ -10230,7 +10294,7 @@ private constructor(
                         override fun hashCode(): Int = hashCode
 
                         override fun toString() =
-                            "WebhookConfiguration{webhookEvents=$webhookEvents, webhookHeaders=$webhookHeaders, webhookOutputFormat=$webhookOutputFormat, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
+                            "WebhookConfiguration{webhookEvents=$webhookEvents, webhookHeaders=$webhookHeaders, webhookOutputFormat=$webhookOutputFormat, webhookSigningSecret=$webhookSigningSecret, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
                     }
 
                     override fun equals(other: Any?): Boolean {

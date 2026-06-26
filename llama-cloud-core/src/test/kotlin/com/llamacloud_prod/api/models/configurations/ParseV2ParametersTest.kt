@@ -286,6 +286,7 @@ internal class ParseV2ParametersTest {
                         .webhookOutputFormat(
                             ParseV2Parameters.WebhookConfiguration.WebhookOutputFormat.JSON
                         )
+                        .webhookSigningSecret("webhook_signing_secret")
                         .webhookUrl("https:")
                         .build()
                 )
@@ -562,6 +563,7 @@ internal class ParseV2ParametersTest {
                     .webhookOutputFormat(
                         ParseV2Parameters.WebhookConfiguration.WebhookOutputFormat.JSON
                     )
+                    .webhookSigningSecret("webhook_signing_secret")
                     .webhookUrl("https:")
                     .build()
             )
@@ -842,6 +844,7 @@ internal class ParseV2ParametersTest {
                         .webhookOutputFormat(
                             ParseV2Parameters.WebhookConfiguration.WebhookOutputFormat.JSON
                         )
+                        .webhookSigningSecret("webhook_signing_secret")
                         .webhookUrl("https:")
                         .build()
                 )
