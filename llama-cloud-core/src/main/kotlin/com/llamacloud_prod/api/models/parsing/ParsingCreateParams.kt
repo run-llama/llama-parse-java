@@ -213,6 +213,16 @@ private constructor(
     fun sourceUrl(): Optional<String> = body.sourceUrl()
 
     /**
+     * Arbitrary key/value tags to attach to this job. Returned when retrieving the job. Not
+     * searchable. Limits apply to the number of entries and the length of keys and values;
+     * oversized metadata is rejected.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun userMetadata(): Optional<UserMetadata> = body.userMetadata()
+
+    /**
      * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
      * different events or services
      *
@@ -327,6 +337,13 @@ private constructor(
      * Unlike [sourceUrl], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _sourceUrl(): JsonField<String> = body._sourceUrl()
+
+    /**
+     * Returns the raw JSON value of [userMetadata].
+     *
+     * Unlike [userMetadata], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _userMetadata(): JsonField<UserMetadata> = body._userMetadata()
 
     /**
      * Returns the raw JSON value of [webhookConfigurations].
@@ -694,6 +711,28 @@ private constructor(
         fun sourceUrl(sourceUrl: JsonField<String>) = apply { body.sourceUrl(sourceUrl) }
 
         /**
+         * Arbitrary key/value tags to attach to this job. Returned when retrieving the job. Not
+         * searchable. Limits apply to the number of entries and the length of keys and values;
+         * oversized metadata is rejected.
+         */
+        fun userMetadata(userMetadata: UserMetadata?) = apply { body.userMetadata(userMetadata) }
+
+        /** Alias for calling [Builder.userMetadata] with `userMetadata.orElse(null)`. */
+        fun userMetadata(userMetadata: Optional<UserMetadata>) =
+            userMetadata(userMetadata.getOrNull())
+
+        /**
+         * Sets [Builder.userMetadata] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.userMetadata] with a well-typed [UserMetadata] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun userMetadata(userMetadata: JsonField<UserMetadata>) = apply {
+            body.userMetadata(userMetadata)
+        }
+
+        /**
          * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
          * different events or services
          */
@@ -900,6 +939,7 @@ private constructor(
         private val processingControl: JsonField<ProcessingControl>,
         private val processingOptions: JsonField<ProcessingOptions>,
         private val sourceUrl: JsonField<String>,
+        private val userMetadata: JsonField<UserMetadata>,
         private val webhookConfigurations: JsonField<List<WebhookConfiguration>>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -946,6 +986,9 @@ private constructor(
             @JsonProperty("source_url")
             @ExcludeMissing
             sourceUrl: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("user_metadata")
+            @ExcludeMissing
+            userMetadata: JsonField<UserMetadata> = JsonMissing.of(),
             @JsonProperty("webhook_configurations")
             @ExcludeMissing
             webhookConfigurations: JsonField<List<WebhookConfiguration>> = JsonMissing.of(),
@@ -966,6 +1009,7 @@ private constructor(
             processingControl,
             processingOptions,
             sourceUrl,
+            userMetadata,
             webhookConfigurations,
             mutableMapOf(),
         )
@@ -1126,6 +1170,16 @@ private constructor(
         fun sourceUrl(): Optional<String> = sourceUrl.getOptional("source_url")
 
         /**
+         * Arbitrary key/value tags to attach to this job. Returned when retrieving the job. Not
+         * searchable. Limits apply to the number of entries and the length of keys and values;
+         * oversized metadata is rejected.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun userMetadata(): Optional<UserMetadata> = userMetadata.getOptional("user_metadata")
+
+        /**
          * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
          * different events or services
          *
@@ -1266,6 +1320,16 @@ private constructor(
         @JsonProperty("source_url") @ExcludeMissing fun _sourceUrl(): JsonField<String> = sourceUrl
 
         /**
+         * Returns the raw JSON value of [userMetadata].
+         *
+         * Unlike [userMetadata], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("user_metadata")
+        @ExcludeMissing
+        fun _userMetadata(): JsonField<UserMetadata> = userMetadata
+
+        /**
          * Returns the raw JSON value of [webhookConfigurations].
          *
          * Unlike [webhookConfigurations], this method doesn't throw if the JSON field has an
@@ -1320,6 +1384,7 @@ private constructor(
             private var processingControl: JsonField<ProcessingControl> = JsonMissing.of()
             private var processingOptions: JsonField<ProcessingOptions> = JsonMissing.of()
             private var sourceUrl: JsonField<String> = JsonMissing.of()
+            private var userMetadata: JsonField<UserMetadata> = JsonMissing.of()
             private var webhookConfigurations: JsonField<MutableList<WebhookConfiguration>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1341,6 +1406,7 @@ private constructor(
                 processingControl = body.processingControl
                 processingOptions = body.processingOptions
                 sourceUrl = body.sourceUrl
+                userMetadata = body.userMetadata
                 webhookConfigurations = body.webhookConfigurations.map { it.toMutableList() }
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
@@ -1643,6 +1709,29 @@ private constructor(
             fun sourceUrl(sourceUrl: JsonField<String>) = apply { this.sourceUrl = sourceUrl }
 
             /**
+             * Arbitrary key/value tags to attach to this job. Returned when retrieving the job. Not
+             * searchable. Limits apply to the number of entries and the length of keys and values;
+             * oversized metadata is rejected.
+             */
+            fun userMetadata(userMetadata: UserMetadata?) =
+                userMetadata(JsonField.ofNullable(userMetadata))
+
+            /** Alias for calling [Builder.userMetadata] with `userMetadata.orElse(null)`. */
+            fun userMetadata(userMetadata: Optional<UserMetadata>) =
+                userMetadata(userMetadata.getOrNull())
+
+            /**
+             * Sets [Builder.userMetadata] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.userMetadata] with a well-typed [UserMetadata] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun userMetadata(userMetadata: JsonField<UserMetadata>) = apply {
+                this.userMetadata = userMetadata
+            }
+
+            /**
              * Webhook endpoints for job status notifications. Multiple webhooks can be configured
              * for different events or services
              */
@@ -1724,6 +1813,7 @@ private constructor(
                     processingControl,
                     processingOptions,
                     sourceUrl,
+                    userMetadata,
                     (webhookConfigurations ?: JsonMissing.of()).map { it.toImmutable() },
                     additionalProperties.toMutableMap(),
                 )
@@ -1760,6 +1850,7 @@ private constructor(
             processingControl().ifPresent { it.validate() }
             processingOptions().ifPresent { it.validate() }
             sourceUrl()
+            userMetadata().ifPresent { it.validate() }
             webhookConfigurations().ifPresent { it.forEach { it.validate() } }
             validated = true
         }
@@ -1795,6 +1886,7 @@ private constructor(
                 (processingControl.asKnown().getOrNull()?.validity() ?: 0) +
                 (processingOptions.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (sourceUrl.asKnown().isPresent) 1 else 0) +
+                (userMetadata.asKnown().getOrNull()?.validity() ?: 0) +
                 (webhookConfigurations.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
         override fun equals(other: Any?): Boolean {
@@ -1819,6 +1911,7 @@ private constructor(
                 processingControl == other.processingControl &&
                 processingOptions == other.processingOptions &&
                 sourceUrl == other.sourceUrl &&
+                userMetadata == other.userMetadata &&
                 webhookConfigurations == other.webhookConfigurations &&
                 additionalProperties == other.additionalProperties
         }
@@ -1841,6 +1934,7 @@ private constructor(
                 processingControl,
                 processingOptions,
                 sourceUrl,
+                userMetadata,
                 webhookConfigurations,
                 additionalProperties,
             )
@@ -1849,7 +1943,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{tier=$tier, version=$version, agenticOptions=$agenticOptions, clientName=$clientName, configurationId=$configurationId, cropBox=$cropBox, disableCache=$disableCache, fastOptions=$fastOptions, fileId=$fileId, httpProxy=$httpProxy, inputOptions=$inputOptions, outputOptions=$outputOptions, pageRanges=$pageRanges, processingControl=$processingControl, processingOptions=$processingOptions, sourceUrl=$sourceUrl, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
+            "Body{tier=$tier, version=$version, agenticOptions=$agenticOptions, clientName=$clientName, configurationId=$configurationId, cropBox=$cropBox, disableCache=$disableCache, fastOptions=$fastOptions, fileId=$fileId, httpProxy=$httpProxy, inputOptions=$inputOptions, outputOptions=$outputOptions, pageRanges=$pageRanges, processingControl=$processingControl, processingOptions=$processingOptions, sourceUrl=$sourceUrl, userMetadata=$userMetadata, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
     }
 
     /**
@@ -18741,6 +18835,119 @@ private constructor(
 
         override fun toString() =
             "ProcessingOptions{aggressiveTableExtraction=$aggressiveTableExtraction, autoModeConfiguration=$autoModeConfiguration, costOptimizer=$costOptimizer, disableHeuristics=$disableHeuristics, ignore=$ignore, ocrParameters=$ocrParameters, specializedChartParsing=$specializedChartParsing, additionalProperties=$additionalProperties}"
+    }
+
+    /**
+     * Arbitrary key/value tags to attach to this job. Returned when retrieving the job. Not
+     * searchable. Limits apply to the number of entries and the length of keys and values;
+     * oversized metadata is rejected.
+     */
+    class UserMetadata
+    @JsonCreator
+    private constructor(
+        @com.fasterxml.jackson.annotation.JsonValue
+        private val additionalProperties: Map<String, JsonValue>
+    ) {
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [UserMetadata]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [UserMetadata]. */
+        class Builder internal constructor() {
+
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(userMetadata: UserMetadata) = apply {
+                additionalProperties = userMetadata.additionalProperties.toMutableMap()
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [UserMetadata].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): UserMetadata = UserMetadata(additionalProperties.toImmutable())
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): UserMetadata = apply {
+            if (validated) {
+                return@apply
+            }
+
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is UserMetadata && additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() = "UserMetadata{additionalProperties=$additionalProperties}"
     }
 
     /**

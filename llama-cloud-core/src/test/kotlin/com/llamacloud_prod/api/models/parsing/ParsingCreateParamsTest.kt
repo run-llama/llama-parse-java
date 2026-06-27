@@ -270,6 +270,12 @@ internal class ParsingCreateParamsTest {
                     .build()
             )
             .sourceUrl("https:")
+            .userMetadata(
+                ParsingCreateParams.UserMetadata.builder()
+                    .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                    .putAdditionalProperty("team", JsonValue.from("research"))
+                    .build()
+            )
             .addWebhookConfiguration(
                 ParsingCreateParams.WebhookConfiguration.builder()
                     .addWebhookEvent("parse.success")
@@ -559,6 +565,12 @@ internal class ParsingCreateParamsTest {
                         .build()
                 )
                 .sourceUrl("https:")
+                .userMetadata(
+                    ParsingCreateParams.UserMetadata.builder()
+                        .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                        .putAdditionalProperty("team", JsonValue.from("research"))
+                        .build()
+                )
                 .addWebhookConfiguration(
                     ParsingCreateParams.WebhookConfiguration.builder()
                         .addWebhookEvent("parse.success")
@@ -871,6 +883,12 @@ internal class ParsingCreateParamsTest {
                         .build()
                 )
                 .sourceUrl("https:")
+                .userMetadata(
+                    ParsingCreateParams.UserMetadata.builder()
+                        .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                        .putAdditionalProperty("team", JsonValue.from("research"))
+                        .build()
+                )
                 .addWebhookConfiguration(
                     ParsingCreateParams.WebhookConfiguration.builder()
                         .addWebhookEvent("parse.success")
@@ -1153,6 +1171,13 @@ internal class ParsingCreateParamsTest {
                     .build()
             )
         assertThat(body.sourceUrl()).contains("https:")
+        assertThat(body.userMetadata())
+            .contains(
+                ParsingCreateParams.UserMetadata.builder()
+                    .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                    .putAdditionalProperty("team", JsonValue.from("research"))
+                    .build()
+            )
         assertThat(body.webhookConfigurations().getOrNull())
             .containsExactly(
                 ParsingCreateParams.WebhookConfiguration.builder()

@@ -291,6 +291,12 @@ internal class ParsingServiceTest {
                             .build()
                     )
                     .sourceUrl("https:")
+                    .userMetadata(
+                        ParsingCreateParams.UserMetadata.builder()
+                            .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                            .putAdditionalProperty("team", JsonValue.from("research"))
+                            .build()
+                    )
                     .addWebhookConfiguration(
                         ParsingCreateParams.WebhookConfiguration.builder()
                             .addWebhookEvent("parse.success")

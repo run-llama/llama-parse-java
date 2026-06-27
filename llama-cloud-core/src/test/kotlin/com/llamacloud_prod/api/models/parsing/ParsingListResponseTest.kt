@@ -3,6 +3,7 @@
 package com.llamacloud_prod.api.models.parsing
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.llamacloud_prod.api.core.JsonValue
 import com.llamacloud_prod.api.core.jsonMapper
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -22,6 +23,12 @@ internal class ParsingListResponseTest {
                 .name("Q4 Financial Report")
                 .tier("fast")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .userMetadata(
+                    ParsingListResponse.UserMetadata.builder()
+                        .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                        .putAdditionalProperty("team", JsonValue.from("research"))
+                        .build()
+                )
                 .build()
 
         assertThat(parsingListResponse.id()).isEqualTo("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
@@ -35,6 +42,13 @@ internal class ParsingListResponseTest {
         assertThat(parsingListResponse.tier()).contains("fast")
         assertThat(parsingListResponse.updatedAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(parsingListResponse.userMetadata())
+            .contains(
+                ParsingListResponse.UserMetadata.builder()
+                    .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                    .putAdditionalProperty("team", JsonValue.from("research"))
+                    .build()
+            )
     }
 
     @Test
@@ -50,6 +64,12 @@ internal class ParsingListResponseTest {
                 .name("Q4 Financial Report")
                 .tier("fast")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .userMetadata(
+                    ParsingListResponse.UserMetadata.builder()
+                        .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                        .putAdditionalProperty("team", JsonValue.from("research"))
+                        .build()
+                )
                 .build()
 
         val roundtrippedParsingListResponse =
