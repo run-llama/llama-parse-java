@@ -297,6 +297,8 @@ internal class ParsingServiceAsyncTest {
                             .putAdditionalProperty("team", JsonValue.from("research"))
                             .build()
                     )
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfigurationId("whc-...")
                     .addWebhookConfiguration(
                         ParsingCreateParams.WebhookConfiguration.builder()
                             .addWebhookEvent("parse.success")

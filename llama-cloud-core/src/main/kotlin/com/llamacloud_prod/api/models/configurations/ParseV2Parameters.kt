@@ -54,6 +54,7 @@ private constructor(
     private val pageRanges: JsonField<PageRanges>,
     private val processingControl: JsonField<ProcessingControl>,
     private val processingOptions: JsonField<ProcessingOptions>,
+    private val webhookConfigurationIds: JsonField<List<String>>,
     private val webhookConfigurations: JsonField<List<WebhookConfiguration>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -89,6 +90,9 @@ private constructor(
         @JsonProperty("processing_options")
         @ExcludeMissing
         processingOptions: JsonField<ProcessingOptions> = JsonMissing.of(),
+        @JsonProperty("webhook_configuration_ids")
+        @ExcludeMissing
+        webhookConfigurationIds: JsonField<List<String>> = JsonMissing.of(),
         @JsonProperty("webhook_configurations")
         @ExcludeMissing
         webhookConfigurations: JsonField<List<WebhookConfiguration>> = JsonMissing.of(),
@@ -106,6 +110,7 @@ private constructor(
         pageRanges,
         processingControl,
         processingOptions,
+        webhookConfigurationIds,
         webhookConfigurations,
         mutableMapOf(),
     )
@@ -243,6 +248,15 @@ private constructor(
         processingOptions.getOptional("processing_options")
 
     /**
+     * IDs of saved webhook configurations to notify for this job.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun webhookConfigurationIds(): Optional<List<String>> =
+        webhookConfigurationIds.getOptional("webhook_configuration_ids")
+
+    /**
      * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
      * different events or services
      *
@@ -346,6 +360,16 @@ private constructor(
     fun _processingOptions(): JsonField<ProcessingOptions> = processingOptions
 
     /**
+     * Returns the raw JSON value of [webhookConfigurationIds].
+     *
+     * Unlike [webhookConfigurationIds], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("webhook_configuration_ids")
+    @ExcludeMissing
+    fun _webhookConfigurationIds(): JsonField<List<String>> = webhookConfigurationIds
+
+    /**
      * Returns the raw JSON value of [webhookConfigurations].
      *
      * Unlike [webhookConfigurations], this method doesn't throw if the JSON field has an unexpected
@@ -397,6 +421,7 @@ private constructor(
         private var pageRanges: JsonField<PageRanges> = JsonMissing.of()
         private var processingControl: JsonField<ProcessingControl> = JsonMissing.of()
         private var processingOptions: JsonField<ProcessingOptions> = JsonMissing.of()
+        private var webhookConfigurationIds: JsonField<MutableList<String>>? = null
         private var webhookConfigurations: JsonField<MutableList<WebhookConfiguration>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -415,6 +440,8 @@ private constructor(
             pageRanges = parseV2Parameters.pageRanges
             processingControl = parseV2Parameters.processingControl
             processingOptions = parseV2Parameters.processingOptions
+            webhookConfigurationIds =
+                parseV2Parameters.webhookConfigurationIds.map { it.toMutableList() }
             webhookConfigurations =
                 parseV2Parameters.webhookConfigurations.map { it.toMutableList() }
             additionalProperties = parseV2Parameters.additionalProperties.toMutableMap()
@@ -643,6 +670,40 @@ private constructor(
             this.processingOptions = processingOptions
         }
 
+        /** IDs of saved webhook configurations to notify for this job. */
+        fun webhookConfigurationIds(webhookConfigurationIds: List<String>?) =
+            webhookConfigurationIds(JsonField.ofNullable(webhookConfigurationIds))
+
+        /**
+         * Alias for calling [Builder.webhookConfigurationIds] with
+         * `webhookConfigurationIds.orElse(null)`.
+         */
+        fun webhookConfigurationIds(webhookConfigurationIds: Optional<List<String>>) =
+            webhookConfigurationIds(webhookConfigurationIds.getOrNull())
+
+        /**
+         * Sets [Builder.webhookConfigurationIds] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.webhookConfigurationIds] with a well-typed
+         * `List<String>` value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
+        fun webhookConfigurationIds(webhookConfigurationIds: JsonField<List<String>>) = apply {
+            this.webhookConfigurationIds = webhookConfigurationIds.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [webhookConfigurationIds].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addWebhookConfigurationId(webhookConfigurationId: String) = apply {
+            webhookConfigurationIds =
+                (webhookConfigurationIds ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("webhookConfigurationIds", it).add(webhookConfigurationId)
+                }
+        }
+
         /**
          * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
          * different events or services
@@ -721,6 +782,7 @@ private constructor(
                 pageRanges,
                 processingControl,
                 processingOptions,
+                (webhookConfigurationIds ?: JsonMissing.of()).map { it.toImmutable() },
                 (webhookConfigurations ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
@@ -757,6 +819,7 @@ private constructor(
         pageRanges().ifPresent { it.validate() }
         processingControl().ifPresent { it.validate() }
         processingOptions().ifPresent { it.validate() }
+        webhookConfigurationIds()
         webhookConfigurations().ifPresent { it.forEach { it.validate() } }
         validated = true
     }
@@ -788,6 +851,7 @@ private constructor(
             (pageRanges.asKnown().getOrNull()?.validity() ?: 0) +
             (processingControl.asKnown().getOrNull()?.validity() ?: 0) +
             (processingOptions.asKnown().getOrNull()?.validity() ?: 0) +
+            (webhookConfigurationIds.asKnown().getOrNull()?.size ?: 0) +
             (webhookConfigurations.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
     /**
@@ -18382,6 +18446,7 @@ private constructor(
             pageRanges == other.pageRanges &&
             processingControl == other.processingControl &&
             processingOptions == other.processingOptions &&
+            webhookConfigurationIds == other.webhookConfigurationIds &&
             webhookConfigurations == other.webhookConfigurations &&
             additionalProperties == other.additionalProperties
     }
@@ -18401,6 +18466,7 @@ private constructor(
             pageRanges,
             processingControl,
             processingOptions,
+            webhookConfigurationIds,
             webhookConfigurations,
             additionalProperties,
         )
@@ -18409,5 +18475,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ParseV2Parameters{productType=$productType, tier=$tier, version=$version, agenticOptions=$agenticOptions, clientName=$clientName, cropBox=$cropBox, disableCache=$disableCache, fastOptions=$fastOptions, inputOptions=$inputOptions, outputOptions=$outputOptions, pageRanges=$pageRanges, processingControl=$processingControl, processingOptions=$processingOptions, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
+        "ParseV2Parameters{productType=$productType, tier=$tier, version=$version, agenticOptions=$agenticOptions, clientName=$clientName, cropBox=$cropBox, disableCache=$disableCache, fastOptions=$fastOptions, inputOptions=$inputOptions, outputOptions=$outputOptions, pageRanges=$pageRanges, processingControl=$processingControl, processingOptions=$processingOptions, webhookConfigurationIds=$webhookConfigurationIds, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
 }

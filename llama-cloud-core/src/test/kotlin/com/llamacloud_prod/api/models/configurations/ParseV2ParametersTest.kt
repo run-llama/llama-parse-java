@@ -274,6 +274,8 @@ internal class ParseV2ParametersTest {
                         )
                         .build()
                 )
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     ParseV2Parameters.WebhookConfiguration.builder()
                         .addWebhookEvent("parse.success")
@@ -550,6 +552,8 @@ internal class ParseV2ParametersTest {
                     )
                     .build()
             )
+        assertThat(parseV2Parameters.webhookConfigurationIds().getOrNull())
+            .containsExactly("whc-...", "whc-...")
         assertThat(parseV2Parameters.webhookConfigurations().getOrNull())
             .containsExactly(
                 ParseV2Parameters.WebhookConfiguration.builder()
@@ -832,6 +836,8 @@ internal class ParseV2ParametersTest {
                         )
                         .build()
                 )
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     ParseV2Parameters.WebhookConfiguration.builder()
                         .addWebhookEvent("parse.success")

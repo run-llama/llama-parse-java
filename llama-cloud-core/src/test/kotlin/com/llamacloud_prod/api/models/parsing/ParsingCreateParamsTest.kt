@@ -276,6 +276,8 @@ internal class ParsingCreateParamsTest {
                     .putAdditionalProperty("team", JsonValue.from("research"))
                     .build()
             )
+            .addWebhookConfigurationId("whc-...")
+            .addWebhookConfigurationId("whc-...")
             .addWebhookConfiguration(
                 ParsingCreateParams.WebhookConfiguration.builder()
                     .addWebhookEvent("parse.success")
@@ -571,6 +573,8 @@ internal class ParsingCreateParamsTest {
                         .putAdditionalProperty("team", JsonValue.from("research"))
                         .build()
                 )
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     ParsingCreateParams.WebhookConfiguration.builder()
                         .addWebhookEvent("parse.success")
@@ -889,6 +893,8 @@ internal class ParsingCreateParamsTest {
                         .putAdditionalProperty("team", JsonValue.from("research"))
                         .build()
                 )
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     ParsingCreateParams.WebhookConfiguration.builder()
                         .addWebhookEvent("parse.success")
@@ -1178,6 +1184,7 @@ internal class ParsingCreateParamsTest {
                     .putAdditionalProperty("team", JsonValue.from("research"))
                     .build()
             )
+        assertThat(body.webhookConfigurationIds().getOrNull()).containsExactly("whc-...", "whc-...")
         assertThat(body.webhookConfigurations().getOrNull())
             .containsExactly(
                 ParsingCreateParams.WebhookConfiguration.builder()
