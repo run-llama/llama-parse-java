@@ -3,7 +3,7 @@
 <!-- x-release-please-start-version -->
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.llamacloud_prod.api/llama-cloud)](https://central.sonatype.com/artifact/com.llamacloud_prod.api/llama-cloud/1.0.0)
-[![javadoc](https://javadoc.io/badge2/com.llamacloud_prod.api/llama-cloud/1.0.0/javadoc.svg)](https://javadoc.io/doc/com.llamacloud_prod.api/llama-cloud/0.0.1)
+[![javadoc](https://javadoc.io/badge2/com.llamacloud_prod.api/llama-cloud/1.0.0/javadoc.svg)](https://javadoc.io/doc/com.llamacloud_prod.api/llama-cloud/1.0.0)
 
 <!-- x-release-please-end -->
 
