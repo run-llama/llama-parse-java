@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.llamacloud_prod.api/llama-cloud)](https://central.sonatype.com/artifact/com.llamacloud_prod.api/llama-cloud/0.0.1)
-[![javadoc](https://javadoc.io/badge2/com.llamacloud_prod.api/llama-cloud/0.0.1/javadoc.svg)](https://javadoc.io/doc/com.llamacloud_prod.api/llama-cloud/0.0.1)
+[![Maven Central](https://img.shields.io/maven-central/v/com.llamacloud_prod.api/llama-cloud)](https://central.sonatype.com/artifact/com.llamacloud_prod.api/llama-cloud/1.0.0)
+[![javadoc](https://javadoc.io/badge2/com.llamacloud_prod.api/llama-cloud/1.0.0/javadoc.svg)](https://javadoc.io/doc/com.llamacloud_prod.api/llama-cloud/0.0.1)
 
 <!-- x-release-please-end -->
 
@@ -22,7 +22,7 @@ Use the Llama Cloud MCP Server to enable AI assistants to interact with this API
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [developers.llamaindex.ai](https://developers.llamaindex.ai/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.llamacloud_prod.api/llama-cloud/0.0.1).
+The REST API documentation can be found on [developers.llamaindex.ai](https://developers.llamaindex.ai/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.llamacloud_prod.api/llama-cloud/1.0.0).
 
 <!-- x-release-please-end -->
 
@@ -33,7 +33,7 @@ The REST API documentation can be found on [developers.llamaindex.ai](https://de
 ### Gradle
 
 ```kotlin
-implementation("ai.llamaindex:llama-cloud:0.0.1")
+implementation("ai.llamaindex:llama-cloud:1.0.0")
 ```
 
 ### Maven
@@ -42,7 +42,7 @@ implementation("ai.llamaindex:llama-cloud:0.0.1")
 <dependency>
   <groupId>ai.llamaindex</groupId>
   <artifactId>llama-cloud</artifactId>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
