@@ -88,6 +88,7 @@ internal class ExtractServiceAsyncTest {
                                             .build()
                                     )
                                     .webhookOutputFormat("json")
+                                    .webhookSigningSecret("whsec_...")
                                     .webhookUrl("https://example.com/webhooks/llamacloud")
                                     .build()
                             )

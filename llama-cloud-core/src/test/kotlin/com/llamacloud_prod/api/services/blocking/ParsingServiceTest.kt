@@ -291,6 +291,14 @@ internal class ParsingServiceTest {
                             .build()
                     )
                     .sourceUrl("https:")
+                    .userMetadata(
+                        ParsingCreateParams.UserMetadata.builder()
+                            .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                            .putAdditionalProperty("team", JsonValue.from("research"))
+                            .build()
+                    )
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfigurationId("whc-...")
                     .addWebhookConfiguration(
                         ParsingCreateParams.WebhookConfiguration.builder()
                             .addWebhookEvent("parse.success")
@@ -303,6 +311,7 @@ internal class ParsingServiceTest {
                             .webhookOutputFormat(
                                 ParsingCreateParams.WebhookConfiguration.WebhookOutputFormat.JSON
                             )
+                            .webhookSigningSecret("webhook_signing_secret")
                             .webhookUrl("https:")
                             .build()
                     )

@@ -25,6 +25,12 @@ internal class ParsingGetResponseTest {
                         .name("Q4 Financial Report")
                         .tier("fast")
                         .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .userMetadata(
+                            ParsingGetResponse.Job.UserMetadata.builder()
+                                .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                                .putAdditionalProperty("team", JsonValue.from("research"))
+                                .build()
+                        )
                         .build()
                 )
                 .imagesContentMetadata(
@@ -161,6 +167,12 @@ internal class ParsingGetResponseTest {
                     .name("Q4 Financial Report")
                     .tier("fast")
                     .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .userMetadata(
+                        ParsingGetResponse.Job.UserMetadata.builder()
+                            .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                            .putAdditionalProperty("team", JsonValue.from("research"))
+                            .build()
+                    )
                     .build()
             )
         assertThat(parsingGetResponse.imagesContentMetadata())
@@ -306,6 +318,12 @@ internal class ParsingGetResponseTest {
                         .name("Q4 Financial Report")
                         .tier("fast")
                         .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .userMetadata(
+                            ParsingGetResponse.Job.UserMetadata.builder()
+                                .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                                .putAdditionalProperty("team", JsonValue.from("research"))
+                                .build()
+                        )
                         .build()
                 )
                 .imagesContentMetadata(

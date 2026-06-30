@@ -26,6 +26,7 @@ private constructor(
     private val id: JsonField<String>,
     private val exportConfigId: JsonField<String>,
     private val name: JsonField<String>,
+    private val outputDirectoryId: JsonField<String>,
     private val projectId: JsonField<String>,
     private val sourceDirectoryId: JsonField<String>,
     private val syncConfigId: JsonField<String>,
@@ -45,6 +46,9 @@ private constructor(
         @ExcludeMissing
         exportConfigId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("output_directory_id")
+        @ExcludeMissing
+        outputDirectoryId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("project_id") @ExcludeMissing projectId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("source_directory_id")
         @ExcludeMissing
@@ -72,6 +76,7 @@ private constructor(
         id,
         exportConfigId,
         name,
+        outputDirectoryId,
         projectId,
         sourceDirectoryId,
         syncConfigId,
@@ -107,6 +112,14 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun name(): String = name.getRequired("name")
+
+    /**
+     * ID of the output directory holding the indexed files.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun outputDirectoryId(): String = outputDirectoryId.getRequired("output_directory_id")
 
     /**
      * Project this index belongs to.
@@ -202,6 +215,16 @@ private constructor(
      * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+    /**
+     * Returns the raw JSON value of [outputDirectoryId].
+     *
+     * Unlike [outputDirectoryId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("output_directory_id")
+    @ExcludeMissing
+    fun _outputDirectoryId(): JsonField<String> = outputDirectoryId
 
     /**
      * Returns the raw JSON value of [projectId].
@@ -301,6 +324,7 @@ private constructor(
          * .id()
          * .exportConfigId()
          * .name()
+         * .outputDirectoryId()
          * .projectId()
          * .sourceDirectoryId()
          * .syncConfigId()
@@ -315,6 +339,7 @@ private constructor(
         private var id: JsonField<String>? = null
         private var exportConfigId: JsonField<String>? = null
         private var name: JsonField<String>? = null
+        private var outputDirectoryId: JsonField<String>? = null
         private var projectId: JsonField<String>? = null
         private var sourceDirectoryId: JsonField<String>? = null
         private var syncConfigId: JsonField<String>? = null
@@ -331,6 +356,7 @@ private constructor(
             id = indexGetResponse.id
             exportConfigId = indexGetResponse.exportConfigId
             name = indexGetResponse.name
+            outputDirectoryId = indexGetResponse.outputDirectoryId
             projectId = indexGetResponse.projectId
             sourceDirectoryId = indexGetResponse.sourceDirectoryId
             syncConfigId = indexGetResponse.syncConfigId
@@ -378,6 +404,21 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun name(name: JsonField<String>) = apply { this.name = name }
+
+        /** ID of the output directory holding the indexed files. */
+        fun outputDirectoryId(outputDirectoryId: String) =
+            outputDirectoryId(JsonField.of(outputDirectoryId))
+
+        /**
+         * Sets [Builder.outputDirectoryId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.outputDirectoryId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun outputDirectoryId(outputDirectoryId: JsonField<String>) = apply {
+            this.outputDirectoryId = outputDirectoryId
+        }
 
         /** Project this index belongs to. */
         fun projectId(projectId: String) = projectId(JsonField.of(projectId))
@@ -544,6 +585,7 @@ private constructor(
          * .id()
          * .exportConfigId()
          * .name()
+         * .outputDirectoryId()
          * .projectId()
          * .sourceDirectoryId()
          * .syncConfigId()
@@ -556,6 +598,7 @@ private constructor(
                 checkRequired("id", id),
                 checkRequired("exportConfigId", exportConfigId),
                 checkRequired("name", name),
+                checkRequired("outputDirectoryId", outputDirectoryId),
                 checkRequired("projectId", projectId),
                 checkRequired("sourceDirectoryId", sourceDirectoryId),
                 checkRequired("syncConfigId", syncConfigId),
@@ -587,6 +630,7 @@ private constructor(
         id()
         exportConfigId()
         name()
+        outputDirectoryId()
         projectId()
         sourceDirectoryId()
         syncConfigId()
@@ -617,6 +661,7 @@ private constructor(
         (if (id.asKnown().isPresent) 1 else 0) +
             (if (exportConfigId.asKnown().isPresent) 1 else 0) +
             (if (name.asKnown().isPresent) 1 else 0) +
+            (if (outputDirectoryId.asKnown().isPresent) 1 else 0) +
             (if (projectId.asKnown().isPresent) 1 else 0) +
             (if (sourceDirectoryId.asKnown().isPresent) 1 else 0) +
             (if (syncConfigId.asKnown().isPresent) 1 else 0) +
@@ -745,6 +790,7 @@ private constructor(
             id == other.id &&
             exportConfigId == other.exportConfigId &&
             name == other.name &&
+            outputDirectoryId == other.outputDirectoryId &&
             projectId == other.projectId &&
             sourceDirectoryId == other.sourceDirectoryId &&
             syncConfigId == other.syncConfigId &&
@@ -762,6 +808,7 @@ private constructor(
             id,
             exportConfigId,
             name,
+            outputDirectoryId,
             projectId,
             sourceDirectoryId,
             syncConfigId,
@@ -778,5 +825,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "IndexGetResponse{id=$id, exportConfigId=$exportConfigId, name=$name, projectId=$projectId, sourceDirectoryId=$sourceDirectoryId, syncConfigId=$syncConfigId, createdAt=$createdAt, description=$description, lastExportedAt=$lastExportedAt, lastSyncedAt=$lastSyncedAt, metadata=$metadata, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
+        "IndexGetResponse{id=$id, exportConfigId=$exportConfigId, name=$name, outputDirectoryId=$outputDirectoryId, projectId=$projectId, sourceDirectoryId=$sourceDirectoryId, syncConfigId=$syncConfigId, createdAt=$createdAt, description=$description, lastExportedAt=$lastExportedAt, lastSyncedAt=$lastSyncedAt, metadata=$metadata, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
 }

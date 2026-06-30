@@ -76,7 +76,7 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2025-12-11`
-     * - `cost_effective`: `2026-06-18`
+     * - `cost_effective`: `2026-06-26`
      * - `agentic`: `2026-06-18`
      * - `agentic_plus`: `2026-06-18`
      *
@@ -213,6 +213,24 @@ private constructor(
     fun sourceUrl(): Optional<String> = body.sourceUrl()
 
     /**
+     * Arbitrary key/value tags to attach to this job. Returned when retrieving the job. Not
+     * searchable. Limits apply to the number of entries and the length of keys and values;
+     * oversized metadata is rejected.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun userMetadata(): Optional<UserMetadata> = body.userMetadata()
+
+    /**
+     * IDs of saved webhook configurations to notify for this job.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun webhookConfigurationIds(): Optional<List<String>> = body.webhookConfigurationIds()
+
+    /**
      * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
      * different events or services
      *
@@ -329,6 +347,21 @@ private constructor(
     fun _sourceUrl(): JsonField<String> = body._sourceUrl()
 
     /**
+     * Returns the raw JSON value of [userMetadata].
+     *
+     * Unlike [userMetadata], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _userMetadata(): JsonField<UserMetadata> = body._userMetadata()
+
+    /**
+     * Returns the raw JSON value of [webhookConfigurationIds].
+     *
+     * Unlike [webhookConfigurationIds], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    fun _webhookConfigurationIds(): JsonField<List<String>> = body._webhookConfigurationIds()
+
+    /**
      * Returns the raw JSON value of [webhookConfigurations].
      *
      * Unlike [webhookConfigurations], this method doesn't throw if the JSON field has an unexpected
@@ -431,7 +464,7 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2025-12-11`
-         * - `cost_effective`: `2026-06-18`
+         * - `cost_effective`: `2026-06-26`
          * - `agentic`: `2026-06-18`
          * - `agentic_plus`: `2026-06-18`
          *
@@ -694,6 +727,60 @@ private constructor(
         fun sourceUrl(sourceUrl: JsonField<String>) = apply { body.sourceUrl(sourceUrl) }
 
         /**
+         * Arbitrary key/value tags to attach to this job. Returned when retrieving the job. Not
+         * searchable. Limits apply to the number of entries and the length of keys and values;
+         * oversized metadata is rejected.
+         */
+        fun userMetadata(userMetadata: UserMetadata?) = apply { body.userMetadata(userMetadata) }
+
+        /** Alias for calling [Builder.userMetadata] with `userMetadata.orElse(null)`. */
+        fun userMetadata(userMetadata: Optional<UserMetadata>) =
+            userMetadata(userMetadata.getOrNull())
+
+        /**
+         * Sets [Builder.userMetadata] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.userMetadata] with a well-typed [UserMetadata] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun userMetadata(userMetadata: JsonField<UserMetadata>) = apply {
+            body.userMetadata(userMetadata)
+        }
+
+        /** IDs of saved webhook configurations to notify for this job. */
+        fun webhookConfigurationIds(webhookConfigurationIds: List<String>?) = apply {
+            body.webhookConfigurationIds(webhookConfigurationIds)
+        }
+
+        /**
+         * Alias for calling [Builder.webhookConfigurationIds] with
+         * `webhookConfigurationIds.orElse(null)`.
+         */
+        fun webhookConfigurationIds(webhookConfigurationIds: Optional<List<String>>) =
+            webhookConfigurationIds(webhookConfigurationIds.getOrNull())
+
+        /**
+         * Sets [Builder.webhookConfigurationIds] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.webhookConfigurationIds] with a well-typed
+         * `List<String>` value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
+        fun webhookConfigurationIds(webhookConfigurationIds: JsonField<List<String>>) = apply {
+            body.webhookConfigurationIds(webhookConfigurationIds)
+        }
+
+        /**
+         * Adds a single [String] to [webhookConfigurationIds].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addWebhookConfigurationId(webhookConfigurationId: String) = apply {
+            body.addWebhookConfigurationId(webhookConfigurationId)
+        }
+
+        /**
          * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
          * different events or services
          */
@@ -900,6 +987,8 @@ private constructor(
         private val processingControl: JsonField<ProcessingControl>,
         private val processingOptions: JsonField<ProcessingOptions>,
         private val sourceUrl: JsonField<String>,
+        private val userMetadata: JsonField<UserMetadata>,
+        private val webhookConfigurationIds: JsonField<List<String>>,
         private val webhookConfigurations: JsonField<List<WebhookConfiguration>>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -946,6 +1035,12 @@ private constructor(
             @JsonProperty("source_url")
             @ExcludeMissing
             sourceUrl: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("user_metadata")
+            @ExcludeMissing
+            userMetadata: JsonField<UserMetadata> = JsonMissing.of(),
+            @JsonProperty("webhook_configuration_ids")
+            @ExcludeMissing
+            webhookConfigurationIds: JsonField<List<String>> = JsonMissing.of(),
             @JsonProperty("webhook_configurations")
             @ExcludeMissing
             webhookConfigurations: JsonField<List<WebhookConfiguration>> = JsonMissing.of(),
@@ -966,6 +1061,8 @@ private constructor(
             processingControl,
             processingOptions,
             sourceUrl,
+            userMetadata,
+            webhookConfigurationIds,
             webhookConfigurations,
             mutableMapOf(),
         )
@@ -984,7 +1081,7 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2025-12-11`
-         * - `cost_effective`: `2026-06-18`
+         * - `cost_effective`: `2026-06-26`
          * - `agentic`: `2026-06-18`
          * - `agentic_plus`: `2026-06-18`
          *
@@ -1124,6 +1221,25 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun sourceUrl(): Optional<String> = sourceUrl.getOptional("source_url")
+
+        /**
+         * Arbitrary key/value tags to attach to this job. Returned when retrieving the job. Not
+         * searchable. Limits apply to the number of entries and the length of keys and values;
+         * oversized metadata is rejected.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun userMetadata(): Optional<UserMetadata> = userMetadata.getOptional("user_metadata")
+
+        /**
+         * IDs of saved webhook configurations to notify for this job.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun webhookConfigurationIds(): Optional<List<String>> =
+            webhookConfigurationIds.getOptional("webhook_configuration_ids")
 
         /**
          * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
@@ -1266,6 +1382,26 @@ private constructor(
         @JsonProperty("source_url") @ExcludeMissing fun _sourceUrl(): JsonField<String> = sourceUrl
 
         /**
+         * Returns the raw JSON value of [userMetadata].
+         *
+         * Unlike [userMetadata], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("user_metadata")
+        @ExcludeMissing
+        fun _userMetadata(): JsonField<UserMetadata> = userMetadata
+
+        /**
+         * Returns the raw JSON value of [webhookConfigurationIds].
+         *
+         * Unlike [webhookConfigurationIds], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("webhook_configuration_ids")
+        @ExcludeMissing
+        fun _webhookConfigurationIds(): JsonField<List<String>> = webhookConfigurationIds
+
+        /**
          * Returns the raw JSON value of [webhookConfigurations].
          *
          * Unlike [webhookConfigurations], this method doesn't throw if the JSON field has an
@@ -1320,6 +1456,8 @@ private constructor(
             private var processingControl: JsonField<ProcessingControl> = JsonMissing.of()
             private var processingOptions: JsonField<ProcessingOptions> = JsonMissing.of()
             private var sourceUrl: JsonField<String> = JsonMissing.of()
+            private var userMetadata: JsonField<UserMetadata> = JsonMissing.of()
+            private var webhookConfigurationIds: JsonField<MutableList<String>>? = null
             private var webhookConfigurations: JsonField<MutableList<WebhookConfiguration>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1341,6 +1479,8 @@ private constructor(
                 processingControl = body.processingControl
                 processingOptions = body.processingOptions
                 sourceUrl = body.sourceUrl
+                userMetadata = body.userMetadata
+                webhookConfigurationIds = body.webhookConfigurationIds.map { it.toMutableList() }
                 webhookConfigurations = body.webhookConfigurations.map { it.toMutableList() }
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
@@ -1375,7 +1515,7 @@ private constructor(
              *
              * Current `latest` by tier:
              * - `fast`: `2025-12-11`
-             * - `cost_effective`: `2026-06-18`
+             * - `cost_effective`: `2026-06-26`
              * - `agentic`: `2026-06-18`
              * - `agentic_plus`: `2026-06-18`
              *
@@ -1643,6 +1783,63 @@ private constructor(
             fun sourceUrl(sourceUrl: JsonField<String>) = apply { this.sourceUrl = sourceUrl }
 
             /**
+             * Arbitrary key/value tags to attach to this job. Returned when retrieving the job. Not
+             * searchable. Limits apply to the number of entries and the length of keys and values;
+             * oversized metadata is rejected.
+             */
+            fun userMetadata(userMetadata: UserMetadata?) =
+                userMetadata(JsonField.ofNullable(userMetadata))
+
+            /** Alias for calling [Builder.userMetadata] with `userMetadata.orElse(null)`. */
+            fun userMetadata(userMetadata: Optional<UserMetadata>) =
+                userMetadata(userMetadata.getOrNull())
+
+            /**
+             * Sets [Builder.userMetadata] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.userMetadata] with a well-typed [UserMetadata] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun userMetadata(userMetadata: JsonField<UserMetadata>) = apply {
+                this.userMetadata = userMetadata
+            }
+
+            /** IDs of saved webhook configurations to notify for this job. */
+            fun webhookConfigurationIds(webhookConfigurationIds: List<String>?) =
+                webhookConfigurationIds(JsonField.ofNullable(webhookConfigurationIds))
+
+            /**
+             * Alias for calling [Builder.webhookConfigurationIds] with
+             * `webhookConfigurationIds.orElse(null)`.
+             */
+            fun webhookConfigurationIds(webhookConfigurationIds: Optional<List<String>>) =
+                webhookConfigurationIds(webhookConfigurationIds.getOrNull())
+
+            /**
+             * Sets [Builder.webhookConfigurationIds] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.webhookConfigurationIds] with a well-typed
+             * `List<String>` value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
+            fun webhookConfigurationIds(webhookConfigurationIds: JsonField<List<String>>) = apply {
+                this.webhookConfigurationIds = webhookConfigurationIds.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [String] to [webhookConfigurationIds].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addWebhookConfigurationId(webhookConfigurationId: String) = apply {
+                webhookConfigurationIds =
+                    (webhookConfigurationIds ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("webhookConfigurationIds", it).add(webhookConfigurationId)
+                    }
+            }
+
+            /**
              * Webhook endpoints for job status notifications. Multiple webhooks can be configured
              * for different events or services
              */
@@ -1724,6 +1921,8 @@ private constructor(
                     processingControl,
                     processingOptions,
                     sourceUrl,
+                    userMetadata,
+                    (webhookConfigurationIds ?: JsonMissing.of()).map { it.toImmutable() },
                     (webhookConfigurations ?: JsonMissing.of()).map { it.toImmutable() },
                     additionalProperties.toMutableMap(),
                 )
@@ -1760,6 +1959,8 @@ private constructor(
             processingControl().ifPresent { it.validate() }
             processingOptions().ifPresent { it.validate() }
             sourceUrl()
+            userMetadata().ifPresent { it.validate() }
+            webhookConfigurationIds()
             webhookConfigurations().ifPresent { it.forEach { it.validate() } }
             validated = true
         }
@@ -1795,6 +1996,8 @@ private constructor(
                 (processingControl.asKnown().getOrNull()?.validity() ?: 0) +
                 (processingOptions.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (sourceUrl.asKnown().isPresent) 1 else 0) +
+                (userMetadata.asKnown().getOrNull()?.validity() ?: 0) +
+                (webhookConfigurationIds.asKnown().getOrNull()?.size ?: 0) +
                 (webhookConfigurations.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
         override fun equals(other: Any?): Boolean {
@@ -1819,6 +2022,8 @@ private constructor(
                 processingControl == other.processingControl &&
                 processingOptions == other.processingOptions &&
                 sourceUrl == other.sourceUrl &&
+                userMetadata == other.userMetadata &&
+                webhookConfigurationIds == other.webhookConfigurationIds &&
                 webhookConfigurations == other.webhookConfigurations &&
                 additionalProperties == other.additionalProperties
         }
@@ -1841,6 +2046,8 @@ private constructor(
                 processingControl,
                 processingOptions,
                 sourceUrl,
+                userMetadata,
+                webhookConfigurationIds,
                 webhookConfigurations,
                 additionalProperties,
             )
@@ -1849,7 +2056,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{tier=$tier, version=$version, agenticOptions=$agenticOptions, clientName=$clientName, configurationId=$configurationId, cropBox=$cropBox, disableCache=$disableCache, fastOptions=$fastOptions, fileId=$fileId, httpProxy=$httpProxy, inputOptions=$inputOptions, outputOptions=$outputOptions, pageRanges=$pageRanges, processingControl=$processingControl, processingOptions=$processingOptions, sourceUrl=$sourceUrl, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
+            "Body{tier=$tier, version=$version, agenticOptions=$agenticOptions, clientName=$clientName, configurationId=$configurationId, cropBox=$cropBox, disableCache=$disableCache, fastOptions=$fastOptions, fileId=$fileId, httpProxy=$httpProxy, inputOptions=$inputOptions, outputOptions=$outputOptions, pageRanges=$pageRanges, processingControl=$processingControl, processingOptions=$processingOptions, sourceUrl=$sourceUrl, userMetadata=$userMetadata, webhookConfigurationIds=$webhookConfigurationIds, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
     }
 
     /**
@@ -2009,7 +2216,7 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2025-12-11`
-     * - `cost_effective`: `2026-06-18`
+     * - `cost_effective`: `2026-06-26`
      * - `agentic`: `2026-06-18`
      * - `agentic_plus`: `2026-06-18`
      *
@@ -2031,6 +2238,8 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
+            @JvmField val _2026_06_26 = of("2026-06-26")
+
             @JvmField val _2026_06_18 = of("2026-06-18")
 
             @JvmField val _2025_12_11 = of("2025-12-11")
@@ -2041,6 +2250,7 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
+            _2026_06_26,
             _2026_06_18,
             _2025_12_11,
         }
@@ -2056,6 +2266,7 @@ private constructor(
          */
         enum class Value {
             LATEST,
+            _2026_06_26,
             _2026_06_18,
             _2025_12_11,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
@@ -2072,6 +2283,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
+                _2026_06_26 -> Value._2026_06_26
                 _2026_06_18 -> Value._2026_06_18
                 _2025_12_11 -> Value._2025_12_11
                 else -> Value._UNKNOWN
@@ -2089,6 +2301,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
+                _2026_06_26 -> Known._2026_06_26
                 _2026_06_18 -> Known._2026_06_18
                 _2025_12_11 -> Known._2025_12_11
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
@@ -10439,7 +10652,7 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2025-12-11`
-                 * - `cost_effective`: `2026-06-18`
+                 * - `cost_effective`: `2026-06-26`
                  * - `agentic`: `2026-06-18`
                  * - `agentic_plus`: `2026-06-18`
                  *
@@ -10943,7 +11156,7 @@ private constructor(
                      *
                      * Current `latest` by tier:
                      * - `fast`: `2025-12-11`
-                     * - `cost_effective`: `2026-06-18`
+                     * - `cost_effective`: `2026-06-26`
                      * - `agentic`: `2026-06-18`
                      * - `agentic_plus`: `2026-06-18`
                      *
@@ -12557,7 +12770,7 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2025-12-11`
-                 * - `cost_effective`: `2026-06-18`
+                 * - `cost_effective`: `2026-06-26`
                  * - `agentic`: `2026-06-18`
                  * - `agentic_plus`: `2026-06-18`
                  *
@@ -12582,6 +12795,8 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
+                        @JvmField val _2026_06_26 = of("2026-06-26")
+
                         @JvmField val _2026_06_18 = of("2026-06-18")
 
                         @JvmField val _2025_12_11 = of("2025-12-11")
@@ -12592,6 +12807,7 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
+                        _2026_06_26,
                         _2026_06_18,
                         _2025_12_11,
                     }
@@ -12607,6 +12823,7 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
+                        _2026_06_26,
                         _2026_06_18,
                         _2025_12_11,
                         /**
@@ -12626,6 +12843,7 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
+                            _2026_06_26 -> Value._2026_06_26
                             _2026_06_18 -> Value._2026_06_18
                             _2025_12_11 -> Value._2025_12_11
                             else -> Value._UNKNOWN
@@ -12643,6 +12861,7 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
+                            _2026_06_26 -> Known._2026_06_26
                             _2026_06_18 -> Known._2026_06_18
                             _2025_12_11 -> Known._2025_12_11
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
@@ -18732,6 +18951,119 @@ private constructor(
     }
 
     /**
+     * Arbitrary key/value tags to attach to this job. Returned when retrieving the job. Not
+     * searchable. Limits apply to the number of entries and the length of keys and values;
+     * oversized metadata is rejected.
+     */
+    class UserMetadata
+    @JsonCreator
+    private constructor(
+        @com.fasterxml.jackson.annotation.JsonValue
+        private val additionalProperties: Map<String, JsonValue>
+    ) {
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [UserMetadata]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [UserMetadata]. */
+        class Builder internal constructor() {
+
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(userMetadata: UserMetadata) = apply {
+                additionalProperties = userMetadata.additionalProperties.toMutableMap()
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [UserMetadata].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): UserMetadata = UserMetadata(additionalProperties.toImmutable())
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): UserMetadata = apply {
+            if (validated) {
+                return@apply
+            }
+
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is UserMetadata && additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() = "UserMetadata{additionalProperties=$additionalProperties}"
+    }
+
+    /**
      * Webhook configuration for receiving parsing job notifications.
      *
      * Webhooks are called when specified events occur during job processing. Configure multiple
@@ -18743,6 +19075,7 @@ private constructor(
         private val webhookEvents: JsonField<List<String>>,
         private val webhookHeaders: JsonField<WebhookHeaders>,
         private val webhookOutputFormat: JsonField<WebhookOutputFormat>,
+        private val webhookSigningSecret: JsonField<String>,
         private val webhookUrl: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -18758,10 +19091,20 @@ private constructor(
             @JsonProperty("webhook_output_format")
             @ExcludeMissing
             webhookOutputFormat: JsonField<WebhookOutputFormat> = JsonMissing.of(),
+            @JsonProperty("webhook_signing_secret")
+            @ExcludeMissing
+            webhookSigningSecret: JsonField<String> = JsonMissing.of(),
             @JsonProperty("webhook_url")
             @ExcludeMissing
             webhookUrl: JsonField<String> = JsonMissing.of(),
-        ) : this(webhookEvents, webhookHeaders, webhookOutputFormat, webhookUrl, mutableMapOf())
+        ) : this(
+            webhookEvents,
+            webhookHeaders,
+            webhookOutputFormat,
+            webhookSigningSecret,
+            webhookUrl,
+            mutableMapOf(),
+        )
 
         /**
          * Events that trigger this webhook. Options: 'parse.success' (job completed), 'parse.error'
@@ -18792,6 +19135,18 @@ private constructor(
          */
         fun webhookOutputFormat(): Optional<WebhookOutputFormat> =
             webhookOutputFormat.getOptional("webhook_output_format")
+
+        /**
+         * Shared signing secret used to sign webhook deliveries. When set, each request includes an
+         * HMAC-SHA256 signature of the request body in the 'LC-Signature' header (value
+         * 'sha256=<hex>'). Recompute the HMAC over the raw request body with this secret to verify
+         * the delivery is authentic.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun webhookSigningSecret(): Optional<String> =
+            webhookSigningSecret.getOptional("webhook_signing_secret")
 
         /**
          * HTTPS URL to receive webhook POST requests. Must be publicly accessible
@@ -18832,6 +19187,16 @@ private constructor(
         fun _webhookOutputFormat(): JsonField<WebhookOutputFormat> = webhookOutputFormat
 
         /**
+         * Returns the raw JSON value of [webhookSigningSecret].
+         *
+         * Unlike [webhookSigningSecret], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("webhook_signing_secret")
+        @ExcludeMissing
+        fun _webhookSigningSecret(): JsonField<String> = webhookSigningSecret
+
+        /**
          * Returns the raw JSON value of [webhookUrl].
          *
          * Unlike [webhookUrl], this method doesn't throw if the JSON field has an unexpected type.
@@ -18864,6 +19229,7 @@ private constructor(
             private var webhookEvents: JsonField<MutableList<String>>? = null
             private var webhookHeaders: JsonField<WebhookHeaders> = JsonMissing.of()
             private var webhookOutputFormat: JsonField<WebhookOutputFormat> = JsonMissing.of()
+            private var webhookSigningSecret: JsonField<String> = JsonMissing.of()
             private var webhookUrl: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -18872,6 +19238,7 @@ private constructor(
                 webhookEvents = webhookConfiguration.webhookEvents.map { it.toMutableList() }
                 webhookHeaders = webhookConfiguration.webhookHeaders
                 webhookOutputFormat = webhookConfiguration.webhookOutputFormat
+                webhookSigningSecret = webhookConfiguration.webhookSigningSecret
                 webhookUrl = webhookConfiguration.webhookUrl
                 additionalProperties = webhookConfiguration.additionalProperties.toMutableMap()
             }
@@ -18959,6 +19326,33 @@ private constructor(
                 this.webhookOutputFormat = webhookOutputFormat
             }
 
+            /**
+             * Shared signing secret used to sign webhook deliveries. When set, each request
+             * includes an HMAC-SHA256 signature of the request body in the 'LC-Signature' header
+             * (value 'sha256=<hex>'). Recompute the HMAC over the raw request body with this secret
+             * to verify the delivery is authentic.
+             */
+            fun webhookSigningSecret(webhookSigningSecret: String?) =
+                webhookSigningSecret(JsonField.ofNullable(webhookSigningSecret))
+
+            /**
+             * Alias for calling [Builder.webhookSigningSecret] with
+             * `webhookSigningSecret.orElse(null)`.
+             */
+            fun webhookSigningSecret(webhookSigningSecret: Optional<String>) =
+                webhookSigningSecret(webhookSigningSecret.getOrNull())
+
+            /**
+             * Sets [Builder.webhookSigningSecret] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.webhookSigningSecret] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun webhookSigningSecret(webhookSigningSecret: JsonField<String>) = apply {
+                this.webhookSigningSecret = webhookSigningSecret
+            }
+
             /** HTTPS URL to receive webhook POST requests. Must be publicly accessible */
             fun webhookUrl(webhookUrl: String?) = webhookUrl(JsonField.ofNullable(webhookUrl))
 
@@ -19003,6 +19397,7 @@ private constructor(
                     (webhookEvents ?: JsonMissing.of()).map { it.toImmutable() },
                     webhookHeaders,
                     webhookOutputFormat,
+                    webhookSigningSecret,
                     webhookUrl,
                     additionalProperties.toMutableMap(),
                 )
@@ -19027,6 +19422,7 @@ private constructor(
             webhookEvents()
             webhookHeaders().ifPresent { it.validate() }
             webhookOutputFormat().ifPresent { it.validate() }
+            webhookSigningSecret()
             webhookUrl()
             validated = true
         }
@@ -19050,6 +19446,7 @@ private constructor(
             (webhookEvents.asKnown().getOrNull()?.size ?: 0) +
                 (webhookHeaders.asKnown().getOrNull()?.validity() ?: 0) +
                 (webhookOutputFormat.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (webhookSigningSecret.asKnown().isPresent) 1 else 0) +
                 (if (webhookUrl.asKnown().isPresent) 1 else 0)
 
         /**
@@ -19326,6 +19723,7 @@ private constructor(
                 webhookEvents == other.webhookEvents &&
                 webhookHeaders == other.webhookHeaders &&
                 webhookOutputFormat == other.webhookOutputFormat &&
+                webhookSigningSecret == other.webhookSigningSecret &&
                 webhookUrl == other.webhookUrl &&
                 additionalProperties == other.additionalProperties
         }
@@ -19335,6 +19733,7 @@ private constructor(
                 webhookEvents,
                 webhookHeaders,
                 webhookOutputFormat,
+                webhookSigningSecret,
                 webhookUrl,
                 additionalProperties,
             )
@@ -19343,7 +19742,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "WebhookConfiguration{webhookEvents=$webhookEvents, webhookHeaders=$webhookHeaders, webhookOutputFormat=$webhookOutputFormat, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
+            "WebhookConfiguration{webhookEvents=$webhookEvents, webhookHeaders=$webhookHeaders, webhookOutputFormat=$webhookOutputFormat, webhookSigningSecret=$webhookSigningSecret, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

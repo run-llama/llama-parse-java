@@ -270,6 +270,14 @@ internal class ParsingCreateParamsTest {
                     .build()
             )
             .sourceUrl("https:")
+            .userMetadata(
+                ParsingCreateParams.UserMetadata.builder()
+                    .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                    .putAdditionalProperty("team", JsonValue.from("research"))
+                    .build()
+            )
+            .addWebhookConfigurationId("whc-...")
+            .addWebhookConfigurationId("whc-...")
             .addWebhookConfiguration(
                 ParsingCreateParams.WebhookConfiguration.builder()
                     .addWebhookEvent("parse.success")
@@ -282,6 +290,7 @@ internal class ParsingCreateParamsTest {
                     .webhookOutputFormat(
                         ParsingCreateParams.WebhookConfiguration.WebhookOutputFormat.JSON
                     )
+                    .webhookSigningSecret("webhook_signing_secret")
                     .webhookUrl("https:")
                     .build()
             )
@@ -558,6 +567,14 @@ internal class ParsingCreateParamsTest {
                         .build()
                 )
                 .sourceUrl("https:")
+                .userMetadata(
+                    ParsingCreateParams.UserMetadata.builder()
+                        .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                        .putAdditionalProperty("team", JsonValue.from("research"))
+                        .build()
+                )
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     ParsingCreateParams.WebhookConfiguration.builder()
                         .addWebhookEvent("parse.success")
@@ -570,6 +587,7 @@ internal class ParsingCreateParamsTest {
                         .webhookOutputFormat(
                             ParsingCreateParams.WebhookConfiguration.WebhookOutputFormat.JSON
                         )
+                        .webhookSigningSecret("webhook_signing_secret")
                         .webhookUrl("https:")
                         .build()
                 )
@@ -869,6 +887,14 @@ internal class ParsingCreateParamsTest {
                         .build()
                 )
                 .sourceUrl("https:")
+                .userMetadata(
+                    ParsingCreateParams.UserMetadata.builder()
+                        .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                        .putAdditionalProperty("team", JsonValue.from("research"))
+                        .build()
+                )
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     ParsingCreateParams.WebhookConfiguration.builder()
                         .addWebhookEvent("parse.success")
@@ -881,6 +907,7 @@ internal class ParsingCreateParamsTest {
                         .webhookOutputFormat(
                             ParsingCreateParams.WebhookConfiguration.WebhookOutputFormat.JSON
                         )
+                        .webhookSigningSecret("webhook_signing_secret")
                         .webhookUrl("https:")
                         .build()
                 )
@@ -1150,6 +1177,14 @@ internal class ParsingCreateParamsTest {
                     .build()
             )
         assertThat(body.sourceUrl()).contains("https:")
+        assertThat(body.userMetadata())
+            .contains(
+                ParsingCreateParams.UserMetadata.builder()
+                    .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                    .putAdditionalProperty("team", JsonValue.from("research"))
+                    .build()
+            )
+        assertThat(body.webhookConfigurationIds().getOrNull()).containsExactly("whc-...", "whc-...")
         assertThat(body.webhookConfigurations().getOrNull())
             .containsExactly(
                 ParsingCreateParams.WebhookConfiguration.builder()
@@ -1163,6 +1198,7 @@ internal class ParsingCreateParamsTest {
                     .webhookOutputFormat(
                         ParsingCreateParams.WebhookConfiguration.WebhookOutputFormat.JSON
                     )
+                    .webhookSigningSecret("webhook_signing_secret")
                     .webhookUrl("https:")
                     .build()
             )

@@ -74,6 +74,7 @@ internal class ProGuardCompatibilityTest {
                 .id("id")
                 .exportConfigId("export_config_id")
                 .name("name")
+                .outputDirectoryId("output_directory_id")
                 .projectId("project_id")
                 .sourceDirectoryId("source_directory_id")
                 .syncConfigId("sync_config_id")

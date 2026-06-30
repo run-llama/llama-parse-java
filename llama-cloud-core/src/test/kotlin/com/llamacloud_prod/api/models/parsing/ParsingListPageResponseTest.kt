@@ -3,6 +3,7 @@
 package com.llamacloud_prod.api.models.parsing
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.llamacloud_prod.api.core.JsonValue
 import com.llamacloud_prod.api.core.jsonMapper
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -24,6 +25,12 @@ internal class ParsingListPageResponseTest {
                         .name("Q4 Financial Report")
                         .tier("fast")
                         .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .userMetadata(
+                            ParsingListResponse.UserMetadata.builder()
+                                .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                                .putAdditionalProperty("team", JsonValue.from("research"))
+                                .build()
+                        )
                         .build()
                 )
                 .nextPageToken("next_page_token")
@@ -41,6 +48,12 @@ internal class ParsingListPageResponseTest {
                     .name("Q4 Financial Report")
                     .tier("fast")
                     .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .userMetadata(
+                        ParsingListResponse.UserMetadata.builder()
+                            .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                            .putAdditionalProperty("team", JsonValue.from("research"))
+                            .build()
+                    )
                     .build()
             )
         assertThat(parsingListPageResponse.nextPageToken()).contains("next_page_token")
@@ -62,6 +75,12 @@ internal class ParsingListPageResponseTest {
                         .name("Q4 Financial Report")
                         .tier("fast")
                         .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .userMetadata(
+                            ParsingListResponse.UserMetadata.builder()
+                                .putAdditionalProperty("owner", JsonValue.from("jerry"))
+                                .putAdditionalProperty("team", JsonValue.from("research"))
+                                .build()
+                        )
                         .build()
                 )
                 .nextPageToken("next_page_token")
