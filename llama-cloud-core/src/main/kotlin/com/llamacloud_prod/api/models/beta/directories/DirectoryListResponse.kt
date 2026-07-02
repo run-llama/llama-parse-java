@@ -140,7 +140,7 @@ private constructor(
     fun systemMetadata(): Optional<SystemMetadata> = systemMetadata.getOptional("system_metadata")
 
     /**
-     * Directory type: 'user', 'index', 'ephemeral', or 'system_ephemeral'.
+     * Directory type: 'user', 'index', or 'ephemeral'.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -405,7 +405,7 @@ private constructor(
             this.systemMetadata = systemMetadata
         }
 
-        /** Directory type: 'user', 'index', 'ephemeral', or 'system_ephemeral'. */
+        /** Directory type: 'user', 'index', or 'ephemeral'. */
         fun type(type: Type?) = type(JsonField.ofNullable(type))
 
         /** Alias for calling [Builder.type] with `type.orElse(null)`. */
@@ -646,7 +646,7 @@ private constructor(
         override fun toString() = "SystemMetadata{additionalProperties=$additionalProperties}"
     }
 
-    /** Directory type: 'user', 'index', 'ephemeral', or 'system_ephemeral'. */
+    /** Directory type: 'user', 'index', or 'ephemeral'. */
     class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
@@ -665,8 +665,6 @@ private constructor(
 
             @JvmField val INDEX = of("index")
 
-            @JvmField val SYSTEM_EPHEMERAL = of("system_ephemeral")
-
             @JvmField val USER = of("user")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
@@ -676,7 +674,6 @@ private constructor(
         enum class Known {
             EPHEMERAL,
             INDEX,
-            SYSTEM_EPHEMERAL,
             USER,
         }
 
@@ -692,7 +689,6 @@ private constructor(
         enum class Value {
             EPHEMERAL,
             INDEX,
-            SYSTEM_EPHEMERAL,
             USER,
             /** An enum member indicating that [Type] was instantiated with an unknown value. */
             _UNKNOWN,
@@ -709,7 +705,6 @@ private constructor(
             when (this) {
                 EPHEMERAL -> Value.EPHEMERAL
                 INDEX -> Value.INDEX
-                SYSTEM_EPHEMERAL -> Value.SYSTEM_EPHEMERAL
                 USER -> Value.USER
                 else -> Value._UNKNOWN
             }
@@ -727,7 +722,6 @@ private constructor(
             when (this) {
                 EPHEMERAL -> Known.EPHEMERAL
                 INDEX -> Known.INDEX
-                SYSTEM_EPHEMERAL -> Known.SYSTEM_EPHEMERAL
                 USER -> Known.USER
                 else -> throw LlamaCloudInvalidDataException("Unknown Type: $value")
             }
