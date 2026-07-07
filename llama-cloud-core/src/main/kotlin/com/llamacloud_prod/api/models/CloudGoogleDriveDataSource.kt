@@ -23,6 +23,7 @@ class CloudGoogleDriveDataSource
 private constructor(
     private val folderId: JsonField<String>,
     private val className: JsonField<String>,
+    private val folderName: JsonField<String>,
     private val serviceAccountKey: JsonField<ServiceAccountKey>,
     private val supportsAccessControl: JsonField<Boolean>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -32,13 +33,23 @@ private constructor(
     private constructor(
         @JsonProperty("folder_id") @ExcludeMissing folderId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("class_name") @ExcludeMissing className: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("folder_name")
+        @ExcludeMissing
+        folderName: JsonField<String> = JsonMissing.of(),
         @JsonProperty("service_account_key")
         @ExcludeMissing
         serviceAccountKey: JsonField<ServiceAccountKey> = JsonMissing.of(),
         @JsonProperty("supports_access_control")
         @ExcludeMissing
         supportsAccessControl: JsonField<Boolean> = JsonMissing.of(),
-    ) : this(folderId, className, serviceAccountKey, supportsAccessControl, mutableMapOf())
+    ) : this(
+        folderId,
+        className,
+        folderName,
+        serviceAccountKey,
+        supportsAccessControl,
+        mutableMapOf(),
+    )
 
     /**
      * The ID of the Google Drive folder to read from.
@@ -53,6 +64,14 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun className(): Optional<String> = className.getOptional("class_name")
+
+    /**
+     * Human-readable name of the selected folder, for display.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun folderName(): Optional<String> = folderName.getOptional("folder_name")
 
     /**
      * A dictionary containing secret values
@@ -83,6 +102,13 @@ private constructor(
      * Unlike [className], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("class_name") @ExcludeMissing fun _className(): JsonField<String> = className
+
+    /**
+     * Returns the raw JSON value of [folderName].
+     *
+     * Unlike [folderName], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("folder_name") @ExcludeMissing fun _folderName(): JsonField<String> = folderName
 
     /**
      * Returns the raw JSON value of [serviceAccountKey].
@@ -134,6 +160,7 @@ private constructor(
 
         private var folderId: JsonField<String>? = null
         private var className: JsonField<String> = JsonMissing.of()
+        private var folderName: JsonField<String> = JsonMissing.of()
         private var serviceAccountKey: JsonField<ServiceAccountKey> = JsonMissing.of()
         private var supportsAccessControl: JsonField<Boolean> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -142,6 +169,7 @@ private constructor(
         internal fun from(cloudGoogleDriveDataSource: CloudGoogleDriveDataSource) = apply {
             folderId = cloudGoogleDriveDataSource.folderId
             className = cloudGoogleDriveDataSource.className
+            folderName = cloudGoogleDriveDataSource.folderName
             serviceAccountKey = cloudGoogleDriveDataSource.serviceAccountKey
             supportsAccessControl = cloudGoogleDriveDataSource.supportsAccessControl
             additionalProperties = cloudGoogleDriveDataSource.additionalProperties.toMutableMap()
@@ -168,6 +196,21 @@ private constructor(
          * value.
          */
         fun className(className: JsonField<String>) = apply { this.className = className }
+
+        /** Human-readable name of the selected folder, for display. */
+        fun folderName(folderName: String?) = folderName(JsonField.ofNullable(folderName))
+
+        /** Alias for calling [Builder.folderName] with `folderName.orElse(null)`. */
+        fun folderName(folderName: Optional<String>) = folderName(folderName.getOrNull())
+
+        /**
+         * Sets [Builder.folderName] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.folderName] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun folderName(folderName: JsonField<String>) = apply { this.folderName = folderName }
 
         /** A dictionary containing secret values */
         fun serviceAccountKey(serviceAccountKey: ServiceAccountKey?) =
@@ -237,6 +280,7 @@ private constructor(
             CloudGoogleDriveDataSource(
                 checkRequired("folderId", folderId),
                 className,
+                folderName,
                 serviceAccountKey,
                 supportsAccessControl,
                 additionalProperties.toMutableMap(),
@@ -260,6 +304,7 @@ private constructor(
 
         folderId()
         className()
+        folderName()
         serviceAccountKey().ifPresent { it.validate() }
         supportsAccessControl()
         validated = true
@@ -282,6 +327,7 @@ private constructor(
     internal fun validity(): Int =
         (if (folderId.asKnown().isPresent) 1 else 0) +
             (if (className.asKnown().isPresent) 1 else 0) +
+            (if (folderName.asKnown().isPresent) 1 else 0) +
             (serviceAccountKey.asKnown().getOrNull()?.validity() ?: 0) +
             (if (supportsAccessControl.asKnown().isPresent) 1 else 0)
 
@@ -402,6 +448,7 @@ private constructor(
         return other is CloudGoogleDriveDataSource &&
             folderId == other.folderId &&
             className == other.className &&
+            folderName == other.folderName &&
             serviceAccountKey == other.serviceAccountKey &&
             supportsAccessControl == other.supportsAccessControl &&
             additionalProperties == other.additionalProperties
@@ -411,6 +458,7 @@ private constructor(
         Objects.hash(
             folderId,
             className,
+            folderName,
             serviceAccountKey,
             supportsAccessControl,
             additionalProperties,
@@ -420,5 +468,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CloudGoogleDriveDataSource{folderId=$folderId, className=$className, serviceAccountKey=$serviceAccountKey, supportsAccessControl=$supportsAccessControl, additionalProperties=$additionalProperties}"
+        "CloudGoogleDriveDataSource{folderId=$folderId, className=$className, folderName=$folderName, serviceAccountKey=$serviceAccountKey, supportsAccessControl=$supportsAccessControl, additionalProperties=$additionalProperties}"
 }
