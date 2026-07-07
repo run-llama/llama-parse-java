@@ -141,7 +141,7 @@ private constructor(
      * Version for the selected tier. Use `latest`, or pin one of that tier's dated versions.
      *
      * Current `latest` by tier:
-     * - `fast`: `2025-12-11`
+     * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-06-26`
      * - `agentic`: `2026-06-18`
      * - `agentic_plus`: `2026-06-18`
@@ -479,7 +479,7 @@ private constructor(
          * Version for the selected tier. Use `latest`, or pin one of that tier's dated versions.
          *
          * Current `latest` by tier:
-         * - `fast`: `2025-12-11`
+         * - `fast`: `2026-06-15`
          * - `cost_effective`: `2026-06-26`
          * - `agentic`: `2026-06-18`
          * - `agentic_plus`: `2026-06-18`
@@ -1010,7 +1010,7 @@ private constructor(
      * Version for the selected tier. Use `latest`, or pin one of that tier's dated versions.
      *
      * Current `latest` by tier:
-     * - `fast`: `2025-12-11`
+     * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-06-26`
      * - `agentic`: `2026-06-18`
      * - `agentic_plus`: `2026-06-18`
@@ -1037,7 +1037,7 @@ private constructor(
 
             @JvmField val _2026_06_18 = of("2026-06-18")
 
-            @JvmField val _2025_12_11 = of("2025-12-11")
+            @JvmField val _2026_06_15 = of("2026-06-15")
 
             @JvmStatic fun of(value: String) = Version(JsonField.of(value))
         }
@@ -1047,7 +1047,7 @@ private constructor(
             LATEST,
             _2026_06_26,
             _2026_06_18,
-            _2025_12_11,
+            _2026_06_15,
         }
 
         /**
@@ -1063,7 +1063,7 @@ private constructor(
             LATEST,
             _2026_06_26,
             _2026_06_18,
-            _2025_12_11,
+            _2026_06_15,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -1080,7 +1080,7 @@ private constructor(
                 LATEST -> Value.LATEST
                 _2026_06_26 -> Value._2026_06_26
                 _2026_06_18 -> Value._2026_06_18
-                _2025_12_11 -> Value._2025_12_11
+                _2026_06_15 -> Value._2026_06_15
                 else -> Value._UNKNOWN
             }
 
@@ -1098,7 +1098,7 @@ private constructor(
                 LATEST -> Known.LATEST
                 _2026_06_26 -> Known._2026_06_26
                 _2026_06_18 -> Known._2026_06_18
-                _2025_12_11 -> Known._2025_12_11
+                _2026_06_15 -> Known._2026_06_15
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
             }
 
@@ -9446,7 +9446,7 @@ private constructor(
                  * one of that tier's dated versions.
                  *
                  * Current `latest` by tier:
-                 * - `fast`: `2025-12-11`
+                 * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-06-26`
                  * - `agentic`: `2026-06-18`
                  * - `agentic_plus`: `2026-06-18`
@@ -9950,7 +9950,7 @@ private constructor(
                      * pin one of that tier's dated versions.
                      *
                      * Current `latest` by tier:
-                     * - `fast`: `2025-12-11`
+                     * - `fast`: `2026-06-15`
                      * - `cost_effective`: `2026-06-26`
                      * - `agentic`: `2026-06-18`
                      * - `agentic_plus`: `2026-06-18`
@@ -11564,7 +11564,7 @@ private constructor(
                  * one of that tier's dated versions.
                  *
                  * Current `latest` by tier:
-                 * - `fast`: `2025-12-11`
+                 * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-06-26`
                  * - `agentic`: `2026-06-18`
                  * - `agentic_plus`: `2026-06-18`
@@ -11594,7 +11594,7 @@ private constructor(
 
                         @JvmField val _2026_06_18 = of("2026-06-18")
 
-                        @JvmField val _2025_12_11 = of("2025-12-11")
+                        @JvmField val _2026_06_15 = of("2026-06-15")
 
                         @JvmStatic fun of(value: String) = Version(JsonField.of(value))
                     }
@@ -11604,7 +11604,7 @@ private constructor(
                         LATEST,
                         _2026_06_26,
                         _2026_06_18,
-                        _2025_12_11,
+                        _2026_06_15,
                     }
 
                     /**
@@ -11620,7 +11620,7 @@ private constructor(
                         LATEST,
                         _2026_06_26,
                         _2026_06_18,
-                        _2025_12_11,
+                        _2026_06_15,
                         /**
                          * An enum member indicating that [Version] was instantiated with an unknown
                          * value.
@@ -11640,7 +11640,7 @@ private constructor(
                             LATEST -> Value.LATEST
                             _2026_06_26 -> Value._2026_06_26
                             _2026_06_18 -> Value._2026_06_18
-                            _2025_12_11 -> Value._2025_12_11
+                            _2026_06_15 -> Value._2026_06_15
                             else -> Value._UNKNOWN
                         }
 
@@ -11658,7 +11658,7 @@ private constructor(
                             LATEST -> Known.LATEST
                             _2026_06_26 -> Known._2026_06_26
                             _2026_06_18 -> Known._2026_06_18
-                            _2025_12_11 -> Known._2025_12_11
+                            _2026_06_15 -> Known._2026_06_15
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
                         }
 
