@@ -144,7 +144,7 @@ private constructor(
      * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-06-26`
      * - `agentic`: `2026-06-18`
-     * - `agentic_plus`: `2026-06-18`
+     * - `agentic_plus`: `2026-07-08`
      *
      * Full list: `GET /api/v2/parse/versions`.
      *
@@ -482,7 +482,7 @@ private constructor(
          * - `fast`: `2026-06-15`
          * - `cost_effective`: `2026-06-26`
          * - `agentic`: `2026-06-18`
-         * - `agentic_plus`: `2026-06-18`
+         * - `agentic_plus`: `2026-07-08`
          *
          * Full list: `GET /api/v2/parse/versions`.
          */
@@ -1013,7 +1013,7 @@ private constructor(
      * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-06-26`
      * - `agentic`: `2026-06-18`
-     * - `agentic_plus`: `2026-06-18`
+     * - `agentic_plus`: `2026-07-08`
      *
      * Full list: `GET /api/v2/parse/versions`.
      */
@@ -1033,6 +1033,8 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
+            @JvmField val _2026_07_08 = of("2026-07-08")
+
             @JvmField val _2026_06_26 = of("2026-06-26")
 
             @JvmField val _2026_06_18 = of("2026-06-18")
@@ -1045,6 +1047,7 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
+            _2026_07_08,
             _2026_06_26,
             _2026_06_18,
             _2026_06_15,
@@ -1061,6 +1064,7 @@ private constructor(
          */
         enum class Value {
             LATEST,
+            _2026_07_08,
             _2026_06_26,
             _2026_06_18,
             _2026_06_15,
@@ -1078,6 +1082,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
+                _2026_07_08 -> Value._2026_07_08
                 _2026_06_26 -> Value._2026_06_26
                 _2026_06_18 -> Value._2026_06_18
                 _2026_06_15 -> Value._2026_06_15
@@ -1096,6 +1101,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
+                _2026_07_08 -> Known._2026_07_08
                 _2026_06_26 -> Known._2026_06_26
                 _2026_06_18 -> Known._2026_06_18
                 _2026_06_15 -> Known._2026_06_15
@@ -9449,7 +9455,7 @@ private constructor(
                  * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-06-26`
                  * - `agentic`: `2026-06-18`
-                 * - `agentic_plus`: `2026-06-18`
+                 * - `agentic_plus`: `2026-07-08`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  *
@@ -9953,7 +9959,7 @@ private constructor(
                      * - `fast`: `2026-06-15`
                      * - `cost_effective`: `2026-06-26`
                      * - `agentic`: `2026-06-18`
-                     * - `agentic_plus`: `2026-06-18`
+                     * - `agentic_plus`: `2026-07-08`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
                      */
@@ -11567,7 +11573,7 @@ private constructor(
                  * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-06-26`
                  * - `agentic`: `2026-06-18`
-                 * - `agentic_plus`: `2026-06-18`
+                 * - `agentic_plus`: `2026-07-08`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  */
@@ -11590,6 +11596,8 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
+                        @JvmField val _2026_07_08 = of("2026-07-08")
+
                         @JvmField val _2026_06_26 = of("2026-06-26")
 
                         @JvmField val _2026_06_18 = of("2026-06-18")
@@ -11602,6 +11610,7 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
+                        _2026_07_08,
                         _2026_06_26,
                         _2026_06_18,
                         _2026_06_15,
@@ -11618,6 +11627,7 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
+                        _2026_07_08,
                         _2026_06_26,
                         _2026_06_18,
                         _2026_06_15,
@@ -11638,6 +11648,7 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
+                            _2026_07_08 -> Value._2026_07_08
                             _2026_06_26 -> Value._2026_06_26
                             _2026_06_18 -> Value._2026_06_18
                             _2026_06_15 -> Value._2026_06_15
@@ -11656,6 +11667,7 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
+                            _2026_07_08 -> Known._2026_07_08
                             _2026_06_26 -> Known._2026_06_26
                             _2026_06_18 -> Known._2026_06_18
                             _2026_06_15 -> Known._2026_06_15
