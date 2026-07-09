@@ -16,6 +16,7 @@ internal class CloudGoogleDriveDataSourceTest {
             CloudGoogleDriveDataSource.builder()
                 .folderId("folder_id")
                 .className("class_name")
+                .folderName("folder_name")
                 .serviceAccountKey(
                     CloudGoogleDriveDataSource.ServiceAccountKey.builder()
                         .putAdditionalProperty("foo", JsonValue.from("string"))
@@ -26,6 +27,7 @@ internal class CloudGoogleDriveDataSourceTest {
 
         assertThat(cloudGoogleDriveDataSource.folderId()).isEqualTo("folder_id")
         assertThat(cloudGoogleDriveDataSource.className()).contains("class_name")
+        assertThat(cloudGoogleDriveDataSource.folderName()).contains("folder_name")
         assertThat(cloudGoogleDriveDataSource.serviceAccountKey())
             .contains(
                 CloudGoogleDriveDataSource.ServiceAccountKey.builder()
@@ -42,6 +44,7 @@ internal class CloudGoogleDriveDataSourceTest {
             CloudGoogleDriveDataSource.builder()
                 .folderId("folder_id")
                 .className("class_name")
+                .folderName("folder_name")
                 .serviceAccountKey(
                     CloudGoogleDriveDataSource.ServiceAccountKey.builder()
                         .putAdditionalProperty("foo", JsonValue.from("string"))
