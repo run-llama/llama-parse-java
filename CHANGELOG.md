@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/run-llama/llama-parse-java/compare/v1.1.0...v1.2.0) (2026-07-09)
+
+
+### Features
+
+* **agentic-plus:** dated version 2026-07-08 — graduate decomposed-gemini (flash-lite), fallback to 2026-06-18 ([#21738](https://github.com/run-llama/llama-parse-java/issues/21738)) ([68fbd72](https://github.com/run-llama/llama-parse-java/commit/68fbd72c6e99cfc9a4a615ce92aab33fd948fff1))
+* update fast tier latest version to use liteparse + markdown ([#21669](https://github.com/run-llama/llama-parse-java/issues/21669)) ([3fb0305](https://github.com/run-llama/llama-parse-java/commit/3fb03059def285ca14291d9d597435180f87a8e8))
+
 ## [1.1.0](https://github.com/run-llama/llama-parse-java/compare/v1.0.0...v1.1.0) (2026-06-30)
 
 
