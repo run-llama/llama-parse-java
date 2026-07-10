@@ -30,6 +30,7 @@ internal class DataSourceServiceTest {
                     )
                     .name("name")
                     .sourceType(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
+                    .brokeredConnectionId("brokered_connection_id")
                     .customMetadata(
                         DataSourceCreateParams.CustomMetadata.builder()
                             .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
@@ -52,6 +53,7 @@ internal class DataSourceServiceTest {
                 DataSourceUpdateParams.builder()
                     .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .sourceType(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
+                    .brokeredConnectionId("brokered_connection_id")
                     .component(
                         DataSourceUpdateParams.Component.UnionMember0.builder()
                             .putAdditionalProperty("foo", JsonValue.from("bar"))

@@ -62,6 +62,14 @@ private constructor(
     fun sourceType(): SourceType = body.sourceType()
 
     /**
+     * Reference to a brokered managed-OAuth connection backing this source.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun brokeredConnectionId(): Optional<String> = body.brokeredConnectionId()
+
+    /**
      * Component that implements the data source
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -91,6 +99,14 @@ private constructor(
      * Unlike [sourceType], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _sourceType(): JsonField<SourceType> = body._sourceType()
+
+    /**
+     * Returns the raw JSON value of [brokeredConnectionId].
+     *
+     * Unlike [brokeredConnectionId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    fun _brokeredConnectionId(): JsonField<String> = body._brokeredConnectionId()
 
     /**
      * Returns the raw JSON value of [component].
@@ -163,9 +179,11 @@ private constructor(
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [sourceType]
+         * - [brokeredConnectionId]
          * - [component]
          * - [customMetadata]
          * - [name]
+         * - etc.
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
@@ -179,6 +197,29 @@ private constructor(
          * supported value.
          */
         fun sourceType(sourceType: JsonField<SourceType>) = apply { body.sourceType(sourceType) }
+
+        /** Reference to a brokered managed-OAuth connection backing this source. */
+        fun brokeredConnectionId(brokeredConnectionId: String?) = apply {
+            body.brokeredConnectionId(brokeredConnectionId)
+        }
+
+        /**
+         * Alias for calling [Builder.brokeredConnectionId] with
+         * `brokeredConnectionId.orElse(null)`.
+         */
+        fun brokeredConnectionId(brokeredConnectionId: Optional<String>) =
+            brokeredConnectionId(brokeredConnectionId.getOrNull())
+
+        /**
+         * Sets [Builder.brokeredConnectionId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.brokeredConnectionId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun brokeredConnectionId(brokeredConnectionId: JsonField<String>) = apply {
+            body.brokeredConnectionId(brokeredConnectionId)
+        }
 
         /** Component that implements the data source */
         fun component(component: Component?) = apply { body.component(component) }
@@ -473,6 +514,7 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val sourceType: JsonField<SourceType>,
+        private val brokeredConnectionId: JsonField<String>,
         private val component: JsonField<Component>,
         private val customMetadata: JsonField<CustomMetadata>,
         private val name: JsonField<String>,
@@ -484,6 +526,9 @@ private constructor(
             @JsonProperty("source_type")
             @ExcludeMissing
             sourceType: JsonField<SourceType> = JsonMissing.of(),
+            @JsonProperty("brokered_connection_id")
+            @ExcludeMissing
+            brokeredConnectionId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("component")
             @ExcludeMissing
             component: JsonField<Component> = JsonMissing.of(),
@@ -491,13 +536,22 @@ private constructor(
             @ExcludeMissing
             customMetadata: JsonField<CustomMetadata> = JsonMissing.of(),
             @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
-        ) : this(sourceType, component, customMetadata, name, mutableMapOf())
+        ) : this(sourceType, brokeredConnectionId, component, customMetadata, name, mutableMapOf())
 
         /**
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun sourceType(): SourceType = sourceType.getRequired("source_type")
+
+        /**
+         * Reference to a brokered managed-OAuth connection backing this source.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun brokeredConnectionId(): Optional<String> =
+            brokeredConnectionId.getOptional("brokered_connection_id")
 
         /**
          * Component that implements the data source
@@ -532,6 +586,16 @@ private constructor(
         @JsonProperty("source_type")
         @ExcludeMissing
         fun _sourceType(): JsonField<SourceType> = sourceType
+
+        /**
+         * Returns the raw JSON value of [brokeredConnectionId].
+         *
+         * Unlike [brokeredConnectionId], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("brokered_connection_id")
+        @ExcludeMissing
+        fun _brokeredConnectionId(): JsonField<String> = brokeredConnectionId
 
         /**
          * Returns the raw JSON value of [component].
@@ -588,6 +652,7 @@ private constructor(
         class Builder internal constructor() {
 
             private var sourceType: JsonField<SourceType>? = null
+            private var brokeredConnectionId: JsonField<String> = JsonMissing.of()
             private var component: JsonField<Component> = JsonMissing.of()
             private var customMetadata: JsonField<CustomMetadata> = JsonMissing.of()
             private var name: JsonField<String> = JsonMissing.of()
@@ -596,6 +661,7 @@ private constructor(
             @JvmSynthetic
             internal fun from(body: Body) = apply {
                 sourceType = body.sourceType
+                brokeredConnectionId = body.brokeredConnectionId
                 component = body.component
                 customMetadata = body.customMetadata
                 name = body.name
@@ -613,6 +679,28 @@ private constructor(
              */
             fun sourceType(sourceType: JsonField<SourceType>) = apply {
                 this.sourceType = sourceType
+            }
+
+            /** Reference to a brokered managed-OAuth connection backing this source. */
+            fun brokeredConnectionId(brokeredConnectionId: String?) =
+                brokeredConnectionId(JsonField.ofNullable(brokeredConnectionId))
+
+            /**
+             * Alias for calling [Builder.brokeredConnectionId] with
+             * `brokeredConnectionId.orElse(null)`.
+             */
+            fun brokeredConnectionId(brokeredConnectionId: Optional<String>) =
+                brokeredConnectionId(brokeredConnectionId.getOrNull())
+
+            /**
+             * Sets [Builder.brokeredConnectionId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.brokeredConnectionId] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun brokeredConnectionId(brokeredConnectionId: JsonField<String>) = apply {
+                this.brokeredConnectionId = brokeredConnectionId
             }
 
             /** Component that implements the data source */
@@ -779,6 +867,7 @@ private constructor(
             fun build(): Body =
                 Body(
                     checkRequired("sourceType", sourceType),
+                    brokeredConnectionId,
                     component,
                     customMetadata,
                     name,
@@ -803,6 +892,7 @@ private constructor(
             }
 
             sourceType().validate()
+            brokeredConnectionId()
             component().ifPresent { it.validate() }
             customMetadata().ifPresent { it.validate() }
             name()
@@ -826,6 +916,7 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (sourceType.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (brokeredConnectionId.asKnown().isPresent) 1 else 0) +
                 (component.asKnown().getOrNull()?.validity() ?: 0) +
                 (customMetadata.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (name.asKnown().isPresent) 1 else 0)
@@ -837,6 +928,7 @@ private constructor(
 
             return other is Body &&
                 sourceType == other.sourceType &&
+                brokeredConnectionId == other.brokeredConnectionId &&
                 component == other.component &&
                 customMetadata == other.customMetadata &&
                 name == other.name &&
@@ -844,13 +936,20 @@ private constructor(
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(sourceType, component, customMetadata, name, additionalProperties)
+            Objects.hash(
+                sourceType,
+                brokeredConnectionId,
+                component,
+                customMetadata,
+                name,
+                additionalProperties,
+            )
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{sourceType=$sourceType, component=$component, customMetadata=$customMetadata, name=$name, additionalProperties=$additionalProperties}"
+            "Body{sourceType=$sourceType, brokeredConnectionId=$brokeredConnectionId, component=$component, customMetadata=$customMetadata, name=$name, additionalProperties=$additionalProperties}"
     }
 
     class SourceType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
