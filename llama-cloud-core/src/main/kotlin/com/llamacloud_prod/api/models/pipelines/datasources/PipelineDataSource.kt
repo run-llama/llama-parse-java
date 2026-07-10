@@ -55,7 +55,6 @@ private constructor(
     private val pipelineId: JsonField<String>,
     private val projectId: JsonField<String>,
     private val sourceType: JsonField<SourceType>,
-    private val brokeredConnectionId: JsonField<String>,
     private val createdAt: JsonField<OffsetDateTime>,
     private val customMetadata: JsonField<CustomMetadata>,
     private val status: JsonField<Status>,
@@ -87,9 +86,6 @@ private constructor(
         @JsonProperty("source_type")
         @ExcludeMissing
         sourceType: JsonField<SourceType> = JsonMissing.of(),
-        @JsonProperty("brokered_connection_id")
-        @ExcludeMissing
-        brokeredConnectionId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("created_at")
         @ExcludeMissing
         createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -121,7 +117,6 @@ private constructor(
         pipelineId,
         projectId,
         sourceType,
-        brokeredConnectionId,
         createdAt,
         customMetadata,
         status,
@@ -192,15 +187,6 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun sourceType(): SourceType = sourceType.getRequired("source_type")
-
-    /**
-     * Reference to a brokered managed-OAuth connection backing this source.
-     *
-     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun brokeredConnectionId(): Optional<String> =
-        brokeredConnectionId.getOptional("brokered_connection_id")
 
     /**
      * Creation datetime
@@ -332,16 +318,6 @@ private constructor(
     fun _sourceType(): JsonField<SourceType> = sourceType
 
     /**
-     * Returns the raw JSON value of [brokeredConnectionId].
-     *
-     * Unlike [brokeredConnectionId], this method doesn't throw if the JSON field has an unexpected
-     * type.
-     */
-    @JsonProperty("brokered_connection_id")
-    @ExcludeMissing
-    fun _brokeredConnectionId(): JsonField<String> = brokeredConnectionId
-
-    /**
      * Returns the raw JSON value of [createdAt].
      *
      * Unlike [createdAt], this method doesn't throw if the JSON field has an unexpected type.
@@ -455,7 +431,6 @@ private constructor(
         private var pipelineId: JsonField<String>? = null
         private var projectId: JsonField<String>? = null
         private var sourceType: JsonField<SourceType>? = null
-        private var brokeredConnectionId: JsonField<String> = JsonMissing.of()
         private var createdAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var customMetadata: JsonField<CustomMetadata> = JsonMissing.of()
         private var status: JsonField<Status> = JsonMissing.of()
@@ -476,7 +451,6 @@ private constructor(
             pipelineId = pipelineDataSource.pipelineId
             projectId = pipelineDataSource.projectId
             sourceType = pipelineDataSource.sourceType
-            brokeredConnectionId = pipelineDataSource.brokeredConnectionId
             createdAt = pipelineDataSource.createdAt
             customMetadata = pipelineDataSource.customMetadata
             status = pipelineDataSource.status
@@ -662,28 +636,6 @@ private constructor(
          * supported value.
          */
         fun sourceType(sourceType: JsonField<SourceType>) = apply { this.sourceType = sourceType }
-
-        /** Reference to a brokered managed-OAuth connection backing this source. */
-        fun brokeredConnectionId(brokeredConnectionId: String?) =
-            brokeredConnectionId(JsonField.ofNullable(brokeredConnectionId))
-
-        /**
-         * Alias for calling [Builder.brokeredConnectionId] with
-         * `brokeredConnectionId.orElse(null)`.
-         */
-        fun brokeredConnectionId(brokeredConnectionId: Optional<String>) =
-            brokeredConnectionId(brokeredConnectionId.getOrNull())
-
-        /**
-         * Sets [Builder.brokeredConnectionId] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.brokeredConnectionId] with a well-typed [String] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
-         */
-        fun brokeredConnectionId(brokeredConnectionId: JsonField<String>) = apply {
-            this.brokeredConnectionId = brokeredConnectionId
-        }
 
         /** Creation datetime */
         fun createdAt(createdAt: OffsetDateTime?) = createdAt(JsonField.ofNullable(createdAt))
@@ -877,7 +829,6 @@ private constructor(
                 checkRequired("pipelineId", pipelineId),
                 checkRequired("projectId", projectId),
                 checkRequired("sourceType", sourceType),
-                brokeredConnectionId,
                 createdAt,
                 customMetadata,
                 status,
@@ -913,7 +864,6 @@ private constructor(
         pipelineId()
         projectId()
         sourceType().validate()
-        brokeredConnectionId()
         createdAt()
         customMetadata().ifPresent { it.validate() }
         status().ifPresent { it.validate() }
@@ -948,7 +898,6 @@ private constructor(
             (if (pipelineId.asKnown().isPresent) 1 else 0) +
             (if (projectId.asKnown().isPresent) 1 else 0) +
             (sourceType.asKnown().getOrNull()?.validity() ?: 0) +
-            (if (brokeredConnectionId.asKnown().isPresent) 1 else 0) +
             (if (createdAt.asKnown().isPresent) 1 else 0) +
             (customMetadata.asKnown().getOrNull()?.validity() ?: 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
@@ -2139,7 +2088,6 @@ private constructor(
             pipelineId == other.pipelineId &&
             projectId == other.projectId &&
             sourceType == other.sourceType &&
-            brokeredConnectionId == other.brokeredConnectionId &&
             createdAt == other.createdAt &&
             customMetadata == other.customMetadata &&
             status == other.status &&
@@ -2161,7 +2109,6 @@ private constructor(
             pipelineId,
             projectId,
             sourceType,
-            brokeredConnectionId,
             createdAt,
             customMetadata,
             status,
@@ -2177,5 +2124,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "PipelineDataSource{id=$id, component=$component, dataSourceId=$dataSourceId, lastSyncedAt=$lastSyncedAt, name=$name, pipelineId=$pipelineId, projectId=$projectId, sourceType=$sourceType, brokeredConnectionId=$brokeredConnectionId, createdAt=$createdAt, customMetadata=$customMetadata, status=$status, statusUpdatedAt=$statusUpdatedAt, syncInterval=$syncInterval, syncScheduleSetBy=$syncScheduleSetBy, updatedAt=$updatedAt, versionMetadata=$versionMetadata, additionalProperties=$additionalProperties}"
+        "PipelineDataSource{id=$id, component=$component, dataSourceId=$dataSourceId, lastSyncedAt=$lastSyncedAt, name=$name, pipelineId=$pipelineId, projectId=$projectId, sourceType=$sourceType, createdAt=$createdAt, customMetadata=$customMetadata, status=$status, statusUpdatedAt=$statusUpdatedAt, syncInterval=$syncInterval, syncScheduleSetBy=$syncScheduleSetBy, updatedAt=$updatedAt, versionMetadata=$versionMetadata, additionalProperties=$additionalProperties}"
 }

@@ -28,7 +28,6 @@ internal class PipelineDataSourceTest {
                 .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .sourceType(PipelineDataSource.SourceType.AZURE_STORAGE_BLOB)
-                .brokeredConnectionId("brokered_connection_id")
                 .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .customMetadata(
                     PipelineDataSource.CustomMetadata.builder()
@@ -66,7 +65,6 @@ internal class PipelineDataSourceTest {
         assertThat(pipelineDataSource.projectId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(pipelineDataSource.sourceType())
             .isEqualTo(PipelineDataSource.SourceType.AZURE_STORAGE_BLOB)
-        assertThat(pipelineDataSource.brokeredConnectionId()).contains("brokered_connection_id")
         assertThat(pipelineDataSource.createdAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(pipelineDataSource.customMetadata())
@@ -107,7 +105,6 @@ internal class PipelineDataSourceTest {
                 .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .sourceType(PipelineDataSource.SourceType.AZURE_STORAGE_BLOB)
-                .brokeredConnectionId("brokered_connection_id")
                 .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .customMetadata(
                     PipelineDataSource.CustomMetadata.builder()

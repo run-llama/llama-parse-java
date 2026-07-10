@@ -13,7 +13,6 @@ internal class DataSourceUpdateParamsTest {
         DataSourceUpdateParams.builder()
             .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .sourceType(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
-            .brokeredConnectionId("brokered_connection_id")
             .component(
                 DataSourceUpdateParams.Component.UnionMember0.builder()
                     .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -47,7 +46,6 @@ internal class DataSourceUpdateParamsTest {
             DataSourceUpdateParams.builder()
                 .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .sourceType(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
-                .brokeredConnectionId("brokered_connection_id")
                 .component(
                     DataSourceUpdateParams.Component.UnionMember0.builder()
                         .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -65,7 +63,6 @@ internal class DataSourceUpdateParamsTest {
 
         assertThat(body.sourceType())
             .isEqualTo(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
-        assertThat(body.brokeredConnectionId()).contains("brokered_connection_id")
         assertThat(body.component())
             .contains(
                 DataSourceUpdateParams.Component.ofUnionMember0(

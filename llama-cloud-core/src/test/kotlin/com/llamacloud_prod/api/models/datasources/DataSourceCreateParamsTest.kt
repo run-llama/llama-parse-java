@@ -21,7 +21,6 @@ internal class DataSourceCreateParamsTest {
             )
             .name("name")
             .sourceType(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
-            .brokeredConnectionId("brokered_connection_id")
             .customMetadata(
                 DataSourceCreateParams.CustomMetadata.builder()
                     .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
@@ -43,7 +42,6 @@ internal class DataSourceCreateParamsTest {
                 )
                 .name("name")
                 .sourceType(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
-                .brokeredConnectionId("brokered_connection_id")
                 .customMetadata(
                     DataSourceCreateParams.CustomMetadata.builder()
                         .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
@@ -93,7 +91,6 @@ internal class DataSourceCreateParamsTest {
                 )
                 .name("name")
                 .sourceType(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
-                .brokeredConnectionId("brokered_connection_id")
                 .customMetadata(
                     DataSourceCreateParams.CustomMetadata.builder()
                         .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
@@ -114,7 +111,6 @@ internal class DataSourceCreateParamsTest {
         assertThat(body.name()).isEqualTo("name")
         assertThat(body.sourceType())
             .isEqualTo(DataSourceCreateParams.SourceType.AZURE_STORAGE_BLOB)
-        assertThat(body.brokeredConnectionId()).contains("brokered_connection_id")
         assertThat(body.customMetadata())
             .contains(
                 DataSourceCreateParams.CustomMetadata.builder()
