@@ -36,10 +36,11 @@ private constructor(
     fun jobId(): Optional<String> = Optional.ofNullable(jobId)
 
     /**
-     * Fields to include: text, markdown, items, metadata, job_metadata, text_content_metadata,
-     * markdown_content_metadata, items_content_metadata, metadata_content_metadata,
-     * raw_words_content_metadata, xlsx_content_metadata, output_pdf_content_metadata,
-     * images_content_metadata. Metadata fields include presigned URLs.
+     * Fields to include: text, markdown, items, metadata, forms, job_metadata,
+     * text_content_metadata, markdown_content_metadata, items_content_metadata,
+     * metadata_content_metadata, forms_content_metadata, raw_words_content_metadata,
+     * xlsx_content_metadata, output_pdf_content_metadata, images_content_metadata. Metadata fields
+     * include presigned URLs.
      */
     fun expand(): Optional<List<String>> = Optional.ofNullable(expand)
 
@@ -94,10 +95,11 @@ private constructor(
         fun jobId(jobId: Optional<String>) = jobId(jobId.getOrNull())
 
         /**
-         * Fields to include: text, markdown, items, metadata, job_metadata, text_content_metadata,
-         * markdown_content_metadata, items_content_metadata, metadata_content_metadata,
-         * raw_words_content_metadata, xlsx_content_metadata, output_pdf_content_metadata,
-         * images_content_metadata. Metadata fields include presigned URLs.
+         * Fields to include: text, markdown, items, metadata, forms, job_metadata,
+         * text_content_metadata, markdown_content_metadata, items_content_metadata,
+         * metadata_content_metadata, forms_content_metadata, raw_words_content_metadata,
+         * xlsx_content_metadata, output_pdf_content_metadata, images_content_metadata. Metadata
+         * fields include presigned URLs.
          */
         fun expand(expand: List<String>?) = apply { this.expand = expand?.toMutableList() }
 

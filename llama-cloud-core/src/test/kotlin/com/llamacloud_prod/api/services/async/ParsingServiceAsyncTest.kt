@@ -272,6 +272,7 @@ internal class ParsingServiceAsyncTest {
                                     .build()
                             )
                             .disableHeuristics(true)
+                            .forms(ParsingCreateParams.ProcessingOptions.Forms.ENRICH)
                             .ignore(
                                 ParsingCreateParams.ProcessingOptions.Ignore.builder()
                                     .ignoreDiagonalText(true)

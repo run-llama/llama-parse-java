@@ -257,6 +257,7 @@ internal class ParseV2ParametersTest {
                                 .build()
                         )
                         .disableHeuristics(true)
+                        .forms(ParseV2Parameters.ProcessingOptions.Forms.ENRICH)
                         .ignore(
                             ParseV2Parameters.ProcessingOptions.Ignore.builder()
                                 .ignoreDiagonalText(true)
@@ -535,6 +536,7 @@ internal class ParseV2ParametersTest {
                             .build()
                     )
                     .disableHeuristics(true)
+                    .forms(ParseV2Parameters.ProcessingOptions.Forms.ENRICH)
                     .ignore(
                         ParseV2Parameters.ProcessingOptions.Ignore.builder()
                             .ignoreDiagonalText(true)
@@ -819,6 +821,7 @@ internal class ParseV2ParametersTest {
                                 .build()
                         )
                         .disableHeuristics(true)
+                        .forms(ParseV2Parameters.ProcessingOptions.Forms.ENRICH)
                         .ignore(
                             ParseV2Parameters.ProcessingOptions.Ignore.builder()
                                 .ignoreDiagonalText(true)

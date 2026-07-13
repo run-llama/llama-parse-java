@@ -7504,6 +7504,7 @@ private constructor(
         private val autoModeConfiguration: JsonField<List<AutoModeConfiguration>>,
         private val costOptimizer: JsonField<CostOptimizer>,
         private val disableHeuristics: JsonField<Boolean>,
+        private val forms: JsonField<Forms>,
         private val ignore: JsonField<Ignore>,
         private val ocrParameters: JsonField<OcrParameters>,
         private val specializedChartParsing: JsonField<SpecializedChartParsing>,
@@ -7524,6 +7525,7 @@ private constructor(
             @JsonProperty("disable_heuristics")
             @ExcludeMissing
             disableHeuristics: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("forms") @ExcludeMissing forms: JsonField<Forms> = JsonMissing.of(),
             @JsonProperty("ignore") @ExcludeMissing ignore: JsonField<Ignore> = JsonMissing.of(),
             @JsonProperty("ocr_parameters")
             @ExcludeMissing
@@ -7536,6 +7538,7 @@ private constructor(
             autoModeConfiguration,
             costOptimizer,
             disableHeuristics,
+            forms,
             ignore,
             ocrParameters,
             specializedChartParsing,
@@ -7584,6 +7587,17 @@ private constructor(
          */
         fun disableHeuristics(): Optional<Boolean> =
             disableHeuristics.getOptional("disable_heuristics")
+
+        /**
+         * Beta: set to 'enrich' to run an additional AI form-analysis pass on pages detected as
+         * forms, producing a structured tree of the form's sections, fields, and fillable grids.
+         * Retrieve the result with expand=forms. 'default' (the default) applies standard parsing
+         * with no extra pass. Not available on the fast tier
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun forms(): Optional<Forms> = forms.getOptional("forms")
 
         /**
          * Options for ignoring specific text types (diagonal, hidden, text in images)
@@ -7653,6 +7667,13 @@ private constructor(
         fun _disableHeuristics(): JsonField<Boolean> = disableHeuristics
 
         /**
+         * Returns the raw JSON value of [forms].
+         *
+         * Unlike [forms], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("forms") @ExcludeMissing fun _forms(): JsonField<Forms> = forms
+
+        /**
          * Returns the raw JSON value of [ignore].
          *
          * Unlike [ignore], this method doesn't throw if the JSON field has an unexpected type.
@@ -7704,6 +7725,7 @@ private constructor(
             private var autoModeConfiguration: JsonField<MutableList<AutoModeConfiguration>>? = null
             private var costOptimizer: JsonField<CostOptimizer> = JsonMissing.of()
             private var disableHeuristics: JsonField<Boolean> = JsonMissing.of()
+            private var forms: JsonField<Forms> = JsonMissing.of()
             private var ignore: JsonField<Ignore> = JsonMissing.of()
             private var ocrParameters: JsonField<OcrParameters> = JsonMissing.of()
             private var specializedChartParsing: JsonField<SpecializedChartParsing> =
@@ -7717,6 +7739,7 @@ private constructor(
                     processingOptions.autoModeConfiguration.map { it.toMutableList() }
                 costOptimizer = processingOptions.costOptimizer
                 disableHeuristics = processingOptions.disableHeuristics
+                forms = processingOptions.forms
                 ignore = processingOptions.ignore
                 ocrParameters = processingOptions.ocrParameters
                 specializedChartParsing = processingOptions.specializedChartParsing
@@ -7854,6 +7877,26 @@ private constructor(
                 this.disableHeuristics = disableHeuristics
             }
 
+            /**
+             * Beta: set to 'enrich' to run an additional AI form-analysis pass on pages detected as
+             * forms, producing a structured tree of the form's sections, fields, and fillable
+             * grids. Retrieve the result with expand=forms. 'default' (the default) applies
+             * standard parsing with no extra pass. Not available on the fast tier
+             */
+            fun forms(forms: Forms?) = forms(JsonField.ofNullable(forms))
+
+            /** Alias for calling [Builder.forms] with `forms.orElse(null)`. */
+            fun forms(forms: Optional<Forms>) = forms(forms.getOrNull())
+
+            /**
+             * Sets [Builder.forms] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.forms] with a well-typed [Forms] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun forms(forms: JsonField<Forms>) = apply { this.forms = forms }
+
             /** Options for ignoring specific text types (diagonal, hidden, text in images) */
             fun ignore(ignore: Ignore) = ignore(JsonField.of(ignore))
 
@@ -7938,6 +7981,7 @@ private constructor(
                     (autoModeConfiguration ?: JsonMissing.of()).map { it.toImmutable() },
                     costOptimizer,
                     disableHeuristics,
+                    forms,
                     ignore,
                     ocrParameters,
                     specializedChartParsing,
@@ -7965,6 +8009,7 @@ private constructor(
             autoModeConfiguration().ifPresent { it.forEach { it.validate() } }
             costOptimizer().ifPresent { it.validate() }
             disableHeuristics()
+            forms().ifPresent { it.validate() }
             ignore().ifPresent { it.validate() }
             ocrParameters().ifPresent { it.validate() }
             specializedChartParsing().ifPresent { it.validate() }
@@ -7992,6 +8037,7 @@ private constructor(
                     ?: 0) +
                 (costOptimizer.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (disableHeuristics.asKnown().isPresent) 1 else 0) +
+                (forms.asKnown().getOrNull()?.validity() ?: 0) +
                 (ignore.asKnown().getOrNull()?.validity() ?: 0) +
                 (ocrParameters.asKnown().getOrNull()?.validity() ?: 0) +
                 (specializedChartParsing.asKnown().getOrNull()?.validity() ?: 0)
@@ -18256,6 +18302,151 @@ private constructor(
                 "CostOptimizer{enable=$enable, additionalProperties=$additionalProperties}"
         }
 
+        /**
+         * Beta: set to 'enrich' to run an additional AI form-analysis pass on pages detected as
+         * forms, producing a structured tree of the form's sections, fields, and fillable grids.
+         * Retrieve the result with expand=forms. 'default' (the default) applies standard parsing
+         * with no extra pass. Not available on the fast tier
+         */
+        class Forms @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val DEFAULT = of("default")
+
+                @JvmField val ENRICH = of("enrich")
+
+                @JvmStatic fun of(value: String) = Forms(JsonField.of(value))
+            }
+
+            /** An enum containing [Forms]'s known values. */
+            enum class Known {
+                DEFAULT,
+                ENRICH,
+            }
+
+            /**
+             * An enum containing [Forms]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Forms] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                DEFAULT,
+                ENRICH,
+                /**
+                 * An enum member indicating that [Forms] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    DEFAULT -> Value.DEFAULT
+                    ENRICH -> Value.ENRICH
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
+             *   known member.
+             */
+            fun known(): Known =
+                when (this) {
+                    DEFAULT -> Known.DEFAULT
+                    ENRICH -> Known.ENRICH
+                    else -> throw LlamaCloudInvalidDataException("Unknown Forms: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LlamaCloudInvalidDataException if this class instance's value does not have
+             *   the expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LlamaCloudInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
+            fun validate(): Forms = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LlamaCloudInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Forms && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
         /** Options for ignoring specific text types (diagonal, hidden, text in images) */
         class Ignore
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
@@ -18937,6 +19128,7 @@ private constructor(
                 autoModeConfiguration == other.autoModeConfiguration &&
                 costOptimizer == other.costOptimizer &&
                 disableHeuristics == other.disableHeuristics &&
+                forms == other.forms &&
                 ignore == other.ignore &&
                 ocrParameters == other.ocrParameters &&
                 specializedChartParsing == other.specializedChartParsing &&
@@ -18949,6 +19141,7 @@ private constructor(
                 autoModeConfiguration,
                 costOptimizer,
                 disableHeuristics,
+                forms,
                 ignore,
                 ocrParameters,
                 specializedChartParsing,
@@ -18959,7 +19152,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ProcessingOptions{aggressiveTableExtraction=$aggressiveTableExtraction, autoModeConfiguration=$autoModeConfiguration, costOptimizer=$costOptimizer, disableHeuristics=$disableHeuristics, ignore=$ignore, ocrParameters=$ocrParameters, specializedChartParsing=$specializedChartParsing, additionalProperties=$additionalProperties}"
+            "ProcessingOptions{aggressiveTableExtraction=$aggressiveTableExtraction, autoModeConfiguration=$autoModeConfiguration, costOptimizer=$costOptimizer, disableHeuristics=$disableHeuristics, forms=$forms, ignore=$ignore, ocrParameters=$ocrParameters, specializedChartParsing=$specializedChartParsing, additionalProperties=$additionalProperties}"
     }
 
     /**
