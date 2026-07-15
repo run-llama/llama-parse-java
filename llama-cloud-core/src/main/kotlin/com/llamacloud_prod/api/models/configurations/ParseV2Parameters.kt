@@ -6297,6 +6297,7 @@ private constructor(
     private constructor(
         private val aggressiveTableExtraction: JsonField<Boolean>,
         private val autoModeConfiguration: JsonField<List<AutoModeConfiguration>>,
+        private val confidenceScores: JsonField<ConfidenceScores>,
         private val costOptimizer: JsonField<CostOptimizer>,
         private val disableHeuristics: JsonField<Boolean>,
         private val forms: JsonField<Forms>,
@@ -6314,6 +6315,9 @@ private constructor(
             @JsonProperty("auto_mode_configuration")
             @ExcludeMissing
             autoModeConfiguration: JsonField<List<AutoModeConfiguration>> = JsonMissing.of(),
+            @JsonProperty("confidence_scores")
+            @ExcludeMissing
+            confidenceScores: JsonField<ConfidenceScores> = JsonMissing.of(),
             @JsonProperty("cost_optimizer")
             @ExcludeMissing
             costOptimizer: JsonField<CostOptimizer> = JsonMissing.of(),
@@ -6331,6 +6335,7 @@ private constructor(
         ) : this(
             aggressiveTableExtraction,
             autoModeConfiguration,
+            confidenceScores,
             costOptimizer,
             disableHeuristics,
             forms,
@@ -6360,6 +6365,17 @@ private constructor(
          */
         fun autoModeConfiguration(): Optional<List<AutoModeConfiguration>> =
             autoModeConfiguration.getOptional("auto_mode_configuration")
+
+        /**
+         * Confidence scoring mode. 'default': standard scoring. 'verified': more accurate
+         * assessment of the parsing quality of every page, plus a document-level score in the
+         * result metadata; costs an additional 5 credits per page
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun confidenceScores(): Optional<ConfidenceScores> =
+            confidenceScores.getOptional("confidence_scores")
 
         /**
          * Cost optimizer configuration for reducing parsing costs on simpler pages.
@@ -6442,6 +6458,16 @@ private constructor(
         fun _autoModeConfiguration(): JsonField<List<AutoModeConfiguration>> = autoModeConfiguration
 
         /**
+         * Returns the raw JSON value of [confidenceScores].
+         *
+         * Unlike [confidenceScores], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("confidence_scores")
+        @ExcludeMissing
+        fun _confidenceScores(): JsonField<ConfidenceScores> = confidenceScores
+
+        /**
          * Returns the raw JSON value of [costOptimizer].
          *
          * Unlike [costOptimizer], this method doesn't throw if the JSON field has an unexpected
@@ -6518,6 +6544,7 @@ private constructor(
 
             private var aggressiveTableExtraction: JsonField<Boolean> = JsonMissing.of()
             private var autoModeConfiguration: JsonField<MutableList<AutoModeConfiguration>>? = null
+            private var confidenceScores: JsonField<ConfidenceScores> = JsonMissing.of()
             private var costOptimizer: JsonField<CostOptimizer> = JsonMissing.of()
             private var disableHeuristics: JsonField<Boolean> = JsonMissing.of()
             private var forms: JsonField<Forms> = JsonMissing.of()
@@ -6532,6 +6559,7 @@ private constructor(
                 aggressiveTableExtraction = processingOptions.aggressiveTableExtraction
                 autoModeConfiguration =
                     processingOptions.autoModeConfiguration.map { it.toMutableList() }
+                confidenceScores = processingOptions.confidenceScores
                 costOptimizer = processingOptions.costOptimizer
                 disableHeuristics = processingOptions.disableHeuristics
                 forms = processingOptions.forms
@@ -6613,6 +6641,31 @@ private constructor(
                     (this.autoModeConfiguration ?: JsonField.of(mutableListOf())).also {
                         checkKnown("autoModeConfiguration", it).add(autoModeConfiguration)
                     }
+            }
+
+            /**
+             * Confidence scoring mode. 'default': standard scoring. 'verified': more accurate
+             * assessment of the parsing quality of every page, plus a document-level score in the
+             * result metadata; costs an additional 5 credits per page
+             */
+            fun confidenceScores(confidenceScores: ConfidenceScores?) =
+                confidenceScores(JsonField.ofNullable(confidenceScores))
+
+            /**
+             * Alias for calling [Builder.confidenceScores] with `confidenceScores.orElse(null)`.
+             */
+            fun confidenceScores(confidenceScores: Optional<ConfidenceScores>) =
+                confidenceScores(confidenceScores.getOrNull())
+
+            /**
+             * Sets [Builder.confidenceScores] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.confidenceScores] with a well-typed
+             * [ConfidenceScores] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
+            fun confidenceScores(confidenceScores: JsonField<ConfidenceScores>) = apply {
+                this.confidenceScores = confidenceScores
             }
 
             /**
@@ -6774,6 +6827,7 @@ private constructor(
                 ProcessingOptions(
                     aggressiveTableExtraction,
                     (autoModeConfiguration ?: JsonMissing.of()).map { it.toImmutable() },
+                    confidenceScores,
                     costOptimizer,
                     disableHeuristics,
                     forms,
@@ -6802,6 +6856,7 @@ private constructor(
 
             aggressiveTableExtraction()
             autoModeConfiguration().ifPresent { it.forEach { it.validate() } }
+            confidenceScores().ifPresent { it.validate() }
             costOptimizer().ifPresent { it.validate() }
             disableHeuristics()
             forms().ifPresent { it.validate() }
@@ -6830,6 +6885,7 @@ private constructor(
             (if (aggressiveTableExtraction.asKnown().isPresent) 1 else 0) +
                 (autoModeConfiguration.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
                     ?: 0) +
+                (confidenceScores.asKnown().getOrNull()?.validity() ?: 0) +
                 (costOptimizer.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (disableHeuristics.asKnown().isPresent) 1 else 0) +
                 (forms.asKnown().getOrNull()?.validity() ?: 0) +
@@ -16918,6 +16974,154 @@ private constructor(
         }
 
         /**
+         * Confidence scoring mode. 'default': standard scoring. 'verified': more accurate
+         * assessment of the parsing quality of every page, plus a document-level score in the
+         * result metadata; costs an additional 5 credits per page
+         */
+        class ConfidenceScores
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val DEFAULT = of("default")
+
+                @JvmField val VERIFIED = of("verified")
+
+                @JvmStatic fun of(value: String) = ConfidenceScores(JsonField.of(value))
+            }
+
+            /** An enum containing [ConfidenceScores]'s known values. */
+            enum class Known {
+                DEFAULT,
+                VERIFIED,
+            }
+
+            /**
+             * An enum containing [ConfidenceScores]'s known values, as well as an [_UNKNOWN]
+             * member.
+             *
+             * An instance of [ConfidenceScores] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                DEFAULT,
+                VERIFIED,
+                /**
+                 * An enum member indicating that [ConfidenceScores] was instantiated with an
+                 * unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    DEFAULT -> Value.DEFAULT
+                    VERIFIED -> Value.VERIFIED
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
+             *   known member.
+             */
+            fun known(): Known =
+                when (this) {
+                    DEFAULT -> Known.DEFAULT
+                    VERIFIED -> Known.VERIFIED
+                    else -> throw LlamaCloudInvalidDataException("Unknown ConfidenceScores: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LlamaCloudInvalidDataException if this class instance's value does not have
+             *   the expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LlamaCloudInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
+            fun validate(): ConfidenceScores = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LlamaCloudInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is ConfidenceScores && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        /**
          * Cost optimizer configuration for reducing parsing costs on simpler pages.
          *
          * When enabled, the parser analyzes each page and routes simpler pages to faster, cheaper
@@ -17921,6 +18125,7 @@ private constructor(
             return other is ProcessingOptions &&
                 aggressiveTableExtraction == other.aggressiveTableExtraction &&
                 autoModeConfiguration == other.autoModeConfiguration &&
+                confidenceScores == other.confidenceScores &&
                 costOptimizer == other.costOptimizer &&
                 disableHeuristics == other.disableHeuristics &&
                 forms == other.forms &&
@@ -17934,6 +18139,7 @@ private constructor(
             Objects.hash(
                 aggressiveTableExtraction,
                 autoModeConfiguration,
+                confidenceScores,
                 costOptimizer,
                 disableHeuristics,
                 forms,
@@ -17947,7 +18153,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ProcessingOptions{aggressiveTableExtraction=$aggressiveTableExtraction, autoModeConfiguration=$autoModeConfiguration, costOptimizer=$costOptimizer, disableHeuristics=$disableHeuristics, forms=$forms, ignore=$ignore, ocrParameters=$ocrParameters, specializedChartParsing=$specializedChartParsing, additionalProperties=$additionalProperties}"
+            "ProcessingOptions{aggressiveTableExtraction=$aggressiveTableExtraction, autoModeConfiguration=$autoModeConfiguration, confidenceScores=$confidenceScores, costOptimizer=$costOptimizer, disableHeuristics=$disableHeuristics, forms=$forms, ignore=$ignore, ocrParameters=$ocrParameters, specializedChartParsing=$specializedChartParsing, additionalProperties=$additionalProperties}"
     }
 
     /**

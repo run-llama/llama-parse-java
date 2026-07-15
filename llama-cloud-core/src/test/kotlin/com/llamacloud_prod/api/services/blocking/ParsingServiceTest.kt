@@ -266,6 +266,9 @@ internal class ParsingServiceTest {
                                     .triggerMode("trigger_mode")
                                     .build()
                             )
+                            .confidenceScores(
+                                ParsingCreateParams.ProcessingOptions.ConfidenceScores.VERIFIED
+                            )
                             .costOptimizer(
                                 ParsingCreateParams.ProcessingOptions.CostOptimizer.builder()
                                     .enable(true)

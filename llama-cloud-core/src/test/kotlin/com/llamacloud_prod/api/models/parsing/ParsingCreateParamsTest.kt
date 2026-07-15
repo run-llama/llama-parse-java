@@ -246,6 +246,9 @@ internal class ParsingCreateParamsTest {
                             .triggerMode("trigger_mode")
                             .build()
                     )
+                    .confidenceScores(
+                        ParsingCreateParams.ProcessingOptions.ConfidenceScores.VERIFIED
+                    )
                     .costOptimizer(
                         ParsingCreateParams.ProcessingOptions.CostOptimizer.builder()
                             .enable(true)
@@ -543,6 +546,9 @@ internal class ParsingCreateParamsTest {
                                 .textInPage("text_in_page")
                                 .triggerMode("trigger_mode")
                                 .build()
+                        )
+                        .confidenceScores(
+                            ParsingCreateParams.ProcessingOptions.ConfidenceScores.VERIFIED
                         )
                         .costOptimizer(
                             ParsingCreateParams.ProcessingOptions.CostOptimizer.builder()
@@ -865,6 +871,9 @@ internal class ParsingCreateParamsTest {
                                 .triggerMode("trigger_mode")
                                 .build()
                         )
+                        .confidenceScores(
+                            ParsingCreateParams.ProcessingOptions.ConfidenceScores.VERIFIED
+                        )
                         .costOptimizer(
                             ParsingCreateParams.ProcessingOptions.CostOptimizer.builder()
                                 .enable(true)
@@ -1155,6 +1164,9 @@ internal class ParsingCreateParamsTest {
                             .textInPage("text_in_page")
                             .triggerMode("trigger_mode")
                             .build()
+                    )
+                    .confidenceScores(
+                        ParsingCreateParams.ProcessingOptions.ConfidenceScores.VERIFIED
                     )
                     .costOptimizer(
                         ParsingCreateParams.ProcessingOptions.CostOptimizer.builder()

@@ -63,6 +63,7 @@ internal class BatchServiceTest {
                                     .complementalFormattingInstruction(
                                         "complemental_formatting_instruction"
                                     )
+                                    .confidenceScores("confidence_scores")
                                     .contentGuidelineInstruction("content_guideline_instruction")
                                     .continuousMode(true)
                                     .customMetadata(

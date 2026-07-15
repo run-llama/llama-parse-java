@@ -251,6 +251,9 @@ internal class ParseV2ParametersTest {
                                 .triggerMode("trigger_mode")
                                 .build()
                         )
+                        .confidenceScores(
+                            ParseV2Parameters.ProcessingOptions.ConfidenceScores.VERIFIED
+                        )
                         .costOptimizer(
                             ParseV2Parameters.ProcessingOptions.CostOptimizer.builder()
                                 .enable(true)
@@ -530,6 +533,7 @@ internal class ParseV2ParametersTest {
                             .triggerMode("trigger_mode")
                             .build()
                     )
+                    .confidenceScores(ParseV2Parameters.ProcessingOptions.ConfidenceScores.VERIFIED)
                     .costOptimizer(
                         ParseV2Parameters.ProcessingOptions.CostOptimizer.builder()
                             .enable(true)
@@ -814,6 +818,9 @@ internal class ParseV2ParametersTest {
                                 .textInPage("text_in_page")
                                 .triggerMode("trigger_mode")
                                 .build()
+                        )
+                        .confidenceScores(
+                            ParseV2Parameters.ProcessingOptions.ConfidenceScores.VERIFIED
                         )
                         .costOptimizer(
                             ParseV2Parameters.ProcessingOptions.CostOptimizer.builder()

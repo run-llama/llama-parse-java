@@ -51,6 +51,7 @@ internal class BatchCreateParamsTest {
                             .complementalFormattingInstruction(
                                 "complemental_formatting_instruction"
                             )
+                            .confidenceScores("confidence_scores")
                             .contentGuidelineInstruction("content_guideline_instruction")
                             .continuousMode(true)
                             .customMetadata(
@@ -286,6 +287,7 @@ internal class BatchCreateParamsTest {
                                 .complementalFormattingInstruction(
                                     "complemental_formatting_instruction"
                                 )
+                                .confidenceScores("confidence_scores")
                                 .contentGuidelineInstruction("content_guideline_instruction")
                                 .continuousMode(true)
                                 .customMetadata(
@@ -541,6 +543,7 @@ internal class BatchCreateParamsTest {
                                 .complementalFormattingInstruction(
                                     "complemental_formatting_instruction"
                                 )
+                                .confidenceScores("confidence_scores")
                                 .contentGuidelineInstruction("content_guideline_instruction")
                                 .continuousMode(true)
                                 .customMetadata(
@@ -801,6 +804,7 @@ internal class BatchCreateParamsTest {
                                 .complementalFormattingInstruction(
                                     "complemental_formatting_instruction"
                                 )
+                                .confidenceScores("confidence_scores")
                                 .contentGuidelineInstruction("content_guideline_instruction")
                                 .continuousMode(true)
                                 .customMetadata(
@@ -1035,6 +1039,7 @@ internal class BatchCreateParamsTest {
                                 .complementalFormattingInstruction(
                                     "complemental_formatting_instruction"
                                 )
+                                .confidenceScores("confidence_scores")
                                 .contentGuidelineInstruction("content_guideline_instruction")
                                 .continuousMode(true)
                                 .customMetadata(

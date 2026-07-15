@@ -123,6 +123,7 @@ internal class PipelineServiceTest {
                                     .complementalFormattingInstruction(
                                         "complemental_formatting_instruction"
                                     )
+                                    .confidenceScores("confidence_scores")
                                     .contentGuidelineInstruction("content_guideline_instruction")
                                     .continuousMode(true)
                                     .disableImageExtraction(true)
@@ -457,6 +458,7 @@ internal class PipelineServiceTest {
                             .complementalFormattingInstruction(
                                 "complemental_formatting_instruction"
                             )
+                            .confidenceScores("confidence_scores")
                             .contentGuidelineInstruction("content_guideline_instruction")
                             .continuousMode(true)
                             .disableImageExtraction(true)
@@ -804,6 +806,7 @@ internal class PipelineServiceTest {
                                     .complementalFormattingInstruction(
                                         "complemental_formatting_instruction"
                                     )
+                                    .confidenceScores("confidence_scores")
                                     .contentGuidelineInstruction("content_guideline_instruction")
                                     .continuousMode(true)
                                     .disableImageExtraction(true)
