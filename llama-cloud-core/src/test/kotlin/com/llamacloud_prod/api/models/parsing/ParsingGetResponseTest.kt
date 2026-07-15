@@ -38,67 +38,51 @@ internal class ParsingGetResponseTest {
                         .addPage(
                             ParsingGetResponse.Forms.Page.FormsResultPage.builder()
                                 .addForm(
-                                    ParsingGetResponse.Forms.Page.FormsResultPage.Form.builder()
+                                    Form.builder()
                                         .addJson(
-                                            ParsingGetResponse.Forms.Page.FormsResultPage.Form.Json
-                                                .Field
-                                                .builder()
-                                                .field(
-                                                    ParsingGetResponse.Forms.Page.FormsResultPage
-                                                        .Form
-                                                        .Json
-                                                        .Field
-                                                        .InnerField
-                                                        .CHECKBOX
-                                                )
+                                            FormField.builder()
+                                                .field(FormField.Field.CHECKBOX)
                                                 .id("id")
                                                 .isEmpty(true)
                                                 .label("label")
-                                                .type(
-                                                    ParsingGetResponse.Forms.Page.FormsResultPage
-                                                        .Form
-                                                        .Json
-                                                        .Field
-                                                        .Type
-                                                        .FIELD
-                                                )
+                                                .type(FormField.Type.FIELD)
                                                 .value("string")
-                                                .valueItems(listOf())
+                                                .addValueItem(
+                                                    FormSection.builder()
+                                                        .addItem(
+                                                            FormTable.builder()
+                                                                .addRow(
+                                                                    listOf(
+                                                                        FormTable.Row.ofString(
+                                                                            "string"
+                                                                        )
+                                                                    )
+                                                                )
+                                                                .id("id")
+                                                                .addColumn("string")
+                                                                .label("label")
+                                                                .type(FormTable.Type.TABLE)
+                                                                .build()
+                                                        )
+                                                        .id("id")
+                                                        .label("label")
+                                                        .type(FormSection.Type.SECTION)
+                                                        .build()
+                                                )
                                                 .build()
                                         )
                                         .list(
-                                            ParsingGetResponse.Forms.Page.FormsResultPage.Form.List
-                                                .builder()
+                                            FormListItem.builder()
                                                 .addItem(
-                                                    ParsingGetResponse.Forms.Page.FormsResultPage
-                                                        .Form
-                                                        .List
-                                                        .Item
-                                                        .FormListTextItem
-                                                        .builder()
+                                                    FormListTextItem.builder()
                                                         .md("md")
                                                         .value("value")
-                                                        .type(
-                                                            ParsingGetResponse.Forms.Page
-                                                                .FormsResultPage
-                                                                .Form
-                                                                .List
-                                                                .Item
-                                                                .FormListTextItem
-                                                                .Type
-                                                                .TEXT
-                                                        )
+                                                        .type(FormListTextItem.Type.TEXT)
                                                         .build()
                                                 )
                                                 .md("md")
                                                 .ordered(true)
-                                                .type(
-                                                    ParsingGetResponse.Forms.Page.FormsResultPage
-                                                        .Form
-                                                        .List
-                                                        .Type
-                                                        .LIST
-                                                )
+                                                .type(FormListItem.Type.LIST)
                                                 .build()
                                         )
                                         .build()
@@ -256,63 +240,49 @@ internal class ParsingGetResponseTest {
                     .addPage(
                         ParsingGetResponse.Forms.Page.FormsResultPage.builder()
                             .addForm(
-                                ParsingGetResponse.Forms.Page.FormsResultPage.Form.builder()
+                                Form.builder()
                                     .addJson(
-                                        ParsingGetResponse.Forms.Page.FormsResultPage.Form.Json
-                                            .Field
-                                            .builder()
-                                            .field(
-                                                ParsingGetResponse.Forms.Page.FormsResultPage.Form
-                                                    .Json
-                                                    .Field
-                                                    .InnerField
-                                                    .CHECKBOX
-                                            )
+                                        FormField.builder()
+                                            .field(FormField.Field.CHECKBOX)
                                             .id("id")
                                             .isEmpty(true)
                                             .label("label")
-                                            .type(
-                                                ParsingGetResponse.Forms.Page.FormsResultPage.Form
-                                                    .Json
-                                                    .Field
-                                                    .Type
-                                                    .FIELD
-                                            )
+                                            .type(FormField.Type.FIELD)
                                             .value("string")
-                                            .valueItems(listOf())
+                                            .addValueItem(
+                                                FormSection.builder()
+                                                    .addItem(
+                                                        FormTable.builder()
+                                                            .addRow(
+                                                                listOf(
+                                                                    FormTable.Row.ofString("string")
+                                                                )
+                                                            )
+                                                            .id("id")
+                                                            .addColumn("string")
+                                                            .label("label")
+                                                            .type(FormTable.Type.TABLE)
+                                                            .build()
+                                                    )
+                                                    .id("id")
+                                                    .label("label")
+                                                    .type(FormSection.Type.SECTION)
+                                                    .build()
+                                            )
                                             .build()
                                     )
                                     .list(
-                                        ParsingGetResponse.Forms.Page.FormsResultPage.Form.List
-                                            .builder()
+                                        FormListItem.builder()
                                             .addItem(
-                                                ParsingGetResponse.Forms.Page.FormsResultPage.Form
-                                                    .List
-                                                    .Item
-                                                    .FormListTextItem
-                                                    .builder()
+                                                FormListTextItem.builder()
                                                     .md("md")
                                                     .value("value")
-                                                    .type(
-                                                        ParsingGetResponse.Forms.Page
-                                                            .FormsResultPage
-                                                            .Form
-                                                            .List
-                                                            .Item
-                                                            .FormListTextItem
-                                                            .Type
-                                                            .TEXT
-                                                    )
+                                                    .type(FormListTextItem.Type.TEXT)
                                                     .build()
                                             )
                                             .md("md")
                                             .ordered(true)
-                                            .type(
-                                                ParsingGetResponse.Forms.Page.FormsResultPage.Form
-                                                    .List
-                                                    .Type
-                                                    .LIST
-                                            )
+                                            .type(FormListItem.Type.LIST)
                                             .build()
                                     )
                                     .build()
@@ -478,67 +448,51 @@ internal class ParsingGetResponseTest {
                         .addPage(
                             ParsingGetResponse.Forms.Page.FormsResultPage.builder()
                                 .addForm(
-                                    ParsingGetResponse.Forms.Page.FormsResultPage.Form.builder()
+                                    Form.builder()
                                         .addJson(
-                                            ParsingGetResponse.Forms.Page.FormsResultPage.Form.Json
-                                                .Field
-                                                .builder()
-                                                .field(
-                                                    ParsingGetResponse.Forms.Page.FormsResultPage
-                                                        .Form
-                                                        .Json
-                                                        .Field
-                                                        .InnerField
-                                                        .CHECKBOX
-                                                )
+                                            FormField.builder()
+                                                .field(FormField.Field.CHECKBOX)
                                                 .id("id")
                                                 .isEmpty(true)
                                                 .label("label")
-                                                .type(
-                                                    ParsingGetResponse.Forms.Page.FormsResultPage
-                                                        .Form
-                                                        .Json
-                                                        .Field
-                                                        .Type
-                                                        .FIELD
-                                                )
+                                                .type(FormField.Type.FIELD)
                                                 .value("string")
-                                                .valueItems(listOf())
+                                                .addValueItem(
+                                                    FormSection.builder()
+                                                        .addItem(
+                                                            FormTable.builder()
+                                                                .addRow(
+                                                                    listOf(
+                                                                        FormTable.Row.ofString(
+                                                                            "string"
+                                                                        )
+                                                                    )
+                                                                )
+                                                                .id("id")
+                                                                .addColumn("string")
+                                                                .label("label")
+                                                                .type(FormTable.Type.TABLE)
+                                                                .build()
+                                                        )
+                                                        .id("id")
+                                                        .label("label")
+                                                        .type(FormSection.Type.SECTION)
+                                                        .build()
+                                                )
                                                 .build()
                                         )
                                         .list(
-                                            ParsingGetResponse.Forms.Page.FormsResultPage.Form.List
-                                                .builder()
+                                            FormListItem.builder()
                                                 .addItem(
-                                                    ParsingGetResponse.Forms.Page.FormsResultPage
-                                                        .Form
-                                                        .List
-                                                        .Item
-                                                        .FormListTextItem
-                                                        .builder()
+                                                    FormListTextItem.builder()
                                                         .md("md")
                                                         .value("value")
-                                                        .type(
-                                                            ParsingGetResponse.Forms.Page
-                                                                .FormsResultPage
-                                                                .Form
-                                                                .List
-                                                                .Item
-                                                                .FormListTextItem
-                                                                .Type
-                                                                .TEXT
-                                                        )
+                                                        .type(FormListTextItem.Type.TEXT)
                                                         .build()
                                                 )
                                                 .md("md")
                                                 .ordered(true)
-                                                .type(
-                                                    ParsingGetResponse.Forms.Page.FormsResultPage
-                                                        .Form
-                                                        .List
-                                                        .Type
-                                                        .LIST
-                                                )
+                                                .type(FormListItem.Type.LIST)
                                                 .build()
                                         )
                                         .build()
