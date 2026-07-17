@@ -266,8 +266,8 @@ internal class ParsingServiceAsyncTest {
                                     .triggerMode("trigger_mode")
                                     .build()
                             )
-                            .confidenceScores(
-                                ParsingCreateParams.ProcessingOptions.ConfidenceScores.VERIFIED
+                            .confidenceScoreEffort(
+                                ParsingCreateParams.ProcessingOptions.ConfidenceScoreEffort.HIGH
                             )
                             .costOptimizer(
                                 ParsingCreateParams.ProcessingOptions.CostOptimizer.builder()

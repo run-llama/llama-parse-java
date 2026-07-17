@@ -1761,7 +1761,7 @@ private constructor(
                     private val boundingBox: JsonField<String>,
                     private val compactMarkdownTable: JsonField<Boolean>,
                     private val complementalFormattingInstruction: JsonField<String>,
-                    private val confidenceScores: JsonField<String>,
+                    private val confidenceScoreEffort: JsonField<String>,
                     private val contentGuidelineInstruction: JsonField<String>,
                     private val continuousMode: JsonField<Boolean>,
                     private val customMetadata: JsonField<CustomMetadata>,
@@ -1932,9 +1932,9 @@ private constructor(
                         @JsonProperty("complemental_formatting_instruction")
                         @ExcludeMissing
                         complementalFormattingInstruction: JsonField<String> = JsonMissing.of(),
-                        @JsonProperty("confidence_scores")
+                        @JsonProperty("confidence_score_effort")
                         @ExcludeMissing
-                        confidenceScores: JsonField<String> = JsonMissing.of(),
+                        confidenceScoreEffort: JsonField<String> = JsonMissing.of(),
                         @JsonProperty("content_guideline_instruction")
                         @ExcludeMissing
                         contentGuidelineInstruction: JsonField<String> = JsonMissing.of(),
@@ -2275,7 +2275,7 @@ private constructor(
                         boundingBox,
                         compactMarkdownTable,
                         complementalFormattingInstruction,
-                        confidenceScores,
+                        confidenceScoreEffort,
                         contentGuidelineInstruction,
                         continuousMode,
                         customMetadata,
@@ -2530,8 +2530,8 @@ private constructor(
                      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
                      *   type (e.g. if the server responded with an unexpected value).
                      */
-                    fun confidenceScores(): Optional<String> =
-                        confidenceScores.getOptional("confidence_scores")
+                    fun confidenceScoreEffort(): Optional<String> =
+                        confidenceScoreEffort.getOptional("confidence_score_effort")
 
                     /**
                      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
@@ -3496,14 +3496,14 @@ private constructor(
                         complementalFormattingInstruction
 
                     /**
-                     * Returns the raw JSON value of [confidenceScores].
+                     * Returns the raw JSON value of [confidenceScoreEffort].
                      *
-                     * Unlike [confidenceScores], this method doesn't throw if the JSON field has an
-                     * unexpected type.
+                     * Unlike [confidenceScoreEffort], this method doesn't throw if the JSON field
+                     * has an unexpected type.
                      */
-                    @JsonProperty("confidence_scores")
+                    @JsonProperty("confidence_score_effort")
                     @ExcludeMissing
-                    fun _confidenceScores(): JsonField<String> = confidenceScores
+                    fun _confidenceScoreEffort(): JsonField<String> = confidenceScoreEffort
 
                     /**
                      * Returns the raw JSON value of [contentGuidelineInstruction].
@@ -4617,7 +4617,7 @@ private constructor(
                         private var compactMarkdownTable: JsonField<Boolean> = JsonMissing.of()
                         private var complementalFormattingInstruction: JsonField<String> =
                             JsonMissing.of()
-                        private var confidenceScores: JsonField<String> = JsonMissing.of()
+                        private var confidenceScoreEffort: JsonField<String> = JsonMissing.of()
                         private var contentGuidelineInstruction: JsonField<String> =
                             JsonMissing.of()
                         private var continuousMode: JsonField<Boolean> = JsonMissing.of()
@@ -4772,7 +4772,7 @@ private constructor(
                             compactMarkdownTable = parameters.compactMarkdownTable
                             complementalFormattingInstruction =
                                 parameters.complementalFormattingInstruction
-                            confidenceScores = parameters.confidenceScores
+                            confidenceScoreEffort = parameters.confidenceScoreEffort
                             contentGuidelineInstruction = parameters.contentGuidelineInstruction
                             continuousMode = parameters.continuousMode
                             customMetadata = parameters.customMetadata
@@ -5415,26 +5415,27 @@ private constructor(
                                 complementalFormattingInstruction
                         }
 
-                        fun confidenceScores(confidenceScores: String?) =
-                            confidenceScores(JsonField.ofNullable(confidenceScores))
+                        fun confidenceScoreEffort(confidenceScoreEffort: String?) =
+                            confidenceScoreEffort(JsonField.ofNullable(confidenceScoreEffort))
 
                         /**
-                         * Alias for calling [Builder.confidenceScores] with
-                         * `confidenceScores.orElse(null)`.
+                         * Alias for calling [Builder.confidenceScoreEffort] with
+                         * `confidenceScoreEffort.orElse(null)`.
                          */
-                        fun confidenceScores(confidenceScores: Optional<String>) =
-                            confidenceScores(confidenceScores.getOrNull())
+                        fun confidenceScoreEffort(confidenceScoreEffort: Optional<String>) =
+                            confidenceScoreEffort(confidenceScoreEffort.getOrNull())
 
                         /**
-                         * Sets [Builder.confidenceScores] to an arbitrary JSON value.
+                         * Sets [Builder.confidenceScoreEffort] to an arbitrary JSON value.
                          *
-                         * You should usually call [Builder.confidenceScores] with a well-typed
+                         * You should usually call [Builder.confidenceScoreEffort] with a well-typed
                          * [String] value instead. This method is primarily for setting the field to
                          * an undocumented or not yet supported value.
                          */
-                        fun confidenceScores(confidenceScores: JsonField<String>) = apply {
-                            this.confidenceScores = confidenceScores
-                        }
+                        fun confidenceScoreEffort(confidenceScoreEffort: JsonField<String>) =
+                            apply {
+                                this.confidenceScoreEffort = confidenceScoreEffort
+                            }
 
                         fun contentGuidelineInstruction(contentGuidelineInstruction: String?) =
                             contentGuidelineInstruction(
@@ -8356,7 +8357,7 @@ private constructor(
                                 boundingBox,
                                 compactMarkdownTable,
                                 complementalFormattingInstruction,
-                                confidenceScores,
+                                confidenceScoreEffort,
                                 contentGuidelineInstruction,
                                 continuousMode,
                                 customMetadata,
@@ -8505,7 +8506,7 @@ private constructor(
                         boundingBox()
                         compactMarkdownTable()
                         complementalFormattingInstruction()
-                        confidenceScores()
+                        confidenceScoreEffort()
                         contentGuidelineInstruction()
                         continuousMode()
                         customMetadata().ifPresent { it.validate() }
@@ -8650,7 +8651,7 @@ private constructor(
                             (if (boundingBox.asKnown().isPresent) 1 else 0) +
                             (if (compactMarkdownTable.asKnown().isPresent) 1 else 0) +
                             (if (complementalFormattingInstruction.asKnown().isPresent) 1 else 0) +
-                            (if (confidenceScores.asKnown().isPresent) 1 else 0) +
+                            (if (confidenceScoreEffort.asKnown().isPresent) 1 else 0) +
                             (if (contentGuidelineInstruction.asKnown().isPresent) 1 else 0) +
                             (if (continuousMode.asKnown().isPresent) 1 else 0) +
                             (customMetadata.asKnown().getOrNull()?.validity() ?: 0) +
@@ -10372,7 +10373,7 @@ private constructor(
                             compactMarkdownTable == other.compactMarkdownTable &&
                             complementalFormattingInstruction ==
                                 other.complementalFormattingInstruction &&
-                            confidenceScores == other.confidenceScores &&
+                            confidenceScoreEffort == other.confidenceScoreEffort &&
                             contentGuidelineInstruction == other.contentGuidelineInstruction &&
                             continuousMode == other.continuousMode &&
                             customMetadata == other.customMetadata &&
@@ -10517,7 +10518,7 @@ private constructor(
                             boundingBox,
                             compactMarkdownTable,
                             complementalFormattingInstruction,
-                            confidenceScores,
+                            confidenceScoreEffort,
                             contentGuidelineInstruction,
                             continuousMode,
                             customMetadata,
@@ -10630,7 +10631,7 @@ private constructor(
                     override fun hashCode(): Int = hashCode
 
                     override fun toString() =
-                        "Parameters{adaptiveLongTable=$adaptiveLongTable, aggressiveTableExtraction=$aggressiveTableExtraction, annotateLinks=$annotateLinks, autoMode=$autoMode, autoModeConfigurationJson=$autoModeConfigurationJson, autoModeTriggerOnImageInPage=$autoModeTriggerOnImageInPage, autoModeTriggerOnRegexpInPage=$autoModeTriggerOnRegexpInPage, autoModeTriggerOnTableInPage=$autoModeTriggerOnTableInPage, autoModeTriggerOnTextInPage=$autoModeTriggerOnTextInPage, azureOpenAIApiVersion=$azureOpenAIApiVersion, azureOpenAIDeploymentName=$azureOpenAIDeploymentName, azureOpenAIEndpoint=$azureOpenAIEndpoint, azureOpenAIKey=$azureOpenAIKey, bboxBottom=$bboxBottom, bboxLeft=$bboxLeft, bboxRight=$bboxRight, bboxTop=$bboxTop, boundingBox=$boundingBox, compactMarkdownTable=$compactMarkdownTable, complementalFormattingInstruction=$complementalFormattingInstruction, confidenceScores=$confidenceScores, contentGuidelineInstruction=$contentGuidelineInstruction, continuousMode=$continuousMode, customMetadata=$customMetadata, disableImageExtraction=$disableImageExtraction, disableOcr=$disableOcr, disableReconstruction=$disableReconstruction, doNotCache=$doNotCache, doNotUnrollColumns=$doNotUnrollColumns, enableCostOptimizer=$enableCostOptimizer, extractCharts=$extractCharts, extractLayout=$extractLayout, extractPrintedPageNumber=$extractPrintedPageNumber, fastMode=$fastMode, formattingInstruction=$formattingInstruction, gpt4oApiKey=$gpt4oApiKey, gpt4oMode=$gpt4oMode, guessXlsxSheetName=$guessXlsxSheetName, hideFooters=$hideFooters, hideHeaders=$hideHeaders, highResOcr=$highResOcr, htmlMakeAllElementsVisible=$htmlMakeAllElementsVisible, htmlRemoveFixedElements=$htmlRemoveFixedElements, htmlRemoveNavigationElements=$htmlRemoveNavigationElements, httpProxy=$httpProxy, ignoreDocumentElementsForLayoutDetection=$ignoreDocumentElementsForLayoutDetection, imagesToSave=$imagesToSave, inlineImagesInMarkdown=$inlineImagesInMarkdown, inputS3Path=$inputS3Path, inputS3Region=$inputS3Region, inputUrl=$inputUrl, internalIsScreenshotJob=$internalIsScreenshotJob, invalidateCache=$invalidateCache, isFormattingInstruction=$isFormattingInstruction, jobTimeoutExtraTimePerPageInSeconds=$jobTimeoutExtraTimePerPageInSeconds, jobTimeoutInSeconds=$jobTimeoutInSeconds, keepPageSeparatorWhenMergingTables=$keepPageSeparatorWhenMergingTables, lang=$lang, languages=$languages, layoutAware=$layoutAware, lineLevelBoundingBox=$lineLevelBoundingBox, markdownTableMultilineHeaderSeparator=$markdownTableMultilineHeaderSeparator, maxPages=$maxPages, maxPagesEnforced=$maxPagesEnforced, mergeTablesAcrossPagesInMarkdown=$mergeTablesAcrossPagesInMarkdown, model=$model, outlinedTableExtraction=$outlinedTableExtraction, outputPdfOfDocument=$outputPdfOfDocument, outputS3PathPrefix=$outputS3PathPrefix, outputS3Region=$outputS3Region, outputTablesAsHtml=$outputTablesAsHtml, outputBucket=$outputBucket, pageErrorTolerance=$pageErrorTolerance, pageFooterPrefix=$pageFooterPrefix, pageFooterSuffix=$pageFooterSuffix, pageHeaderPrefix=$pageHeaderPrefix, pageHeaderSuffix=$pageHeaderSuffix, pagePrefix=$pagePrefix, pageSeparator=$pageSeparator, pageSuffix=$pageSuffix, parseMode=$parseMode, parsingInstruction=$parsingInstruction, pipelineId=$pipelineId, preciseBoundingBox=$preciseBoundingBox, premiumMode=$premiumMode, presentationOutOfBoundsContent=$presentationOutOfBoundsContent, presentationSkipEmbeddedData=$presentationSkipEmbeddedData, preserveLayoutAlignmentAcrossPages=$preserveLayoutAlignmentAcrossPages, preserveVerySmallText=$preserveVerySmallText, preset=$preset, priority=$priority, projectId=$projectId, removeHiddenText=$removeHiddenText, replaceFailedPageMode=$replaceFailedPageMode, replaceFailedPageWithErrorMessagePrefix=$replaceFailedPageWithErrorMessagePrefix, replaceFailedPageWithErrorMessageSuffix=$replaceFailedPageWithErrorMessageSuffix, resourceInfo=$resourceInfo, saveImages=$saveImages, skipDiagonalText=$skipDiagonalText, specializedChartParsingAgentic=$specializedChartParsingAgentic, specializedChartParsingEfficient=$specializedChartParsingEfficient, specializedChartParsingPlus=$specializedChartParsingPlus, specializedImageParsing=$specializedImageParsing, spreadsheetExtractSubTables=$spreadsheetExtractSubTables, spreadsheetForceFormulaComputation=$spreadsheetForceFormulaComputation, spreadsheetIncludeHiddenSheets=$spreadsheetIncludeHiddenSheets, strictModeBuggyFont=$strictModeBuggyFont, strictModeImageExtraction=$strictModeImageExtraction, strictModeImageOcr=$strictModeImageOcr, strictModeReconstruction=$strictModeReconstruction, structuredOutput=$structuredOutput, structuredOutputJsonSchema=$structuredOutputJsonSchema, structuredOutputJsonSchemaName=$structuredOutputJsonSchemaName, systemPrompt=$systemPrompt, systemPromptAppend=$systemPromptAppend, takeScreenshot=$takeScreenshot, targetPages=$targetPages, tier=$tier, type=$type, useVendorMultimodalModel=$useVendorMultimodalModel, userPrompt=$userPrompt, vendorMultimodalApiKey=$vendorMultimodalApiKey, vendorMultimodalModelName=$vendorMultimodalModelName, version=$version, webhookConfigurations=$webhookConfigurations, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
+                        "Parameters{adaptiveLongTable=$adaptiveLongTable, aggressiveTableExtraction=$aggressiveTableExtraction, annotateLinks=$annotateLinks, autoMode=$autoMode, autoModeConfigurationJson=$autoModeConfigurationJson, autoModeTriggerOnImageInPage=$autoModeTriggerOnImageInPage, autoModeTriggerOnRegexpInPage=$autoModeTriggerOnRegexpInPage, autoModeTriggerOnTableInPage=$autoModeTriggerOnTableInPage, autoModeTriggerOnTextInPage=$autoModeTriggerOnTextInPage, azureOpenAIApiVersion=$azureOpenAIApiVersion, azureOpenAIDeploymentName=$azureOpenAIDeploymentName, azureOpenAIEndpoint=$azureOpenAIEndpoint, azureOpenAIKey=$azureOpenAIKey, bboxBottom=$bboxBottom, bboxLeft=$bboxLeft, bboxRight=$bboxRight, bboxTop=$bboxTop, boundingBox=$boundingBox, compactMarkdownTable=$compactMarkdownTable, complementalFormattingInstruction=$complementalFormattingInstruction, confidenceScoreEffort=$confidenceScoreEffort, contentGuidelineInstruction=$contentGuidelineInstruction, continuousMode=$continuousMode, customMetadata=$customMetadata, disableImageExtraction=$disableImageExtraction, disableOcr=$disableOcr, disableReconstruction=$disableReconstruction, doNotCache=$doNotCache, doNotUnrollColumns=$doNotUnrollColumns, enableCostOptimizer=$enableCostOptimizer, extractCharts=$extractCharts, extractLayout=$extractLayout, extractPrintedPageNumber=$extractPrintedPageNumber, fastMode=$fastMode, formattingInstruction=$formattingInstruction, gpt4oApiKey=$gpt4oApiKey, gpt4oMode=$gpt4oMode, guessXlsxSheetName=$guessXlsxSheetName, hideFooters=$hideFooters, hideHeaders=$hideHeaders, highResOcr=$highResOcr, htmlMakeAllElementsVisible=$htmlMakeAllElementsVisible, htmlRemoveFixedElements=$htmlRemoveFixedElements, htmlRemoveNavigationElements=$htmlRemoveNavigationElements, httpProxy=$httpProxy, ignoreDocumentElementsForLayoutDetection=$ignoreDocumentElementsForLayoutDetection, imagesToSave=$imagesToSave, inlineImagesInMarkdown=$inlineImagesInMarkdown, inputS3Path=$inputS3Path, inputS3Region=$inputS3Region, inputUrl=$inputUrl, internalIsScreenshotJob=$internalIsScreenshotJob, invalidateCache=$invalidateCache, isFormattingInstruction=$isFormattingInstruction, jobTimeoutExtraTimePerPageInSeconds=$jobTimeoutExtraTimePerPageInSeconds, jobTimeoutInSeconds=$jobTimeoutInSeconds, keepPageSeparatorWhenMergingTables=$keepPageSeparatorWhenMergingTables, lang=$lang, languages=$languages, layoutAware=$layoutAware, lineLevelBoundingBox=$lineLevelBoundingBox, markdownTableMultilineHeaderSeparator=$markdownTableMultilineHeaderSeparator, maxPages=$maxPages, maxPagesEnforced=$maxPagesEnforced, mergeTablesAcrossPagesInMarkdown=$mergeTablesAcrossPagesInMarkdown, model=$model, outlinedTableExtraction=$outlinedTableExtraction, outputPdfOfDocument=$outputPdfOfDocument, outputS3PathPrefix=$outputS3PathPrefix, outputS3Region=$outputS3Region, outputTablesAsHtml=$outputTablesAsHtml, outputBucket=$outputBucket, pageErrorTolerance=$pageErrorTolerance, pageFooterPrefix=$pageFooterPrefix, pageFooterSuffix=$pageFooterSuffix, pageHeaderPrefix=$pageHeaderPrefix, pageHeaderSuffix=$pageHeaderSuffix, pagePrefix=$pagePrefix, pageSeparator=$pageSeparator, pageSuffix=$pageSuffix, parseMode=$parseMode, parsingInstruction=$parsingInstruction, pipelineId=$pipelineId, preciseBoundingBox=$preciseBoundingBox, premiumMode=$premiumMode, presentationOutOfBoundsContent=$presentationOutOfBoundsContent, presentationSkipEmbeddedData=$presentationSkipEmbeddedData, preserveLayoutAlignmentAcrossPages=$preserveLayoutAlignmentAcrossPages, preserveVerySmallText=$preserveVerySmallText, preset=$preset, priority=$priority, projectId=$projectId, removeHiddenText=$removeHiddenText, replaceFailedPageMode=$replaceFailedPageMode, replaceFailedPageWithErrorMessagePrefix=$replaceFailedPageWithErrorMessagePrefix, replaceFailedPageWithErrorMessageSuffix=$replaceFailedPageWithErrorMessageSuffix, resourceInfo=$resourceInfo, saveImages=$saveImages, skipDiagonalText=$skipDiagonalText, specializedChartParsingAgentic=$specializedChartParsingAgentic, specializedChartParsingEfficient=$specializedChartParsingEfficient, specializedChartParsingPlus=$specializedChartParsingPlus, specializedImageParsing=$specializedImageParsing, spreadsheetExtractSubTables=$spreadsheetExtractSubTables, spreadsheetForceFormulaComputation=$spreadsheetForceFormulaComputation, spreadsheetIncludeHiddenSheets=$spreadsheetIncludeHiddenSheets, strictModeBuggyFont=$strictModeBuggyFont, strictModeImageExtraction=$strictModeImageExtraction, strictModeImageOcr=$strictModeImageOcr, strictModeReconstruction=$strictModeReconstruction, structuredOutput=$structuredOutput, structuredOutputJsonSchema=$structuredOutputJsonSchema, structuredOutputJsonSchemaName=$structuredOutputJsonSchemaName, systemPrompt=$systemPrompt, systemPromptAppend=$systemPromptAppend, takeScreenshot=$takeScreenshot, targetPages=$targetPages, tier=$tier, type=$type, useVendorMultimodalModel=$useVendorMultimodalModel, userPrompt=$userPrompt, vendorMultimodalApiKey=$vendorMultimodalApiKey, vendorMultimodalModelName=$vendorMultimodalModelName, version=$version, webhookConfigurations=$webhookConfigurations, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
                 }
 
                 /**

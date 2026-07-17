@@ -123,7 +123,7 @@ internal class PipelineServiceAsyncTest {
                                     .complementalFormattingInstruction(
                                         "complemental_formatting_instruction"
                                     )
-                                    .confidenceScores("confidence_scores")
+                                    .confidenceScoreEffort("confidence_score_effort")
                                     .contentGuidelineInstruction("content_guideline_instruction")
                                     .continuousMode(true)
                                     .disableImageExtraction(true)
@@ -460,7 +460,7 @@ internal class PipelineServiceAsyncTest {
                             .complementalFormattingInstruction(
                                 "complemental_formatting_instruction"
                             )
-                            .confidenceScores("confidence_scores")
+                            .confidenceScoreEffort("confidence_score_effort")
                             .contentGuidelineInstruction("content_guideline_instruction")
                             .continuousMode(true)
                             .disableImageExtraction(true)
@@ -814,7 +814,7 @@ internal class PipelineServiceAsyncTest {
                                     .complementalFormattingInstruction(
                                         "complemental_formatting_instruction"
                                     )
-                                    .confidenceScores("confidence_scores")
+                                    .confidenceScoreEffort("confidence_score_effort")
                                     .contentGuidelineInstruction("content_guideline_instruction")
                                     .continuousMode(true)
                                     .disableImageExtraction(true)

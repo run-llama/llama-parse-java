@@ -66,7 +66,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                         .complementalFormattingInstruction(
                                             "complemental_formatting_instruction"
                                         )
-                                        .confidenceScores("confidence_scores")
+                                        .confidenceScoreEffort("confidence_score_effort")
                                         .contentGuidelineInstruction(
                                             "content_guideline_instruction"
                                         )
@@ -349,7 +349,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                     .complementalFormattingInstruction(
                                         "complemental_formatting_instruction"
                                     )
-                                    .confidenceScores("confidence_scores")
+                                    .confidenceScoreEffort("confidence_score_effort")
                                     .contentGuidelineInstruction("content_guideline_instruction")
                                     .continuousMode(true)
                                     .customMetadata(
@@ -627,7 +627,7 @@ internal class JobItemGetProcessingResultsResponseTest {
                                         .complementalFormattingInstruction(
                                             "complemental_formatting_instruction"
                                         )
-                                        .confidenceScores("confidence_scores")
+                                        .confidenceScoreEffort("confidence_score_effort")
                                         .contentGuidelineInstruction(
                                             "content_guideline_instruction"
                                         )
