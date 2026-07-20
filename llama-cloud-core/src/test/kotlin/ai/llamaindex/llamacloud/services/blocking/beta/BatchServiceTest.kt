@@ -1,0 +1,324 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package ai.llamaindex.llamacloud.services.blocking.beta
+
+import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClient
+import ai.llamaindex.llamacloud.core.JsonValue
+import ai.llamaindex.llamacloud.models.beta.batch.BatchCancelParams
+import ai.llamaindex.llamacloud.models.beta.batch.BatchCreateParams
+import ai.llamaindex.llamacloud.models.beta.batch.BatchGetStatusParams
+import ai.llamaindex.llamacloud.models.parsing.FailPageMode
+import ai.llamaindex.llamacloud.models.parsing.ParsingLanguages
+import ai.llamaindex.llamacloud.models.parsing.ParsingMode
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
+
+internal class BatchServiceTest {
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun create() {
+        val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
+        val batchService = client.beta().batch()
+
+        val batch =
+            batchService.create(
+                BatchCreateParams.builder()
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .temporalNamespace("temporal-namespace")
+                    .jobConfig(
+                        BatchCreateParams.JobConfig.BatchParseJobRecordCreate.builder()
+                            .correlationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .jobName(
+                                BatchCreateParams.JobConfig.BatchParseJobRecordCreate.JobName
+                                    .PARSE_RAW_FILE_JOB
+                            )
+                            .parameters(
+                                BatchCreateParams.JobConfig.BatchParseJobRecordCreate.Parameters
+                                    .builder()
+                                    .adaptiveLongTable(true)
+                                    .aggressiveTableExtraction(true)
+                                    .annotateLinks(true)
+                                    .autoMode(true)
+                                    .autoModeConfigurationJson("auto_mode_configuration_json")
+                                    .autoModeTriggerOnImageInPage(true)
+                                    .autoModeTriggerOnRegexpInPage(
+                                        "auto_mode_trigger_on_regexp_in_page"
+                                    )
+                                    .autoModeTriggerOnTableInPage(true)
+                                    .autoModeTriggerOnTextInPage(
+                                        "auto_mode_trigger_on_text_in_page"
+                                    )
+                                    .azureOpenAIApiVersion("azure_openai_api_version")
+                                    .azureOpenAIDeploymentName("azure_openai_deployment_name")
+                                    .azureOpenAIEndpoint("azure_openai_endpoint")
+                                    .azureOpenAIKey("azure_openai_key")
+                                    .bboxBottom(0.0)
+                                    .bboxLeft(0.0)
+                                    .bboxRight(0.0)
+                                    .bboxTop(0.0)
+                                    .boundingBox("bounding_box")
+                                    .compactMarkdownTable(true)
+                                    .complementalFormattingInstruction(
+                                        "complemental_formatting_instruction"
+                                    )
+                                    .confidenceScoreEffort("confidence_score_effort")
+                                    .contentGuidelineInstruction("content_guideline_instruction")
+                                    .continuousMode(true)
+                                    .customMetadata(
+                                        BatchCreateParams.JobConfig.BatchParseJobRecordCreate
+                                            .Parameters
+                                            .CustomMetadata
+                                            .builder()
+                                            .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                            .build()
+                                    )
+                                    .disableImageExtraction(true)
+                                    .disableOcr(true)
+                                    .disableReconstruction(true)
+                                    .doNotCache(true)
+                                    .doNotUnrollColumns(true)
+                                    .enableCostOptimizer(true)
+                                    .extractCharts(true)
+                                    .extractLayout(true)
+                                    .extractPrintedPageNumber(true)
+                                    .fastMode(true)
+                                    .formattingInstruction("formatting_instruction")
+                                    .gpt4oApiKey("gpt4o_api_key")
+                                    .gpt4oMode(true)
+                                    .guessXlsxSheetName(true)
+                                    .hideFooters(true)
+                                    .hideHeaders(true)
+                                    .highResOcr(true)
+                                    .htmlMakeAllElementsVisible(true)
+                                    .htmlRemoveFixedElements(true)
+                                    .htmlRemoveNavigationElements(true)
+                                    .httpProxy("http_proxy")
+                                    .ignoreDocumentElementsForLayoutDetection(true)
+                                    .addImagesToSave(
+                                        BatchCreateParams.JobConfig.BatchParseJobRecordCreate
+                                            .Parameters
+                                            .ImagesToSave
+                                            .EMBEDDED
+                                    )
+                                    .inlineImagesInMarkdown(true)
+                                    .inputS3Path("input_s3_path")
+                                    .inputS3Region("input_s3_region")
+                                    .inputUrl("input_url")
+                                    .internalIsScreenshotJob(true)
+                                    .invalidateCache(true)
+                                    .isFormattingInstruction(true)
+                                    .jobTimeoutExtraTimePerPageInSeconds(0.0)
+                                    .jobTimeoutInSeconds(0.0)
+                                    .keepPageSeparatorWhenMergingTables(true)
+                                    .lang("lang")
+                                    .addLanguage(ParsingLanguages.ABQ)
+                                    .layoutAware(true)
+                                    .lineLevelBoundingBox(true)
+                                    .markdownTableMultilineHeaderSeparator(
+                                        "markdown_table_multiline_header_separator"
+                                    )
+                                    .maxPages(0L)
+                                    .maxPagesEnforced(0L)
+                                    .mergeTablesAcrossPagesInMarkdown(true)
+                                    .model("model")
+                                    .outlinedTableExtraction(true)
+                                    .outputPdfOfDocument(true)
+                                    .outputS3PathPrefix("output_s3_path_prefix")
+                                    .outputS3Region("output_s3_region")
+                                    .outputTablesAsHtml(true)
+                                    .outputBucket("outputBucket")
+                                    .pageErrorTolerance(0.0)
+                                    .pageFooterPrefix("page_footer_prefix")
+                                    .pageFooterSuffix("page_footer_suffix")
+                                    .pageHeaderPrefix("page_header_prefix")
+                                    .pageHeaderSuffix("page_header_suffix")
+                                    .pagePrefix("page_prefix")
+                                    .pageSeparator("page_separator")
+                                    .pageSuffix("page_suffix")
+                                    .parseMode(ParsingMode.PARSE_DOCUMENT_WITH_AGENT)
+                                    .parsingInstruction("parsing_instruction")
+                                    .pipelineId("pipeline_id")
+                                    .preciseBoundingBox(true)
+                                    .premiumMode(true)
+                                    .presentationOutOfBoundsContent(true)
+                                    .presentationSkipEmbeddedData(true)
+                                    .preserveLayoutAlignmentAcrossPages(true)
+                                    .preserveVerySmallText(true)
+                                    .preset("preset")
+                                    .priority(
+                                        BatchCreateParams.JobConfig.BatchParseJobRecordCreate
+                                            .Parameters
+                                            .Priority
+                                            .CRITICAL
+                                    )
+                                    .projectId("project_id")
+                                    .removeHiddenText(true)
+                                    .replaceFailedPageMode(FailPageMode.BLANK_PAGE)
+                                    .replaceFailedPageWithErrorMessagePrefix(
+                                        "replace_failed_page_with_error_message_prefix"
+                                    )
+                                    .replaceFailedPageWithErrorMessageSuffix(
+                                        "replace_failed_page_with_error_message_suffix"
+                                    )
+                                    .resourceInfo(
+                                        BatchCreateParams.JobConfig.BatchParseJobRecordCreate
+                                            .Parameters
+                                            .ResourceInfo
+                                            .builder()
+                                            .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                            .build()
+                                    )
+                                    .saveImages(true)
+                                    .skipDiagonalText(true)
+                                    .specializedChartParsingAgentic(true)
+                                    .specializedChartParsingEfficient(true)
+                                    .specializedChartParsingPlus(true)
+                                    .specializedImageParsing(true)
+                                    .spreadsheetExtractSubTables(true)
+                                    .spreadsheetForceFormulaComputation(true)
+                                    .spreadsheetIncludeHiddenSheets(true)
+                                    .strictModeBuggyFont(true)
+                                    .strictModeImageExtraction(true)
+                                    .strictModeImageOcr(true)
+                                    .strictModeReconstruction(true)
+                                    .structuredOutput(true)
+                                    .structuredOutputJsonSchema("structured_output_json_schema")
+                                    .structuredOutputJsonSchemaName(
+                                        "structured_output_json_schema_name"
+                                    )
+                                    .systemPrompt("system_prompt")
+                                    .systemPromptAppend("system_prompt_append")
+                                    .takeScreenshot(true)
+                                    .targetPages("target_pages")
+                                    .tier("tier")
+                                    .type(
+                                        BatchCreateParams.JobConfig.BatchParseJobRecordCreate
+                                            .Parameters
+                                            .Type
+                                            .PARSE
+                                    )
+                                    .useVendorMultimodalModel(true)
+                                    .userPrompt("user_prompt")
+                                    .vendorMultimodalApiKey("vendor_multimodal_api_key")
+                                    .vendorMultimodalModelName("vendor_multimodal_model_name")
+                                    .version("version")
+                                    .addWebhookConfiguration(
+                                        BatchCreateParams.JobConfig.BatchParseJobRecordCreate
+                                            .Parameters
+                                            .WebhookConfiguration
+                                            .builder()
+                                            .addWebhookEvent(
+                                                BatchCreateParams.JobConfig
+                                                    .BatchParseJobRecordCreate
+                                                    .Parameters
+                                                    .WebhookConfiguration
+                                                    .WebhookEvent
+                                                    .PARSE_SUCCESS
+                                            )
+                                            .addWebhookEvent(
+                                                BatchCreateParams.JobConfig
+                                                    .BatchParseJobRecordCreate
+                                                    .Parameters
+                                                    .WebhookConfiguration
+                                                    .WebhookEvent
+                                                    .PARSE_ERROR
+                                            )
+                                            .webhookHeaders(
+                                                BatchCreateParams.JobConfig
+                                                    .BatchParseJobRecordCreate
+                                                    .Parameters
+                                                    .WebhookConfiguration
+                                                    .WebhookHeaders
+                                                    .builder()
+                                                    .putAdditionalProperty(
+                                                        "Authorization",
+                                                        JsonValue.from("Bearer sk-..."),
+                                                    )
+                                                    .build()
+                                            )
+                                            .webhookOutputFormat("json")
+                                            .webhookSigningSecret("whsec_...")
+                                            .webhookUrl("https://example.com/webhooks/llamacloud")
+                                            .build()
+                                    )
+                                    .webhookUrl("webhook_url")
+                                    .build()
+                            )
+                            .parentJobExecutionId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .partitions(
+                                BatchCreateParams.JobConfig.BatchParseJobRecordCreate.Partitions
+                                    .builder()
+                                    .putAdditionalProperty(
+                                        "foo",
+                                        JsonValue.from("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+                                    )
+                                    .build()
+                            )
+                            .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .sessionId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .userId("user_id")
+                            .webhookUrl("webhook_url")
+                            .build()
+                    )
+                    .continueAsNewThreshold(0L)
+                    .directoryId("dir-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+                    .addItemId("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+                    .addItemId("dfl-11111111-2222-3333-4444-555555555555")
+                    .pageSize(1L)
+                    .build()
+            )
+
+        batch.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun list() {
+        val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
+        val batchService = client.beta().batch()
+
+        val page = batchService.list()
+
+        page.response().validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun cancel() {
+        val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
+        val batchService = client.beta().batch()
+
+        val response =
+            batchService.cancel(
+                BatchCancelParams.builder()
+                    .jobId("job_id")
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .temporalNamespace("temporal-namespace")
+                    .reason("reason")
+                    .build()
+            )
+
+        response.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun getStatus() {
+        val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
+        val batchService = client.beta().batch()
+
+        val response =
+            batchService.getStatus(
+                BatchGetStatusParams.builder()
+                    .jobId("job_id")
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        response.validate()
+    }
+}
