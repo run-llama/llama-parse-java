@@ -20,7 +20,7 @@ tasks.withType<JavaCompile>().configureEach {
 application {
     // Use `./gradlew :llama-cloud-example:run` to run `Main`
     // Use `./gradlew :llama-cloud-example:run -Pexample=Something` to run `SomethingExample`
-    mainClass = "com.llamacloud_prod.api.example.${
+    mainClass = "ai.llamaindex.llamacloud.example.${
         if (project.hasProperty("example"))
             "${project.property("example")}Example"
         else

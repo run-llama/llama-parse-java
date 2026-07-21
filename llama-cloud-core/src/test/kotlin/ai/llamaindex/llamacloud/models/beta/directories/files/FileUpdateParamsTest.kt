@@ -1,0 +1,127 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package ai.llamaindex.llamacloud.models.beta.directories.files
+
+import ai.llamaindex.llamacloud.core.JsonValue
+import ai.llamaindex.llamacloud.core.http.QueryParams
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+
+internal class FileUpdateParamsTest {
+
+    @Test
+    fun create() {
+        FileUpdateParams.builder()
+            .directoryId("directory_id")
+            .directoryFileId("directory_file_id")
+            .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .displayName("display_name")
+            .metadata(
+                FileUpdateParams.Metadata.builder()
+                    .putAdditionalProperty("foo", JsonValue.from("string"))
+                    .build()
+            )
+            .targetDirectoryId("target_directory_id")
+            .uniqueId("x")
+            .build()
+    }
+
+    @Test
+    fun pathParams() {
+        val params =
+            FileUpdateParams.builder()
+                .directoryId("directory_id")
+                .directoryFileId("directory_file_id")
+                .build()
+
+        assertThat(params._pathParam(0)).isEqualTo("directory_id")
+        assertThat(params._pathParam(1)).isEqualTo("directory_file_id")
+        // out-of-bound path param
+        assertThat(params._pathParam(2)).isEqualTo("")
+    }
+
+    @Test
+    fun queryParams() {
+        val params =
+            FileUpdateParams.builder()
+                .directoryId("directory_id")
+                .directoryFileId("directory_file_id")
+                .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .displayName("display_name")
+                .metadata(
+                    FileUpdateParams.Metadata.builder()
+                        .putAdditionalProperty("foo", JsonValue.from("string"))
+                        .build()
+                )
+                .targetDirectoryId("target_directory_id")
+                .uniqueId("x")
+                .build()
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("organization_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+    }
+
+    @Test
+    fun queryParamsWithoutOptionalFields() {
+        val params =
+            FileUpdateParams.builder()
+                .directoryId("directory_id")
+                .directoryFileId("directory_file_id")
+                .build()
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
+    }
+
+    @Test
+    fun body() {
+        val params =
+            FileUpdateParams.builder()
+                .directoryId("directory_id")
+                .directoryFileId("directory_file_id")
+                .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .displayName("display_name")
+                .metadata(
+                    FileUpdateParams.Metadata.builder()
+                        .putAdditionalProperty("foo", JsonValue.from("string"))
+                        .build()
+                )
+                .targetDirectoryId("target_directory_id")
+                .uniqueId("x")
+                .build()
+
+        val body = params._body()
+
+        assertThat(body.displayName()).contains("display_name")
+        assertThat(body.metadata())
+            .contains(
+                FileUpdateParams.Metadata.builder()
+                    .putAdditionalProperty("foo", JsonValue.from("string"))
+                    .build()
+            )
+        assertThat(body.targetDirectoryId()).contains("target_directory_id")
+        assertThat(body.uniqueId()).contains("x")
+    }
+
+    @Test
+    fun bodyWithoutOptionalFields() {
+        val params =
+            FileUpdateParams.builder()
+                .directoryId("directory_id")
+                .directoryFileId("directory_file_id")
+                .build()
+
+        val body = params._body()
+    }
+}

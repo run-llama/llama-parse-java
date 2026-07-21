@@ -1,5 +1,5 @@
 # Specify the entrypoint where ProGuard starts to determine what's reachable.
--keep class com.llamacloud_prod.api.proguard.** { *; }
+-keep class ai.llamaindex.llamacloud.proguard.** { *; }
 
 # For the testing framework.
 -keep class org.junit.** { *; }
