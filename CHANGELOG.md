@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.3.0](https://github.com/run-llama/llama-parse-java/compare/v1.2.0...v1.3.0) (2026-07-21)
+
+
+### Features
+
+* **brokered-connection:** wire data-source create/read to brokered_connection_id ([#21699](https://github.com/run-llama/llama-parse-java/issues/21699)) ([9791a7d](https://github.com/run-llama/llama-parse-java/commit/9791a7d685d9f7d7eec1ac147edc3f28c4544ccf))
+* **gdrive:** reuse-first connection picker in the data-source connect modal ([#21725](https://github.com/run-llama/llama-parse-java/issues/21725)) ([b30a5cd](https://github.com/run-llama/llama-parse-java/commit/b30a5cd32f4a056e9d4f1cf8045ff77beb52f57e))
+* **llamaparse:** agentic 2026-07-15 — Markdown-pipe table body for Gemini 3.1 Flash-Lite (EU primary) ([#22208](https://github.com/run-llama/llama-parse-java/issues/22208)) ([a855cf6](https://github.com/run-llama/llama-parse-java/commit/a855cf66616f6b69ff441a53cec55577053b5d3c))
+* **parse:** adding forms pass to api layer (forms=`enrich` param + output types) ([#22012](https://github.com/run-llama/llama-parse-java/issues/22012)) ([5115dfc](https://github.com/run-llama/llama-parse-java/commit/5115dfcc3319e878b625f4d39a9d540120f931d2))
+* **parse:** confidence_scores="verified" — per-page AI-verified confidence + document-level score ([#22083](https://github.com/run-llama/llama-parse-java/issues/22083)) ([431cbaa](https://github.com/run-llama/llama-parse-java/commit/431cbaa5773b82312c7a693e7e6161ac71f05eee))
+* **parse:** rename confidence scoring option + billing event (confidence_score_effort / confidence_score_high) ([#22290](https://github.com/run-llama/llama-parse-java/issues/22290)) ([9797c07](https://github.com/run-llama/llama-parse-java/commit/9797c07c7933b1b7eabda8d3f6ca12dc98bc3fab))
+* **sdk:** drop the `prod` project suffix from Go and Java namespaces ([e7c3865](https://github.com/run-llama/llama-parse-java/commit/e7c3865b50257fc1b8600e03fdb9bcb6dcd970b4))
+
+
+### Bug Fixes
+
+* **parse:** declare the recursive form node schemas as models ([f2fc3f6](https://github.com/run-llama/llama-parse-java/commit/f2fc3f6f91184d953ea7f6bcb09bb7f5ca38baa3))
+
+
+### Chores
+
+* sync release metadata from production (v1.2.0) ([01cb952](https://github.com/run-llama/llama-parse-java/commit/01cb95204096dcadbea219beb64e02f05d320f4f))
+
 ## [1.2.0](https://github.com/run-llama/llama-parse-java/compare/v1.1.0...v1.2.0) (2026-07-09)
 
 
