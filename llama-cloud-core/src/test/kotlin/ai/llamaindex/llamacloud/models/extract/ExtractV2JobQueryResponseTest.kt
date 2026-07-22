@@ -139,7 +139,12 @@ internal class ExtractV2JobQueryResponseTest {
                         )
                         .metadata(
                             ExtractV2Job.Metadata.builder()
-                                .usage(ExtractJobUsage.builder().numPagesExtracted(0L).build())
+                                .usage(
+                                    ExtractJobUsage.builder()
+                                        .numPagesBilled(0L)
+                                        .numPagesExtracted(0L)
+                                        .build()
+                                )
                                 .build()
                         )
                         .build()
@@ -273,7 +278,12 @@ internal class ExtractV2JobQueryResponseTest {
                     )
                     .metadata(
                         ExtractV2Job.Metadata.builder()
-                            .usage(ExtractJobUsage.builder().numPagesExtracted(0L).build())
+                            .usage(
+                                ExtractJobUsage.builder()
+                                    .numPagesBilled(0L)
+                                    .numPagesExtracted(0L)
+                                    .build()
+                            )
                             .build()
                     )
                     .build()
@@ -411,7 +421,12 @@ internal class ExtractV2JobQueryResponseTest {
                         )
                         .metadata(
                             ExtractV2Job.Metadata.builder()
-                                .usage(ExtractJobUsage.builder().numPagesExtracted(0L).build())
+                                .usage(
+                                    ExtractJobUsage.builder()
+                                        .numPagesBilled(0L)
+                                        .numPagesExtracted(0L)
+                                        .build()
+                                )
                                 .build()
                         )
                         .build()

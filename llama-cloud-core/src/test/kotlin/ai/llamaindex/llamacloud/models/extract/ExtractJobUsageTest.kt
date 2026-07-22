@@ -11,15 +11,18 @@ internal class ExtractJobUsageTest {
 
     @Test
     fun create() {
-        val extractJobUsage = ExtractJobUsage.builder().numPagesExtracted(0L).build()
+        val extractJobUsage =
+            ExtractJobUsage.builder().numPagesBilled(0L).numPagesExtracted(0L).build()
 
+        assertThat(extractJobUsage.numPagesBilled()).contains(0L)
         assertThat(extractJobUsage.numPagesExtracted()).contains(0L)
     }
 
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val extractJobUsage = ExtractJobUsage.builder().numPagesExtracted(0L).build()
+        val extractJobUsage =
+            ExtractJobUsage.builder().numPagesBilled(0L).numPagesExtracted(0L).build()
 
         val roundtrippedExtractJobUsage =
             jsonMapper.readValue(

@@ -20,16 +20,28 @@ import kotlin.jvm.optionals.getOrNull
 class ExtractJobUsage
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
+    private val numPagesBilled: JsonField<Long>,
     private val numPagesExtracted: JsonField<Long>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
+        @JsonProperty("num_pages_billed")
+        @ExcludeMissing
+        numPagesBilled: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("num_pages_extracted")
         @ExcludeMissing
-        numPagesExtracted: JsonField<Long> = JsonMissing.of()
-    ) : this(numPagesExtracted, mutableMapOf())
+        numPagesExtracted: JsonField<Long> = JsonMissing.of(),
+    ) : this(numPagesBilled, numPagesExtracted, mutableMapOf())
+
+    /**
+     * Number of effective pages billed
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun numPagesBilled(): Optional<Long> = numPagesBilled.getOptional("num_pages_billed")
 
     /**
      * Number of pages extracted
@@ -38,6 +50,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun numPagesExtracted(): Optional<Long> = numPagesExtracted.getOptional("num_pages_extracted")
+
+    /**
+     * Returns the raw JSON value of [numPagesBilled].
+     *
+     * Unlike [numPagesBilled], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("num_pages_billed")
+    @ExcludeMissing
+    fun _numPagesBilled(): JsonField<Long> = numPagesBilled
 
     /**
      * Returns the raw JSON value of [numPagesExtracted].
@@ -70,13 +91,41 @@ private constructor(
     /** A builder for [ExtractJobUsage]. */
     class Builder internal constructor() {
 
+        private var numPagesBilled: JsonField<Long> = JsonMissing.of()
         private var numPagesExtracted: JsonField<Long> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(extractJobUsage: ExtractJobUsage) = apply {
+            numPagesBilled = extractJobUsage.numPagesBilled
             numPagesExtracted = extractJobUsage.numPagesExtracted
             additionalProperties = extractJobUsage.additionalProperties.toMutableMap()
+        }
+
+        /** Number of effective pages billed */
+        fun numPagesBilled(numPagesBilled: Long?) =
+            numPagesBilled(JsonField.ofNullable(numPagesBilled))
+
+        /**
+         * Alias for [Builder.numPagesBilled].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun numPagesBilled(numPagesBilled: Long) = numPagesBilled(numPagesBilled as Long?)
+
+        /** Alias for calling [Builder.numPagesBilled] with `numPagesBilled.orElse(null)`. */
+        fun numPagesBilled(numPagesBilled: Optional<Long>) =
+            numPagesBilled(numPagesBilled.getOrNull())
+
+        /**
+         * Sets [Builder.numPagesBilled] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.numPagesBilled] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun numPagesBilled(numPagesBilled: JsonField<Long>) = apply {
+            this.numPagesBilled = numPagesBilled
         }
 
         /** Number of pages extracted */
@@ -131,7 +180,7 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): ExtractJobUsage =
-            ExtractJobUsage(numPagesExtracted, additionalProperties.toMutableMap())
+            ExtractJobUsage(numPagesBilled, numPagesExtracted, additionalProperties.toMutableMap())
     }
 
     private var validated: Boolean = false
@@ -149,6 +198,7 @@ private constructor(
             return@apply
         }
 
+        numPagesBilled()
         numPagesExtracted()
         validated = true
     }
@@ -167,7 +217,9 @@ private constructor(
      * Used for best match union deserialization.
      */
     @JvmSynthetic
-    internal fun validity(): Int = (if (numPagesExtracted.asKnown().isPresent) 1 else 0)
+    internal fun validity(): Int =
+        (if (numPagesBilled.asKnown().isPresent) 1 else 0) +
+            (if (numPagesExtracted.asKnown().isPresent) 1 else 0)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -175,14 +227,17 @@ private constructor(
         }
 
         return other is ExtractJobUsage &&
+            numPagesBilled == other.numPagesBilled &&
             numPagesExtracted == other.numPagesExtracted &&
             additionalProperties == other.additionalProperties
     }
 
-    private val hashCode: Int by lazy { Objects.hash(numPagesExtracted, additionalProperties) }
+    private val hashCode: Int by lazy {
+        Objects.hash(numPagesBilled, numPagesExtracted, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ExtractJobUsage{numPagesExtracted=$numPagesExtracted, additionalProperties=$additionalProperties}"
+        "ExtractJobUsage{numPagesBilled=$numPagesBilled, numPagesExtracted=$numPagesExtracted, additionalProperties=$additionalProperties}"
 }
