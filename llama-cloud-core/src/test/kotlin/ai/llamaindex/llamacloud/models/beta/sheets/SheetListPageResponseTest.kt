@@ -30,6 +30,7 @@ internal class SheetListPageResponseTest {
                                 .tableMergeSensitivity(
                                     SheetsParsingConfig.TableMergeSensitivity.STRONG
                                 )
+                                .tier(SheetsParsingConfig.Tier.AGENTIC)
                                 .useExperimentalProcessing(true)
                                 .build()
                         )
@@ -50,6 +51,7 @@ internal class SheetListPageResponseTest {
                                 .tableMergeSensitivity(
                                     SheetsParsingConfig.TableMergeSensitivity.STRONG
                                 )
+                                .tier(SheetsParsingConfig.Tier.AGENTIC)
                                 .useExperimentalProcessing(true)
                                 .build()
                         )
@@ -157,6 +159,7 @@ internal class SheetListPageResponseTest {
                             .addSheetName("string")
                             .specialization("specialization")
                             .tableMergeSensitivity(SheetsParsingConfig.TableMergeSensitivity.STRONG)
+                            .tier(SheetsParsingConfig.Tier.AGENTIC)
                             .useExperimentalProcessing(true)
                             .build()
                     )
@@ -175,6 +178,7 @@ internal class SheetListPageResponseTest {
                             .addSheetName("string")
                             .specialization("specialization")
                             .tableMergeSensitivity(SheetsParsingConfig.TableMergeSensitivity.STRONG)
+                            .tier(SheetsParsingConfig.Tier.AGENTIC)
                             .useExperimentalProcessing(true)
                             .build()
                     )
@@ -288,6 +292,7 @@ internal class SheetListPageResponseTest {
                                 .tableMergeSensitivity(
                                     SheetsParsingConfig.TableMergeSensitivity.STRONG
                                 )
+                                .tier(SheetsParsingConfig.Tier.AGENTIC)
                                 .useExperimentalProcessing(true)
                                 .build()
                         )
@@ -308,6 +313,7 @@ internal class SheetListPageResponseTest {
                                 .tableMergeSensitivity(
                                     SheetsParsingConfig.TableMergeSensitivity.STRONG
                                 )
+                                .tier(SheetsParsingConfig.Tier.AGENTIC)
                                 .useExperimentalProcessing(true)
                                 .build()
                         )

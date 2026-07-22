@@ -1027,6 +1027,7 @@ private constructor(
             private val sheetNames: JsonField<List<String>>,
             private val specialization: JsonField<String>,
             private val tableMergeSensitivity: JsonField<TableMergeSensitivity>,
+            private val tier: JsonField<Tier>,
             private val useExperimentalProcessing: JsonField<Boolean>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
@@ -1057,6 +1058,7 @@ private constructor(
                 @JsonProperty("table_merge_sensitivity")
                 @ExcludeMissing
                 tableMergeSensitivity: JsonField<TableMergeSensitivity> = JsonMissing.of(),
+                @JsonProperty("tier") @ExcludeMissing tier: JsonField<Tier> = JsonMissing.of(),
                 @JsonProperty("use_experimental_processing")
                 @ExcludeMissing
                 useExperimentalProcessing: JsonField<Boolean> = JsonMissing.of(),
@@ -1069,6 +1071,7 @@ private constructor(
                 sheetNames,
                 specialization,
                 tableMergeSensitivity,
+                tier,
                 useExperimentalProcessing,
                 mutableMapOf(),
             )
@@ -1108,8 +1111,8 @@ private constructor(
                 flattenHierarchicalTables.getOptional("flatten_hierarchical_tables")
 
             /**
-             * Whether to generate additional metadata (title, description) for each extracted
-             * region.
+             * Deprecated: controlled by `tier`. Whether to generate additional metadata (title,
+             * description) for each extracted region. Honored only on `agentic`.
              *
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
              *   if the server responded with an unexpected value).
@@ -1136,9 +1139,10 @@ private constructor(
             fun sheetNames(): Optional<List<String>> = sheetNames.getOptional("sheet_names")
 
             /**
-             * Optional specialization mode for domain-specific extraction. Supported values:
-             * 'financial-standard', 'financial-enhanced', 'financial-precise'. Default None uses
-             * the general-purpose pipeline.
+             * Deprecated: controlled by `tier`. Optional specialization mode for domain-specific
+             * extraction. Supported values: 'financial-standard', 'financial-enhanced',
+             * 'financial-precise'. Default None uses the general-purpose pipeline. Honored only on
+             * `agentic`.
              *
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
              *   if the server responded with an unexpected value).
@@ -1146,9 +1150,8 @@ private constructor(
             fun specialization(): Optional<String> = specialization.getOptional("specialization")
 
             /**
-             * Influences how likely similar-looking regions are merged into a single table. Useful
-             * for spreadsheets that either have sparse tables (strong merging) or many distinct
-             * tables close together (weak merging).
+             * Deprecated: controlled by `tier`. Influences how likely similar-looking regions are
+             * merged into a single table. Honored only on `agentic`.
              *
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
              *   if the server responded with an unexpected value).
@@ -1157,7 +1160,17 @@ private constructor(
                 tableMergeSensitivity.getOptional("table_merge_sensitivity")
 
             /**
-             * Enables experimental processing. Accuracy may be impacted.
+             * Spreadsheet extraction tier. `cost_effective` uses the rule-based/ML-only pipeline;
+             * `agentic` uses the full pipeline.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun tier(): Optional<Tier> = tier.getOptional("tier")
+
+            /**
+             * Deprecated: controlled by `tier`. Enables experimental processing. Honored only on
+             * `agentic`.
              *
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
              *   if the server responded with an unexpected value).
@@ -1236,6 +1249,13 @@ private constructor(
             fun _tableMergeSensitivity(): JsonField<TableMergeSensitivity> = tableMergeSensitivity
 
             /**
+             * Returns the raw JSON value of [tier].
+             *
+             * Unlike [tier], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("tier") @ExcludeMissing fun _tier(): JsonField<Tier> = tier
+
+            /**
              * Returns the raw JSON value of [useExperimentalProcessing].
              *
              * Unlike [useExperimentalProcessing], this method doesn't throw if the JSON field has
@@ -1275,6 +1295,7 @@ private constructor(
                 private var specialization: JsonField<String> = JsonMissing.of()
                 private var tableMergeSensitivity: JsonField<TableMergeSensitivity> =
                     JsonMissing.of()
+                private var tier: JsonField<Tier> = JsonMissing.of()
                 private var useExperimentalProcessing: JsonField<Boolean> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1288,6 +1309,7 @@ private constructor(
                     sheetNames = spreadsheetV1.sheetNames.map { it.toMutableList() }
                     specialization = spreadsheetV1.specialization
                     tableMergeSensitivity = spreadsheetV1.tableMergeSensitivity
+                    tier = spreadsheetV1.tier
                     useExperimentalProcessing = spreadsheetV1.useExperimentalProcessing
                     additionalProperties = spreadsheetV1.additionalProperties.toMutableMap()
                 }
@@ -1349,8 +1371,8 @@ private constructor(
                     }
 
                 /**
-                 * Whether to generate additional metadata (title, description) for each extracted
-                 * region.
+                 * Deprecated: controlled by `tier`. Whether to generate additional metadata (title,
+                 * description) for each extracted region. Honored only on `agentic`.
                  */
                 fun generateAdditionalMetadata(generateAdditionalMetadata: Boolean) =
                     generateAdditionalMetadata(JsonField.of(generateAdditionalMetadata))
@@ -1417,9 +1439,10 @@ private constructor(
                 }
 
                 /**
-                 * Optional specialization mode for domain-specific extraction. Supported values:
-                 * 'financial-standard', 'financial-enhanced', 'financial-precise'. Default None
-                 * uses the general-purpose pipeline.
+                 * Deprecated: controlled by `tier`. Optional specialization mode for
+                 * domain-specific extraction. Supported values: 'financial-standard',
+                 * 'financial-enhanced', 'financial-precise'. Default None uses the general-purpose
+                 * pipeline. Honored only on `agentic`.
                  */
                 fun specialization(specialization: String?) =
                     specialization(JsonField.ofNullable(specialization))
@@ -1442,9 +1465,8 @@ private constructor(
                 }
 
                 /**
-                 * Influences how likely similar-looking regions are merged into a single table.
-                 * Useful for spreadsheets that either have sparse tables (strong merging) or many
-                 * distinct tables close together (weak merging).
+                 * Deprecated: controlled by `tier`. Influences how likely similar-looking regions
+                 * are merged into a single table. Honored only on `agentic`.
                  */
                 fun tableMergeSensitivity(tableMergeSensitivity: TableMergeSensitivity) =
                     tableMergeSensitivity(JsonField.of(tableMergeSensitivity))
@@ -1461,7 +1483,25 @@ private constructor(
                         this.tableMergeSensitivity = tableMergeSensitivity
                     }
 
-                /** Enables experimental processing. Accuracy may be impacted. */
+                /**
+                 * Spreadsheet extraction tier. `cost_effective` uses the rule-based/ML-only
+                 * pipeline; `agentic` uses the full pipeline.
+                 */
+                fun tier(tier: Tier) = tier(JsonField.of(tier))
+
+                /**
+                 * Sets [Builder.tier] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.tier] with a well-typed [Tier] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun tier(tier: JsonField<Tier>) = apply { this.tier = tier }
+
+                /**
+                 * Deprecated: controlled by `tier`. Enables experimental processing. Honored only
+                 * on `agentic`.
+                 */
                 fun useExperimentalProcessing(useExperimentalProcessing: Boolean) =
                     useExperimentalProcessing(JsonField.of(useExperimentalProcessing))
 
@@ -1514,6 +1554,7 @@ private constructor(
                         (sheetNames ?: JsonMissing.of()).map { it.toImmutable() },
                         specialization,
                         tableMergeSensitivity,
+                        tier,
                         useExperimentalProcessing,
                         additionalProperties.toMutableMap(),
                     )
@@ -1550,6 +1591,7 @@ private constructor(
                 sheetNames()
                 specialization()
                 tableMergeSensitivity().ifPresent { it.validate() }
+                tier().ifPresent { it.validate() }
                 useExperimentalProcessing()
                 validated = true
             }
@@ -1578,12 +1620,12 @@ private constructor(
                     (sheetNames.asKnown().getOrNull()?.size ?: 0) +
                     (if (specialization.asKnown().isPresent) 1 else 0) +
                     (tableMergeSensitivity.asKnown().getOrNull()?.validity() ?: 0) +
+                    (tier.asKnown().getOrNull()?.validity() ?: 0) +
                     (if (useExperimentalProcessing.asKnown().isPresent) 1 else 0)
 
             /**
-             * Influences how likely similar-looking regions are merged into a single table. Useful
-             * for spreadsheets that either have sparse tables (strong merging) or many distinct
-             * tables close together (weak merging).
+             * Deprecated: controlled by `tier`. Influences how likely similar-looking regions are
+             * merged into a single table. Honored only on `agentic`.
              */
             class TableMergeSensitivity
             @JsonCreator
@@ -1732,6 +1774,150 @@ private constructor(
                 override fun toString() = value.toString()
             }
 
+            /**
+             * Spreadsheet extraction tier. `cost_effective` uses the rule-based/ML-only pipeline;
+             * `agentic` uses the full pipeline.
+             */
+            class Tier @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val AGENTIC = of("agentic")
+
+                    @JvmField val COST_EFFECTIVE = of("cost_effective")
+
+                    @JvmStatic fun of(value: String) = Tier(JsonField.of(value))
+                }
+
+                /** An enum containing [Tier]'s known values. */
+                enum class Known {
+                    AGENTIC,
+                    COST_EFFECTIVE,
+                }
+
+                /**
+                 * An enum containing [Tier]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Tier] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    AGENTIC,
+                    COST_EFFECTIVE,
+                    /**
+                     * An enum member indicating that [Tier] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        AGENTIC -> Value.AGENTIC
+                        COST_EFFECTIVE -> Value.COST_EFFECTIVE
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        AGENTIC -> Known.AGENTIC
+                        COST_EFFECTIVE -> Known.COST_EFFECTIVE
+                        else -> throw LlamaCloudInvalidDataException("Unknown Tier: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value does not
+                 *   have the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LlamaCloudInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LlamaCloudInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
+                fun validate(): Tier = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LlamaCloudInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Tier && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
@@ -1746,6 +1932,7 @@ private constructor(
                     sheetNames == other.sheetNames &&
                     specialization == other.specialization &&
                     tableMergeSensitivity == other.tableMergeSensitivity &&
+                    tier == other.tier &&
                     useExperimentalProcessing == other.useExperimentalProcessing &&
                     additionalProperties == other.additionalProperties
             }
@@ -1760,6 +1947,7 @@ private constructor(
                     sheetNames,
                     specialization,
                     tableMergeSensitivity,
+                    tier,
                     useExperimentalProcessing,
                     additionalProperties,
                 )
@@ -1768,7 +1956,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "SpreadsheetV1{productType=$productType, extractionRange=$extractionRange, flattenHierarchicalTables=$flattenHierarchicalTables, generateAdditionalMetadata=$generateAdditionalMetadata, includeHiddenCells=$includeHiddenCells, sheetNames=$sheetNames, specialization=$specialization, tableMergeSensitivity=$tableMergeSensitivity, useExperimentalProcessing=$useExperimentalProcessing, additionalProperties=$additionalProperties}"
+                "SpreadsheetV1{productType=$productType, extractionRange=$extractionRange, flattenHierarchicalTables=$flattenHierarchicalTables, generateAdditionalMetadata=$generateAdditionalMetadata, includeHiddenCells=$includeHiddenCells, sheetNames=$sheetNames, specialization=$specialization, tableMergeSensitivity=$tableMergeSensitivity, tier=$tier, useExperimentalProcessing=$useExperimentalProcessing, additionalProperties=$additionalProperties}"
         }
     }
 

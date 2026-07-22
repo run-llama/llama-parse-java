@@ -21,6 +21,7 @@ internal class SheetsParsingConfigTest {
                 .addSheetName("string")
                 .specialization("specialization")
                 .tableMergeSensitivity(SheetsParsingConfig.TableMergeSensitivity.STRONG)
+                .tier(SheetsParsingConfig.Tier.AGENTIC)
                 .useExperimentalProcessing(true)
                 .build()
 
@@ -32,6 +33,7 @@ internal class SheetsParsingConfigTest {
         assertThat(sheetsParsingConfig.specialization()).contains("specialization")
         assertThat(sheetsParsingConfig.tableMergeSensitivity())
             .contains(SheetsParsingConfig.TableMergeSensitivity.STRONG)
+        assertThat(sheetsParsingConfig.tier()).contains(SheetsParsingConfig.Tier.AGENTIC)
         assertThat(sheetsParsingConfig.useExperimentalProcessing()).contains(true)
     }
 
@@ -47,6 +49,7 @@ internal class SheetsParsingConfigTest {
                 .addSheetName("string")
                 .specialization("specialization")
                 .tableMergeSensitivity(SheetsParsingConfig.TableMergeSensitivity.STRONG)
+                .tier(SheetsParsingConfig.Tier.AGENTIC)
                 .useExperimentalProcessing(true)
                 .build()
 
