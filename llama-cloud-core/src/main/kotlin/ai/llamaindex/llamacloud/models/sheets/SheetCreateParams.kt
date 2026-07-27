@@ -77,6 +77,14 @@ private constructor(
     fun configurationId(): Optional<String> = body.configurationId()
 
     /**
+     * IDs of saved webhook configurations to notify for this job.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun webhookConfigurationIds(): Optional<List<String>> = body.webhookConfigurationIds()
+
+    /**
      * Outbound webhook endpoints to notify on job status changes
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -111,6 +119,14 @@ private constructor(
      * Unlike [configurationId], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _configurationId(): JsonField<String> = body._configurationId()
+
+    /**
+     * Returns the raw JSON value of [webhookConfigurationIds].
+     *
+     * Unlike [webhookConfigurationIds], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    fun _webhookConfigurationIds(): JsonField<List<String>> = body._webhookConfigurationIds()
 
     /**
      * Returns the raw JSON value of [webhookConfigurations].
@@ -182,7 +198,7 @@ private constructor(
          * - [config]
          * - [configuration]
          * - [configurationId]
-         * - [webhookConfigurations]
+         * - [webhookConfigurationIds]
          * - etc.
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
@@ -254,6 +270,38 @@ private constructor(
          */
         fun configurationId(configurationId: JsonField<String>) = apply {
             body.configurationId(configurationId)
+        }
+
+        /** IDs of saved webhook configurations to notify for this job. */
+        fun webhookConfigurationIds(webhookConfigurationIds: List<String>?) = apply {
+            body.webhookConfigurationIds(webhookConfigurationIds)
+        }
+
+        /**
+         * Alias for calling [Builder.webhookConfigurationIds] with
+         * `webhookConfigurationIds.orElse(null)`.
+         */
+        fun webhookConfigurationIds(webhookConfigurationIds: Optional<List<String>>) =
+            webhookConfigurationIds(webhookConfigurationIds.getOrNull())
+
+        /**
+         * Sets [Builder.webhookConfigurationIds] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.webhookConfigurationIds] with a well-typed
+         * `List<String>` value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
+        fun webhookConfigurationIds(webhookConfigurationIds: JsonField<List<String>>) = apply {
+            body.webhookConfigurationIds(webhookConfigurationIds)
+        }
+
+        /**
+         * Adds a single [String] to [webhookConfigurationIds].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addWebhookConfigurationId(webhookConfigurationId: String) = apply {
+            body.addWebhookConfigurationId(webhookConfigurationId)
         }
 
         /** Outbound webhook endpoints to notify on job status changes */
@@ -454,6 +502,7 @@ private constructor(
         private val config: JsonField<SheetsParsingConfig>,
         private val configuration: JsonField<SheetsParsingConfig>,
         private val configurationId: JsonField<String>,
+        private val webhookConfigurationIds: JsonField<List<String>>,
         private val webhookConfigurations: JsonField<List<WebhookConfiguration>>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -470,6 +519,9 @@ private constructor(
             @JsonProperty("configuration_id")
             @ExcludeMissing
             configurationId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("webhook_configuration_ids")
+            @ExcludeMissing
+            webhookConfigurationIds: JsonField<List<String>> = JsonMissing.of(),
             @JsonProperty("webhook_configurations")
             @ExcludeMissing
             webhookConfigurations: JsonField<List<WebhookConfiguration>> = JsonMissing.of(),
@@ -478,6 +530,7 @@ private constructor(
             config,
             configuration,
             configurationId,
+            webhookConfigurationIds,
             webhookConfigurations,
             mutableMapOf(),
         )
@@ -515,6 +568,15 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun configurationId(): Optional<String> = configurationId.getOptional("configuration_id")
+
+        /**
+         * IDs of saved webhook configurations to notify for this job.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun webhookConfigurationIds(): Optional<List<String>> =
+            webhookConfigurationIds.getOptional("webhook_configuration_ids")
 
         /**
          * Outbound webhook endpoints to notify on job status changes
@@ -563,6 +625,16 @@ private constructor(
         fun _configurationId(): JsonField<String> = configurationId
 
         /**
+         * Returns the raw JSON value of [webhookConfigurationIds].
+         *
+         * Unlike [webhookConfigurationIds], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("webhook_configuration_ids")
+        @ExcludeMissing
+        fun _webhookConfigurationIds(): JsonField<List<String>> = webhookConfigurationIds
+
+        /**
          * Returns the raw JSON value of [webhookConfigurations].
          *
          * Unlike [webhookConfigurations], this method doesn't throw if the JSON field has an
@@ -604,6 +676,7 @@ private constructor(
             private var config: JsonField<SheetsParsingConfig> = JsonMissing.of()
             private var configuration: JsonField<SheetsParsingConfig> = JsonMissing.of()
             private var configurationId: JsonField<String> = JsonMissing.of()
+            private var webhookConfigurationIds: JsonField<MutableList<String>>? = null
             private var webhookConfigurations: JsonField<MutableList<WebhookConfiguration>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -613,6 +686,7 @@ private constructor(
                 config = body.config
                 configuration = body.configuration
                 configurationId = body.configurationId
+                webhookConfigurationIds = body.webhookConfigurationIds.map { it.toMutableList() }
                 webhookConfigurations = body.webhookConfigurations.map { it.toMutableList() }
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
@@ -683,6 +757,40 @@ private constructor(
              */
             fun configurationId(configurationId: JsonField<String>) = apply {
                 this.configurationId = configurationId
+            }
+
+            /** IDs of saved webhook configurations to notify for this job. */
+            fun webhookConfigurationIds(webhookConfigurationIds: List<String>?) =
+                webhookConfigurationIds(JsonField.ofNullable(webhookConfigurationIds))
+
+            /**
+             * Alias for calling [Builder.webhookConfigurationIds] with
+             * `webhookConfigurationIds.orElse(null)`.
+             */
+            fun webhookConfigurationIds(webhookConfigurationIds: Optional<List<String>>) =
+                webhookConfigurationIds(webhookConfigurationIds.getOrNull())
+
+            /**
+             * Sets [Builder.webhookConfigurationIds] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.webhookConfigurationIds] with a well-typed
+             * `List<String>` value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
+            fun webhookConfigurationIds(webhookConfigurationIds: JsonField<List<String>>) = apply {
+                this.webhookConfigurationIds = webhookConfigurationIds.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [String] to [webhookConfigurationIds].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addWebhookConfigurationId(webhookConfigurationId: String) = apply {
+                webhookConfigurationIds =
+                    (webhookConfigurationIds ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("webhookConfigurationIds", it).add(webhookConfigurationId)
+                    }
             }
 
             /** Outbound webhook endpoints to notify on job status changes */
@@ -758,6 +866,7 @@ private constructor(
                     config,
                     configuration,
                     configurationId,
+                    (webhookConfigurationIds ?: JsonMissing.of()).map { it.toImmutable() },
                     (webhookConfigurations ?: JsonMissing.of()).map { it.toImmutable() },
                     additionalProperties.toMutableMap(),
                 )
@@ -783,6 +892,7 @@ private constructor(
             config().ifPresent { it.validate() }
             configuration().ifPresent { it.validate() }
             configurationId()
+            webhookConfigurationIds()
             webhookConfigurations().ifPresent { it.forEach { it.validate() } }
             validated = true
         }
@@ -807,6 +917,7 @@ private constructor(
                 (config.asKnown().getOrNull()?.validity() ?: 0) +
                 (configuration.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (configurationId.asKnown().isPresent) 1 else 0) +
+                (webhookConfigurationIds.asKnown().getOrNull()?.size ?: 0) +
                 (webhookConfigurations.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
         override fun equals(other: Any?): Boolean {
@@ -819,6 +930,7 @@ private constructor(
                 config == other.config &&
                 configuration == other.configuration &&
                 configurationId == other.configurationId &&
+                webhookConfigurationIds == other.webhookConfigurationIds &&
                 webhookConfigurations == other.webhookConfigurations &&
                 additionalProperties == other.additionalProperties
         }
@@ -829,6 +941,7 @@ private constructor(
                 config,
                 configuration,
                 configurationId,
+                webhookConfigurationIds,
                 webhookConfigurations,
                 additionalProperties,
             )
@@ -837,7 +950,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{fileId=$fileId, config=$config, configuration=$configuration, configurationId=$configurationId, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
+            "Body{fileId=$fileId, config=$config, configuration=$configuration, configurationId=$configurationId, webhookConfigurationIds=$webhookConfigurationIds, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
     }
 
     /** Configuration for a single outbound webhook endpoint. */
