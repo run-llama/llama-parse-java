@@ -49,6 +49,8 @@ internal class ExtractCreateParamsTest {
                             .build()
                     )
                     .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfigurationId("whc-...")
                     .addWebhookConfiguration(
                         ExtractV2JobCreate.WebhookConfiguration.builder()
                             .addWebhookEvent(
@@ -119,6 +121,8 @@ internal class ExtractCreateParamsTest {
                                 .build()
                         )
                         .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                        .addWebhookConfigurationId("whc-...")
+                        .addWebhookConfigurationId("whc-...")
                         .addWebhookConfiguration(
                             ExtractV2JobCreate.WebhookConfiguration.builder()
                                 .addWebhookEvent(
@@ -216,6 +220,8 @@ internal class ExtractCreateParamsTest {
                                 .build()
                         )
                         .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                        .addWebhookConfigurationId("whc-...")
+                        .addWebhookConfigurationId("whc-...")
                         .addWebhookConfiguration(
                             ExtractV2JobCreate.WebhookConfiguration.builder()
                                 .addWebhookEvent(
@@ -280,6 +286,8 @@ internal class ExtractCreateParamsTest {
                             .build()
                     )
                     .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfigurationId("whc-...")
                     .addWebhookConfiguration(
                         ExtractV2JobCreate.WebhookConfiguration.builder()
                             .addWebhookEvent(
