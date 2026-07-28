@@ -41,6 +41,8 @@ internal class ClassifyCreateParamsTest {
                     .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                     .parseJobId("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                     .transactionId("tx-unique-idempotency-key")
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfigurationId("whc-...")
                     .addWebhookConfiguration(
                         ClassifyCreateRequest.WebhookConfiguration.builder()
                             .addWebhookEvent(
@@ -101,6 +103,8 @@ internal class ClassifyCreateParamsTest {
                         .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                         .parseJobId("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                         .transactionId("tx-unique-idempotency-key")
+                        .addWebhookConfigurationId("whc-...")
+                        .addWebhookConfigurationId("whc-...")
                         .addWebhookConfiguration(
                             ClassifyCreateRequest.WebhookConfiguration.builder()
                                 .addWebhookEvent(
@@ -185,6 +189,8 @@ internal class ClassifyCreateParamsTest {
                         .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                         .parseJobId("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                         .transactionId("tx-unique-idempotency-key")
+                        .addWebhookConfigurationId("whc-...")
+                        .addWebhookConfigurationId("whc-...")
                         .addWebhookConfiguration(
                             ClassifyCreateRequest.WebhookConfiguration.builder()
                                 .addWebhookEvent(
@@ -243,6 +249,8 @@ internal class ClassifyCreateParamsTest {
                     .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                     .parseJobId("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                     .transactionId("tx-unique-idempotency-key")
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfigurationId("whc-...")
                     .addWebhookConfiguration(
                         ClassifyCreateRequest.WebhookConfiguration.builder()
                             .addWebhookEvent(
