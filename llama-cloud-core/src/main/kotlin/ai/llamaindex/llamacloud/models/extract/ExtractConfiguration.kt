@@ -89,7 +89,8 @@ private constructor(
     fun dataSchema(): DataSchema = dataSchema.getRequired("data_schema")
 
     /**
-     * Include citations in results
+     * Include citations in results. Returned under `extract_metadata` (auto-included when set).
+     * Text-level on `turbo` (no bounding boxes).
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -97,7 +98,8 @@ private constructor(
     fun citeSources(): Optional<Boolean> = citeSources.getOptional("cite_sources")
 
     /**
-     * Include confidence scores in results
+     * Include confidence scores in results. Returned under `extract_metadata` (auto-included when
+     * set).
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -343,7 +345,10 @@ private constructor(
          */
         fun dataSchema(dataSchema: JsonField<DataSchema>) = apply { this.dataSchema = dataSchema }
 
-        /** Include citations in results */
+        /**
+         * Include citations in results. Returned under `extract_metadata` (auto-included when set).
+         * Text-level on `turbo` (no bounding boxes).
+         */
         fun citeSources(citeSources: Boolean) = citeSources(JsonField.of(citeSources))
 
         /**
@@ -355,7 +360,10 @@ private constructor(
          */
         fun citeSources(citeSources: JsonField<Boolean>) = apply { this.citeSources = citeSources }
 
-        /** Include confidence scores in results */
+        /**
+         * Include confidence scores in results. Returned under `extract_metadata` (auto-included
+         * when set).
+         */
         fun confidenceScores(confidenceScores: Boolean) =
             confidenceScores(JsonField.of(confidenceScores))
 
