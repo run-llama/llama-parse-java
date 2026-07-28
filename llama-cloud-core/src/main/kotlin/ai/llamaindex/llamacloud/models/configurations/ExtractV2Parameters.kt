@@ -139,7 +139,9 @@ private constructor(
     fun maxPages(): Optional<Long> = maxPages.getOptional("max_pages")
 
     /**
-     * Saved parse configuration ID to control how the document is parsed before extraction
+     * Saved parse configuration ID to control how the document is parsed before extraction. Turbo
+     * extract does not support parse configuration or produce a parse output; use another tier if
+     * your workflow requires parsed text.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -147,7 +149,9 @@ private constructor(
     fun parseConfigId(): Optional<String> = parseConfigId.getOptional("parse_config_id")
 
     /**
-     * Parse tier to use before extraction. Defaults to the extract tier if not specified.
+     * Parse tier to use before extraction. Defaults to the extract tier if not specified. Turbo
+     * extract does not support parse configuration or produce a parse output; use another tier if
+     * your workflow requires parsed text.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -437,7 +441,11 @@ private constructor(
          */
         fun maxPages(maxPages: JsonField<Long>) = apply { this.maxPages = maxPages }
 
-        /** Saved parse configuration ID to control how the document is parsed before extraction */
+        /**
+         * Saved parse configuration ID to control how the document is parsed before extraction.
+         * Turbo extract does not support parse configuration or produce a parse output; use another
+         * tier if your workflow requires parsed text.
+         */
         fun parseConfigId(parseConfigId: String?) =
             parseConfigId(JsonField.ofNullable(parseConfigId))
 
@@ -456,7 +464,11 @@ private constructor(
             this.parseConfigId = parseConfigId
         }
 
-        /** Parse tier to use before extraction. Defaults to the extract tier if not specified. */
+        /**
+         * Parse tier to use before extraction. Defaults to the extract tier if not specified. Turbo
+         * extract does not support parse configuration or produce a parse output; use another tier
+         * if your workflow requires parsed text.
+         */
         fun parseTier(parseTier: String?) = parseTier(JsonField.ofNullable(parseTier))
 
         /** Alias for calling [Builder.parseTier] with `parseTier.orElse(null)`. */
