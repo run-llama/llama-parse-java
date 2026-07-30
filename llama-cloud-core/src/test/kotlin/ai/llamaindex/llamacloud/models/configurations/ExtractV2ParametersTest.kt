@@ -5,6 +5,7 @@ package ai.llamaindex.llamacloud.models.configurations
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -25,6 +26,9 @@ internal class ExtractV2ParametersTest {
                 .maxPages(10L)
                 .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                 .parseTier("fast")
+                .addSheetName("Sheet 1")
+                .addSheetName("Q4 Summary")
+                .spreadsheetMode(true)
                 .systemPrompt(
                     "Extract all monetary values in USD. If a currency is not specified, assume USD."
                 )
@@ -47,6 +51,9 @@ internal class ExtractV2ParametersTest {
         assertThat(extractV2Parameters.parseConfigId())
             .contains("cfg-11111111-2222-3333-4444-555555555555")
         assertThat(extractV2Parameters.parseTier()).contains("fast")
+        assertThat(extractV2Parameters.sheetNames().getOrNull())
+            .containsExactly("Sheet 1", "Q4 Summary")
+        assertThat(extractV2Parameters.spreadsheetMode()).contains(true)
         assertThat(extractV2Parameters.systemPrompt())
             .contains(
                 "Extract all monetary values in USD. If a currency is not specified, assume USD."
@@ -72,6 +79,9 @@ internal class ExtractV2ParametersTest {
                 .maxPages(10L)
                 .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                 .parseTier("fast")
+                .addSheetName("Sheet 1")
+                .addSheetName("Q4 Summary")
+                .spreadsheetMode(true)
                 .systemPrompt(
                     "Extract all monetary values in USD. If a currency is not specified, assume USD."
                 )

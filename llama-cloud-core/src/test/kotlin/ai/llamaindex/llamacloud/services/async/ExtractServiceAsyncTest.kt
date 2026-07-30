@@ -59,6 +59,9 @@ internal class ExtractServiceAsyncTest {
                                     .maxPages(10L)
                                     .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                                     .parseTier("fast")
+                                    .addSheetName("Sheet 1")
+                                    .addSheetName("Q4 Summary")
+                                    .spreadsheetMode(true)
                                     .systemPrompt(
                                         "Extract all monetary values in USD. If a currency is not specified, assume USD."
                                     )
