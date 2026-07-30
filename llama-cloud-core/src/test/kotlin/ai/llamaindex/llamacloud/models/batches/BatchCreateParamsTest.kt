@@ -2,7 +2,9 @@
 
 package ai.llamaindex.llamacloud.models.batches
 
+import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.core.http.QueryParams
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -24,6 +26,26 @@ internal class BatchCreateParamsTest {
                     .build()
             )
             .sourceDirectoryId("dir-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+            .addWebhookConfigurationId("whc-...")
+            .addWebhookConfigurationId("whc-...")
+            .addWebhookConfiguration(
+                BatchCreateParams.WebhookConfiguration.builder()
+                    .addWebhookEvent(
+                        BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_SUCCESS
+                    )
+                    .addWebhookEvent(
+                        BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_ERROR
+                    )
+                    .webhookHeaders(
+                        BatchCreateParams.WebhookConfiguration.WebhookHeaders.builder()
+                            .putAdditionalProperty("Authorization", JsonValue.from("Bearer sk-..."))
+                            .build()
+                    )
+                    .webhookOutputFormat("json")
+                    .webhookSigningSecret("whsec_...")
+                    .webhookUrl("https://example.com/webhooks/llamacloud")
+                    .build()
+            )
             .build()
     }
 
@@ -44,6 +66,29 @@ internal class BatchCreateParamsTest {
                         .build()
                 )
                 .sourceDirectoryId("dir-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfiguration(
+                    BatchCreateParams.WebhookConfiguration.builder()
+                        .addWebhookEvent(
+                            BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_SUCCESS
+                        )
+                        .addWebhookEvent(
+                            BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_ERROR
+                        )
+                        .webhookHeaders(
+                            BatchCreateParams.WebhookConfiguration.WebhookHeaders.builder()
+                                .putAdditionalProperty(
+                                    "Authorization",
+                                    JsonValue.from("Bearer sk-..."),
+                                )
+                                .build()
+                        )
+                        .webhookOutputFormat("json")
+                        .webhookSigningSecret("whsec_...")
+                        .webhookUrl("https://example.com/webhooks/llamacloud")
+                        .build()
+                )
                 .build()
 
         val queryParams = params._queryParams()
@@ -96,6 +141,29 @@ internal class BatchCreateParamsTest {
                         .build()
                 )
                 .sourceDirectoryId("dir-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfiguration(
+                    BatchCreateParams.WebhookConfiguration.builder()
+                        .addWebhookEvent(
+                            BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_SUCCESS
+                        )
+                        .addWebhookEvent(
+                            BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_ERROR
+                        )
+                        .webhookHeaders(
+                            BatchCreateParams.WebhookConfiguration.WebhookHeaders.builder()
+                                .putAdditionalProperty(
+                                    "Authorization",
+                                    JsonValue.from("Bearer sk-..."),
+                                )
+                                .build()
+                        )
+                        .webhookOutputFormat("json")
+                        .webhookSigningSecret("whsec_...")
+                        .webhookUrl("https://example.com/webhooks/llamacloud")
+                        .build()
+                )
                 .build()
 
         val body = params._body()
@@ -112,6 +180,26 @@ internal class BatchCreateParamsTest {
                     .build()
             )
         assertThat(body.sourceDirectoryId()).isEqualTo("dir-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+        assertThat(body.webhookConfigurationIds().getOrNull()).containsExactly("whc-...", "whc-...")
+        assertThat(body.webhookConfigurations().getOrNull())
+            .containsExactly(
+                BatchCreateParams.WebhookConfiguration.builder()
+                    .addWebhookEvent(
+                        BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_SUCCESS
+                    )
+                    .addWebhookEvent(
+                        BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_ERROR
+                    )
+                    .webhookHeaders(
+                        BatchCreateParams.WebhookConfiguration.WebhookHeaders.builder()
+                            .putAdditionalProperty("Authorization", JsonValue.from("Bearer sk-..."))
+                            .build()
+                    )
+                    .webhookOutputFormat("json")
+                    .webhookSigningSecret("whsec_...")
+                    .webhookUrl("https://example.com/webhooks/llamacloud")
+                    .build()
+            )
     }
 
     @Test

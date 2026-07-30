@@ -3,6 +3,7 @@
 package ai.llamaindex.llamacloud.services.blocking
 
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClient
+import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.models.batches.BatchCreateParams
 import ai.llamaindex.llamacloud.models.batches.BatchGetParams
 import org.junit.jupiter.api.Disabled
@@ -32,6 +33,29 @@ internal class BatchServiceTest {
                             .build()
                     )
                     .sourceDirectoryId("dir-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfiguration(
+                        BatchCreateParams.WebhookConfiguration.builder()
+                            .addWebhookEvent(
+                                BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_SUCCESS
+                            )
+                            .addWebhookEvent(
+                                BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_ERROR
+                            )
+                            .webhookHeaders(
+                                BatchCreateParams.WebhookConfiguration.WebhookHeaders.builder()
+                                    .putAdditionalProperty(
+                                        "Authorization",
+                                        JsonValue.from("Bearer sk-..."),
+                                    )
+                                    .build()
+                            )
+                            .webhookOutputFormat("json")
+                            .webhookSigningSecret("whsec_...")
+                            .webhookUrl("https://example.com/webhooks/llamacloud")
+                            .build()
+                    )
                     .build()
             )
 

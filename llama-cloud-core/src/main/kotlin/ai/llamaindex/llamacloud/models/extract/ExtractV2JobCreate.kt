@@ -781,6 +781,16 @@ private constructor(
 
             companion object {
 
+                @JvmField val BATCH_CANCELLED = of("batch.cancelled")
+
+                @JvmField val BATCH_ERROR = of("batch.error")
+
+                @JvmField val BATCH_PENDING = of("batch.pending")
+
+                @JvmField val BATCH_RUNNING = of("batch.running")
+
+                @JvmField val BATCH_SUCCESS = of("batch.success")
+
                 @JvmField val CLASSIFY_CANCELLED = of("classify.cancelled")
 
                 @JvmField val CLASSIFY_ERROR = of("classify.error")
@@ -842,6 +852,11 @@ private constructor(
 
             /** An enum containing [WebhookEvent]'s known values. */
             enum class Known {
+                BATCH_CANCELLED,
+                BATCH_ERROR,
+                BATCH_PENDING,
+                BATCH_RUNNING,
+                BATCH_SUCCESS,
                 CLASSIFY_CANCELLED,
                 CLASSIFY_ERROR,
                 CLASSIFY_PARTIAL_SUCCESS,
@@ -882,6 +897,11 @@ private constructor(
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
+                BATCH_CANCELLED,
+                BATCH_ERROR,
+                BATCH_PENDING,
+                BATCH_RUNNING,
+                BATCH_SUCCESS,
                 CLASSIFY_CANCELLED,
                 CLASSIFY_ERROR,
                 CLASSIFY_PARTIAL_SUCCESS,
@@ -926,6 +946,11 @@ private constructor(
              */
             fun value(): Value =
                 when (this) {
+                    BATCH_CANCELLED -> Value.BATCH_CANCELLED
+                    BATCH_ERROR -> Value.BATCH_ERROR
+                    BATCH_PENDING -> Value.BATCH_PENDING
+                    BATCH_RUNNING -> Value.BATCH_RUNNING
+                    BATCH_SUCCESS -> Value.BATCH_SUCCESS
                     CLASSIFY_CANCELLED -> Value.CLASSIFY_CANCELLED
                     CLASSIFY_ERROR -> Value.CLASSIFY_ERROR
                     CLASSIFY_PARTIAL_SUCCESS -> Value.CLASSIFY_PARTIAL_SUCCESS
@@ -968,6 +993,11 @@ private constructor(
              */
             fun known(): Known =
                 when (this) {
+                    BATCH_CANCELLED -> Known.BATCH_CANCELLED
+                    BATCH_ERROR -> Known.BATCH_ERROR
+                    BATCH_PENDING -> Known.BATCH_PENDING
+                    BATCH_RUNNING -> Known.BATCH_RUNNING
+                    BATCH_SUCCESS -> Known.BATCH_SUCCESS
                     CLASSIFY_CANCELLED -> Known.CLASSIFY_CANCELLED
                     CLASSIFY_ERROR -> Known.CLASSIFY_ERROR
                     CLASSIFY_PARTIAL_SUCCESS -> Known.CLASSIFY_PARTIAL_SUCCESS

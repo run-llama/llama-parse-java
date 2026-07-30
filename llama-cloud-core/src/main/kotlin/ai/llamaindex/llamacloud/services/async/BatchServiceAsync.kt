@@ -28,7 +28,20 @@ interface BatchServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): BatchServiceAsync
 
-    /** Create a batch over a source directory and start processing asynchronously. */
+    /**
+     * Create a batch over a source directory and start processing asynchronously.
+     *
+     * To be notified as the batch progresses, pass `webhook_configurations` with inline endpoints
+     * and/or `webhook_configuration_ids` referencing saved configurations. Batches emit
+     * `batch.pending` on create, `batch.running` once processing starts, and a terminal
+     * `batch.success` or `batch.error`.
+     *
+     * `batch.success` means the batch finished mapping every source file to a job — individual
+     * files may still have failed, so read `results` (with `expand=results`) for per-file outcomes.
+     *
+     * Delivery order across events is not guaranteed; key on the `status` field in the payload
+     * rather than arrival order.
+     */
     fun create(params: BatchCreateParams): CompletableFuture<BatchCreateResponse> =
         create(params, RequestOptions.none())
 
