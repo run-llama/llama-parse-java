@@ -145,6 +145,67 @@ internal class ParsingGetResponseTest {
                                 .pageHeight(0.0)
                                 .pageNumber(0L)
                                 .pageWidth(0.0)
+                                .addRevision(
+                                    ParsingGetResponse.Items.Page.StructuredResultPage.Revision
+                                        .builder()
+                                        .content("content")
+                                        .revisionBbox(
+                                            ParsingGetResponse.Items.Page.StructuredResultPage
+                                                .Revision
+                                                .RevisionBbox
+                                                .builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .build()
+                                        )
+                                        .target("target")
+                                        .targetBbox(
+                                            ParsingGetResponse.Items.Page.StructuredResultPage
+                                                .Revision
+                                                .TargetBbox
+                                                .builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .build()
+                                        )
+                                        .type(
+                                            ParsingGetResponse.Items.Page.StructuredResultPage
+                                                .Revision
+                                                .Type
+                                                .COMMENT
+                                        )
+                                        .author("author")
+                                        .endIndex(0L)
+                                        .startIndex(0L)
+                                        .addTargetSpan(
+                                            ParsingGetResponse.Items.Page.StructuredResultPage
+                                                .Revision
+                                                .TargetSpan
+                                                .builder()
+                                                .target("target")
+                                                .targetBbox(
+                                                    ParsingGetResponse.Items.Page
+                                                        .StructuredResultPage
+                                                        .Revision
+                                                        .TargetSpan
+                                                        .TargetBbox
+                                                        .builder()
+                                                        .h(0.0)
+                                                        .w(0.0)
+                                                        .x(0.0)
+                                                        .y(0.0)
+                                                        .build()
+                                                )
+                                                .endIndex(0L)
+                                                .startIndex(0L)
+                                                .build()
+                                        )
+                                        .build()
+                                )
                                 .build()
                         )
                         .build()
@@ -347,6 +408,62 @@ internal class ParsingGetResponseTest {
                             .pageHeight(0.0)
                             .pageNumber(0L)
                             .pageWidth(0.0)
+                            .addRevision(
+                                ParsingGetResponse.Items.Page.StructuredResultPage.Revision
+                                    .builder()
+                                    .content("content")
+                                    .revisionBbox(
+                                        ParsingGetResponse.Items.Page.StructuredResultPage.Revision
+                                            .RevisionBbox
+                                            .builder()
+                                            .h(0.0)
+                                            .w(0.0)
+                                            .x(0.0)
+                                            .y(0.0)
+                                            .build()
+                                    )
+                                    .target("target")
+                                    .targetBbox(
+                                        ParsingGetResponse.Items.Page.StructuredResultPage.Revision
+                                            .TargetBbox
+                                            .builder()
+                                            .h(0.0)
+                                            .w(0.0)
+                                            .x(0.0)
+                                            .y(0.0)
+                                            .build()
+                                    )
+                                    .type(
+                                        ParsingGetResponse.Items.Page.StructuredResultPage.Revision
+                                            .Type
+                                            .COMMENT
+                                    )
+                                    .author("author")
+                                    .endIndex(0L)
+                                    .startIndex(0L)
+                                    .addTargetSpan(
+                                        ParsingGetResponse.Items.Page.StructuredResultPage.Revision
+                                            .TargetSpan
+                                            .builder()
+                                            .target("target")
+                                            .targetBbox(
+                                                ParsingGetResponse.Items.Page.StructuredResultPage
+                                                    .Revision
+                                                    .TargetSpan
+                                                    .TargetBbox
+                                                    .builder()
+                                                    .h(0.0)
+                                                    .w(0.0)
+                                                    .x(0.0)
+                                                    .y(0.0)
+                                                    .build()
+                                            )
+                                            .endIndex(0L)
+                                            .startIndex(0L)
+                                            .build()
+                                    )
+                                    .build()
+                            )
                             .build()
                     )
                     .build()
@@ -555,6 +672,67 @@ internal class ParsingGetResponseTest {
                                 .pageHeight(0.0)
                                 .pageNumber(0L)
                                 .pageWidth(0.0)
+                                .addRevision(
+                                    ParsingGetResponse.Items.Page.StructuredResultPage.Revision
+                                        .builder()
+                                        .content("content")
+                                        .revisionBbox(
+                                            ParsingGetResponse.Items.Page.StructuredResultPage
+                                                .Revision
+                                                .RevisionBbox
+                                                .builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .build()
+                                        )
+                                        .target("target")
+                                        .targetBbox(
+                                            ParsingGetResponse.Items.Page.StructuredResultPage
+                                                .Revision
+                                                .TargetBbox
+                                                .builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .build()
+                                        )
+                                        .type(
+                                            ParsingGetResponse.Items.Page.StructuredResultPage
+                                                .Revision
+                                                .Type
+                                                .COMMENT
+                                        )
+                                        .author("author")
+                                        .endIndex(0L)
+                                        .startIndex(0L)
+                                        .addTargetSpan(
+                                            ParsingGetResponse.Items.Page.StructuredResultPage
+                                                .Revision
+                                                .TargetSpan
+                                                .builder()
+                                                .target("target")
+                                                .targetBbox(
+                                                    ParsingGetResponse.Items.Page
+                                                        .StructuredResultPage
+                                                        .Revision
+                                                        .TargetSpan
+                                                        .TargetBbox
+                                                        .builder()
+                                                        .h(0.0)
+                                                        .w(0.0)
+                                                        .x(0.0)
+                                                        .y(0.0)
+                                                        .build()
+                                                )
+                                                .endIndex(0L)
+                                                .startIndex(0L)
+                                                .build()
+                                        )
+                                        .build()
+                                )
                                 .build()
                         )
                         .build()

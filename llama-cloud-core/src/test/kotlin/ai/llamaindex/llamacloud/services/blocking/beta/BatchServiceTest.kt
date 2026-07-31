@@ -40,6 +40,7 @@ internal class BatchServiceTest {
                                     .adaptiveLongTable(true)
                                     .aggressiveTableExtraction(true)
                                     .annotateLinks(true)
+                                    .annotateRevisions(true)
                                     .autoMode(true)
                                     .autoModeConfigurationJson("auto_mode_configuration_json")
                                     .autoModeTriggerOnImageInPage(true)

@@ -5075,6 +5075,7 @@ private constructor(
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val annotateLinks: JsonField<Boolean>,
+            private val annotateRevisions: JsonField<Boolean>,
             private val inlineImages: JsonField<Boolean>,
             private val tables: JsonField<Tables>,
             private val additionalProperties: MutableMap<String, JsonValue>,
@@ -5085,11 +5086,14 @@ private constructor(
                 @JsonProperty("annotate_links")
                 @ExcludeMissing
                 annotateLinks: JsonField<Boolean> = JsonMissing.of(),
+                @JsonProperty("annotate_revisions")
+                @ExcludeMissing
+                annotateRevisions: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("inline_images")
                 @ExcludeMissing
                 inlineImages: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("tables") @ExcludeMissing tables: JsonField<Tables> = JsonMissing.of(),
-            ) : this(annotateLinks, inlineImages, tables, mutableMapOf())
+            ) : this(annotateLinks, annotateRevisions, inlineImages, tables, mutableMapOf())
 
             /**
              * Add link annotations to markdown output in the format [text](url). When false, only
@@ -5099,6 +5103,15 @@ private constructor(
              *   if the server responded with an unexpected value).
              */
             fun annotateLinks(): Optional<Boolean> = annotateLinks.getOptional("annotate_links")
+
+            /**
+             * Extract Word-style revisions and comments into structured page output
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun annotateRevisions(): Optional<Boolean> =
+                annotateRevisions.getOptional("annotate_revisions")
 
             /**
              * Embed images directly in markdown as base64 data URIs instead of extracting them as
@@ -5126,6 +5139,16 @@ private constructor(
             @JsonProperty("annotate_links")
             @ExcludeMissing
             fun _annotateLinks(): JsonField<Boolean> = annotateLinks
+
+            /**
+             * Returns the raw JSON value of [annotateRevisions].
+             *
+             * Unlike [annotateRevisions], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("annotate_revisions")
+            @ExcludeMissing
+            fun _annotateRevisions(): JsonField<Boolean> = annotateRevisions
 
             /**
              * Returns the raw JSON value of [inlineImages].
@@ -5166,6 +5189,7 @@ private constructor(
             class Builder internal constructor() {
 
                 private var annotateLinks: JsonField<Boolean> = JsonMissing.of()
+                private var annotateRevisions: JsonField<Boolean> = JsonMissing.of()
                 private var inlineImages: JsonField<Boolean> = JsonMissing.of()
                 private var tables: JsonField<Tables> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -5173,6 +5197,7 @@ private constructor(
                 @JvmSynthetic
                 internal fun from(markdown: Markdown) = apply {
                     annotateLinks = markdown.annotateLinks
+                    annotateRevisions = markdown.annotateRevisions
                     inlineImages = markdown.inlineImages
                     tables = markdown.tables
                     additionalProperties = markdown.additionalProperties.toMutableMap()
@@ -5205,6 +5230,36 @@ private constructor(
                  */
                 fun annotateLinks(annotateLinks: JsonField<Boolean>) = apply {
                     this.annotateLinks = annotateLinks
+                }
+
+                /** Extract Word-style revisions and comments into structured page output */
+                fun annotateRevisions(annotateRevisions: Boolean?) =
+                    annotateRevisions(JsonField.ofNullable(annotateRevisions))
+
+                /**
+                 * Alias for [Builder.annotateRevisions].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun annotateRevisions(annotateRevisions: Boolean) =
+                    annotateRevisions(annotateRevisions as Boolean?)
+
+                /**
+                 * Alias for calling [Builder.annotateRevisions] with
+                 * `annotateRevisions.orElse(null)`.
+                 */
+                fun annotateRevisions(annotateRevisions: Optional<Boolean>) =
+                    annotateRevisions(annotateRevisions.getOrNull())
+
+                /**
+                 * Sets [Builder.annotateRevisions] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.annotateRevisions] with a well-typed [Boolean]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun annotateRevisions(annotateRevisions: JsonField<Boolean>) = apply {
+                    this.annotateRevisions = annotateRevisions
                 }
 
                 /**
@@ -5280,6 +5335,7 @@ private constructor(
                 fun build(): Markdown =
                     Markdown(
                         annotateLinks,
+                        annotateRevisions,
                         inlineImages,
                         tables,
                         additionalProperties.toMutableMap(),
@@ -5304,6 +5360,7 @@ private constructor(
                 }
 
                 annotateLinks()
+                annotateRevisions()
                 inlineImages()
                 tables().ifPresent { it.validate() }
                 validated = true
@@ -5326,6 +5383,7 @@ private constructor(
             @JvmSynthetic
             internal fun validity(): Int =
                 (if (annotateLinks.asKnown().isPresent) 1 else 0) +
+                    (if (annotateRevisions.asKnown().isPresent) 1 else 0) +
                     (if (inlineImages.asKnown().isPresent) 1 else 0) +
                     (tables.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -5730,19 +5788,26 @@ private constructor(
 
                 return other is Markdown &&
                     annotateLinks == other.annotateLinks &&
+                    annotateRevisions == other.annotateRevisions &&
                     inlineImages == other.inlineImages &&
                     tables == other.tables &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(annotateLinks, inlineImages, tables, additionalProperties)
+                Objects.hash(
+                    annotateLinks,
+                    annotateRevisions,
+                    inlineImages,
+                    tables,
+                    additionalProperties,
+                )
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Markdown{annotateLinks=$annotateLinks, inlineImages=$inlineImages, tables=$tables, additionalProperties=$additionalProperties}"
+                "Markdown{annotateLinks=$annotateLinks, annotateRevisions=$annotateRevisions, inlineImages=$inlineImages, tables=$tables, additionalProperties=$additionalProperties}"
         }
 
         /** Spatial text output options for preserving document layout structure */

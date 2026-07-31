@@ -79,6 +79,7 @@ internal class ParseV2ParametersTest {
                         .markdown(
                             ParseV2Parameters.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
+                                .annotateRevisions(true)
                                 .inlineImages(true)
                                 .tables(
                                     ParseV2Parameters.OutputOptions.Markdown.Tables.builder()
@@ -365,6 +366,7 @@ internal class ParseV2ParametersTest {
                     .markdown(
                         ParseV2Parameters.OutputOptions.Markdown.builder()
                             .annotateLinks(true)
+                            .annotateRevisions(true)
                             .inlineImages(true)
                             .tables(
                                 ParseV2Parameters.OutputOptions.Markdown.Tables.builder()
@@ -649,6 +651,7 @@ internal class ParseV2ParametersTest {
                         .markdown(
                             ParseV2Parameters.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
+                                .annotateRevisions(true)
                                 .inlineImages(true)
                                 .tables(
                                     ParseV2Parameters.OutputOptions.Markdown.Tables.builder()

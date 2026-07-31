@@ -1862,6 +1862,7 @@ private constructor(
                 private val adaptiveLongTable: JsonField<Boolean>,
                 private val aggressiveTableExtraction: JsonField<Boolean>,
                 private val annotateLinks: JsonField<Boolean>,
+                private val annotateRevisions: JsonField<Boolean>,
                 private val autoMode: JsonField<Boolean>,
                 private val autoModeConfigurationJson: JsonField<String>,
                 private val autoModeTriggerOnImageInPage: JsonField<Boolean>,
@@ -1999,6 +2000,9 @@ private constructor(
                     @JsonProperty("annotate_links")
                     @ExcludeMissing
                     annotateLinks: JsonField<Boolean> = JsonMissing.of(),
+                    @JsonProperty("annotate_revisions")
+                    @ExcludeMissing
+                    annotateRevisions: JsonField<Boolean> = JsonMissing.of(),
                     @JsonProperty("auto_mode")
                     @ExcludeMissing
                     autoMode: JsonField<Boolean> = JsonMissing.of(),
@@ -2370,6 +2374,7 @@ private constructor(
                     adaptiveLongTable,
                     aggressiveTableExtraction,
                     annotateLinks,
+                    annotateRevisions,
                     autoMode,
                     autoModeConfigurationJson,
                     autoModeTriggerOnImageInPage,
@@ -2515,6 +2520,13 @@ private constructor(
                  *   (e.g. if the server responded with an unexpected value).
                  */
                 fun annotateLinks(): Optional<Boolean> = annotateLinks.getOptional("annotate_links")
+
+                /**
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun annotateRevisions(): Optional<Boolean> =
+                    annotateRevisions.getOptional("annotate_revisions")
 
                 /**
                  * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
@@ -3412,6 +3424,16 @@ private constructor(
                 @JsonProperty("annotate_links")
                 @ExcludeMissing
                 fun _annotateLinks(): JsonField<Boolean> = annotateLinks
+
+                /**
+                 * Returns the raw JSON value of [annotateRevisions].
+                 *
+                 * Unlike [annotateRevisions], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("annotate_revisions")
+                @ExcludeMissing
+                fun _annotateRevisions(): JsonField<Boolean> = annotateRevisions
 
                 /**
                  * Returns the raw JSON value of [autoMode].
@@ -4676,6 +4698,7 @@ private constructor(
                     private var adaptiveLongTable: JsonField<Boolean> = JsonMissing.of()
                     private var aggressiveTableExtraction: JsonField<Boolean> = JsonMissing.of()
                     private var annotateLinks: JsonField<Boolean> = JsonMissing.of()
+                    private var annotateRevisions: JsonField<Boolean> = JsonMissing.of()
                     private var autoMode: JsonField<Boolean> = JsonMissing.of()
                     private var autoModeConfigurationJson: JsonField<String> = JsonMissing.of()
                     private var autoModeTriggerOnImageInPage: JsonField<Boolean> = JsonMissing.of()
@@ -4822,6 +4845,7 @@ private constructor(
                         adaptiveLongTable = parameters.adaptiveLongTable
                         aggressiveTableExtraction = parameters.aggressiveTableExtraction
                         annotateLinks = parameters.annotateLinks
+                        annotateRevisions = parameters.annotateRevisions
                         autoMode = parameters.autoMode
                         autoModeConfigurationJson = parameters.autoModeConfigurationJson
                         autoModeTriggerOnImageInPage = parameters.autoModeTriggerOnImageInPage
@@ -5045,6 +5069,35 @@ private constructor(
                      */
                     fun annotateLinks(annotateLinks: JsonField<Boolean>) = apply {
                         this.annotateLinks = annotateLinks
+                    }
+
+                    fun annotateRevisions(annotateRevisions: Boolean?) =
+                        annotateRevisions(JsonField.ofNullable(annotateRevisions))
+
+                    /**
+                     * Alias for [Builder.annotateRevisions].
+                     *
+                     * This unboxed primitive overload exists for backwards compatibility.
+                     */
+                    fun annotateRevisions(annotateRevisions: Boolean) =
+                        annotateRevisions(annotateRevisions as Boolean?)
+
+                    /**
+                     * Alias for calling [Builder.annotateRevisions] with
+                     * `annotateRevisions.orElse(null)`.
+                     */
+                    fun annotateRevisions(annotateRevisions: Optional<Boolean>) =
+                        annotateRevisions(annotateRevisions.getOrNull())
+
+                    /**
+                     * Sets [Builder.annotateRevisions] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.annotateRevisions] with a well-typed
+                     * [Boolean] value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
+                    fun annotateRevisions(annotateRevisions: JsonField<Boolean>) = apply {
+                        this.annotateRevisions = annotateRevisions
                     }
 
                     fun autoMode(autoMode: Boolean?) = autoMode(JsonField.ofNullable(autoMode))
@@ -8261,6 +8314,7 @@ private constructor(
                             adaptiveLongTable,
                             aggressiveTableExtraction,
                             annotateLinks,
+                            annotateRevisions,
                             autoMode,
                             autoModeConfigurationJson,
                             autoModeTriggerOnImageInPage,
@@ -8408,6 +8462,7 @@ private constructor(
                     adaptiveLongTable()
                     aggressiveTableExtraction()
                     annotateLinks()
+                    annotateRevisions()
                     autoMode()
                     autoModeConfigurationJson()
                     autoModeTriggerOnImageInPage()
@@ -8553,6 +8608,7 @@ private constructor(
                     (if (adaptiveLongTable.asKnown().isPresent) 1 else 0) +
                         (if (aggressiveTableExtraction.asKnown().isPresent) 1 else 0) +
                         (if (annotateLinks.asKnown().isPresent) 1 else 0) +
+                        (if (annotateRevisions.asKnown().isPresent) 1 else 0) +
                         (if (autoMode.asKnown().isPresent) 1 else 0) +
                         (if (autoModeConfigurationJson.asKnown().isPresent) 1 else 0) +
                         (if (autoModeTriggerOnImageInPage.asKnown().isPresent) 1 else 0) +
@@ -10271,6 +10327,7 @@ private constructor(
                         adaptiveLongTable == other.adaptiveLongTable &&
                         aggressiveTableExtraction == other.aggressiveTableExtraction &&
                         annotateLinks == other.annotateLinks &&
+                        annotateRevisions == other.annotateRevisions &&
                         autoMode == other.autoMode &&
                         autoModeConfigurationJson == other.autoModeConfigurationJson &&
                         autoModeTriggerOnImageInPage == other.autoModeTriggerOnImageInPage &&
@@ -10413,6 +10470,7 @@ private constructor(
                         adaptiveLongTable,
                         aggressiveTableExtraction,
                         annotateLinks,
+                        annotateRevisions,
                         autoMode,
                         autoModeConfigurationJson,
                         autoModeTriggerOnImageInPage,
@@ -10543,7 +10601,7 @@ private constructor(
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "Parameters{adaptiveLongTable=$adaptiveLongTable, aggressiveTableExtraction=$aggressiveTableExtraction, annotateLinks=$annotateLinks, autoMode=$autoMode, autoModeConfigurationJson=$autoModeConfigurationJson, autoModeTriggerOnImageInPage=$autoModeTriggerOnImageInPage, autoModeTriggerOnRegexpInPage=$autoModeTriggerOnRegexpInPage, autoModeTriggerOnTableInPage=$autoModeTriggerOnTableInPage, autoModeTriggerOnTextInPage=$autoModeTriggerOnTextInPage, azureOpenAIApiVersion=$azureOpenAIApiVersion, azureOpenAIDeploymentName=$azureOpenAIDeploymentName, azureOpenAIEndpoint=$azureOpenAIEndpoint, azureOpenAIKey=$azureOpenAIKey, bboxBottom=$bboxBottom, bboxLeft=$bboxLeft, bboxRight=$bboxRight, bboxTop=$bboxTop, boundingBox=$boundingBox, compactMarkdownTable=$compactMarkdownTable, complementalFormattingInstruction=$complementalFormattingInstruction, confidenceScoreEffort=$confidenceScoreEffort, contentGuidelineInstruction=$contentGuidelineInstruction, continuousMode=$continuousMode, customMetadata=$customMetadata, disableImageExtraction=$disableImageExtraction, disableOcr=$disableOcr, disableReconstruction=$disableReconstruction, doNotCache=$doNotCache, doNotUnrollColumns=$doNotUnrollColumns, enableCostOptimizer=$enableCostOptimizer, extractCharts=$extractCharts, extractLayout=$extractLayout, extractPrintedPageNumber=$extractPrintedPageNumber, fastMode=$fastMode, formattingInstruction=$formattingInstruction, gpt4oApiKey=$gpt4oApiKey, gpt4oMode=$gpt4oMode, guessXlsxSheetName=$guessXlsxSheetName, hideFooters=$hideFooters, hideHeaders=$hideHeaders, highResOcr=$highResOcr, htmlMakeAllElementsVisible=$htmlMakeAllElementsVisible, htmlRemoveFixedElements=$htmlRemoveFixedElements, htmlRemoveNavigationElements=$htmlRemoveNavigationElements, httpProxy=$httpProxy, ignoreDocumentElementsForLayoutDetection=$ignoreDocumentElementsForLayoutDetection, imagesToSave=$imagesToSave, inlineImagesInMarkdown=$inlineImagesInMarkdown, inputS3Path=$inputS3Path, inputS3Region=$inputS3Region, inputUrl=$inputUrl, internalIsScreenshotJob=$internalIsScreenshotJob, invalidateCache=$invalidateCache, isFormattingInstruction=$isFormattingInstruction, jobTimeoutExtraTimePerPageInSeconds=$jobTimeoutExtraTimePerPageInSeconds, jobTimeoutInSeconds=$jobTimeoutInSeconds, keepPageSeparatorWhenMergingTables=$keepPageSeparatorWhenMergingTables, lang=$lang, languages=$languages, layoutAware=$layoutAware, lineLevelBoundingBox=$lineLevelBoundingBox, markdownTableMultilineHeaderSeparator=$markdownTableMultilineHeaderSeparator, maxPages=$maxPages, maxPagesEnforced=$maxPagesEnforced, mergeTablesAcrossPagesInMarkdown=$mergeTablesAcrossPagesInMarkdown, model=$model, outlinedTableExtraction=$outlinedTableExtraction, outputPdfOfDocument=$outputPdfOfDocument, outputS3PathPrefix=$outputS3PathPrefix, outputS3Region=$outputS3Region, outputTablesAsHtml=$outputTablesAsHtml, outputBucket=$outputBucket, pageErrorTolerance=$pageErrorTolerance, pageFooterPrefix=$pageFooterPrefix, pageFooterSuffix=$pageFooterSuffix, pageHeaderPrefix=$pageHeaderPrefix, pageHeaderSuffix=$pageHeaderSuffix, pagePrefix=$pagePrefix, pageSeparator=$pageSeparator, pageSuffix=$pageSuffix, parseMode=$parseMode, parsingInstruction=$parsingInstruction, pipelineId=$pipelineId, preciseBoundingBox=$preciseBoundingBox, premiumMode=$premiumMode, presentationOutOfBoundsContent=$presentationOutOfBoundsContent, presentationSkipEmbeddedData=$presentationSkipEmbeddedData, preserveLayoutAlignmentAcrossPages=$preserveLayoutAlignmentAcrossPages, preserveVerySmallText=$preserveVerySmallText, preset=$preset, priority=$priority, projectId=$projectId, removeHiddenText=$removeHiddenText, replaceFailedPageMode=$replaceFailedPageMode, replaceFailedPageWithErrorMessagePrefix=$replaceFailedPageWithErrorMessagePrefix, replaceFailedPageWithErrorMessageSuffix=$replaceFailedPageWithErrorMessageSuffix, resourceInfo=$resourceInfo, saveImages=$saveImages, skipDiagonalText=$skipDiagonalText, specializedChartParsingAgentic=$specializedChartParsingAgentic, specializedChartParsingEfficient=$specializedChartParsingEfficient, specializedChartParsingPlus=$specializedChartParsingPlus, specializedImageParsing=$specializedImageParsing, spreadsheetExtractSubTables=$spreadsheetExtractSubTables, spreadsheetForceFormulaComputation=$spreadsheetForceFormulaComputation, spreadsheetIncludeHiddenSheets=$spreadsheetIncludeHiddenSheets, strictModeBuggyFont=$strictModeBuggyFont, strictModeImageExtraction=$strictModeImageExtraction, strictModeImageOcr=$strictModeImageOcr, strictModeReconstruction=$strictModeReconstruction, structuredOutput=$structuredOutput, structuredOutputJsonSchema=$structuredOutputJsonSchema, structuredOutputJsonSchemaName=$structuredOutputJsonSchemaName, systemPrompt=$systemPrompt, systemPromptAppend=$systemPromptAppend, takeScreenshot=$takeScreenshot, targetPages=$targetPages, tier=$tier, type=$type, useVendorMultimodalModel=$useVendorMultimodalModel, userPrompt=$userPrompt, vendorMultimodalApiKey=$vendorMultimodalApiKey, vendorMultimodalModelName=$vendorMultimodalModelName, version=$version, webhookConfigurations=$webhookConfigurations, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
+                    "Parameters{adaptiveLongTable=$adaptiveLongTable, aggressiveTableExtraction=$aggressiveTableExtraction, annotateLinks=$annotateLinks, annotateRevisions=$annotateRevisions, autoMode=$autoMode, autoModeConfigurationJson=$autoModeConfigurationJson, autoModeTriggerOnImageInPage=$autoModeTriggerOnImageInPage, autoModeTriggerOnRegexpInPage=$autoModeTriggerOnRegexpInPage, autoModeTriggerOnTableInPage=$autoModeTriggerOnTableInPage, autoModeTriggerOnTextInPage=$autoModeTriggerOnTextInPage, azureOpenAIApiVersion=$azureOpenAIApiVersion, azureOpenAIDeploymentName=$azureOpenAIDeploymentName, azureOpenAIEndpoint=$azureOpenAIEndpoint, azureOpenAIKey=$azureOpenAIKey, bboxBottom=$bboxBottom, bboxLeft=$bboxLeft, bboxRight=$bboxRight, bboxTop=$bboxTop, boundingBox=$boundingBox, compactMarkdownTable=$compactMarkdownTable, complementalFormattingInstruction=$complementalFormattingInstruction, confidenceScoreEffort=$confidenceScoreEffort, contentGuidelineInstruction=$contentGuidelineInstruction, continuousMode=$continuousMode, customMetadata=$customMetadata, disableImageExtraction=$disableImageExtraction, disableOcr=$disableOcr, disableReconstruction=$disableReconstruction, doNotCache=$doNotCache, doNotUnrollColumns=$doNotUnrollColumns, enableCostOptimizer=$enableCostOptimizer, extractCharts=$extractCharts, extractLayout=$extractLayout, extractPrintedPageNumber=$extractPrintedPageNumber, fastMode=$fastMode, formattingInstruction=$formattingInstruction, gpt4oApiKey=$gpt4oApiKey, gpt4oMode=$gpt4oMode, guessXlsxSheetName=$guessXlsxSheetName, hideFooters=$hideFooters, hideHeaders=$hideHeaders, highResOcr=$highResOcr, htmlMakeAllElementsVisible=$htmlMakeAllElementsVisible, htmlRemoveFixedElements=$htmlRemoveFixedElements, htmlRemoveNavigationElements=$htmlRemoveNavigationElements, httpProxy=$httpProxy, ignoreDocumentElementsForLayoutDetection=$ignoreDocumentElementsForLayoutDetection, imagesToSave=$imagesToSave, inlineImagesInMarkdown=$inlineImagesInMarkdown, inputS3Path=$inputS3Path, inputS3Region=$inputS3Region, inputUrl=$inputUrl, internalIsScreenshotJob=$internalIsScreenshotJob, invalidateCache=$invalidateCache, isFormattingInstruction=$isFormattingInstruction, jobTimeoutExtraTimePerPageInSeconds=$jobTimeoutExtraTimePerPageInSeconds, jobTimeoutInSeconds=$jobTimeoutInSeconds, keepPageSeparatorWhenMergingTables=$keepPageSeparatorWhenMergingTables, lang=$lang, languages=$languages, layoutAware=$layoutAware, lineLevelBoundingBox=$lineLevelBoundingBox, markdownTableMultilineHeaderSeparator=$markdownTableMultilineHeaderSeparator, maxPages=$maxPages, maxPagesEnforced=$maxPagesEnforced, mergeTablesAcrossPagesInMarkdown=$mergeTablesAcrossPagesInMarkdown, model=$model, outlinedTableExtraction=$outlinedTableExtraction, outputPdfOfDocument=$outputPdfOfDocument, outputS3PathPrefix=$outputS3PathPrefix, outputS3Region=$outputS3Region, outputTablesAsHtml=$outputTablesAsHtml, outputBucket=$outputBucket, pageErrorTolerance=$pageErrorTolerance, pageFooterPrefix=$pageFooterPrefix, pageFooterSuffix=$pageFooterSuffix, pageHeaderPrefix=$pageHeaderPrefix, pageHeaderSuffix=$pageHeaderSuffix, pagePrefix=$pagePrefix, pageSeparator=$pageSeparator, pageSuffix=$pageSuffix, parseMode=$parseMode, parsingInstruction=$parsingInstruction, pipelineId=$pipelineId, preciseBoundingBox=$preciseBoundingBox, premiumMode=$premiumMode, presentationOutOfBoundsContent=$presentationOutOfBoundsContent, presentationSkipEmbeddedData=$presentationSkipEmbeddedData, preserveLayoutAlignmentAcrossPages=$preserveLayoutAlignmentAcrossPages, preserveVerySmallText=$preserveVerySmallText, preset=$preset, priority=$priority, projectId=$projectId, removeHiddenText=$removeHiddenText, replaceFailedPageMode=$replaceFailedPageMode, replaceFailedPageWithErrorMessagePrefix=$replaceFailedPageWithErrorMessagePrefix, replaceFailedPageWithErrorMessageSuffix=$replaceFailedPageWithErrorMessageSuffix, resourceInfo=$resourceInfo, saveImages=$saveImages, skipDiagonalText=$skipDiagonalText, specializedChartParsingAgentic=$specializedChartParsingAgentic, specializedChartParsingEfficient=$specializedChartParsingEfficient, specializedChartParsingPlus=$specializedChartParsingPlus, specializedImageParsing=$specializedImageParsing, spreadsheetExtractSubTables=$spreadsheetExtractSubTables, spreadsheetForceFormulaComputation=$spreadsheetForceFormulaComputation, spreadsheetIncludeHiddenSheets=$spreadsheetIncludeHiddenSheets, strictModeBuggyFont=$strictModeBuggyFont, strictModeImageExtraction=$strictModeImageExtraction, strictModeImageOcr=$strictModeImageOcr, strictModeReconstruction=$strictModeReconstruction, structuredOutput=$structuredOutput, structuredOutputJsonSchema=$structuredOutputJsonSchema, structuredOutputJsonSchemaName=$structuredOutputJsonSchemaName, systemPrompt=$systemPrompt, systemPromptAppend=$systemPromptAppend, takeScreenshot=$takeScreenshot, targetPages=$targetPages, tier=$tier, type=$type, useVendorMultimodalModel=$useVendorMultimodalModel, userPrompt=$userPrompt, vendorMultimodalApiKey=$vendorMultimodalApiKey, vendorMultimodalModelName=$vendorMultimodalModelName, version=$version, webhookConfigurations=$webhookConfigurations, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
             }
 
             /** The partitions for this execution. Used for determining where to save job output. */

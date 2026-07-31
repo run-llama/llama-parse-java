@@ -3728,6 +3728,7 @@ private constructor(
         internal fun validity(): Int =
             (pages.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
+        /** Successfully parsed page in structured items output. */
         @JsonDeserialize(using = Page.Deserializer::class)
         @JsonSerialize(using = Page.Serializer::class)
         class Page
@@ -3737,6 +3738,7 @@ private constructor(
             private val _json: JsonValue? = null,
         ) {
 
+            /** Successfully parsed page in structured items output. */
             fun structuredResult(): Optional<StructuredResultPage> =
                 Optional.ofNullable(structuredResult)
 
@@ -3747,6 +3749,7 @@ private constructor(
 
             fun isFailedStructured(): Boolean = failedStructured != null
 
+            /** Successfully parsed page in structured items output. */
             fun asStructuredResult(): StructuredResultPage =
                 structuredResult.getOrThrow("structuredResult")
 
@@ -3873,6 +3876,7 @@ private constructor(
 
             companion object {
 
+                /** Successfully parsed page in structured items output. */
                 @JvmStatic
                 fun ofStructuredResult(structuredResult: StructuredResultPage) =
                     Page(structuredResult = structuredResult)
@@ -3887,6 +3891,7 @@ private constructor(
              */
             interface Visitor<out T> {
 
+                /** Successfully parsed page in structured items output. */
                 fun visitStructuredResult(structuredResult: StructuredResultPage): T
 
                 fun visitFailedStructured(failedStructured: FailedStructuredPage): T
@@ -3954,6 +3959,7 @@ private constructor(
                 }
             }
 
+            /** Successfully parsed page in structured items output. */
             class StructuredResultPage
             @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
@@ -3962,6 +3968,7 @@ private constructor(
                 private val pageNumber: JsonField<Long>,
                 private val pageWidth: JsonField<Double>,
                 private val success: JsonValue,
+                private val revisions: JsonField<List<Revision>>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
 
@@ -3980,7 +3987,18 @@ private constructor(
                     @ExcludeMissing
                     pageWidth: JsonField<Double> = JsonMissing.of(),
                     @JsonProperty("success") @ExcludeMissing success: JsonValue = JsonMissing.of(),
-                ) : this(items, pageHeight, pageNumber, pageWidth, success, mutableMapOf())
+                    @JsonProperty("revisions")
+                    @ExcludeMissing
+                    revisions: JsonField<List<Revision>> = JsonMissing.of(),
+                ) : this(
+                    items,
+                    pageHeight,
+                    pageNumber,
+                    pageWidth,
+                    success,
+                    revisions,
+                    mutableMapOf(),
+                )
 
                 /**
                  * List of structured items on the page
@@ -4032,6 +4050,14 @@ private constructor(
                 @JsonProperty("success") @ExcludeMissing fun _success(): JsonValue = success
 
                 /**
+                 * Extracted revisions and comments on the page
+                 *
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun revisions(): Optional<List<Revision>> = revisions.getOptional("revisions")
+
+                /**
                  * Returns the raw JSON value of [items].
                  *
                  * Unlike [items], this method doesn't throw if the JSON field has an unexpected
@@ -4068,6 +4094,16 @@ private constructor(
                 @JsonProperty("page_width")
                 @ExcludeMissing
                 fun _pageWidth(): JsonField<Double> = pageWidth
+
+                /**
+                 * Returns the raw JSON value of [revisions].
+                 *
+                 * Unlike [revisions], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("revisions")
+                @ExcludeMissing
+                fun _revisions(): JsonField<List<Revision>> = revisions
 
                 @JsonAnySetter
                 private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -4106,6 +4142,7 @@ private constructor(
                     private var pageNumber: JsonField<Long>? = null
                     private var pageWidth: JsonField<Double>? = null
                     private var success: JsonValue = JsonValue.from(true)
+                    private var revisions: JsonField<MutableList<Revision>>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -4115,6 +4152,7 @@ private constructor(
                         pageNumber = structuredResultPage.pageNumber
                         pageWidth = structuredResultPage.pageWidth
                         success = structuredResultPage.success
+                        revisions = structuredResultPage.revisions.map { it.toMutableList() }
                         additionalProperties =
                             structuredResultPage.additionalProperties.toMutableMap()
                     }
@@ -4228,6 +4266,37 @@ private constructor(
                      */
                     fun success(success: JsonValue) = apply { this.success = success }
 
+                    /** Extracted revisions and comments on the page */
+                    fun revisions(revisions: List<Revision>?) =
+                        revisions(JsonField.ofNullable(revisions))
+
+                    /** Alias for calling [Builder.revisions] with `revisions.orElse(null)`. */
+                    fun revisions(revisions: Optional<List<Revision>>) =
+                        revisions(revisions.getOrNull())
+
+                    /**
+                     * Sets [Builder.revisions] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.revisions] with a well-typed
+                     * `List<Revision>` value instead. This method is primarily for setting the
+                     * field to an undocumented or not yet supported value.
+                     */
+                    fun revisions(revisions: JsonField<List<Revision>>) = apply {
+                        this.revisions = revisions.map { it.toMutableList() }
+                    }
+
+                    /**
+                     * Adds a single [Revision] to [revisions].
+                     *
+                     * @throws IllegalStateException if the field was previously set to a non-list.
+                     */
+                    fun addRevision(revision: Revision) = apply {
+                        revisions =
+                            (revisions ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("revisions", it).add(revision)
+                            }
+                    }
+
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
                         putAllAdditionalProperties(additionalProperties)
@@ -4272,6 +4341,7 @@ private constructor(
                             checkRequired("pageNumber", pageNumber),
                             checkRequired("pageWidth", pageWidth),
                             success,
+                            (revisions ?: JsonMissing.of()).map { it.toImmutable() },
                             additionalProperties.toMutableMap(),
                         )
                 }
@@ -4304,6 +4374,7 @@ private constructor(
                             )
                         }
                     }
+                    revisions().ifPresent { it.forEach { it.validate() } }
                     validated = true
                 }
 
@@ -4327,7 +4398,8 @@ private constructor(
                         (if (pageHeight.asKnown().isPresent) 1 else 0) +
                         (if (pageNumber.asKnown().isPresent) 1 else 0) +
                         (if (pageWidth.asKnown().isPresent) 1 else 0) +
-                        success.let { if (it == JsonValue.from(true)) 1 else 0 }
+                        success.let { if (it == JsonValue.from(true)) 1 else 0 } +
+                        (revisions.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
                 @JsonDeserialize(using = Item.Deserializer::class)
                 @JsonSerialize(using = Item.Serializer::class)
@@ -4723,6 +4795,2048 @@ private constructor(
                     }
                 }
 
+                /** One extracted document revision linked to page content. */
+                class Revision
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+                private constructor(
+                    private val content: JsonField<String>,
+                    private val revisionBbox: JsonField<RevisionBbox>,
+                    private val target: JsonField<String>,
+                    private val targetBbox: JsonField<TargetBbox>,
+                    private val type: JsonField<Type>,
+                    private val author: JsonField<String>,
+                    private val endIndex: JsonField<Long>,
+                    private val startIndex: JsonField<Long>,
+                    private val targetSpans: JsonField<List<TargetSpan>>,
+                    private val additionalProperties: MutableMap<String, JsonValue>,
+                ) {
+
+                    @JsonCreator
+                    private constructor(
+                        @JsonProperty("content")
+                        @ExcludeMissing
+                        content: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("revision_bbox")
+                        @ExcludeMissing
+                        revisionBbox: JsonField<RevisionBbox> = JsonMissing.of(),
+                        @JsonProperty("target")
+                        @ExcludeMissing
+                        target: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("target_bbox")
+                        @ExcludeMissing
+                        targetBbox: JsonField<TargetBbox> = JsonMissing.of(),
+                        @JsonProperty("type")
+                        @ExcludeMissing
+                        type: JsonField<Type> = JsonMissing.of(),
+                        @JsonProperty("author")
+                        @ExcludeMissing
+                        author: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("end_index")
+                        @ExcludeMissing
+                        endIndex: JsonField<Long> = JsonMissing.of(),
+                        @JsonProperty("start_index")
+                        @ExcludeMissing
+                        startIndex: JsonField<Long> = JsonMissing.of(),
+                        @JsonProperty("target_spans")
+                        @ExcludeMissing
+                        targetSpans: JsonField<List<TargetSpan>> = JsonMissing.of(),
+                    ) : this(
+                        content,
+                        revisionBbox,
+                        target,
+                        targetBbox,
+                        type,
+                        author,
+                        endIndex,
+                        startIndex,
+                        targetSpans,
+                        mutableMapOf(),
+                    )
+
+                    /**
+                     * Revision or comment content
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type or is unexpectedly missing or null (e.g. if the server responded with
+                     *   an unexpected value).
+                     */
+                    fun content(): String = content.getRequired("content")
+
+                    /**
+                     * Bounding box of the printed revision balloon
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type or is unexpectedly missing or null (e.g. if the server responded with
+                     *   an unexpected value).
+                     */
+                    fun revisionBbox(): RevisionBbox = revisionBbox.getRequired("revision_bbox")
+
+                    /**
+                     * Best available target text in the page content
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type or is unexpectedly missing or null (e.g. if the server responded with
+                     *   an unexpected value).
+                     */
+                    fun target(): String = target.getRequired("target")
+
+                    /**
+                     * Union bounding box of the target spans
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type or is unexpectedly missing or null (e.g. if the server responded with
+                     *   an unexpected value).
+                     */
+                    fun targetBbox(): TargetBbox = targetBbox.getRequired("target_bbox")
+
+                    /**
+                     * Type of revision
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type or is unexpectedly missing or null (e.g. if the server responded with
+                     *   an unexpected value).
+                     */
+                    fun type(): Type = type.getRequired("type")
+
+                    /**
+                     * Revision author, when available
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type (e.g. if the server responded with an unexpected value).
+                     */
+                    fun author(): Optional<String> = author.getOptional("author")
+
+                    /**
+                     * Exclusive end offset in final page markdown
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type (e.g. if the server responded with an unexpected value).
+                     */
+                    fun endIndex(): Optional<Long> = endIndex.getOptional("end_index")
+
+                    /**
+                     * Inclusive start offset in final page markdown
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type (e.g. if the server responded with an unexpected value).
+                     */
+                    fun startIndex(): Optional<Long> = startIndex.getOptional("start_index")
+
+                    /**
+                     * Disconnected target spans, when present
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type (e.g. if the server responded with an unexpected value).
+                     */
+                    fun targetSpans(): Optional<List<TargetSpan>> =
+                        targetSpans.getOptional("target_spans")
+
+                    /**
+                     * Returns the raw JSON value of [content].
+                     *
+                     * Unlike [content], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
+                    @JsonProperty("content")
+                    @ExcludeMissing
+                    fun _content(): JsonField<String> = content
+
+                    /**
+                     * Returns the raw JSON value of [revisionBbox].
+                     *
+                     * Unlike [revisionBbox], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
+                    @JsonProperty("revision_bbox")
+                    @ExcludeMissing
+                    fun _revisionBbox(): JsonField<RevisionBbox> = revisionBbox
+
+                    /**
+                     * Returns the raw JSON value of [target].
+                     *
+                     * Unlike [target], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
+                    @JsonProperty("target")
+                    @ExcludeMissing
+                    fun _target(): JsonField<String> = target
+
+                    /**
+                     * Returns the raw JSON value of [targetBbox].
+                     *
+                     * Unlike [targetBbox], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
+                    @JsonProperty("target_bbox")
+                    @ExcludeMissing
+                    fun _targetBbox(): JsonField<TargetBbox> = targetBbox
+
+                    /**
+                     * Returns the raw JSON value of [type].
+                     *
+                     * Unlike [type], this method doesn't throw if the JSON field has an unexpected
+                     * type.
+                     */
+                    @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+                    /**
+                     * Returns the raw JSON value of [author].
+                     *
+                     * Unlike [author], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
+                    @JsonProperty("author")
+                    @ExcludeMissing
+                    fun _author(): JsonField<String> = author
+
+                    /**
+                     * Returns the raw JSON value of [endIndex].
+                     *
+                     * Unlike [endIndex], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
+                    @JsonProperty("end_index")
+                    @ExcludeMissing
+                    fun _endIndex(): JsonField<Long> = endIndex
+
+                    /**
+                     * Returns the raw JSON value of [startIndex].
+                     *
+                     * Unlike [startIndex], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
+                    @JsonProperty("start_index")
+                    @ExcludeMissing
+                    fun _startIndex(): JsonField<Long> = startIndex
+
+                    /**
+                     * Returns the raw JSON value of [targetSpans].
+                     *
+                     * Unlike [targetSpans], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
+                    @JsonProperty("target_spans")
+                    @ExcludeMissing
+                    fun _targetSpans(): JsonField<List<TargetSpan>> = targetSpans
+
+                    @JsonAnySetter
+                    private fun putAdditionalProperty(key: String, value: JsonValue) {
+                        additionalProperties.put(key, value)
+                    }
+
+                    @JsonAnyGetter
+                    @ExcludeMissing
+                    fun _additionalProperties(): Map<String, JsonValue> =
+                        Collections.unmodifiableMap(additionalProperties)
+
+                    fun toBuilder() = Builder().from(this)
+
+                    companion object {
+
+                        /**
+                         * Returns a mutable builder for constructing an instance of [Revision].
+                         *
+                         * The following fields are required:
+                         * ```java
+                         * .content()
+                         * .revisionBbox()
+                         * .target()
+                         * .targetBbox()
+                         * .type()
+                         * ```
+                         */
+                        @JvmStatic fun builder() = Builder()
+                    }
+
+                    /** A builder for [Revision]. */
+                    class Builder internal constructor() {
+
+                        private var content: JsonField<String>? = null
+                        private var revisionBbox: JsonField<RevisionBbox>? = null
+                        private var target: JsonField<String>? = null
+                        private var targetBbox: JsonField<TargetBbox>? = null
+                        private var type: JsonField<Type>? = null
+                        private var author: JsonField<String> = JsonMissing.of()
+                        private var endIndex: JsonField<Long> = JsonMissing.of()
+                        private var startIndex: JsonField<Long> = JsonMissing.of()
+                        private var targetSpans: JsonField<MutableList<TargetSpan>>? = null
+                        private var additionalProperties: MutableMap<String, JsonValue> =
+                            mutableMapOf()
+
+                        @JvmSynthetic
+                        internal fun from(revision: Revision) = apply {
+                            content = revision.content
+                            revisionBbox = revision.revisionBbox
+                            target = revision.target
+                            targetBbox = revision.targetBbox
+                            type = revision.type
+                            author = revision.author
+                            endIndex = revision.endIndex
+                            startIndex = revision.startIndex
+                            targetSpans = revision.targetSpans.map { it.toMutableList() }
+                            additionalProperties = revision.additionalProperties.toMutableMap()
+                        }
+
+                        /** Revision or comment content */
+                        fun content(content: String) = content(JsonField.of(content))
+
+                        /**
+                         * Sets [Builder.content] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.content] with a well-typed [String]
+                         * value instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun content(content: JsonField<String>) = apply { this.content = content }
+
+                        /** Bounding box of the printed revision balloon */
+                        fun revisionBbox(revisionBbox: RevisionBbox) =
+                            revisionBbox(JsonField.of(revisionBbox))
+
+                        /**
+                         * Sets [Builder.revisionBbox] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.revisionBbox] with a well-typed
+                         * [RevisionBbox] value instead. This method is primarily for setting the
+                         * field to an undocumented or not yet supported value.
+                         */
+                        fun revisionBbox(revisionBbox: JsonField<RevisionBbox>) = apply {
+                            this.revisionBbox = revisionBbox
+                        }
+
+                        /** Best available target text in the page content */
+                        fun target(target: String) = target(JsonField.of(target))
+
+                        /**
+                         * Sets [Builder.target] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.target] with a well-typed [String] value
+                         * instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun target(target: JsonField<String>) = apply { this.target = target }
+
+                        /** Union bounding box of the target spans */
+                        fun targetBbox(targetBbox: TargetBbox) =
+                            targetBbox(JsonField.of(targetBbox))
+
+                        /**
+                         * Sets [Builder.targetBbox] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.targetBbox] with a well-typed
+                         * [TargetBbox] value instead. This method is primarily for setting the
+                         * field to an undocumented or not yet supported value.
+                         */
+                        fun targetBbox(targetBbox: JsonField<TargetBbox>) = apply {
+                            this.targetBbox = targetBbox
+                        }
+
+                        /** Type of revision */
+                        fun type(type: Type) = type(JsonField.of(type))
+
+                        /**
+                         * Sets [Builder.type] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.type] with a well-typed [Type] value
+                         * instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun type(type: JsonField<Type>) = apply { this.type = type }
+
+                        /** Revision author, when available */
+                        fun author(author: String?) = author(JsonField.ofNullable(author))
+
+                        /** Alias for calling [Builder.author] with `author.orElse(null)`. */
+                        fun author(author: Optional<String>) = author(author.getOrNull())
+
+                        /**
+                         * Sets [Builder.author] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.author] with a well-typed [String] value
+                         * instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun author(author: JsonField<String>) = apply { this.author = author }
+
+                        /** Exclusive end offset in final page markdown */
+                        fun endIndex(endIndex: Long?) = endIndex(JsonField.ofNullable(endIndex))
+
+                        /**
+                         * Alias for [Builder.endIndex].
+                         *
+                         * This unboxed primitive overload exists for backwards compatibility.
+                         */
+                        fun endIndex(endIndex: Long) = endIndex(endIndex as Long?)
+
+                        /** Alias for calling [Builder.endIndex] with `endIndex.orElse(null)`. */
+                        fun endIndex(endIndex: Optional<Long>) = endIndex(endIndex.getOrNull())
+
+                        /**
+                         * Sets [Builder.endIndex] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.endIndex] with a well-typed [Long] value
+                         * instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun endIndex(endIndex: JsonField<Long>) = apply { this.endIndex = endIndex }
+
+                        /** Inclusive start offset in final page markdown */
+                        fun startIndex(startIndex: Long?) =
+                            startIndex(JsonField.ofNullable(startIndex))
+
+                        /**
+                         * Alias for [Builder.startIndex].
+                         *
+                         * This unboxed primitive overload exists for backwards compatibility.
+                         */
+                        fun startIndex(startIndex: Long) = startIndex(startIndex as Long?)
+
+                        /**
+                         * Alias for calling [Builder.startIndex] with `startIndex.orElse(null)`.
+                         */
+                        fun startIndex(startIndex: Optional<Long>) =
+                            startIndex(startIndex.getOrNull())
+
+                        /**
+                         * Sets [Builder.startIndex] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.startIndex] with a well-typed [Long]
+                         * value instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun startIndex(startIndex: JsonField<Long>) = apply {
+                            this.startIndex = startIndex
+                        }
+
+                        /** Disconnected target spans, when present */
+                        fun targetSpans(targetSpans: List<TargetSpan>?) =
+                            targetSpans(JsonField.ofNullable(targetSpans))
+
+                        /**
+                         * Alias for calling [Builder.targetSpans] with `targetSpans.orElse(null)`.
+                         */
+                        fun targetSpans(targetSpans: Optional<List<TargetSpan>>) =
+                            targetSpans(targetSpans.getOrNull())
+
+                        /**
+                         * Sets [Builder.targetSpans] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.targetSpans] with a well-typed
+                         * `List<TargetSpan>` value instead. This method is primarily for setting
+                         * the field to an undocumented or not yet supported value.
+                         */
+                        fun targetSpans(targetSpans: JsonField<List<TargetSpan>>) = apply {
+                            this.targetSpans = targetSpans.map { it.toMutableList() }
+                        }
+
+                        /**
+                         * Adds a single [TargetSpan] to [targetSpans].
+                         *
+                         * @throws IllegalStateException if the field was previously set to a
+                         *   non-list.
+                         */
+                        fun addTargetSpan(targetSpan: TargetSpan) = apply {
+                            targetSpans =
+                                (targetSpans ?: JsonField.of(mutableListOf())).also {
+                                    checkKnown("targetSpans", it).add(targetSpan)
+                                }
+                        }
+
+                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                            apply {
+                                this.additionalProperties.clear()
+                                putAllAdditionalProperties(additionalProperties)
+                            }
+
+                        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                            additionalProperties.put(key, value)
+                        }
+
+                        fun putAllAdditionalProperties(
+                            additionalProperties: Map<String, JsonValue>
+                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                        fun removeAdditionalProperty(key: String) = apply {
+                            additionalProperties.remove(key)
+                        }
+
+                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                            keys.forEach(::removeAdditionalProperty)
+                        }
+
+                        /**
+                         * Returns an immutable instance of [Revision].
+                         *
+                         * Further updates to this [Builder] will not mutate the returned instance.
+                         *
+                         * The following fields are required:
+                         * ```java
+                         * .content()
+                         * .revisionBbox()
+                         * .target()
+                         * .targetBbox()
+                         * .type()
+                         * ```
+                         *
+                         * @throws IllegalStateException if any required field is unset.
+                         */
+                        fun build(): Revision =
+                            Revision(
+                                checkRequired("content", content),
+                                checkRequired("revisionBbox", revisionBbox),
+                                checkRequired("target", target),
+                                checkRequired("targetBbox", targetBbox),
+                                checkRequired("type", type),
+                                author,
+                                endIndex,
+                                startIndex,
+                                (targetSpans ?: JsonMissing.of()).map { it.toImmutable() },
+                                additionalProperties.toMutableMap(),
+                            )
+                    }
+
+                    private var validated: Boolean = false
+
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws LlamaCloudInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
+                    fun validate(): Revision = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        content()
+                        revisionBbox().validate()
+                        target()
+                        targetBbox().validate()
+                        type().validate()
+                        author()
+                        endIndex()
+                        startIndex()
+                        targetSpans().ifPresent { it.forEach { it.validate() } }
+                        validated = true
+                    }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: LlamaCloudInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    @JvmSynthetic
+                    internal fun validity(): Int =
+                        (if (content.asKnown().isPresent) 1 else 0) +
+                            (revisionBbox.asKnown().getOrNull()?.validity() ?: 0) +
+                            (if (target.asKnown().isPresent) 1 else 0) +
+                            (targetBbox.asKnown().getOrNull()?.validity() ?: 0) +
+                            (type.asKnown().getOrNull()?.validity() ?: 0) +
+                            (if (author.asKnown().isPresent) 1 else 0) +
+                            (if (endIndex.asKnown().isPresent) 1 else 0) +
+                            (if (startIndex.asKnown().isPresent) 1 else 0) +
+                            (targetSpans.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
+                                ?: 0)
+
+                    /** Bounding box of the printed revision balloon */
+                    class RevisionBbox
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+                    private constructor(
+                        private val h: JsonField<Double>,
+                        private val w: JsonField<Double>,
+                        private val x: JsonField<Double>,
+                        private val y: JsonField<Double>,
+                        private val additionalProperties: MutableMap<String, JsonValue>,
+                    ) {
+
+                        @JsonCreator
+                        private constructor(
+                            @JsonProperty("h")
+                            @ExcludeMissing
+                            h: JsonField<Double> = JsonMissing.of(),
+                            @JsonProperty("w")
+                            @ExcludeMissing
+                            w: JsonField<Double> = JsonMissing.of(),
+                            @JsonProperty("x")
+                            @ExcludeMissing
+                            x: JsonField<Double> = JsonMissing.of(),
+                            @JsonProperty("y")
+                            @ExcludeMissing
+                            y: JsonField<Double> = JsonMissing.of(),
+                        ) : this(h, w, x, y, mutableMapOf())
+
+                        /**
+                         * Height of the bounding box
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type or is unexpectedly missing or null (e.g. if the server
+                         *   responded with an unexpected value).
+                         */
+                        fun h(): Double = h.getRequired("h")
+
+                        /**
+                         * Width of the bounding box
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type or is unexpectedly missing or null (e.g. if the server
+                         *   responded with an unexpected value).
+                         */
+                        fun w(): Double = w.getRequired("w")
+
+                        /**
+                         * X coordinate of the bounding box
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type or is unexpectedly missing or null (e.g. if the server
+                         *   responded with an unexpected value).
+                         */
+                        fun x(): Double = x.getRequired("x")
+
+                        /**
+                         * Y coordinate of the bounding box
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type or is unexpectedly missing or null (e.g. if the server
+                         *   responded with an unexpected value).
+                         */
+                        fun y(): Double = y.getRequired("y")
+
+                        /**
+                         * Returns the raw JSON value of [h].
+                         *
+                         * Unlike [h], this method doesn't throw if the JSON field has an unexpected
+                         * type.
+                         */
+                        @JsonProperty("h") @ExcludeMissing fun _h(): JsonField<Double> = h
+
+                        /**
+                         * Returns the raw JSON value of [w].
+                         *
+                         * Unlike [w], this method doesn't throw if the JSON field has an unexpected
+                         * type.
+                         */
+                        @JsonProperty("w") @ExcludeMissing fun _w(): JsonField<Double> = w
+
+                        /**
+                         * Returns the raw JSON value of [x].
+                         *
+                         * Unlike [x], this method doesn't throw if the JSON field has an unexpected
+                         * type.
+                         */
+                        @JsonProperty("x") @ExcludeMissing fun _x(): JsonField<Double> = x
+
+                        /**
+                         * Returns the raw JSON value of [y].
+                         *
+                         * Unlike [y], this method doesn't throw if the JSON field has an unexpected
+                         * type.
+                         */
+                        @JsonProperty("y") @ExcludeMissing fun _y(): JsonField<Double> = y
+
+                        @JsonAnySetter
+                        private fun putAdditionalProperty(key: String, value: JsonValue) {
+                            additionalProperties.put(key, value)
+                        }
+
+                        @JsonAnyGetter
+                        @ExcludeMissing
+                        fun _additionalProperties(): Map<String, JsonValue> =
+                            Collections.unmodifiableMap(additionalProperties)
+
+                        fun toBuilder() = Builder().from(this)
+
+                        companion object {
+
+                            /**
+                             * Returns a mutable builder for constructing an instance of
+                             * [RevisionBbox].
+                             *
+                             * The following fields are required:
+                             * ```java
+                             * .h()
+                             * .w()
+                             * .x()
+                             * .y()
+                             * ```
+                             */
+                            @JvmStatic fun builder() = Builder()
+                        }
+
+                        /** A builder for [RevisionBbox]. */
+                        class Builder internal constructor() {
+
+                            private var h: JsonField<Double>? = null
+                            private var w: JsonField<Double>? = null
+                            private var x: JsonField<Double>? = null
+                            private var y: JsonField<Double>? = null
+                            private var additionalProperties: MutableMap<String, JsonValue> =
+                                mutableMapOf()
+
+                            @JvmSynthetic
+                            internal fun from(revisionBbox: RevisionBbox) = apply {
+                                h = revisionBbox.h
+                                w = revisionBbox.w
+                                x = revisionBbox.x
+                                y = revisionBbox.y
+                                additionalProperties =
+                                    revisionBbox.additionalProperties.toMutableMap()
+                            }
+
+                            /** Height of the bounding box */
+                            fun h(h: Double) = h(JsonField.of(h))
+
+                            /**
+                             * Sets [Builder.h] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.h] with a well-typed [Double] value
+                             * instead. This method is primarily for setting the field to an
+                             * undocumented or not yet supported value.
+                             */
+                            fun h(h: JsonField<Double>) = apply { this.h = h }
+
+                            /** Width of the bounding box */
+                            fun w(w: Double) = w(JsonField.of(w))
+
+                            /**
+                             * Sets [Builder.w] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.w] with a well-typed [Double] value
+                             * instead. This method is primarily for setting the field to an
+                             * undocumented or not yet supported value.
+                             */
+                            fun w(w: JsonField<Double>) = apply { this.w = w }
+
+                            /** X coordinate of the bounding box */
+                            fun x(x: Double) = x(JsonField.of(x))
+
+                            /**
+                             * Sets [Builder.x] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.x] with a well-typed [Double] value
+                             * instead. This method is primarily for setting the field to an
+                             * undocumented or not yet supported value.
+                             */
+                            fun x(x: JsonField<Double>) = apply { this.x = x }
+
+                            /** Y coordinate of the bounding box */
+                            fun y(y: Double) = y(JsonField.of(y))
+
+                            /**
+                             * Sets [Builder.y] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.y] with a well-typed [Double] value
+                             * instead. This method is primarily for setting the field to an
+                             * undocumented or not yet supported value.
+                             */
+                            fun y(y: JsonField<Double>) = apply { this.y = y }
+
+                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                                apply {
+                                    this.additionalProperties.clear()
+                                    putAllAdditionalProperties(additionalProperties)
+                                }
+
+                            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                                additionalProperties.put(key, value)
+                            }
+
+                            fun putAllAdditionalProperties(
+                                additionalProperties: Map<String, JsonValue>
+                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                            fun removeAdditionalProperty(key: String) = apply {
+                                additionalProperties.remove(key)
+                            }
+
+                            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                                keys.forEach(::removeAdditionalProperty)
+                            }
+
+                            /**
+                             * Returns an immutable instance of [RevisionBbox].
+                             *
+                             * Further updates to this [Builder] will not mutate the returned
+                             * instance.
+                             *
+                             * The following fields are required:
+                             * ```java
+                             * .h()
+                             * .w()
+                             * .x()
+                             * .y()
+                             * ```
+                             *
+                             * @throws IllegalStateException if any required field is unset.
+                             */
+                            fun build(): RevisionBbox =
+                                RevisionBbox(
+                                    checkRequired("h", h),
+                                    checkRequired("w", w),
+                                    checkRequired("x", x),
+                                    checkRequired("y", y),
+                                    additionalProperties.toMutableMap(),
+                                )
+                        }
+
+                        private var validated: Boolean = false
+
+                        /**
+                         * Validates that the types of all values in this object match their
+                         * expected types recursively.
+                         *
+                         * This method is _not_ forwards compatible with new types from the API for
+                         * existing fields.
+                         *
+                         * @throws LlamaCloudInvalidDataException if any value type in this object
+                         *   doesn't match its expected type.
+                         */
+                        fun validate(): RevisionBbox = apply {
+                            if (validated) {
+                                return@apply
+                            }
+
+                            h()
+                            w()
+                            x()
+                            y()
+                            validated = true
+                        }
+
+                        fun isValid(): Boolean =
+                            try {
+                                validate()
+                                true
+                            } catch (e: LlamaCloudInvalidDataException) {
+                                false
+                            }
+
+                        /**
+                         * Returns a score indicating how many valid values are contained in this
+                         * object recursively.
+                         *
+                         * Used for best match union deserialization.
+                         */
+                        @JvmSynthetic
+                        internal fun validity(): Int =
+                            (if (h.asKnown().isPresent) 1 else 0) +
+                                (if (w.asKnown().isPresent) 1 else 0) +
+                                (if (x.asKnown().isPresent) 1 else 0) +
+                                (if (y.asKnown().isPresent) 1 else 0)
+
+                        override fun equals(other: Any?): Boolean {
+                            if (this === other) {
+                                return true
+                            }
+
+                            return other is RevisionBbox &&
+                                h == other.h &&
+                                w == other.w &&
+                                x == other.x &&
+                                y == other.y &&
+                                additionalProperties == other.additionalProperties
+                        }
+
+                        private val hashCode: Int by lazy {
+                            Objects.hash(h, w, x, y, additionalProperties)
+                        }
+
+                        override fun hashCode(): Int = hashCode
+
+                        override fun toString() =
+                            "RevisionBbox{h=$h, w=$w, x=$x, y=$y, additionalProperties=$additionalProperties}"
+                    }
+
+                    /** Union bounding box of the target spans */
+                    class TargetBbox
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+                    private constructor(
+                        private val h: JsonField<Double>,
+                        private val w: JsonField<Double>,
+                        private val x: JsonField<Double>,
+                        private val y: JsonField<Double>,
+                        private val additionalProperties: MutableMap<String, JsonValue>,
+                    ) {
+
+                        @JsonCreator
+                        private constructor(
+                            @JsonProperty("h")
+                            @ExcludeMissing
+                            h: JsonField<Double> = JsonMissing.of(),
+                            @JsonProperty("w")
+                            @ExcludeMissing
+                            w: JsonField<Double> = JsonMissing.of(),
+                            @JsonProperty("x")
+                            @ExcludeMissing
+                            x: JsonField<Double> = JsonMissing.of(),
+                            @JsonProperty("y")
+                            @ExcludeMissing
+                            y: JsonField<Double> = JsonMissing.of(),
+                        ) : this(h, w, x, y, mutableMapOf())
+
+                        /**
+                         * Height of the bounding box
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type or is unexpectedly missing or null (e.g. if the server
+                         *   responded with an unexpected value).
+                         */
+                        fun h(): Double = h.getRequired("h")
+
+                        /**
+                         * Width of the bounding box
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type or is unexpectedly missing or null (e.g. if the server
+                         *   responded with an unexpected value).
+                         */
+                        fun w(): Double = w.getRequired("w")
+
+                        /**
+                         * X coordinate of the bounding box
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type or is unexpectedly missing or null (e.g. if the server
+                         *   responded with an unexpected value).
+                         */
+                        fun x(): Double = x.getRequired("x")
+
+                        /**
+                         * Y coordinate of the bounding box
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type or is unexpectedly missing or null (e.g. if the server
+                         *   responded with an unexpected value).
+                         */
+                        fun y(): Double = y.getRequired("y")
+
+                        /**
+                         * Returns the raw JSON value of [h].
+                         *
+                         * Unlike [h], this method doesn't throw if the JSON field has an unexpected
+                         * type.
+                         */
+                        @JsonProperty("h") @ExcludeMissing fun _h(): JsonField<Double> = h
+
+                        /**
+                         * Returns the raw JSON value of [w].
+                         *
+                         * Unlike [w], this method doesn't throw if the JSON field has an unexpected
+                         * type.
+                         */
+                        @JsonProperty("w") @ExcludeMissing fun _w(): JsonField<Double> = w
+
+                        /**
+                         * Returns the raw JSON value of [x].
+                         *
+                         * Unlike [x], this method doesn't throw if the JSON field has an unexpected
+                         * type.
+                         */
+                        @JsonProperty("x") @ExcludeMissing fun _x(): JsonField<Double> = x
+
+                        /**
+                         * Returns the raw JSON value of [y].
+                         *
+                         * Unlike [y], this method doesn't throw if the JSON field has an unexpected
+                         * type.
+                         */
+                        @JsonProperty("y") @ExcludeMissing fun _y(): JsonField<Double> = y
+
+                        @JsonAnySetter
+                        private fun putAdditionalProperty(key: String, value: JsonValue) {
+                            additionalProperties.put(key, value)
+                        }
+
+                        @JsonAnyGetter
+                        @ExcludeMissing
+                        fun _additionalProperties(): Map<String, JsonValue> =
+                            Collections.unmodifiableMap(additionalProperties)
+
+                        fun toBuilder() = Builder().from(this)
+
+                        companion object {
+
+                            /**
+                             * Returns a mutable builder for constructing an instance of
+                             * [TargetBbox].
+                             *
+                             * The following fields are required:
+                             * ```java
+                             * .h()
+                             * .w()
+                             * .x()
+                             * .y()
+                             * ```
+                             */
+                            @JvmStatic fun builder() = Builder()
+                        }
+
+                        /** A builder for [TargetBbox]. */
+                        class Builder internal constructor() {
+
+                            private var h: JsonField<Double>? = null
+                            private var w: JsonField<Double>? = null
+                            private var x: JsonField<Double>? = null
+                            private var y: JsonField<Double>? = null
+                            private var additionalProperties: MutableMap<String, JsonValue> =
+                                mutableMapOf()
+
+                            @JvmSynthetic
+                            internal fun from(targetBbox: TargetBbox) = apply {
+                                h = targetBbox.h
+                                w = targetBbox.w
+                                x = targetBbox.x
+                                y = targetBbox.y
+                                additionalProperties =
+                                    targetBbox.additionalProperties.toMutableMap()
+                            }
+
+                            /** Height of the bounding box */
+                            fun h(h: Double) = h(JsonField.of(h))
+
+                            /**
+                             * Sets [Builder.h] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.h] with a well-typed [Double] value
+                             * instead. This method is primarily for setting the field to an
+                             * undocumented or not yet supported value.
+                             */
+                            fun h(h: JsonField<Double>) = apply { this.h = h }
+
+                            /** Width of the bounding box */
+                            fun w(w: Double) = w(JsonField.of(w))
+
+                            /**
+                             * Sets [Builder.w] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.w] with a well-typed [Double] value
+                             * instead. This method is primarily for setting the field to an
+                             * undocumented or not yet supported value.
+                             */
+                            fun w(w: JsonField<Double>) = apply { this.w = w }
+
+                            /** X coordinate of the bounding box */
+                            fun x(x: Double) = x(JsonField.of(x))
+
+                            /**
+                             * Sets [Builder.x] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.x] with a well-typed [Double] value
+                             * instead. This method is primarily for setting the field to an
+                             * undocumented or not yet supported value.
+                             */
+                            fun x(x: JsonField<Double>) = apply { this.x = x }
+
+                            /** Y coordinate of the bounding box */
+                            fun y(y: Double) = y(JsonField.of(y))
+
+                            /**
+                             * Sets [Builder.y] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.y] with a well-typed [Double] value
+                             * instead. This method is primarily for setting the field to an
+                             * undocumented or not yet supported value.
+                             */
+                            fun y(y: JsonField<Double>) = apply { this.y = y }
+
+                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                                apply {
+                                    this.additionalProperties.clear()
+                                    putAllAdditionalProperties(additionalProperties)
+                                }
+
+                            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                                additionalProperties.put(key, value)
+                            }
+
+                            fun putAllAdditionalProperties(
+                                additionalProperties: Map<String, JsonValue>
+                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                            fun removeAdditionalProperty(key: String) = apply {
+                                additionalProperties.remove(key)
+                            }
+
+                            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                                keys.forEach(::removeAdditionalProperty)
+                            }
+
+                            /**
+                             * Returns an immutable instance of [TargetBbox].
+                             *
+                             * Further updates to this [Builder] will not mutate the returned
+                             * instance.
+                             *
+                             * The following fields are required:
+                             * ```java
+                             * .h()
+                             * .w()
+                             * .x()
+                             * .y()
+                             * ```
+                             *
+                             * @throws IllegalStateException if any required field is unset.
+                             */
+                            fun build(): TargetBbox =
+                                TargetBbox(
+                                    checkRequired("h", h),
+                                    checkRequired("w", w),
+                                    checkRequired("x", x),
+                                    checkRequired("y", y),
+                                    additionalProperties.toMutableMap(),
+                                )
+                        }
+
+                        private var validated: Boolean = false
+
+                        /**
+                         * Validates that the types of all values in this object match their
+                         * expected types recursively.
+                         *
+                         * This method is _not_ forwards compatible with new types from the API for
+                         * existing fields.
+                         *
+                         * @throws LlamaCloudInvalidDataException if any value type in this object
+                         *   doesn't match its expected type.
+                         */
+                        fun validate(): TargetBbox = apply {
+                            if (validated) {
+                                return@apply
+                            }
+
+                            h()
+                            w()
+                            x()
+                            y()
+                            validated = true
+                        }
+
+                        fun isValid(): Boolean =
+                            try {
+                                validate()
+                                true
+                            } catch (e: LlamaCloudInvalidDataException) {
+                                false
+                            }
+
+                        /**
+                         * Returns a score indicating how many valid values are contained in this
+                         * object recursively.
+                         *
+                         * Used for best match union deserialization.
+                         */
+                        @JvmSynthetic
+                        internal fun validity(): Int =
+                            (if (h.asKnown().isPresent) 1 else 0) +
+                                (if (w.asKnown().isPresent) 1 else 0) +
+                                (if (x.asKnown().isPresent) 1 else 0) +
+                                (if (y.asKnown().isPresent) 1 else 0)
+
+                        override fun equals(other: Any?): Boolean {
+                            if (this === other) {
+                                return true
+                            }
+
+                            return other is TargetBbox &&
+                                h == other.h &&
+                                w == other.w &&
+                                x == other.x &&
+                                y == other.y &&
+                                additionalProperties == other.additionalProperties
+                        }
+
+                        private val hashCode: Int by lazy {
+                            Objects.hash(h, w, x, y, additionalProperties)
+                        }
+
+                        override fun hashCode(): Int = hashCode
+
+                        override fun toString() =
+                            "TargetBbox{h=$h, w=$w, x=$x, y=$y, additionalProperties=$additionalProperties}"
+                    }
+
+                    /** Type of revision */
+                    class Type
+                    @JsonCreator
+                    private constructor(private val value: JsonField<String>) : Enum {
+
+                        /**
+                         * Returns this class instance's raw value.
+                         *
+                         * This is usually only useful if this instance was deserialized from data
+                         * that doesn't match any known member, and you want to know that value. For
+                         * example, if the SDK is on an older version than the API, then the API may
+                         * respond with new members that the SDK is unaware of.
+                         */
+                        @com.fasterxml.jackson.annotation.JsonValue
+                        fun _value(): JsonField<String> = value
+
+                        companion object {
+
+                            @JvmField val COMMENT = of("comment")
+
+                            @JvmField val DELETED = of("deleted")
+
+                            @JvmField val FORMATTED = of("formatted")
+
+                            @JvmField val INSERTED = of("inserted")
+
+                            @JvmField val MOVED_FROM = of("moved_from")
+
+                            @JvmField val MOVED_TO = of("moved_to")
+
+                            @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                        }
+
+                        /** An enum containing [Type]'s known values. */
+                        enum class Known {
+                            COMMENT,
+                            DELETED,
+                            FORMATTED,
+                            INSERTED,
+                            MOVED_FROM,
+                            MOVED_TO,
+                        }
+
+                        /**
+                         * An enum containing [Type]'s known values, as well as an [_UNKNOWN]
+                         * member.
+                         *
+                         * An instance of [Type] can contain an unknown value in a couple of cases:
+                         * - It was deserialized from data that doesn't match any known member. For
+                         *   example, if the SDK is on an older version than the API, then the API
+                         *   may respond with new members that the SDK is unaware of.
+                         * - It was constructed with an arbitrary value using the [of] method.
+                         */
+                        enum class Value {
+                            COMMENT,
+                            DELETED,
+                            FORMATTED,
+                            INSERTED,
+                            MOVED_FROM,
+                            MOVED_TO,
+                            /**
+                             * An enum member indicating that [Type] was instantiated with an
+                             * unknown value.
+                             */
+                            _UNKNOWN,
+                        }
+
+                        /**
+                         * Returns an enum member corresponding to this class instance's value, or
+                         * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                         *
+                         * Use the [known] method instead if you're certain the value is always
+                         * known or if you want to throw for the unknown case.
+                         */
+                        fun value(): Value =
+                            when (this) {
+                                COMMENT -> Value.COMMENT
+                                DELETED -> Value.DELETED
+                                FORMATTED -> Value.FORMATTED
+                                INSERTED -> Value.INSERTED
+                                MOVED_FROM -> Value.MOVED_FROM
+                                MOVED_TO -> Value.MOVED_TO
+                                else -> Value._UNKNOWN
+                            }
+
+                        /**
+                         * Returns an enum member corresponding to this class instance's value.
+                         *
+                         * Use the [value] method instead if you're uncertain the value is always
+                         * known and don't want to throw for the unknown case.
+                         *
+                         * @throws LlamaCloudInvalidDataException if this class instance's value is
+                         *   a not a known member.
+                         */
+                        fun known(): Known =
+                            when (this) {
+                                COMMENT -> Known.COMMENT
+                                DELETED -> Known.DELETED
+                                FORMATTED -> Known.FORMATTED
+                                INSERTED -> Known.INSERTED
+                                MOVED_FROM -> Known.MOVED_FROM
+                                MOVED_TO -> Known.MOVED_TO
+                                else -> throw LlamaCloudInvalidDataException("Unknown Type: $value")
+                            }
+
+                        /**
+                         * Returns this class instance's primitive wire representation.
+                         *
+                         * This differs from the [toString] method because that method is primarily
+                         * for debugging and generally doesn't throw.
+                         *
+                         * @throws LlamaCloudInvalidDataException if this class instance's value
+                         *   does not have the expected primitive type.
+                         */
+                        fun asString(): String =
+                            _value().asString().orElseThrow {
+                                LlamaCloudInvalidDataException("Value is not a String")
+                            }
+
+                        private var validated: Boolean = false
+
+                        /**
+                         * Validates that the types of all values in this object match their
+                         * expected types recursively.
+                         *
+                         * This method is _not_ forwards compatible with new types from the API for
+                         * existing fields.
+                         *
+                         * @throws LlamaCloudInvalidDataException if any value type in this object
+                         *   doesn't match its expected type.
+                         */
+                        fun validate(): Type = apply {
+                            if (validated) {
+                                return@apply
+                            }
+
+                            known()
+                            validated = true
+                        }
+
+                        fun isValid(): Boolean =
+                            try {
+                                validate()
+                                true
+                            } catch (e: LlamaCloudInvalidDataException) {
+                                false
+                            }
+
+                        /**
+                         * Returns a score indicating how many valid values are contained in this
+                         * object recursively.
+                         *
+                         * Used for best match union deserialization.
+                         */
+                        @JvmSynthetic
+                        internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                        override fun equals(other: Any?): Boolean {
+                            if (this === other) {
+                                return true
+                            }
+
+                            return other is Type && value == other.value
+                        }
+
+                        override fun hashCode() = value.hashCode()
+
+                        override fun toString() = value.toString()
+                    }
+
+                    /** One contiguous target span linked to a document revision. */
+                    class TargetSpan
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+                    private constructor(
+                        private val target: JsonField<String>,
+                        private val targetBbox: JsonField<TargetBbox>,
+                        private val endIndex: JsonField<Long>,
+                        private val startIndex: JsonField<Long>,
+                        private val additionalProperties: MutableMap<String, JsonValue>,
+                    ) {
+
+                        @JsonCreator
+                        private constructor(
+                            @JsonProperty("target")
+                            @ExcludeMissing
+                            target: JsonField<String> = JsonMissing.of(),
+                            @JsonProperty("target_bbox")
+                            @ExcludeMissing
+                            targetBbox: JsonField<TargetBbox> = JsonMissing.of(),
+                            @JsonProperty("end_index")
+                            @ExcludeMissing
+                            endIndex: JsonField<Long> = JsonMissing.of(),
+                            @JsonProperty("start_index")
+                            @ExcludeMissing
+                            startIndex: JsonField<Long> = JsonMissing.of(),
+                        ) : this(target, targetBbox, endIndex, startIndex, mutableMapOf())
+
+                        /**
+                         * Text covered by this target span
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type or is unexpectedly missing or null (e.g. if the server
+                         *   responded with an unexpected value).
+                         */
+                        fun target(): String = target.getRequired("target")
+
+                        /**
+                         * Bounding box of this target span
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type or is unexpectedly missing or null (e.g. if the server
+                         *   responded with an unexpected value).
+                         */
+                        fun targetBbox(): TargetBbox = targetBbox.getRequired("target_bbox")
+
+                        /**
+                         * Exclusive end offset in final page markdown
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type (e.g. if the server responded with an unexpected
+                         *   value).
+                         */
+                        fun endIndex(): Optional<Long> = endIndex.getOptional("end_index")
+
+                        /**
+                         * Inclusive start offset in final page markdown
+                         *
+                         * @throws LlamaCloudInvalidDataException if the JSON field has an
+                         *   unexpected type (e.g. if the server responded with an unexpected
+                         *   value).
+                         */
+                        fun startIndex(): Optional<Long> = startIndex.getOptional("start_index")
+
+                        /**
+                         * Returns the raw JSON value of [target].
+                         *
+                         * Unlike [target], this method doesn't throw if the JSON field has an
+                         * unexpected type.
+                         */
+                        @JsonProperty("target")
+                        @ExcludeMissing
+                        fun _target(): JsonField<String> = target
+
+                        /**
+                         * Returns the raw JSON value of [targetBbox].
+                         *
+                         * Unlike [targetBbox], this method doesn't throw if the JSON field has an
+                         * unexpected type.
+                         */
+                        @JsonProperty("target_bbox")
+                        @ExcludeMissing
+                        fun _targetBbox(): JsonField<TargetBbox> = targetBbox
+
+                        /**
+                         * Returns the raw JSON value of [endIndex].
+                         *
+                         * Unlike [endIndex], this method doesn't throw if the JSON field has an
+                         * unexpected type.
+                         */
+                        @JsonProperty("end_index")
+                        @ExcludeMissing
+                        fun _endIndex(): JsonField<Long> = endIndex
+
+                        /**
+                         * Returns the raw JSON value of [startIndex].
+                         *
+                         * Unlike [startIndex], this method doesn't throw if the JSON field has an
+                         * unexpected type.
+                         */
+                        @JsonProperty("start_index")
+                        @ExcludeMissing
+                        fun _startIndex(): JsonField<Long> = startIndex
+
+                        @JsonAnySetter
+                        private fun putAdditionalProperty(key: String, value: JsonValue) {
+                            additionalProperties.put(key, value)
+                        }
+
+                        @JsonAnyGetter
+                        @ExcludeMissing
+                        fun _additionalProperties(): Map<String, JsonValue> =
+                            Collections.unmodifiableMap(additionalProperties)
+
+                        fun toBuilder() = Builder().from(this)
+
+                        companion object {
+
+                            /**
+                             * Returns a mutable builder for constructing an instance of
+                             * [TargetSpan].
+                             *
+                             * The following fields are required:
+                             * ```java
+                             * .target()
+                             * .targetBbox()
+                             * ```
+                             */
+                            @JvmStatic fun builder() = Builder()
+                        }
+
+                        /** A builder for [TargetSpan]. */
+                        class Builder internal constructor() {
+
+                            private var target: JsonField<String>? = null
+                            private var targetBbox: JsonField<TargetBbox>? = null
+                            private var endIndex: JsonField<Long> = JsonMissing.of()
+                            private var startIndex: JsonField<Long> = JsonMissing.of()
+                            private var additionalProperties: MutableMap<String, JsonValue> =
+                                mutableMapOf()
+
+                            @JvmSynthetic
+                            internal fun from(targetSpan: TargetSpan) = apply {
+                                target = targetSpan.target
+                                targetBbox = targetSpan.targetBbox
+                                endIndex = targetSpan.endIndex
+                                startIndex = targetSpan.startIndex
+                                additionalProperties =
+                                    targetSpan.additionalProperties.toMutableMap()
+                            }
+
+                            /** Text covered by this target span */
+                            fun target(target: String) = target(JsonField.of(target))
+
+                            /**
+                             * Sets [Builder.target] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.target] with a well-typed [String]
+                             * value instead. This method is primarily for setting the field to an
+                             * undocumented or not yet supported value.
+                             */
+                            fun target(target: JsonField<String>) = apply { this.target = target }
+
+                            /** Bounding box of this target span */
+                            fun targetBbox(targetBbox: TargetBbox) =
+                                targetBbox(JsonField.of(targetBbox))
+
+                            /**
+                             * Sets [Builder.targetBbox] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.targetBbox] with a well-typed
+                             * [TargetBbox] value instead. This method is primarily for setting the
+                             * field to an undocumented or not yet supported value.
+                             */
+                            fun targetBbox(targetBbox: JsonField<TargetBbox>) = apply {
+                                this.targetBbox = targetBbox
+                            }
+
+                            /** Exclusive end offset in final page markdown */
+                            fun endIndex(endIndex: Long?) = endIndex(JsonField.ofNullable(endIndex))
+
+                            /**
+                             * Alias for [Builder.endIndex].
+                             *
+                             * This unboxed primitive overload exists for backwards compatibility.
+                             */
+                            fun endIndex(endIndex: Long) = endIndex(endIndex as Long?)
+
+                            /**
+                             * Alias for calling [Builder.endIndex] with `endIndex.orElse(null)`.
+                             */
+                            fun endIndex(endIndex: Optional<Long>) = endIndex(endIndex.getOrNull())
+
+                            /**
+                             * Sets [Builder.endIndex] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.endIndex] with a well-typed [Long]
+                             * value instead. This method is primarily for setting the field to an
+                             * undocumented or not yet supported value.
+                             */
+                            fun endIndex(endIndex: JsonField<Long>) = apply {
+                                this.endIndex = endIndex
+                            }
+
+                            /** Inclusive start offset in final page markdown */
+                            fun startIndex(startIndex: Long?) =
+                                startIndex(JsonField.ofNullable(startIndex))
+
+                            /**
+                             * Alias for [Builder.startIndex].
+                             *
+                             * This unboxed primitive overload exists for backwards compatibility.
+                             */
+                            fun startIndex(startIndex: Long) = startIndex(startIndex as Long?)
+
+                            /**
+                             * Alias for calling [Builder.startIndex] with
+                             * `startIndex.orElse(null)`.
+                             */
+                            fun startIndex(startIndex: Optional<Long>) =
+                                startIndex(startIndex.getOrNull())
+
+                            /**
+                             * Sets [Builder.startIndex] to an arbitrary JSON value.
+                             *
+                             * You should usually call [Builder.startIndex] with a well-typed [Long]
+                             * value instead. This method is primarily for setting the field to an
+                             * undocumented or not yet supported value.
+                             */
+                            fun startIndex(startIndex: JsonField<Long>) = apply {
+                                this.startIndex = startIndex
+                            }
+
+                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                                apply {
+                                    this.additionalProperties.clear()
+                                    putAllAdditionalProperties(additionalProperties)
+                                }
+
+                            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                                additionalProperties.put(key, value)
+                            }
+
+                            fun putAllAdditionalProperties(
+                                additionalProperties: Map<String, JsonValue>
+                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                            fun removeAdditionalProperty(key: String) = apply {
+                                additionalProperties.remove(key)
+                            }
+
+                            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                                keys.forEach(::removeAdditionalProperty)
+                            }
+
+                            /**
+                             * Returns an immutable instance of [TargetSpan].
+                             *
+                             * Further updates to this [Builder] will not mutate the returned
+                             * instance.
+                             *
+                             * The following fields are required:
+                             * ```java
+                             * .target()
+                             * .targetBbox()
+                             * ```
+                             *
+                             * @throws IllegalStateException if any required field is unset.
+                             */
+                            fun build(): TargetSpan =
+                                TargetSpan(
+                                    checkRequired("target", target),
+                                    checkRequired("targetBbox", targetBbox),
+                                    endIndex,
+                                    startIndex,
+                                    additionalProperties.toMutableMap(),
+                                )
+                        }
+
+                        private var validated: Boolean = false
+
+                        /**
+                         * Validates that the types of all values in this object match their
+                         * expected types recursively.
+                         *
+                         * This method is _not_ forwards compatible with new types from the API for
+                         * existing fields.
+                         *
+                         * @throws LlamaCloudInvalidDataException if any value type in this object
+                         *   doesn't match its expected type.
+                         */
+                        fun validate(): TargetSpan = apply {
+                            if (validated) {
+                                return@apply
+                            }
+
+                            target()
+                            targetBbox().validate()
+                            endIndex()
+                            startIndex()
+                            validated = true
+                        }
+
+                        fun isValid(): Boolean =
+                            try {
+                                validate()
+                                true
+                            } catch (e: LlamaCloudInvalidDataException) {
+                                false
+                            }
+
+                        /**
+                         * Returns a score indicating how many valid values are contained in this
+                         * object recursively.
+                         *
+                         * Used for best match union deserialization.
+                         */
+                        @JvmSynthetic
+                        internal fun validity(): Int =
+                            (if (target.asKnown().isPresent) 1 else 0) +
+                                (targetBbox.asKnown().getOrNull()?.validity() ?: 0) +
+                                (if (endIndex.asKnown().isPresent) 1 else 0) +
+                                (if (startIndex.asKnown().isPresent) 1 else 0)
+
+                        /** Bounding box of this target span */
+                        class TargetBbox
+                        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+                        private constructor(
+                            private val h: JsonField<Double>,
+                            private val w: JsonField<Double>,
+                            private val x: JsonField<Double>,
+                            private val y: JsonField<Double>,
+                            private val additionalProperties: MutableMap<String, JsonValue>,
+                        ) {
+
+                            @JsonCreator
+                            private constructor(
+                                @JsonProperty("h")
+                                @ExcludeMissing
+                                h: JsonField<Double> = JsonMissing.of(),
+                                @JsonProperty("w")
+                                @ExcludeMissing
+                                w: JsonField<Double> = JsonMissing.of(),
+                                @JsonProperty("x")
+                                @ExcludeMissing
+                                x: JsonField<Double> = JsonMissing.of(),
+                                @JsonProperty("y")
+                                @ExcludeMissing
+                                y: JsonField<Double> = JsonMissing.of(),
+                            ) : this(h, w, x, y, mutableMapOf())
+
+                            /**
+                             * Height of the bounding box
+                             *
+                             * @throws LlamaCloudInvalidDataException if the JSON field has an
+                             *   unexpected type or is unexpectedly missing or null (e.g. if the
+                             *   server responded with an unexpected value).
+                             */
+                            fun h(): Double = h.getRequired("h")
+
+                            /**
+                             * Width of the bounding box
+                             *
+                             * @throws LlamaCloudInvalidDataException if the JSON field has an
+                             *   unexpected type or is unexpectedly missing or null (e.g. if the
+                             *   server responded with an unexpected value).
+                             */
+                            fun w(): Double = w.getRequired("w")
+
+                            /**
+                             * X coordinate of the bounding box
+                             *
+                             * @throws LlamaCloudInvalidDataException if the JSON field has an
+                             *   unexpected type or is unexpectedly missing or null (e.g. if the
+                             *   server responded with an unexpected value).
+                             */
+                            fun x(): Double = x.getRequired("x")
+
+                            /**
+                             * Y coordinate of the bounding box
+                             *
+                             * @throws LlamaCloudInvalidDataException if the JSON field has an
+                             *   unexpected type or is unexpectedly missing or null (e.g. if the
+                             *   server responded with an unexpected value).
+                             */
+                            fun y(): Double = y.getRequired("y")
+
+                            /**
+                             * Returns the raw JSON value of [h].
+                             *
+                             * Unlike [h], this method doesn't throw if the JSON field has an
+                             * unexpected type.
+                             */
+                            @JsonProperty("h") @ExcludeMissing fun _h(): JsonField<Double> = h
+
+                            /**
+                             * Returns the raw JSON value of [w].
+                             *
+                             * Unlike [w], this method doesn't throw if the JSON field has an
+                             * unexpected type.
+                             */
+                            @JsonProperty("w") @ExcludeMissing fun _w(): JsonField<Double> = w
+
+                            /**
+                             * Returns the raw JSON value of [x].
+                             *
+                             * Unlike [x], this method doesn't throw if the JSON field has an
+                             * unexpected type.
+                             */
+                            @JsonProperty("x") @ExcludeMissing fun _x(): JsonField<Double> = x
+
+                            /**
+                             * Returns the raw JSON value of [y].
+                             *
+                             * Unlike [y], this method doesn't throw if the JSON field has an
+                             * unexpected type.
+                             */
+                            @JsonProperty("y") @ExcludeMissing fun _y(): JsonField<Double> = y
+
+                            @JsonAnySetter
+                            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                                additionalProperties.put(key, value)
+                            }
+
+                            @JsonAnyGetter
+                            @ExcludeMissing
+                            fun _additionalProperties(): Map<String, JsonValue> =
+                                Collections.unmodifiableMap(additionalProperties)
+
+                            fun toBuilder() = Builder().from(this)
+
+                            companion object {
+
+                                /**
+                                 * Returns a mutable builder for constructing an instance of
+                                 * [TargetBbox].
+                                 *
+                                 * The following fields are required:
+                                 * ```java
+                                 * .h()
+                                 * .w()
+                                 * .x()
+                                 * .y()
+                                 * ```
+                                 */
+                                @JvmStatic fun builder() = Builder()
+                            }
+
+                            /** A builder for [TargetBbox]. */
+                            class Builder internal constructor() {
+
+                                private var h: JsonField<Double>? = null
+                                private var w: JsonField<Double>? = null
+                                private var x: JsonField<Double>? = null
+                                private var y: JsonField<Double>? = null
+                                private var additionalProperties: MutableMap<String, JsonValue> =
+                                    mutableMapOf()
+
+                                @JvmSynthetic
+                                internal fun from(targetBbox: TargetBbox) = apply {
+                                    h = targetBbox.h
+                                    w = targetBbox.w
+                                    x = targetBbox.x
+                                    y = targetBbox.y
+                                    additionalProperties =
+                                        targetBbox.additionalProperties.toMutableMap()
+                                }
+
+                                /** Height of the bounding box */
+                                fun h(h: Double) = h(JsonField.of(h))
+
+                                /**
+                                 * Sets [Builder.h] to an arbitrary JSON value.
+                                 *
+                                 * You should usually call [Builder.h] with a well-typed [Double]
+                                 * value instead. This method is primarily for setting the field to
+                                 * an undocumented or not yet supported value.
+                                 */
+                                fun h(h: JsonField<Double>) = apply { this.h = h }
+
+                                /** Width of the bounding box */
+                                fun w(w: Double) = w(JsonField.of(w))
+
+                                /**
+                                 * Sets [Builder.w] to an arbitrary JSON value.
+                                 *
+                                 * You should usually call [Builder.w] with a well-typed [Double]
+                                 * value instead. This method is primarily for setting the field to
+                                 * an undocumented or not yet supported value.
+                                 */
+                                fun w(w: JsonField<Double>) = apply { this.w = w }
+
+                                /** X coordinate of the bounding box */
+                                fun x(x: Double) = x(JsonField.of(x))
+
+                                /**
+                                 * Sets [Builder.x] to an arbitrary JSON value.
+                                 *
+                                 * You should usually call [Builder.x] with a well-typed [Double]
+                                 * value instead. This method is primarily for setting the field to
+                                 * an undocumented or not yet supported value.
+                                 */
+                                fun x(x: JsonField<Double>) = apply { this.x = x }
+
+                                /** Y coordinate of the bounding box */
+                                fun y(y: Double) = y(JsonField.of(y))
+
+                                /**
+                                 * Sets [Builder.y] to an arbitrary JSON value.
+                                 *
+                                 * You should usually call [Builder.y] with a well-typed [Double]
+                                 * value instead. This method is primarily for setting the field to
+                                 * an undocumented or not yet supported value.
+                                 */
+                                fun y(y: JsonField<Double>) = apply { this.y = y }
+
+                                fun additionalProperties(
+                                    additionalProperties: Map<String, JsonValue>
+                                ) = apply {
+                                    this.additionalProperties.clear()
+                                    putAllAdditionalProperties(additionalProperties)
+                                }
+
+                                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                                    additionalProperties.put(key, value)
+                                }
+
+                                fun putAllAdditionalProperties(
+                                    additionalProperties: Map<String, JsonValue>
+                                ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                                fun removeAdditionalProperty(key: String) = apply {
+                                    additionalProperties.remove(key)
+                                }
+
+                                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                                    keys.forEach(::removeAdditionalProperty)
+                                }
+
+                                /**
+                                 * Returns an immutable instance of [TargetBbox].
+                                 *
+                                 * Further updates to this [Builder] will not mutate the returned
+                                 * instance.
+                                 *
+                                 * The following fields are required:
+                                 * ```java
+                                 * .h()
+                                 * .w()
+                                 * .x()
+                                 * .y()
+                                 * ```
+                                 *
+                                 * @throws IllegalStateException if any required field is unset.
+                                 */
+                                fun build(): TargetBbox =
+                                    TargetBbox(
+                                        checkRequired("h", h),
+                                        checkRequired("w", w),
+                                        checkRequired("x", x),
+                                        checkRequired("y", y),
+                                        additionalProperties.toMutableMap(),
+                                    )
+                            }
+
+                            private var validated: Boolean = false
+
+                            /**
+                             * Validates that the types of all values in this object match their
+                             * expected types recursively.
+                             *
+                             * This method is _not_ forwards compatible with new types from the API
+                             * for existing fields.
+                             *
+                             * @throws LlamaCloudInvalidDataException if any value type in this
+                             *   object doesn't match its expected type.
+                             */
+                            fun validate(): TargetBbox = apply {
+                                if (validated) {
+                                    return@apply
+                                }
+
+                                h()
+                                w()
+                                x()
+                                y()
+                                validated = true
+                            }
+
+                            fun isValid(): Boolean =
+                                try {
+                                    validate()
+                                    true
+                                } catch (e: LlamaCloudInvalidDataException) {
+                                    false
+                                }
+
+                            /**
+                             * Returns a score indicating how many valid values are contained in
+                             * this object recursively.
+                             *
+                             * Used for best match union deserialization.
+                             */
+                            @JvmSynthetic
+                            internal fun validity(): Int =
+                                (if (h.asKnown().isPresent) 1 else 0) +
+                                    (if (w.asKnown().isPresent) 1 else 0) +
+                                    (if (x.asKnown().isPresent) 1 else 0) +
+                                    (if (y.asKnown().isPresent) 1 else 0)
+
+                            override fun equals(other: Any?): Boolean {
+                                if (this === other) {
+                                    return true
+                                }
+
+                                return other is TargetBbox &&
+                                    h == other.h &&
+                                    w == other.w &&
+                                    x == other.x &&
+                                    y == other.y &&
+                                    additionalProperties == other.additionalProperties
+                            }
+
+                            private val hashCode: Int by lazy {
+                                Objects.hash(h, w, x, y, additionalProperties)
+                            }
+
+                            override fun hashCode(): Int = hashCode
+
+                            override fun toString() =
+                                "TargetBbox{h=$h, w=$w, x=$x, y=$y, additionalProperties=$additionalProperties}"
+                        }
+
+                        override fun equals(other: Any?): Boolean {
+                            if (this === other) {
+                                return true
+                            }
+
+                            return other is TargetSpan &&
+                                target == other.target &&
+                                targetBbox == other.targetBbox &&
+                                endIndex == other.endIndex &&
+                                startIndex == other.startIndex &&
+                                additionalProperties == other.additionalProperties
+                        }
+
+                        private val hashCode: Int by lazy {
+                            Objects.hash(
+                                target,
+                                targetBbox,
+                                endIndex,
+                                startIndex,
+                                additionalProperties,
+                            )
+                        }
+
+                        override fun hashCode(): Int = hashCode
+
+                        override fun toString() =
+                            "TargetSpan{target=$target, targetBbox=$targetBbox, endIndex=$endIndex, startIndex=$startIndex, additionalProperties=$additionalProperties}"
+                    }
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Revision &&
+                            content == other.content &&
+                            revisionBbox == other.revisionBbox &&
+                            target == other.target &&
+                            targetBbox == other.targetBbox &&
+                            type == other.type &&
+                            author == other.author &&
+                            endIndex == other.endIndex &&
+                            startIndex == other.startIndex &&
+                            targetSpans == other.targetSpans &&
+                            additionalProperties == other.additionalProperties
+                    }
+
+                    private val hashCode: Int by lazy {
+                        Objects.hash(
+                            content,
+                            revisionBbox,
+                            target,
+                            targetBbox,
+                            type,
+                            author,
+                            endIndex,
+                            startIndex,
+                            targetSpans,
+                            additionalProperties,
+                        )
+                    }
+
+                    override fun hashCode(): Int = hashCode
+
+                    override fun toString() =
+                        "Revision{content=$content, revisionBbox=$revisionBbox, target=$target, targetBbox=$targetBbox, type=$type, author=$author, endIndex=$endIndex, startIndex=$startIndex, targetSpans=$targetSpans, additionalProperties=$additionalProperties}"
+                }
+
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
                         return true
@@ -4734,6 +6848,7 @@ private constructor(
                         pageNumber == other.pageNumber &&
                         pageWidth == other.pageWidth &&
                         success == other.success &&
+                        revisions == other.revisions &&
                         additionalProperties == other.additionalProperties
                 }
 
@@ -4744,6 +6859,7 @@ private constructor(
                         pageNumber,
                         pageWidth,
                         success,
+                        revisions,
                         additionalProperties,
                     )
                 }
@@ -4751,7 +6867,7 @@ private constructor(
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "StructuredResultPage{items=$items, pageHeight=$pageHeight, pageNumber=$pageNumber, pageWidth=$pageWidth, success=$success, additionalProperties=$additionalProperties}"
+                    "StructuredResultPage{items=$items, pageHeight=$pageHeight, pageNumber=$pageNumber, pageWidth=$pageWidth, success=$success, revisions=$revisions, additionalProperties=$additionalProperties}"
             }
 
             class FailedStructuredPage

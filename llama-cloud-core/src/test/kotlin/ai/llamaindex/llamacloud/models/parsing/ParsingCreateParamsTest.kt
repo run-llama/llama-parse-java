@@ -81,6 +81,7 @@ internal class ParsingCreateParamsTest {
                     .markdown(
                         ParsingCreateParams.OutputOptions.Markdown.builder()
                             .annotateLinks(true)
+                            .annotateRevisions(true)
                             .inlineImages(true)
                             .tables(
                                 ParsingCreateParams.OutputOptions.Markdown.Tables.builder()
@@ -375,6 +376,7 @@ internal class ParsingCreateParamsTest {
                         .markdown(
                             ParsingCreateParams.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
+                                .annotateRevisions(true)
                                 .inlineImages(true)
                                 .tables(
                                     ParsingCreateParams.OutputOptions.Markdown.Tables.builder()
@@ -699,6 +701,7 @@ internal class ParsingCreateParamsTest {
                         .markdown(
                             ParsingCreateParams.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
+                                .annotateRevisions(true)
                                 .inlineImages(true)
                                 .tables(
                                     ParsingCreateParams.OutputOptions.Markdown.Tables.builder()
@@ -997,6 +1000,7 @@ internal class ParsingCreateParamsTest {
                     .markdown(
                         ParsingCreateParams.OutputOptions.Markdown.builder()
                             .annotateLinks(true)
+                            .annotateRevisions(true)
                             .inlineImages(true)
                             .tables(
                                 ParsingCreateParams.OutputOptions.Markdown.Tables.builder()
