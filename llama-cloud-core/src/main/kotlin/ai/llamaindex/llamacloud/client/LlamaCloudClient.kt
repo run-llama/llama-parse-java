@@ -3,6 +3,7 @@
 package ai.llamaindex.llamacloud.client
 
 import ai.llamaindex.llamacloud.core.ClientOptions
+import ai.llamaindex.llamacloud.services.blocking.BatchService
 import ai.llamaindex.llamacloud.services.blocking.BetaService
 import ai.llamaindex.llamacloud.services.blocking.ClassifierService
 import ai.llamaindex.llamacloud.services.blocking.ClassifyService
@@ -64,6 +65,8 @@ interface LlamaCloudClient {
 
     fun classifier(): ClassifierService
 
+    fun batches(): BatchService
+
     fun classify(): ClassifyService
 
     fun configurations(): ConfigurationService
@@ -112,6 +115,8 @@ interface LlamaCloudClient {
         fun extract(): ExtractService.WithRawResponse
 
         fun classifier(): ClassifierService.WithRawResponse
+
+        fun batches(): BatchService.WithRawResponse
 
         fun classify(): ClassifyService.WithRawResponse
 

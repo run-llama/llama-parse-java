@@ -4,6 +4,8 @@ package ai.llamaindex.llamacloud.client
 
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.getPackageVersion
+import ai.llamaindex.llamacloud.services.async.BatchServiceAsync
+import ai.llamaindex.llamacloud.services.async.BatchServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.BetaServiceAsync
 import ai.llamaindex.llamacloud.services.async.BetaServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.ClassifierServiceAsync
@@ -67,6 +69,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
         ClassifierServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
+    private val batches: BatchServiceAsync by lazy {
+        BatchServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
     private val classify: ClassifyServiceAsync by lazy {
         ClassifyServiceAsyncImpl(clientOptionsWithUserAgent)
     }
@@ -114,6 +120,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
     override fun classifier(): ClassifierServiceAsync = classifier
 
+    override fun batches(): BatchServiceAsync = batches
+
     override fun classify(): ClassifyServiceAsync = classify
 
     override fun configurations(): ConfigurationServiceAsync = configurations
@@ -153,6 +161,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
         private val classifier: ClassifierServiceAsync.WithRawResponse by lazy {
             ClassifierServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val batches: BatchServiceAsync.WithRawResponse by lazy {
+            BatchServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val classify: ClassifyServiceAsync.WithRawResponse by lazy {
@@ -203,6 +215,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
         override fun extract(): ExtractServiceAsync.WithRawResponse = extract
 
         override fun classifier(): ClassifierServiceAsync.WithRawResponse = classifier
+
+        override fun batches(): BatchServiceAsync.WithRawResponse = batches
 
         override fun classify(): ClassifyServiceAsync.WithRawResponse = classify
 
