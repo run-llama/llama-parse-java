@@ -1,27 +1,30 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.beta.batch
+package ai.llamaindex.llamacloud.models.parsing
 
+import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.core.Params
 import ai.llamaindex.llamacloud.core.http.Headers
 import ai.llamaindex.llamacloud.core.http.QueryParams
+import ai.llamaindex.llamacloud.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Get detailed status of a batch processing job.
+ * Cancel a running parse job.
  *
- * Returns current progress percentage, file counts (total, processed, failed, skipped), and
- * timestamps.
+ * Stops processing and marks the job as CANCELLED. Returns the updated job. Jobs already in a
+ * terminal state (COMPLETED, FAILED, CANCELLED) cannot be cancelled.
  */
-class BatchGetStatusParams
+class ParsingCancelParams
 private constructor(
     private val jobId: String?,
     private val organizationId: String?,
     private val projectId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
+    private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
     fun jobId(): Optional<String> = Optional.ofNullable(jobId)
@@ -29,6 +32,9 @@ private constructor(
     fun organizationId(): Optional<String> = Optional.ofNullable(organizationId)
 
     fun projectId(): Optional<String> = Optional.ofNullable(projectId)
+
+    /** Additional body properties to send with the request. */
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -40,13 +46,13 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): BatchGetStatusParams = builder().build()
+        @JvmStatic fun none(): ParsingCancelParams = builder().build()
 
-        /** Returns a mutable builder for constructing an instance of [BatchGetStatusParams]. */
+        /** Returns a mutable builder for constructing an instance of [ParsingCancelParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [BatchGetStatusParams]. */
+    /** A builder for [ParsingCancelParams]. */
     class Builder internal constructor() {
 
         private var jobId: String? = null
@@ -54,14 +60,16 @@ private constructor(
         private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
+        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(batchGetStatusParams: BatchGetStatusParams) = apply {
-            jobId = batchGetStatusParams.jobId
-            organizationId = batchGetStatusParams.organizationId
-            projectId = batchGetStatusParams.projectId
-            additionalHeaders = batchGetStatusParams.additionalHeaders.toBuilder()
-            additionalQueryParams = batchGetStatusParams.additionalQueryParams.toBuilder()
+        internal fun from(parsingCancelParams: ParsingCancelParams) = apply {
+            jobId = parsingCancelParams.jobId
+            organizationId = parsingCancelParams.organizationId
+            projectId = parsingCancelParams.projectId
+            additionalHeaders = parsingCancelParams.additionalHeaders.toBuilder()
+            additionalQueryParams = parsingCancelParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties = parsingCancelParams.additionalBodyProperties.toMutableMap()
         }
 
         fun jobId(jobId: String?) = apply { this.jobId = jobId }
@@ -178,20 +186,46 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            this.additionalBodyProperties.clear()
+            putAllAdditionalBodyProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            additionalBodyProperties.put(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply {
+            additionalBodyProperties.remove(key)
+        }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalBodyProperty)
+        }
+
         /**
-         * Returns an immutable instance of [BatchGetStatusParams].
+         * Returns an immutable instance of [ParsingCancelParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): BatchGetStatusParams =
-            BatchGetStatusParams(
+        fun build(): ParsingCancelParams =
+            ParsingCancelParams(
                 jobId,
                 organizationId,
                 projectId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
+                additionalBodyProperties.toImmutable(),
             )
     }
+
+    fun _body(): Optional<Map<String, JsonValue>> =
+        Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
 
     fun _pathParam(index: Int): String =
         when (index) {
@@ -215,17 +249,25 @@ private constructor(
             return true
         }
 
-        return other is BatchGetStatusParams &&
+        return other is ParsingCancelParams &&
             jobId == other.jobId &&
             organizationId == other.organizationId &&
             projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
-            additionalQueryParams == other.additionalQueryParams
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int =
-        Objects.hash(jobId, organizationId, projectId, additionalHeaders, additionalQueryParams)
+        Objects.hash(
+            jobId,
+            organizationId,
+            projectId,
+            additionalHeaders,
+            additionalQueryParams,
+            additionalBodyProperties,
+        )
 
     override fun toString() =
-        "BatchGetStatusParams{jobId=$jobId, organizationId=$organizationId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "ParsingCancelParams{jobId=$jobId, organizationId=$organizationId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

@@ -4,7 +4,6 @@ package ai.llamaindex.llamacloud.services.async
 
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.async.beta.AgentDataServiceAsync
-import ai.llamaindex.llamacloud.services.async.beta.BatchServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.ChatServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.DirectoryServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.IndexServiceAsync
@@ -39,8 +38,6 @@ interface BetaServiceAsync {
 
     fun directories(): DirectoryServiceAsync
 
-    fun batch(): BatchServiceAsync
-
     fun split(): SplitServiceAsync
 
     /** A view of [BetaServiceAsync] that provides access to raw HTTP responses for each method. */
@@ -64,8 +61,6 @@ interface BetaServiceAsync {
         fun sheets(): SheetServiceAsync.WithRawResponse
 
         fun directories(): DirectoryServiceAsync.WithRawResponse
-
-        fun batch(): BatchServiceAsync.WithRawResponse
 
         fun split(): SplitServiceAsync.WithRawResponse
     }

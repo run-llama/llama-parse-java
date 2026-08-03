@@ -5,6 +5,8 @@ package ai.llamaindex.llamacloud.services.async
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.RequestOptions
 import ai.llamaindex.llamacloud.core.http.HttpResponseFor
+import ai.llamaindex.llamacloud.models.parsing.ParsingCancelParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingCancelResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetParams
@@ -74,6 +76,46 @@ interface ParsingServiceAsync {
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<ParsingListPageAsync> =
         list(ParsingListParams.none(), requestOptions)
+
+    /**
+     * Cancel a running parse job.
+     *
+     * Stops processing and marks the job as CANCELLED. Returns the updated job. Jobs already in a
+     * terminal state (COMPLETED, FAILED, CANCELLED) cannot be cancelled.
+     */
+    fun cancel(jobId: String): CompletableFuture<ParsingCancelResponse> =
+        cancel(jobId, ParsingCancelParams.none())
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        params: ParsingCancelParams = ParsingCancelParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ParsingCancelResponse> =
+        cancel(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        params: ParsingCancelParams = ParsingCancelParams.none(),
+    ): CompletableFuture<ParsingCancelResponse> = cancel(jobId, params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(
+        params: ParsingCancelParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ParsingCancelResponse>
+
+    /** @see cancel */
+    fun cancel(params: ParsingCancelParams): CompletableFuture<ParsingCancelResponse> =
+        cancel(params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ParsingCancelResponse> =
+        cancel(jobId, ParsingCancelParams.none(), requestOptions)
 
     /**
      * Retrieve a parse job with optional expanded content.
@@ -171,6 +213,47 @@ interface ParsingServiceAsync {
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ParsingListPageAsync>> =
             list(ParsingListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/v2/parse/{job_id}/cancel`, but is otherwise
+         * the same as [ParsingServiceAsync.cancel].
+         */
+        fun cancel(jobId: String): CompletableFuture<HttpResponseFor<ParsingCancelResponse>> =
+            cancel(jobId, ParsingCancelParams.none())
+
+        /** @see cancel */
+        fun cancel(
+            jobId: String,
+            params: ParsingCancelParams = ParsingCancelParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ParsingCancelResponse>> =
+            cancel(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+        /** @see cancel */
+        fun cancel(
+            jobId: String,
+            params: ParsingCancelParams = ParsingCancelParams.none(),
+        ): CompletableFuture<HttpResponseFor<ParsingCancelResponse>> =
+            cancel(jobId, params, RequestOptions.none())
+
+        /** @see cancel */
+        fun cancel(
+            params: ParsingCancelParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ParsingCancelResponse>>
+
+        /** @see cancel */
+        fun cancel(
+            params: ParsingCancelParams
+        ): CompletableFuture<HttpResponseFor<ParsingCancelResponse>> =
+            cancel(params, RequestOptions.none())
+
+        /** @see cancel */
+        fun cancel(
+            jobId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ParsingCancelResponse>> =
+            cancel(jobId, ParsingCancelParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/parse/{job_id}`, but is otherwise the same

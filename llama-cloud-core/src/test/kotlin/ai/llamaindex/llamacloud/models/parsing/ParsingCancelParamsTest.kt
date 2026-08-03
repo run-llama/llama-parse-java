@@ -1,16 +1,16 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.beta.batch
+package ai.llamaindex.llamacloud.models.parsing
 
 import ai.llamaindex.llamacloud.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class BatchGetStatusParamsTest {
+internal class ParsingCancelParamsTest {
 
     @Test
     fun create() {
-        BatchGetStatusParams.builder()
+        ParsingCancelParams.builder()
             .jobId("job_id")
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -19,7 +19,7 @@ internal class BatchGetStatusParamsTest {
 
     @Test
     fun pathParams() {
-        val params = BatchGetStatusParams.builder().jobId("job_id").build()
+        val params = ParsingCancelParams.builder().jobId("job_id").build()
 
         assertThat(params._pathParam(0)).isEqualTo("job_id")
         // out-of-bound path param
@@ -29,7 +29,7 @@ internal class BatchGetStatusParamsTest {
     @Test
     fun queryParams() {
         val params =
-            BatchGetStatusParams.builder()
+            ParsingCancelParams.builder()
                 .jobId("job_id")
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -48,7 +48,7 @@ internal class BatchGetStatusParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = BatchGetStatusParams.builder().jobId("job_id").build()
+        val params = ParsingCancelParams.builder().jobId("job_id").build()
 
         val queryParams = params._queryParams()
 

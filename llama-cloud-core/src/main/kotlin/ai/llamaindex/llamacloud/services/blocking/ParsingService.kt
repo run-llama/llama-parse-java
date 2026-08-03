@@ -5,6 +5,8 @@ package ai.llamaindex.llamacloud.services.blocking
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.RequestOptions
 import ai.llamaindex.llamacloud.core.http.HttpResponseFor
+import ai.llamaindex.llamacloud.models.parsing.ParsingCancelParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingCancelResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetParams
@@ -73,6 +75,41 @@ interface ParsingService {
     /** @see list */
     fun list(requestOptions: RequestOptions): ParsingListPage =
         list(ParsingListParams.none(), requestOptions)
+
+    /**
+     * Cancel a running parse job.
+     *
+     * Stops processing and marks the job as CANCELLED. Returns the updated job. Jobs already in a
+     * terminal state (COMPLETED, FAILED, CANCELLED) cannot be cancelled.
+     */
+    fun cancel(jobId: String): ParsingCancelResponse = cancel(jobId, ParsingCancelParams.none())
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        params: ParsingCancelParams = ParsingCancelParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ParsingCancelResponse = cancel(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        params: ParsingCancelParams = ParsingCancelParams.none(),
+    ): ParsingCancelResponse = cancel(jobId, params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(
+        params: ParsingCancelParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ParsingCancelResponse
+
+    /** @see cancel */
+    fun cancel(params: ParsingCancelParams): ParsingCancelResponse =
+        cancel(params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(jobId: String, requestOptions: RequestOptions): ParsingCancelResponse =
+        cancel(jobId, ParsingCancelParams.none(), requestOptions)
 
     /**
      * Retrieve a parse job with optional expanded content.
@@ -160,6 +197,50 @@ interface ParsingService {
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<ParsingListPage> =
             list(ParsingListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/v2/parse/{job_id}/cancel`, but is otherwise
+         * the same as [ParsingService.cancel].
+         */
+        @MustBeClosed
+        fun cancel(jobId: String): HttpResponseFor<ParsingCancelResponse> =
+            cancel(jobId, ParsingCancelParams.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            jobId: String,
+            params: ParsingCancelParams = ParsingCancelParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ParsingCancelResponse> =
+            cancel(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            jobId: String,
+            params: ParsingCancelParams = ParsingCancelParams.none(),
+        ): HttpResponseFor<ParsingCancelResponse> = cancel(jobId, params, RequestOptions.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            params: ParsingCancelParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ParsingCancelResponse>
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(params: ParsingCancelParams): HttpResponseFor<ParsingCancelResponse> =
+            cancel(params, RequestOptions.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            jobId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ParsingCancelResponse> =
+            cancel(jobId, ParsingCancelParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/parse/{job_id}`, but is otherwise the same

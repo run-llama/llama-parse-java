@@ -5,8 +5,6 @@ package ai.llamaindex.llamacloud.services.blocking
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.blocking.beta.AgentDataService
 import ai.llamaindex.llamacloud.services.blocking.beta.AgentDataServiceImpl
-import ai.llamaindex.llamacloud.services.blocking.beta.BatchService
-import ai.llamaindex.llamacloud.services.blocking.beta.BatchServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.beta.ChatService
 import ai.llamaindex.llamacloud.services.blocking.beta.ChatServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.beta.DirectoryService
@@ -39,8 +37,6 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
 
     private val directories: DirectoryService by lazy { DirectoryServiceImpl(clientOptions) }
 
-    private val batch: BatchService by lazy { BatchServiceImpl(clientOptions) }
-
     private val split: SplitService by lazy { SplitServiceImpl(clientOptions) }
 
     override fun withRawResponse(): BetaService.WithRawResponse = withRawResponse
@@ -59,8 +55,6 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
     override fun sheets(): SheetService = sheets
 
     override fun directories(): DirectoryService = directories
-
-    override fun batch(): BatchService = batch
 
     override fun split(): SplitService = split
 
@@ -91,10 +85,6 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
             DirectoryServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
-        private val batch: BatchService.WithRawResponse by lazy {
-            BatchServiceImpl.WithRawResponseImpl(clientOptions)
-        }
-
         private val split: SplitService.WithRawResponse by lazy {
             SplitServiceImpl.WithRawResponseImpl(clientOptions)
         }
@@ -117,8 +107,6 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
         override fun sheets(): SheetService.WithRawResponse = sheets
 
         override fun directories(): DirectoryService.WithRawResponse = directories
-
-        override fun batch(): BatchService.WithRawResponse = batch
 
         override fun split(): SplitService.WithRawResponse = split
     }

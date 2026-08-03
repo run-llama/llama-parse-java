@@ -4,8 +4,6 @@ package ai.llamaindex.llamacloud.client
 
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.getPackageVersion
-import ai.llamaindex.llamacloud.services.blocking.BatchService
-import ai.llamaindex.llamacloud.services.blocking.BatchServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.BetaService
 import ai.llamaindex.llamacloud.services.blocking.BetaServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.ClassifierService
@@ -63,8 +61,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
         ClassifierServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val batches: BatchService by lazy { BatchServiceImpl(clientOptionsWithUserAgent) }
-
     private val classify: ClassifyService by lazy {
         ClassifyServiceImpl(clientOptionsWithUserAgent)
     }
@@ -110,8 +106,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
     override fun classifier(): ClassifierService = classifier
 
-    override fun batches(): BatchService = batches
-
     override fun classify(): ClassifyService = classify
 
     override fun configurations(): ConfigurationService = configurations
@@ -151,10 +145,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
         private val classifier: ClassifierService.WithRawResponse by lazy {
             ClassifierServiceImpl.WithRawResponseImpl(clientOptions)
-        }
-
-        private val batches: BatchService.WithRawResponse by lazy {
-            BatchServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val classify: ClassifyService.WithRawResponse by lazy {
@@ -205,8 +195,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
         override fun extract(): ExtractService.WithRawResponse = extract
 
         override fun classifier(): ClassifierService.WithRawResponse = classifier
-
-        override fun batches(): BatchService.WithRawResponse = batches
 
         override fun classify(): ClassifyService.WithRawResponse = classify
 
