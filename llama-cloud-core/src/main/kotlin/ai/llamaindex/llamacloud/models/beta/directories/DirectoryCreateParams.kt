@@ -45,6 +45,14 @@ private constructor(
     fun name(): String = body.name()
 
     /**
+     * Connector Subscription whose files sync into this directory. Omit for manual uploads.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun connectorSubscriptionId(): Optional<String> = body.connectorSubscriptionId()
+
+    /**
      * Optional description shown to users.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -74,6 +82,14 @@ private constructor(
      * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _name(): JsonField<String> = body._name()
+
+    /**
+     * Returns the raw JSON value of [connectorSubscriptionId].
+     *
+     * Unlike [connectorSubscriptionId], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    fun _connectorSubscriptionId(): JsonField<String> = body._connectorSubscriptionId()
 
     /**
      * Returns the raw JSON value of [description].
@@ -154,9 +170,11 @@ private constructor(
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [name]
+         * - [connectorSubscriptionId]
          * - [description]
          * - [systemMetadata]
          * - [type]
+         * - etc.
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
@@ -170,6 +188,29 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun name(name: JsonField<String>) = apply { body.name(name) }
+
+        /** Connector Subscription whose files sync into this directory. Omit for manual uploads. */
+        fun connectorSubscriptionId(connectorSubscriptionId: String?) = apply {
+            body.connectorSubscriptionId(connectorSubscriptionId)
+        }
+
+        /**
+         * Alias for calling [Builder.connectorSubscriptionId] with
+         * `connectorSubscriptionId.orElse(null)`.
+         */
+        fun connectorSubscriptionId(connectorSubscriptionId: Optional<String>) =
+            connectorSubscriptionId(connectorSubscriptionId.getOrNull())
+
+        /**
+         * Sets [Builder.connectorSubscriptionId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.connectorSubscriptionId] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun connectorSubscriptionId(connectorSubscriptionId: JsonField<String>) = apply {
+            body.connectorSubscriptionId(connectorSubscriptionId)
+        }
 
         /** Optional description shown to users. */
         fun description(description: String?) = apply { body.description(description) }
@@ -374,6 +415,7 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val name: JsonField<String>,
+        private val connectorSubscriptionId: JsonField<String>,
         private val description: JsonField<String>,
         private val systemMetadata: JsonField<SystemMetadata>,
         private val type: JsonField<Type>,
@@ -383,6 +425,9 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("connector_subscription_id")
+            @ExcludeMissing
+            connectorSubscriptionId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("description")
             @ExcludeMissing
             description: JsonField<String> = JsonMissing.of(),
@@ -390,7 +435,7 @@ private constructor(
             @ExcludeMissing
             systemMetadata: JsonField<SystemMetadata> = JsonMissing.of(),
             @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-        ) : this(name, description, systemMetadata, type, mutableMapOf())
+        ) : this(name, connectorSubscriptionId, description, systemMetadata, type, mutableMapOf())
 
         /**
          * Human-readable name for the directory.
@@ -399,6 +444,15 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun name(): String = name.getRequired("name")
+
+        /**
+         * Connector Subscription whose files sync into this directory. Omit for manual uploads.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun connectorSubscriptionId(): Optional<String> =
+            connectorSubscriptionId.getOptional("connector_subscription_id")
 
         /**
          * Optional description shown to users.
@@ -431,6 +485,16 @@ private constructor(
          * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+        /**
+         * Returns the raw JSON value of [connectorSubscriptionId].
+         *
+         * Unlike [connectorSubscriptionId], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("connector_subscription_id")
+        @ExcludeMissing
+        fun _connectorSubscriptionId(): JsonField<String> = connectorSubscriptionId
 
         /**
          * Returns the raw JSON value of [description].
@@ -487,6 +551,7 @@ private constructor(
         class Builder internal constructor() {
 
             private var name: JsonField<String>? = null
+            private var connectorSubscriptionId: JsonField<String> = JsonMissing.of()
             private var description: JsonField<String> = JsonMissing.of()
             private var systemMetadata: JsonField<SystemMetadata> = JsonMissing.of()
             private var type: JsonField<Type> = JsonMissing.of()
@@ -495,6 +560,7 @@ private constructor(
             @JvmSynthetic
             internal fun from(body: Body) = apply {
                 name = body.name
+                connectorSubscriptionId = body.connectorSubscriptionId
                 description = body.description
                 systemMetadata = body.systemMetadata
                 type = body.type
@@ -512,6 +578,30 @@ private constructor(
              * value.
              */
             fun name(name: JsonField<String>) = apply { this.name = name }
+
+            /**
+             * Connector Subscription whose files sync into this directory. Omit for manual uploads.
+             */
+            fun connectorSubscriptionId(connectorSubscriptionId: String?) =
+                connectorSubscriptionId(JsonField.ofNullable(connectorSubscriptionId))
+
+            /**
+             * Alias for calling [Builder.connectorSubscriptionId] with
+             * `connectorSubscriptionId.orElse(null)`.
+             */
+            fun connectorSubscriptionId(connectorSubscriptionId: Optional<String>) =
+                connectorSubscriptionId(connectorSubscriptionId.getOrNull())
+
+            /**
+             * Sets [Builder.connectorSubscriptionId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.connectorSubscriptionId] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun connectorSubscriptionId(connectorSubscriptionId: JsonField<String>) = apply {
+                this.connectorSubscriptionId = connectorSubscriptionId
+            }
 
             /** Optional description shown to users. */
             fun description(description: String?) = description(JsonField.ofNullable(description))
@@ -595,6 +685,7 @@ private constructor(
             fun build(): Body =
                 Body(
                     checkRequired("name", name),
+                    connectorSubscriptionId,
                     description,
                     systemMetadata,
                     type,
@@ -619,6 +710,7 @@ private constructor(
             }
 
             name()
+            connectorSubscriptionId()
             description()
             systemMetadata().ifPresent { it.validate() }
             type().ifPresent { it.validate() }
@@ -642,6 +734,7 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (if (name.asKnown().isPresent) 1 else 0) +
+                (if (connectorSubscriptionId.asKnown().isPresent) 1 else 0) +
                 (if (description.asKnown().isPresent) 1 else 0) +
                 (systemMetadata.asKnown().getOrNull()?.validity() ?: 0) +
                 (type.asKnown().getOrNull()?.validity() ?: 0)
@@ -653,6 +746,7 @@ private constructor(
 
             return other is Body &&
                 name == other.name &&
+                connectorSubscriptionId == other.connectorSubscriptionId &&
                 description == other.description &&
                 systemMetadata == other.systemMetadata &&
                 type == other.type &&
@@ -660,13 +754,20 @@ private constructor(
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(name, description, systemMetadata, type, additionalProperties)
+            Objects.hash(
+                name,
+                connectorSubscriptionId,
+                description,
+                systemMetadata,
+                type,
+                additionalProperties,
+            )
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{name=$name, description=$description, systemMetadata=$systemMetadata, type=$type, additionalProperties=$additionalProperties}"
+            "Body{name=$name, connectorSubscriptionId=$connectorSubscriptionId, description=$description, systemMetadata=$systemMetadata, type=$type, additionalProperties=$additionalProperties}"
     }
 
     /** Reserved system-managed metadata. */
