@@ -108,6 +108,7 @@ internal class ParsingServiceAsyncTest {
                                     )
                                     .build()
                             )
+                            .saveOutputPdf(true)
                             .spatialText(
                                 ParsingCreateParams.OutputOptions.SpatialText.builder()
                                     .doNotUnrollColumns(true)

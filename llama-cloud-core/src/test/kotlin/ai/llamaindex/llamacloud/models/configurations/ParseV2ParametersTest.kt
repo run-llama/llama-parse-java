@@ -93,6 +93,7 @@ internal class ParseV2ParametersTest {
                                 )
                                 .build()
                         )
+                        .saveOutputPdf(true)
                         .spatialText(
                             ParseV2Parameters.OutputOptions.SpatialText.builder()
                                 .doNotUnrollColumns(true)
@@ -380,6 +381,7 @@ internal class ParseV2ParametersTest {
                             )
                             .build()
                     )
+                    .saveOutputPdf(true)
                     .spatialText(
                         ParseV2Parameters.OutputOptions.SpatialText.builder()
                             .doNotUnrollColumns(true)
@@ -665,6 +667,7 @@ internal class ParseV2ParametersTest {
                                 )
                                 .build()
                         )
+                        .saveOutputPdf(true)
                         .spatialText(
                             ParseV2Parameters.OutputOptions.SpatialText.builder()
                                 .doNotUnrollColumns(true)

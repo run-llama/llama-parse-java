@@ -3074,6 +3074,7 @@ private constructor(
         private val granularBboxes: JsonField<List<GranularBbox>>,
         private val imagesToSave: JsonField<List<ImagesToSave>>,
         private val markdown: JsonField<Markdown>,
+        private val saveOutputPdf: JsonField<Boolean>,
         private val spatialText: JsonField<SpatialText>,
         private val tablesAsSpreadsheet: JsonField<TablesAsSpreadsheet>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -3096,6 +3097,9 @@ private constructor(
             @JsonProperty("markdown")
             @ExcludeMissing
             markdown: JsonField<Markdown> = JsonMissing.of(),
+            @JsonProperty("save_output_pdf")
+            @ExcludeMissing
+            saveOutputPdf: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("spatial_text")
             @ExcludeMissing
             spatialText: JsonField<SpatialText> = JsonMissing.of(),
@@ -3108,6 +3112,7 @@ private constructor(
             granularBboxes,
             imagesToSave,
             markdown,
+            saveOutputPdf,
             spatialText,
             tablesAsSpreadsheet,
             mutableMapOf(),
@@ -3179,6 +3184,16 @@ private constructor(
         fun markdown(): Optional<Markdown> = markdown.getOptional("markdown")
 
         /**
+         * Save a PDF copy of the parsed document, retrievable via
+         * `expand=output_pdf_content_metadata`. Not produced for spreadsheet, plain-text, or audio
+         * inputs
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun saveOutputPdf(): Optional<Boolean> = saveOutputPdf.getOptional("save_output_pdf")
+
+        /**
          * Spatial text output options for preserving document layout structure
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
@@ -3243,6 +3258,16 @@ private constructor(
         @JsonProperty("markdown") @ExcludeMissing fun _markdown(): JsonField<Markdown> = markdown
 
         /**
+         * Returns the raw JSON value of [saveOutputPdf].
+         *
+         * Unlike [saveOutputPdf], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("save_output_pdf")
+        @ExcludeMissing
+        fun _saveOutputPdf(): JsonField<Boolean> = saveOutputPdf
+
+        /**
          * Returns the raw JSON value of [spatialText].
          *
          * Unlike [spatialText], this method doesn't throw if the JSON field has an unexpected type.
@@ -3287,6 +3312,7 @@ private constructor(
             private var granularBboxes: JsonField<MutableList<GranularBbox>>? = null
             private var imagesToSave: JsonField<MutableList<ImagesToSave>>? = null
             private var markdown: JsonField<Markdown> = JsonMissing.of()
+            private var saveOutputPdf: JsonField<Boolean> = JsonMissing.of()
             private var spatialText: JsonField<SpatialText> = JsonMissing.of()
             private var tablesAsSpreadsheet: JsonField<TablesAsSpreadsheet> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -3298,6 +3324,7 @@ private constructor(
                 granularBboxes = outputOptions.granularBboxes.map { it.toMutableList() }
                 imagesToSave = outputOptions.imagesToSave.map { it.toMutableList() }
                 markdown = outputOptions.markdown
+                saveOutputPdf = outputOptions.saveOutputPdf
                 spatialText = outputOptions.spatialText
                 tablesAsSpreadsheet = outputOptions.tablesAsSpreadsheet
                 additionalProperties = outputOptions.additionalProperties.toMutableMap()
@@ -3455,6 +3482,36 @@ private constructor(
              */
             fun markdown(markdown: JsonField<Markdown>) = apply { this.markdown = markdown }
 
+            /**
+             * Save a PDF copy of the parsed document, retrievable via
+             * `expand=output_pdf_content_metadata`. Not produced for spreadsheet, plain-text, or
+             * audio inputs
+             */
+            fun saveOutputPdf(saveOutputPdf: Boolean?) =
+                saveOutputPdf(JsonField.ofNullable(saveOutputPdf))
+
+            /**
+             * Alias for [Builder.saveOutputPdf].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun saveOutputPdf(saveOutputPdf: Boolean) = saveOutputPdf(saveOutputPdf as Boolean?)
+
+            /** Alias for calling [Builder.saveOutputPdf] with `saveOutputPdf.orElse(null)`. */
+            fun saveOutputPdf(saveOutputPdf: Optional<Boolean>) =
+                saveOutputPdf(saveOutputPdf.getOrNull())
+
+            /**
+             * Sets [Builder.saveOutputPdf] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.saveOutputPdf] with a well-typed [Boolean] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun saveOutputPdf(saveOutputPdf: JsonField<Boolean>) = apply {
+                this.saveOutputPdf = saveOutputPdf
+            }
+
             /** Spatial text output options for preserving document layout structure */
             fun spatialText(spatialText: SpatialText) = spatialText(JsonField.of(spatialText))
 
@@ -3515,6 +3572,7 @@ private constructor(
                     (granularBboxes ?: JsonMissing.of()).map { it.toImmutable() },
                     (imagesToSave ?: JsonMissing.of()).map { it.toImmutable() },
                     markdown,
+                    saveOutputPdf,
                     spatialText,
                     tablesAsSpreadsheet,
                     additionalProperties.toMutableMap(),
@@ -3542,6 +3600,7 @@ private constructor(
             granularBboxes().ifPresent { it.forEach { it.validate() } }
             imagesToSave().ifPresent { it.forEach { it.validate() } }
             markdown().ifPresent { it.validate() }
+            saveOutputPdf()
             spatialText().ifPresent { it.validate() }
             tablesAsSpreadsheet().ifPresent { it.validate() }
             validated = true
@@ -3568,6 +3627,7 @@ private constructor(
                 (granularBboxes.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (imagesToSave.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (markdown.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (saveOutputPdf.asKnown().isPresent) 1 else 0) +
                 (spatialText.asKnown().getOrNull()?.validity() ?: 0) +
                 (tablesAsSpreadsheet.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -5183,6 +5243,7 @@ private constructor(
                 granularBboxes == other.granularBboxes &&
                 imagesToSave == other.imagesToSave &&
                 markdown == other.markdown &&
+                saveOutputPdf == other.saveOutputPdf &&
                 spatialText == other.spatialText &&
                 tablesAsSpreadsheet == other.tablesAsSpreadsheet &&
                 additionalProperties == other.additionalProperties
@@ -5195,6 +5256,7 @@ private constructor(
                 granularBboxes,
                 imagesToSave,
                 markdown,
+                saveOutputPdf,
                 spatialText,
                 tablesAsSpreadsheet,
                 additionalProperties,
@@ -5204,7 +5266,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "OutputOptions{additionalOutputs=$additionalOutputs, extractPrintedPageNumber=$extractPrintedPageNumber, granularBboxes=$granularBboxes, imagesToSave=$imagesToSave, markdown=$markdown, spatialText=$spatialText, tablesAsSpreadsheet=$tablesAsSpreadsheet, additionalProperties=$additionalProperties}"
+            "OutputOptions{additionalOutputs=$additionalOutputs, extractPrintedPageNumber=$extractPrintedPageNumber, granularBboxes=$granularBboxes, imagesToSave=$imagesToSave, markdown=$markdown, saveOutputPdf=$saveOutputPdf, spatialText=$spatialText, tablesAsSpreadsheet=$tablesAsSpreadsheet, additionalProperties=$additionalProperties}"
     }
 
     /** Page selection: limit total pages or specify exact pages to process */

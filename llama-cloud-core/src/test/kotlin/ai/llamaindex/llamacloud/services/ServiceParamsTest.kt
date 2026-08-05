@@ -152,6 +152,7 @@ internal class ServiceParamsTest {
                                 )
                                 .build()
                         )
+                        .saveOutputPdf(true)
                         .spatialText(
                             ParsingCreateParams.OutputOptions.SpatialText.builder()
                                 .doNotUnrollColumns(true)

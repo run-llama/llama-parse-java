@@ -95,6 +95,7 @@ internal class ParsingCreateParamsTest {
                             )
                             .build()
                     )
+                    .saveOutputPdf(true)
                     .spatialText(
                         ParsingCreateParams.OutputOptions.SpatialText.builder()
                             .doNotUnrollColumns(true)
@@ -390,6 +391,7 @@ internal class ParsingCreateParamsTest {
                                 )
                                 .build()
                         )
+                        .saveOutputPdf(true)
                         .spatialText(
                             ParsingCreateParams.OutputOptions.SpatialText.builder()
                                 .doNotUnrollColumns(true)
@@ -715,6 +717,7 @@ internal class ParsingCreateParamsTest {
                                 )
                                 .build()
                         )
+                        .saveOutputPdf(true)
                         .spatialText(
                             ParsingCreateParams.OutputOptions.SpatialText.builder()
                                 .doNotUnrollColumns(true)
@@ -1014,6 +1017,7 @@ internal class ParsingCreateParamsTest {
                             )
                             .build()
                     )
+                    .saveOutputPdf(true)
                     .spatialText(
                         ParsingCreateParams.OutputOptions.SpatialText.builder()
                             .doNotUnrollColumns(true)
