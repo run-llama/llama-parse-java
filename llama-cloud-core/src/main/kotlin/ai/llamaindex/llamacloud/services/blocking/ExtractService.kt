@@ -161,7 +161,8 @@ interface ExtractService {
      * Get a single extraction job by ID.
      *
      * Returns the job status and results when complete. Use `expand=configuration` to include the
-     * full configuration used, and `expand=extract_metadata` for per-field metadata.
+     * full configuration used, `expand=extract_metadata` for per-field metadata, and `expand=usage`
+     * for credits billed against the job.
      */
     fun get(jobId: String): ExtractV2Job = get(jobId, ExtractGetParams.none())
 

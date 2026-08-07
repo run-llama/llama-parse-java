@@ -23,6 +23,7 @@ internal class ParsingCancelResponseTest {
                 .name("Q4 Financial Report")
                 .tier("fast")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .usage(ParsingCancelResponse.Usage.builder().credits(30.0).build())
                 .userMetadata(
                     ParsingCancelResponse.UserMetadata.builder()
                         .putAdditionalProperty("owner", JsonValue.from("jerry"))
@@ -42,6 +43,8 @@ internal class ParsingCancelResponseTest {
         assertThat(parsingCancelResponse.tier()).contains("fast")
         assertThat(parsingCancelResponse.updatedAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(parsingCancelResponse.usage())
+            .contains(ParsingCancelResponse.Usage.builder().credits(30.0).build())
         assertThat(parsingCancelResponse.userMetadata())
             .contains(
                 ParsingCancelResponse.UserMetadata.builder()
@@ -64,6 +67,7 @@ internal class ParsingCancelResponseTest {
                 .name("Q4 Financial Report")
                 .tier("fast")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .usage(ParsingCancelResponse.Usage.builder().credits(30.0).build())
                 .userMetadata(
                     ParsingCancelResponse.UserMetadata.builder()
                         .putAdditionalProperty("owner", JsonValue.from("jerry"))

@@ -142,6 +142,13 @@ internal class ExtractV2JobTest {
                         )
                         .build()
                 )
+                .usage(
+                    ExtractV2Job.Usage.builder()
+                        .credits(30.0)
+                        .extractCredits(45.0)
+                        .parseCredits(30.0)
+                        .build()
+                )
                 .build()
 
         assertThat(extractV2Job.id()).isEqualTo("ext-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
@@ -277,6 +284,14 @@ internal class ExtractV2JobTest {
                     )
                     .build()
             )
+        assertThat(extractV2Job.usage())
+            .contains(
+                ExtractV2Job.Usage.builder()
+                    .credits(30.0)
+                    .extractCredits(45.0)
+                    .parseCredits(30.0)
+                    .build()
+            )
     }
 
     @Test
@@ -409,6 +424,13 @@ internal class ExtractV2JobTest {
                                 .numPagesExtracted(0L)
                                 .build()
                         )
+                        .build()
+                )
+                .usage(
+                    ExtractV2Job.Usage.builder()
+                        .credits(30.0)
+                        .extractCredits(45.0)
+                        .parseCredits(30.0)
                         .build()
                 )
                 .build()

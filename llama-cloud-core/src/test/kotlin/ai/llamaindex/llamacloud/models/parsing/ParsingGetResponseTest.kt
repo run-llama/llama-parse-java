@@ -25,6 +25,7 @@ internal class ParsingGetResponseTest {
                         .name("Q4 Financial Report")
                         .tier("fast")
                         .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .usage(ParsingGetResponse.Job.Usage.builder().credits(30.0).build())
                         .userMetadata(
                             ParsingGetResponse.Job.UserMetadata.builder()
                                 .putAdditionalProperty("owner", JsonValue.from("jerry"))
@@ -287,6 +288,7 @@ internal class ParsingGetResponseTest {
                     .name("Q4 Financial Report")
                     .tier("fast")
                     .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .usage(ParsingGetResponse.Job.Usage.builder().credits(30.0).build())
                     .userMetadata(
                         ParsingGetResponse.Job.UserMetadata.builder()
                             .putAdditionalProperty("owner", JsonValue.from("jerry"))
@@ -552,6 +554,7 @@ internal class ParsingGetResponseTest {
                         .name("Q4 Financial Report")
                         .tier("fast")
                         .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .usage(ParsingGetResponse.Job.Usage.builder().credits(30.0).build())
                         .userMetadata(
                             ParsingGetResponse.Job.UserMetadata.builder()
                                 .putAdditionalProperty("owner", JsonValue.from("jerry"))

@@ -32,6 +32,7 @@ private constructor(
     private val name: JsonField<String>,
     private val tier: JsonField<String>,
     private val updatedAt: JsonField<OffsetDateTime>,
+    private val usage: JsonField<Usage>,
     private val userMetadata: JsonField<UserMetadata>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -52,6 +53,7 @@ private constructor(
         @JsonProperty("updated_at")
         @ExcludeMissing
         updatedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("usage") @ExcludeMissing usage: JsonField<Usage> = JsonMissing.of(),
         @JsonProperty("user_metadata")
         @ExcludeMissing
         userMetadata: JsonField<UserMetadata> = JsonMissing.of(),
@@ -64,6 +66,7 @@ private constructor(
         name,
         tier,
         updatedAt,
+        usage,
         userMetadata,
         mutableMapOf(),
     )
@@ -131,6 +134,14 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun updatedAt(): Optional<OffsetDateTime> = updatedAt.getOptional("updated_at")
+
+    /**
+     * Usage recorded against a job.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun usage(): Optional<Usage> = usage.getOptional("usage")
 
     /**
      * Key/value tags associated with this job.
@@ -203,6 +214,13 @@ private constructor(
     fun _updatedAt(): JsonField<OffsetDateTime> = updatedAt
 
     /**
+     * Returns the raw JSON value of [usage].
+     *
+     * Unlike [usage], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("usage") @ExcludeMissing fun _usage(): JsonField<Usage> = usage
+
+    /**
      * Returns the raw JSON value of [userMetadata].
      *
      * Unlike [userMetadata], this method doesn't throw if the JSON field has an unexpected type.
@@ -249,6 +267,7 @@ private constructor(
         private var name: JsonField<String> = JsonMissing.of()
         private var tier: JsonField<String> = JsonMissing.of()
         private var updatedAt: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var usage: JsonField<Usage> = JsonMissing.of()
         private var userMetadata: JsonField<UserMetadata> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -262,6 +281,7 @@ private constructor(
             name = parsingListResponse.name
             tier = parsingListResponse.tier
             updatedAt = parsingListResponse.updatedAt
+            usage = parsingListResponse.usage
             userMetadata = parsingListResponse.userMetadata
             additionalProperties = parsingListResponse.additionalProperties.toMutableMap()
         }
@@ -375,6 +395,20 @@ private constructor(
          */
         fun updatedAt(updatedAt: JsonField<OffsetDateTime>) = apply { this.updatedAt = updatedAt }
 
+        /** Usage recorded against a job. */
+        fun usage(usage: Usage?) = usage(JsonField.ofNullable(usage))
+
+        /** Alias for calling [Builder.usage] with `usage.orElse(null)`. */
+        fun usage(usage: Optional<Usage>) = usage(usage.getOrNull())
+
+        /**
+         * Sets [Builder.usage] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.usage] with a well-typed [Usage] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun usage(usage: JsonField<Usage>) = apply { this.usage = usage }
+
         /** Key/value tags associated with this job. */
         fun userMetadata(userMetadata: UserMetadata?) =
             userMetadata(JsonField.ofNullable(userMetadata))
@@ -437,6 +471,7 @@ private constructor(
                 name,
                 tier,
                 updatedAt,
+                usage,
                 userMetadata,
                 additionalProperties.toMutableMap(),
             )
@@ -465,6 +500,7 @@ private constructor(
         name()
         tier()
         updatedAt()
+        usage().ifPresent { it.validate() }
         userMetadata().ifPresent { it.validate() }
         validated = true
     }
@@ -492,6 +528,7 @@ private constructor(
             (if (name.asKnown().isPresent) 1 else 0) +
             (if (tier.asKnown().isPresent) 1 else 0) +
             (if (updatedAt.asKnown().isPresent) 1 else 0) +
+            (usage.asKnown().getOrNull()?.validity() ?: 0) +
             (userMetadata.asKnown().getOrNull()?.validity() ?: 0)
 
     /** Current job status: PENDING, RUNNING, COMPLETED, FAILED, or CANCELLED */
@@ -649,6 +686,167 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /** Usage recorded against a job. */
+    class Usage
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val credits: JsonField<Double>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("credits") @ExcludeMissing credits: JsonField<Double> = JsonMissing.of()
+        ) : this(credits, mutableMapOf())
+
+        /**
+         * Total credits billed against this job. Null until billing has recorded it.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun credits(): Optional<Double> = credits.getOptional("credits")
+
+        /**
+         * Returns the raw JSON value of [credits].
+         *
+         * Unlike [credits], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("credits") @ExcludeMissing fun _credits(): JsonField<Double> = credits
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Usage]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Usage]. */
+        class Builder internal constructor() {
+
+            private var credits: JsonField<Double> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(usage: Usage) = apply {
+                credits = usage.credits
+                additionalProperties = usage.additionalProperties.toMutableMap()
+            }
+
+            /** Total credits billed against this job. Null until billing has recorded it. */
+            fun credits(credits: Double?) = credits(JsonField.ofNullable(credits))
+
+            /**
+             * Alias for [Builder.credits].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun credits(credits: Double) = credits(credits as Double?)
+
+            /** Alias for calling [Builder.credits] with `credits.orElse(null)`. */
+            fun credits(credits: Optional<Double>) = credits(credits.getOrNull())
+
+            /**
+             * Sets [Builder.credits] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.credits] with a well-typed [Double] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun credits(credits: JsonField<Double>) = apply { this.credits = credits }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Usage].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Usage = Usage(credits, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): Usage = apply {
+            if (validated) {
+                return@apply
+            }
+
+            credits()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = (if (credits.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Usage &&
+                credits == other.credits &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy { Objects.hash(credits, additionalProperties) }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Usage{credits=$credits, additionalProperties=$additionalProperties}"
+    }
+
     /** Key/value tags associated with this job. */
     class UserMetadata
     @JsonCreator
@@ -772,6 +970,7 @@ private constructor(
             name == other.name &&
             tier == other.tier &&
             updatedAt == other.updatedAt &&
+            usage == other.usage &&
             userMetadata == other.userMetadata &&
             additionalProperties == other.additionalProperties
     }
@@ -786,6 +985,7 @@ private constructor(
             name,
             tier,
             updatedAt,
+            usage,
             userMetadata,
             additionalProperties,
         )
@@ -794,5 +994,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ParsingListResponse{id=$id, projectId=$projectId, status=$status, createdAt=$createdAt, errorMessage=$errorMessage, name=$name, tier=$tier, updatedAt=$updatedAt, userMetadata=$userMetadata, additionalProperties=$additionalProperties}"
+        "ParsingListResponse{id=$id, projectId=$projectId, status=$status, createdAt=$createdAt, errorMessage=$errorMessage, name=$name, tier=$tier, updatedAt=$updatedAt, usage=$usage, userMetadata=$userMetadata, additionalProperties=$additionalProperties}"
 }

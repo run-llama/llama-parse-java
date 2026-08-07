@@ -118,7 +118,8 @@ interface ParsingService {
      * - `text` — plain text output
      * - `markdown` — markdown output
      * - `items` — structured page-by-page output
-     * - `job_metadata` — usage and processing details
+     * - `job_metadata` — processing details
+     * - `usage` — credits billed against the job
      *
      * Content metadata fields (e.g. `text_content_metadata`) return presigned URLs for downloading
      * large results.
