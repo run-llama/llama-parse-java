@@ -32,6 +32,10 @@ import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsync
 import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.SheetServiceAsync
 import ai.llamaindex.llamacloud.services.async.SheetServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.SplitServiceAsync
+import ai.llamaindex.llamacloud.services.async.SplitServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.WebhookConfigServiceAsync
+import ai.llamaindex.llamacloud.services.async.WebhookConfigServiceAsyncImpl
 import java.util.function.Consumer
 
 class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : LlamaCloudClientAsync {
@@ -57,6 +61,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
         SheetServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
+    private val split: SplitServiceAsync by lazy {
+        SplitServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
     private val parsing: ParsingServiceAsync by lazy {
         ParsingServiceAsyncImpl(clientOptionsWithUserAgent)
     }
@@ -79,6 +87,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
     private val configurations: ConfigurationServiceAsync by lazy {
         ConfigurationServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
+    private val webhookConfigs: WebhookConfigServiceAsync by lazy {
+        WebhookConfigServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val projects: ProjectServiceAsync by lazy {
@@ -114,6 +126,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
     override fun sheets(): SheetServiceAsync = sheets
 
+    override fun split(): SplitServiceAsync = split
+
     override fun parsing(): ParsingServiceAsync = parsing
 
     override fun extract(): ExtractServiceAsync = extract
@@ -125,6 +139,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
     override fun classify(): ClassifyServiceAsync = classify
 
     override fun configurations(): ConfigurationServiceAsync = configurations
+
+    override fun webhookConfigs(): WebhookConfigServiceAsync = webhookConfigs
 
     override fun projects(): ProjectServiceAsync = projects
 
@@ -151,6 +167,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
             SheetServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val split: SplitServiceAsync.WithRawResponse by lazy {
+            SplitServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val parsing: ParsingServiceAsync.WithRawResponse by lazy {
             ParsingServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
@@ -173,6 +193,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
         private val configurations: ConfigurationServiceAsync.WithRawResponse by lazy {
             ConfigurationServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val webhookConfigs: WebhookConfigServiceAsync.WithRawResponse by lazy {
+            WebhookConfigServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val projects: ProjectServiceAsync.WithRawResponse by lazy {
@@ -210,6 +234,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
         override fun sheets(): SheetServiceAsync.WithRawResponse = sheets
 
+        override fun split(): SplitServiceAsync.WithRawResponse = split
+
         override fun parsing(): ParsingServiceAsync.WithRawResponse = parsing
 
         override fun extract(): ExtractServiceAsync.WithRawResponse = extract
@@ -221,6 +247,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
         override fun classify(): ClassifyServiceAsync.WithRawResponse = classify
 
         override fun configurations(): ConfigurationServiceAsync.WithRawResponse = configurations
+
+        override fun webhookConfigs(): WebhookConfigServiceAsync.WithRawResponse = webhookConfigs
 
         override fun projects(): ProjectServiceAsync.WithRawResponse = projects
 

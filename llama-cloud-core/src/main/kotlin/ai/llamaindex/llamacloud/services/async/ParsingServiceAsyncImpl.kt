@@ -25,6 +25,8 @@ import ai.llamaindex.llamacloud.models.parsing.ParsingGetResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPageAsync
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPageResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -68,6 +70,13 @@ class ParsingServiceAsyncImpl internal constructor(private val clientOptions: Cl
     ): CompletableFuture<ParsingGetResponse> =
         // get /api/v2/parse/{job_id}
         withRawResponse().get(params, requestOptions).thenApply { it.parse() }
+
+    override fun listVersions(
+        params: ParsingListVersionsParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ParsingListVersionsResponse> =
+        // get /api/v2/parse/versions
+        withRawResponse().listVersions(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ParsingServiceAsync.WithRawResponse {
@@ -209,6 +218,36 @@ class ParsingServiceAsyncImpl internal constructor(private val clientOptions: Cl
                     errorHandler.handle(response).parseable {
                         response
                             .use { getHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val listVersionsHandler: Handler<ParsingListVersionsResponse> =
+            jsonHandler<ParsingListVersionsResponse>(clientOptions.jsonMapper)
+
+        override fun listVersions(
+            params: ParsingListVersionsParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ParsingListVersionsResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "parse", "versions")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { listVersionsHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

@@ -13,6 +13,8 @@ import ai.llamaindex.llamacloud.models.parsing.ParsingGetParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPageAsync
 import ai.llamaindex.llamacloud.models.parsing.ParsingListParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -161,6 +163,27 @@ interface ParsingServiceAsync {
     fun get(jobId: String, requestOptions: RequestOptions): CompletableFuture<ParsingGetResponse> =
         get(jobId, ParsingGetParams.none(), requestOptions)
 
+    /** List the parse versions accepted by each tier. */
+    fun listVersions(): CompletableFuture<ParsingListVersionsResponse> =
+        listVersions(ParsingListVersionsParams.none())
+
+    /** @see listVersions */
+    fun listVersions(
+        params: ParsingListVersionsParams = ParsingListVersionsParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ParsingListVersionsResponse>
+
+    /** @see listVersions */
+    fun listVersions(
+        params: ParsingListVersionsParams = ParsingListVersionsParams.none()
+    ): CompletableFuture<ParsingListVersionsResponse> = listVersions(params, RequestOptions.none())
+
+    /** @see listVersions */
+    fun listVersions(
+        requestOptions: RequestOptions
+    ): CompletableFuture<ParsingListVersionsResponse> =
+        listVersions(ParsingListVersionsParams.none(), requestOptions)
+
     /**
      * A view of [ParsingServiceAsync] that provides access to raw HTTP responses for each method.
      */
@@ -294,5 +317,30 @@ interface ParsingServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ParsingGetResponse>> =
             get(jobId, ParsingGetParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/v2/parse/versions`, but is otherwise the same
+         * as [ParsingServiceAsync.listVersions].
+         */
+        fun listVersions(): CompletableFuture<HttpResponseFor<ParsingListVersionsResponse>> =
+            listVersions(ParsingListVersionsParams.none())
+
+        /** @see listVersions */
+        fun listVersions(
+            params: ParsingListVersionsParams = ParsingListVersionsParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ParsingListVersionsResponse>>
+
+        /** @see listVersions */
+        fun listVersions(
+            params: ParsingListVersionsParams = ParsingListVersionsParams.none()
+        ): CompletableFuture<HttpResponseFor<ParsingListVersionsResponse>> =
+            listVersions(params, RequestOptions.none())
+
+        /** @see listVersions */
+        fun listVersions(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<ParsingListVersionsResponse>> =
+            listVersions(ParsingListVersionsParams.none(), requestOptions)
     }
 }

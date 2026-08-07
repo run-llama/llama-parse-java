@@ -4,6 +4,7 @@ package ai.llamaindex.llamacloud.services.async
 
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClientAsync
 import ai.llamaindex.llamacloud.core.JsonValue
+import ai.llamaindex.llamacloud.models.extract.ExtractCancelParams
 import ai.llamaindex.llamacloud.models.extract.ExtractConfiguration
 import ai.llamaindex.llamacloud.models.extract.ExtractCreateParams
 import ai.llamaindex.llamacloud.models.extract.ExtractDeleteParams
@@ -135,6 +136,25 @@ internal class ExtractServiceAsyncTest {
 
         val extract = extractFuture.get()
         extract.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun cancel() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val extractServiceAsync = client.extract()
+
+        val extractV2JobFuture =
+            extractServiceAsync.cancel(
+                ExtractCancelParams.builder()
+                    .jobId("job_id")
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        val extractV2Job = extractV2JobFuture.get()
+        extractV2Job.validate()
     }
 
     @Disabled("Mock server tests are disabled")

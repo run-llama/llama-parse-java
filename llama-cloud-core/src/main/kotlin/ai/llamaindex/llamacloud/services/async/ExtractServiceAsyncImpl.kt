@@ -17,6 +17,7 @@ import ai.llamaindex.llamacloud.core.http.json
 import ai.llamaindex.llamacloud.core.http.parseable
 import ai.llamaindex.llamacloud.core.prepareAsync
 import ai.llamaindex.llamacloud.models.configurations.ConfigurationCreate
+import ai.llamaindex.llamacloud.models.extract.ExtractCancelParams
 import ai.llamaindex.llamacloud.models.extract.ExtractCreateParams
 import ai.llamaindex.llamacloud.models.extract.ExtractDeleteParams
 import ai.llamaindex.llamacloud.models.extract.ExtractDeleteResponse
@@ -64,6 +65,13 @@ class ExtractServiceAsyncImpl internal constructor(private val clientOptions: Cl
     ): CompletableFuture<ExtractDeleteResponse> =
         // delete /api/v2/extract/{job_id}
         withRawResponse().delete(params, requestOptions).thenApply { it.parse() }
+
+    override fun cancel(
+        params: ExtractCancelParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ExtractV2Job> =
+        // post /api/v2/extract/{job_id}/cancel
+        withRawResponse().cancel(params, requestOptions).thenApply { it.parse() }
 
     override fun generateSchema(
         params: ExtractGenerateSchemaParams,
@@ -193,6 +201,40 @@ class ExtractServiceAsyncImpl internal constructor(private val clientOptions: Cl
                     errorHandler.handle(response).parseable {
                         response
                             .use { deleteHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val cancelHandler: Handler<ExtractV2Job> =
+            jsonHandler<ExtractV2Job>(clientOptions.jsonMapper)
+
+        override fun cancel(
+            params: ExtractCancelParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ExtractV2Job>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("jobId", params.jobId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "extract", params._pathParam(0), "cancel")
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { cancelHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

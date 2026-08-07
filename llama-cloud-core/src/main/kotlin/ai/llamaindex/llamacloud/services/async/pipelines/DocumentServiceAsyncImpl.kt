@@ -23,6 +23,8 @@ import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentCreateParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentDeleteParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetChunksParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetParams
+import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetStatusCountsParams
+import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetStatusCountsResponse
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetStatusParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentListPageAsync
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentListPageResponse
@@ -94,6 +96,14 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
     ): CompletableFuture<ManagedIngestionStatusResponse> =
         // get /api/v1/pipelines/{pipeline_id}/documents/{document_id}/status
         withRawResponse().getStatus(params, requestOptions).thenApply { it.parse() }
+
+    @Deprecated("deprecated")
+    override fun getStatusCounts(
+        params: DocumentGetStatusCountsParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<DocumentGetStatusCountsResponse> =
+        // get /api/v1/pipelines/{pipeline_id}/documents/status-counts
+        withRawResponse().getStatusCounts(params, requestOptions).thenApply { it.parse() }
 
     @Deprecated("deprecated")
     override fun sync(
@@ -359,6 +369,47 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
                     errorHandler.handle(response).parseable {
                         response
                             .use { getStatusHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val getStatusCountsHandler: Handler<DocumentGetStatusCountsResponse> =
+            jsonHandler<DocumentGetStatusCountsResponse>(clientOptions.jsonMapper)
+
+        @Deprecated("deprecated")
+        override fun getStatusCounts(
+            params: DocumentGetStatusCountsParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<DocumentGetStatusCountsResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("pipelineId", params.pipelineId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "api",
+                        "v1",
+                        "pipelines",
+                        params._pathParam(0),
+                        "documents",
+                        "status-counts",
+                    )
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { getStatusCountsHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

@@ -16,6 +16,8 @@ import ai.llamaindex.llamacloud.core.http.HttpResponseFor
 import ai.llamaindex.llamacloud.core.http.json
 import ai.llamaindex.llamacloud.core.http.parseable
 import ai.llamaindex.llamacloud.core.prepare
+import ai.llamaindex.llamacloud.models.batches.BatchCancelParams
+import ai.llamaindex.llamacloud.models.batches.BatchCancelResponse
 import ai.llamaindex.llamacloud.models.batches.BatchCreateParams
 import ai.llamaindex.llamacloud.models.batches.BatchCreateResponse
 import ai.llamaindex.llamacloud.models.batches.BatchGetParams
@@ -48,6 +50,13 @@ class BatchServiceImpl internal constructor(private val clientOptions: ClientOpt
     override fun list(params: BatchListParams, requestOptions: RequestOptions): BatchListPage =
         // get /api/v2/batches
         withRawResponse().list(params, requestOptions).parse()
+
+    override fun cancel(
+        params: BatchCancelParams,
+        requestOptions: RequestOptions,
+    ): BatchCancelResponse =
+        // post /api/v2/batches/{batch_id}/cancel
+        withRawResponse().cancel(params, requestOptions).parse()
 
     override fun get(params: BatchGetParams, requestOptions: RequestOptions): BatchGetResponse =
         // get /api/v2/batches/{batch_id}
@@ -124,6 +133,37 @@ class BatchServiceImpl internal constructor(private val clientOptions: ClientOpt
                             .params(params)
                             .response(it)
                             .build()
+                    }
+            }
+        }
+
+        private val cancelHandler: Handler<BatchCancelResponse> =
+            jsonHandler<BatchCancelResponse>(clientOptions.jsonMapper)
+
+        override fun cancel(
+            params: BatchCancelParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BatchCancelResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("batchId", params.batchId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "batches", params._pathParam(0), "cancel")
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { cancelHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
                     }
             }
         }

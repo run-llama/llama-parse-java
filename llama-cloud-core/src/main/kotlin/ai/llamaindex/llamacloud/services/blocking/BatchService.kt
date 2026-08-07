@@ -5,6 +5,8 @@ package ai.llamaindex.llamacloud.services.blocking
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.RequestOptions
 import ai.llamaindex.llamacloud.core.http.HttpResponseFor
+import ai.llamaindex.llamacloud.models.batches.BatchCancelParams
+import ai.llamaindex.llamacloud.models.batches.BatchCancelResponse
 import ai.llamaindex.llamacloud.models.batches.BatchCreateParams
 import ai.llamaindex.llamacloud.models.batches.BatchCreateResponse
 import ai.llamaindex.llamacloud.models.batches.BatchGetParams
@@ -67,6 +69,41 @@ interface BatchService {
     /** @see list */
     fun list(requestOptions: RequestOptions): BatchListPage =
         list(BatchListParams.none(), requestOptions)
+
+    /**
+     * Cancel a running batch.
+     *
+     * Returns immediately; the batch reaches `CANCELLED` once processing stops. Files that already
+     * finished keep their results. A batch in a terminal status cannot be cancelled.
+     */
+    fun cancel(batchId: String): BatchCancelResponse = cancel(batchId, BatchCancelParams.none())
+
+    /** @see cancel */
+    fun cancel(
+        batchId: String,
+        params: BatchCancelParams = BatchCancelParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BatchCancelResponse = cancel(params.toBuilder().batchId(batchId).build(), requestOptions)
+
+    /** @see cancel */
+    fun cancel(
+        batchId: String,
+        params: BatchCancelParams = BatchCancelParams.none(),
+    ): BatchCancelResponse = cancel(batchId, params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(
+        params: BatchCancelParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BatchCancelResponse
+
+    /** @see cancel */
+    fun cancel(params: BatchCancelParams): BatchCancelResponse =
+        cancel(params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(batchId: String, requestOptions: RequestOptions): BatchCancelResponse =
+        cancel(batchId, BatchCancelParams.none(), requestOptions)
 
     /** Get a batch by ID. */
     fun get(batchId: String): BatchGetResponse = get(batchId, BatchGetParams.none())
@@ -142,6 +179,50 @@ interface BatchService {
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<BatchListPage> =
             list(BatchListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/v2/batches/{batch_id}/cancel`, but is
+         * otherwise the same as [BatchService.cancel].
+         */
+        @MustBeClosed
+        fun cancel(batchId: String): HttpResponseFor<BatchCancelResponse> =
+            cancel(batchId, BatchCancelParams.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            batchId: String,
+            params: BatchCancelParams = BatchCancelParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BatchCancelResponse> =
+            cancel(params.toBuilder().batchId(batchId).build(), requestOptions)
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            batchId: String,
+            params: BatchCancelParams = BatchCancelParams.none(),
+        ): HttpResponseFor<BatchCancelResponse> = cancel(batchId, params, RequestOptions.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            params: BatchCancelParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BatchCancelResponse>
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(params: BatchCancelParams): HttpResponseFor<BatchCancelResponse> =
+            cancel(params, RequestOptions.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            batchId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BatchCancelResponse> =
+            cancel(batchId, BatchCancelParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/batches/{batch_id}`, but is otherwise the

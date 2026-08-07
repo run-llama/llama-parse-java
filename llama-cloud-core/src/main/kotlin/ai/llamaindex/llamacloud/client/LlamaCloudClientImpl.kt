@@ -32,6 +32,10 @@ import ai.llamaindex.llamacloud.services.blocking.RetrieverService
 import ai.llamaindex.llamacloud.services.blocking.RetrieverServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.SheetService
 import ai.llamaindex.llamacloud.services.blocking.SheetServiceImpl
+import ai.llamaindex.llamacloud.services.blocking.SplitService
+import ai.llamaindex.llamacloud.services.blocking.SplitServiceImpl
+import ai.llamaindex.llamacloud.services.blocking.WebhookConfigService
+import ai.llamaindex.llamacloud.services.blocking.WebhookConfigServiceImpl
 import java.util.function.Consumer
 
 class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaCloudClient {
@@ -55,6 +59,8 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
     private val sheets: SheetService by lazy { SheetServiceImpl(clientOptionsWithUserAgent) }
 
+    private val split: SplitService by lazy { SplitServiceImpl(clientOptionsWithUserAgent) }
+
     private val parsing: ParsingService by lazy { ParsingServiceImpl(clientOptionsWithUserAgent) }
 
     private val extract: ExtractService by lazy { ExtractServiceImpl(clientOptionsWithUserAgent) }
@@ -71,6 +77,10 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
     private val configurations: ConfigurationService by lazy {
         ConfigurationServiceImpl(clientOptionsWithUserAgent)
+    }
+
+    private val webhookConfigs: WebhookConfigService by lazy {
+        WebhookConfigServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val projects: ProjectService by lazy { ProjectServiceImpl(clientOptionsWithUserAgent) }
@@ -104,6 +114,8 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
     override fun sheets(): SheetService = sheets
 
+    override fun split(): SplitService = split
+
     override fun parsing(): ParsingService = parsing
 
     override fun extract(): ExtractService = extract
@@ -115,6 +127,8 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
     override fun classify(): ClassifyService = classify
 
     override fun configurations(): ConfigurationService = configurations
+
+    override fun webhookConfigs(): WebhookConfigService = webhookConfigs
 
     override fun projects(): ProjectService = projects
 
@@ -141,6 +155,10 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
             SheetServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val split: SplitService.WithRawResponse by lazy {
+            SplitServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val parsing: ParsingService.WithRawResponse by lazy {
             ParsingServiceImpl.WithRawResponseImpl(clientOptions)
         }
@@ -163,6 +181,10 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
         private val configurations: ConfigurationService.WithRawResponse by lazy {
             ConfigurationServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val webhookConfigs: WebhookConfigService.WithRawResponse by lazy {
+            WebhookConfigServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val projects: ProjectService.WithRawResponse by lazy {
@@ -200,6 +222,8 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
         override fun sheets(): SheetService.WithRawResponse = sheets
 
+        override fun split(): SplitService.WithRawResponse = split
+
         override fun parsing(): ParsingService.WithRawResponse = parsing
 
         override fun extract(): ExtractService.WithRawResponse = extract
@@ -211,6 +235,8 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
         override fun classify(): ClassifyService.WithRawResponse = classify
 
         override fun configurations(): ConfigurationService.WithRawResponse = configurations
+
+        override fun webhookConfigs(): WebhookConfigService.WithRawResponse = webhookConfigs
 
         override fun projects(): ProjectService.WithRawResponse = projects
 

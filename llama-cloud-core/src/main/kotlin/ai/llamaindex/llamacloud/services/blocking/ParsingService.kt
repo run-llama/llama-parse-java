@@ -13,6 +13,8 @@ import ai.llamaindex.llamacloud.models.parsing.ParsingGetParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPage
 import ai.llamaindex.llamacloud.models.parsing.ParsingListParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsResponse
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
@@ -150,6 +152,24 @@ interface ParsingService {
     fun get(jobId: String, requestOptions: RequestOptions): ParsingGetResponse =
         get(jobId, ParsingGetParams.none(), requestOptions)
 
+    /** List the parse versions accepted by each tier. */
+    fun listVersions(): ParsingListVersionsResponse = listVersions(ParsingListVersionsParams.none())
+
+    /** @see listVersions */
+    fun listVersions(
+        params: ParsingListVersionsParams = ParsingListVersionsParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ParsingListVersionsResponse
+
+    /** @see listVersions */
+    fun listVersions(
+        params: ParsingListVersionsParams = ParsingListVersionsParams.none()
+    ): ParsingListVersionsResponse = listVersions(params, RequestOptions.none())
+
+    /** @see listVersions */
+    fun listVersions(requestOptions: RequestOptions): ParsingListVersionsResponse =
+        listVersions(ParsingListVersionsParams.none(), requestOptions)
+
     /** A view of [ParsingService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
@@ -285,5 +305,34 @@ interface ParsingService {
             jobId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ParsingGetResponse> = get(jobId, ParsingGetParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/v2/parse/versions`, but is otherwise the same
+         * as [ParsingService.listVersions].
+         */
+        @MustBeClosed
+        fun listVersions(): HttpResponseFor<ParsingListVersionsResponse> =
+            listVersions(ParsingListVersionsParams.none())
+
+        /** @see listVersions */
+        @MustBeClosed
+        fun listVersions(
+            params: ParsingListVersionsParams = ParsingListVersionsParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ParsingListVersionsResponse>
+
+        /** @see listVersions */
+        @MustBeClosed
+        fun listVersions(
+            params: ParsingListVersionsParams = ParsingListVersionsParams.none()
+        ): HttpResponseFor<ParsingListVersionsResponse> =
+            listVersions(params, RequestOptions.none())
+
+        /** @see listVersions */
+        @MustBeClosed
+        fun listVersions(
+            requestOptions: RequestOptions
+        ): HttpResponseFor<ParsingListVersionsResponse> =
+            listVersions(ParsingListVersionsParams.none(), requestOptions)
     }
 }

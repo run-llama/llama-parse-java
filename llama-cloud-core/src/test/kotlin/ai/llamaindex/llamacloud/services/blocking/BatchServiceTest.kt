@@ -4,6 +4,7 @@ package ai.llamaindex.llamacloud.services.blocking
 
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClient
 import ai.llamaindex.llamacloud.core.JsonValue
+import ai.llamaindex.llamacloud.models.batches.BatchCancelParams
 import ai.llamaindex.llamacloud.models.batches.BatchCreateParams
 import ai.llamaindex.llamacloud.models.batches.BatchGetParams
 import org.junit.jupiter.api.Disabled
@@ -71,6 +72,24 @@ internal class BatchServiceTest {
         val page = batchService.list()
 
         page.response().validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun cancel() {
+        val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
+        val batchService = client.batches()
+
+        val response =
+            batchService.cancel(
+                BatchCancelParams.builder()
+                    .batchId("batch_id")
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        response.validate()
     }
 
     @Disabled("Mock server tests are disabled")

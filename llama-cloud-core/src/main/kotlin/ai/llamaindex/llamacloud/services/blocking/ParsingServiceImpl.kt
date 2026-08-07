@@ -25,6 +25,8 @@ import ai.llamaindex.llamacloud.models.parsing.ParsingGetResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPage
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPageResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsResponse
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -61,6 +63,13 @@ class ParsingServiceImpl internal constructor(private val clientOptions: ClientO
     override fun get(params: ParsingGetParams, requestOptions: RequestOptions): ParsingGetResponse =
         // get /api/v2/parse/{job_id}
         withRawResponse().get(params, requestOptions).parse()
+
+    override fun listVersions(
+        params: ParsingListVersionsParams,
+        requestOptions: RequestOptions,
+    ): ParsingListVersionsResponse =
+        // get /api/v2/parse/versions
+        withRawResponse().listVersions(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ParsingService.WithRawResponse {
@@ -190,6 +199,33 @@ class ParsingServiceImpl internal constructor(private val clientOptions: ClientO
             return errorHandler.handle(response).parseable {
                 response
                     .use { getHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val listVersionsHandler: Handler<ParsingListVersionsResponse> =
+            jsonHandler<ParsingListVersionsResponse>(clientOptions.jsonMapper)
+
+        override fun listVersions(
+            params: ParsingListVersionsParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ParsingListVersionsResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "parse", "versions")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { listVersionsHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

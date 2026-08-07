@@ -9,6 +9,7 @@ import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentCreateParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentDeleteParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetChunksParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetParams
+import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetStatusCountsParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetStatusParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentSyncParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentUpsertParams
@@ -129,6 +130,26 @@ internal class DocumentServiceAsyncTest {
 
         val managedIngestionStatusResponse = managedIngestionStatusResponseFuture.get()
         managedIngestionStatusResponse.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun getStatusCounts() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val documentServiceAsync = client.pipelines().documents()
+
+        val responseFuture =
+            documentServiceAsync.getStatusCounts(
+                DocumentGetStatusCountsParams.builder()
+                    .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .onlyDirectUpload(true)
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
     }
 
     @Disabled("Mock server tests are disabled")
