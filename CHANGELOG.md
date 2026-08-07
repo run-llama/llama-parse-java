@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0](https://github.com/run-llama/llama-parse-java/compare/v1.3.0...v1.4.0) (2026-07-22)
+
+
+### Features
+
+* **extract:** report num_pages_billed on extract job usage ([#22323](https://github.com/run-llama/llama-parse-java/issues/22323)) ([6fbfa52](https://github.com/run-llama/llama-parse-java/commit/6fbfa5227c4494394f9424df9168db56178a116f))
+* **sheets:** cost_effective/agentic tiers and per-region billing ([#22508](https://github.com/run-llama/llama-parse-java/issues/22508)) ([9c1ac4d](https://github.com/run-llama/llama-parse-java/commit/9c1ac4d87026d7d10ab822e80a48f0a52de14387))
+
 ## [1.3.0](https://github.com/run-llama/llama-parse-java/compare/v1.2.0...v1.3.0) (2026-07-21)
 
 
