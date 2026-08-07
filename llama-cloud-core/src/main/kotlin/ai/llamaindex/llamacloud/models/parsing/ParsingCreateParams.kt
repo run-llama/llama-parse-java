@@ -4370,9 +4370,9 @@ private constructor(
             granularBboxes.getOptional("granular_bboxes")
 
         /**
-         * Image categories to extract and save. Options: 'screenshot' (full page renders useful for
-         * visual QA), 'embedded' (images found within the document), 'layout' (cropped regions from
-         * layout detection like figures and diagrams). Empty list saves no images
+         * Image categories to save: 'screenshot' (full page renders), 'embedded' (images found
+         * within the document), 'layout' (cropped figures and diagrams). Defaults to saving
+         * 'layout' when the output links to cropped images; pass [] to save none
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -4645,12 +4645,16 @@ private constructor(
             }
 
             /**
-             * Image categories to extract and save. Options: 'screenshot' (full page renders useful
-             * for visual QA), 'embedded' (images found within the document), 'layout' (cropped
-             * regions from layout detection like figures and diagrams). Empty list saves no images
+             * Image categories to save: 'screenshot' (full page renders), 'embedded' (images found
+             * within the document), 'layout' (cropped figures and diagrams). Defaults to saving
+             * 'layout' when the output links to cropped images; pass [] to save none
              */
-            fun imagesToSave(imagesToSave: List<ImagesToSave>) =
-                imagesToSave(JsonField.of(imagesToSave))
+            fun imagesToSave(imagesToSave: List<ImagesToSave>?) =
+                imagesToSave(JsonField.ofNullable(imagesToSave))
+
+            /** Alias for calling [Builder.imagesToSave] with `imagesToSave.orElse(null)`. */
+            fun imagesToSave(imagesToSave: Optional<List<ImagesToSave>>) =
+                imagesToSave(imagesToSave.getOrNull())
 
             /**
              * Sets [Builder.imagesToSave] to an arbitrary JSON value.
