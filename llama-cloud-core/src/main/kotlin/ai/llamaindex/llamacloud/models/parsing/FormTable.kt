@@ -37,6 +37,7 @@ class FormTable
 private constructor(
     private val rows: JsonField<List<List<Row?>>>,
     private val id: JsonField<String>,
+    private val bbox: JsonField<List<BBox>>,
     private val columns: JsonField<List<String>>,
     private val label: JsonField<String>,
     private val type: JsonField<Type>,
@@ -47,12 +48,13 @@ private constructor(
     private constructor(
         @JsonProperty("rows") @ExcludeMissing rows: JsonField<List<List<Row?>>> = JsonMissing.of(),
         @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("bbox") @ExcludeMissing bbox: JsonField<List<BBox>> = JsonMissing.of(),
         @JsonProperty("columns")
         @ExcludeMissing
         columns: JsonField<List<String>> = JsonMissing.of(),
         @JsonProperty("label") @ExcludeMissing label: JsonField<String> = JsonMissing.of(),
         @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-    ) : this(rows, id, columns, label, type, mutableMapOf())
+    ) : this(rows, id, bbox, columns, label, type, mutableMapOf())
 
     /**
      * Table cells: a verbatim string, null for a printed-but-blank cell, or an object holding the
@@ -70,6 +72,14 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun id(): Optional<String> = id.getOptional("id")
+
+    /**
+     * Bounding boxes of the table's fillable regions on the page.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun bbox(): Optional<List<BBox>> = bbox.getOptional("bbox")
 
     /**
      * Printed column headers in order, if any
@@ -108,6 +118,13 @@ private constructor(
      * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
+
+    /**
+     * Returns the raw JSON value of [bbox].
+     *
+     * Unlike [bbox], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("bbox") @ExcludeMissing fun _bbox(): JsonField<List<BBox>> = bbox
 
     /**
      * Returns the raw JSON value of [columns].
@@ -160,6 +177,7 @@ private constructor(
 
         private var rows: JsonField<MutableList<List<Row?>>>? = null
         private var id: JsonField<String> = JsonMissing.of()
+        private var bbox: JsonField<MutableList<BBox>>? = null
         private var columns: JsonField<MutableList<String>>? = null
         private var label: JsonField<String> = JsonMissing.of()
         private var type: JsonField<Type> = JsonMissing.of()
@@ -169,6 +187,7 @@ private constructor(
         internal fun from(formTable: FormTable) = apply {
             rows = formTable.rows.map { it.toMutableList() }
             id = formTable.id
+            bbox = formTable.bbox.map { it.toMutableList() }
             columns = formTable.columns.map { it.toMutableList() }
             label = formTable.label
             type = formTable.type
@@ -214,6 +233,34 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun id(id: JsonField<String>) = apply { this.id = id }
+
+        /** Bounding boxes of the table's fillable regions on the page. */
+        fun bbox(bbox: List<BBox>?) = bbox(JsonField.ofNullable(bbox))
+
+        /** Alias for calling [Builder.bbox] with `bbox.orElse(null)`. */
+        fun bbox(bbox: Optional<List<BBox>>) = bbox(bbox.getOrNull())
+
+        /**
+         * Sets [Builder.bbox] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.bbox] with a well-typed `List<BBox>` value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun bbox(bbox: JsonField<List<BBox>>) = apply {
+            this.bbox = bbox.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [BBox] to [Builder.bbox].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addBbox(bbox: BBox) = apply {
+            this.bbox =
+                (this.bbox ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("bbox", it).add(bbox)
+                }
+        }
 
         /** Printed column headers in order, if any */
         fun columns(columns: List<String>?) = columns(JsonField.ofNullable(columns))
@@ -304,6 +351,7 @@ private constructor(
             FormTable(
                 checkRequired("rows", rows).map { it.toImmutable() },
                 id,
+                (bbox ?: JsonMissing.of()).map { it.toImmutable() },
                 (columns ?: JsonMissing.of()).map { it.toImmutable() },
                 label,
                 type,
@@ -328,6 +376,7 @@ private constructor(
 
         rows().forEach { it.forEach { it?.validate() } }
         id()
+        bbox().ifPresent { it.forEach { it.validate() } }
         columns()
         label()
         type().ifPresent { it.validate() }
@@ -352,6 +401,7 @@ private constructor(
         (rows.asKnown().getOrNull()?.sumOf { it.sumOf { (it?.validity() ?: 0).toInt() }.toInt() }
             ?: 0) +
             (if (id.asKnown().isPresent) 1 else 0) +
+            (bbox.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (columns.asKnown().getOrNull()?.size ?: 0) +
             (if (label.asKnown().isPresent) 1 else 0) +
             (type.asKnown().getOrNull()?.validity() ?: 0)
@@ -714,6 +764,7 @@ private constructor(
         return other is FormTable &&
             rows == other.rows &&
             id == other.id &&
+            bbox == other.bbox &&
             columns == other.columns &&
             label == other.label &&
             type == other.type &&
@@ -721,11 +772,11 @@ private constructor(
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(rows, id, columns, label, type, additionalProperties)
+        Objects.hash(rows, id, bbox, columns, label, type, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "FormTable{rows=$rows, id=$id, columns=$columns, label=$label, type=$type, additionalProperties=$additionalProperties}"
+        "FormTable{rows=$rows, id=$id, bbox=$bbox, columns=$columns, label=$label, type=$type, additionalProperties=$additionalProperties}"
 }

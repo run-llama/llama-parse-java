@@ -2062,6 +2062,8 @@ private constructor(
                 private val forms: JsonField<List<Form>>,
                 private val pageNumber: JsonField<Long>,
                 private val success: JsonValue,
+                private val pageHeight: JsonField<Double>,
+                private val pageWidth: JsonField<Double>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
 
@@ -2074,7 +2076,13 @@ private constructor(
                     @ExcludeMissing
                     pageNumber: JsonField<Long> = JsonMissing.of(),
                     @JsonProperty("success") @ExcludeMissing success: JsonValue = JsonMissing.of(),
-                ) : this(forms, pageNumber, success, mutableMapOf())
+                    @JsonProperty("page_height")
+                    @ExcludeMissing
+                    pageHeight: JsonField<Double> = JsonMissing.of(),
+                    @JsonProperty("page_width")
+                    @ExcludeMissing
+                    pageWidth: JsonField<Double> = JsonMissing.of(),
+                ) : this(forms, pageNumber, success, pageHeight, pageWidth, mutableMapOf())
 
                 /**
                  * Forms detected on the page
@@ -2108,6 +2116,22 @@ private constructor(
                 @JsonProperty("success") @ExcludeMissing fun _success(): JsonValue = success
 
                 /**
+                 * Height of the page in points
+                 *
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun pageHeight(): Optional<Double> = pageHeight.getOptional("page_height")
+
+                /**
+                 * Width of the page in points
+                 *
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun pageWidth(): Optional<Double> = pageWidth.getOptional("page_width")
+
+                /**
                  * Returns the raw JSON value of [forms].
                  *
                  * Unlike [forms], this method doesn't throw if the JSON field has an unexpected
@@ -2124,6 +2148,26 @@ private constructor(
                 @JsonProperty("page_number")
                 @ExcludeMissing
                 fun _pageNumber(): JsonField<Long> = pageNumber
+
+                /**
+                 * Returns the raw JSON value of [pageHeight].
+                 *
+                 * Unlike [pageHeight], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("page_height")
+                @ExcludeMissing
+                fun _pageHeight(): JsonField<Double> = pageHeight
+
+                /**
+                 * Returns the raw JSON value of [pageWidth].
+                 *
+                 * Unlike [pageWidth], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("page_width")
+                @ExcludeMissing
+                fun _pageWidth(): JsonField<Double> = pageWidth
 
                 @JsonAnySetter
                 private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -2157,6 +2201,8 @@ private constructor(
                     private var forms: JsonField<MutableList<Form>>? = null
                     private var pageNumber: JsonField<Long>? = null
                     private var success: JsonValue = JsonValue.from(true)
+                    private var pageHeight: JsonField<Double> = JsonMissing.of()
+                    private var pageWidth: JsonField<Double> = JsonMissing.of()
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -2164,6 +2210,8 @@ private constructor(
                         forms = formsResultPage.forms.map { it.toMutableList() }
                         pageNumber = formsResultPage.pageNumber
                         success = formsResultPage.success
+                        pageHeight = formsResultPage.pageHeight
+                        pageWidth = formsResultPage.pageWidth
                         additionalProperties = formsResultPage.additionalProperties.toMutableMap()
                     }
 
@@ -2221,6 +2269,56 @@ private constructor(
                      */
                     fun success(success: JsonValue) = apply { this.success = success }
 
+                    /** Height of the page in points */
+                    fun pageHeight(pageHeight: Double?) =
+                        pageHeight(JsonField.ofNullable(pageHeight))
+
+                    /**
+                     * Alias for [Builder.pageHeight].
+                     *
+                     * This unboxed primitive overload exists for backwards compatibility.
+                     */
+                    fun pageHeight(pageHeight: Double) = pageHeight(pageHeight as Double?)
+
+                    /** Alias for calling [Builder.pageHeight] with `pageHeight.orElse(null)`. */
+                    fun pageHeight(pageHeight: Optional<Double>) =
+                        pageHeight(pageHeight.getOrNull())
+
+                    /**
+                     * Sets [Builder.pageHeight] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.pageHeight] with a well-typed [Double] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun pageHeight(pageHeight: JsonField<Double>) = apply {
+                        this.pageHeight = pageHeight
+                    }
+
+                    /** Width of the page in points */
+                    fun pageWidth(pageWidth: Double?) = pageWidth(JsonField.ofNullable(pageWidth))
+
+                    /**
+                     * Alias for [Builder.pageWidth].
+                     *
+                     * This unboxed primitive overload exists for backwards compatibility.
+                     */
+                    fun pageWidth(pageWidth: Double) = pageWidth(pageWidth as Double?)
+
+                    /** Alias for calling [Builder.pageWidth] with `pageWidth.orElse(null)`. */
+                    fun pageWidth(pageWidth: Optional<Double>) = pageWidth(pageWidth.getOrNull())
+
+                    /**
+                     * Sets [Builder.pageWidth] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.pageWidth] with a well-typed [Double] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun pageWidth(pageWidth: JsonField<Double>) = apply {
+                        this.pageWidth = pageWidth
+                    }
+
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
                         putAllAdditionalProperties(additionalProperties)
@@ -2261,6 +2359,8 @@ private constructor(
                             checkRequired("forms", forms).map { it.toImmutable() },
                             checkRequired("pageNumber", pageNumber),
                             success,
+                            pageHeight,
+                            pageWidth,
                             additionalProperties.toMutableMap(),
                         )
                 }
@@ -2291,6 +2391,8 @@ private constructor(
                             )
                         }
                     }
+                    pageHeight()
+                    pageWidth()
                     validated = true
                 }
 
@@ -2312,7 +2414,9 @@ private constructor(
                 internal fun validity(): Int =
                     (forms.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                         (if (pageNumber.asKnown().isPresent) 1 else 0) +
-                        success.let { if (it == JsonValue.from(true)) 1 else 0 }
+                        success.let { if (it == JsonValue.from(true)) 1 else 0 } +
+                        (if (pageHeight.asKnown().isPresent) 1 else 0) +
+                        (if (pageWidth.asKnown().isPresent) 1 else 0)
 
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
@@ -2323,17 +2427,26 @@ private constructor(
                         forms == other.forms &&
                         pageNumber == other.pageNumber &&
                         success == other.success &&
+                        pageHeight == other.pageHeight &&
+                        pageWidth == other.pageWidth &&
                         additionalProperties == other.additionalProperties
                 }
 
                 private val hashCode: Int by lazy {
-                    Objects.hash(forms, pageNumber, success, additionalProperties)
+                    Objects.hash(
+                        forms,
+                        pageNumber,
+                        success,
+                        pageHeight,
+                        pageWidth,
+                        additionalProperties,
+                    )
                 }
 
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "FormsResultPage{forms=$forms, pageNumber=$pageNumber, success=$success, additionalProperties=$additionalProperties}"
+                    "FormsResultPage{forms=$forms, pageNumber=$pageNumber, success=$success, pageHeight=$pageHeight, pageWidth=$pageWidth, additionalProperties=$additionalProperties}"
             }
 
             /** A page whose processing failed. */
