@@ -14,6 +14,8 @@ import ai.llamaindex.llamacloud.models.files.FileListPage
 import ai.llamaindex.llamacloud.models.files.FileListParams
 import ai.llamaindex.llamacloud.models.files.FileQueryParams
 import ai.llamaindex.llamacloud.models.files.FileQueryResponse
+import ai.llamaindex.llamacloud.models.files.FileRetrieveParams
+import ai.llamaindex.llamacloud.models.files.FileRetrieveResponse
 import ai.llamaindex.llamacloud.models.files.PresignedUrl
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
@@ -48,6 +50,36 @@ interface FileService {
         params: FileCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FileCreateResponse
+
+    /** Get file metadata by ID. */
+    fun retrieve(fileId: String): FileRetrieveResponse = retrieve(fileId, FileRetrieveParams.none())
+
+    /** @see retrieve */
+    fun retrieve(
+        fileId: String,
+        params: FileRetrieveParams = FileRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): FileRetrieveResponse = retrieve(params.toBuilder().fileId(fileId).build(), requestOptions)
+
+    /** @see retrieve */
+    fun retrieve(
+        fileId: String,
+        params: FileRetrieveParams = FileRetrieveParams.none(),
+    ): FileRetrieveResponse = retrieve(fileId, params, RequestOptions.none())
+
+    /** @see retrieve */
+    fun retrieve(
+        params: FileRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): FileRetrieveResponse
+
+    /** @see retrieve */
+    fun retrieve(params: FileRetrieveParams): FileRetrieveResponse =
+        retrieve(params, RequestOptions.none())
+
+    /** @see retrieve */
+    fun retrieve(fileId: String, requestOptions: RequestOptions): FileRetrieveResponse =
+        retrieve(fileId, FileRetrieveParams.none(), requestOptions)
 
     /**
      * List files with optional filtering and pagination.
@@ -167,6 +199,50 @@ interface FileService {
             params: FileCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FileCreateResponse>
+
+        /**
+         * Returns a raw HTTP response for `get /api/v1/beta/files/{file_id}`, but is otherwise the
+         * same as [FileService.retrieve].
+         */
+        @MustBeClosed
+        fun retrieve(fileId: String): HttpResponseFor<FileRetrieveResponse> =
+            retrieve(fileId, FileRetrieveParams.none())
+
+        /** @see retrieve */
+        @MustBeClosed
+        fun retrieve(
+            fileId: String,
+            params: FileRetrieveParams = FileRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<FileRetrieveResponse> =
+            retrieve(params.toBuilder().fileId(fileId).build(), requestOptions)
+
+        /** @see retrieve */
+        @MustBeClosed
+        fun retrieve(
+            fileId: String,
+            params: FileRetrieveParams = FileRetrieveParams.none(),
+        ): HttpResponseFor<FileRetrieveResponse> = retrieve(fileId, params, RequestOptions.none())
+
+        /** @see retrieve */
+        @MustBeClosed
+        fun retrieve(
+            params: FileRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<FileRetrieveResponse>
+
+        /** @see retrieve */
+        @MustBeClosed
+        fun retrieve(params: FileRetrieveParams): HttpResponseFor<FileRetrieveResponse> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see retrieve */
+        @MustBeClosed
+        fun retrieve(
+            fileId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<FileRetrieveResponse> =
+            retrieve(fileId, FileRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v1/beta/files`, but is otherwise the same as

@@ -7,6 +7,7 @@ import ai.llamaindex.llamacloud.models.files.FileCreateParams
 import ai.llamaindex.llamacloud.models.files.FileDeleteParams
 import ai.llamaindex.llamacloud.models.files.FileGetParams
 import ai.llamaindex.llamacloud.models.files.FileQueryParams
+import ai.llamaindex.llamacloud.models.files.FileRetrieveParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
@@ -26,6 +27,26 @@ internal class FileServiceTest {
                     .file("Example data".byteInputStream())
                     .purpose("purpose")
                     .externalFileId("external_file_id")
+                    .build()
+            )
+
+        file.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun retrieve() {
+        val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
+        val fileService = client.files()
+
+        val file =
+            fileService.retrieve(
+                FileRetrieveParams.builder()
+                    .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addExpand("string")
+                    .addExpand("string")
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 

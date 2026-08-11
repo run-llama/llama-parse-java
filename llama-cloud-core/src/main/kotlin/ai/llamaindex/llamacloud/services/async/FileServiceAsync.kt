@@ -14,6 +14,8 @@ import ai.llamaindex.llamacloud.models.files.FileListPageAsync
 import ai.llamaindex.llamacloud.models.files.FileListParams
 import ai.llamaindex.llamacloud.models.files.FileQueryParams
 import ai.llamaindex.llamacloud.models.files.FileQueryResponse
+import ai.llamaindex.llamacloud.models.files.FileRetrieveParams
+import ai.llamaindex.llamacloud.models.files.FileRetrieveResponse
 import ai.llamaindex.llamacloud.models.files.PresignedUrl
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -49,6 +51,41 @@ interface FileServiceAsync {
         params: FileCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FileCreateResponse>
+
+    /** Get file metadata by ID. */
+    fun retrieve(fileId: String): CompletableFuture<FileRetrieveResponse> =
+        retrieve(fileId, FileRetrieveParams.none())
+
+    /** @see retrieve */
+    fun retrieve(
+        fileId: String,
+        params: FileRetrieveParams = FileRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<FileRetrieveResponse> =
+        retrieve(params.toBuilder().fileId(fileId).build(), requestOptions)
+
+    /** @see retrieve */
+    fun retrieve(
+        fileId: String,
+        params: FileRetrieveParams = FileRetrieveParams.none(),
+    ): CompletableFuture<FileRetrieveResponse> = retrieve(fileId, params, RequestOptions.none())
+
+    /** @see retrieve */
+    fun retrieve(
+        params: FileRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<FileRetrieveResponse>
+
+    /** @see retrieve */
+    fun retrieve(params: FileRetrieveParams): CompletableFuture<FileRetrieveResponse> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see retrieve */
+    fun retrieve(
+        fileId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<FileRetrieveResponse> =
+        retrieve(fileId, FileRetrieveParams.none(), requestOptions)
 
     /**
      * List files with optional filtering and pagination.
@@ -179,6 +216,47 @@ interface FileServiceAsync {
             params: FileCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FileCreateResponse>>
+
+        /**
+         * Returns a raw HTTP response for `get /api/v1/beta/files/{file_id}`, but is otherwise the
+         * same as [FileServiceAsync.retrieve].
+         */
+        fun retrieve(fileId: String): CompletableFuture<HttpResponseFor<FileRetrieveResponse>> =
+            retrieve(fileId, FileRetrieveParams.none())
+
+        /** @see retrieve */
+        fun retrieve(
+            fileId: String,
+            params: FileRetrieveParams = FileRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<FileRetrieveResponse>> =
+            retrieve(params.toBuilder().fileId(fileId).build(), requestOptions)
+
+        /** @see retrieve */
+        fun retrieve(
+            fileId: String,
+            params: FileRetrieveParams = FileRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<FileRetrieveResponse>> =
+            retrieve(fileId, params, RequestOptions.none())
+
+        /** @see retrieve */
+        fun retrieve(
+            params: FileRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<FileRetrieveResponse>>
+
+        /** @see retrieve */
+        fun retrieve(
+            params: FileRetrieveParams
+        ): CompletableFuture<HttpResponseFor<FileRetrieveResponse>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see retrieve */
+        fun retrieve(
+            fileId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<FileRetrieveResponse>> =
+            retrieve(fileId, FileRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v1/beta/files`, but is otherwise the same as

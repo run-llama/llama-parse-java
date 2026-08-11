@@ -12,12 +12,14 @@ import ai.llamaindex.llamacloud.services.async.DataSinkServiceAsync
 import ai.llamaindex.llamacloud.services.async.DataSourceServiceAsync
 import ai.llamaindex.llamacloud.services.async.ExtractServiceAsync
 import ai.llamaindex.llamacloud.services.async.FileServiceAsync
+import ai.llamaindex.llamacloud.services.async.JobDataPointServiceAsync
 import ai.llamaindex.llamacloud.services.async.ParsingServiceAsync
 import ai.llamaindex.llamacloud.services.async.PipelineServiceAsync
 import ai.llamaindex.llamacloud.services.async.ProjectServiceAsync
 import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsync
 import ai.llamaindex.llamacloud.services.async.SheetServiceAsync
 import ai.llamaindex.llamacloud.services.async.SplitServiceAsync
+import ai.llamaindex.llamacloud.services.async.V2ProjectServiceAsync
 import ai.llamaindex.llamacloud.services.async.WebhookConfigServiceAsync
 import java.util.function.Consumer
 
@@ -79,6 +81,10 @@ interface LlamaCloudClientAsync {
 
     fun projects(): ProjectServiceAsync
 
+    fun v2Projects(): V2ProjectServiceAsync
+
+    fun jobDataPoints(): JobDataPointServiceAsync
+
     fun dataSinks(): DataSinkServiceAsync
 
     fun dataSources(): DataSourceServiceAsync
@@ -137,6 +143,10 @@ interface LlamaCloudClientAsync {
         fun webhookConfigs(): WebhookConfigServiceAsync.WithRawResponse
 
         fun projects(): ProjectServiceAsync.WithRawResponse
+
+        fun v2Projects(): V2ProjectServiceAsync.WithRawResponse
+
+        fun jobDataPoints(): JobDataPointServiceAsync.WithRawResponse
 
         fun dataSinks(): DataSinkServiceAsync.WithRawResponse
 
