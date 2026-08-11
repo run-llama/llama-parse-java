@@ -56,6 +56,7 @@ internal class ExtractServiceAsyncTest {
                                     )
                                     .citeSources(true)
                                     .confidenceScores(true)
+                                    .disableCache(true)
                                     .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                                     .maxPages(10L)
                                     .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")

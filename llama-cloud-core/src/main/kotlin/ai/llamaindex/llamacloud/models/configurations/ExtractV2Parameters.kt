@@ -28,6 +28,7 @@ private constructor(
     private val productType: JsonValue,
     private val citeSources: JsonField<Boolean>,
     private val confidenceScores: JsonField<Boolean>,
+    private val disableCache: JsonField<Boolean>,
     private val extractionTarget: JsonField<ExtractionTarget>,
     private val maxPages: JsonField<Long>,
     private val parseConfigId: JsonField<String>,
@@ -53,6 +54,9 @@ private constructor(
         @JsonProperty("confidence_scores")
         @ExcludeMissing
         confidenceScores: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("disable_cache")
+        @ExcludeMissing
+        disableCache: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("extraction_target")
         @ExcludeMissing
         extractionTarget: JsonField<ExtractionTarget> = JsonMissing.of(),
@@ -80,6 +84,7 @@ private constructor(
         productType,
         citeSources,
         confidenceScores,
+        disableCache,
         extractionTarget,
         maxPages,
         parseConfigId,
@@ -132,6 +137,14 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun confidenceScores(): Optional<Boolean> = confidenceScores.getOptional("confidence_scores")
+
+    /**
+     * Disable reuse and storage of Extract results
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun disableCache(): Optional<Boolean> = disableCache.getOptional("disable_cache")
 
     /**
      * Granularity of extraction: per_doc returns one object per document, per_page returns one
@@ -258,6 +271,15 @@ private constructor(
     fun _confidenceScores(): JsonField<Boolean> = confidenceScores
 
     /**
+     * Returns the raw JSON value of [disableCache].
+     *
+     * Unlike [disableCache], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("disable_cache")
+    @ExcludeMissing
+    fun _disableCache(): JsonField<Boolean> = disableCache
+
+    /**
      * Returns the raw JSON value of [extractionTarget].
      *
      * Unlike [extractionTarget], this method doesn't throw if the JSON field has an unexpected
@@ -372,6 +394,7 @@ private constructor(
         private var productType: JsonValue = JsonValue.from("extract_v2")
         private var citeSources: JsonField<Boolean> = JsonMissing.of()
         private var confidenceScores: JsonField<Boolean> = JsonMissing.of()
+        private var disableCache: JsonField<Boolean> = JsonMissing.of()
         private var extractionTarget: JsonField<ExtractionTarget> = JsonMissing.of()
         private var maxPages: JsonField<Long> = JsonMissing.of()
         private var parseConfigId: JsonField<String> = JsonMissing.of()
@@ -390,6 +413,7 @@ private constructor(
             productType = extractV2Parameters.productType
             citeSources = extractV2Parameters.citeSources
             confidenceScores = extractV2Parameters.confidenceScores
+            disableCache = extractV2Parameters.disableCache
             extractionTarget = extractV2Parameters.extractionTarget
             maxPages = extractV2Parameters.maxPages
             parseConfigId = extractV2Parameters.parseConfigId
@@ -463,6 +487,20 @@ private constructor(
          */
         fun confidenceScores(confidenceScores: JsonField<Boolean>) = apply {
             this.confidenceScores = confidenceScores
+        }
+
+        /** Disable reuse and storage of Extract results */
+        fun disableCache(disableCache: Boolean) = disableCache(JsonField.of(disableCache))
+
+        /**
+         * Sets [Builder.disableCache] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.disableCache] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun disableCache(disableCache: JsonField<Boolean>) = apply {
+            this.disableCache = disableCache
         }
 
         /**
@@ -702,6 +740,7 @@ private constructor(
                 productType,
                 citeSources,
                 confidenceScores,
+                disableCache,
                 extractionTarget,
                 maxPages,
                 parseConfigId,
@@ -739,6 +778,7 @@ private constructor(
         }
         citeSources()
         confidenceScores()
+        disableCache()
         extractionTarget().ifPresent { it.validate() }
         maxPages()
         parseConfigId()
@@ -771,6 +811,7 @@ private constructor(
             productType.let { if (it == JsonValue.from("extract_v2")) 1 else 0 } +
             (if (citeSources.asKnown().isPresent) 1 else 0) +
             (if (confidenceScores.asKnown().isPresent) 1 else 0) +
+            (if (disableCache.asKnown().isPresent) 1 else 0) +
             (extractionTarget.asKnown().getOrNull()?.validity() ?: 0) +
             (if (maxPages.asKnown().isPresent) 1 else 0) +
             (if (parseConfigId.asKnown().isPresent) 1 else 0) +
@@ -1200,6 +1241,7 @@ private constructor(
             productType == other.productType &&
             citeSources == other.citeSources &&
             confidenceScores == other.confidenceScores &&
+            disableCache == other.disableCache &&
             extractionTarget == other.extractionTarget &&
             maxPages == other.maxPages &&
             parseConfigId == other.parseConfigId &&
@@ -1219,6 +1261,7 @@ private constructor(
             productType,
             citeSources,
             confidenceScores,
+            disableCache,
             extractionTarget,
             maxPages,
             parseConfigId,
@@ -1236,5 +1279,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ExtractV2Parameters{dataSchema=$dataSchema, productType=$productType, citeSources=$citeSources, confidenceScores=$confidenceScores, extractionTarget=$extractionTarget, maxPages=$maxPages, parseConfigId=$parseConfigId, parseTier=$parseTier, sheetNames=$sheetNames, spreadsheetMode=$spreadsheetMode, systemPrompt=$systemPrompt, targetPages=$targetPages, tier=$tier, version=$version, additionalProperties=$additionalProperties}"
+        "ExtractV2Parameters{dataSchema=$dataSchema, productType=$productType, citeSources=$citeSources, confidenceScores=$confidenceScores, disableCache=$disableCache, extractionTarget=$extractionTarget, maxPages=$maxPages, parseConfigId=$parseConfigId, parseTier=$parseTier, sheetNames=$sheetNames, spreadsheetMode=$spreadsheetMode, systemPrompt=$systemPrompt, targetPages=$targetPages, tier=$tier, version=$version, additionalProperties=$additionalProperties}"
 }
