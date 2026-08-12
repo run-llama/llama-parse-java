@@ -2,6 +2,11 @@
 
 ## [1.5.0](https://github.com/run-llama/llama-parse-java/compare/v1.4.0...v1.5.0) (2026-08-12)
 
+> [!WARNING]
+> **Breaking change:** the `files.get()` method is renamed to `files.content()`; it still returns the presigned download URL.
+> `files.retrieve()` returns the file resource itself. Update call sites accordingly.
+> Released as a minor, not a major, because a major would force the sibling Go SDK's module path to `/v2`.
+
 
 ### Features
 
