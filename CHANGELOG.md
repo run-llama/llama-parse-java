@@ -1,5 +1,50 @@
 # Changelog
 
+## [1.5.0](https://github.com/run-llama/llama-parse-java/compare/v1.4.0...v1.5.0) (2026-08-12)
+
+> [!WARNING]
+> **Breaking change:** the `files.get()` method is renamed to `files.content()`; it still returns the presigned download URL.
+> `files.retrieve()` returns the file resource itself. Update call sites accordingly.
+> Released as a minor, not a major, because a major would force the sibling Go SDK's module path to `/v2`.
+
+
+### Features
+
+* **batches:** webhooks for /api/v2/batches ([#23148](https://github.com/run-llama/llama-parse-java/issues/23148)) ([c3e7456](https://github.com/run-llama/llama-parse-java/commit/c3e7456a11ca7ce2d14c9b25abed0117fe01f949))
+* **classify:** accept webhook_configuration_ids on classify job create (LI-8138) ([#22943](https://github.com/run-llama/llama-parse-java/issues/22943)) ([b8dbc00](https://github.com/run-llama/llama-parse-java/commit/b8dbc0091561ae8bb036d81fbe1b142902ea0368))
+* **connector:** API + service layer for attaching a subscription to a directory ([#23502](https://github.com/run-llama/llama-parse-java/issues/23502)) ([1d0e3db](https://github.com/run-llama/llama-parse-java/commit/1d0e3db8a87fc497c10f1bf39ccefc8d147624dd))
+* **extract:** accept webhook_configuration_ids on extract job create (LI-8138) ([#22907](https://github.com/run-llama/llama-parse-java/issues/22907)) ([a12e081](https://github.com/run-llama/llama-parse-java/commit/a12e081912c5d911970a2b8933748371833770b7))
+* **extract:** opt-in spreadsheet mode for agentic_plus ([#22958](https://github.com/run-llama/llama-parse-java/issues/22958)) ([4650496](https://github.com/run-llama/llama-parse-java/commit/4650496db554c19d17355add4955d353c35d7e20))
+* **extract:** pin turbo to a stable dated version; accept citations+confidence, reject only granular bboxes ([#22965](https://github.com/run-llama/llama-parse-java/issues/22965)) ([9a6212f](https://github.com/run-llama/llama-parse-java/commit/9a6212f96f3a9f8e5a26538494d3f4a6bf429aa1))
+* **extract:** reject parse_tier for parse-free tiers + pin turbo fallback to fast ([#22919](https://github.com/run-llama/llama-parse-java/issues/22919)) ([120db95](https://github.com/run-llama/llama-parse-java/commit/120db95cf47f98a3c4715b43b6a4a935aefdf752))
+* **files:** rename files.get to files.content and restore files.retrieve ([46b7f51](https://github.com/run-llama/llama-parse-java/commit/46b7f51d05eba9700a594af08f9ab0141c825f2c))
+* **forms:** emit bboxes in v2 forms output ([#23974](https://github.com/run-llama/llama-parse-java/issues/23974)) ([c82b3ed](https://github.com/run-llama/llama-parse-java/commit/c82b3ed20961018b01592faa7761c60dfd33bfe8))
+* **parse,extract:** add expand=usage returning credits billed per job ([#23709](https://github.com/run-llama/llama-parse-java/issues/23709)) ([0fab12a](https://github.com/run-llama/llama-parse-java/commit/0fab12a0787d5cc2c36f2c799c2df8bb84c30b5c))
+* **parse:** extract Word revision annotations ([#23152](https://github.com/run-llama/llama-parse-java/issues/23152)) ([03e8534](https://github.com/run-llama/llama-parse-java/commit/03e853469760520255741a2529ad98b8695e2b1c))
+* **parse:** make the output.pdf artifact opt-in on Parse v2 (output_options.save_output_pdf) ([#23510](https://github.com/run-llama/llama-parse-java/issues/23510)) ([33f78b4](https://github.com/run-llama/llama-parse-java/commit/33f78b474f9a155ac5295c4d92e3dfba82ef5948))
+* **split:** accept webhook_configuration_ids on split job create (LI-8138) ([#22940](https://github.com/run-llama/llama-parse-java/issues/22940)) ([f16916f](https://github.com/run-llama/llama-parse-java/commit/f16916fa19b3dee150c7499d13bc7142446fa1a2))
+
+
+### Bug Fixes
+
+* **api:** name paginated + filter schemas instead of leaking generic parametrizations ([#23120](https://github.com/run-llama/llama-parse-java/issues/23120)) ([2d48eea](https://github.com/run-llama/llama-parse-java/commit/2d48eeae701d159b52193094ab98c261347fa4bc))
+* **llamaparse:** retry qwen context-overflow 400s with a shrinking OCR anchor ([#23817](https://github.com/run-llama/llama-parse-java/issues/23817)) ([94cd22b](https://github.com/run-llama/llama-parse-java/commit/94cd22b20d999c5013eb8ff772691e125b95c706))
+
+
+### Chores
+
+* **api:** regenerate OpenAPI specs for new agentic parse version ([#22763](https://github.com/run-llama/llama-parse-java/issues/22763)) ([dd836b0](https://github.com/run-llama/llama-parse-java/commit/dd836b04becb5ed034975bbcd63712aa6cf5fc28))
+
+
+### Documentation
+
+* **parse:** shorten the images_to_save field description ([#23807](https://github.com/run-llama/llama-parse-java/issues/23807)) ([4ec91a6](https://github.com/run-llama/llama-parse-java/commit/4ec91a6c4f2c6933deef6bf16f4be27e909463ce))
+
+
+### Refactors
+
+* remove Depends(get_db) from permissions endpoints ([#22635](https://github.com/run-llama/llama-parse-java/issues/22635)) ([6e3c3c9](https://github.com/run-llama/llama-parse-java/commit/6e3c3c924abb3e6700e042a95a66684913db61f4))
+
 ## [1.4.0](https://github.com/run-llama/llama-parse-java/compare/v1.3.0...v1.4.0) (2026-07-22)
 
 
