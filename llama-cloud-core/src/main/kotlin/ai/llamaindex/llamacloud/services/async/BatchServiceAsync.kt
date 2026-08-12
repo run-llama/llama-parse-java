@@ -5,6 +5,8 @@ package ai.llamaindex.llamacloud.services.async
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.RequestOptions
 import ai.llamaindex.llamacloud.core.http.HttpResponseFor
+import ai.llamaindex.llamacloud.models.batches.BatchCancelParams
+import ai.llamaindex.llamacloud.models.batches.BatchCancelResponse
 import ai.llamaindex.llamacloud.models.batches.BatchCreateParams
 import ai.llamaindex.llamacloud.models.batches.BatchCreateResponse
 import ai.llamaindex.llamacloud.models.batches.BatchGetParams
@@ -28,7 +30,20 @@ interface BatchServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): BatchServiceAsync
 
-    /** Create a batch over a source directory and start processing asynchronously. */
+    /**
+     * Create a batch over a source directory and start processing asynchronously.
+     *
+     * To be notified as the batch progresses, pass `webhook_configurations` with inline endpoints
+     * and/or `webhook_configuration_ids` referencing saved configurations. Batches emit
+     * `batch.pending` on create, `batch.running` once processing starts, and a terminal
+     * `batch.success` or `batch.error`.
+     *
+     * `batch.success` means the batch finished mapping every source file to a job — individual
+     * files may still have failed, so read `results` (with `expand=results`) for per-file outcomes.
+     *
+     * Delivery order across events is not guaranteed; key on the `status` field in the payload
+     * rather than arrival order.
+     */
     fun create(params: BatchCreateParams): CompletableFuture<BatchCreateResponse> =
         create(params, RequestOptions.none())
 
@@ -55,6 +70,46 @@ interface BatchServiceAsync {
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<BatchListPageAsync> =
         list(BatchListParams.none(), requestOptions)
+
+    /**
+     * Cancel a running batch.
+     *
+     * Returns immediately; the batch reaches `CANCELLED` once processing stops. Files that already
+     * finished keep their results. A batch in a terminal status cannot be cancelled.
+     */
+    fun cancel(batchId: String): CompletableFuture<BatchCancelResponse> =
+        cancel(batchId, BatchCancelParams.none())
+
+    /** @see cancel */
+    fun cancel(
+        batchId: String,
+        params: BatchCancelParams = BatchCancelParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BatchCancelResponse> =
+        cancel(params.toBuilder().batchId(batchId).build(), requestOptions)
+
+    /** @see cancel */
+    fun cancel(
+        batchId: String,
+        params: BatchCancelParams = BatchCancelParams.none(),
+    ): CompletableFuture<BatchCancelResponse> = cancel(batchId, params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(
+        params: BatchCancelParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BatchCancelResponse>
+
+    /** @see cancel */
+    fun cancel(params: BatchCancelParams): CompletableFuture<BatchCancelResponse> =
+        cancel(params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(
+        batchId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BatchCancelResponse> =
+        cancel(batchId, BatchCancelParams.none(), requestOptions)
 
     /** Get a batch by ID. */
     fun get(batchId: String): CompletableFuture<BatchGetResponse> =
@@ -139,6 +194,47 @@ interface BatchServiceAsync {
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<BatchListPageAsync>> =
             list(BatchListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/v2/batches/{batch_id}/cancel`, but is
+         * otherwise the same as [BatchServiceAsync.cancel].
+         */
+        fun cancel(batchId: String): CompletableFuture<HttpResponseFor<BatchCancelResponse>> =
+            cancel(batchId, BatchCancelParams.none())
+
+        /** @see cancel */
+        fun cancel(
+            batchId: String,
+            params: BatchCancelParams = BatchCancelParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BatchCancelResponse>> =
+            cancel(params.toBuilder().batchId(batchId).build(), requestOptions)
+
+        /** @see cancel */
+        fun cancel(
+            batchId: String,
+            params: BatchCancelParams = BatchCancelParams.none(),
+        ): CompletableFuture<HttpResponseFor<BatchCancelResponse>> =
+            cancel(batchId, params, RequestOptions.none())
+
+        /** @see cancel */
+        fun cancel(
+            params: BatchCancelParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BatchCancelResponse>>
+
+        /** @see cancel */
+        fun cancel(
+            params: BatchCancelParams
+        ): CompletableFuture<HttpResponseFor<BatchCancelResponse>> =
+            cancel(params, RequestOptions.none())
+
+        /** @see cancel */
+        fun cancel(
+            batchId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BatchCancelResponse>> =
+            cancel(batchId, BatchCancelParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/batches/{batch_id}`, but is otherwise the

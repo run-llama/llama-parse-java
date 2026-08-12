@@ -5,6 +5,8 @@ package ai.llamaindex.llamacloud.services.blocking
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.RequestOptions
 import ai.llamaindex.llamacloud.core.http.HttpResponseFor
+import ai.llamaindex.llamacloud.models.classify.ClassifyCancelParams
+import ai.llamaindex.llamacloud.models.classify.ClassifyCancelResponse
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateParams
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateRequest
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateResponse
@@ -85,6 +87,41 @@ interface ClassifyService {
     /** @see list */
     fun list(requestOptions: RequestOptions): ClassifyListPage =
         list(ClassifyListParams.none(), requestOptions)
+
+    /**
+     * Cancel a running classify job.
+     *
+     * Stops processing and marks the job as CANCELLED. Returns the updated job. Jobs already in a
+     * terminal state (COMPLETED, FAILED, CANCELLED) cannot be cancelled.
+     */
+    fun cancel(jobId: String): ClassifyCancelResponse = cancel(jobId, ClassifyCancelParams.none())
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        params: ClassifyCancelParams = ClassifyCancelParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ClassifyCancelResponse = cancel(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        params: ClassifyCancelParams = ClassifyCancelParams.none(),
+    ): ClassifyCancelResponse = cancel(jobId, params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(
+        params: ClassifyCancelParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ClassifyCancelResponse
+
+    /** @see cancel */
+    fun cancel(params: ClassifyCancelParams): ClassifyCancelResponse =
+        cancel(params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(jobId: String, requestOptions: RequestOptions): ClassifyCancelResponse =
+        cancel(jobId, ClassifyCancelParams.none(), requestOptions)
 
     /**
      * Get a classify job by ID.
@@ -187,6 +224,50 @@ interface ClassifyService {
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<ClassifyListPage> =
             list(ClassifyListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/v2/classify/{job_id}/cancel`, but is otherwise
+         * the same as [ClassifyService.cancel].
+         */
+        @MustBeClosed
+        fun cancel(jobId: String): HttpResponseFor<ClassifyCancelResponse> =
+            cancel(jobId, ClassifyCancelParams.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            jobId: String,
+            params: ClassifyCancelParams = ClassifyCancelParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ClassifyCancelResponse> =
+            cancel(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            jobId: String,
+            params: ClassifyCancelParams = ClassifyCancelParams.none(),
+        ): HttpResponseFor<ClassifyCancelResponse> = cancel(jobId, params, RequestOptions.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            params: ClassifyCancelParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ClassifyCancelResponse>
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(params: ClassifyCancelParams): HttpResponseFor<ClassifyCancelResponse> =
+            cancel(params, RequestOptions.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            jobId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ClassifyCancelResponse> =
+            cancel(jobId, ClassifyCancelParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/classify/{job_id}`, but is otherwise the

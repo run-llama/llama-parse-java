@@ -19,6 +19,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
+/** Paginated list of classify jobs. */
 class JobListPageResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(

@@ -79,6 +79,7 @@ internal class ParseV2ParametersTest {
                         .markdown(
                             ParseV2Parameters.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
+                                .annotateRevisions(true)
                                 .inlineImages(true)
                                 .tables(
                                     ParseV2Parameters.OutputOptions.Markdown.Tables.builder()
@@ -92,6 +93,7 @@ internal class ParseV2ParametersTest {
                                 )
                                 .build()
                         )
+                        .saveOutputPdf(true)
                         .spatialText(
                             ParseV2Parameters.OutputOptions.SpatialText.builder()
                                 .doNotUnrollColumns(true)
@@ -365,6 +367,7 @@ internal class ParseV2ParametersTest {
                     .markdown(
                         ParseV2Parameters.OutputOptions.Markdown.builder()
                             .annotateLinks(true)
+                            .annotateRevisions(true)
                             .inlineImages(true)
                             .tables(
                                 ParseV2Parameters.OutputOptions.Markdown.Tables.builder()
@@ -378,6 +381,7 @@ internal class ParseV2ParametersTest {
                             )
                             .build()
                     )
+                    .saveOutputPdf(true)
                     .spatialText(
                         ParseV2Parameters.OutputOptions.SpatialText.builder()
                             .doNotUnrollColumns(true)
@@ -649,6 +653,7 @@ internal class ParseV2ParametersTest {
                         .markdown(
                             ParseV2Parameters.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
+                                .annotateRevisions(true)
                                 .inlineImages(true)
                                 .tables(
                                     ParseV2Parameters.OutputOptions.Markdown.Tables.builder()
@@ -662,6 +667,7 @@ internal class ParseV2ParametersTest {
                                 )
                                 .build()
                         )
+                        .saveOutputPdf(true)
                         .spatialText(
                             ParseV2Parameters.OutputOptions.SpatialText.builder()
                                 .doNotUnrollColumns(true)

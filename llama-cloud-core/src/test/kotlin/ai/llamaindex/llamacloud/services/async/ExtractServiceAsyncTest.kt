@@ -4,6 +4,7 @@ package ai.llamaindex.llamacloud.services.async
 
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClientAsync
 import ai.llamaindex.llamacloud.core.JsonValue
+import ai.llamaindex.llamacloud.models.extract.ExtractCancelParams
 import ai.llamaindex.llamacloud.models.extract.ExtractConfiguration
 import ai.llamaindex.llamacloud.models.extract.ExtractCreateParams
 import ai.llamaindex.llamacloud.models.extract.ExtractDeleteParams
@@ -55,10 +56,14 @@ internal class ExtractServiceAsyncTest {
                                     )
                                     .citeSources(true)
                                     .confidenceScores(true)
+                                    .disableCache(true)
                                     .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                                     .maxPages(10L)
                                     .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                                     .parseTier("fast")
+                                    .addSheetName("Sheet 1")
+                                    .addSheetName("Q4 Summary")
+                                    .spreadsheetMode(true)
                                     .systemPrompt(
                                         "Extract all monetary values in USD. If a currency is not specified, assume USD."
                                     )
@@ -68,6 +73,8 @@ internal class ExtractServiceAsyncTest {
                                     .build()
                             )
                             .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                            .addWebhookConfigurationId("whc-...")
+                            .addWebhookConfigurationId("whc-...")
                             .addWebhookConfiguration(
                                 ExtractV2JobCreate.WebhookConfiguration.builder()
                                     .addWebhookEvent(
@@ -130,6 +137,25 @@ internal class ExtractServiceAsyncTest {
 
         val extract = extractFuture.get()
         extract.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun cancel() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val extractServiceAsync = client.extract()
+
+        val extractV2JobFuture =
+            extractServiceAsync.cancel(
+                ExtractCancelParams.builder()
+                    .jobId("job_id")
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        val extractV2Job = extractV2JobFuture.get()
+        extractV2Job.validate()
     }
 
     @Disabled("Mock server tests are disabled")

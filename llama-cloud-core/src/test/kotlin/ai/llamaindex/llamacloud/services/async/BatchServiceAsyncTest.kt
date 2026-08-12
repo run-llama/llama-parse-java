@@ -3,6 +3,8 @@
 package ai.llamaindex.llamacloud.services.async
 
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClientAsync
+import ai.llamaindex.llamacloud.core.JsonValue
+import ai.llamaindex.llamacloud.models.batches.BatchCancelParams
 import ai.llamaindex.llamacloud.models.batches.BatchCreateParams
 import ai.llamaindex.llamacloud.models.batches.BatchGetParams
 import org.junit.jupiter.api.Disabled
@@ -32,6 +34,29 @@ internal class BatchServiceAsyncTest {
                             .build()
                     )
                     .sourceDirectoryId("dir-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfiguration(
+                        BatchCreateParams.WebhookConfiguration.builder()
+                            .addWebhookEvent(
+                                BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_SUCCESS
+                            )
+                            .addWebhookEvent(
+                                BatchCreateParams.WebhookConfiguration.WebhookEvent.PARSE_ERROR
+                            )
+                            .webhookHeaders(
+                                BatchCreateParams.WebhookConfiguration.WebhookHeaders.builder()
+                                    .putAdditionalProperty(
+                                        "Authorization",
+                                        JsonValue.from("Bearer sk-..."),
+                                    )
+                                    .build()
+                            )
+                            .webhookOutputFormat("json")
+                            .webhookSigningSecret("whsec_...")
+                            .webhookUrl("https://example.com/webhooks/llamacloud")
+                            .build()
+                    )
                     .build()
             )
 
@@ -49,6 +74,25 @@ internal class BatchServiceAsyncTest {
 
         val page = pageFuture.get()
         page.response().validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun cancel() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val batchServiceAsync = client.batches()
+
+        val responseFuture =
+            batchServiceAsync.cancel(
+                BatchCancelParams.builder()
+                    .batchId("batch_id")
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
     }
 
     @Disabled("Mock server tests are disabled")

@@ -23,6 +23,7 @@ internal class ParsingCreateResponseTest {
                 .name("Q4 Financial Report")
                 .tier("fast")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .usage(ParsingCreateResponse.Usage.builder().credits(30.0).build())
                 .userMetadata(
                     ParsingCreateResponse.UserMetadata.builder()
                         .putAdditionalProperty("owner", JsonValue.from("jerry"))
@@ -42,6 +43,8 @@ internal class ParsingCreateResponseTest {
         assertThat(parsingCreateResponse.tier()).contains("fast")
         assertThat(parsingCreateResponse.updatedAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(parsingCreateResponse.usage())
+            .contains(ParsingCreateResponse.Usage.builder().credits(30.0).build())
         assertThat(parsingCreateResponse.userMetadata())
             .contains(
                 ParsingCreateResponse.UserMetadata.builder()
@@ -64,6 +67,7 @@ internal class ParsingCreateResponseTest {
                 .name("Q4 Financial Report")
                 .tier("fast")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .usage(ParsingCreateResponse.Usage.builder().credits(30.0).build())
                 .userMetadata(
                     ParsingCreateResponse.UserMetadata.builder()
                         .putAdditionalProperty("owner", JsonValue.from("jerry"))

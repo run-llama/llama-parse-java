@@ -12,11 +12,15 @@ import ai.llamaindex.llamacloud.services.async.DataSinkServiceAsync
 import ai.llamaindex.llamacloud.services.async.DataSourceServiceAsync
 import ai.llamaindex.llamacloud.services.async.ExtractServiceAsync
 import ai.llamaindex.llamacloud.services.async.FileServiceAsync
+import ai.llamaindex.llamacloud.services.async.JobDataPointServiceAsync
 import ai.llamaindex.llamacloud.services.async.ParsingServiceAsync
 import ai.llamaindex.llamacloud.services.async.PipelineServiceAsync
 import ai.llamaindex.llamacloud.services.async.ProjectServiceAsync
 import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsync
 import ai.llamaindex.llamacloud.services.async.SheetServiceAsync
+import ai.llamaindex.llamacloud.services.async.SplitServiceAsync
+import ai.llamaindex.llamacloud.services.async.V2ProjectServiceAsync
+import ai.llamaindex.llamacloud.services.async.WebhookConfigServiceAsync
 import java.util.function.Consumer
 
 /**
@@ -59,6 +63,8 @@ interface LlamaCloudClientAsync {
 
     fun sheets(): SheetServiceAsync
 
+    fun split(): SplitServiceAsync
+
     fun parsing(): ParsingServiceAsync
 
     fun extract(): ExtractServiceAsync
@@ -71,7 +77,13 @@ interface LlamaCloudClientAsync {
 
     fun configurations(): ConfigurationServiceAsync
 
+    fun webhookConfigs(): WebhookConfigServiceAsync
+
     fun projects(): ProjectServiceAsync
+
+    fun v2Projects(): V2ProjectServiceAsync
+
+    fun jobDataPoints(): JobDataPointServiceAsync
 
     fun dataSinks(): DataSinkServiceAsync
 
@@ -114,6 +126,8 @@ interface LlamaCloudClientAsync {
 
         fun sheets(): SheetServiceAsync.WithRawResponse
 
+        fun split(): SplitServiceAsync.WithRawResponse
+
         fun parsing(): ParsingServiceAsync.WithRawResponse
 
         fun extract(): ExtractServiceAsync.WithRawResponse
@@ -126,7 +140,13 @@ interface LlamaCloudClientAsync {
 
         fun configurations(): ConfigurationServiceAsync.WithRawResponse
 
+        fun webhookConfigs(): WebhookConfigServiceAsync.WithRawResponse
+
         fun projects(): ProjectServiceAsync.WithRawResponse
+
+        fun v2Projects(): V2ProjectServiceAsync.WithRawResponse
+
+        fun jobDataPoints(): JobDataPointServiceAsync.WithRawResponse
 
         fun dataSinks(): DataSinkServiceAsync.WithRawResponse
 

@@ -37,6 +37,7 @@ class FormField
 private constructor(
     private val field: JsonField<Field>,
     private val id: JsonField<String>,
+    private val bbox: JsonField<List<BBox>>,
     private val isEmpty: JsonField<Boolean>,
     private val label: JsonField<String>,
     private val type: JsonField<Type>,
@@ -49,6 +50,7 @@ private constructor(
     private constructor(
         @JsonProperty("field") @ExcludeMissing field: JsonField<Field> = JsonMissing.of(),
         @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("bbox") @ExcludeMissing bbox: JsonField<List<BBox>> = JsonMissing.of(),
         @JsonProperty("isEmpty") @ExcludeMissing isEmpty: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("label") @ExcludeMissing label: JsonField<String> = JsonMissing.of(),
         @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
@@ -56,7 +58,7 @@ private constructor(
         @JsonProperty("valueItems")
         @ExcludeMissing
         valueItems: JsonField<List<ValueItem>> = JsonMissing.of(),
-    ) : this(field, id, isEmpty, label, type, value, valueItems, mutableMapOf())
+    ) : this(field, id, bbox, isEmpty, label, type, value, valueItems, mutableMapOf())
 
     /**
      * Kind of entry: text (any free-text input), checkbox, single_select, multi_select, or
@@ -74,6 +76,14 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun id(): Optional<String> = id.getOptional("id")
+
+    /**
+     * Bounding boxes of the field's fillable area on the page.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun bbox(): Optional<List<BBox>> = bbox.getOptional("bbox")
 
     /**
      * True for a printed-but-blank text field (mutually exclusive with value)
@@ -129,6 +139,13 @@ private constructor(
      * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
+
+    /**
+     * Returns the raw JSON value of [bbox].
+     *
+     * Unlike [bbox], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("bbox") @ExcludeMissing fun _bbox(): JsonField<List<BBox>> = bbox
 
     /**
      * Returns the raw JSON value of [isEmpty].
@@ -197,6 +214,7 @@ private constructor(
 
         private var field: JsonField<Field>? = null
         private var id: JsonField<String> = JsonMissing.of()
+        private var bbox: JsonField<MutableList<BBox>>? = null
         private var isEmpty: JsonField<Boolean> = JsonMissing.of()
         private var label: JsonField<String> = JsonMissing.of()
         private var type: JsonField<Type> = JsonMissing.of()
@@ -208,6 +226,7 @@ private constructor(
         internal fun from(formField: FormField) = apply {
             field = formField.field
             id = formField.id
+            bbox = formField.bbox.map { it.toMutableList() }
             isEmpty = formField.isEmpty
             label = formField.label
             type = formField.type
@@ -243,6 +262,34 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun id(id: JsonField<String>) = apply { this.id = id }
+
+        /** Bounding boxes of the field's fillable area on the page. */
+        fun bbox(bbox: List<BBox>?) = bbox(JsonField.ofNullable(bbox))
+
+        /** Alias for calling [Builder.bbox] with `bbox.orElse(null)`. */
+        fun bbox(bbox: Optional<List<BBox>>) = bbox(bbox.getOrNull())
+
+        /**
+         * Sets [Builder.bbox] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.bbox] with a well-typed `List<BBox>` value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun bbox(bbox: JsonField<List<BBox>>) = apply {
+            this.bbox = bbox.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [BBox] to [Builder.bbox].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addBbox(bbox: BBox) = apply {
+            this.bbox =
+                (this.bbox ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("bbox", it).add(bbox)
+                }
+        }
 
         /** True for a printed-but-blank text field (mutually exclusive with value) */
         fun isEmpty(isEmpty: Boolean?) = isEmpty(JsonField.ofNullable(isEmpty))
@@ -422,6 +469,7 @@ private constructor(
             FormField(
                 checkRequired("field", field),
                 id,
+                (bbox ?: JsonMissing.of()).map { it.toImmutable() },
                 isEmpty,
                 label,
                 type,
@@ -448,6 +496,7 @@ private constructor(
 
         field().validate()
         id()
+        bbox().ifPresent { it.forEach { it.validate() } }
         isEmpty()
         label()
         type().ifPresent { it.validate() }
@@ -473,6 +522,7 @@ private constructor(
     internal fun validity(): Int =
         (field.asKnown().getOrNull()?.validity() ?: 0) +
             (if (id.asKnown().isPresent) 1 else 0) +
+            (bbox.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (isEmpty.asKnown().isPresent) 1 else 0) +
             (if (label.asKnown().isPresent) 1 else 0) +
             (type.asKnown().getOrNull()?.validity() ?: 0) +
@@ -1230,6 +1280,7 @@ private constructor(
         return other is FormField &&
             field == other.field &&
             id == other.id &&
+            bbox == other.bbox &&
             isEmpty == other.isEmpty &&
             label == other.label &&
             type == other.type &&
@@ -1239,11 +1290,11 @@ private constructor(
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(field, id, isEmpty, label, type, value, valueItems, additionalProperties)
+        Objects.hash(field, id, bbox, isEmpty, label, type, value, valueItems, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "FormField{field=$field, id=$id, isEmpty=$isEmpty, label=$label, type=$type, value=$value, valueItems=$valueItems, additionalProperties=$additionalProperties}"
+        "FormField{field=$field, id=$id, bbox=$bbox, isEmpty=$isEmpty, label=$label, type=$type, value=$value, valueItems=$valueItems, additionalProperties=$additionalProperties}"
 }

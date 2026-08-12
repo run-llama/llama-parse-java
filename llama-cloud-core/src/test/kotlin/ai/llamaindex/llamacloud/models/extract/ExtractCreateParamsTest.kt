@@ -36,10 +36,14 @@ internal class ExtractCreateParamsTest {
                             )
                             .citeSources(true)
                             .confidenceScores(true)
+                            .disableCache(true)
                             .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                             .maxPages(10L)
                             .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                             .parseTier("fast")
+                            .addSheetName("Sheet 1")
+                            .addSheetName("Q4 Summary")
+                            .spreadsheetMode(true)
                             .systemPrompt(
                                 "Extract all monetary values in USD. If a currency is not specified, assume USD."
                             )
@@ -49,6 +53,8 @@ internal class ExtractCreateParamsTest {
                             .build()
                     )
                     .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfigurationId("whc-...")
                     .addWebhookConfiguration(
                         ExtractV2JobCreate.WebhookConfiguration.builder()
                             .addWebhookEvent(
@@ -106,10 +112,14 @@ internal class ExtractCreateParamsTest {
                                 )
                                 .citeSources(true)
                                 .confidenceScores(true)
+                                .disableCache(true)
                                 .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                                 .maxPages(10L)
                                 .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                                 .parseTier("fast")
+                                .addSheetName("Sheet 1")
+                                .addSheetName("Q4 Summary")
+                                .spreadsheetMode(true)
                                 .systemPrompt(
                                     "Extract all monetary values in USD. If a currency is not specified, assume USD."
                                 )
@@ -119,6 +129,8 @@ internal class ExtractCreateParamsTest {
                                 .build()
                         )
                         .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                        .addWebhookConfigurationId("whc-...")
+                        .addWebhookConfigurationId("whc-...")
                         .addWebhookConfiguration(
                             ExtractV2JobCreate.WebhookConfiguration.builder()
                                 .addWebhookEvent(
@@ -203,10 +215,14 @@ internal class ExtractCreateParamsTest {
                                 )
                                 .citeSources(true)
                                 .confidenceScores(true)
+                                .disableCache(true)
                                 .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                                 .maxPages(10L)
                                 .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                                 .parseTier("fast")
+                                .addSheetName("Sheet 1")
+                                .addSheetName("Q4 Summary")
+                                .spreadsheetMode(true)
                                 .systemPrompt(
                                     "Extract all monetary values in USD. If a currency is not specified, assume USD."
                                 )
@@ -216,6 +232,8 @@ internal class ExtractCreateParamsTest {
                                 .build()
                         )
                         .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                        .addWebhookConfigurationId("whc-...")
+                        .addWebhookConfigurationId("whc-...")
                         .addWebhookConfiguration(
                             ExtractV2JobCreate.WebhookConfiguration.builder()
                                 .addWebhookEvent(
@@ -267,10 +285,14 @@ internal class ExtractCreateParamsTest {
                             )
                             .citeSources(true)
                             .confidenceScores(true)
+                            .disableCache(true)
                             .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                             .maxPages(10L)
                             .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                             .parseTier("fast")
+                            .addSheetName("Sheet 1")
+                            .addSheetName("Q4 Summary")
+                            .spreadsheetMode(true)
                             .systemPrompt(
                                 "Extract all monetary values in USD. If a currency is not specified, assume USD."
                             )
@@ -280,6 +302,8 @@ internal class ExtractCreateParamsTest {
                             .build()
                     )
                     .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfigurationId("whc-...")
                     .addWebhookConfiguration(
                         ExtractV2JobCreate.WebhookConfiguration.builder()
                             .addWebhookEvent(

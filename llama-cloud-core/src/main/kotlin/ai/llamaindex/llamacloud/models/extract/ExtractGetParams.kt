@@ -14,7 +14,8 @@ import kotlin.jvm.optionals.getOrNull
  * Get a single extraction job by ID.
  *
  * Returns the job status and results when complete. Use `expand=configuration` to include the full
- * configuration used, and `expand=extract_metadata` for per-field metadata.
+ * configuration used, `expand=extract_metadata` for per-field metadata, and `expand=usage` for
+ * credits billed against the job.
  */
 class ExtractGetParams
 private constructor(
@@ -28,7 +29,7 @@ private constructor(
 
     fun jobId(): Optional<String> = Optional.ofNullable(jobId)
 
-    /** Additional fields to include: configuration, extract_metadata */
+    /** Additional fields to include: configuration, extract_metadata, usage */
     fun expand(): Optional<List<String>> = Optional.ofNullable(expand)
 
     fun organizationId(): Optional<String> = Optional.ofNullable(organizationId)
@@ -76,7 +77,7 @@ private constructor(
         /** Alias for calling [Builder.jobId] with `jobId.orElse(null)`. */
         fun jobId(jobId: Optional<String>) = jobId(jobId.getOrNull())
 
-        /** Additional fields to include: configuration, extract_metadata */
+        /** Additional fields to include: configuration, extract_metadata, usage */
         fun expand(expand: List<String>?) = apply { this.expand = expand?.toMutableList() }
 
         /** Alias for calling [Builder.expand] with `expand.orElse(null)`. */

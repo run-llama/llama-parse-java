@@ -4,6 +4,7 @@ package ai.llamaindex.llamacloud.services.async
 
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClientAsync
 import ai.llamaindex.llamacloud.core.JsonValue
+import ai.llamaindex.llamacloud.models.parsing.ParsingCancelParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingLanguages
@@ -93,6 +94,7 @@ internal class ParsingServiceAsyncTest {
                             .markdown(
                                 ParsingCreateParams.OutputOptions.Markdown.builder()
                                     .annotateLinks(true)
+                                    .annotateRevisions(true)
                                     .inlineImages(true)
                                     .tables(
                                         ParsingCreateParams.OutputOptions.Markdown.Tables.builder()
@@ -106,6 +108,7 @@ internal class ParsingServiceAsyncTest {
                                     )
                                     .build()
                             )
+                            .saveOutputPdf(true)
                             .spatialText(
                                 ParsingCreateParams.OutputOptions.SpatialText.builder()
                                     .doNotUnrollColumns(true)
@@ -340,6 +343,25 @@ internal class ParsingServiceAsyncTest {
 
     @Disabled("Mock server tests are disabled")
     @Test
+    fun cancel() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val parsingServiceAsync = client.parsing()
+
+        val responseFuture =
+            parsingServiceAsync.cancel(
+                ParsingCancelParams.builder()
+                    .jobId("job_id")
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
     fun get() {
         val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
         val parsingServiceAsync = client.parsing()
@@ -357,5 +379,17 @@ internal class ParsingServiceAsyncTest {
 
         val parsing = parsingFuture.get()
         parsing.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun listVersions() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val parsingServiceAsync = client.parsing()
+
+        val responseFuture = parsingServiceAsync.listVersions()
+
+        val response = responseFuture.get()
+        response.validate()
     }
 }

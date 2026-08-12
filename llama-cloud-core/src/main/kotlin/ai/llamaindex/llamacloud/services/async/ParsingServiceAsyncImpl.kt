@@ -16,6 +16,8 @@ import ai.llamaindex.llamacloud.core.http.HttpResponseFor
 import ai.llamaindex.llamacloud.core.http.json
 import ai.llamaindex.llamacloud.core.http.parseable
 import ai.llamaindex.llamacloud.core.prepareAsync
+import ai.llamaindex.llamacloud.models.parsing.ParsingCancelParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingCancelResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetParams
@@ -23,6 +25,8 @@ import ai.llamaindex.llamacloud.models.parsing.ParsingGetResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPageAsync
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPageResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -53,12 +57,26 @@ class ParsingServiceAsyncImpl internal constructor(private val clientOptions: Cl
         // get /api/v2/parse
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
+    override fun cancel(
+        params: ParsingCancelParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ParsingCancelResponse> =
+        // post /api/v2/parse/{job_id}/cancel
+        withRawResponse().cancel(params, requestOptions).thenApply { it.parse() }
+
     override fun get(
         params: ParsingGetParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<ParsingGetResponse> =
         // get /api/v2/parse/{job_id}
         withRawResponse().get(params, requestOptions).thenApply { it.parse() }
+
+    override fun listVersions(
+        params: ParsingListVersionsParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ParsingListVersionsResponse> =
+        // get /api/v2/parse/versions
+        withRawResponse().listVersions(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ParsingServiceAsync.WithRawResponse {
@@ -142,6 +160,40 @@ class ParsingServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 }
         }
 
+        private val cancelHandler: Handler<ParsingCancelResponse> =
+            jsonHandler<ParsingCancelResponse>(clientOptions.jsonMapper)
+
+        override fun cancel(
+            params: ParsingCancelParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ParsingCancelResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("jobId", params.jobId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "parse", params._pathParam(0), "cancel")
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { cancelHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
         private val getHandler: Handler<ParsingGetResponse> =
             jsonHandler<ParsingGetResponse>(clientOptions.jsonMapper)
 
@@ -166,6 +218,36 @@ class ParsingServiceAsyncImpl internal constructor(private val clientOptions: Cl
                     errorHandler.handle(response).parseable {
                         response
                             .use { getHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val listVersionsHandler: Handler<ParsingListVersionsResponse> =
+            jsonHandler<ParsingListVersionsResponse>(clientOptions.jsonMapper)
+
+        override fun listVersions(
+            params: ParsingListVersionsParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ParsingListVersionsResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "parse", "versions")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { listVersionsHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

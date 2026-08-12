@@ -43,6 +43,8 @@ internal class SheetCreateParamsTest {
                     .build()
             )
             .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+            .addWebhookConfigurationId("whc-...")
+            .addWebhookConfigurationId("whc-...")
             .addWebhookConfiguration(
                 SheetCreateParams.WebhookConfiguration.builder()
                     .addWebhookEvent(
@@ -98,6 +100,8 @@ internal class SheetCreateParamsTest {
                         .build()
                 )
                 .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     SheetCreateParams.WebhookConfiguration.builder()
                         .addWebhookEvent(
@@ -176,6 +180,8 @@ internal class SheetCreateParamsTest {
                         .build()
                 )
                 .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     SheetCreateParams.WebhookConfiguration.builder()
                         .addWebhookEvent(
@@ -231,6 +237,7 @@ internal class SheetCreateParamsTest {
                     .build()
             )
         assertThat(body.configurationId()).contains("cfg-11111111-2222-3333-4444-555555555555")
+        assertThat(body.webhookConfigurationIds().getOrNull()).containsExactly("whc-...", "whc-...")
         assertThat(body.webhookConfigurations().getOrNull())
             .containsExactly(
                 SheetCreateParams.WebhookConfiguration.builder()

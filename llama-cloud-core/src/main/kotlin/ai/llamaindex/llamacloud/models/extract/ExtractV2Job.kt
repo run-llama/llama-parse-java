@@ -46,6 +46,7 @@ private constructor(
     private val extractMetadata: JsonField<ExtractJobMetadata>,
     private val extractResult: JsonField<ExtractResult>,
     private val metadata: JsonField<Metadata>,
+    private val usage: JsonField<Usage>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -77,6 +78,7 @@ private constructor(
         @ExcludeMissing
         extractResult: JsonField<ExtractResult> = JsonMissing.of(),
         @JsonProperty("metadata") @ExcludeMissing metadata: JsonField<Metadata> = JsonMissing.of(),
+        @JsonProperty("usage") @ExcludeMissing usage: JsonField<Usage> = JsonMissing.of(),
     ) : this(
         id,
         createdAt,
@@ -90,6 +92,7 @@ private constructor(
         extractMetadata,
         extractResult,
         metadata,
+        usage,
         mutableMapOf(),
     )
 
@@ -197,6 +200,17 @@ private constructor(
     fun metadata(): Optional<Metadata> = metadata.getOptional("metadata")
 
     /**
+     * Usage recorded against an extract job.
+     *
+     * A parse job can back several extract jobs, so each of them reports that same parse cost in
+     * its total.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun usage(): Optional<Usage> = usage.getOptional("usage")
+
+    /**
      * Returns the raw JSON value of [id].
      *
      * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
@@ -294,6 +308,13 @@ private constructor(
      */
     @JsonProperty("metadata") @ExcludeMissing fun _metadata(): JsonField<Metadata> = metadata
 
+    /**
+     * Returns the raw JSON value of [usage].
+     *
+     * Unlike [usage], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("usage") @ExcludeMissing fun _usage(): JsonField<Usage> = usage
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -339,6 +360,7 @@ private constructor(
         private var extractMetadata: JsonField<ExtractJobMetadata> = JsonMissing.of()
         private var extractResult: JsonField<ExtractResult> = JsonMissing.of()
         private var metadata: JsonField<Metadata> = JsonMissing.of()
+        private var usage: JsonField<Usage> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -355,6 +377,7 @@ private constructor(
             extractMetadata = extractV2Job.extractMetadata
             extractResult = extractV2Job.extractResult
             metadata = extractV2Job.metadata
+            usage = extractV2Job.usage
             additionalProperties = extractV2Job.additionalProperties.toMutableMap()
         }
 
@@ -561,6 +584,25 @@ private constructor(
          */
         fun metadata(metadata: JsonField<Metadata>) = apply { this.metadata = metadata }
 
+        /**
+         * Usage recorded against an extract job.
+         *
+         * A parse job can back several extract jobs, so each of them reports that same parse cost
+         * in its total.
+         */
+        fun usage(usage: Usage?) = usage(JsonField.ofNullable(usage))
+
+        /** Alias for calling [Builder.usage] with `usage.orElse(null)`. */
+        fun usage(usage: Optional<Usage>) = usage(usage.getOrNull())
+
+        /**
+         * Sets [Builder.usage] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.usage] with a well-typed [Usage] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun usage(usage: JsonField<Usage>) = apply { this.usage = usage }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -611,6 +653,7 @@ private constructor(
                 extractMetadata,
                 extractResult,
                 metadata,
+                usage,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -642,6 +685,7 @@ private constructor(
         extractMetadata().ifPresent { it.validate() }
         extractResult().ifPresent { it.validate() }
         metadata().ifPresent { it.validate() }
+        usage().ifPresent { it.validate() }
         validated = true
     }
 
@@ -671,7 +715,8 @@ private constructor(
             (if (errorMessage.asKnown().isPresent) 1 else 0) +
             (extractMetadata.asKnown().getOrNull()?.validity() ?: 0) +
             (extractResult.asKnown().getOrNull()?.validity() ?: 0) +
-            (metadata.asKnown().getOrNull()?.validity() ?: 0)
+            (metadata.asKnown().getOrNull()?.validity() ?: 0) +
+            (usage.asKnown().getOrNull()?.validity() ?: 0)
 
     /**
      * Extracted data conforming to the data_schema. Returns a single object for per_doc, or an
@@ -1303,6 +1348,283 @@ private constructor(
             "Metadata{usage=$usage, additionalProperties=$additionalProperties}"
     }
 
+    /**
+     * Usage recorded against an extract job.
+     *
+     * A parse job can back several extract jobs, so each of them reports that same parse cost in
+     * its total.
+     */
+    class Usage
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val credits: JsonField<Double>,
+        private val extractCredits: JsonField<Double>,
+        private val parseCredits: JsonField<Double>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("credits") @ExcludeMissing credits: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("extract_credits")
+            @ExcludeMissing
+            extractCredits: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("parse_credits")
+            @ExcludeMissing
+            parseCredits: JsonField<Double> = JsonMissing.of(),
+        ) : this(credits, extractCredits, parseCredits, mutableMapOf())
+
+        /**
+         * Total credits billed against this job. Null until billing has recorded it.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun credits(): Optional<Double> = credits.getOptional("credits")
+
+        /**
+         * Credits billed for the extraction itself
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun extractCredits(): Optional<Double> = extractCredits.getOptional("extract_credits")
+
+        /**
+         * Credits billed against the parse job backing this extract job
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun parseCredits(): Optional<Double> = parseCredits.getOptional("parse_credits")
+
+        /**
+         * Returns the raw JSON value of [credits].
+         *
+         * Unlike [credits], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("credits") @ExcludeMissing fun _credits(): JsonField<Double> = credits
+
+        /**
+         * Returns the raw JSON value of [extractCredits].
+         *
+         * Unlike [extractCredits], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("extract_credits")
+        @ExcludeMissing
+        fun _extractCredits(): JsonField<Double> = extractCredits
+
+        /**
+         * Returns the raw JSON value of [parseCredits].
+         *
+         * Unlike [parseCredits], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("parse_credits")
+        @ExcludeMissing
+        fun _parseCredits(): JsonField<Double> = parseCredits
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Usage]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Usage]. */
+        class Builder internal constructor() {
+
+            private var credits: JsonField<Double> = JsonMissing.of()
+            private var extractCredits: JsonField<Double> = JsonMissing.of()
+            private var parseCredits: JsonField<Double> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(usage: Usage) = apply {
+                credits = usage.credits
+                extractCredits = usage.extractCredits
+                parseCredits = usage.parseCredits
+                additionalProperties = usage.additionalProperties.toMutableMap()
+            }
+
+            /** Total credits billed against this job. Null until billing has recorded it. */
+            fun credits(credits: Double?) = credits(JsonField.ofNullable(credits))
+
+            /**
+             * Alias for [Builder.credits].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun credits(credits: Double) = credits(credits as Double?)
+
+            /** Alias for calling [Builder.credits] with `credits.orElse(null)`. */
+            fun credits(credits: Optional<Double>) = credits(credits.getOrNull())
+
+            /**
+             * Sets [Builder.credits] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.credits] with a well-typed [Double] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun credits(credits: JsonField<Double>) = apply { this.credits = credits }
+
+            /** Credits billed for the extraction itself */
+            fun extractCredits(extractCredits: Double?) =
+                extractCredits(JsonField.ofNullable(extractCredits))
+
+            /**
+             * Alias for [Builder.extractCredits].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun extractCredits(extractCredits: Double) = extractCredits(extractCredits as Double?)
+
+            /** Alias for calling [Builder.extractCredits] with `extractCredits.orElse(null)`. */
+            fun extractCredits(extractCredits: Optional<Double>) =
+                extractCredits(extractCredits.getOrNull())
+
+            /**
+             * Sets [Builder.extractCredits] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.extractCredits] with a well-typed [Double] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun extractCredits(extractCredits: JsonField<Double>) = apply {
+                this.extractCredits = extractCredits
+            }
+
+            /** Credits billed against the parse job backing this extract job */
+            fun parseCredits(parseCredits: Double?) =
+                parseCredits(JsonField.ofNullable(parseCredits))
+
+            /**
+             * Alias for [Builder.parseCredits].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun parseCredits(parseCredits: Double) = parseCredits(parseCredits as Double?)
+
+            /** Alias for calling [Builder.parseCredits] with `parseCredits.orElse(null)`. */
+            fun parseCredits(parseCredits: Optional<Double>) =
+                parseCredits(parseCredits.getOrNull())
+
+            /**
+             * Sets [Builder.parseCredits] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.parseCredits] with a well-typed [Double] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun parseCredits(parseCredits: JsonField<Double>) = apply {
+                this.parseCredits = parseCredits
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Usage].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Usage =
+                Usage(credits, extractCredits, parseCredits, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): Usage = apply {
+            if (validated) {
+                return@apply
+            }
+
+            credits()
+            extractCredits()
+            parseCredits()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (credits.asKnown().isPresent) 1 else 0) +
+                (if (extractCredits.asKnown().isPresent) 1 else 0) +
+                (if (parseCredits.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Usage &&
+                credits == other.credits &&
+                extractCredits == other.extractCredits &&
+                parseCredits == other.parseCredits &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(credits, extractCredits, parseCredits, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Usage{credits=$credits, extractCredits=$extractCredits, parseCredits=$parseCredits, additionalProperties=$additionalProperties}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -1321,6 +1643,7 @@ private constructor(
             extractMetadata == other.extractMetadata &&
             extractResult == other.extractResult &&
             metadata == other.metadata &&
+            usage == other.usage &&
             additionalProperties == other.additionalProperties
     }
 
@@ -1338,6 +1661,7 @@ private constructor(
             extractMetadata,
             extractResult,
             metadata,
+            usage,
             additionalProperties,
         )
     }
@@ -1345,5 +1669,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ExtractV2Job{id=$id, createdAt=$createdAt, fileInput=$fileInput, projectId=$projectId, status=$status, updatedAt=$updatedAt, configuration=$configuration, configurationId=$configurationId, errorMessage=$errorMessage, extractMetadata=$extractMetadata, extractResult=$extractResult, metadata=$metadata, additionalProperties=$additionalProperties}"
+        "ExtractV2Job{id=$id, createdAt=$createdAt, fileInput=$fileInput, projectId=$projectId, status=$status, updatedAt=$updatedAt, configuration=$configuration, configurationId=$configurationId, errorMessage=$errorMessage, extractMetadata=$extractMetadata, extractResult=$extractResult, metadata=$metadata, usage=$usage, additionalProperties=$additionalProperties}"
 }

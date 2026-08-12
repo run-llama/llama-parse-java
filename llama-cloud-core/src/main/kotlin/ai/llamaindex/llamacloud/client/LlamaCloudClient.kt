@@ -12,11 +12,15 @@ import ai.llamaindex.llamacloud.services.blocking.DataSinkService
 import ai.llamaindex.llamacloud.services.blocking.DataSourceService
 import ai.llamaindex.llamacloud.services.blocking.ExtractService
 import ai.llamaindex.llamacloud.services.blocking.FileService
+import ai.llamaindex.llamacloud.services.blocking.JobDataPointService
 import ai.llamaindex.llamacloud.services.blocking.ParsingService
 import ai.llamaindex.llamacloud.services.blocking.PipelineService
 import ai.llamaindex.llamacloud.services.blocking.ProjectService
 import ai.llamaindex.llamacloud.services.blocking.RetrieverService
 import ai.llamaindex.llamacloud.services.blocking.SheetService
+import ai.llamaindex.llamacloud.services.blocking.SplitService
+import ai.llamaindex.llamacloud.services.blocking.V2ProjectService
+import ai.llamaindex.llamacloud.services.blocking.WebhookConfigService
 import java.util.function.Consumer
 
 /**
@@ -59,6 +63,8 @@ interface LlamaCloudClient {
 
     fun sheets(): SheetService
 
+    fun split(): SplitService
+
     fun parsing(): ParsingService
 
     fun extract(): ExtractService
@@ -71,7 +77,13 @@ interface LlamaCloudClient {
 
     fun configurations(): ConfigurationService
 
+    fun webhookConfigs(): WebhookConfigService
+
     fun projects(): ProjectService
+
+    fun v2Projects(): V2ProjectService
+
+    fun jobDataPoints(): JobDataPointService
 
     fun dataSinks(): DataSinkService
 
@@ -110,6 +122,8 @@ interface LlamaCloudClient {
 
         fun sheets(): SheetService.WithRawResponse
 
+        fun split(): SplitService.WithRawResponse
+
         fun parsing(): ParsingService.WithRawResponse
 
         fun extract(): ExtractService.WithRawResponse
@@ -122,7 +136,13 @@ interface LlamaCloudClient {
 
         fun configurations(): ConfigurationService.WithRawResponse
 
+        fun webhookConfigs(): WebhookConfigService.WithRawResponse
+
         fun projects(): ProjectService.WithRawResponse
+
+        fun v2Projects(): V2ProjectService.WithRawResponse
+
+        fun jobDataPoints(): JobDataPointService.WithRawResponse
 
         fun dataSinks(): DataSinkService.WithRawResponse
 

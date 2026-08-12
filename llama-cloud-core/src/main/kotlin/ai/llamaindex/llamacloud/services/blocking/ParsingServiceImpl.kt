@@ -16,6 +16,8 @@ import ai.llamaindex.llamacloud.core.http.HttpResponseFor
 import ai.llamaindex.llamacloud.core.http.json
 import ai.llamaindex.llamacloud.core.http.parseable
 import ai.llamaindex.llamacloud.core.prepare
+import ai.llamaindex.llamacloud.models.parsing.ParsingCancelParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingCancelResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetParams
@@ -23,6 +25,8 @@ import ai.llamaindex.llamacloud.models.parsing.ParsingGetResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPage
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPageResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingListVersionsResponse
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -49,9 +53,23 @@ class ParsingServiceImpl internal constructor(private val clientOptions: ClientO
         // get /api/v2/parse
         withRawResponse().list(params, requestOptions).parse()
 
+    override fun cancel(
+        params: ParsingCancelParams,
+        requestOptions: RequestOptions,
+    ): ParsingCancelResponse =
+        // post /api/v2/parse/{job_id}/cancel
+        withRawResponse().cancel(params, requestOptions).parse()
+
     override fun get(params: ParsingGetParams, requestOptions: RequestOptions): ParsingGetResponse =
         // get /api/v2/parse/{job_id}
         withRawResponse().get(params, requestOptions).parse()
+
+    override fun listVersions(
+        params: ParsingListVersionsParams,
+        requestOptions: RequestOptions,
+    ): ParsingListVersionsResponse =
+        // get /api/v2/parse/versions
+        withRawResponse().listVersions(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ParsingService.WithRawResponse {
@@ -128,6 +146,37 @@ class ParsingServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
+        private val cancelHandler: Handler<ParsingCancelResponse> =
+            jsonHandler<ParsingCancelResponse>(clientOptions.jsonMapper)
+
+        override fun cancel(
+            params: ParsingCancelParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ParsingCancelResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("jobId", params.jobId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "parse", params._pathParam(0), "cancel")
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { cancelHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
         private val getHandler: Handler<ParsingGetResponse> =
             jsonHandler<ParsingGetResponse>(clientOptions.jsonMapper)
 
@@ -150,6 +199,33 @@ class ParsingServiceImpl internal constructor(private val clientOptions: ClientO
             return errorHandler.handle(response).parseable {
                 response
                     .use { getHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val listVersionsHandler: Handler<ParsingListVersionsResponse> =
+            jsonHandler<ParsingListVersionsResponse>(clientOptions.jsonMapper)
+
+        override fun listVersions(
+            params: ParsingListVersionsParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ParsingListVersionsResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "parse", "versions")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { listVersionsHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

@@ -5,8 +5,6 @@ package ai.llamaindex.llamacloud.services.async
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.async.beta.AgentDataServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.AgentDataServiceAsyncImpl
-import ai.llamaindex.llamacloud.services.async.beta.BatchServiceAsync
-import ai.llamaindex.llamacloud.services.async.beta.BatchServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.beta.ChatServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.ChatServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.beta.DirectoryServiceAsync
@@ -46,8 +44,6 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
         DirectoryServiceAsyncImpl(clientOptions)
     }
 
-    private val batch: BatchServiceAsync by lazy { BatchServiceAsyncImpl(clientOptions) }
-
     private val split: SplitServiceAsync by lazy { SplitServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): BetaServiceAsync.WithRawResponse = withRawResponse
@@ -66,8 +62,6 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
     override fun sheets(): SheetServiceAsync = sheets
 
     override fun directories(): DirectoryServiceAsync = directories
-
-    override fun batch(): BatchServiceAsync = batch
 
     override fun split(): SplitServiceAsync = split
 
@@ -98,10 +92,6 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
             DirectoryServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
-        private val batch: BatchServiceAsync.WithRawResponse by lazy {
-            BatchServiceAsyncImpl.WithRawResponseImpl(clientOptions)
-        }
-
         private val split: SplitServiceAsync.WithRawResponse by lazy {
             SplitServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
@@ -124,8 +114,6 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
         override fun sheets(): SheetServiceAsync.WithRawResponse = sheets
 
         override fun directories(): DirectoryServiceAsync.WithRawResponse = directories
-
-        override fun batch(): BatchServiceAsync.WithRawResponse = batch
 
         override fun split(): SplitServiceAsync.WithRawResponse = split
     }

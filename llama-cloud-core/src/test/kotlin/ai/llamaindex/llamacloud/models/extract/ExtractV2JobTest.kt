@@ -30,10 +30,14 @@ internal class ExtractV2JobTest {
                         )
                         .citeSources(true)
                         .confidenceScores(true)
+                        .disableCache(true)
                         .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                         .maxPages(10L)
                         .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                         .parseTier("fast")
+                        .addSheetName("Sheet 1")
+                        .addSheetName("Q4 Summary")
+                        .spreadsheetMode(true)
                         .systemPrompt(
                             "Extract all monetary values in USD. If a currency is not specified, assume USD."
                         )
@@ -139,6 +143,13 @@ internal class ExtractV2JobTest {
                         )
                         .build()
                 )
+                .usage(
+                    ExtractV2Job.Usage.builder()
+                        .credits(30.0)
+                        .extractCredits(45.0)
+                        .parseCredits(30.0)
+                        .build()
+                )
                 .build()
 
         assertThat(extractV2Job.id()).isEqualTo("ext-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
@@ -159,10 +170,14 @@ internal class ExtractV2JobTest {
                     )
                     .citeSources(true)
                     .confidenceScores(true)
+                    .disableCache(true)
                     .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                     .maxPages(10L)
                     .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                     .parseTier("fast")
+                    .addSheetName("Sheet 1")
+                    .addSheetName("Q4 Summary")
+                    .spreadsheetMode(true)
                     .systemPrompt(
                         "Extract all monetary values in USD. If a currency is not specified, assume USD."
                     )
@@ -271,6 +286,14 @@ internal class ExtractV2JobTest {
                     )
                     .build()
             )
+        assertThat(extractV2Job.usage())
+            .contains(
+                ExtractV2Job.Usage.builder()
+                    .credits(30.0)
+                    .extractCredits(45.0)
+                    .parseCredits(30.0)
+                    .build()
+            )
     }
 
     @Test
@@ -293,10 +316,14 @@ internal class ExtractV2JobTest {
                         )
                         .citeSources(true)
                         .confidenceScores(true)
+                        .disableCache(true)
                         .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                         .maxPages(10L)
                         .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                         .parseTier("fast")
+                        .addSheetName("Sheet 1")
+                        .addSheetName("Q4 Summary")
+                        .spreadsheetMode(true)
                         .systemPrompt(
                             "Extract all monetary values in USD. If a currency is not specified, assume USD."
                         )
@@ -400,6 +427,13 @@ internal class ExtractV2JobTest {
                                 .numPagesExtracted(0L)
                                 .build()
                         )
+                        .build()
+                )
+                .usage(
+                    ExtractV2Job.Usage.builder()
+                        .credits(30.0)
+                        .extractCredits(45.0)
+                        .parseCredits(30.0)
                         .build()
                 )
                 .build()

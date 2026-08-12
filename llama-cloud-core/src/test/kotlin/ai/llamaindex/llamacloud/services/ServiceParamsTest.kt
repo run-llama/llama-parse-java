@@ -138,6 +138,7 @@ internal class ServiceParamsTest {
                         .markdown(
                             ParsingCreateParams.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
+                                .annotateRevisions(true)
                                 .inlineImages(true)
                                 .tables(
                                     ParsingCreateParams.OutputOptions.Markdown.Tables.builder()
@@ -151,6 +152,7 @@ internal class ServiceParamsTest {
                                 )
                                 .build()
                         )
+                        .saveOutputPdf(true)
                         .spatialText(
                             ParsingCreateParams.OutputOptions.SpatialText.builder()
                                 .doNotUnrollColumns(true)

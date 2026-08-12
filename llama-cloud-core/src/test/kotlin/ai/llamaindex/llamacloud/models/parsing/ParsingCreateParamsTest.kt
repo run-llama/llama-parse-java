@@ -81,6 +81,7 @@ internal class ParsingCreateParamsTest {
                     .markdown(
                         ParsingCreateParams.OutputOptions.Markdown.builder()
                             .annotateLinks(true)
+                            .annotateRevisions(true)
                             .inlineImages(true)
                             .tables(
                                 ParsingCreateParams.OutputOptions.Markdown.Tables.builder()
@@ -94,6 +95,7 @@ internal class ParsingCreateParamsTest {
                             )
                             .build()
                     )
+                    .saveOutputPdf(true)
                     .spatialText(
                         ParsingCreateParams.OutputOptions.SpatialText.builder()
                             .doNotUnrollColumns(true)
@@ -375,6 +377,7 @@ internal class ParsingCreateParamsTest {
                         .markdown(
                             ParsingCreateParams.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
+                                .annotateRevisions(true)
                                 .inlineImages(true)
                                 .tables(
                                     ParsingCreateParams.OutputOptions.Markdown.Tables.builder()
@@ -388,6 +391,7 @@ internal class ParsingCreateParamsTest {
                                 )
                                 .build()
                         )
+                        .saveOutputPdf(true)
                         .spatialText(
                             ParsingCreateParams.OutputOptions.SpatialText.builder()
                                 .doNotUnrollColumns(true)
@@ -699,6 +703,7 @@ internal class ParsingCreateParamsTest {
                         .markdown(
                             ParsingCreateParams.OutputOptions.Markdown.builder()
                                 .annotateLinks(true)
+                                .annotateRevisions(true)
                                 .inlineImages(true)
                                 .tables(
                                     ParsingCreateParams.OutputOptions.Markdown.Tables.builder()
@@ -712,6 +717,7 @@ internal class ParsingCreateParamsTest {
                                 )
                                 .build()
                         )
+                        .saveOutputPdf(true)
                         .spatialText(
                             ParsingCreateParams.OutputOptions.SpatialText.builder()
                                 .doNotUnrollColumns(true)
@@ -997,6 +1003,7 @@ internal class ParsingCreateParamsTest {
                     .markdown(
                         ParsingCreateParams.OutputOptions.Markdown.builder()
                             .annotateLinks(true)
+                            .annotateRevisions(true)
                             .inlineImages(true)
                             .tables(
                                 ParsingCreateParams.OutputOptions.Markdown.Tables.builder()
@@ -1010,6 +1017,7 @@ internal class ParsingCreateParamsTest {
                             )
                             .build()
                     )
+                    .saveOutputPdf(true)
                     .spatialText(
                         ParsingCreateParams.OutputOptions.SpatialText.builder()
                             .doNotUnrollColumns(true)

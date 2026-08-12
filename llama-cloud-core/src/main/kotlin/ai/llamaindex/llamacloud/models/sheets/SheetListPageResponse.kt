@@ -20,6 +20,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
+/** Response schema for paginated spreadsheet job queries. */
 class SheetListPageResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(

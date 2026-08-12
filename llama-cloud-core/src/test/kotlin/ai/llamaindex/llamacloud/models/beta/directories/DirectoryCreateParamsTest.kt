@@ -15,6 +15,7 @@ internal class DirectoryCreateParamsTest {
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .name("x")
+            .connectorSubscriptionId("csub-abc123")
             .description("description")
             .systemMetadata(
                 DirectoryCreateParams.SystemMetadata.builder()
@@ -32,6 +33,7 @@ internal class DirectoryCreateParamsTest {
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .name("x")
+                .connectorSubscriptionId("csub-abc123")
                 .description("description")
                 .systemMetadata(
                     DirectoryCreateParams.SystemMetadata.builder()
@@ -68,6 +70,7 @@ internal class DirectoryCreateParamsTest {
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .name("x")
+                .connectorSubscriptionId("csub-abc123")
                 .description("description")
                 .systemMetadata(
                     DirectoryCreateParams.SystemMetadata.builder()
@@ -80,6 +83,7 @@ internal class DirectoryCreateParamsTest {
         val body = params._body()
 
         assertThat(body.name()).isEqualTo("x")
+        assertThat(body.connectorSubscriptionId()).contains("csub-abc123")
         assertThat(body.description()).contains("description")
         assertThat(body.systemMetadata())
             .contains(

@@ -76,8 +76,8 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-06-26`
-     * - `agentic`: `2026-07-15`
+     * - `cost_effective`: `2026-08-08`
+     * - `agentic`: `2026-07-24`
      * - `agentic_plus`: `2026-07-08`
      *
      * Full list: `GET /api/v2/parse/versions`.
@@ -464,8 +464,8 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2026-06-15`
-         * - `cost_effective`: `2026-06-26`
-         * - `agentic`: `2026-07-15`
+         * - `cost_effective`: `2026-08-08`
+         * - `agentic`: `2026-07-24`
          * - `agentic_plus`: `2026-07-08`
          *
          * Full list: `GET /api/v2/parse/versions`.
@@ -1081,8 +1081,8 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2026-06-15`
-         * - `cost_effective`: `2026-06-26`
-         * - `agentic`: `2026-07-15`
+         * - `cost_effective`: `2026-08-08`
+         * - `agentic`: `2026-07-24`
          * - `agentic_plus`: `2026-07-08`
          *
          * Full list: `GET /api/v2/parse/versions`.
@@ -1515,8 +1515,8 @@ private constructor(
              *
              * Current `latest` by tier:
              * - `fast`: `2026-06-15`
-             * - `cost_effective`: `2026-06-26`
-             * - `agentic`: `2026-07-15`
+             * - `cost_effective`: `2026-08-08`
+             * - `agentic`: `2026-07-24`
              * - `agentic_plus`: `2026-07-08`
              *
              * Full list: `GET /api/v2/parse/versions`.
@@ -2216,8 +2216,8 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-06-26`
-     * - `agentic`: `2026-07-15`
+     * - `cost_effective`: `2026-08-08`
+     * - `agentic`: `2026-07-24`
      * - `agentic_plus`: `2026-07-08`
      *
      * Full list: `GET /api/v2/parse/versions`.
@@ -2238,11 +2238,11 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
-            @JvmField val _2026_07_15 = of("2026-07-15")
+            @JvmField val _2026_08_08 = of("2026-08-08")
+
+            @JvmField val _2026_07_24 = of("2026-07-24")
 
             @JvmField val _2026_07_08 = of("2026-07-08")
-
-            @JvmField val _2026_06_26 = of("2026-06-26")
 
             @JvmField val _2026_06_15 = of("2026-06-15")
 
@@ -2252,9 +2252,9 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
-            _2026_07_15,
+            _2026_08_08,
+            _2026_07_24,
             _2026_07_08,
-            _2026_06_26,
             _2026_06_15,
         }
 
@@ -2269,9 +2269,9 @@ private constructor(
          */
         enum class Value {
             LATEST,
-            _2026_07_15,
+            _2026_08_08,
+            _2026_07_24,
             _2026_07_08,
-            _2026_06_26,
             _2026_06_15,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
             _UNKNOWN,
@@ -2287,9 +2287,9 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
-                _2026_07_15 -> Value._2026_07_15
+                _2026_08_08 -> Value._2026_08_08
+                _2026_07_24 -> Value._2026_07_24
                 _2026_07_08 -> Value._2026_07_08
-                _2026_06_26 -> Value._2026_06_26
                 _2026_06_15 -> Value._2026_06_15
                 else -> Value._UNKNOWN
             }
@@ -2306,9 +2306,9 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
-                _2026_07_15 -> Known._2026_07_15
+                _2026_08_08 -> Known._2026_08_08
+                _2026_07_24 -> Known._2026_07_24
                 _2026_07_08 -> Known._2026_07_08
-                _2026_06_26 -> Known._2026_06_26
                 _2026_06_15 -> Known._2026_06_15
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
             }
@@ -4279,6 +4279,7 @@ private constructor(
         private val granularBboxes: JsonField<List<GranularBbox>>,
         private val imagesToSave: JsonField<List<ImagesToSave>>,
         private val markdown: JsonField<Markdown>,
+        private val saveOutputPdf: JsonField<Boolean>,
         private val spatialText: JsonField<SpatialText>,
         private val tablesAsSpreadsheet: JsonField<TablesAsSpreadsheet>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -4301,6 +4302,9 @@ private constructor(
             @JsonProperty("markdown")
             @ExcludeMissing
             markdown: JsonField<Markdown> = JsonMissing.of(),
+            @JsonProperty("save_output_pdf")
+            @ExcludeMissing
+            saveOutputPdf: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("spatial_text")
             @ExcludeMissing
             spatialText: JsonField<SpatialText> = JsonMissing.of(),
@@ -4313,6 +4317,7 @@ private constructor(
             granularBboxes,
             imagesToSave,
             markdown,
+            saveOutputPdf,
             spatialText,
             tablesAsSpreadsheet,
             mutableMapOf(),
@@ -4365,9 +4370,9 @@ private constructor(
             granularBboxes.getOptional("granular_bboxes")
 
         /**
-         * Image categories to extract and save. Options: 'screenshot' (full page renders useful for
-         * visual QA), 'embedded' (images found within the document), 'layout' (cropped regions from
-         * layout detection like figures and diagrams). Empty list saves no images
+         * Image categories to save: 'screenshot' (full page renders), 'embedded' (images found
+         * within the document), 'layout' (cropped figures and diagrams). Defaults to saving
+         * 'layout' when the output links to cropped images; pass [] to save none
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -4382,6 +4387,16 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun markdown(): Optional<Markdown> = markdown.getOptional("markdown")
+
+        /**
+         * Save a PDF copy of the parsed document, retrievable via
+         * `expand=output_pdf_content_metadata`. Not produced for spreadsheet, plain-text, or audio
+         * inputs
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun saveOutputPdf(): Optional<Boolean> = saveOutputPdf.getOptional("save_output_pdf")
 
         /**
          * Spatial text output options for preserving document layout structure
@@ -4448,6 +4463,16 @@ private constructor(
         @JsonProperty("markdown") @ExcludeMissing fun _markdown(): JsonField<Markdown> = markdown
 
         /**
+         * Returns the raw JSON value of [saveOutputPdf].
+         *
+         * Unlike [saveOutputPdf], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("save_output_pdf")
+        @ExcludeMissing
+        fun _saveOutputPdf(): JsonField<Boolean> = saveOutputPdf
+
+        /**
          * Returns the raw JSON value of [spatialText].
          *
          * Unlike [spatialText], this method doesn't throw if the JSON field has an unexpected type.
@@ -4492,6 +4517,7 @@ private constructor(
             private var granularBboxes: JsonField<MutableList<GranularBbox>>? = null
             private var imagesToSave: JsonField<MutableList<ImagesToSave>>? = null
             private var markdown: JsonField<Markdown> = JsonMissing.of()
+            private var saveOutputPdf: JsonField<Boolean> = JsonMissing.of()
             private var spatialText: JsonField<SpatialText> = JsonMissing.of()
             private var tablesAsSpreadsheet: JsonField<TablesAsSpreadsheet> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -4503,6 +4529,7 @@ private constructor(
                 granularBboxes = outputOptions.granularBboxes.map { it.toMutableList() }
                 imagesToSave = outputOptions.imagesToSave.map { it.toMutableList() }
                 markdown = outputOptions.markdown
+                saveOutputPdf = outputOptions.saveOutputPdf
                 spatialText = outputOptions.spatialText
                 tablesAsSpreadsheet = outputOptions.tablesAsSpreadsheet
                 additionalProperties = outputOptions.additionalProperties.toMutableMap()
@@ -4618,12 +4645,16 @@ private constructor(
             }
 
             /**
-             * Image categories to extract and save. Options: 'screenshot' (full page renders useful
-             * for visual QA), 'embedded' (images found within the document), 'layout' (cropped
-             * regions from layout detection like figures and diagrams). Empty list saves no images
+             * Image categories to save: 'screenshot' (full page renders), 'embedded' (images found
+             * within the document), 'layout' (cropped figures and diagrams). Defaults to saving
+             * 'layout' when the output links to cropped images; pass [] to save none
              */
-            fun imagesToSave(imagesToSave: List<ImagesToSave>) =
-                imagesToSave(JsonField.of(imagesToSave))
+            fun imagesToSave(imagesToSave: List<ImagesToSave>?) =
+                imagesToSave(JsonField.ofNullable(imagesToSave))
+
+            /** Alias for calling [Builder.imagesToSave] with `imagesToSave.orElse(null)`. */
+            fun imagesToSave(imagesToSave: Optional<List<ImagesToSave>>) =
+                imagesToSave(imagesToSave.getOrNull())
 
             /**
              * Sets [Builder.imagesToSave] to an arbitrary JSON value.
@@ -4659,6 +4690,36 @@ private constructor(
              * supported value.
              */
             fun markdown(markdown: JsonField<Markdown>) = apply { this.markdown = markdown }
+
+            /**
+             * Save a PDF copy of the parsed document, retrievable via
+             * `expand=output_pdf_content_metadata`. Not produced for spreadsheet, plain-text, or
+             * audio inputs
+             */
+            fun saveOutputPdf(saveOutputPdf: Boolean?) =
+                saveOutputPdf(JsonField.ofNullable(saveOutputPdf))
+
+            /**
+             * Alias for [Builder.saveOutputPdf].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun saveOutputPdf(saveOutputPdf: Boolean) = saveOutputPdf(saveOutputPdf as Boolean?)
+
+            /** Alias for calling [Builder.saveOutputPdf] with `saveOutputPdf.orElse(null)`. */
+            fun saveOutputPdf(saveOutputPdf: Optional<Boolean>) =
+                saveOutputPdf(saveOutputPdf.getOrNull())
+
+            /**
+             * Sets [Builder.saveOutputPdf] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.saveOutputPdf] with a well-typed [Boolean] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun saveOutputPdf(saveOutputPdf: JsonField<Boolean>) = apply {
+                this.saveOutputPdf = saveOutputPdf
+            }
 
             /** Spatial text output options for preserving document layout structure */
             fun spatialText(spatialText: SpatialText) = spatialText(JsonField.of(spatialText))
@@ -4720,6 +4781,7 @@ private constructor(
                     (granularBboxes ?: JsonMissing.of()).map { it.toImmutable() },
                     (imagesToSave ?: JsonMissing.of()).map { it.toImmutable() },
                     markdown,
+                    saveOutputPdf,
                     spatialText,
                     tablesAsSpreadsheet,
                     additionalProperties.toMutableMap(),
@@ -4747,6 +4809,7 @@ private constructor(
             granularBboxes().ifPresent { it.forEach { it.validate() } }
             imagesToSave().ifPresent { it.forEach { it.validate() } }
             markdown().ifPresent { it.validate() }
+            saveOutputPdf()
             spatialText().ifPresent { it.validate() }
             tablesAsSpreadsheet().ifPresent { it.validate() }
             validated = true
@@ -4773,6 +4836,7 @@ private constructor(
                 (granularBboxes.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (imagesToSave.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (markdown.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (saveOutputPdf.asKnown().isPresent) 1 else 0) +
                 (spatialText.asKnown().getOrNull()?.validity() ?: 0) +
                 (tablesAsSpreadsheet.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -5075,6 +5139,7 @@ private constructor(
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val annotateLinks: JsonField<Boolean>,
+            private val annotateRevisions: JsonField<Boolean>,
             private val inlineImages: JsonField<Boolean>,
             private val tables: JsonField<Tables>,
             private val additionalProperties: MutableMap<String, JsonValue>,
@@ -5085,11 +5150,14 @@ private constructor(
                 @JsonProperty("annotate_links")
                 @ExcludeMissing
                 annotateLinks: JsonField<Boolean> = JsonMissing.of(),
+                @JsonProperty("annotate_revisions")
+                @ExcludeMissing
+                annotateRevisions: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("inline_images")
                 @ExcludeMissing
                 inlineImages: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("tables") @ExcludeMissing tables: JsonField<Tables> = JsonMissing.of(),
-            ) : this(annotateLinks, inlineImages, tables, mutableMapOf())
+            ) : this(annotateLinks, annotateRevisions, inlineImages, tables, mutableMapOf())
 
             /**
              * Add link annotations to markdown output in the format [text](url). When false, only
@@ -5099,6 +5167,15 @@ private constructor(
              *   if the server responded with an unexpected value).
              */
             fun annotateLinks(): Optional<Boolean> = annotateLinks.getOptional("annotate_links")
+
+            /**
+             * Extract Word-style revisions and comments into structured page output
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun annotateRevisions(): Optional<Boolean> =
+                annotateRevisions.getOptional("annotate_revisions")
 
             /**
              * Embed images directly in markdown as base64 data URIs instead of extracting them as
@@ -5126,6 +5203,16 @@ private constructor(
             @JsonProperty("annotate_links")
             @ExcludeMissing
             fun _annotateLinks(): JsonField<Boolean> = annotateLinks
+
+            /**
+             * Returns the raw JSON value of [annotateRevisions].
+             *
+             * Unlike [annotateRevisions], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("annotate_revisions")
+            @ExcludeMissing
+            fun _annotateRevisions(): JsonField<Boolean> = annotateRevisions
 
             /**
              * Returns the raw JSON value of [inlineImages].
@@ -5166,6 +5253,7 @@ private constructor(
             class Builder internal constructor() {
 
                 private var annotateLinks: JsonField<Boolean> = JsonMissing.of()
+                private var annotateRevisions: JsonField<Boolean> = JsonMissing.of()
                 private var inlineImages: JsonField<Boolean> = JsonMissing.of()
                 private var tables: JsonField<Tables> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -5173,6 +5261,7 @@ private constructor(
                 @JvmSynthetic
                 internal fun from(markdown: Markdown) = apply {
                     annotateLinks = markdown.annotateLinks
+                    annotateRevisions = markdown.annotateRevisions
                     inlineImages = markdown.inlineImages
                     tables = markdown.tables
                     additionalProperties = markdown.additionalProperties.toMutableMap()
@@ -5205,6 +5294,36 @@ private constructor(
                  */
                 fun annotateLinks(annotateLinks: JsonField<Boolean>) = apply {
                     this.annotateLinks = annotateLinks
+                }
+
+                /** Extract Word-style revisions and comments into structured page output */
+                fun annotateRevisions(annotateRevisions: Boolean?) =
+                    annotateRevisions(JsonField.ofNullable(annotateRevisions))
+
+                /**
+                 * Alias for [Builder.annotateRevisions].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun annotateRevisions(annotateRevisions: Boolean) =
+                    annotateRevisions(annotateRevisions as Boolean?)
+
+                /**
+                 * Alias for calling [Builder.annotateRevisions] with
+                 * `annotateRevisions.orElse(null)`.
+                 */
+                fun annotateRevisions(annotateRevisions: Optional<Boolean>) =
+                    annotateRevisions(annotateRevisions.getOrNull())
+
+                /**
+                 * Sets [Builder.annotateRevisions] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.annotateRevisions] with a well-typed [Boolean]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun annotateRevisions(annotateRevisions: JsonField<Boolean>) = apply {
+                    this.annotateRevisions = annotateRevisions
                 }
 
                 /**
@@ -5280,6 +5399,7 @@ private constructor(
                 fun build(): Markdown =
                     Markdown(
                         annotateLinks,
+                        annotateRevisions,
                         inlineImages,
                         tables,
                         additionalProperties.toMutableMap(),
@@ -5304,6 +5424,7 @@ private constructor(
                 }
 
                 annotateLinks()
+                annotateRevisions()
                 inlineImages()
                 tables().ifPresent { it.validate() }
                 validated = true
@@ -5326,6 +5447,7 @@ private constructor(
             @JvmSynthetic
             internal fun validity(): Int =
                 (if (annotateLinks.asKnown().isPresent) 1 else 0) +
+                    (if (annotateRevisions.asKnown().isPresent) 1 else 0) +
                     (if (inlineImages.asKnown().isPresent) 1 else 0) +
                     (tables.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -5730,19 +5852,26 @@ private constructor(
 
                 return other is Markdown &&
                     annotateLinks == other.annotateLinks &&
+                    annotateRevisions == other.annotateRevisions &&
                     inlineImages == other.inlineImages &&
                     tables == other.tables &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(annotateLinks, inlineImages, tables, additionalProperties)
+                Objects.hash(
+                    annotateLinks,
+                    annotateRevisions,
+                    inlineImages,
+                    tables,
+                    additionalProperties,
+                )
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Markdown{annotateLinks=$annotateLinks, inlineImages=$inlineImages, tables=$tables, additionalProperties=$additionalProperties}"
+                "Markdown{annotateLinks=$annotateLinks, annotateRevisions=$annotateRevisions, inlineImages=$inlineImages, tables=$tables, additionalProperties=$additionalProperties}"
         }
 
         /** Spatial text output options for preserving document layout structure */
@@ -6323,6 +6452,7 @@ private constructor(
                 granularBboxes == other.granularBboxes &&
                 imagesToSave == other.imagesToSave &&
                 markdown == other.markdown &&
+                saveOutputPdf == other.saveOutputPdf &&
                 spatialText == other.spatialText &&
                 tablesAsSpreadsheet == other.tablesAsSpreadsheet &&
                 additionalProperties == other.additionalProperties
@@ -6335,6 +6465,7 @@ private constructor(
                 granularBboxes,
                 imagesToSave,
                 markdown,
+                saveOutputPdf,
                 spatialText,
                 tablesAsSpreadsheet,
                 additionalProperties,
@@ -6344,7 +6475,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "OutputOptions{additionalOutputs=$additionalOutputs, extractPrintedPageNumber=$extractPrintedPageNumber, granularBboxes=$granularBboxes, imagesToSave=$imagesToSave, markdown=$markdown, spatialText=$spatialText, tablesAsSpreadsheet=$tablesAsSpreadsheet, additionalProperties=$additionalProperties}"
+            "OutputOptions{additionalOutputs=$additionalOutputs, extractPrintedPageNumber=$extractPrintedPageNumber, granularBboxes=$granularBboxes, imagesToSave=$imagesToSave, markdown=$markdown, saveOutputPdf=$saveOutputPdf, spatialText=$spatialText, tablesAsSpreadsheet=$tablesAsSpreadsheet, additionalProperties=$additionalProperties}"
     }
 
     /** Page selection: limit total pages or specify exact pages to process */
@@ -10762,8 +10893,8 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-06-26`
-                 * - `agentic`: `2026-07-15`
+                 * - `cost_effective`: `2026-08-08`
+                 * - `agentic`: `2026-07-24`
                  * - `agentic_plus`: `2026-07-08`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
@@ -11266,8 +11397,8 @@ private constructor(
                      *
                      * Current `latest` by tier:
                      * - `fast`: `2026-06-15`
-                     * - `cost_effective`: `2026-06-26`
-                     * - `agentic`: `2026-07-15`
+                     * - `cost_effective`: `2026-08-08`
+                     * - `agentic`: `2026-07-24`
                      * - `agentic_plus`: `2026-07-08`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
@@ -12880,8 +13011,8 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-06-26`
-                 * - `agentic`: `2026-07-15`
+                 * - `cost_effective`: `2026-08-08`
+                 * - `agentic`: `2026-07-24`
                  * - `agentic_plus`: `2026-07-08`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
@@ -12905,11 +13036,11 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
-                        @JvmField val _2026_07_15 = of("2026-07-15")
+                        @JvmField val _2026_08_08 = of("2026-08-08")
+
+                        @JvmField val _2026_07_24 = of("2026-07-24")
 
                         @JvmField val _2026_07_08 = of("2026-07-08")
-
-                        @JvmField val _2026_06_26 = of("2026-06-26")
 
                         @JvmField val _2026_06_15 = of("2026-06-15")
 
@@ -12919,9 +13050,9 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
-                        _2026_07_15,
+                        _2026_08_08,
+                        _2026_07_24,
                         _2026_07_08,
-                        _2026_06_26,
                         _2026_06_15,
                     }
 
@@ -12936,9 +13067,9 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
-                        _2026_07_15,
+                        _2026_08_08,
+                        _2026_07_24,
                         _2026_07_08,
-                        _2026_06_26,
                         _2026_06_15,
                         /**
                          * An enum member indicating that [Version] was instantiated with an unknown
@@ -12957,9 +13088,9 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
-                            _2026_07_15 -> Value._2026_07_15
+                            _2026_08_08 -> Value._2026_08_08
+                            _2026_07_24 -> Value._2026_07_24
                             _2026_07_08 -> Value._2026_07_08
-                            _2026_06_26 -> Value._2026_06_26
                             _2026_06_15 -> Value._2026_06_15
                             else -> Value._UNKNOWN
                         }
@@ -12976,9 +13107,9 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
-                            _2026_07_15 -> Known._2026_07_15
+                            _2026_08_08 -> Known._2026_08_08
+                            _2026_07_24 -> Known._2026_07_24
                             _2026_07_08 -> Known._2026_07_08
-                            _2026_06_26 -> Known._2026_06_26
                             _2026_06_15 -> Known._2026_06_15
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
                         }

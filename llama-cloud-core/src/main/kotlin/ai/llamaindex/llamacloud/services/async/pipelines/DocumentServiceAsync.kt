@@ -12,6 +12,8 @@ import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentCreateParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentDeleteParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetChunksParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetParams
+import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetStatusCountsParams
+import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetStatusCountsResponse
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentGetStatusParams
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentListPageAsync
 import ai.llamaindex.llamacloud.models.pipelines.documents.DocumentListParams
@@ -214,6 +216,57 @@ interface DocumentServiceAsync {
         params: DocumentGetStatusParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagedIngestionStatusResponse>
+
+    /**
+     * Count the documents in a pipeline, grouped by ingestion status.
+     *
+     * Counts reflect each document's last recorded status rather than a freshly computed one, so a
+     * document that changed status in the last few moments may still be counted under its previous
+     * one. Use `GET /pipelines/{pipeline_id}/documents/{document_id}/status` when a single
+     * document's status has to be up to the moment.
+     */
+    @Deprecated("deprecated")
+    fun getStatusCounts(pipelineId: String): CompletableFuture<DocumentGetStatusCountsResponse> =
+        getStatusCounts(pipelineId, DocumentGetStatusCountsParams.none())
+
+    /** @see getStatusCounts */
+    @Deprecated("deprecated")
+    fun getStatusCounts(
+        pipelineId: String,
+        params: DocumentGetStatusCountsParams = DocumentGetStatusCountsParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<DocumentGetStatusCountsResponse> =
+        getStatusCounts(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
+
+    /** @see getStatusCounts */
+    @Deprecated("deprecated")
+    fun getStatusCounts(
+        pipelineId: String,
+        params: DocumentGetStatusCountsParams = DocumentGetStatusCountsParams.none(),
+    ): CompletableFuture<DocumentGetStatusCountsResponse> =
+        getStatusCounts(pipelineId, params, RequestOptions.none())
+
+    /** @see getStatusCounts */
+    @Deprecated("deprecated")
+    fun getStatusCounts(
+        params: DocumentGetStatusCountsParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<DocumentGetStatusCountsResponse>
+
+    /** @see getStatusCounts */
+    @Deprecated("deprecated")
+    fun getStatusCounts(
+        params: DocumentGetStatusCountsParams
+    ): CompletableFuture<DocumentGetStatusCountsResponse> =
+        getStatusCounts(params, RequestOptions.none())
+
+    /** @see getStatusCounts */
+    @Deprecated("deprecated")
+    fun getStatusCounts(
+        pipelineId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<DocumentGetStatusCountsResponse> =
+        getStatusCounts(pipelineId, DocumentGetStatusCountsParams.none(), requestOptions)
 
     /** Sync a specific document for a pipeline. */
     @Deprecated("deprecated")
@@ -501,6 +554,56 @@ interface DocumentServiceAsync {
             params: DocumentGetStatusParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ManagedIngestionStatusResponse>>
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /api/v1/pipelines/{pipeline_id}/documents/status-counts`, but is otherwise the same as
+         * [DocumentServiceAsync.getStatusCounts].
+         */
+        @Deprecated("deprecated")
+        fun getStatusCounts(
+            pipelineId: String
+        ): CompletableFuture<HttpResponseFor<DocumentGetStatusCountsResponse>> =
+            getStatusCounts(pipelineId, DocumentGetStatusCountsParams.none())
+
+        /** @see getStatusCounts */
+        @Deprecated("deprecated")
+        fun getStatusCounts(
+            pipelineId: String,
+            params: DocumentGetStatusCountsParams = DocumentGetStatusCountsParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentGetStatusCountsResponse>> =
+            getStatusCounts(params.toBuilder().pipelineId(pipelineId).build(), requestOptions)
+
+        /** @see getStatusCounts */
+        @Deprecated("deprecated")
+        fun getStatusCounts(
+            pipelineId: String,
+            params: DocumentGetStatusCountsParams = DocumentGetStatusCountsParams.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentGetStatusCountsResponse>> =
+            getStatusCounts(pipelineId, params, RequestOptions.none())
+
+        /** @see getStatusCounts */
+        @Deprecated("deprecated")
+        fun getStatusCounts(
+            params: DocumentGetStatusCountsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentGetStatusCountsResponse>>
+
+        /** @see getStatusCounts */
+        @Deprecated("deprecated")
+        fun getStatusCounts(
+            params: DocumentGetStatusCountsParams
+        ): CompletableFuture<HttpResponseFor<DocumentGetStatusCountsResponse>> =
+            getStatusCounts(params, RequestOptions.none())
+
+        /** @see getStatusCounts */
+        @Deprecated("deprecated")
+        fun getStatusCounts(
+            pipelineId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<DocumentGetStatusCountsResponse>> =
+            getStatusCounts(pipelineId, DocumentGetStatusCountsParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post

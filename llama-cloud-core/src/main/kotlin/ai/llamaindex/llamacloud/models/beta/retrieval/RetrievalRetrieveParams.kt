@@ -1582,6 +1582,8 @@ private constructor(
         ) : this(parsedDirectoryFileId, mutableMapOf())
 
         /**
+         * Filter on a string field.
+         *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
@@ -1628,6 +1630,7 @@ private constructor(
                 additionalProperties = staticFilters.additionalProperties.toMutableMap()
             }
 
+            /** Filter on a string field. */
             fun parsedDirectoryFileId(parsedDirectoryFileId: ParsedDirectoryFileId?) =
                 parsedDirectoryFileId(JsonField.ofNullable(parsedDirectoryFileId))
 
@@ -1716,6 +1719,7 @@ private constructor(
         internal fun validity(): Int =
             (parsedDirectoryFileId.asKnown().getOrNull()?.validity() ?: 0)
 
+        /** Filter on a string field. */
         class ParsedDirectoryFileId
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(

@@ -5,6 +5,7 @@ package ai.llamaindex.llamacloud.models.extract
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -21,10 +22,14 @@ internal class ExtractConfigurationTest {
                 )
                 .citeSources(true)
                 .confidenceScores(true)
+                .disableCache(true)
                 .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                 .maxPages(10L)
                 .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                 .parseTier("fast")
+                .addSheetName("Sheet 1")
+                .addSheetName("Q4 Summary")
+                .spreadsheetMode(true)
                 .systemPrompt(
                     "Extract all monetary values in USD. If a currency is not specified, assume USD."
                 )
@@ -41,12 +46,16 @@ internal class ExtractConfigurationTest {
             )
         assertThat(extractConfiguration.citeSources()).contains(true)
         assertThat(extractConfiguration.confidenceScores()).contains(true)
+        assertThat(extractConfiguration.disableCache()).contains(true)
         assertThat(extractConfiguration.extractionTarget())
             .contains(ExtractConfiguration.ExtractionTarget.PER_DOC)
         assertThat(extractConfiguration.maxPages()).contains(10L)
         assertThat(extractConfiguration.parseConfigId())
             .contains("cfg-11111111-2222-3333-4444-555555555555")
         assertThat(extractConfiguration.parseTier()).contains("fast")
+        assertThat(extractConfiguration.sheetNames().getOrNull())
+            .containsExactly("Sheet 1", "Q4 Summary")
+        assertThat(extractConfiguration.spreadsheetMode()).contains(true)
         assertThat(extractConfiguration.systemPrompt())
             .contains(
                 "Extract all monetary values in USD. If a currency is not specified, assume USD."
@@ -68,10 +77,14 @@ internal class ExtractConfigurationTest {
                 )
                 .citeSources(true)
                 .confidenceScores(true)
+                .disableCache(true)
                 .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                 .maxPages(10L)
                 .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
                 .parseTier("fast")
+                .addSheetName("Sheet 1")
+                .addSheetName("Q4 Summary")
+                .spreadsheetMode(true)
                 .systemPrompt(
                     "Extract all monetary values in USD. If a currency is not specified, assume USD."
                 )

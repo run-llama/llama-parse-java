@@ -7,6 +7,7 @@ import ai.llamaindex.llamacloud.core.ExcludeMissing
 import ai.llamaindex.llamacloud.core.JsonField
 import ai.llamaindex.llamacloud.core.JsonMissing
 import ai.llamaindex.llamacloud.core.JsonValue
+import ai.llamaindex.llamacloud.core.checkKnown
 import ai.llamaindex.llamacloud.core.checkRequired
 import ai.llamaindex.llamacloud.core.toImmutable
 import ai.llamaindex.llamacloud.errors.LlamaCloudInvalidDataException
@@ -26,10 +27,13 @@ private constructor(
     private val dataSchema: JsonField<DataSchema>,
     private val citeSources: JsonField<Boolean>,
     private val confidenceScores: JsonField<Boolean>,
+    private val disableCache: JsonField<Boolean>,
     private val extractionTarget: JsonField<ExtractionTarget>,
     private val maxPages: JsonField<Long>,
     private val parseConfigId: JsonField<String>,
     private val parseTier: JsonField<String>,
+    private val sheetNames: JsonField<List<String>>,
+    private val spreadsheetMode: JsonField<Boolean>,
     private val systemPrompt: JsonField<String>,
     private val targetPages: JsonField<String>,
     private val tier: JsonField<Tier>,
@@ -48,6 +52,9 @@ private constructor(
         @JsonProperty("confidence_scores")
         @ExcludeMissing
         confidenceScores: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("disable_cache")
+        @ExcludeMissing
+        disableCache: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("extraction_target")
         @ExcludeMissing
         extractionTarget: JsonField<ExtractionTarget> = JsonMissing.of(),
@@ -56,6 +63,12 @@ private constructor(
         @ExcludeMissing
         parseConfigId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("parse_tier") @ExcludeMissing parseTier: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("sheet_names")
+        @ExcludeMissing
+        sheetNames: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("spreadsheet_mode")
+        @ExcludeMissing
+        spreadsheetMode: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("system_prompt")
         @ExcludeMissing
         systemPrompt: JsonField<String> = JsonMissing.of(),
@@ -68,10 +81,13 @@ private constructor(
         dataSchema,
         citeSources,
         confidenceScores,
+        disableCache,
         extractionTarget,
         maxPages,
         parseConfigId,
         parseTier,
+        sheetNames,
+        spreadsheetMode,
         systemPrompt,
         targetPages,
         tier,
@@ -89,7 +105,8 @@ private constructor(
     fun dataSchema(): DataSchema = dataSchema.getRequired("data_schema")
 
     /**
-     * Include citations in results
+     * Include citations in results. Returned under `extract_metadata` (auto-included when set).
+     * Text-level on `turbo` (no bounding boxes).
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -97,12 +114,21 @@ private constructor(
     fun citeSources(): Optional<Boolean> = citeSources.getOptional("cite_sources")
 
     /**
-     * Include confidence scores in results
+     * Include confidence scores in results. Returned under `extract_metadata` (auto-included when
+     * set).
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun confidenceScores(): Optional<Boolean> = confidenceScores.getOptional("confidence_scores")
+
+    /**
+     * Disable reuse and storage of Extract results
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun disableCache(): Optional<Boolean> = disableCache.getOptional("disable_cache")
 
     /**
      * Granularity of extraction: per_doc returns one object per document, per_page returns one
@@ -123,7 +149,9 @@ private constructor(
     fun maxPages(): Optional<Long> = maxPages.getOptional("max_pages")
 
     /**
-     * Saved parse configuration ID to control how the document is parsed before extraction
+     * Saved parse configuration ID to control how the document is parsed before extraction. Turbo
+     * extract does not support parse configuration or produce a parse output; use another tier if
+     * your workflow requires parsed text.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -131,12 +159,36 @@ private constructor(
     fun parseConfigId(): Optional<String> = parseConfigId.getOptional("parse_config_id")
 
     /**
-     * Parse tier to use before extraction. Defaults to the extract tier if not specified.
+     * Parse tier to use before extraction. Defaults to the extract tier if not specified. Turbo
+     * extract does not support parse configuration or produce a parse output; use another tier if
+     * your workflow requires parsed text.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun parseTier(): Optional<String> = parseTier.getOptional("parse_tier")
+
+    /**
+     * Optional worksheet names to extract when spreadsheet_mode is on. Overrides target_pages for
+     * spreadsheets; omit to extract every sheet. Names are matched exactly (case-sensitive) — pass
+     * them as a list, e.g. ["Sheet 1", "My Sheet"].
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun sheetNames(): Optional<List<String>> = sheetNames.getOptional("sheet_names")
+
+    /**
+     * Beta. When true, extract structured data directly from a spreadsheet workbook
+     * (.xlsx/.xls/.csv) — the agent reads cells straight from the workbook instead of the standard
+     * document path. Off by default (spreadsheets keep the standard path). Requires the
+     * agentic_plus tier. Billed on the standard per-page extract rate, against a page count derived
+     * from workbook size. Citations and confidence scores are not available in this mode.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun spreadsheetMode(): Optional<Boolean> = spreadsheetMode.getOptional("spreadsheet_mode")
 
     /**
      * Custom system prompt to guide extraction behavior
@@ -203,6 +255,15 @@ private constructor(
     fun _confidenceScores(): JsonField<Boolean> = confidenceScores
 
     /**
+     * Returns the raw JSON value of [disableCache].
+     *
+     * Unlike [disableCache], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("disable_cache")
+    @ExcludeMissing
+    fun _disableCache(): JsonField<Boolean> = disableCache
+
+    /**
      * Returns the raw JSON value of [extractionTarget].
      *
      * Unlike [extractionTarget], this method doesn't throw if the JSON field has an unexpected
@@ -234,6 +295,24 @@ private constructor(
      * Unlike [parseTier], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("parse_tier") @ExcludeMissing fun _parseTier(): JsonField<String> = parseTier
+
+    /**
+     * Returns the raw JSON value of [sheetNames].
+     *
+     * Unlike [sheetNames], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("sheet_names")
+    @ExcludeMissing
+    fun _sheetNames(): JsonField<List<String>> = sheetNames
+
+    /**
+     * Returns the raw JSON value of [spreadsheetMode].
+     *
+     * Unlike [spreadsheetMode], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("spreadsheet_mode")
+    @ExcludeMissing
+    fun _spreadsheetMode(): JsonField<Boolean> = spreadsheetMode
 
     /**
      * Returns the raw JSON value of [systemPrompt].
@@ -298,10 +377,13 @@ private constructor(
         private var dataSchema: JsonField<DataSchema>? = null
         private var citeSources: JsonField<Boolean> = JsonMissing.of()
         private var confidenceScores: JsonField<Boolean> = JsonMissing.of()
+        private var disableCache: JsonField<Boolean> = JsonMissing.of()
         private var extractionTarget: JsonField<ExtractionTarget> = JsonMissing.of()
         private var maxPages: JsonField<Long> = JsonMissing.of()
         private var parseConfigId: JsonField<String> = JsonMissing.of()
         private var parseTier: JsonField<String> = JsonMissing.of()
+        private var sheetNames: JsonField<MutableList<String>>? = null
+        private var spreadsheetMode: JsonField<Boolean> = JsonMissing.of()
         private var systemPrompt: JsonField<String> = JsonMissing.of()
         private var targetPages: JsonField<String> = JsonMissing.of()
         private var tier: JsonField<Tier> = JsonMissing.of()
@@ -313,10 +395,13 @@ private constructor(
             dataSchema = extractConfiguration.dataSchema
             citeSources = extractConfiguration.citeSources
             confidenceScores = extractConfiguration.confidenceScores
+            disableCache = extractConfiguration.disableCache
             extractionTarget = extractConfiguration.extractionTarget
             maxPages = extractConfiguration.maxPages
             parseConfigId = extractConfiguration.parseConfigId
             parseTier = extractConfiguration.parseTier
+            sheetNames = extractConfiguration.sheetNames.map { it.toMutableList() }
+            spreadsheetMode = extractConfiguration.spreadsheetMode
             systemPrompt = extractConfiguration.systemPrompt
             targetPages = extractConfiguration.targetPages
             tier = extractConfiguration.tier
@@ -339,7 +424,10 @@ private constructor(
          */
         fun dataSchema(dataSchema: JsonField<DataSchema>) = apply { this.dataSchema = dataSchema }
 
-        /** Include citations in results */
+        /**
+         * Include citations in results. Returned under `extract_metadata` (auto-included when set).
+         * Text-level on `turbo` (no bounding boxes).
+         */
         fun citeSources(citeSources: Boolean) = citeSources(JsonField.of(citeSources))
 
         /**
@@ -351,7 +439,10 @@ private constructor(
          */
         fun citeSources(citeSources: JsonField<Boolean>) = apply { this.citeSources = citeSources }
 
-        /** Include confidence scores in results */
+        /**
+         * Include confidence scores in results. Returned under `extract_metadata` (auto-included
+         * when set).
+         */
         fun confidenceScores(confidenceScores: Boolean) =
             confidenceScores(JsonField.of(confidenceScores))
 
@@ -364,6 +455,20 @@ private constructor(
          */
         fun confidenceScores(confidenceScores: JsonField<Boolean>) = apply {
             this.confidenceScores = confidenceScores
+        }
+
+        /** Disable reuse and storage of Extract results */
+        fun disableCache(disableCache: Boolean) = disableCache(JsonField.of(disableCache))
+
+        /**
+         * Sets [Builder.disableCache] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.disableCache] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun disableCache(disableCache: JsonField<Boolean>) = apply {
+            this.disableCache = disableCache
         }
 
         /**
@@ -405,7 +510,11 @@ private constructor(
          */
         fun maxPages(maxPages: JsonField<Long>) = apply { this.maxPages = maxPages }
 
-        /** Saved parse configuration ID to control how the document is parsed before extraction */
+        /**
+         * Saved parse configuration ID to control how the document is parsed before extraction.
+         * Turbo extract does not support parse configuration or produce a parse output; use another
+         * tier if your workflow requires parsed text.
+         */
         fun parseConfigId(parseConfigId: String?) =
             parseConfigId(JsonField.ofNullable(parseConfigId))
 
@@ -424,7 +533,11 @@ private constructor(
             this.parseConfigId = parseConfigId
         }
 
-        /** Parse tier to use before extraction. Defaults to the extract tier if not specified. */
+        /**
+         * Parse tier to use before extraction. Defaults to the extract tier if not specified. Turbo
+         * extract does not support parse configuration or produce a parse output; use another tier
+         * if your workflow requires parsed text.
+         */
         fun parseTier(parseTier: String?) = parseTier(JsonField.ofNullable(parseTier))
 
         /** Alias for calling [Builder.parseTier] with `parseTier.orElse(null)`. */
@@ -438,6 +551,61 @@ private constructor(
          * value.
          */
         fun parseTier(parseTier: JsonField<String>) = apply { this.parseTier = parseTier }
+
+        /**
+         * Optional worksheet names to extract when spreadsheet_mode is on. Overrides target_pages
+         * for spreadsheets; omit to extract every sheet. Names are matched exactly (case-sensitive)
+         * — pass them as a list, e.g. ["Sheet 1", "My Sheet"].
+         */
+        fun sheetNames(sheetNames: List<String>?) = sheetNames(JsonField.ofNullable(sheetNames))
+
+        /** Alias for calling [Builder.sheetNames] with `sheetNames.orElse(null)`. */
+        fun sheetNames(sheetNames: Optional<List<String>>) = sheetNames(sheetNames.getOrNull())
+
+        /**
+         * Sets [Builder.sheetNames] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.sheetNames] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun sheetNames(sheetNames: JsonField<List<String>>) = apply {
+            this.sheetNames = sheetNames.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [sheetNames].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addSheetName(sheetName: String) = apply {
+            sheetNames =
+                (sheetNames ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("sheetNames", it).add(sheetName)
+                }
+        }
+
+        /**
+         * Beta. When true, extract structured data directly from a spreadsheet workbook
+         * (.xlsx/.xls/.csv) — the agent reads cells straight from the workbook instead of the
+         * standard document path. Off by default (spreadsheets keep the standard path). Requires
+         * the agentic_plus tier. Billed on the standard per-page extract rate, against a page count
+         * derived from workbook size. Citations and confidence scores are not available in this
+         * mode.
+         */
+        fun spreadsheetMode(spreadsheetMode: Boolean) =
+            spreadsheetMode(JsonField.of(spreadsheetMode))
+
+        /**
+         * Sets [Builder.spreadsheetMode] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.spreadsheetMode] with a well-typed [Boolean] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun spreadsheetMode(spreadsheetMode: JsonField<Boolean>) = apply {
+            this.spreadsheetMode = spreadsheetMode
+        }
 
         /** Custom system prompt to guide extraction behavior */
         fun systemPrompt(systemPrompt: String?) = systemPrompt(JsonField.ofNullable(systemPrompt))
@@ -539,10 +707,13 @@ private constructor(
                 checkRequired("dataSchema", dataSchema),
                 citeSources,
                 confidenceScores,
+                disableCache,
                 extractionTarget,
                 maxPages,
                 parseConfigId,
                 parseTier,
+                (sheetNames ?: JsonMissing.of()).map { it.toImmutable() },
+                spreadsheetMode,
                 systemPrompt,
                 targetPages,
                 tier,
@@ -569,10 +740,13 @@ private constructor(
         dataSchema().validate()
         citeSources()
         confidenceScores()
+        disableCache()
         extractionTarget().ifPresent { it.validate() }
         maxPages()
         parseConfigId()
         parseTier()
+        sheetNames()
+        spreadsheetMode()
         systemPrompt()
         targetPages()
         tier().ifPresent { it.validate() }
@@ -598,10 +772,13 @@ private constructor(
         (dataSchema.asKnown().getOrNull()?.validity() ?: 0) +
             (if (citeSources.asKnown().isPresent) 1 else 0) +
             (if (confidenceScores.asKnown().isPresent) 1 else 0) +
+            (if (disableCache.asKnown().isPresent) 1 else 0) +
             (extractionTarget.asKnown().getOrNull()?.validity() ?: 0) +
             (if (maxPages.asKnown().isPresent) 1 else 0) +
             (if (parseConfigId.asKnown().isPresent) 1 else 0) +
             (if (parseTier.asKnown().isPresent) 1 else 0) +
+            (sheetNames.asKnown().getOrNull()?.size ?: 0) +
+            (if (spreadsheetMode.asKnown().isPresent) 1 else 0) +
             (if (systemPrompt.asKnown().isPresent) 1 else 0) +
             (if (targetPages.asKnown().isPresent) 1 else 0) +
             (tier.asKnown().getOrNull()?.validity() ?: 0) +
@@ -1024,10 +1201,13 @@ private constructor(
             dataSchema == other.dataSchema &&
             citeSources == other.citeSources &&
             confidenceScores == other.confidenceScores &&
+            disableCache == other.disableCache &&
             extractionTarget == other.extractionTarget &&
             maxPages == other.maxPages &&
             parseConfigId == other.parseConfigId &&
             parseTier == other.parseTier &&
+            sheetNames == other.sheetNames &&
+            spreadsheetMode == other.spreadsheetMode &&
             systemPrompt == other.systemPrompt &&
             targetPages == other.targetPages &&
             tier == other.tier &&
@@ -1040,10 +1220,13 @@ private constructor(
             dataSchema,
             citeSources,
             confidenceScores,
+            disableCache,
             extractionTarget,
             maxPages,
             parseConfigId,
             parseTier,
+            sheetNames,
+            spreadsheetMode,
             systemPrompt,
             targetPages,
             tier,
@@ -1055,5 +1238,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ExtractConfiguration{dataSchema=$dataSchema, citeSources=$citeSources, confidenceScores=$confidenceScores, extractionTarget=$extractionTarget, maxPages=$maxPages, parseConfigId=$parseConfigId, parseTier=$parseTier, systemPrompt=$systemPrompt, targetPages=$targetPages, tier=$tier, version=$version, additionalProperties=$additionalProperties}"
+        "ExtractConfiguration{dataSchema=$dataSchema, citeSources=$citeSources, confidenceScores=$confidenceScores, disableCache=$disableCache, extractionTarget=$extractionTarget, maxPages=$maxPages, parseConfigId=$parseConfigId, parseTier=$parseTier, sheetNames=$sheetNames, spreadsheetMode=$spreadsheetMode, systemPrompt=$systemPrompt, targetPages=$targetPages, tier=$tier, version=$version, additionalProperties=$additionalProperties}"
 }

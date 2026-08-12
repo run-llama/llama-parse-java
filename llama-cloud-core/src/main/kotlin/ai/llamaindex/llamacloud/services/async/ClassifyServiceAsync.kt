@@ -5,6 +5,8 @@ package ai.llamaindex.llamacloud.services.async
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.RequestOptions
 import ai.llamaindex.llamacloud.core.http.HttpResponseFor
+import ai.llamaindex.llamacloud.models.classify.ClassifyCancelParams
+import ai.llamaindex.llamacloud.models.classify.ClassifyCancelResponse
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateParams
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateRequest
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateResponse
@@ -88,6 +90,46 @@ interface ClassifyServiceAsync {
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<ClassifyListPageAsync> =
         list(ClassifyListParams.none(), requestOptions)
+
+    /**
+     * Cancel a running classify job.
+     *
+     * Stops processing and marks the job as CANCELLED. Returns the updated job. Jobs already in a
+     * terminal state (COMPLETED, FAILED, CANCELLED) cannot be cancelled.
+     */
+    fun cancel(jobId: String): CompletableFuture<ClassifyCancelResponse> =
+        cancel(jobId, ClassifyCancelParams.none())
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        params: ClassifyCancelParams = ClassifyCancelParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ClassifyCancelResponse> =
+        cancel(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        params: ClassifyCancelParams = ClassifyCancelParams.none(),
+    ): CompletableFuture<ClassifyCancelResponse> = cancel(jobId, params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(
+        params: ClassifyCancelParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ClassifyCancelResponse>
+
+    /** @see cancel */
+    fun cancel(params: ClassifyCancelParams): CompletableFuture<ClassifyCancelResponse> =
+        cancel(params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ClassifyCancelResponse> =
+        cancel(jobId, ClassifyCancelParams.none(), requestOptions)
 
     /**
      * Get a classify job by ID.
@@ -195,6 +237,47 @@ interface ClassifyServiceAsync {
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ClassifyListPageAsync>> =
             list(ClassifyListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/v2/classify/{job_id}/cancel`, but is otherwise
+         * the same as [ClassifyServiceAsync.cancel].
+         */
+        fun cancel(jobId: String): CompletableFuture<HttpResponseFor<ClassifyCancelResponse>> =
+            cancel(jobId, ClassifyCancelParams.none())
+
+        /** @see cancel */
+        fun cancel(
+            jobId: String,
+            params: ClassifyCancelParams = ClassifyCancelParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ClassifyCancelResponse>> =
+            cancel(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+        /** @see cancel */
+        fun cancel(
+            jobId: String,
+            params: ClassifyCancelParams = ClassifyCancelParams.none(),
+        ): CompletableFuture<HttpResponseFor<ClassifyCancelResponse>> =
+            cancel(jobId, params, RequestOptions.none())
+
+        /** @see cancel */
+        fun cancel(
+            params: ClassifyCancelParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ClassifyCancelResponse>>
+
+        /** @see cancel */
+        fun cancel(
+            params: ClassifyCancelParams
+        ): CompletableFuture<HttpResponseFor<ClassifyCancelResponse>> =
+            cancel(params, RequestOptions.none())
+
+        /** @see cancel */
+        fun cancel(
+            jobId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ClassifyCancelResponse>> =
+            cancel(jobId, ClassifyCancelParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/classify/{job_id}`, but is otherwise the

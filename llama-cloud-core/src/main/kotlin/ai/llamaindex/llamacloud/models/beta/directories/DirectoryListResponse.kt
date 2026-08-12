@@ -27,6 +27,7 @@ private constructor(
     private val id: JsonField<String>,
     private val name: JsonField<String>,
     private val projectId: JsonField<String>,
+    private val connectorSubscriptionId: JsonField<String>,
     private val createdAt: JsonField<OffsetDateTime>,
     private val deletedAt: JsonField<OffsetDateTime>,
     private val description: JsonField<String>,
@@ -42,6 +43,9 @@ private constructor(
         @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
         @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
         @JsonProperty("project_id") @ExcludeMissing projectId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("connector_subscription_id")
+        @ExcludeMissing
+        connectorSubscriptionId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("created_at")
         @ExcludeMissing
         createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -65,6 +69,7 @@ private constructor(
         id,
         name,
         projectId,
+        connectorSubscriptionId,
         createdAt,
         deletedAt,
         description,
@@ -98,6 +103,16 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun projectId(): String = projectId.getRequired("project_id")
+
+    /**
+     * Connector Subscription whose files sync into this directory. Null for a directory populated
+     * by manual uploads.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun connectorSubscriptionId(): Optional<String> =
+        connectorSubscriptionId.getOptional("connector_subscription_id")
 
     /**
      * Creation datetime
@@ -175,6 +190,16 @@ private constructor(
      * Unlike [projectId], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("project_id") @ExcludeMissing fun _projectId(): JsonField<String> = projectId
+
+    /**
+     * Returns the raw JSON value of [connectorSubscriptionId].
+     *
+     * Unlike [connectorSubscriptionId], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("connector_subscription_id")
+    @ExcludeMissing
+    fun _connectorSubscriptionId(): JsonField<String> = connectorSubscriptionId
 
     /**
      * Returns the raw JSON value of [createdAt].
@@ -268,6 +293,7 @@ private constructor(
         private var id: JsonField<String>? = null
         private var name: JsonField<String>? = null
         private var projectId: JsonField<String>? = null
+        private var connectorSubscriptionId: JsonField<String> = JsonMissing.of()
         private var createdAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var deletedAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var description: JsonField<String> = JsonMissing.of()
@@ -282,6 +308,7 @@ private constructor(
             id = directoryListResponse.id
             name = directoryListResponse.name
             projectId = directoryListResponse.projectId
+            connectorSubscriptionId = directoryListResponse.connectorSubscriptionId
             createdAt = directoryListResponse.createdAt
             deletedAt = directoryListResponse.deletedAt
             description = directoryListResponse.description
@@ -325,6 +352,31 @@ private constructor(
          * value.
          */
         fun projectId(projectId: JsonField<String>) = apply { this.projectId = projectId }
+
+        /**
+         * Connector Subscription whose files sync into this directory. Null for a directory
+         * populated by manual uploads.
+         */
+        fun connectorSubscriptionId(connectorSubscriptionId: String?) =
+            connectorSubscriptionId(JsonField.ofNullable(connectorSubscriptionId))
+
+        /**
+         * Alias for calling [Builder.connectorSubscriptionId] with
+         * `connectorSubscriptionId.orElse(null)`.
+         */
+        fun connectorSubscriptionId(connectorSubscriptionId: Optional<String>) =
+            connectorSubscriptionId(connectorSubscriptionId.getOrNull())
+
+        /**
+         * Sets [Builder.connectorSubscriptionId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.connectorSubscriptionId] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun connectorSubscriptionId(connectorSubscriptionId: JsonField<String>) = apply {
+            this.connectorSubscriptionId = connectorSubscriptionId
+        }
 
         /** Creation datetime */
         fun createdAt(createdAt: OffsetDateTime?) = createdAt(JsonField.ofNullable(createdAt))
@@ -472,6 +524,7 @@ private constructor(
                 checkRequired("id", id),
                 checkRequired("name", name),
                 checkRequired("projectId", projectId),
+                connectorSubscriptionId,
                 createdAt,
                 deletedAt,
                 description,
@@ -501,6 +554,7 @@ private constructor(
         id()
         name()
         projectId()
+        connectorSubscriptionId()
         createdAt()
         deletedAt()
         description()
@@ -529,6 +583,7 @@ private constructor(
         (if (id.asKnown().isPresent) 1 else 0) +
             (if (name.asKnown().isPresent) 1 else 0) +
             (if (projectId.asKnown().isPresent) 1 else 0) +
+            (if (connectorSubscriptionId.asKnown().isPresent) 1 else 0) +
             (if (createdAt.asKnown().isPresent) 1 else 0) +
             (if (deletedAt.asKnown().isPresent) 1 else 0) +
             (if (description.asKnown().isPresent) 1 else 0) +
@@ -798,6 +853,7 @@ private constructor(
             id == other.id &&
             name == other.name &&
             projectId == other.projectId &&
+            connectorSubscriptionId == other.connectorSubscriptionId &&
             createdAt == other.createdAt &&
             deletedAt == other.deletedAt &&
             description == other.description &&
@@ -813,6 +869,7 @@ private constructor(
             id,
             name,
             projectId,
+            connectorSubscriptionId,
             createdAt,
             deletedAt,
             description,
@@ -827,5 +884,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DirectoryListResponse{id=$id, name=$name, projectId=$projectId, createdAt=$createdAt, deletedAt=$deletedAt, description=$description, expiresAt=$expiresAt, systemMetadata=$systemMetadata, type=$type, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
+        "DirectoryListResponse{id=$id, name=$name, projectId=$projectId, connectorSubscriptionId=$connectorSubscriptionId, createdAt=$createdAt, deletedAt=$deletedAt, description=$description, expiresAt=$expiresAt, systemMetadata=$systemMetadata, type=$type, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
 }

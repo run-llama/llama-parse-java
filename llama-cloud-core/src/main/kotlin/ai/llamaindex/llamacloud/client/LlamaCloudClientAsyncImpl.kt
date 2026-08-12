@@ -22,6 +22,8 @@ import ai.llamaindex.llamacloud.services.async.ExtractServiceAsync
 import ai.llamaindex.llamacloud.services.async.ExtractServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.FileServiceAsync
 import ai.llamaindex.llamacloud.services.async.FileServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.JobDataPointServiceAsync
+import ai.llamaindex.llamacloud.services.async.JobDataPointServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.ParsingServiceAsync
 import ai.llamaindex.llamacloud.services.async.ParsingServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.PipelineServiceAsync
@@ -32,6 +34,12 @@ import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsync
 import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.SheetServiceAsync
 import ai.llamaindex.llamacloud.services.async.SheetServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.SplitServiceAsync
+import ai.llamaindex.llamacloud.services.async.SplitServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.V2ProjectServiceAsync
+import ai.llamaindex.llamacloud.services.async.V2ProjectServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.WebhookConfigServiceAsync
+import ai.llamaindex.llamacloud.services.async.WebhookConfigServiceAsyncImpl
 import java.util.function.Consumer
 
 class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : LlamaCloudClientAsync {
@@ -55,6 +63,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
     private val sheets: SheetServiceAsync by lazy {
         SheetServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
+    private val split: SplitServiceAsync by lazy {
+        SplitServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val parsing: ParsingServiceAsync by lazy {
@@ -81,8 +93,20 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
         ConfigurationServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
+    private val webhookConfigs: WebhookConfigServiceAsync by lazy {
+        WebhookConfigServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
     private val projects: ProjectServiceAsync by lazy {
         ProjectServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
+    private val v2Projects: V2ProjectServiceAsync by lazy {
+        V2ProjectServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
+    private val jobDataPoints: JobDataPointServiceAsync by lazy {
+        JobDataPointServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val dataSinks: DataSinkServiceAsync by lazy {
@@ -114,6 +138,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
     override fun sheets(): SheetServiceAsync = sheets
 
+    override fun split(): SplitServiceAsync = split
+
     override fun parsing(): ParsingServiceAsync = parsing
 
     override fun extract(): ExtractServiceAsync = extract
@@ -126,7 +152,13 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
     override fun configurations(): ConfigurationServiceAsync = configurations
 
+    override fun webhookConfigs(): WebhookConfigServiceAsync = webhookConfigs
+
     override fun projects(): ProjectServiceAsync = projects
+
+    override fun v2Projects(): V2ProjectServiceAsync = v2Projects
+
+    override fun jobDataPoints(): JobDataPointServiceAsync = jobDataPoints
 
     override fun dataSinks(): DataSinkServiceAsync = dataSinks
 
@@ -149,6 +181,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
         private val sheets: SheetServiceAsync.WithRawResponse by lazy {
             SheetServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val split: SplitServiceAsync.WithRawResponse by lazy {
+            SplitServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val parsing: ParsingServiceAsync.WithRawResponse by lazy {
@@ -175,8 +211,20 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
             ConfigurationServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val webhookConfigs: WebhookConfigServiceAsync.WithRawResponse by lazy {
+            WebhookConfigServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val projects: ProjectServiceAsync.WithRawResponse by lazy {
             ProjectServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val v2Projects: V2ProjectServiceAsync.WithRawResponse by lazy {
+            V2ProjectServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val jobDataPoints: JobDataPointServiceAsync.WithRawResponse by lazy {
+            JobDataPointServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val dataSinks: DataSinkServiceAsync.WithRawResponse by lazy {
@@ -210,6 +258,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
         override fun sheets(): SheetServiceAsync.WithRawResponse = sheets
 
+        override fun split(): SplitServiceAsync.WithRawResponse = split
+
         override fun parsing(): ParsingServiceAsync.WithRawResponse = parsing
 
         override fun extract(): ExtractServiceAsync.WithRawResponse = extract
@@ -222,7 +272,13 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
         override fun configurations(): ConfigurationServiceAsync.WithRawResponse = configurations
 
+        override fun webhookConfigs(): WebhookConfigServiceAsync.WithRawResponse = webhookConfigs
+
         override fun projects(): ProjectServiceAsync.WithRawResponse = projects
+
+        override fun v2Projects(): V2ProjectServiceAsync.WithRawResponse = v2Projects
+
+        override fun jobDataPoints(): JobDataPointServiceAsync.WithRawResponse = jobDataPoints
 
         override fun dataSinks(): DataSinkServiceAsync.WithRawResponse = dataSinks
 

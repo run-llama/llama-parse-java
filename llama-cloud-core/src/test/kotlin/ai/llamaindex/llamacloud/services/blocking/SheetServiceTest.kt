@@ -53,6 +53,8 @@ internal class SheetServiceTest {
                             .build()
                     )
                     .configurationId("cfg-11111111-2222-3333-4444-555555555555")
+                    .addWebhookConfigurationId("whc-...")
+                    .addWebhookConfigurationId("whc-...")
                     .addWebhookConfiguration(
                         SheetCreateParams.WebhookConfiguration.builder()
                             .addWebhookEvent(

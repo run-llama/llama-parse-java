@@ -4,6 +4,7 @@ package ai.llamaindex.llamacloud.services.async
 
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClientAsync
 import ai.llamaindex.llamacloud.core.JsonValue
+import ai.llamaindex.llamacloud.models.classify.ClassifyCancelParams
 import ai.llamaindex.llamacloud.models.classify.ClassifyConfiguration
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateParams
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateRequest
@@ -51,6 +52,8 @@ internal class ClassifyServiceAsyncTest {
                             .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                             .parseJobId("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                             .transactionId("tx-unique-idempotency-key")
+                            .addWebhookConfigurationId("whc-...")
+                            .addWebhookConfigurationId("whc-...")
                             .addWebhookConfiguration(
                                 ClassifyCreateRequest.WebhookConfiguration.builder()
                                     .addWebhookEvent(
@@ -94,6 +97,25 @@ internal class ClassifyServiceAsyncTest {
 
         val page = pageFuture.get()
         page.response().validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun cancel() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val classifyServiceAsync = client.classify()
+
+        val responseFuture =
+            classifyServiceAsync.cancel(
+                ClassifyCancelParams.builder()
+                    .jobId("job_id")
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
     }
 
     @Disabled("Mock server tests are disabled")

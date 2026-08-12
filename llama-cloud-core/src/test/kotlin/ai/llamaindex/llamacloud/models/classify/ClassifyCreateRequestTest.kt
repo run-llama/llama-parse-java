@@ -40,6 +40,8 @@ internal class ClassifyCreateRequestTest {
                 .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                 .parseJobId("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                 .transactionId("tx-unique-idempotency-key")
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     ClassifyCreateRequest.WebhookConfiguration.builder()
                         .addWebhookEvent(
@@ -91,6 +93,8 @@ internal class ClassifyCreateRequestTest {
         assertThat(classifyCreateRequest.parseJobId())
             .contains("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
         assertThat(classifyCreateRequest.transactionId()).contains("tx-unique-idempotency-key")
+        assertThat(classifyCreateRequest.webhookConfigurationIds().getOrNull())
+            .containsExactly("whc-...", "whc-...")
         assertThat(classifyCreateRequest.webhookConfigurations().getOrNull())
             .containsExactly(
                 ClassifyCreateRequest.WebhookConfiguration.builder()
@@ -142,6 +146,8 @@ internal class ClassifyCreateRequestTest {
                 .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                 .parseJobId("pjb-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                 .transactionId("tx-unique-idempotency-key")
+                .addWebhookConfigurationId("whc-...")
+                .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     ClassifyCreateRequest.WebhookConfiguration.builder()
                         .addWebhookEvent(

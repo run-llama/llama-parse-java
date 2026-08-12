@@ -6,6 +6,7 @@ import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.RequestOptions
 import ai.llamaindex.llamacloud.core.http.HttpResponseFor
 import ai.llamaindex.llamacloud.models.configurations.ConfigurationCreate
+import ai.llamaindex.llamacloud.models.extract.ExtractCancelParams
 import ai.llamaindex.llamacloud.models.extract.ExtractCreateParams
 import ai.llamaindex.llamacloud.models.extract.ExtractDeleteParams
 import ai.llamaindex.llamacloud.models.extract.ExtractDeleteResponse
@@ -130,6 +131,40 @@ interface ExtractService {
     fun delete(jobId: String, requestOptions: RequestOptions): ExtractDeleteResponse =
         delete(jobId, ExtractDeleteParams.none(), requestOptions)
 
+    /**
+     * Cancel a running extraction job.
+     *
+     * Stops processing and marks the job as CANCELLED. Returns the updated job. Jobs already in a
+     * terminal state (COMPLETED, FAILED, CANCELLED) cannot be cancelled.
+     */
+    fun cancel(jobId: String): ExtractV2Job = cancel(jobId, ExtractCancelParams.none())
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        params: ExtractCancelParams = ExtractCancelParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ExtractV2Job = cancel(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+    /** @see cancel */
+    fun cancel(
+        jobId: String,
+        params: ExtractCancelParams = ExtractCancelParams.none(),
+    ): ExtractV2Job = cancel(jobId, params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(
+        params: ExtractCancelParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ExtractV2Job
+
+    /** @see cancel */
+    fun cancel(params: ExtractCancelParams): ExtractV2Job = cancel(params, RequestOptions.none())
+
+    /** @see cancel */
+    fun cancel(jobId: String, requestOptions: RequestOptions): ExtractV2Job =
+        cancel(jobId, ExtractCancelParams.none(), requestOptions)
+
     /** Generate a JSON schema and return a product configuration request. */
     fun generateSchema(params: ExtractGenerateSchemaParams): ConfigurationCreate =
         generateSchema(params, RequestOptions.none())
@@ -161,7 +196,8 @@ interface ExtractService {
      * Get a single extraction job by ID.
      *
      * Returns the job status and results when complete. Use `expand=configuration` to include the
-     * full configuration used, and `expand=extract_metadata` for per-field metadata.
+     * full configuration used, `expand=extract_metadata` for per-field metadata, and `expand=usage`
+     * for credits billed against the job.
      */
     fun get(jobId: String): ExtractV2Job = get(jobId, ExtractGetParams.none())
 
@@ -325,6 +361,47 @@ interface ExtractService {
             requestOptions: RequestOptions,
         ): HttpResponseFor<ExtractDeleteResponse> =
             delete(jobId, ExtractDeleteParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/v2/extract/{job_id}/cancel`, but is otherwise
+         * the same as [ExtractService.cancel].
+         */
+        @MustBeClosed
+        fun cancel(jobId: String): HttpResponseFor<ExtractV2Job> =
+            cancel(jobId, ExtractCancelParams.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            jobId: String,
+            params: ExtractCancelParams = ExtractCancelParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ExtractV2Job> =
+            cancel(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            jobId: String,
+            params: ExtractCancelParams = ExtractCancelParams.none(),
+        ): HttpResponseFor<ExtractV2Job> = cancel(jobId, params, RequestOptions.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(
+            params: ExtractCancelParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ExtractV2Job>
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(params: ExtractCancelParams): HttpResponseFor<ExtractV2Job> =
+            cancel(params, RequestOptions.none())
+
+        /** @see cancel */
+        @MustBeClosed
+        fun cancel(jobId: String, requestOptions: RequestOptions): HttpResponseFor<ExtractV2Job> =
+            cancel(jobId, ExtractCancelParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /api/v2/extract/schema/generate`, but is otherwise

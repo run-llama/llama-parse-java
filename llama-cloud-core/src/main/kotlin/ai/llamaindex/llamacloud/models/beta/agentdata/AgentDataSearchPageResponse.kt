@@ -19,6 +19,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
+/** Paginated agent data search results. */
 class AgentDataSearchPageResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(

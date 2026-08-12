@@ -4,7 +4,6 @@ package ai.llamaindex.llamacloud.services.blocking
 
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.blocking.beta.AgentDataService
-import ai.llamaindex.llamacloud.services.blocking.beta.BatchService
 import ai.llamaindex.llamacloud.services.blocking.beta.ChatService
 import ai.llamaindex.llamacloud.services.blocking.beta.DirectoryService
 import ai.llamaindex.llamacloud.services.blocking.beta.IndexService
@@ -39,8 +38,6 @@ interface BetaService {
 
     fun directories(): DirectoryService
 
-    fun batch(): BatchService
-
     fun split(): SplitService
 
     /** A view of [BetaService] that provides access to raw HTTP responses for each method. */
@@ -64,8 +61,6 @@ interface BetaService {
         fun sheets(): SheetService.WithRawResponse
 
         fun directories(): DirectoryService.WithRawResponse
-
-        fun batch(): BatchService.WithRawResponse
 
         fun split(): SplitService.WithRawResponse
     }
