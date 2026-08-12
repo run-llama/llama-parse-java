@@ -6,10 +6,10 @@ import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.RequestOptions
 import ai.llamaindex.llamacloud.core.http.HttpResponse
 import ai.llamaindex.llamacloud.core.http.HttpResponseFor
+import ai.llamaindex.llamacloud.models.files.FileContentParams
 import ai.llamaindex.llamacloud.models.files.FileCreateParams
 import ai.llamaindex.llamacloud.models.files.FileCreateResponse
 import ai.llamaindex.llamacloud.models.files.FileDeleteParams
-import ai.llamaindex.llamacloud.models.files.FileGetParams
 import ai.llamaindex.llamacloud.models.files.FileListPageAsync
 import ai.llamaindex.llamacloud.models.files.FileListParams
 import ai.llamaindex.llamacloud.models.files.FileQueryParams
@@ -140,35 +140,36 @@ interface FileServiceAsync {
         delete(fileId, FileDeleteParams.none(), requestOptions)
 
     /** Get a presigned URL to download the file content. */
-    fun get(fileId: String): CompletableFuture<PresignedUrl> = get(fileId, FileGetParams.none())
+    fun content(fileId: String): CompletableFuture<PresignedUrl> =
+        content(fileId, FileContentParams.none())
 
-    /** @see get */
-    fun get(
+    /** @see content */
+    fun content(
         fileId: String,
-        params: FileGetParams = FileGetParams.none(),
+        params: FileContentParams = FileContentParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PresignedUrl> =
-        get(params.toBuilder().fileId(fileId).build(), requestOptions)
+        content(params.toBuilder().fileId(fileId).build(), requestOptions)
 
-    /** @see get */
-    fun get(
+    /** @see content */
+    fun content(
         fileId: String,
-        params: FileGetParams = FileGetParams.none(),
-    ): CompletableFuture<PresignedUrl> = get(fileId, params, RequestOptions.none())
+        params: FileContentParams = FileContentParams.none(),
+    ): CompletableFuture<PresignedUrl> = content(fileId, params, RequestOptions.none())
 
-    /** @see get */
-    fun get(
-        params: FileGetParams,
+    /** @see content */
+    fun content(
+        params: FileContentParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PresignedUrl>
 
-    /** @see get */
-    fun get(params: FileGetParams): CompletableFuture<PresignedUrl> =
-        get(params, RequestOptions.none())
+    /** @see content */
+    fun content(params: FileContentParams): CompletableFuture<PresignedUrl> =
+        content(params, RequestOptions.none())
 
-    /** @see get */
-    fun get(fileId: String, requestOptions: RequestOptions): CompletableFuture<PresignedUrl> =
-        get(fileId, FileGetParams.none(), requestOptions)
+    /** @see content */
+    fun content(fileId: String, requestOptions: RequestOptions): CompletableFuture<PresignedUrl> =
+        content(fileId, FileContentParams.none(), requestOptions)
 
     /** Query files with filtering and pagination. Deprecated: use `GET /files`. */
     @Deprecated("Use the GET /files endpoint instead")
@@ -322,42 +323,42 @@ interface FileServiceAsync {
 
         /**
          * Returns a raw HTTP response for `get /api/v1/beta/files/{file_id}/content`, but is
-         * otherwise the same as [FileServiceAsync.get].
+         * otherwise the same as [FileServiceAsync.content].
          */
-        fun get(fileId: String): CompletableFuture<HttpResponseFor<PresignedUrl>> =
-            get(fileId, FileGetParams.none())
+        fun content(fileId: String): CompletableFuture<HttpResponseFor<PresignedUrl>> =
+            content(fileId, FileContentParams.none())
 
-        /** @see get */
-        fun get(
+        /** @see content */
+        fun content(
             fileId: String,
-            params: FileGetParams = FileGetParams.none(),
+            params: FileContentParams = FileContentParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<PresignedUrl>> =
-            get(params.toBuilder().fileId(fileId).build(), requestOptions)
+            content(params.toBuilder().fileId(fileId).build(), requestOptions)
 
-        /** @see get */
-        fun get(
+        /** @see content */
+        fun content(
             fileId: String,
-            params: FileGetParams = FileGetParams.none(),
+            params: FileContentParams = FileContentParams.none(),
         ): CompletableFuture<HttpResponseFor<PresignedUrl>> =
-            get(fileId, params, RequestOptions.none())
+            content(fileId, params, RequestOptions.none())
 
-        /** @see get */
-        fun get(
-            params: FileGetParams,
+        /** @see content */
+        fun content(
+            params: FileContentParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<PresignedUrl>>
 
-        /** @see get */
-        fun get(params: FileGetParams): CompletableFuture<HttpResponseFor<PresignedUrl>> =
-            get(params, RequestOptions.none())
+        /** @see content */
+        fun content(params: FileContentParams): CompletableFuture<HttpResponseFor<PresignedUrl>> =
+            content(params, RequestOptions.none())
 
-        /** @see get */
-        fun get(
+        /** @see content */
+        fun content(
             fileId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<PresignedUrl>> =
-            get(fileId, FileGetParams.none(), requestOptions)
+            content(fileId, FileContentParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /api/v1/beta/files/query`, but is otherwise the

@@ -3,9 +3,9 @@
 package ai.llamaindex.llamacloud.services.blocking
 
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClient
+import ai.llamaindex.llamacloud.models.files.FileContentParams
 import ai.llamaindex.llamacloud.models.files.FileCreateParams
 import ai.llamaindex.llamacloud.models.files.FileDeleteParams
-import ai.llamaindex.llamacloud.models.files.FileGetParams
 import ai.llamaindex.llamacloud.models.files.FileQueryParams
 import ai.llamaindex.llamacloud.models.files.FileRetrieveParams
 import org.junit.jupiter.api.Disabled
@@ -81,13 +81,13 @@ internal class FileServiceTest {
 
     @Disabled("Mock server tests are disabled")
     @Test
-    fun get() {
+    fun content() {
         val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
         val fileService = client.files()
 
         val presignedUrl =
-            fileService.get(
-                FileGetParams.builder()
+            fileService.content(
+                FileContentParams.builder()
                     .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .expiresAtSeconds(0L)
                     .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

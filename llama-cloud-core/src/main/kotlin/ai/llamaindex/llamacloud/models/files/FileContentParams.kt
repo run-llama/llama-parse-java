@@ -10,7 +10,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Get a presigned URL to download the file content. */
-class FileGetParams
+class FileContentParams
 private constructor(
     private val fileId: String?,
     private val expiresAtSeconds: Long?,
@@ -38,13 +38,13 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): FileGetParams = builder().build()
+        @JvmStatic fun none(): FileContentParams = builder().build()
 
-        /** Returns a mutable builder for constructing an instance of [FileGetParams]. */
+        /** Returns a mutable builder for constructing an instance of [FileContentParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [FileGetParams]. */
+    /** A builder for [FileContentParams]. */
     class Builder internal constructor() {
 
         private var fileId: String? = null
@@ -55,13 +55,13 @@ private constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
-        internal fun from(fileGetParams: FileGetParams) = apply {
-            fileId = fileGetParams.fileId
-            expiresAtSeconds = fileGetParams.expiresAtSeconds
-            organizationId = fileGetParams.organizationId
-            projectId = fileGetParams.projectId
-            additionalHeaders = fileGetParams.additionalHeaders.toBuilder()
-            additionalQueryParams = fileGetParams.additionalQueryParams.toBuilder()
+        internal fun from(fileContentParams: FileContentParams) = apply {
+            fileId = fileContentParams.fileId
+            expiresAtSeconds = fileContentParams.expiresAtSeconds
+            organizationId = fileContentParams.organizationId
+            projectId = fileContentParams.projectId
+            additionalHeaders = fileContentParams.additionalHeaders.toBuilder()
+            additionalQueryParams = fileContentParams.additionalQueryParams.toBuilder()
         }
 
         fun fileId(fileId: String?) = apply { this.fileId = fileId }
@@ -194,12 +194,12 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [FileGetParams].
+         * Returns an immutable instance of [FileContentParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): FileGetParams =
-            FileGetParams(
+        fun build(): FileContentParams =
+            FileContentParams(
                 fileId,
                 expiresAtSeconds,
                 organizationId,
@@ -232,7 +232,7 @@ private constructor(
             return true
         }
 
-        return other is FileGetParams &&
+        return other is FileContentParams &&
             fileId == other.fileId &&
             expiresAtSeconds == other.expiresAtSeconds &&
             organizationId == other.organizationId &&
@@ -252,5 +252,5 @@ private constructor(
         )
 
     override fun toString() =
-        "FileGetParams{fileId=$fileId, expiresAtSeconds=$expiresAtSeconds, organizationId=$organizationId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "FileContentParams{fileId=$fileId, expiresAtSeconds=$expiresAtSeconds, organizationId=$organizationId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

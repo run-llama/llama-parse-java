@@ -18,10 +18,10 @@ import ai.llamaindex.llamacloud.core.http.json
 import ai.llamaindex.llamacloud.core.http.multipartFormData
 import ai.llamaindex.llamacloud.core.http.parseable
 import ai.llamaindex.llamacloud.core.prepareAsync
+import ai.llamaindex.llamacloud.models.files.FileContentParams
 import ai.llamaindex.llamacloud.models.files.FileCreateParams
 import ai.llamaindex.llamacloud.models.files.FileCreateResponse
 import ai.llamaindex.llamacloud.models.files.FileDeleteParams
-import ai.llamaindex.llamacloud.models.files.FileGetParams
 import ai.llamaindex.llamacloud.models.files.FileListPageAsync
 import ai.llamaindex.llamacloud.models.files.FileListPageResponse
 import ai.llamaindex.llamacloud.models.files.FileListParams
@@ -74,12 +74,12 @@ class FileServiceAsyncImpl internal constructor(private val clientOptions: Clien
         // delete /api/v1/beta/files/{file_id}
         withRawResponse().delete(params, requestOptions).thenAccept {}
 
-    override fun get(
-        params: FileGetParams,
+    override fun content(
+        params: FileContentParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<PresignedUrl> =
         // get /api/v1/beta/files/{file_id}/content
-        withRawResponse().get(params, requestOptions).thenApply { it.parse() }
+        withRawResponse().content(params, requestOptions).thenApply { it.parse() }
 
     @Deprecated("Use the GET /files endpoint instead")
     override fun query(
@@ -231,11 +231,11 @@ class FileServiceAsyncImpl internal constructor(private val clientOptions: Clien
                 }
         }
 
-        private val getHandler: Handler<PresignedUrl> =
+        private val contentHandler: Handler<PresignedUrl> =
             jsonHandler<PresignedUrl>(clientOptions.jsonMapper)
 
-        override fun get(
-            params: FileGetParams,
+        override fun content(
+            params: FileContentParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<PresignedUrl>> {
             // We check here instead of in the params builder because this can be specified
@@ -254,7 +254,7 @@ class FileServiceAsyncImpl internal constructor(private val clientOptions: Clien
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { getHandler.handle(it) }
+                            .use { contentHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

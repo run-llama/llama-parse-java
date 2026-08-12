@@ -6,11 +6,11 @@ import ai.llamaindex.llamacloud.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class FileGetParamsTest {
+internal class FileContentParamsTest {
 
     @Test
     fun create() {
-        FileGetParams.builder()
+        FileContentParams.builder()
             .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .expiresAtSeconds(0L)
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -20,7 +20,8 @@ internal class FileGetParamsTest {
 
     @Test
     fun pathParams() {
-        val params = FileGetParams.builder().fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
+        val params =
+            FileContentParams.builder().fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         // out-of-bound path param
@@ -30,7 +31,7 @@ internal class FileGetParamsTest {
     @Test
     fun queryParams() {
         val params =
-            FileGetParams.builder()
+            FileContentParams.builder()
                 .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .expiresAtSeconds(0L)
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -51,7 +52,8 @@ internal class FileGetParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = FileGetParams.builder().fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
+        val params =
+            FileContentParams.builder().fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
 
         val queryParams = params._queryParams()
 

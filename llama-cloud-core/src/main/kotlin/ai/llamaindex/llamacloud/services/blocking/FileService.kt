@@ -6,10 +6,10 @@ import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.RequestOptions
 import ai.llamaindex.llamacloud.core.http.HttpResponse
 import ai.llamaindex.llamacloud.core.http.HttpResponseFor
+import ai.llamaindex.llamacloud.models.files.FileContentParams
 import ai.llamaindex.llamacloud.models.files.FileCreateParams
 import ai.llamaindex.llamacloud.models.files.FileCreateResponse
 import ai.llamaindex.llamacloud.models.files.FileDeleteParams
-import ai.llamaindex.llamacloud.models.files.FileGetParams
 import ai.llamaindex.llamacloud.models.files.FileListPage
 import ai.llamaindex.llamacloud.models.files.FileListParams
 import ai.llamaindex.llamacloud.models.files.FileQueryParams
@@ -128,31 +128,33 @@ interface FileService {
         delete(fileId, FileDeleteParams.none(), requestOptions)
 
     /** Get a presigned URL to download the file content. */
-    fun get(fileId: String): PresignedUrl = get(fileId, FileGetParams.none())
+    fun content(fileId: String): PresignedUrl = content(fileId, FileContentParams.none())
 
-    /** @see get */
-    fun get(
+    /** @see content */
+    fun content(
         fileId: String,
-        params: FileGetParams = FileGetParams.none(),
+        params: FileContentParams = FileContentParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): PresignedUrl = get(params.toBuilder().fileId(fileId).build(), requestOptions)
+    ): PresignedUrl = content(params.toBuilder().fileId(fileId).build(), requestOptions)
 
-    /** @see get */
-    fun get(fileId: String, params: FileGetParams = FileGetParams.none()): PresignedUrl =
-        get(fileId, params, RequestOptions.none())
+    /** @see content */
+    fun content(
+        fileId: String,
+        params: FileContentParams = FileContentParams.none(),
+    ): PresignedUrl = content(fileId, params, RequestOptions.none())
 
-    /** @see get */
-    fun get(
-        params: FileGetParams,
+    /** @see content */
+    fun content(
+        params: FileContentParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PresignedUrl
 
-    /** @see get */
-    fun get(params: FileGetParams): PresignedUrl = get(params, RequestOptions.none())
+    /** @see content */
+    fun content(params: FileContentParams): PresignedUrl = content(params, RequestOptions.none())
 
-    /** @see get */
-    fun get(fileId: String, requestOptions: RequestOptions): PresignedUrl =
-        get(fileId, FileGetParams.none(), requestOptions)
+    /** @see content */
+    fun content(fileId: String, requestOptions: RequestOptions): PresignedUrl =
+        content(fileId, FileContentParams.none(), requestOptions)
 
     /** Query files with filtering and pagination. Deprecated: use `GET /files`. */
     @Deprecated("Use the GET /files endpoint instead")
@@ -307,43 +309,44 @@ interface FileService {
 
         /**
          * Returns a raw HTTP response for `get /api/v1/beta/files/{file_id}/content`, but is
-         * otherwise the same as [FileService.get].
+         * otherwise the same as [FileService.content].
          */
         @MustBeClosed
-        fun get(fileId: String): HttpResponseFor<PresignedUrl> = get(fileId, FileGetParams.none())
+        fun content(fileId: String): HttpResponseFor<PresignedUrl> =
+            content(fileId, FileContentParams.none())
 
-        /** @see get */
+        /** @see content */
         @MustBeClosed
-        fun get(
+        fun content(
             fileId: String,
-            params: FileGetParams = FileGetParams.none(),
+            params: FileContentParams = FileContentParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<PresignedUrl> =
-            get(params.toBuilder().fileId(fileId).build(), requestOptions)
+            content(params.toBuilder().fileId(fileId).build(), requestOptions)
 
-        /** @see get */
+        /** @see content */
         @MustBeClosed
-        fun get(
+        fun content(
             fileId: String,
-            params: FileGetParams = FileGetParams.none(),
-        ): HttpResponseFor<PresignedUrl> = get(fileId, params, RequestOptions.none())
+            params: FileContentParams = FileContentParams.none(),
+        ): HttpResponseFor<PresignedUrl> = content(fileId, params, RequestOptions.none())
 
-        /** @see get */
+        /** @see content */
         @MustBeClosed
-        fun get(
-            params: FileGetParams,
+        fun content(
+            params: FileContentParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<PresignedUrl>
 
-        /** @see get */
+        /** @see content */
         @MustBeClosed
-        fun get(params: FileGetParams): HttpResponseFor<PresignedUrl> =
-            get(params, RequestOptions.none())
+        fun content(params: FileContentParams): HttpResponseFor<PresignedUrl> =
+            content(params, RequestOptions.none())
 
-        /** @see get */
+        /** @see content */
         @MustBeClosed
-        fun get(fileId: String, requestOptions: RequestOptions): HttpResponseFor<PresignedUrl> =
-            get(fileId, FileGetParams.none(), requestOptions)
+        fun content(fileId: String, requestOptions: RequestOptions): HttpResponseFor<PresignedUrl> =
+            content(fileId, FileContentParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /api/v1/beta/files/query`, but is otherwise the

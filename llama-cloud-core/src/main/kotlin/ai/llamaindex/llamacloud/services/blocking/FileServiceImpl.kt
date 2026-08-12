@@ -18,10 +18,10 @@ import ai.llamaindex.llamacloud.core.http.json
 import ai.llamaindex.llamacloud.core.http.multipartFormData
 import ai.llamaindex.llamacloud.core.http.parseable
 import ai.llamaindex.llamacloud.core.prepare
+import ai.llamaindex.llamacloud.models.files.FileContentParams
 import ai.llamaindex.llamacloud.models.files.FileCreateParams
 import ai.llamaindex.llamacloud.models.files.FileCreateResponse
 import ai.llamaindex.llamacloud.models.files.FileDeleteParams
-import ai.llamaindex.llamacloud.models.files.FileGetParams
 import ai.llamaindex.llamacloud.models.files.FileListPage
 import ai.llamaindex.llamacloud.models.files.FileListPageResponse
 import ai.llamaindex.llamacloud.models.files.FileListParams
@@ -67,9 +67,9 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
         withRawResponse().delete(params, requestOptions)
     }
 
-    override fun get(params: FileGetParams, requestOptions: RequestOptions): PresignedUrl =
+    override fun content(params: FileContentParams, requestOptions: RequestOptions): PresignedUrl =
         // get /api/v1/beta/files/{file_id}/content
-        withRawResponse().get(params, requestOptions).parse()
+        withRawResponse().content(params, requestOptions).parse()
 
     @Deprecated("Use the GET /files endpoint instead")
     override fun query(params: FileQueryParams, requestOptions: RequestOptions): FileQueryResponse =
@@ -205,11 +205,11 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
             }
         }
 
-        private val getHandler: Handler<PresignedUrl> =
+        private val contentHandler: Handler<PresignedUrl> =
             jsonHandler<PresignedUrl>(clientOptions.jsonMapper)
 
-        override fun get(
-            params: FileGetParams,
+        override fun content(
+            params: FileContentParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<PresignedUrl> {
             // We check here instead of in the params builder because this can be specified
@@ -226,7 +226,7 @@ class FileServiceImpl internal constructor(private val clientOptions: ClientOpti
             val response = clientOptions.httpClient.execute(request, requestOptions)
             return errorHandler.handle(response).parseable {
                 response
-                    .use { getHandler.handle(it) }
+                    .use { contentHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
