@@ -117,6 +117,7 @@ internal class ParsingCreateParamsTest {
                     .targetPages("target_pages")
                     .build()
             )
+            .preset("preset")
             .processingControl(
                 ParsingCreateParams.ProcessingControl.builder()
                     .jobFailureConditions(
@@ -413,6 +414,7 @@ internal class ParsingCreateParamsTest {
                         .targetPages("target_pages")
                         .build()
                 )
+                .preset("preset")
                 .processingControl(
                     ParsingCreateParams.ProcessingControl.builder()
                         .jobFailureConditions(
@@ -739,6 +741,7 @@ internal class ParsingCreateParamsTest {
                         .targetPages("target_pages")
                         .build()
                 )
+                .preset("preset")
                 .processingControl(
                     ParsingCreateParams.ProcessingControl.builder()
                         .jobFailureConditions(
@@ -1040,6 +1043,7 @@ internal class ParsingCreateParamsTest {
                     .targetPages("target_pages")
                     .build()
             )
+        assertThat(body.preset()).contains("preset")
         assertThat(body.processingControl())
             .contains(
                 ParsingCreateParams.ProcessingControl.builder()

@@ -174,6 +174,7 @@ internal class ServiceParamsTest {
                         .targetPages("target_pages")
                         .build()
                 )
+                .preset("preset")
                 .processingControl(
                     ParsingCreateParams.ProcessingControl.builder()
                         .jobFailureConditions(
