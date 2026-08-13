@@ -115,7 +115,6 @@ internal class ParseV2ParametersTest {
                         .targetPages("target_pages")
                         .build()
                 )
-                .preset("preset")
                 .processingControl(
                     ParseV2Parameters.ProcessingControl.builder()
                         .jobFailureConditions(
@@ -405,7 +404,6 @@ internal class ParseV2ParametersTest {
                     .targetPages("target_pages")
                     .build()
             )
-        assertThat(parseV2Parameters.preset()).contains("preset")
         assertThat(parseV2Parameters.processingControl())
             .contains(
                 ParseV2Parameters.ProcessingControl.builder()
@@ -691,7 +689,6 @@ internal class ParseV2ParametersTest {
                         .targetPages("target_pages")
                         .build()
                 )
-                .preset("preset")
                 .processingControl(
                     ParseV2Parameters.ProcessingControl.builder()
                         .jobFailureConditions(
