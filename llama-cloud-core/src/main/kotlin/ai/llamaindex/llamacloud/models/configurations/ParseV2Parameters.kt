@@ -52,6 +52,7 @@ private constructor(
     private val inputOptions: JsonField<InputOptions>,
     private val outputOptions: JsonField<OutputOptions>,
     private val pageRanges: JsonField<PageRanges>,
+    private val preset: JsonField<String>,
     private val processingControl: JsonField<ProcessingControl>,
     private val processingOptions: JsonField<ProcessingOptions>,
     private val webhookConfigurationIds: JsonField<List<String>>,
@@ -84,6 +85,7 @@ private constructor(
         @JsonProperty("page_ranges")
         @ExcludeMissing
         pageRanges: JsonField<PageRanges> = JsonMissing.of(),
+        @JsonProperty("preset") @ExcludeMissing preset: JsonField<String> = JsonMissing.of(),
         @JsonProperty("processing_control")
         @ExcludeMissing
         processingControl: JsonField<ProcessingControl> = JsonMissing.of(),
@@ -108,6 +110,7 @@ private constructor(
         inputOptions,
         outputOptions,
         pageRanges,
+        preset,
         processingControl,
         processingOptions,
         webhookConfigurationIds,
@@ -230,6 +233,14 @@ private constructor(
     fun pageRanges(): Optional<PageRanges> = pageRanges.getOptional("page_ranges")
 
     /**
+     * Named preset for specialized document parsing
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun preset(): Optional<String> = preset.getOptional("preset")
+
+    /**
      * Job execution controls including timeouts and failure thresholds
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -340,6 +351,13 @@ private constructor(
     fun _pageRanges(): JsonField<PageRanges> = pageRanges
 
     /**
+     * Returns the raw JSON value of [preset].
+     *
+     * Unlike [preset], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("preset") @ExcludeMissing fun _preset(): JsonField<String> = preset
+
+    /**
      * Returns the raw JSON value of [processingControl].
      *
      * Unlike [processingControl], this method doesn't throw if the JSON field has an unexpected
@@ -419,6 +437,7 @@ private constructor(
         private var inputOptions: JsonField<InputOptions> = JsonMissing.of()
         private var outputOptions: JsonField<OutputOptions> = JsonMissing.of()
         private var pageRanges: JsonField<PageRanges> = JsonMissing.of()
+        private var preset: JsonField<String> = JsonMissing.of()
         private var processingControl: JsonField<ProcessingControl> = JsonMissing.of()
         private var processingOptions: JsonField<ProcessingOptions> = JsonMissing.of()
         private var webhookConfigurationIds: JsonField<MutableList<String>>? = null
@@ -438,6 +457,7 @@ private constructor(
             inputOptions = parseV2Parameters.inputOptions
             outputOptions = parseV2Parameters.outputOptions
             pageRanges = parseV2Parameters.pageRanges
+            preset = parseV2Parameters.preset
             processingControl = parseV2Parameters.processingControl
             processingOptions = parseV2Parameters.processingOptions
             webhookConfigurationIds =
@@ -640,6 +660,20 @@ private constructor(
          */
         fun pageRanges(pageRanges: JsonField<PageRanges>) = apply { this.pageRanges = pageRanges }
 
+        /** Named preset for specialized document parsing */
+        fun preset(preset: String?) = preset(JsonField.ofNullable(preset))
+
+        /** Alias for calling [Builder.preset] with `preset.orElse(null)`. */
+        fun preset(preset: Optional<String>) = preset(preset.getOrNull())
+
+        /**
+         * Sets [Builder.preset] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.preset] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun preset(preset: JsonField<String>) = apply { this.preset = preset }
+
         /** Job execution controls including timeouts and failure thresholds */
         fun processingControl(processingControl: ProcessingControl) =
             processingControl(JsonField.of(processingControl))
@@ -780,6 +814,7 @@ private constructor(
                 inputOptions,
                 outputOptions,
                 pageRanges,
+                preset,
                 processingControl,
                 processingOptions,
                 (webhookConfigurationIds ?: JsonMissing.of()).map { it.toImmutable() },
@@ -817,6 +852,7 @@ private constructor(
         inputOptions().ifPresent { it.validate() }
         outputOptions().ifPresent { it.validate() }
         pageRanges().ifPresent { it.validate() }
+        preset()
         processingControl().ifPresent { it.validate() }
         processingOptions().ifPresent { it.validate() }
         webhookConfigurationIds()
@@ -849,6 +885,7 @@ private constructor(
             (inputOptions.asKnown().getOrNull()?.validity() ?: 0) +
             (outputOptions.asKnown().getOrNull()?.validity() ?: 0) +
             (pageRanges.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (preset.asKnown().isPresent) 1 else 0) +
             (processingControl.asKnown().getOrNull()?.validity() ?: 0) +
             (processingOptions.asKnown().getOrNull()?.validity() ?: 0) +
             (webhookConfigurationIds.asKnown().getOrNull()?.size ?: 0) +
@@ -18986,6 +19023,7 @@ private constructor(
             inputOptions == other.inputOptions &&
             outputOptions == other.outputOptions &&
             pageRanges == other.pageRanges &&
+            preset == other.preset &&
             processingControl == other.processingControl &&
             processingOptions == other.processingOptions &&
             webhookConfigurationIds == other.webhookConfigurationIds &&
@@ -19006,6 +19044,7 @@ private constructor(
             inputOptions,
             outputOptions,
             pageRanges,
+            preset,
             processingControl,
             processingOptions,
             webhookConfigurationIds,
@@ -19017,5 +19056,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ParseV2Parameters{productType=$productType, tier=$tier, version=$version, agenticOptions=$agenticOptions, clientName=$clientName, cropBox=$cropBox, disableCache=$disableCache, fastOptions=$fastOptions, inputOptions=$inputOptions, outputOptions=$outputOptions, pageRanges=$pageRanges, processingControl=$processingControl, processingOptions=$processingOptions, webhookConfigurationIds=$webhookConfigurationIds, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
+        "ParseV2Parameters{productType=$productType, tier=$tier, version=$version, agenticOptions=$agenticOptions, clientName=$clientName, cropBox=$cropBox, disableCache=$disableCache, fastOptions=$fastOptions, inputOptions=$inputOptions, outputOptions=$outputOptions, pageRanges=$pageRanges, preset=$preset, processingControl=$processingControl, processingOptions=$processingOptions, webhookConfigurationIds=$webhookConfigurationIds, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
 }

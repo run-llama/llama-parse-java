@@ -130,6 +130,7 @@ internal class ParsingServiceAsyncTest {
                             .targetPages("target_pages")
                             .build()
                     )
+                    .preset("preset")
                     .processingControl(
                         ParsingCreateParams.ProcessingControl.builder()
                             .jobFailureConditions(
