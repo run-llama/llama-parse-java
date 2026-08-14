@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/ai.llamaindex/llama-cloud)](https://central.sonatype.com/artifact/ai.llamaindex/llama-cloud)
-[![javadoc](https://javadoc.io/badge2/ai.llamaindex/llama-cloud/javadoc.svg)](https://javadoc.io/doc/ai.llamaindex/llama-cloud)
+[![Maven Central](https://img.shields.io/maven-central/v/ai.llamaindex.llamacloud/llama-cloud)](https://central.sonatype.com/artifact/ai.llamaindex.llamacloud/llama-cloud/1.5.0)
+[![javadoc](https://javadoc.io/badge2/ai.llamaindex.llamacloud/llama-cloud/1.5.0/javadoc.svg)](https://javadoc.io/doc/ai.llamaindex.llamacloud/llama-cloud/1.5.0)
 
 <!-- x-release-please-end -->
 
@@ -22,7 +22,7 @@ Use the Llama Cloud MCP Server to enable AI assistants to interact with this API
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [developers.llamaindex.ai](https://developers.llamaindex.ai/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/ai.llamaindex/llama-cloud).
+The REST API documentation can be found on [developers.llamaindex.ai](https://developers.llamaindex.ai/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/ai.llamaindex.llamacloud/llama-cloud/1.5.0).
 
 <!-- x-release-please-end -->
 
@@ -355,12 +355,12 @@ import java.util.concurrent.CompletableFuture;
 
 CompletableFuture<ExtractListPageAsync> pageFuture = client.async().extract().list();
 
-pageFuture.thenAccept(page -> page.autoPager().subscribe(extract -> {
+pageFuture.thenRun(page -> page.autoPager().subscribe(extract -> {
     System.out.println(extract);
 }));
 
 // If you need to handle errors or completion of the stream
-pageFuture.thenAccept(page -> page.autoPager().subscribe(new AsyncStreamResponse.Handler<ExtractV2Job>() {
+pageFuture.thenRun(page -> page.autoPager().subscribe(new AsyncStreamResponse.Handler<>() {
     @Override
     public void onNext(ExtractV2Job extract) {
         System.out.println(extract);
@@ -378,7 +378,7 @@ pageFuture.thenAccept(page -> page.autoPager().subscribe(new AsyncStreamResponse
 }));
 
 // Or use futures
-pageFuture.thenAccept(page -> page.autoPager()
+pageFuture.thenRun(page -> page.autoPager()
     .subscribe(extract -> {
         System.out.println(extract);
     })
@@ -497,9 +497,7 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
-import ai.llamaindex.llamacloud.core.RequestOptions;
 import ai.llamaindex.llamacloud.models.beta.indexes.IndexListPage;
-import java.time.Duration;
 
 IndexListPage page = client.beta().indexes().list(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
 ```
@@ -681,8 +679,7 @@ The most straightforward way to create a [`JsonValue`](llama-cloud-core/src/main
 
 ```java
 import ai.llamaindex.llamacloud.core.JsonValue;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 // Create primitive JSON values
@@ -692,25 +689,29 @@ JsonValue numberValue = JsonValue.from(42);
 JsonValue stringValue = JsonValue.from("Hello World!");
 
 // Create a JSON array value equivalent to `["Hello", "World"]`
-JsonValue arrayValue = JsonValue.from(Arrays.asList(
+JsonValue arrayValue = JsonValue.from(List.of(
   "Hello", "World"
 ));
 
 // Create a JSON object value equivalent to `{ "a": 1, "b": 2 }`
-Map<String, Object> object = new HashMap<>();
-object.put("a", 1);
-object.put("b", 2);
-JsonValue objectValue = JsonValue.from(object);
+JsonValue objectValue = JsonValue.from(Map.of(
+  "a", 1,
+  "b", 2
+));
 
 // Create an arbitrarily nested JSON equivalent to:
 // {
 //   "a": [1, 2],
 //   "b": [3, 4]
 // }
-Map<String, Object> nested = new HashMap<>();
-nested.put("a", Arrays.asList(1, 2));
-nested.put("b", Arrays.asList(3, 4));
-JsonValue complexValue = JsonValue.from(nested);
+JsonValue complexValue = JsonValue.from(Map.of(
+  "a", List.of(
+    1, 2
+  ),
+  "b", List.of(
+    3, 4
+  )
+));
 ```
 
 Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
@@ -738,7 +739,7 @@ import java.util.Map;
 Map<String, JsonValue> additionalProperties = client.parsing().create(params)._additionalProperties();
 JsonValue secretPropertyValue = additionalProperties.get("secretProperty");
 
-String result = secretPropertyValue.accept(new JsonValue.Visitor<String>() {
+String result = secretPropertyValue.accept(new JsonValue.Visitor<>() {
     @Override
     public String visitNull() {
         return "It's null!";
@@ -763,9 +764,10 @@ To access a property's raw JSON value, which may be undocumented, call its `_` p
 
 ```java
 import ai.llamaindex.llamacloud.core.JsonField;
+import ai.llamaindex.llamacloud.models.parsing.ParsingCreateParams;
 import java.util.Optional;
 
-JsonField<String> tier = client.parsing().create(params)._tier();
+JsonField<ParsingCreateParams.Tier> tier = client.parsing().create(params)._tier();
 
 if (tier.isMissing()) {
   // The property is absent from the JSON response
@@ -777,7 +779,7 @@ if (tier.isMissing()) {
   Optional<String> jsonString = tier.asString();
 
   // Try to deserialize into a custom type
-  MyClass myObject = tier.asUnknown().get().convert(MyClass.class);
+  MyClass myObject = tier.asUnknown().orElseThrow().convert(MyClass.class);
 }
 ```
 
@@ -800,7 +802,6 @@ ParsingCreateResponse parsing = client.parsing().create(params).validate();
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```java
-import ai.llamaindex.llamacloud.core.RequestOptions;
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateResponse;
 
 ParsingCreateResponse parsing = client.parsing().create(
