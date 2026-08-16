@@ -76,7 +76,7 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-08-08`
+     * - `cost_effective`: `2026-08-11`
      * - `agentic`: `2026-07-24`
      * - `agentic_plus`: `2026-07-08`
      *
@@ -464,7 +464,7 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2026-06-15`
-         * - `cost_effective`: `2026-08-08`
+         * - `cost_effective`: `2026-08-11`
          * - `agentic`: `2026-07-24`
          * - `agentic_plus`: `2026-07-08`
          *
@@ -1081,7 +1081,7 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2026-06-15`
-         * - `cost_effective`: `2026-08-08`
+         * - `cost_effective`: `2026-08-11`
          * - `agentic`: `2026-07-24`
          * - `agentic_plus`: `2026-07-08`
          *
@@ -1515,7 +1515,7 @@ private constructor(
              *
              * Current `latest` by tier:
              * - `fast`: `2026-06-15`
-             * - `cost_effective`: `2026-08-08`
+             * - `cost_effective`: `2026-08-11`
              * - `agentic`: `2026-07-24`
              * - `agentic_plus`: `2026-07-08`
              *
@@ -2216,7 +2216,7 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-08-08`
+     * - `cost_effective`: `2026-08-11`
      * - `agentic`: `2026-07-24`
      * - `agentic_plus`: `2026-07-08`
      *
@@ -2238,7 +2238,7 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
-            @JvmField val _2026_08_08 = of("2026-08-08")
+            @JvmField val _2026_08_11 = of("2026-08-11")
 
             @JvmField val _2026_07_24 = of("2026-07-24")
 
@@ -2252,7 +2252,7 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
-            _2026_08_08,
+            _2026_08_11,
             _2026_07_24,
             _2026_07_08,
             _2026_06_15,
@@ -2269,7 +2269,7 @@ private constructor(
          */
         enum class Value {
             LATEST,
-            _2026_08_08,
+            _2026_08_11,
             _2026_07_24,
             _2026_07_08,
             _2026_06_15,
@@ -2287,7 +2287,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
-                _2026_08_08 -> Value._2026_08_08
+                _2026_08_11 -> Value._2026_08_11
                 _2026_07_24 -> Value._2026_07_24
                 _2026_07_08 -> Value._2026_07_08
                 _2026_06_15 -> Value._2026_06_15
@@ -2306,7 +2306,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
-                _2026_08_08 -> Known._2026_08_08
+                _2026_08_11 -> Known._2026_08_11
                 _2026_07_24 -> Known._2026_07_24
                 _2026_07_08 -> Known._2026_07_08
                 _2026_06_15 -> Known._2026_06_15
@@ -10893,7 +10893,7 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-08-08`
+                 * - `cost_effective`: `2026-08-11`
                  * - `agentic`: `2026-07-24`
                  * - `agentic_plus`: `2026-07-08`
                  *
@@ -11397,7 +11397,7 @@ private constructor(
                      *
                      * Current `latest` by tier:
                      * - `fast`: `2026-06-15`
-                     * - `cost_effective`: `2026-08-08`
+                     * - `cost_effective`: `2026-08-11`
                      * - `agentic`: `2026-07-24`
                      * - `agentic_plus`: `2026-07-08`
                      *
@@ -13011,7 +13011,7 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-08-08`
+                 * - `cost_effective`: `2026-08-11`
                  * - `agentic`: `2026-07-24`
                  * - `agentic_plus`: `2026-07-08`
                  *
@@ -13036,7 +13036,7 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
-                        @JvmField val _2026_08_08 = of("2026-08-08")
+                        @JvmField val _2026_08_11 = of("2026-08-11")
 
                         @JvmField val _2026_07_24 = of("2026-07-24")
 
@@ -13050,7 +13050,7 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
-                        _2026_08_08,
+                        _2026_08_11,
                         _2026_07_24,
                         _2026_07_08,
                         _2026_06_15,
@@ -13067,7 +13067,7 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
-                        _2026_08_08,
+                        _2026_08_11,
                         _2026_07_24,
                         _2026_07_08,
                         _2026_06_15,
@@ -13088,7 +13088,7 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
-                            _2026_08_08 -> Value._2026_08_08
+                            _2026_08_11 -> Value._2026_08_11
                             _2026_07_24 -> Value._2026_07_24
                             _2026_07_08 -> Value._2026_07_08
                             _2026_06_15 -> Value._2026_06_15
@@ -13107,7 +13107,7 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
-                            _2026_08_08 -> Known._2026_08_08
+                            _2026_08_11 -> Known._2026_08_11
                             _2026_07_24 -> Known._2026_07_24
                             _2026_07_08 -> Known._2026_07_08
                             _2026_06_15 -> Known._2026_06_15

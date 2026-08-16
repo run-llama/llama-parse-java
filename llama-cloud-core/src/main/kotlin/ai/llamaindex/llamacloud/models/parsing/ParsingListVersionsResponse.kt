@@ -1096,6 +1096,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val _2026_08_11 = of("2026-08-11")
+
             @JvmField val _2026_08_08 = of("2026-08-08")
 
             @JvmField val _2026_07_23 = of("2026-07-23")
@@ -1127,6 +1129,7 @@ private constructor(
 
         /** An enum containing [CostEffective]'s known values. */
         enum class Known {
+            _2026_08_11,
             _2026_08_08,
             _2026_07_23,
             _2026_06_26,
@@ -1152,6 +1155,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            _2026_08_11,
             _2026_08_08,
             _2026_07_23,
             _2026_06_26,
@@ -1181,6 +1185,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                _2026_08_11 -> Value._2026_08_11
                 _2026_08_08 -> Value._2026_08_08
                 _2026_07_23 -> Value._2026_07_23
                 _2026_06_26 -> Value._2026_06_26
@@ -1208,6 +1213,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                _2026_08_11 -> Known._2026_08_11
                 _2026_08_08 -> Known._2026_08_08
                 _2026_07_23 -> Known._2026_07_23
                 _2026_06_26 -> Known._2026_06_26
