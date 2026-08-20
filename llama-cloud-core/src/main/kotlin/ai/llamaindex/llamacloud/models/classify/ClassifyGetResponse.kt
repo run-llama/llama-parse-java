@@ -134,7 +134,7 @@ private constructor(
     fun projectId(): String = projectId.getRequired("project_id")
 
     /**
-     * Current job status: PENDING, RUNNING, COMPLETED, or FAILED
+     * Current job status: PENDING, RUNNING, COMPLETED, FAILED, or CANCELLED
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -452,7 +452,7 @@ private constructor(
          */
         fun projectId(projectId: JsonField<String>) = apply { this.projectId = projectId }
 
-        /** Current job status: PENDING, RUNNING, COMPLETED, or FAILED */
+        /** Current job status: PENDING, RUNNING, COMPLETED, FAILED, or CANCELLED */
         fun status(status: Status) = status(JsonField.of(status))
 
         /**
@@ -855,7 +855,7 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    /** Current job status: PENDING, RUNNING, COMPLETED, or FAILED */
+    /** Current job status: PENDING, RUNNING, COMPLETED, FAILED, or CANCELLED */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
@@ -870,6 +870,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val CANCELLED = of("CANCELLED")
+
             @JvmField val COMPLETED = of("COMPLETED")
 
             @JvmField val FAILED = of("FAILED")
@@ -883,6 +885,7 @@ private constructor(
 
         /** An enum containing [Status]'s known values. */
         enum class Known {
+            CANCELLED,
             COMPLETED,
             FAILED,
             PENDING,
@@ -899,6 +902,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            CANCELLED,
             COMPLETED,
             FAILED,
             PENDING,
@@ -916,6 +920,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                CANCELLED -> Value.CANCELLED
                 COMPLETED -> Value.COMPLETED
                 FAILED -> Value.FAILED
                 PENDING -> Value.PENDING
@@ -934,6 +939,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                CANCELLED -> Known.CANCELLED
                 COMPLETED -> Known.COMPLETED
                 FAILED -> Known.FAILED
                 PENDING -> Known.PENDING

@@ -358,6 +358,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val _2026_08_19 = of("2026-08-19")
+
             @JvmField val _2026_07_24 = of("2026-07-24")
 
             @JvmField val _2026_07_23 = of("2026-07-23")
@@ -447,6 +449,7 @@ private constructor(
 
         /** An enum containing [Agentic]'s known values. */
         enum class Known {
+            _2026_08_19,
             _2026_07_24,
             _2026_07_23,
             _2026_07_15,
@@ -501,6 +504,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            _2026_08_19,
             _2026_07_24,
             _2026_07_23,
             _2026_07_15,
@@ -556,6 +560,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                _2026_08_19 -> Value._2026_08_19
                 _2026_07_24 -> Value._2026_07_24
                 _2026_07_23 -> Value._2026_07_23
                 _2026_07_15 -> Value._2026_07_15
@@ -612,6 +617,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                _2026_08_19 -> Known._2026_08_19
                 _2026_07_24 -> Known._2026_07_24
                 _2026_07_23 -> Known._2026_07_23
                 _2026_07_15 -> Known._2026_07_15
@@ -735,6 +741,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val _2026_08_19 = of("2026-08-19")
+
             @JvmField val _2026_07_08 = of("2026-07-08")
 
             @JvmField val _2026_06_18 = of("2026-06-18")
@@ -818,6 +826,7 @@ private constructor(
 
         /** An enum containing [AgenticPlus]'s known values. */
         enum class Known {
+            _2026_08_19,
             _2026_07_08,
             _2026_06_18,
             _2026_06_11,
@@ -869,6 +878,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            _2026_08_19,
             _2026_07_08,
             _2026_06_18,
             _2026_06_11,
@@ -923,6 +933,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                _2026_08_19 -> Value._2026_08_19
                 _2026_07_08 -> Value._2026_07_08
                 _2026_06_18 -> Value._2026_06_18
                 _2026_06_11 -> Value._2026_06_11
@@ -976,6 +987,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                _2026_08_19 -> Known._2026_08_19
                 _2026_07_08 -> Known._2026_07_08
                 _2026_06_18 -> Known._2026_06_18
                 _2026_06_11 -> Known._2026_06_11
@@ -1096,6 +1108,10 @@ private constructor(
 
         companion object {
 
+            @JvmField val _2026_08_19 = of("2026-08-19")
+
+            @JvmField val _2026_08_11 = of("2026-08-11")
+
             @JvmField val _2026_08_08 = of("2026-08-08")
 
             @JvmField val _2026_07_23 = of("2026-07-23")
@@ -1127,6 +1143,8 @@ private constructor(
 
         /** An enum containing [CostEffective]'s known values. */
         enum class Known {
+            _2026_08_19,
+            _2026_08_11,
             _2026_08_08,
             _2026_07_23,
             _2026_06_26,
@@ -1152,6 +1170,8 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            _2026_08_19,
+            _2026_08_11,
             _2026_08_08,
             _2026_07_23,
             _2026_06_26,
@@ -1181,6 +1201,8 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                _2026_08_19 -> Value._2026_08_19
+                _2026_08_11 -> Value._2026_08_11
                 _2026_08_08 -> Value._2026_08_08
                 _2026_07_23 -> Value._2026_07_23
                 _2026_06_26 -> Value._2026_06_26
@@ -1208,6 +1230,8 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                _2026_08_19 -> Known._2026_08_19
+                _2026_08_11 -> Known._2026_08_11
                 _2026_08_08 -> Known._2026_08_08
                 _2026_07_23 -> Known._2026_07_23
                 _2026_06_26 -> Known._2026_06_26

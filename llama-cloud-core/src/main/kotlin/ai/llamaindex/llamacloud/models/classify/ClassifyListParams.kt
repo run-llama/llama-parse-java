@@ -348,6 +348,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val CANCELLED = of("CANCELLED")
+
             @JvmField val COMPLETED = of("COMPLETED")
 
             @JvmField val FAILED = of("FAILED")
@@ -361,6 +363,7 @@ private constructor(
 
         /** An enum containing [Status]'s known values. */
         enum class Known {
+            CANCELLED,
             COMPLETED,
             FAILED,
             PENDING,
@@ -377,6 +380,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            CANCELLED,
             COMPLETED,
             FAILED,
             PENDING,
@@ -394,6 +398,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                CANCELLED -> Value.CANCELLED
                 COMPLETED -> Value.COMPLETED
                 FAILED -> Value.FAILED
                 PENDING -> Value.PENDING
@@ -412,6 +417,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                CANCELLED -> Known.CANCELLED
                 COMPLETED -> Known.COMPLETED
                 FAILED -> Known.FAILED
                 PENDING -> Known.PENDING
