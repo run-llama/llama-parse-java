@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.5.1](https://github.com/run-llama/llama-parse-java/compare/v1.5.0...v1.5.1) (2026-08-20)
+
+
+### Features
+
+* **parse:** expose legal-document preset in v2 ([#24192](https://github.com/run-llama/llama-parse-java/issues/24192)) ([30270a2](https://github.com/run-llama/llama-parse-java/commit/30270a2be8583c150386062ff0cb456c9d038c30))
+
+
+### Bug Fixes
+
+* **parse:** restore inline_images on cost_effective (new version 2026-08-11) ([#23804](https://github.com/run-llama/llama-parse-java/issues/23804)) ([a5aad68](https://github.com/run-llama/llama-parse-java/commit/a5aad68a345b18eb57a018ad774e9d518f6204c5))
+* route security reports to support@runllama.ai; name LlamaIndex, Inc. in LICENSE ([#10](https://github.com/run-llama/llama-parse-java/issues/10)) ([3ae8ad0](https://github.com/run-llama/llama-parse-java/commit/3ae8ad0d0a8c662a42d52c3c8bc6c6beaa2a34ff))
+
+
+### Reverts
+
+* expose legal-document preset in v2 ([39589e9](https://github.com/run-llama/llama-parse-java/commit/39589e9628a8b3645e8f485f87be57fb90156559))
+
+
+### Documentation
+
+* fix non-compiling README examples (LI-8881) ([c6201ed](https://github.com/run-llama/llama-parse-java/commit/c6201ed691dbe3133b4781c37fcafe3eb4628711))
+
 ## [1.4.0](https://github.com/run-llama/llama-parse-java/compare/v1.3.0...v1.4.0) (2026-07-22)
 
 
