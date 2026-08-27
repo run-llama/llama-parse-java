@@ -137,6 +137,7 @@ internal class ServiceParamsTest {
                         .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.EMBEDDED)
                         .markdown(
                             ParsingCreateParams.OutputOptions.Markdown.builder()
+                                .annotateLineNumbers(true)
                                 .annotateLinks(true)
                                 .annotateRevisions(true)
                                 .inlineImages(true)

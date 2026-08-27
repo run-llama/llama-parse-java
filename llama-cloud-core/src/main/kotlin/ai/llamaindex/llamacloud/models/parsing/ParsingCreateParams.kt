@@ -5126,6 +5126,7 @@ private constructor(
         class Markdown
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
+            private val annotateLineNumbers: JsonField<Boolean>,
             private val annotateLinks: JsonField<Boolean>,
             private val annotateRevisions: JsonField<Boolean>,
             private val inlineImages: JsonField<Boolean>,
@@ -5135,6 +5136,9 @@ private constructor(
 
             @JsonCreator
             private constructor(
+                @JsonProperty("annotate_line_numbers")
+                @ExcludeMissing
+                annotateLineNumbers: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("annotate_links")
                 @ExcludeMissing
                 annotateLinks: JsonField<Boolean> = JsonMissing.of(),
@@ -5145,7 +5149,23 @@ private constructor(
                 @ExcludeMissing
                 inlineImages: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("tables") @ExcludeMissing tables: JsonField<Tables> = JsonMissing.of(),
-            ) : this(annotateLinks, annotateRevisions, inlineImages, tables, mutableMapOf())
+            ) : this(
+                annotateLineNumbers,
+                annotateLinks,
+                annotateRevisions,
+                inlineImages,
+                tables,
+                mutableMapOf(),
+            )
+
+            /**
+             * Detect printed gutter line numbers and return their Markdown offsets
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun annotateLineNumbers(): Optional<Boolean> =
+                annotateLineNumbers.getOptional("annotate_line_numbers")
 
             /**
              * Add link annotations to markdown output in the format [text](url). When false, only
@@ -5181,6 +5201,16 @@ private constructor(
              *   if the server responded with an unexpected value).
              */
             fun tables(): Optional<Tables> = tables.getOptional("tables")
+
+            /**
+             * Returns the raw JSON value of [annotateLineNumbers].
+             *
+             * Unlike [annotateLineNumbers], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("annotate_line_numbers")
+            @ExcludeMissing
+            fun _annotateLineNumbers(): JsonField<Boolean> = annotateLineNumbers
 
             /**
              * Returns the raw JSON value of [annotateLinks].
@@ -5240,6 +5270,7 @@ private constructor(
             /** A builder for [Markdown]. */
             class Builder internal constructor() {
 
+                private var annotateLineNumbers: JsonField<Boolean> = JsonMissing.of()
                 private var annotateLinks: JsonField<Boolean> = JsonMissing.of()
                 private var annotateRevisions: JsonField<Boolean> = JsonMissing.of()
                 private var inlineImages: JsonField<Boolean> = JsonMissing.of()
@@ -5248,11 +5279,42 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(markdown: Markdown) = apply {
+                    annotateLineNumbers = markdown.annotateLineNumbers
                     annotateLinks = markdown.annotateLinks
                     annotateRevisions = markdown.annotateRevisions
                     inlineImages = markdown.inlineImages
                     tables = markdown.tables
                     additionalProperties = markdown.additionalProperties.toMutableMap()
+                }
+
+                /** Detect printed gutter line numbers and return their Markdown offsets */
+                fun annotateLineNumbers(annotateLineNumbers: Boolean?) =
+                    annotateLineNumbers(JsonField.ofNullable(annotateLineNumbers))
+
+                /**
+                 * Alias for [Builder.annotateLineNumbers].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun annotateLineNumbers(annotateLineNumbers: Boolean) =
+                    annotateLineNumbers(annotateLineNumbers as Boolean?)
+
+                /**
+                 * Alias for calling [Builder.annotateLineNumbers] with
+                 * `annotateLineNumbers.orElse(null)`.
+                 */
+                fun annotateLineNumbers(annotateLineNumbers: Optional<Boolean>) =
+                    annotateLineNumbers(annotateLineNumbers.getOrNull())
+
+                /**
+                 * Sets [Builder.annotateLineNumbers] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.annotateLineNumbers] with a well-typed [Boolean]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun annotateLineNumbers(annotateLineNumbers: JsonField<Boolean>) = apply {
+                    this.annotateLineNumbers = annotateLineNumbers
                 }
 
                 /**
@@ -5386,6 +5448,7 @@ private constructor(
                  */
                 fun build(): Markdown =
                     Markdown(
+                        annotateLineNumbers,
                         annotateLinks,
                         annotateRevisions,
                         inlineImages,
@@ -5411,6 +5474,7 @@ private constructor(
                     return@apply
                 }
 
+                annotateLineNumbers()
                 annotateLinks()
                 annotateRevisions()
                 inlineImages()
@@ -5434,7 +5498,8 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (if (annotateLinks.asKnown().isPresent) 1 else 0) +
+                (if (annotateLineNumbers.asKnown().isPresent) 1 else 0) +
+                    (if (annotateLinks.asKnown().isPresent) 1 else 0) +
                     (if (annotateRevisions.asKnown().isPresent) 1 else 0) +
                     (if (inlineImages.asKnown().isPresent) 1 else 0) +
                     (tables.asKnown().getOrNull()?.validity() ?: 0)
@@ -5839,6 +5904,7 @@ private constructor(
                 }
 
                 return other is Markdown &&
+                    annotateLineNumbers == other.annotateLineNumbers &&
                     annotateLinks == other.annotateLinks &&
                     annotateRevisions == other.annotateRevisions &&
                     inlineImages == other.inlineImages &&
@@ -5848,6 +5914,7 @@ private constructor(
 
             private val hashCode: Int by lazy {
                 Objects.hash(
+                    annotateLineNumbers,
                     annotateLinks,
                     annotateRevisions,
                     inlineImages,
@@ -5859,7 +5926,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Markdown{annotateLinks=$annotateLinks, annotateRevisions=$annotateRevisions, inlineImages=$inlineImages, tables=$tables, additionalProperties=$additionalProperties}"
+                "Markdown{annotateLineNumbers=$annotateLineNumbers, annotateLinks=$annotateLinks, annotateRevisions=$annotateRevisions, inlineImages=$inlineImages, tables=$tables, additionalProperties=$additionalProperties}"
         }
 
         /** Spatial text output options for preserving document layout structure */

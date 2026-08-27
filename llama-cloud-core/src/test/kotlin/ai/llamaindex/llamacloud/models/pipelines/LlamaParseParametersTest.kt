@@ -20,6 +20,7 @@ internal class LlamaParseParametersTest {
             LlamaParseParameters.builder()
                 .adaptiveLongTable(true)
                 .aggressiveTableExtraction(true)
+                .annotateLineNumbers(true)
                 .annotateLinks(true)
                 .annotateRevisions(true)
                 .autoMode(true)
@@ -167,6 +168,7 @@ internal class LlamaParseParametersTest {
 
         assertThat(llamaParseParameters.adaptiveLongTable()).contains(true)
         assertThat(llamaParseParameters.aggressiveTableExtraction()).contains(true)
+        assertThat(llamaParseParameters.annotateLineNumbers()).contains(true)
         assertThat(llamaParseParameters.annotateLinks()).contains(true)
         assertThat(llamaParseParameters.annotateRevisions()).contains(true)
         assertThat(llamaParseParameters.autoMode()).contains(true)
@@ -329,6 +331,7 @@ internal class LlamaParseParametersTest {
             LlamaParseParameters.builder()
                 .adaptiveLongTable(true)
                 .aggressiveTableExtraction(true)
+                .annotateLineNumbers(true)
                 .annotateLinks(true)
                 .annotateRevisions(true)
                 .autoMode(true)

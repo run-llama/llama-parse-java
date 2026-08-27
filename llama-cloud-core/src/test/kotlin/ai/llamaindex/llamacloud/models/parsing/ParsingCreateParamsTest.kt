@@ -80,6 +80,7 @@ internal class ParsingCreateParamsTest {
                     .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.EMBEDDED)
                     .markdown(
                         ParsingCreateParams.OutputOptions.Markdown.builder()
+                            .annotateLineNumbers(true)
                             .annotateLinks(true)
                             .annotateRevisions(true)
                             .inlineImages(true)
@@ -376,6 +377,7 @@ internal class ParsingCreateParamsTest {
                         .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.EMBEDDED)
                         .markdown(
                             ParsingCreateParams.OutputOptions.Markdown.builder()
+                                .annotateLineNumbers(true)
                                 .annotateLinks(true)
                                 .annotateRevisions(true)
                                 .inlineImages(true)
@@ -702,6 +704,7 @@ internal class ParsingCreateParamsTest {
                         .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.EMBEDDED)
                         .markdown(
                             ParsingCreateParams.OutputOptions.Markdown.builder()
+                                .annotateLineNumbers(true)
                                 .annotateLinks(true)
                                 .annotateRevisions(true)
                                 .inlineImages(true)
@@ -1002,6 +1005,7 @@ internal class ParsingCreateParamsTest {
                     .addImagesToSave(ParsingCreateParams.OutputOptions.ImagesToSave.EMBEDDED)
                     .markdown(
                         ParsingCreateParams.OutputOptions.Markdown.builder()
+                            .annotateLineNumbers(true)
                             .annotateLinks(true)
                             .annotateRevisions(true)
                             .inlineImages(true)

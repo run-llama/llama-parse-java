@@ -252,6 +252,14 @@ internal class ParsingGetResponseTest {
                                 .pageNumber(0L)
                                 .footer("footer")
                                 .header("header")
+                                .addLineNumber(
+                                    ParsingGetResponse.Markdown.Page.MarkdownResultPage.LineNumber
+                                        .builder()
+                                        .endIndex(0L)
+                                        .lineNumber("line_number")
+                                        .startIndex(0L)
+                                        .build()
+                                )
                                 .build()
                         )
                         .build()
@@ -269,6 +277,19 @@ internal class ParsingGetResponseTest {
                                 .slideSectionName("slide_section_name")
                                 .speakerNotes("speaker_notes")
                                 .triggeredAutoMode(true)
+                                .build()
+                        )
+                        .document(
+                            ParsingGetResponse.Metadata.Document.builder()
+                                .confidence(0.0)
+                                .confidenceBreakdown(
+                                    ParsingGetResponse.Metadata.Document.ConfidenceBreakdown
+                                        .builder()
+                                        .minPageScore(0.0)
+                                        .scoredPages(0L)
+                                        .totalPages(0L)
+                                        .build()
+                                )
                                 .build()
                         )
                         .build()
@@ -541,6 +562,14 @@ internal class ParsingGetResponseTest {
                             .pageNumber(0L)
                             .footer("footer")
                             .header("header")
+                            .addLineNumber(
+                                ParsingGetResponse.Markdown.Page.MarkdownResultPage.LineNumber
+                                    .builder()
+                                    .endIndex(0L)
+                                    .lineNumber("line_number")
+                                    .startIndex(0L)
+                                    .build()
+                            )
                             .build()
                     )
                     .build()
@@ -559,6 +588,18 @@ internal class ParsingGetResponseTest {
                             .slideSectionName("slide_section_name")
                             .speakerNotes("speaker_notes")
                             .triggeredAutoMode(true)
+                            .build()
+                    )
+                    .document(
+                        ParsingGetResponse.Metadata.Document.builder()
+                            .confidence(0.0)
+                            .confidenceBreakdown(
+                                ParsingGetResponse.Metadata.Document.ConfidenceBreakdown.builder()
+                                    .minPageScore(0.0)
+                                    .scoredPages(0L)
+                                    .totalPages(0L)
+                                    .build()
+                            )
                             .build()
                     )
                     .build()
@@ -837,6 +878,14 @@ internal class ParsingGetResponseTest {
                                 .pageNumber(0L)
                                 .footer("footer")
                                 .header("header")
+                                .addLineNumber(
+                                    ParsingGetResponse.Markdown.Page.MarkdownResultPage.LineNumber
+                                        .builder()
+                                        .endIndex(0L)
+                                        .lineNumber("line_number")
+                                        .startIndex(0L)
+                                        .build()
+                                )
                                 .build()
                         )
                         .build()
@@ -854,6 +903,19 @@ internal class ParsingGetResponseTest {
                                 .slideSectionName("slide_section_name")
                                 .speakerNotes("speaker_notes")
                                 .triggeredAutoMode(true)
+                                .build()
+                        )
+                        .document(
+                            ParsingGetResponse.Metadata.Document.builder()
+                                .confidence(0.0)
+                                .confidenceBreakdown(
+                                    ParsingGetResponse.Metadata.Document.ConfidenceBreakdown
+                                        .builder()
+                                        .minPageScore(0.0)
+                                        .scoredPages(0L)
+                                        .totalPages(0L)
+                                        .build()
+                                )
                                 .build()
                         )
                         .build()

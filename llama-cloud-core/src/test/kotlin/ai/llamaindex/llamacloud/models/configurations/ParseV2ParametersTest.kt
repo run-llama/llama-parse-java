@@ -78,6 +78,7 @@ internal class ParseV2ParametersTest {
                         .addImagesToSave(ParseV2Parameters.OutputOptions.ImagesToSave.EMBEDDED)
                         .markdown(
                             ParseV2Parameters.OutputOptions.Markdown.builder()
+                                .annotateLineNumbers(true)
                                 .annotateLinks(true)
                                 .annotateRevisions(true)
                                 .inlineImages(true)
@@ -366,6 +367,7 @@ internal class ParseV2ParametersTest {
                     .addImagesToSave(ParseV2Parameters.OutputOptions.ImagesToSave.EMBEDDED)
                     .markdown(
                         ParseV2Parameters.OutputOptions.Markdown.builder()
+                            .annotateLineNumbers(true)
                             .annotateLinks(true)
                             .annotateRevisions(true)
                             .inlineImages(true)
@@ -652,6 +654,7 @@ internal class ParseV2ParametersTest {
                         .addImagesToSave(ParseV2Parameters.OutputOptions.ImagesToSave.EMBEDDED)
                         .markdown(
                             ParseV2Parameters.OutputOptions.Markdown.builder()
+                                .annotateLineNumbers(true)
                                 .annotateLinks(true)
                                 .annotateRevisions(true)
                                 .inlineImages(true)
