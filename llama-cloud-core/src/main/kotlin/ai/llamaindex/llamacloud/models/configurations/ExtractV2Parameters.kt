@@ -224,7 +224,7 @@ private constructor(
 
     /**
      * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), agentic_plus (50
-     * credits/page), or turbo (35 credits/page, experimental)
+     * credits/page), or turbo (35 credits/page)
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -675,7 +675,7 @@ private constructor(
 
         /**
          * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), agentic_plus
-         * (50 credits/page), or turbo (35 credits/page, experimental)
+         * (50 credits/page), or turbo (35 credits/page)
          */
         fun tier(tier: Tier) = tier(JsonField.of(tier))
 
@@ -1087,7 +1087,7 @@ private constructor(
 
     /**
      * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), agentic_plus (50
-     * credits/page), or turbo (35 credits/page, experimental)
+     * credits/page), or turbo (35 credits/page)
      */
     class Tier @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
