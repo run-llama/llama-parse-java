@@ -223,8 +223,8 @@ private constructor(
     fun targetPages(): Optional<String> = targetPages.getOptional("target_pages")
 
     /**
-     * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), or agentic_plus (50
-     * credits/page)
+     * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), agentic_plus (50
+     * credits/page), or turbo (35 credits/page, experimental)
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -674,8 +674,8 @@ private constructor(
         fun targetPages(targetPages: JsonField<String>) = apply { this.targetPages = targetPages }
 
         /**
-         * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), or agentic_plus
-         * (50 credits/page)
+         * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), agentic_plus
+         * (50 credits/page), or turbo (35 credits/page, experimental)
          */
         fun tier(tier: Tier) = tier(JsonField.of(tier))
 
@@ -1086,8 +1086,8 @@ private constructor(
     }
 
     /**
-     * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), or agentic_plus (50
-     * credits/page)
+     * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), agentic_plus (50
+     * credits/page), or turbo (35 credits/page, experimental)
      */
     class Tier @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -1109,6 +1109,8 @@ private constructor(
 
             @JvmField val COST_EFFECTIVE = of("cost_effective")
 
+            @JvmField val TURBO = of("turbo")
+
             @JvmStatic fun of(value: String) = Tier(JsonField.of(value))
         }
 
@@ -1117,6 +1119,7 @@ private constructor(
             AGENTIC,
             AGENTIC_PLUS,
             COST_EFFECTIVE,
+            TURBO,
         }
 
         /**
@@ -1132,6 +1135,7 @@ private constructor(
             AGENTIC,
             AGENTIC_PLUS,
             COST_EFFECTIVE,
+            TURBO,
             /** An enum member indicating that [Tier] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -1148,6 +1152,7 @@ private constructor(
                 AGENTIC -> Value.AGENTIC
                 AGENTIC_PLUS -> Value.AGENTIC_PLUS
                 COST_EFFECTIVE -> Value.COST_EFFECTIVE
+                TURBO -> Value.TURBO
                 else -> Value._UNKNOWN
             }
 
@@ -1165,6 +1170,7 @@ private constructor(
                 AGENTIC -> Known.AGENTIC
                 AGENTIC_PLUS -> Known.AGENTIC_PLUS
                 COST_EFFECTIVE -> Known.COST_EFFECTIVE
+                TURBO -> Known.TURBO
                 else -> throw LlamaCloudInvalidDataException("Unknown Tier: $value")
             }
 

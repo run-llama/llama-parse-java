@@ -7988,6 +7988,7 @@ private constructor(
                 private val success: JsonValue,
                 private val footer: JsonField<String>,
                 private val header: JsonField<String>,
+                private val lineNumbers: JsonField<List<LineNumber>>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
 
@@ -8006,7 +8007,10 @@ private constructor(
                     @JsonProperty("header")
                     @ExcludeMissing
                     header: JsonField<String> = JsonMissing.of(),
-                ) : this(markdown, pageNumber, success, footer, header, mutableMapOf())
+                    @JsonProperty("line_numbers")
+                    @ExcludeMissing
+                    lineNumbers: JsonField<List<LineNumber>> = JsonMissing.of(),
+                ) : this(markdown, pageNumber, success, footer, header, lineNumbers, mutableMapOf())
 
                 /**
                  * Markdown content of the page
@@ -8056,6 +8060,15 @@ private constructor(
                 fun header(): Optional<String> = header.getOptional("header")
 
                 /**
+                 * Printed line numbers linked to final page markdown
+                 *
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun lineNumbers(): Optional<List<LineNumber>> =
+                    lineNumbers.getOptional("line_numbers")
+
+                /**
                  * Returns the raw JSON value of [markdown].
                  *
                  * Unlike [markdown], this method doesn't throw if the JSON field has an unexpected
@@ -8090,6 +8103,16 @@ private constructor(
                  * type.
                  */
                 @JsonProperty("header") @ExcludeMissing fun _header(): JsonField<String> = header
+
+                /**
+                 * Returns the raw JSON value of [lineNumbers].
+                 *
+                 * Unlike [lineNumbers], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("line_numbers")
+                @ExcludeMissing
+                fun _lineNumbers(): JsonField<List<LineNumber>> = lineNumbers
 
                 @JsonAnySetter
                 private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -8126,6 +8149,7 @@ private constructor(
                     private var success: JsonValue = JsonValue.from(true)
                     private var footer: JsonField<String> = JsonMissing.of()
                     private var header: JsonField<String> = JsonMissing.of()
+                    private var lineNumbers: JsonField<MutableList<LineNumber>>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -8135,6 +8159,7 @@ private constructor(
                         success = markdownResultPage.success
                         footer = markdownResultPage.footer
                         header = markdownResultPage.header
+                        lineNumbers = markdownResultPage.lineNumbers.map { it.toMutableList() }
                         additionalProperties =
                             markdownResultPage.additionalProperties.toMutableMap()
                     }
@@ -8209,6 +8234,37 @@ private constructor(
                      */
                     fun header(header: JsonField<String>) = apply { this.header = header }
 
+                    /** Printed line numbers linked to final page markdown */
+                    fun lineNumbers(lineNumbers: List<LineNumber>?) =
+                        lineNumbers(JsonField.ofNullable(lineNumbers))
+
+                    /** Alias for calling [Builder.lineNumbers] with `lineNumbers.orElse(null)`. */
+                    fun lineNumbers(lineNumbers: Optional<List<LineNumber>>) =
+                        lineNumbers(lineNumbers.getOrNull())
+
+                    /**
+                     * Sets [Builder.lineNumbers] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.lineNumbers] with a well-typed
+                     * `List<LineNumber>` value instead. This method is primarily for setting the
+                     * field to an undocumented or not yet supported value.
+                     */
+                    fun lineNumbers(lineNumbers: JsonField<List<LineNumber>>) = apply {
+                        this.lineNumbers = lineNumbers.map { it.toMutableList() }
+                    }
+
+                    /**
+                     * Adds a single [LineNumber] to [lineNumbers].
+                     *
+                     * @throws IllegalStateException if the field was previously set to a non-list.
+                     */
+                    fun addLineNumber(lineNumber: LineNumber) = apply {
+                        lineNumbers =
+                            (lineNumbers ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("lineNumbers", it).add(lineNumber)
+                            }
+                    }
+
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
                         putAllAdditionalProperties(additionalProperties)
@@ -8251,6 +8307,7 @@ private constructor(
                             success,
                             footer,
                             header,
+                            (lineNumbers ?: JsonMissing.of()).map { it.toImmutable() },
                             additionalProperties.toMutableMap(),
                         )
                 }
@@ -8283,6 +8340,7 @@ private constructor(
                     }
                     footer()
                     header()
+                    lineNumbers().ifPresent { it.forEach { it.validate() } }
                     validated = true
                 }
 
@@ -8306,7 +8364,282 @@ private constructor(
                         (if (pageNumber.asKnown().isPresent) 1 else 0) +
                         success.let { if (it == JsonValue.from(true)) 1 else 0 } +
                         (if (footer.asKnown().isPresent) 1 else 0) +
-                        (if (header.asKnown().isPresent) 1 else 0)
+                        (if (header.asKnown().isPresent) 1 else 0) +
+                        (lineNumbers.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+
+                /** Source line number linked to final page markdown. */
+                class LineNumber
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+                private constructor(
+                    private val endIndex: JsonField<Long>,
+                    private val lineNumber: JsonField<String>,
+                    private val startIndex: JsonField<Long>,
+                    private val additionalProperties: MutableMap<String, JsonValue>,
+                ) {
+
+                    @JsonCreator
+                    private constructor(
+                        @JsonProperty("end_index")
+                        @ExcludeMissing
+                        endIndex: JsonField<Long> = JsonMissing.of(),
+                        @JsonProperty("line_number")
+                        @ExcludeMissing
+                        lineNumber: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("start_index")
+                        @ExcludeMissing
+                        startIndex: JsonField<Long> = JsonMissing.of(),
+                    ) : this(endIndex, lineNumber, startIndex, mutableMapOf())
+
+                    /**
+                     * Zero-based exclusive UTF-16 code-unit offset in final page markdown
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type or is unexpectedly missing or null (e.g. if the server responded with
+                     *   an unexpected value).
+                     */
+                    fun endIndex(): Long = endIndex.getRequired("end_index")
+
+                    /**
+                     * Printed source line number
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type or is unexpectedly missing or null (e.g. if the server responded with
+                     *   an unexpected value).
+                     */
+                    fun lineNumber(): String = lineNumber.getRequired("line_number")
+
+                    /**
+                     * Zero-based inclusive UTF-16 code-unit offset in final page markdown
+                     *
+                     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected
+                     *   type or is unexpectedly missing or null (e.g. if the server responded with
+                     *   an unexpected value).
+                     */
+                    fun startIndex(): Long = startIndex.getRequired("start_index")
+
+                    /**
+                     * Returns the raw JSON value of [endIndex].
+                     *
+                     * Unlike [endIndex], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
+                    @JsonProperty("end_index")
+                    @ExcludeMissing
+                    fun _endIndex(): JsonField<Long> = endIndex
+
+                    /**
+                     * Returns the raw JSON value of [lineNumber].
+                     *
+                     * Unlike [lineNumber], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
+                    @JsonProperty("line_number")
+                    @ExcludeMissing
+                    fun _lineNumber(): JsonField<String> = lineNumber
+
+                    /**
+                     * Returns the raw JSON value of [startIndex].
+                     *
+                     * Unlike [startIndex], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
+                    @JsonProperty("start_index")
+                    @ExcludeMissing
+                    fun _startIndex(): JsonField<Long> = startIndex
+
+                    @JsonAnySetter
+                    private fun putAdditionalProperty(key: String, value: JsonValue) {
+                        additionalProperties.put(key, value)
+                    }
+
+                    @JsonAnyGetter
+                    @ExcludeMissing
+                    fun _additionalProperties(): Map<String, JsonValue> =
+                        Collections.unmodifiableMap(additionalProperties)
+
+                    fun toBuilder() = Builder().from(this)
+
+                    companion object {
+
+                        /**
+                         * Returns a mutable builder for constructing an instance of [LineNumber].
+                         *
+                         * The following fields are required:
+                         * ```java
+                         * .endIndex()
+                         * .lineNumber()
+                         * .startIndex()
+                         * ```
+                         */
+                        @JvmStatic fun builder() = Builder()
+                    }
+
+                    /** A builder for [LineNumber]. */
+                    class Builder internal constructor() {
+
+                        private var endIndex: JsonField<Long>? = null
+                        private var lineNumber: JsonField<String>? = null
+                        private var startIndex: JsonField<Long>? = null
+                        private var additionalProperties: MutableMap<String, JsonValue> =
+                            mutableMapOf()
+
+                        @JvmSynthetic
+                        internal fun from(lineNumber: LineNumber) = apply {
+                            endIndex = lineNumber.endIndex
+                            this.lineNumber = lineNumber.lineNumber
+                            startIndex = lineNumber.startIndex
+                            additionalProperties = lineNumber.additionalProperties.toMutableMap()
+                        }
+
+                        /** Zero-based exclusive UTF-16 code-unit offset in final page markdown */
+                        fun endIndex(endIndex: Long) = endIndex(JsonField.of(endIndex))
+
+                        /**
+                         * Sets [Builder.endIndex] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.endIndex] with a well-typed [Long] value
+                         * instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun endIndex(endIndex: JsonField<Long>) = apply { this.endIndex = endIndex }
+
+                        /** Printed source line number */
+                        fun lineNumber(lineNumber: String) = lineNumber(JsonField.of(lineNumber))
+
+                        /**
+                         * Sets [Builder.lineNumber] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.lineNumber] with a well-typed [String]
+                         * value instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun lineNumber(lineNumber: JsonField<String>) = apply {
+                            this.lineNumber = lineNumber
+                        }
+
+                        /** Zero-based inclusive UTF-16 code-unit offset in final page markdown */
+                        fun startIndex(startIndex: Long) = startIndex(JsonField.of(startIndex))
+
+                        /**
+                         * Sets [Builder.startIndex] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.startIndex] with a well-typed [Long]
+                         * value instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun startIndex(startIndex: JsonField<Long>) = apply {
+                            this.startIndex = startIndex
+                        }
+
+                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                            apply {
+                                this.additionalProperties.clear()
+                                putAllAdditionalProperties(additionalProperties)
+                            }
+
+                        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                            additionalProperties.put(key, value)
+                        }
+
+                        fun putAllAdditionalProperties(
+                            additionalProperties: Map<String, JsonValue>
+                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                        fun removeAdditionalProperty(key: String) = apply {
+                            additionalProperties.remove(key)
+                        }
+
+                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                            keys.forEach(::removeAdditionalProperty)
+                        }
+
+                        /**
+                         * Returns an immutable instance of [LineNumber].
+                         *
+                         * Further updates to this [Builder] will not mutate the returned instance.
+                         *
+                         * The following fields are required:
+                         * ```java
+                         * .endIndex()
+                         * .lineNumber()
+                         * .startIndex()
+                         * ```
+                         *
+                         * @throws IllegalStateException if any required field is unset.
+                         */
+                        fun build(): LineNumber =
+                            LineNumber(
+                                checkRequired("endIndex", endIndex),
+                                checkRequired("lineNumber", lineNumber),
+                                checkRequired("startIndex", startIndex),
+                                additionalProperties.toMutableMap(),
+                            )
+                    }
+
+                    private var validated: Boolean = false
+
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws LlamaCloudInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
+                    fun validate(): LineNumber = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        endIndex()
+                        lineNumber()
+                        startIndex()
+                        validated = true
+                    }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: LlamaCloudInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    @JvmSynthetic
+                    internal fun validity(): Int =
+                        (if (endIndex.asKnown().isPresent) 1 else 0) +
+                            (if (lineNumber.asKnown().isPresent) 1 else 0) +
+                            (if (startIndex.asKnown().isPresent) 1 else 0)
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is LineNumber &&
+                            endIndex == other.endIndex &&
+                            lineNumber == other.lineNumber &&
+                            startIndex == other.startIndex &&
+                            additionalProperties == other.additionalProperties
+                    }
+
+                    private val hashCode: Int by lazy {
+                        Objects.hash(endIndex, lineNumber, startIndex, additionalProperties)
+                    }
+
+                    override fun hashCode(): Int = hashCode
+
+                    override fun toString() =
+                        "LineNumber{endIndex=$endIndex, lineNumber=$lineNumber, startIndex=$startIndex, additionalProperties=$additionalProperties}"
+                }
 
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
@@ -8319,6 +8652,7 @@ private constructor(
                         success == other.success &&
                         footer == other.footer &&
                         header == other.header &&
+                        lineNumbers == other.lineNumbers &&
                         additionalProperties == other.additionalProperties
                 }
 
@@ -8329,6 +8663,7 @@ private constructor(
                         success,
                         footer,
                         header,
+                        lineNumbers,
                         additionalProperties,
                     )
                 }
@@ -8336,7 +8671,7 @@ private constructor(
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "MarkdownResultPage{markdown=$markdown, pageNumber=$pageNumber, success=$success, footer=$footer, header=$header, additionalProperties=$additionalProperties}"
+                    "MarkdownResultPage{markdown=$markdown, pageNumber=$pageNumber, success=$success, footer=$footer, header=$header, lineNumbers=$lineNumbers, additionalProperties=$additionalProperties}"
             }
 
             class FailedMarkdownPage
@@ -8631,13 +8966,17 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val pages: JsonField<List<Page>>,
+        private val document: JsonField<Document>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
-            @JsonProperty("pages") @ExcludeMissing pages: JsonField<List<Page>> = JsonMissing.of()
-        ) : this(pages, mutableMapOf())
+            @JsonProperty("pages") @ExcludeMissing pages: JsonField<List<Page>> = JsonMissing.of(),
+            @JsonProperty("document")
+            @ExcludeMissing
+            document: JsonField<Document> = JsonMissing.of(),
+        ) : this(pages, document, mutableMapOf())
 
         /**
          * List of page metadata entries
@@ -8648,11 +8987,26 @@ private constructor(
         fun pages(): List<Page> = pages.getRequired("pages")
 
         /**
+         * Document-level metadata information.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun document(): Optional<Document> = document.getOptional("document")
+
+        /**
          * Returns the raw JSON value of [pages].
          *
          * Unlike [pages], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("pages") @ExcludeMissing fun _pages(): JsonField<List<Page>> = pages
+
+        /**
+         * Returns the raw JSON value of [document].
+         *
+         * Unlike [document], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("document") @ExcludeMissing fun _document(): JsonField<Document> = document
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -8683,11 +9037,13 @@ private constructor(
         class Builder internal constructor() {
 
             private var pages: JsonField<MutableList<Page>>? = null
+            private var document: JsonField<Document> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(metadata: Metadata) = apply {
                 pages = metadata.pages.map { it.toMutableList() }
+                document = metadata.document
                 additionalProperties = metadata.additionalProperties.toMutableMap()
             }
 
@@ -8716,6 +9072,21 @@ private constructor(
                         checkKnown("pages", it).add(page)
                     }
             }
+
+            /** Document-level metadata information. */
+            fun document(document: Document?) = document(JsonField.ofNullable(document))
+
+            /** Alias for calling [Builder.document] with `document.orElse(null)`. */
+            fun document(document: Optional<Document>) = document(document.getOrNull())
+
+            /**
+             * Sets [Builder.document] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.document] with a well-typed [Document] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun document(document: JsonField<Document>) = apply { this.document = document }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -8751,6 +9122,7 @@ private constructor(
             fun build(): Metadata =
                 Metadata(
                     checkRequired("pages", pages).map { it.toImmutable() },
+                    document,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -8772,6 +9144,7 @@ private constructor(
             }
 
             pages().forEach { it.validate() }
+            document().ifPresent { it.validate() }
             validated = true
         }
 
@@ -8791,7 +9164,8 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (pages.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+            (pages.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (document.asKnown().getOrNull()?.validity() ?: 0)
 
         /** Page-level metadata including confidence scores and presentation-specific data. */
         class Page
@@ -9369,6 +9743,518 @@ private constructor(
                 "Page{pageNumber=$pageNumber, confidence=$confidence, costOptimized=$costOptimized, originalOrientationAngle=$originalOrientationAngle, printedPageNumber=$printedPageNumber, slideSectionName=$slideSectionName, speakerNotes=$speakerNotes, triggeredAutoMode=$triggeredAutoMode, additionalProperties=$additionalProperties}"
         }
 
+        /** Document-level metadata information. */
+        class Document
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val confidence: JsonField<Double>,
+            private val confidenceBreakdown: JsonField<ConfidenceBreakdown>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("confidence")
+                @ExcludeMissing
+                confidence: JsonField<Double> = JsonMissing.of(),
+                @JsonProperty("confidence_breakdown")
+                @ExcludeMissing
+                confidenceBreakdown: JsonField<ConfidenceBreakdown> = JsonMissing.of(),
+            ) : this(confidence, confidenceBreakdown, mutableMapOf())
+
+            /**
+             * Mean confidence score across pages scored by the high-effort confidence judge (0-1)
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun confidence(): Optional<Double> = confidence.getOptional("confidence")
+
+            /**
+             * Coverage and worst-page details for document confidence.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun confidenceBreakdown(): Optional<ConfidenceBreakdown> =
+                confidenceBreakdown.getOptional("confidence_breakdown")
+
+            /**
+             * Returns the raw JSON value of [confidence].
+             *
+             * Unlike [confidence], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("confidence")
+            @ExcludeMissing
+            fun _confidence(): JsonField<Double> = confidence
+
+            /**
+             * Returns the raw JSON value of [confidenceBreakdown].
+             *
+             * Unlike [confidenceBreakdown], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("confidence_breakdown")
+            @ExcludeMissing
+            fun _confidenceBreakdown(): JsonField<ConfidenceBreakdown> = confidenceBreakdown
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Document]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Document]. */
+            class Builder internal constructor() {
+
+                private var confidence: JsonField<Double> = JsonMissing.of()
+                private var confidenceBreakdown: JsonField<ConfidenceBreakdown> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(document: Document) = apply {
+                    confidence = document.confidence
+                    confidenceBreakdown = document.confidenceBreakdown
+                    additionalProperties = document.additionalProperties.toMutableMap()
+                }
+
+                /**
+                 * Mean confidence score across pages scored by the high-effort confidence judge
+                 * (0-1)
+                 */
+                fun confidence(confidence: Double?) = confidence(JsonField.ofNullable(confidence))
+
+                /**
+                 * Alias for [Builder.confidence].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun confidence(confidence: Double) = confidence(confidence as Double?)
+
+                /** Alias for calling [Builder.confidence] with `confidence.orElse(null)`. */
+                fun confidence(confidence: Optional<Double>) = confidence(confidence.getOrNull())
+
+                /**
+                 * Sets [Builder.confidence] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.confidence] with a well-typed [Double] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun confidence(confidence: JsonField<Double>) = apply {
+                    this.confidence = confidence
+                }
+
+                /** Coverage and worst-page details for document confidence. */
+                fun confidenceBreakdown(confidenceBreakdown: ConfidenceBreakdown?) =
+                    confidenceBreakdown(JsonField.ofNullable(confidenceBreakdown))
+
+                /**
+                 * Alias for calling [Builder.confidenceBreakdown] with
+                 * `confidenceBreakdown.orElse(null)`.
+                 */
+                fun confidenceBreakdown(confidenceBreakdown: Optional<ConfidenceBreakdown>) =
+                    confidenceBreakdown(confidenceBreakdown.getOrNull())
+
+                /**
+                 * Sets [Builder.confidenceBreakdown] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.confidenceBreakdown] with a well-typed
+                 * [ConfidenceBreakdown] value instead. This method is primarily for setting the
+                 * field to an undocumented or not yet supported value.
+                 */
+                fun confidenceBreakdown(confidenceBreakdown: JsonField<ConfidenceBreakdown>) =
+                    apply {
+                        this.confidenceBreakdown = confidenceBreakdown
+                    }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Document].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Document =
+                    Document(confidence, confidenceBreakdown, additionalProperties.toMutableMap())
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
+            fun validate(): Document = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                confidence()
+                confidenceBreakdown().ifPresent { it.validate() }
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LlamaCloudInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (confidence.asKnown().isPresent) 1 else 0) +
+                    (confidenceBreakdown.asKnown().getOrNull()?.validity() ?: 0)
+
+            /** Coverage and worst-page details for document confidence. */
+            class ConfidenceBreakdown
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+            private constructor(
+                private val minPageScore: JsonField<Double>,
+                private val scoredPages: JsonField<Long>,
+                private val totalPages: JsonField<Long>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
+            ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("min_page_score")
+                    @ExcludeMissing
+                    minPageScore: JsonField<Double> = JsonMissing.of(),
+                    @JsonProperty("scored_pages")
+                    @ExcludeMissing
+                    scoredPages: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("total_pages")
+                    @ExcludeMissing
+                    totalPages: JsonField<Long> = JsonMissing.of(),
+                ) : this(minPageScore, scoredPages, totalPages, mutableMapOf())
+
+                /**
+                 * Lowest confidence score among pages scored by the high-effort confidence judge
+                 *
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   or is unexpectedly missing or null (e.g. if the server responded with an
+                 *   unexpected value).
+                 */
+                fun minPageScore(): Double = minPageScore.getRequired("min_page_score")
+
+                /**
+                 * Number of pages successfully scored by the high-effort confidence judge
+                 *
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   or is unexpectedly missing or null (e.g. if the server responded with an
+                 *   unexpected value).
+                 */
+                fun scoredPages(): Long = scoredPages.getRequired("scored_pages")
+
+                /**
+                 * Total number of pages in the parsed document
+                 *
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   or is unexpectedly missing or null (e.g. if the server responded with an
+                 *   unexpected value).
+                 */
+                fun totalPages(): Long = totalPages.getRequired("total_pages")
+
+                /**
+                 * Returns the raw JSON value of [minPageScore].
+                 *
+                 * Unlike [minPageScore], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("min_page_score")
+                @ExcludeMissing
+                fun _minPageScore(): JsonField<Double> = minPageScore
+
+                /**
+                 * Returns the raw JSON value of [scoredPages].
+                 *
+                 * Unlike [scoredPages], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("scored_pages")
+                @ExcludeMissing
+                fun _scoredPages(): JsonField<Long> = scoredPages
+
+                /**
+                 * Returns the raw JSON value of [totalPages].
+                 *
+                 * Unlike [totalPages], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("total_pages")
+                @ExcludeMissing
+                fun _totalPages(): JsonField<Long> = totalPages
+
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    /**
+                     * Returns a mutable builder for constructing an instance of
+                     * [ConfidenceBreakdown].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .minPageScore()
+                     * .scoredPages()
+                     * .totalPages()
+                     * ```
+                     */
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                /** A builder for [ConfidenceBreakdown]. */
+                class Builder internal constructor() {
+
+                    private var minPageScore: JsonField<Double>? = null
+                    private var scoredPages: JsonField<Long>? = null
+                    private var totalPages: JsonField<Long>? = null
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(confidenceBreakdown: ConfidenceBreakdown) = apply {
+                        minPageScore = confidenceBreakdown.minPageScore
+                        scoredPages = confidenceBreakdown.scoredPages
+                        totalPages = confidenceBreakdown.totalPages
+                        additionalProperties =
+                            confidenceBreakdown.additionalProperties.toMutableMap()
+                    }
+
+                    /**
+                     * Lowest confidence score among pages scored by the high-effort confidence
+                     * judge
+                     */
+                    fun minPageScore(minPageScore: Double) =
+                        minPageScore(JsonField.of(minPageScore))
+
+                    /**
+                     * Sets [Builder.minPageScore] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.minPageScore] with a well-typed [Double]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
+                    fun minPageScore(minPageScore: JsonField<Double>) = apply {
+                        this.minPageScore = minPageScore
+                    }
+
+                    /** Number of pages successfully scored by the high-effort confidence judge */
+                    fun scoredPages(scoredPages: Long) = scoredPages(JsonField.of(scoredPages))
+
+                    /**
+                     * Sets [Builder.scoredPages] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.scoredPages] with a well-typed [Long] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun scoredPages(scoredPages: JsonField<Long>) = apply {
+                        this.scoredPages = scoredPages
+                    }
+
+                    /** Total number of pages in the parsed document */
+                    fun totalPages(totalPages: Long) = totalPages(JsonField.of(totalPages))
+
+                    /**
+                     * Sets [Builder.totalPages] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.totalPages] with a well-typed [Long] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun totalPages(totalPages: JsonField<Long>) = apply {
+                        this.totalPages = totalPages
+                    }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
+
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
+
+                    /**
+                     * Returns an immutable instance of [ConfidenceBreakdown].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .minPageScore()
+                     * .scoredPages()
+                     * .totalPages()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
+                    fun build(): ConfidenceBreakdown =
+                        ConfidenceBreakdown(
+                            checkRequired("minPageScore", minPageScore),
+                            checkRequired("scoredPages", scoredPages),
+                            checkRequired("totalPages", totalPages),
+                            additionalProperties.toMutableMap(),
+                        )
+                }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LlamaCloudInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
+                fun validate(): ConfidenceBreakdown = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    minPageScore()
+                    scoredPages()
+                    totalPages()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LlamaCloudInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (if (minPageScore.asKnown().isPresent) 1 else 0) +
+                        (if (scoredPages.asKnown().isPresent) 1 else 0) +
+                        (if (totalPages.asKnown().isPresent) 1 else 0)
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is ConfidenceBreakdown &&
+                        minPageScore == other.minPageScore &&
+                        scoredPages == other.scoredPages &&
+                        totalPages == other.totalPages &&
+                        additionalProperties == other.additionalProperties
+                }
+
+                private val hashCode: Int by lazy {
+                    Objects.hash(minPageScore, scoredPages, totalPages, additionalProperties)
+                }
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "ConfidenceBreakdown{minPageScore=$minPageScore, scoredPages=$scoredPages, totalPages=$totalPages, additionalProperties=$additionalProperties}"
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Document &&
+                    confidence == other.confidence &&
+                    confidenceBreakdown == other.confidenceBreakdown &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(confidence, confidenceBreakdown, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Document{confidence=$confidence, confidenceBreakdown=$confidenceBreakdown, additionalProperties=$additionalProperties}"
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -9376,15 +10262,16 @@ private constructor(
 
             return other is Metadata &&
                 pages == other.pages &&
+                document == other.document &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy { Objects.hash(pages, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(pages, document, additionalProperties) }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Metadata{pages=$pages, additionalProperties=$additionalProperties}"
+            "Metadata{pages=$pages, document=$document, additionalProperties=$additionalProperties}"
     }
 
     class RawParameters

@@ -93,6 +93,7 @@ internal class ParsingServiceAsyncTest {
                             )
                             .markdown(
                                 ParsingCreateParams.OutputOptions.Markdown.builder()
+                                    .annotateLineNumbers(true)
                                     .annotateLinks(true)
                                     .annotateRevisions(true)
                                     .inlineImages(true)
