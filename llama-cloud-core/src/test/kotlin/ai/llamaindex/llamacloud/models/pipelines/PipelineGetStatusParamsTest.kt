@@ -13,6 +13,7 @@ internal class PipelineGetStatusParamsTest {
         PipelineGetStatusParams.builder()
             .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .fullDetails(true)
+            .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
 
@@ -34,11 +35,18 @@ internal class PipelineGetStatusParamsTest {
             PipelineGetStatusParams.builder()
                 .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .fullDetails(true)
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val queryParams = params._queryParams()
 
-        assertThat(queryParams).isEqualTo(QueryParams.builder().put("full_details", "true").build())
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("full_details", "true")
+                    .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
     }
 
     @Test

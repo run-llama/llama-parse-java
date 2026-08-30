@@ -16,6 +16,7 @@ class DocumentGetStatusParams
 private constructor(
     private val pipelineId: String,
     private val documentId: String?,
+    private val projectId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -23,6 +24,8 @@ private constructor(
     fun pipelineId(): String = pipelineId
 
     fun documentId(): Optional<String> = Optional.ofNullable(documentId)
+
+    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -50,6 +53,7 @@ private constructor(
 
         private var pipelineId: String? = null
         private var documentId: String? = null
+        private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -57,6 +61,7 @@ private constructor(
         internal fun from(documentGetStatusParams: DocumentGetStatusParams) = apply {
             pipelineId = documentGetStatusParams.pipelineId
             documentId = documentGetStatusParams.documentId
+            projectId = documentGetStatusParams.projectId
             additionalHeaders = documentGetStatusParams.additionalHeaders.toBuilder()
             additionalQueryParams = documentGetStatusParams.additionalQueryParams.toBuilder()
         }
@@ -67,6 +72,11 @@ private constructor(
 
         /** Alias for calling [Builder.documentId] with `documentId.orElse(null)`. */
         fun documentId(documentId: Optional<String>) = documentId(documentId.getOrNull())
+
+        fun projectId(projectId: String?) = apply { this.projectId = projectId }
+
+        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
+        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -182,6 +192,7 @@ private constructor(
             DocumentGetStatusParams(
                 checkRequired("pipelineId", pipelineId),
                 documentId,
+                projectId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -196,7 +207,13 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                projectId?.let { put("project_id", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -206,13 +223,14 @@ private constructor(
         return other is DocumentGetStatusParams &&
             pipelineId == other.pipelineId &&
             documentId == other.documentId &&
+            projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(pipelineId, documentId, additionalHeaders, additionalQueryParams)
+        Objects.hash(pipelineId, documentId, projectId, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "DocumentGetStatusParams{pipelineId=$pipelineId, documentId=$documentId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "DocumentGetStatusParams{pipelineId=$pipelineId, documentId=$documentId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
