@@ -158,7 +158,11 @@ interface PipelineServiceAsync {
     fun update(pipelineId: String, requestOptions: RequestOptions): CompletableFuture<Pipeline> =
         update(pipelineId, PipelineUpdateParams.none(), requestOptions)
 
-    /** Search for pipelines by name, type, or project. */
+    /**
+     * Search for pipelines by name, type, or project.
+     *
+     * Deprecated: use `GET /api/v2/pipelines`, which is paginated.
+     */
     @Deprecated("deprecated")
     fun list(): CompletableFuture<List<Pipeline>> = list(PipelineListParams.none())
 
