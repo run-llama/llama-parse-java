@@ -32,8 +32,6 @@ import ai.llamaindex.llamacloud.services.async.ProjectServiceAsync
 import ai.llamaindex.llamacloud.services.async.ProjectServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsync
 import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsyncImpl
-import ai.llamaindex.llamacloud.services.async.SheetServiceAsync
-import ai.llamaindex.llamacloud.services.async.SheetServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.SplitServiceAsync
 import ai.llamaindex.llamacloud.services.async.SplitServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.V2ProjectServiceAsync
@@ -60,10 +58,6 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
     }
 
     private val files: FileServiceAsync by lazy { FileServiceAsyncImpl(clientOptionsWithUserAgent) }
-
-    private val sheets: SheetServiceAsync by lazy {
-        SheetServiceAsyncImpl(clientOptionsWithUserAgent)
-    }
 
     private val split: SplitServiceAsync by lazy {
         SplitServiceAsyncImpl(clientOptionsWithUserAgent)
@@ -136,8 +130,6 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
     override fun files(): FileServiceAsync = files
 
-    override fun sheets(): SheetServiceAsync = sheets
-
     override fun split(): SplitServiceAsync = split
 
     override fun parsing(): ParsingServiceAsync = parsing
@@ -177,10 +169,6 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
         private val files: FileServiceAsync.WithRawResponse by lazy {
             FileServiceAsyncImpl.WithRawResponseImpl(clientOptions)
-        }
-
-        private val sheets: SheetServiceAsync.WithRawResponse by lazy {
-            SheetServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val split: SplitServiceAsync.WithRawResponse by lazy {
@@ -255,8 +243,6 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
             )
 
         override fun files(): FileServiceAsync.WithRawResponse = files
-
-        override fun sheets(): SheetServiceAsync.WithRawResponse = sheets
 
         override fun split(): SplitServiceAsync.WithRawResponse = split
 

@@ -51,7 +51,6 @@ internal class ProGuardCompatibilityTest {
 
         assertThat(client).isNotNull()
         assertThat(client.files()).isNotNull()
-        assertThat(client.sheets()).isNotNull()
         assertThat(client.split()).isNotNull()
         assertThat(client.parsing()).isNotNull()
         assertThat(client.extract()).isNotNull()
