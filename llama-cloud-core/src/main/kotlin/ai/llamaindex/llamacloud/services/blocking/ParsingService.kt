@@ -152,7 +152,7 @@ interface ParsingService {
     fun get(jobId: String, requestOptions: RequestOptions): ParsingGetResponse =
         get(jobId, ParsingGetParams.none(), requestOptions)
 
-    /** List the parse versions accepted by each tier. */
+    /** List the parse versions accepted by each tier and what `latest` resolves to. */
     fun listVersions(): ParsingListVersionsResponse = listVersions(ParsingListVersionsParams.none())
 
     /** @see listVersions */

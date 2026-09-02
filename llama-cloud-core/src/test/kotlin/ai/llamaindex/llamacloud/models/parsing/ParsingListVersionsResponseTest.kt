@@ -17,6 +17,14 @@ internal class ParsingListVersionsResponseTest {
                 .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_08_19)
                 .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_08_19)
                 .addFast(ParsingListVersionsResponse.Fast._2026_06_15)
+                .latest(
+                    ParsingListVersionsResponse.Latest.builder()
+                        .agentic("agentic")
+                        .agenticPlus("agentic_plus")
+                        .costEffective("cost_effective")
+                        .fast("fast")
+                        .build()
+                )
                 .build()
 
         assertThat(parsingListVersionsResponse.agentic())
@@ -27,6 +35,15 @@ internal class ParsingListVersionsResponseTest {
             .containsExactly(ParsingListVersionsResponse.CostEffective._2026_08_19)
         assertThat(parsingListVersionsResponse.fast())
             .containsExactly(ParsingListVersionsResponse.Fast._2026_06_15)
+        assertThat(parsingListVersionsResponse.latest())
+            .isEqualTo(
+                ParsingListVersionsResponse.Latest.builder()
+                    .agentic("agentic")
+                    .agenticPlus("agentic_plus")
+                    .costEffective("cost_effective")
+                    .fast("fast")
+                    .build()
+            )
     }
 
     @Test
@@ -38,6 +55,14 @@ internal class ParsingListVersionsResponseTest {
                 .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_08_19)
                 .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_08_19)
                 .addFast(ParsingListVersionsResponse.Fast._2026_06_15)
+                .latest(
+                    ParsingListVersionsResponse.Latest.builder()
+                        .agentic("agentic")
+                        .agenticPlus("agentic_plus")
+                        .costEffective("cost_effective")
+                        .fast("fast")
+                        .build()
+                )
                 .build()
 
         val roundtrippedParsingListVersionsResponse =
