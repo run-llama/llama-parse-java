@@ -31,7 +31,7 @@ private constructor(
     private val extractionTarget: JsonField<ExtractionTarget>,
     private val maxPages: JsonField<Long>,
     private val parseConfigId: JsonField<String>,
-    private val parseTier: JsonField<String>,
+    private val parseTier: JsonField<ParseTier>,
     private val sheetNames: JsonField<List<String>>,
     private val spreadsheetMode: JsonField<Boolean>,
     private val systemPrompt: JsonField<String>,
@@ -62,7 +62,9 @@ private constructor(
         @JsonProperty("parse_config_id")
         @ExcludeMissing
         parseConfigId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("parse_tier") @ExcludeMissing parseTier: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("parse_tier")
+        @ExcludeMissing
+        parseTier: JsonField<ParseTier> = JsonMissing.of(),
         @JsonProperty("sheet_names")
         @ExcludeMissing
         sheetNames: JsonField<List<String>> = JsonMissing.of(),
@@ -166,7 +168,7 @@ private constructor(
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun parseTier(): Optional<String> = parseTier.getOptional("parse_tier")
+    fun parseTier(): Optional<ParseTier> = parseTier.getOptional("parse_tier")
 
     /**
      * Optional worksheet names to extract when spreadsheet_mode is on. Overrides target_pages for
@@ -208,7 +210,7 @@ private constructor(
 
     /**
      * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), agentic_plus (50
-     * credits/page), or turbo (35 credits/page, experimental)
+     * credits/page), or turbo (35 credits/page)
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -294,7 +296,7 @@ private constructor(
      *
      * Unlike [parseTier], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("parse_tier") @ExcludeMissing fun _parseTier(): JsonField<String> = parseTier
+    @JsonProperty("parse_tier") @ExcludeMissing fun _parseTier(): JsonField<ParseTier> = parseTier
 
     /**
      * Returns the raw JSON value of [sheetNames].
@@ -381,7 +383,7 @@ private constructor(
         private var extractionTarget: JsonField<ExtractionTarget> = JsonMissing.of()
         private var maxPages: JsonField<Long> = JsonMissing.of()
         private var parseConfigId: JsonField<String> = JsonMissing.of()
-        private var parseTier: JsonField<String> = JsonMissing.of()
+        private var parseTier: JsonField<ParseTier> = JsonMissing.of()
         private var sheetNames: JsonField<MutableList<String>>? = null
         private var spreadsheetMode: JsonField<Boolean> = JsonMissing.of()
         private var systemPrompt: JsonField<String> = JsonMissing.of()
@@ -538,19 +540,19 @@ private constructor(
          * extract does not support parse configuration or produce a parse output; use another tier
          * if your workflow requires parsed text.
          */
-        fun parseTier(parseTier: String?) = parseTier(JsonField.ofNullable(parseTier))
+        fun parseTier(parseTier: ParseTier?) = parseTier(JsonField.ofNullable(parseTier))
 
         /** Alias for calling [Builder.parseTier] with `parseTier.orElse(null)`. */
-        fun parseTier(parseTier: Optional<String>) = parseTier(parseTier.getOrNull())
+        fun parseTier(parseTier: Optional<ParseTier>) = parseTier(parseTier.getOrNull())
 
         /**
          * Sets [Builder.parseTier] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.parseTier] with a well-typed [String] value instead.
+         * You should usually call [Builder.parseTier] with a well-typed [ParseTier] value instead.
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun parseTier(parseTier: JsonField<String>) = apply { this.parseTier = parseTier }
+        fun parseTier(parseTier: JsonField<ParseTier>) = apply { this.parseTier = parseTier }
 
         /**
          * Optional worksheet names to extract when spreadsheet_mode is on. Overrides target_pages
@@ -643,7 +645,7 @@ private constructor(
 
         /**
          * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), agentic_plus
-         * (50 credits/page), or turbo (35 credits/page, experimental)
+         * (50 credits/page), or turbo (35 credits/page)
          */
         fun tier(tier: Tier) = tier(JsonField.of(tier))
 
@@ -744,7 +746,7 @@ private constructor(
         extractionTarget().ifPresent { it.validate() }
         maxPages()
         parseConfigId()
-        parseTier()
+        parseTier().ifPresent { it.validate() }
         sheetNames()
         spreadsheetMode()
         systemPrompt()
@@ -776,7 +778,7 @@ private constructor(
             (extractionTarget.asKnown().getOrNull()?.validity() ?: 0) +
             (if (maxPages.asKnown().isPresent) 1 else 0) +
             (if (parseConfigId.asKnown().isPresent) 1 else 0) +
-            (if (parseTier.asKnown().isPresent) 1 else 0) +
+            (parseTier.asKnown().getOrNull()?.validity() ?: 0) +
             (sheetNames.asKnown().getOrNull()?.size ?: 0) +
             (if (spreadsheetMode.asKnown().isPresent) 1 else 0) +
             (if (systemPrompt.asKnown().isPresent) 1 else 0) +
@@ -1047,8 +1049,163 @@ private constructor(
     }
 
     /**
+     * Parse tier to use before extraction. Defaults to the extract tier if not specified. Turbo
+     * extract does not support parse configuration or produce a parse output; use another tier if
+     * your workflow requires parsed text.
+     */
+    class ParseTier @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val AGENTIC = of("agentic")
+
+            @JvmField val AGENTIC_PLUS = of("agentic_plus")
+
+            @JvmField val COST_EFFECTIVE = of("cost_effective")
+
+            @JvmField val FAST = of("fast")
+
+            @JvmStatic fun of(value: String) = ParseTier(JsonField.of(value))
+        }
+
+        /** An enum containing [ParseTier]'s known values. */
+        enum class Known {
+            AGENTIC,
+            AGENTIC_PLUS,
+            COST_EFFECTIVE,
+            FAST,
+        }
+
+        /**
+         * An enum containing [ParseTier]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [ParseTier] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            AGENTIC,
+            AGENTIC_PLUS,
+            COST_EFFECTIVE,
+            FAST,
+            /**
+             * An enum member indicating that [ParseTier] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                AGENTIC -> Value.AGENTIC
+                AGENTIC_PLUS -> Value.AGENTIC_PLUS
+                COST_EFFECTIVE -> Value.COST_EFFECTIVE
+                FAST -> Value.FAST
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                AGENTIC -> Known.AGENTIC
+                AGENTIC_PLUS -> Known.AGENTIC_PLUS
+                COST_EFFECTIVE -> Known.COST_EFFECTIVE
+                FAST -> Known.FAST
+                else -> throw LlamaCloudInvalidDataException("Unknown ParseTier: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                LlamaCloudInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): ParseTier = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ParseTier && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    /**
      * Extract tier: cost_effective (5 credits/page), agentic (15 credits/page), agentic_plus (50
-     * credits/page), or turbo (35 credits/page, experimental)
+     * credits/page), or turbo (35 credits/page)
      */
     class Tier @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 

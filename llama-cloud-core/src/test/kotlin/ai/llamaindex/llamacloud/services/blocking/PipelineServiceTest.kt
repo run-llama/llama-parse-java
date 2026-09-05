@@ -15,6 +15,8 @@ import ai.llamaindex.llamacloud.models.pipelines.LlamaParseParameters
 import ai.llamaindex.llamacloud.models.pipelines.MetadataFilters
 import ai.llamaindex.llamacloud.models.pipelines.PipelineCreate
 import ai.llamaindex.llamacloud.models.pipelines.PipelineCreateParams
+import ai.llamaindex.llamacloud.models.pipelines.PipelineDeleteParams
+import ai.llamaindex.llamacloud.models.pipelines.PipelineGetParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetStatusParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineMetadataConfig
@@ -391,6 +393,7 @@ internal class PipelineServiceTest {
             pipelineService.update(
                 PipelineUpdateParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .dataSink(
                         DataSinkCreate.builder()
                             .component(
@@ -686,7 +689,12 @@ internal class PipelineServiceTest {
         val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
         val pipelineService = client.pipelines()
 
-        pipelineService.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        pipelineService.delete(
+            PipelineDeleteParams.builder()
+                .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+        )
     }
 
     @Disabled("Mock server tests are disabled")
@@ -695,7 +703,13 @@ internal class PipelineServiceTest {
         val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
         val pipelineService = client.pipelines()
 
-        val pipeline = pipelineService.get("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val pipeline =
+            pipelineService.get(
+                PipelineGetParams.builder()
+                    .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
 
         pipeline.validate()
     }
@@ -711,6 +725,7 @@ internal class PipelineServiceTest {
                 PipelineGetStatusParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .fullDetails(true)
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 

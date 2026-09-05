@@ -27,6 +27,7 @@ private constructor(
     private val agenticPlus: JsonField<List<AgenticPlus>>,
     private val costEffective: JsonField<List<CostEffective>>,
     private val fast: JsonField<List<Fast>>,
+    private val latest: JsonField<Latest>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -42,7 +43,8 @@ private constructor(
         @ExcludeMissing
         costEffective: JsonField<List<CostEffective>> = JsonMissing.of(),
         @JsonProperty("fast") @ExcludeMissing fast: JsonField<List<Fast>> = JsonMissing.of(),
-    ) : this(agentic, agenticPlus, costEffective, fast, mutableMapOf())
+        @JsonProperty("latest") @ExcludeMissing latest: JsonField<Latest> = JsonMissing.of(),
+    ) : this(agentic, agenticPlus, costEffective, fast, latest, mutableMapOf())
 
     /**
      * Versions for the agentic tier
@@ -77,6 +79,14 @@ private constructor(
     fun fast(): List<Fast> = fast.getRequired("fast")
 
     /**
+     * Version `latest` currently resolves to, per tier
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun latest(): Latest = latest.getRequired("latest")
+
+    /**
      * Returns the raw JSON value of [agentic].
      *
      * Unlike [agentic], this method doesn't throw if the JSON field has an unexpected type.
@@ -108,6 +118,13 @@ private constructor(
      */
     @JsonProperty("fast") @ExcludeMissing fun _fast(): JsonField<List<Fast>> = fast
 
+    /**
+     * Returns the raw JSON value of [latest].
+     *
+     * Unlike [latest], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("latest") @ExcludeMissing fun _latest(): JsonField<Latest> = latest
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -131,6 +148,7 @@ private constructor(
          * .agenticPlus()
          * .costEffective()
          * .fast()
+         * .latest()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -143,6 +161,7 @@ private constructor(
         private var agenticPlus: JsonField<MutableList<AgenticPlus>>? = null
         private var costEffective: JsonField<MutableList<CostEffective>>? = null
         private var fast: JsonField<MutableList<Fast>>? = null
+        private var latest: JsonField<Latest>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -151,6 +170,7 @@ private constructor(
             agenticPlus = parsingListVersionsResponse.agenticPlus.map { it.toMutableList() }
             costEffective = parsingListVersionsResponse.costEffective.map { it.toMutableList() }
             fast = parsingListVersionsResponse.fast.map { it.toMutableList() }
+            latest = parsingListVersionsResponse.latest
             additionalProperties = parsingListVersionsResponse.additionalProperties.toMutableMap()
         }
 
@@ -258,6 +278,17 @@ private constructor(
                 }
         }
 
+        /** Version `latest` currently resolves to, per tier */
+        fun latest(latest: Latest) = latest(JsonField.of(latest))
+
+        /**
+         * Sets [Builder.latest] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.latest] with a well-typed [Latest] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun latest(latest: JsonField<Latest>) = apply { this.latest = latest }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -288,6 +319,7 @@ private constructor(
          * .agenticPlus()
          * .costEffective()
          * .fast()
+         * .latest()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -298,6 +330,7 @@ private constructor(
                 checkRequired("agenticPlus", agenticPlus).map { it.toImmutable() },
                 checkRequired("costEffective", costEffective).map { it.toImmutable() },
                 checkRequired("fast", fast).map { it.toImmutable() },
+                checkRequired("latest", latest),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -321,6 +354,7 @@ private constructor(
         agenticPlus().forEach { it.validate() }
         costEffective().forEach { it.validate() }
         fast().forEach { it.validate() }
+        latest().validate()
         validated = true
     }
 
@@ -342,7 +376,8 @@ private constructor(
         (agentic.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (agenticPlus.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (costEffective.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
-            (fast.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+            (fast.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+            (latest.asKnown().getOrNull()?.validity() ?: 0)
 
     class Agentic @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -1447,6 +1482,303 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /** Version `latest` currently resolves to, per tier */
+    class Latest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val agentic: JsonField<String>,
+        private val agenticPlus: JsonField<String>,
+        private val costEffective: JsonField<String>,
+        private val fast: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("agentic") @ExcludeMissing agentic: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("agentic_plus")
+            @ExcludeMissing
+            agenticPlus: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("cost_effective")
+            @ExcludeMissing
+            costEffective: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("fast") @ExcludeMissing fast: JsonField<String> = JsonMissing.of(),
+        ) : this(agentic, agenticPlus, costEffective, fast, mutableMapOf())
+
+        /**
+         * Version `latest` resolves to for the agentic tier
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun agentic(): String = agentic.getRequired("agentic")
+
+        /**
+         * Version `latest` resolves to for the agentic_plus tier
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun agenticPlus(): String = agenticPlus.getRequired("agentic_plus")
+
+        /**
+         * Version `latest` resolves to for the cost_effective tier
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun costEffective(): String = costEffective.getRequired("cost_effective")
+
+        /**
+         * Version `latest` resolves to for the fast tier
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun fast(): String = fast.getRequired("fast")
+
+        /**
+         * Returns the raw JSON value of [agentic].
+         *
+         * Unlike [agentic], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("agentic") @ExcludeMissing fun _agentic(): JsonField<String> = agentic
+
+        /**
+         * Returns the raw JSON value of [agenticPlus].
+         *
+         * Unlike [agenticPlus], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("agentic_plus")
+        @ExcludeMissing
+        fun _agenticPlus(): JsonField<String> = agenticPlus
+
+        /**
+         * Returns the raw JSON value of [costEffective].
+         *
+         * Unlike [costEffective], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("cost_effective")
+        @ExcludeMissing
+        fun _costEffective(): JsonField<String> = costEffective
+
+        /**
+         * Returns the raw JSON value of [fast].
+         *
+         * Unlike [fast], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("fast") @ExcludeMissing fun _fast(): JsonField<String> = fast
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [Latest].
+             *
+             * The following fields are required:
+             * ```java
+             * .agentic()
+             * .agenticPlus()
+             * .costEffective()
+             * .fast()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Latest]. */
+        class Builder internal constructor() {
+
+            private var agentic: JsonField<String>? = null
+            private var agenticPlus: JsonField<String>? = null
+            private var costEffective: JsonField<String>? = null
+            private var fast: JsonField<String>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(latest: Latest) = apply {
+                agentic = latest.agentic
+                agenticPlus = latest.agenticPlus
+                costEffective = latest.costEffective
+                fast = latest.fast
+                additionalProperties = latest.additionalProperties.toMutableMap()
+            }
+
+            /** Version `latest` resolves to for the agentic tier */
+            fun agentic(agentic: String) = agentic(JsonField.of(agentic))
+
+            /**
+             * Sets [Builder.agentic] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.agentic] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun agentic(agentic: JsonField<String>) = apply { this.agentic = agentic }
+
+            /** Version `latest` resolves to for the agentic_plus tier */
+            fun agenticPlus(agenticPlus: String) = agenticPlus(JsonField.of(agenticPlus))
+
+            /**
+             * Sets [Builder.agenticPlus] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.agenticPlus] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun agenticPlus(agenticPlus: JsonField<String>) = apply {
+                this.agenticPlus = agenticPlus
+            }
+
+            /** Version `latest` resolves to for the cost_effective tier */
+            fun costEffective(costEffective: String) = costEffective(JsonField.of(costEffective))
+
+            /**
+             * Sets [Builder.costEffective] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.costEffective] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun costEffective(costEffective: JsonField<String>) = apply {
+                this.costEffective = costEffective
+            }
+
+            /** Version `latest` resolves to for the fast tier */
+            fun fast(fast: String) = fast(JsonField.of(fast))
+
+            /**
+             * Sets [Builder.fast] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.fast] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun fast(fast: JsonField<String>) = apply { this.fast = fast }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Latest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .agentic()
+             * .agenticPlus()
+             * .costEffective()
+             * .fast()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): Latest =
+                Latest(
+                    checkRequired("agentic", agentic),
+                    checkRequired("agenticPlus", agenticPlus),
+                    checkRequired("costEffective", costEffective),
+                    checkRequired("fast", fast),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): Latest = apply {
+            if (validated) {
+                return@apply
+            }
+
+            agentic()
+            agenticPlus()
+            costEffective()
+            fast()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (agentic.asKnown().isPresent) 1 else 0) +
+                (if (agenticPlus.asKnown().isPresent) 1 else 0) +
+                (if (costEffective.asKnown().isPresent) 1 else 0) +
+                (if (fast.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Latest &&
+                agentic == other.agentic &&
+                agenticPlus == other.agenticPlus &&
+                costEffective == other.costEffective &&
+                fast == other.fast &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(agentic, agenticPlus, costEffective, fast, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Latest{agentic=$agentic, agenticPlus=$agenticPlus, costEffective=$costEffective, fast=$fast, additionalProperties=$additionalProperties}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -1457,15 +1789,16 @@ private constructor(
             agenticPlus == other.agenticPlus &&
             costEffective == other.costEffective &&
             fast == other.fast &&
+            latest == other.latest &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(agentic, agenticPlus, costEffective, fast, additionalProperties)
+        Objects.hash(agentic, agenticPlus, costEffective, fast, latest, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ParsingListVersionsResponse{agentic=$agentic, agenticPlus=$agenticPlus, costEffective=$costEffective, fast=$fast, additionalProperties=$additionalProperties}"
+        "ParsingListVersionsResponse{agentic=$agentic, agenticPlus=$agenticPlus, costEffective=$costEffective, fast=$fast, latest=$latest, additionalProperties=$additionalProperties}"
 }

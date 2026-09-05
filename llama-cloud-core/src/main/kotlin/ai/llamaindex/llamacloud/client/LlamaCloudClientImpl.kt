@@ -32,8 +32,6 @@ import ai.llamaindex.llamacloud.services.blocking.ProjectService
 import ai.llamaindex.llamacloud.services.blocking.ProjectServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.RetrieverService
 import ai.llamaindex.llamacloud.services.blocking.RetrieverServiceImpl
-import ai.llamaindex.llamacloud.services.blocking.SheetService
-import ai.llamaindex.llamacloud.services.blocking.SheetServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.SplitService
 import ai.llamaindex.llamacloud.services.blocking.SplitServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.V2ProjectService
@@ -60,8 +58,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
     }
 
     private val files: FileService by lazy { FileServiceImpl(clientOptionsWithUserAgent) }
-
-    private val sheets: SheetService by lazy { SheetServiceImpl(clientOptionsWithUserAgent) }
 
     private val split: SplitService by lazy { SplitServiceImpl(clientOptionsWithUserAgent) }
 
@@ -124,8 +120,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
     override fun files(): FileService = files
 
-    override fun sheets(): SheetService = sheets
-
     override fun split(): SplitService = split
 
     override fun parsing(): ParsingService = parsing
@@ -165,10 +159,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
         private val files: FileService.WithRawResponse by lazy {
             FileServiceImpl.WithRawResponseImpl(clientOptions)
-        }
-
-        private val sheets: SheetService.WithRawResponse by lazy {
-            SheetServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val split: SplitService.WithRawResponse by lazy {
@@ -243,8 +233,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
             )
 
         override fun files(): FileService.WithRawResponse = files
-
-        override fun sheets(): SheetService.WithRawResponse = sheets
 
         override fun split(): SplitService.WithRawResponse = split
 

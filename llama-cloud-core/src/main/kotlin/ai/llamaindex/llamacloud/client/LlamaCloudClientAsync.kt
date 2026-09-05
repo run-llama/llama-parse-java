@@ -17,7 +17,6 @@ import ai.llamaindex.llamacloud.services.async.ParsingServiceAsync
 import ai.llamaindex.llamacloud.services.async.PipelineServiceAsync
 import ai.llamaindex.llamacloud.services.async.ProjectServiceAsync
 import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsync
-import ai.llamaindex.llamacloud.services.async.SheetServiceAsync
 import ai.llamaindex.llamacloud.services.async.SplitServiceAsync
 import ai.llamaindex.llamacloud.services.async.V2ProjectServiceAsync
 import ai.llamaindex.llamacloud.services.async.WebhookConfigServiceAsync
@@ -60,8 +59,6 @@ interface LlamaCloudClientAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): LlamaCloudClientAsync
 
     fun files(): FileServiceAsync
-
-    fun sheets(): SheetServiceAsync
 
     fun split(): SplitServiceAsync
 
@@ -123,8 +120,6 @@ interface LlamaCloudClientAsync {
         ): LlamaCloudClientAsync.WithRawResponse
 
         fun files(): FileServiceAsync.WithRawResponse
-
-        fun sheets(): SheetServiceAsync.WithRawResponse
 
         fun split(): SplitServiceAsync.WithRawResponse
 

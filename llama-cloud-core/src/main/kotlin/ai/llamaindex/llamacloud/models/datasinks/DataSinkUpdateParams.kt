@@ -44,12 +44,15 @@ import kotlin.jvm.optionals.getOrNull
 class DataSinkUpdateParams
 private constructor(
     private val dataSinkId: String?,
+    private val projectId: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun dataSinkId(): Optional<String> = Optional.ofNullable(dataSinkId)
+
+    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /**
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
@@ -121,6 +124,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var dataSinkId: String? = null
+        private var projectId: String? = null
         private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -128,6 +132,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(dataSinkUpdateParams: DataSinkUpdateParams) = apply {
             dataSinkId = dataSinkUpdateParams.dataSinkId
+            projectId = dataSinkUpdateParams.projectId
             body = dataSinkUpdateParams.body.toBuilder()
             additionalHeaders = dataSinkUpdateParams.additionalHeaders.toBuilder()
             additionalQueryParams = dataSinkUpdateParams.additionalQueryParams.toBuilder()
@@ -137,6 +142,11 @@ private constructor(
 
         /** Alias for calling [Builder.dataSinkId] with `dataSinkId.orElse(null)`. */
         fun dataSinkId(dataSinkId: Optional<String>) = dataSinkId(dataSinkId.getOrNull())
+
+        fun projectId(projectId: String?) = apply { this.projectId = projectId }
+
+        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
+        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -380,6 +390,7 @@ private constructor(
         fun build(): DataSinkUpdateParams =
             DataSinkUpdateParams(
                 dataSinkId,
+                projectId,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -396,7 +407,13 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                projectId?.let { put("project_id", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     /** Schema for updating a data sink. */
     class Body
@@ -1627,14 +1644,15 @@ private constructor(
 
         return other is DataSinkUpdateParams &&
             dataSinkId == other.dataSinkId &&
+            projectId == other.projectId &&
             body == other.body &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(dataSinkId, body, additionalHeaders, additionalQueryParams)
+        Objects.hash(dataSinkId, projectId, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "DataSinkUpdateParams{dataSinkId=$dataSinkId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "DataSinkUpdateParams{dataSinkId=$dataSinkId, projectId=$projectId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

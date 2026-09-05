@@ -163,7 +163,7 @@ interface ParsingServiceAsync {
     fun get(jobId: String, requestOptions: RequestOptions): CompletableFuture<ParsingGetResponse> =
         get(jobId, ParsingGetParams.none(), requestOptions)
 
-    /** List the parse versions accepted by each tier. */
+    /** List the parse versions accepted by each tier and what `latest` resolves to. */
     fun listVersions(): CompletableFuture<ParsingListVersionsResponse> =
         listVersions(ParsingListVersionsParams.none())
 

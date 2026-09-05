@@ -20,6 +20,8 @@ internal class SplitV1ParametersTest {
                         .allowUncategorized(
                             SplitV1Parameters.SplittingStrategy.AllowUncategorized.FORBID
                         )
+                        .customInstructions("Start a new segment at every signature page.")
+                        .minPagesPerSplit(1L)
                         .build()
                 )
                 .build()
@@ -32,6 +34,8 @@ internal class SplitV1ParametersTest {
                     .allowUncategorized(
                         SplitV1Parameters.SplittingStrategy.AllowUncategorized.FORBID
                     )
+                    .customInstructions("Start a new segment at every signature page.")
+                    .minPagesPerSplit(1L)
                     .build()
             )
     }
@@ -47,6 +51,8 @@ internal class SplitV1ParametersTest {
                         .allowUncategorized(
                             SplitV1Parameters.SplittingStrategy.AllowUncategorized.FORBID
                         )
+                        .customInstructions("Start a new segment at every signature page.")
+                        .minPagesPerSplit(1L)
                         .build()
                 )
                 .build()
