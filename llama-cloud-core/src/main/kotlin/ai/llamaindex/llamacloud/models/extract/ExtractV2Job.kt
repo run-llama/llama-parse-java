@@ -560,13 +560,13 @@ private constructor(
 
         /**
          * Alias for calling [extractResult] with
-         * `ExtractResult.ofUnnamedSchemaWithArrayParent2s(unnamedSchemaWithArrayParent2s)`.
+         * `ExtractResult.ofUnnamedSchemaWithArrayParent0s(unnamedSchemaWithArrayParent0s)`.
          */
-        fun extractResultOfUnnamedSchemaWithArrayParent2s(
-            unnamedSchemaWithArrayParent2s: List<ExtractResult.UnnamedSchemaWithArrayParent2>
+        fun extractResultOfUnnamedSchemaWithArrayParent0s(
+            unnamedSchemaWithArrayParent0s: List<ExtractResult.UnnamedSchemaWithArrayParent0>
         ) =
             extractResult(
-                ExtractResult.ofUnnamedSchemaWithArrayParent2s(unnamedSchemaWithArrayParent2s)
+                ExtractResult.ofUnnamedSchemaWithArrayParent0s(unnamedSchemaWithArrayParent0s)
             )
 
         /** Job-level metadata. */
@@ -727,23 +727,23 @@ private constructor(
     class ExtractResult
     private constructor(
         private val unionMember0: UnionMember0? = null,
-        private val unnamedSchemaWithArrayParent2s: List<UnnamedSchemaWithArrayParent2>? = null,
+        private val unnamedSchemaWithArrayParent0s: List<UnnamedSchemaWithArrayParent0>? = null,
         private val _json: JsonValue? = null,
     ) {
 
         fun unionMember0(): Optional<UnionMember0> = Optional.ofNullable(unionMember0)
 
-        fun unnamedSchemaWithArrayParent2s(): Optional<List<UnnamedSchemaWithArrayParent2>> =
-            Optional.ofNullable(unnamedSchemaWithArrayParent2s)
+        fun unnamedSchemaWithArrayParent0s(): Optional<List<UnnamedSchemaWithArrayParent0>> =
+            Optional.ofNullable(unnamedSchemaWithArrayParent0s)
 
         fun isUnionMember0(): Boolean = unionMember0 != null
 
-        fun isUnnamedSchemaWithArrayParent2s(): Boolean = unnamedSchemaWithArrayParent2s != null
+        fun isUnnamedSchemaWithArrayParent0s(): Boolean = unnamedSchemaWithArrayParent0s != null
 
         fun asUnionMember0(): UnionMember0 = unionMember0.getOrThrow("unionMember0")
 
-        fun asUnnamedSchemaWithArrayParent2s(): List<UnnamedSchemaWithArrayParent2> =
-            unnamedSchemaWithArrayParent2s.getOrThrow("unnamedSchemaWithArrayParent2s")
+        fun asUnnamedSchemaWithArrayParent0s(): List<UnnamedSchemaWithArrayParent0> =
+            unnamedSchemaWithArrayParent0s.getOrThrow("unnamedSchemaWithArrayParent0s")
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
@@ -779,8 +779,8 @@ private constructor(
         fun <T> accept(visitor: Visitor<T>): T =
             when {
                 unionMember0 != null -> visitor.visitUnionMember0(unionMember0)
-                unnamedSchemaWithArrayParent2s != null ->
-                    visitor.visitUnnamedSchemaWithArrayParent2s(unnamedSchemaWithArrayParent2s)
+                unnamedSchemaWithArrayParent0s != null ->
+                    visitor.visitUnnamedSchemaWithArrayParent0s(unnamedSchemaWithArrayParent0s)
                 else -> visitor.unknown(_json)
             }
 
@@ -806,10 +806,10 @@ private constructor(
                         unionMember0.validate()
                     }
 
-                    override fun visitUnnamedSchemaWithArrayParent2s(
-                        unnamedSchemaWithArrayParent2s: List<UnnamedSchemaWithArrayParent2>
+                    override fun visitUnnamedSchemaWithArrayParent0s(
+                        unnamedSchemaWithArrayParent0s: List<UnnamedSchemaWithArrayParent0>
                     ) {
-                        unnamedSchemaWithArrayParent2s.forEach { it.validate() }
+                        unnamedSchemaWithArrayParent0s.forEach { it.validate() }
                     }
                 }
             )
@@ -837,9 +837,9 @@ private constructor(
                     override fun visitUnionMember0(unionMember0: UnionMember0) =
                         unionMember0.validity()
 
-                    override fun visitUnnamedSchemaWithArrayParent2s(
-                        unnamedSchemaWithArrayParent2s: List<UnnamedSchemaWithArrayParent2>
-                    ) = unnamedSchemaWithArrayParent2s.sumOf { it.validity().toInt() }
+                    override fun visitUnnamedSchemaWithArrayParent0s(
+                        unnamedSchemaWithArrayParent0s: List<UnnamedSchemaWithArrayParent0>
+                    ) = unnamedSchemaWithArrayParent0s.sumOf { it.validity().toInt() }
 
                     override fun unknown(json: JsonValue?) = 0
                 }
@@ -852,16 +852,16 @@ private constructor(
 
             return other is ExtractResult &&
                 unionMember0 == other.unionMember0 &&
-                unnamedSchemaWithArrayParent2s == other.unnamedSchemaWithArrayParent2s
+                unnamedSchemaWithArrayParent0s == other.unnamedSchemaWithArrayParent0s
         }
 
-        override fun hashCode(): Int = Objects.hash(unionMember0, unnamedSchemaWithArrayParent2s)
+        override fun hashCode(): Int = Objects.hash(unionMember0, unnamedSchemaWithArrayParent0s)
 
         override fun toString(): String =
             when {
                 unionMember0 != null -> "ExtractResult{unionMember0=$unionMember0}"
-                unnamedSchemaWithArrayParent2s != null ->
-                    "ExtractResult{unnamedSchemaWithArrayParent2s=$unnamedSchemaWithArrayParent2s}"
+                unnamedSchemaWithArrayParent0s != null ->
+                    "ExtractResult{unnamedSchemaWithArrayParent0s=$unnamedSchemaWithArrayParent0s}"
                 _json != null -> "ExtractResult{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid ExtractResult")
             }
@@ -873,11 +873,11 @@ private constructor(
                 ExtractResult(unionMember0 = unionMember0)
 
             @JvmStatic
-            fun ofUnnamedSchemaWithArrayParent2s(
-                unnamedSchemaWithArrayParent2s: List<UnnamedSchemaWithArrayParent2>
+            fun ofUnnamedSchemaWithArrayParent0s(
+                unnamedSchemaWithArrayParent0s: List<UnnamedSchemaWithArrayParent0>
             ) =
                 ExtractResult(
-                    unnamedSchemaWithArrayParent2s = unnamedSchemaWithArrayParent2s.toImmutable()
+                    unnamedSchemaWithArrayParent0s = unnamedSchemaWithArrayParent0s.toImmutable()
                 )
         }
 
@@ -889,8 +889,8 @@ private constructor(
 
             fun visitUnionMember0(unionMember0: UnionMember0): T
 
-            fun visitUnnamedSchemaWithArrayParent2s(
-                unnamedSchemaWithArrayParent2s: List<UnnamedSchemaWithArrayParent2>
+            fun visitUnnamedSchemaWithArrayParent0s(
+                unnamedSchemaWithArrayParent0s: List<UnnamedSchemaWithArrayParent0>
             ): T
 
             /**
@@ -920,10 +920,10 @@ private constructor(
                             },
                             tryDeserialize(
                                     node,
-                                    jacksonTypeRef<List<UnnamedSchemaWithArrayParent2>>(),
+                                    jacksonTypeRef<List<UnnamedSchemaWithArrayParent0>>(),
                                 )
                                 ?.let {
-                                    ExtractResult(unnamedSchemaWithArrayParent2s = it, _json = json)
+                                    ExtractResult(unnamedSchemaWithArrayParent0s = it, _json = json)
                                 },
                         )
                         .filterNotNull()
@@ -951,8 +951,8 @@ private constructor(
             ) {
                 when {
                     value.unionMember0 != null -> generator.writeObject(value.unionMember0)
-                    value.unnamedSchemaWithArrayParent2s != null ->
-                        generator.writeObject(value.unnamedSchemaWithArrayParent2s)
+                    value.unnamedSchemaWithArrayParent0s != null ->
+                        generator.writeObject(value.unnamedSchemaWithArrayParent0s)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid ExtractResult")
                 }
@@ -1071,7 +1071,7 @@ private constructor(
             override fun toString() = "UnionMember0{additionalProperties=$additionalProperties}"
         }
 
-        class UnnamedSchemaWithArrayParent2
+        class UnnamedSchemaWithArrayParent0
         @JsonCreator
         private constructor(
             @com.fasterxml.jackson.annotation.JsonValue
@@ -1088,21 +1088,21 @@ private constructor(
 
                 /**
                  * Returns a mutable builder for constructing an instance of
-                 * [UnnamedSchemaWithArrayParent2].
+                 * [UnnamedSchemaWithArrayParent0].
                  */
                 @JvmStatic fun builder() = Builder()
             }
 
-            /** A builder for [UnnamedSchemaWithArrayParent2]. */
+            /** A builder for [UnnamedSchemaWithArrayParent0]. */
             class Builder internal constructor() {
 
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
-                internal fun from(unnamedSchemaWithArrayParent2: UnnamedSchemaWithArrayParent2) =
+                internal fun from(unnamedSchemaWithArrayParent0: UnnamedSchemaWithArrayParent0) =
                     apply {
                         additionalProperties =
-                            unnamedSchemaWithArrayParent2.additionalProperties.toMutableMap()
+                            unnamedSchemaWithArrayParent0.additionalProperties.toMutableMap()
                     }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1128,12 +1128,12 @@ private constructor(
                 }
 
                 /**
-                 * Returns an immutable instance of [UnnamedSchemaWithArrayParent2].
+                 * Returns an immutable instance of [UnnamedSchemaWithArrayParent0].
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
                  */
-                fun build(): UnnamedSchemaWithArrayParent2 =
-                    UnnamedSchemaWithArrayParent2(additionalProperties.toImmutable())
+                fun build(): UnnamedSchemaWithArrayParent0 =
+                    UnnamedSchemaWithArrayParent0(additionalProperties.toImmutable())
             }
 
             private var validated: Boolean = false
@@ -1148,7 +1148,7 @@ private constructor(
              * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
              *   its expected type.
              */
-            fun validate(): UnnamedSchemaWithArrayParent2 = apply {
+            fun validate(): UnnamedSchemaWithArrayParent0 = apply {
                 if (validated) {
                     return@apply
                 }
@@ -1179,7 +1179,7 @@ private constructor(
                     return true
                 }
 
-                return other is UnnamedSchemaWithArrayParent2 &&
+                return other is UnnamedSchemaWithArrayParent0 &&
                     additionalProperties == other.additionalProperties
             }
 
@@ -1188,7 +1188,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "UnnamedSchemaWithArrayParent2{additionalProperties=$additionalProperties}"
+                "UnnamedSchemaWithArrayParent0{additionalProperties=$additionalProperties}"
         }
     }
 
