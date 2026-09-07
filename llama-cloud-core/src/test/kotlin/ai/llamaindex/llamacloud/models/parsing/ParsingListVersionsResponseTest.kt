@@ -13,7 +13,7 @@ internal class ParsingListVersionsResponseTest {
     fun create() {
         val parsingListVersionsResponse =
             ParsingListVersionsResponse.builder()
-                .addAgentic(ParsingListVersionsResponse.Agentic._2026_08_19)
+                .addAgentic(ParsingListVersionsResponse.Agentic._2026_09_07)
                 .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_08_19)
                 .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_08_19)
                 .addFast(ParsingListVersionsResponse.Fast._2026_06_15)
@@ -28,7 +28,7 @@ internal class ParsingListVersionsResponseTest {
                 .build()
 
         assertThat(parsingListVersionsResponse.agentic())
-            .containsExactly(ParsingListVersionsResponse.Agentic._2026_08_19)
+            .containsExactly(ParsingListVersionsResponse.Agentic._2026_09_07)
         assertThat(parsingListVersionsResponse.agenticPlus())
             .containsExactly(ParsingListVersionsResponse.AgenticPlus._2026_08_19)
         assertThat(parsingListVersionsResponse.costEffective())
@@ -51,7 +51,7 @@ internal class ParsingListVersionsResponseTest {
         val jsonMapper = jsonMapper()
         val parsingListVersionsResponse =
             ParsingListVersionsResponse.builder()
-                .addAgentic(ParsingListVersionsResponse.Agentic._2026_08_19)
+                .addAgentic(ParsingListVersionsResponse.Agentic._2026_09_07)
                 .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_08_19)
                 .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_08_19)
                 .addFast(ParsingListVersionsResponse.Fast._2026_06_15)
