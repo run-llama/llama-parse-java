@@ -8,7 +8,7 @@ repositories {
 
 allprojects {
     group = "ai.llamaindex"
-    version = "1.7.0" // x-release-please-version
+    version = "1.7.1" // x-release-please-version
 }
 
 subprojects {
