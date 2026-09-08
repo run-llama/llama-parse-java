@@ -1,17 +1,17 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.classifier.jobs
+package ai.llamaindex.llamacloud.models.parsing
 
 import ai.llamaindex.llamacloud.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class JobGetParamsTest {
+internal class ParsingDeleteParamsTest {
 
     @Test
     fun create() {
-        JobGetParams.builder()
-            .classifyJobId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        ParsingDeleteParams.builder()
+            .jobId("job_id")
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
@@ -19,10 +19,9 @@ internal class JobGetParamsTest {
 
     @Test
     fun pathParams() {
-        val params =
-            JobGetParams.builder().classifyJobId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
+        val params = ParsingDeleteParams.builder().jobId("job_id").build()
 
-        assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(params._pathParam(0)).isEqualTo("job_id")
         // out-of-bound path param
         assertThat(params._pathParam(1)).isEqualTo("")
     }
@@ -30,8 +29,8 @@ internal class JobGetParamsTest {
     @Test
     fun queryParams() {
         val params =
-            JobGetParams.builder()
-                .classifyJobId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            ParsingDeleteParams.builder()
+                .jobId("job_id")
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
@@ -49,8 +48,7 @@ internal class JobGetParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params =
-            JobGetParams.builder().classifyJobId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
+        val params = ParsingDeleteParams.builder().jobId("job_id").build()
 
         val queryParams = params._queryParams()
 

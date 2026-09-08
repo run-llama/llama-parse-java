@@ -881,6 +881,8 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val allowUncategorized: JsonField<AllowUncategorized>,
+        private val customInstructions: JsonField<String>,
+        private val minPagesPerSplit: JsonField<Long>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -888,8 +890,14 @@ private constructor(
         private constructor(
             @JsonProperty("allow_uncategorized")
             @ExcludeMissing
-            allowUncategorized: JsonField<AllowUncategorized> = JsonMissing.of()
-        ) : this(allowUncategorized, mutableMapOf())
+            allowUncategorized: JsonField<AllowUncategorized> = JsonMissing.of(),
+            @JsonProperty("custom_instructions")
+            @ExcludeMissing
+            customInstructions: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("min_pages_per_split")
+            @ExcludeMissing
+            minPagesPerSplit: JsonField<Long> = JsonMissing.of(),
+        ) : this(allowUncategorized, customInstructions, minPagesPerSplit, mutableMapOf())
 
         /**
          * Controls handling of pages that don't match any category. 'include': pages can be grouped
@@ -904,6 +912,24 @@ private constructor(
             allowUncategorized.getOptional("allow_uncategorized")
 
         /**
+         * Free-form guidance for where segment boundaries are placed.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun customInstructions(): Optional<String> =
+            customInstructions.getOptional("custom_instructions")
+
+        /**
+         * Minimum pages per segment. Shorter segments are merged into an adjacent segment; 1
+         * disables merging.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun minPagesPerSplit(): Optional<Long> = minPagesPerSplit.getOptional("min_pages_per_split")
+
+        /**
          * Returns the raw JSON value of [allowUncategorized].
          *
          * Unlike [allowUncategorized], this method doesn't throw if the JSON field has an
@@ -912,6 +938,26 @@ private constructor(
         @JsonProperty("allow_uncategorized")
         @ExcludeMissing
         fun _allowUncategorized(): JsonField<AllowUncategorized> = allowUncategorized
+
+        /**
+         * Returns the raw JSON value of [customInstructions].
+         *
+         * Unlike [customInstructions], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("custom_instructions")
+        @ExcludeMissing
+        fun _customInstructions(): JsonField<String> = customInstructions
+
+        /**
+         * Returns the raw JSON value of [minPagesPerSplit].
+         *
+         * Unlike [minPagesPerSplit], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("min_pages_per_split")
+        @ExcludeMissing
+        fun _minPagesPerSplit(): JsonField<Long> = minPagesPerSplit
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -935,11 +981,15 @@ private constructor(
         class Builder internal constructor() {
 
             private var allowUncategorized: JsonField<AllowUncategorized> = JsonMissing.of()
+            private var customInstructions: JsonField<String> = JsonMissing.of()
+            private var minPagesPerSplit: JsonField<Long> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(splittingStrategy: SplittingStrategy) = apply {
                 allowUncategorized = splittingStrategy.allowUncategorized
+                customInstructions = splittingStrategy.customInstructions
+                minPagesPerSplit = splittingStrategy.minPagesPerSplit
                 additionalProperties = splittingStrategy.additionalProperties.toMutableMap()
             }
 
@@ -961,6 +1011,46 @@ private constructor(
              */
             fun allowUncategorized(allowUncategorized: JsonField<AllowUncategorized>) = apply {
                 this.allowUncategorized = allowUncategorized
+            }
+
+            /** Free-form guidance for where segment boundaries are placed. */
+            fun customInstructions(customInstructions: String?) =
+                customInstructions(JsonField.ofNullable(customInstructions))
+
+            /**
+             * Alias for calling [Builder.customInstructions] with
+             * `customInstructions.orElse(null)`.
+             */
+            fun customInstructions(customInstructions: Optional<String>) =
+                customInstructions(customInstructions.getOrNull())
+
+            /**
+             * Sets [Builder.customInstructions] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.customInstructions] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun customInstructions(customInstructions: JsonField<String>) = apply {
+                this.customInstructions = customInstructions
+            }
+
+            /**
+             * Minimum pages per segment. Shorter segments are merged into an adjacent segment; 1
+             * disables merging.
+             */
+            fun minPagesPerSplit(minPagesPerSplit: Long) =
+                minPagesPerSplit(JsonField.of(minPagesPerSplit))
+
+            /**
+             * Sets [Builder.minPagesPerSplit] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.minPagesPerSplit] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun minPagesPerSplit(minPagesPerSplit: JsonField<Long>) = apply {
+                this.minPagesPerSplit = minPagesPerSplit
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -988,7 +1078,12 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): SplittingStrategy =
-                SplittingStrategy(allowUncategorized, additionalProperties.toMutableMap())
+                SplittingStrategy(
+                    allowUncategorized,
+                    customInstructions,
+                    minPagesPerSplit,
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false
@@ -1008,6 +1103,8 @@ private constructor(
             }
 
             allowUncategorized().ifPresent { it.validate() }
+            customInstructions()
+            minPagesPerSplit()
             validated = true
         }
 
@@ -1026,7 +1123,10 @@ private constructor(
          * Used for best match union deserialization.
          */
         @JvmSynthetic
-        internal fun validity(): Int = (allowUncategorized.asKnown().getOrNull()?.validity() ?: 0)
+        internal fun validity(): Int =
+            (allowUncategorized.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (customInstructions.asKnown().isPresent) 1 else 0) +
+                (if (minPagesPerSplit.asKnown().isPresent) 1 else 0)
 
         /**
          * Controls handling of pages that don't match any category. 'include': pages can be grouped
@@ -1192,15 +1292,24 @@ private constructor(
 
             return other is SplittingStrategy &&
                 allowUncategorized == other.allowUncategorized &&
+                customInstructions == other.customInstructions &&
+                minPagesPerSplit == other.minPagesPerSplit &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy { Objects.hash(allowUncategorized, additionalProperties) }
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                allowUncategorized,
+                customInstructions,
+                minPagesPerSplit,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "SplittingStrategy{allowUncategorized=$allowUncategorized, additionalProperties=$additionalProperties}"
+            "SplittingStrategy{allowUncategorized=$allowUncategorized, customInstructions=$customInstructions, minPagesPerSplit=$minPagesPerSplit, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

@@ -44,8 +44,9 @@ private constructor(
     fun fileName(): Optional<String> = Optional.ofNullable(fileName)
 
     /**
-     * A comma-separated list of fields to order by, sorted in ascending order. Use 'field_name
-     * desc' to specify descending order.
+     * Order the results. One of 'name' (ascending), 'id' (ascending) or 'created_at' (descending).
+     * An explicit asc/desc modifier and multi-field ordering are not supported; anything else is
+     * rejected.
      */
     fun orderBy(): Optional<String> = Optional.ofNullable(orderBy)
 
@@ -152,8 +153,9 @@ private constructor(
         fun fileName(fileName: Optional<String>) = fileName(fileName.getOrNull())
 
         /**
-         * A comma-separated list of fields to order by, sorted in ascending order. Use 'field_name
-         * desc' to specify descending order.
+         * Order the results. One of 'name' (ascending), 'id' (ascending) or 'created_at'
+         * (descending). An explicit asc/desc modifier and multi-field ordering are not supported;
+         * anything else is rejected.
          */
         fun orderBy(orderBy: String?) = apply { this.orderBy = orderBy }
 

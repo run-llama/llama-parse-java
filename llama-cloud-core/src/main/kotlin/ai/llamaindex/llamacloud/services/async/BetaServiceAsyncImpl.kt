@@ -13,8 +13,6 @@ import ai.llamaindex.llamacloud.services.async.beta.IndexServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.IndexServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.beta.RetrievalServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.RetrievalServiceAsyncImpl
-import ai.llamaindex.llamacloud.services.async.beta.SheetServiceAsync
-import ai.llamaindex.llamacloud.services.async.beta.SheetServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.beta.SplitServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.SplitServiceAsyncImpl
 import java.util.function.Consumer
@@ -38,8 +36,6 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
         AgentDataServiceAsyncImpl(clientOptions)
     }
 
-    private val sheets: SheetServiceAsync by lazy { SheetServiceAsyncImpl(clientOptions) }
-
     private val directories: DirectoryServiceAsync by lazy {
         DirectoryServiceAsyncImpl(clientOptions)
     }
@@ -58,8 +54,6 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
     override fun chat(): ChatServiceAsync = chat
 
     override fun agentData(): AgentDataServiceAsync = agentData
-
-    override fun sheets(): SheetServiceAsync = sheets
 
     override fun directories(): DirectoryServiceAsync = directories
 
@@ -84,10 +78,6 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
             AgentDataServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
-        private val sheets: SheetServiceAsync.WithRawResponse by lazy {
-            SheetServiceAsyncImpl.WithRawResponseImpl(clientOptions)
-        }
-
         private val directories: DirectoryServiceAsync.WithRawResponse by lazy {
             DirectoryServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
@@ -110,8 +100,6 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
         override fun chat(): ChatServiceAsync.WithRawResponse = chat
 
         override fun agentData(): AgentDataServiceAsync.WithRawResponse = agentData
-
-        override fun sheets(): SheetServiceAsync.WithRawResponse = sheets
 
         override fun directories(): DirectoryServiceAsync.WithRawResponse = directories
 

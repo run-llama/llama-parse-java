@@ -14,6 +14,7 @@ internal class FileGetStatusCountsParamsTest {
             .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .onlyManuallyUploaded(true)
+            .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
 
@@ -36,6 +37,7 @@ internal class FileGetStatusCountsParamsTest {
                 .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .onlyManuallyUploaded(true)
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val queryParams = params._queryParams()
@@ -45,6 +47,7 @@ internal class FileGetStatusCountsParamsTest {
                 QueryParams.builder()
                     .put("data_source_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("only_manually_uploaded", "true")
+                    .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
     }

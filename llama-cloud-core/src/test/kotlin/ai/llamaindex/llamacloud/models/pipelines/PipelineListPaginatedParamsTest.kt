@@ -1,19 +1,21 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.classifier.jobs
+package ai.llamaindex.llamacloud.models.pipelines
 
 import ai.llamaindex.llamacloud.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class JobListParamsTest {
+internal class PipelineListPaginatedParamsTest {
 
     @Test
     fun create() {
-        JobListParams.builder()
+        PipelineListPaginatedParams.builder()
+            .name("name")
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .pageSize(0L)
             .pageToken("page_token")
+            .pipelineType(PipelineListPaginatedParams.PipelineType.MANAGED)
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
@@ -21,10 +23,12 @@ internal class JobListParamsTest {
     @Test
     fun queryParams() {
         val params =
-            JobListParams.builder()
+            PipelineListPaginatedParams.builder()
+                .name("name")
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .pageSize(0L)
                 .pageToken("page_token")
+                .pipelineType(PipelineListPaginatedParams.PipelineType.MANAGED)
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
@@ -33,9 +37,11 @@ internal class JobListParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
+                    .put("name", "name")
                     .put("organization_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("page_size", "0")
                     .put("page_token", "page_token")
+                    .put("pipeline_type", "MANAGED")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
@@ -43,7 +49,7 @@ internal class JobListParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = JobListParams.builder().build()
+        val params = PipelineListPaginatedParams.builder().build()
 
         val queryParams = params._queryParams()
 

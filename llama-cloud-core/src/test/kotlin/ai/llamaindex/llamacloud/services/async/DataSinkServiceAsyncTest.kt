@@ -5,6 +5,8 @@ package ai.llamaindex.llamacloud.services.async
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClientAsync
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkCreateParams
+import ai.llamaindex.llamacloud.models.datasinks.DataSinkDeleteParams
+import ai.llamaindex.llamacloud.models.datasinks.DataSinkGetParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkListParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkUpdateParams
 import ai.llamaindex.llamacloud.models.pipelines.DataSinkCreate
@@ -52,6 +54,7 @@ internal class DataSinkServiceAsyncTest {
             dataSinkServiceAsync.update(
                 DataSinkUpdateParams.builder()
                     .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .sinkType(DataSinkUpdateParams.SinkType.ASTRA_DB)
                     .component(
                         DataSinkUpdateParams.Component.UnionMember0.builder()
@@ -90,7 +93,13 @@ internal class DataSinkServiceAsyncTest {
         val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
         val dataSinkServiceAsync = client.dataSinks()
 
-        val future = dataSinkServiceAsync.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val future =
+            dataSinkServiceAsync.delete(
+                DataSinkDeleteParams.builder()
+                    .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
 
         val response = future.get()
     }
@@ -101,7 +110,13 @@ internal class DataSinkServiceAsyncTest {
         val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
         val dataSinkServiceAsync = client.dataSinks()
 
-        val dataSinkFuture = dataSinkServiceAsync.get("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val dataSinkFuture =
+            dataSinkServiceAsync.get(
+                DataSinkGetParams.builder()
+                    .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
 
         val dataSink = dataSinkFuture.get()
         dataSink.validate()

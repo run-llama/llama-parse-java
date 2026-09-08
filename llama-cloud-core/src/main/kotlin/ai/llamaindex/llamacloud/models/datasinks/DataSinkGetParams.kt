@@ -13,11 +13,14 @@ import kotlin.jvm.optionals.getOrNull
 class DataSinkGetParams
 private constructor(
     private val dataSinkId: String?,
+    private val projectId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun dataSinkId(): Optional<String> = Optional.ofNullable(dataSinkId)
+
+    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -39,12 +42,14 @@ private constructor(
     class Builder internal constructor() {
 
         private var dataSinkId: String? = null
+        private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(dataSinkGetParams: DataSinkGetParams) = apply {
             dataSinkId = dataSinkGetParams.dataSinkId
+            projectId = dataSinkGetParams.projectId
             additionalHeaders = dataSinkGetParams.additionalHeaders.toBuilder()
             additionalQueryParams = dataSinkGetParams.additionalQueryParams.toBuilder()
         }
@@ -53,6 +58,11 @@ private constructor(
 
         /** Alias for calling [Builder.dataSinkId] with `dataSinkId.orElse(null)`. */
         fun dataSinkId(dataSinkId: Optional<String>) = dataSinkId(dataSinkId.getOrNull())
+
+        fun projectId(projectId: String?) = apply { this.projectId = projectId }
+
+        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
+        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -158,7 +168,12 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): DataSinkGetParams =
-            DataSinkGetParams(dataSinkId, additionalHeaders.build(), additionalQueryParams.build())
+            DataSinkGetParams(
+                dataSinkId,
+                projectId,
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
+            )
     }
 
     fun _pathParam(index: Int): String =
@@ -169,7 +184,13 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                projectId?.let { put("project_id", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -178,13 +199,14 @@ private constructor(
 
         return other is DataSinkGetParams &&
             dataSinkId == other.dataSinkId &&
+            projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(dataSinkId, additionalHeaders, additionalQueryParams)
+        Objects.hash(dataSinkId, projectId, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "DataSinkGetParams{dataSinkId=$dataSinkId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "DataSinkGetParams{dataSinkId=$dataSinkId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

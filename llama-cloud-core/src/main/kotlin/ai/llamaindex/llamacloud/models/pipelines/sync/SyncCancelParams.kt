@@ -16,12 +16,15 @@ import kotlin.jvm.optionals.getOrNull
 class SyncCancelParams
 private constructor(
     private val pipelineId: String?,
+    private val projectId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
     fun pipelineId(): Optional<String> = Optional.ofNullable(pipelineId)
+
+    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /** Additional body properties to send with the request. */
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
@@ -46,6 +49,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var pipelineId: String? = null
+        private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -53,6 +57,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(syncCancelParams: SyncCancelParams) = apply {
             pipelineId = syncCancelParams.pipelineId
+            projectId = syncCancelParams.projectId
             additionalHeaders = syncCancelParams.additionalHeaders.toBuilder()
             additionalQueryParams = syncCancelParams.additionalQueryParams.toBuilder()
             additionalBodyProperties = syncCancelParams.additionalBodyProperties.toMutableMap()
@@ -62,6 +67,11 @@ private constructor(
 
         /** Alias for calling [Builder.pipelineId] with `pipelineId.orElse(null)`. */
         fun pipelineId(pipelineId: Optional<String>) = pipelineId(pipelineId.getOrNull())
+
+        fun projectId(projectId: String?) = apply { this.projectId = projectId }
+
+        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
+        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -191,6 +201,7 @@ private constructor(
         fun build(): SyncCancelParams =
             SyncCancelParams(
                 pipelineId,
+                projectId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -208,7 +219,13 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                projectId?.let { put("project_id", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -217,14 +234,21 @@ private constructor(
 
         return other is SyncCancelParams &&
             pipelineId == other.pipelineId &&
+            projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams &&
             additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int =
-        Objects.hash(pipelineId, additionalHeaders, additionalQueryParams, additionalBodyProperties)
+        Objects.hash(
+            pipelineId,
+            projectId,
+            additionalHeaders,
+            additionalQueryParams,
+            additionalBodyProperties,
+        )
 
     override fun toString() =
-        "SyncCancelParams{pipelineId=$pipelineId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "SyncCancelParams{pipelineId=$pipelineId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

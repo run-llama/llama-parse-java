@@ -28,6 +28,7 @@ internal class DocumentServiceTest {
             documentService.create(
                 DocumentCreateParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addBody(
                         CloudDocumentCreate.builder()
                             .metadata(
@@ -69,6 +70,7 @@ internal class DocumentServiceTest {
             DocumentDeleteParams.builder()
                 .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .documentId("document_id")
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         )
     }
@@ -84,6 +86,7 @@ internal class DocumentServiceTest {
                 DocumentGetParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .documentId("document_id")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -101,6 +104,7 @@ internal class DocumentServiceTest {
                 DocumentGetChunksParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .documentId("document_id")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -118,6 +122,7 @@ internal class DocumentServiceTest {
                 DocumentGetStatusParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .documentId("document_id")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -137,6 +142,7 @@ internal class DocumentServiceTest {
                     .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .onlyDirectUpload(true)
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -154,6 +160,7 @@ internal class DocumentServiceTest {
                 DocumentSyncParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .documentId("document_id")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -170,6 +177,7 @@ internal class DocumentServiceTest {
             documentService.upsert(
                 DocumentUpsertParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addBody(
                         CloudDocumentCreate.builder()
                             .metadata(

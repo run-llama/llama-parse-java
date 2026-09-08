@@ -3,6 +3,7 @@
 package ai.llamaindex.llamacloud.models.pipelines.files
 
 import ai.llamaindex.llamacloud.core.JsonValue
+import ai.llamaindex.llamacloud.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -13,6 +14,7 @@ internal class FileUpdateParamsTest {
         FileUpdateParams.builder()
             .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .customMetadata(
                 FileUpdateParams.CustomMetadata.builder()
                     .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
@@ -36,11 +38,49 @@ internal class FileUpdateParamsTest {
     }
 
     @Test
+    fun queryParams() {
+        val params =
+            FileUpdateParams.builder()
+                .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .customMetadata(
+                    FileUpdateParams.CustomMetadata.builder()
+                        .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
+                        .build()
+                )
+                .build()
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+    }
+
+    @Test
+    fun queryParamsWithoutOptionalFields() {
+        val params =
+            FileUpdateParams.builder()
+                .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
+    }
+
+    @Test
     fun body() {
         val params =
             FileUpdateParams.builder()
                 .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .customMetadata(
                     FileUpdateParams.CustomMetadata.builder()
                         .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))

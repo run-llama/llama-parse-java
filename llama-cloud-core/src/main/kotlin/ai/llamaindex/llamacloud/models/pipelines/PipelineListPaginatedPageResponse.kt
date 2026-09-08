@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.classifier.jobs
+package ai.llamaindex.llamacloud.models.pipelines
 
 import ai.llamaindex.llamacloud.core.ExcludeMissing
 import ai.llamaindex.llamacloud.core.JsonField
@@ -19,11 +19,11 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Paginated list of classify jobs. */
-class JobListPageResponse
+/** A page of pipelines. */
+class PipelineListPaginatedPageResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val items: JsonField<List<ClassifyJob>>,
+    private val items: JsonField<List<PipelineListPaginatedResponse>>,
     private val nextPageToken: JsonField<String>,
     private val totalSize: JsonField<Long>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -33,7 +33,7 @@ private constructor(
     private constructor(
         @JsonProperty("items")
         @ExcludeMissing
-        items: JsonField<List<ClassifyJob>> = JsonMissing.of(),
+        items: JsonField<List<PipelineListPaginatedResponse>> = JsonMissing.of(),
         @JsonProperty("next_page_token")
         @ExcludeMissing
         nextPageToken: JsonField<String> = JsonMissing.of(),
@@ -46,7 +46,7 @@ private constructor(
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun items(): List<ClassifyJob> = items.getRequired("items")
+    fun items(): List<PipelineListPaginatedResponse> = items.getRequired("items")
 
     /**
      * A token, which can be sent as page_token to retrieve the next page. If this field is omitted,
@@ -71,7 +71,9 @@ private constructor(
      *
      * Unlike [items], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("items") @ExcludeMissing fun _items(): JsonField<List<ClassifyJob>> = items
+    @JsonProperty("items")
+    @ExcludeMissing
+    fun _items(): JsonField<List<PipelineListPaginatedResponse>> = items
 
     /**
      * Returns the raw JSON value of [nextPageToken].
@@ -104,7 +106,8 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [JobListPageResponse].
+         * Returns a mutable builder for constructing an instance of
+         * [PipelineListPaginatedPageResponse].
          *
          * The following fields are required:
          * ```java
@@ -114,42 +117,44 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [JobListPageResponse]. */
+    /** A builder for [PipelineListPaginatedPageResponse]. */
     class Builder internal constructor() {
 
-        private var items: JsonField<MutableList<ClassifyJob>>? = null
+        private var items: JsonField<MutableList<PipelineListPaginatedResponse>>? = null
         private var nextPageToken: JsonField<String> = JsonMissing.of()
         private var totalSize: JsonField<Long> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(jobListPageResponse: JobListPageResponse) = apply {
-            items = jobListPageResponse.items.map { it.toMutableList() }
-            nextPageToken = jobListPageResponse.nextPageToken
-            totalSize = jobListPageResponse.totalSize
-            additionalProperties = jobListPageResponse.additionalProperties.toMutableMap()
-        }
+        internal fun from(pipelineListPaginatedPageResponse: PipelineListPaginatedPageResponse) =
+            apply {
+                items = pipelineListPaginatedPageResponse.items.map { it.toMutableList() }
+                nextPageToken = pipelineListPaginatedPageResponse.nextPageToken
+                totalSize = pipelineListPaginatedPageResponse.totalSize
+                additionalProperties =
+                    pipelineListPaginatedPageResponse.additionalProperties.toMutableMap()
+            }
 
         /** The list of items. */
-        fun items(items: List<ClassifyJob>) = items(JsonField.of(items))
+        fun items(items: List<PipelineListPaginatedResponse>) = items(JsonField.of(items))
 
         /**
          * Sets [Builder.items] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.items] with a well-typed `List<ClassifyJob>` value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
+         * You should usually call [Builder.items] with a well-typed
+         * `List<PipelineListPaginatedResponse>` value instead. This method is primarily for setting
+         * the field to an undocumented or not yet supported value.
          */
-        fun items(items: JsonField<List<ClassifyJob>>) = apply {
+        fun items(items: JsonField<List<PipelineListPaginatedResponse>>) = apply {
             this.items = items.map { it.toMutableList() }
         }
 
         /**
-         * Adds a single [ClassifyJob] to [items].
+         * Adds a single [PipelineListPaginatedResponse] to [items].
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addItem(item: ClassifyJob) = apply {
+        fun addItem(item: PipelineListPaginatedResponse) = apply {
             items =
                 (items ?: JsonField.of(mutableListOf())).also { checkKnown("items", it).add(item) }
         }
@@ -220,7 +225,7 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [JobListPageResponse].
+         * Returns an immutable instance of [PipelineListPaginatedPageResponse].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -231,8 +236,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): JobListPageResponse =
-            JobListPageResponse(
+        fun build(): PipelineListPaginatedPageResponse =
+            PipelineListPaginatedPageResponse(
                 checkRequired("items", items).map { it.toImmutable() },
                 nextPageToken,
                 totalSize,
@@ -250,7 +255,7 @@ private constructor(
      * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
      *   expected type.
      */
-    fun validate(): JobListPageResponse = apply {
+    fun validate(): PipelineListPaginatedPageResponse = apply {
         if (validated) {
             return@apply
         }
@@ -285,7 +290,7 @@ private constructor(
             return true
         }
 
-        return other is JobListPageResponse &&
+        return other is PipelineListPaginatedPageResponse &&
             items == other.items &&
             nextPageToken == other.nextPageToken &&
             totalSize == other.totalSize &&
@@ -299,5 +304,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "JobListPageResponse{items=$items, nextPageToken=$nextPageToken, totalSize=$totalSize, additionalProperties=$additionalProperties}"
+        "PipelineListPaginatedPageResponse{items=$items, nextPageToken=$nextPageToken, totalSize=$totalSize, additionalProperties=$additionalProperties}"
 }
