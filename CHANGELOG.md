@@ -10,7 +10,7 @@
 
 ### Features
 
-* **api:** map DELETE /api/v2/parse/{job_id} and GET /api/v2/pipelines into the SDKs (LI-9569) ([f86c022](https://github.com/run-llama/llama-parse-java/commit/f86c022c830ee4e33647472399e8b54cc8fc34ee))
+* **api:** map DELETE /api/v2/parse/{job_id} and GET /api/v2/pipelines into the SDKs (LI-9569) ([79761cc](https://github.com/run-llama/llama-parse-java/commit/79761cc5fd9ca377298a80911b761d84b6438cc8))
 
 ## [1.6.0](https://github.com/run-llama/llama-parse-java/compare/v1.5.1...v1.6.0) (2026-08-28)
 
