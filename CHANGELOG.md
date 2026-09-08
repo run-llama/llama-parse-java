@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.7.1](https://github.com/run-llama/llama-parse-java/compare/v1.7.0...v1.7.1) (2026-09-08)
+
+
+### Documentation
+
+* **changelog:** cite the real generated commit, not the empty one ([9c05e8a](https://github.com/run-llama/llama-parse-java/commit/9c05e8a901f8621021c5919ff8e00606aa504420))
+* **changelog:** correct the 1.7.0 entries ([2cbcdcc](https://github.com/run-llama/llama-parse-java/commit/2cbcdcc789b302a9d16ea759cc3a8b51440706dc))
+* **changelog:** correct the shipped 1.7.0 changelog entries ([70d74ec](https://github.com/run-llama/llama-parse-java/commit/70d74ecfc65c1bc714cacd7b24d3e2e3ef997750))
+
 ## [1.7.0](https://github.com/run-llama/llama-parse-java/compare/v1.6.0...v1.7.0) (2026-09-08)
 
 
