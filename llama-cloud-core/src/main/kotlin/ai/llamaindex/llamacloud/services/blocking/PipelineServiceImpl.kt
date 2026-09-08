@@ -23,6 +23,9 @@ import ai.llamaindex.llamacloud.models.pipelines.PipelineCreateParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineDeleteParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetStatusParams
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPage
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPageResponse
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveResponse
@@ -120,6 +123,13 @@ class PipelineServiceImpl internal constructor(private val clientOptions: Client
     ): ManagedIngestionStatusResponse =
         // get /api/v1/pipelines/{pipeline_id}/status
         withRawResponse().getStatus(params, requestOptions).parse()
+
+    override fun listPaginated(
+        params: PipelineListPaginatedParams,
+        requestOptions: RequestOptions,
+    ): PipelineListPaginatedPage =
+        // get /api/v2/pipelines
+        withRawResponse().listPaginated(params, requestOptions).parse()
 
     @Deprecated("deprecated")
     override fun upsert(params: PipelineUpsertParams, requestOptions: RequestOptions): Pipeline =
@@ -378,6 +388,40 @@ class PipelineServiceImpl internal constructor(private val clientOptions: Client
                         if (requestOptions.responseValidation!!) {
                             it.validate()
                         }
+                    }
+            }
+        }
+
+        private val listPaginatedHandler: Handler<PipelineListPaginatedPageResponse> =
+            jsonHandler<PipelineListPaginatedPageResponse>(clientOptions.jsonMapper)
+
+        override fun listPaginated(
+            params: PipelineListPaginatedParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<PipelineListPaginatedPage> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "pipelines")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { listPaginatedHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+                    .let {
+                        PipelineListPaginatedPage.builder()
+                            .service(PipelineServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

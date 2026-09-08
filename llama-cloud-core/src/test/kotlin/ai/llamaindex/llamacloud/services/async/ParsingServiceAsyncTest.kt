@@ -6,6 +6,7 @@ import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClientAsync
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.models.parsing.ParsingCancelParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingDeleteParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingLanguages
 import org.junit.jupiter.api.Disabled
@@ -340,6 +341,25 @@ internal class ParsingServiceAsyncTest {
 
         val page = pageFuture.get()
         page.response().validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun delete() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val parsingServiceAsync = client.parsing()
+
+        val parsingFuture =
+            parsingServiceAsync.delete(
+                ParsingDeleteParams.builder()
+                    .jobId("job_id")
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        val parsing = parsingFuture.get()
+        parsing.validate()
     }
 
     @Disabled("Mock server tests are disabled")

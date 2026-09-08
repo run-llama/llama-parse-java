@@ -734,6 +734,17 @@ internal class PipelineServiceTest {
 
     @Disabled("Mock server tests are disabled")
     @Test
+    fun listPaginated() {
+        val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
+        val pipelineService = client.pipelines()
+
+        val page = pipelineService.listPaginated()
+
+        page.response().validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
     fun upsert() {
         val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
         val pipelineService = client.pipelines()

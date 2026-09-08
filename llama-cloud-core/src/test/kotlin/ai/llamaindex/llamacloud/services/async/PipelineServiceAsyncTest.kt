@@ -743,6 +743,18 @@ internal class PipelineServiceAsyncTest {
 
     @Disabled("Mock server tests are disabled")
     @Test
+    fun listPaginated() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val pipelineServiceAsync = client.pipelines()
+
+        val pageFuture = pipelineServiceAsync.listPaginated()
+
+        val page = pageFuture.get()
+        page.response().validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
     fun upsert() {
         val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
         val pipelineServiceAsync = client.pipelines()

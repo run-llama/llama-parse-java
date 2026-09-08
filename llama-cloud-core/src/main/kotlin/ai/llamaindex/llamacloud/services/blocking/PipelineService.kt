@@ -13,6 +13,8 @@ import ai.llamaindex.llamacloud.models.pipelines.PipelineCreateParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineDeleteParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetStatusParams
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPage
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveResponse
@@ -287,6 +289,25 @@ interface PipelineService {
         requestOptions: RequestOptions,
     ): ManagedIngestionStatusResponse =
         getStatus(pipelineId, PipelineGetStatusParams.none(), requestOptions)
+
+    /** List the pipelines in a project, newest first. */
+    fun listPaginated(): PipelineListPaginatedPage =
+        listPaginated(PipelineListPaginatedParams.none())
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: PipelineListPaginatedParams = PipelineListPaginatedParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): PipelineListPaginatedPage
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: PipelineListPaginatedParams = PipelineListPaginatedParams.none()
+    ): PipelineListPaginatedPage = listPaginated(params, RequestOptions.none())
+
+    /** @see listPaginated */
+    fun listPaginated(requestOptions: RequestOptions): PipelineListPaginatedPage =
+        listPaginated(PipelineListPaginatedParams.none(), requestOptions)
 
     /**
      * Upsert a pipeline.
@@ -634,6 +655,34 @@ interface PipelineService {
             requestOptions: RequestOptions,
         ): HttpResponseFor<ManagedIngestionStatusResponse> =
             getStatus(pipelineId, PipelineGetStatusParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/v2/pipelines`, but is otherwise the same as
+         * [PipelineService.listPaginated].
+         */
+        @MustBeClosed
+        fun listPaginated(): HttpResponseFor<PipelineListPaginatedPage> =
+            listPaginated(PipelineListPaginatedParams.none())
+
+        /** @see listPaginated */
+        @MustBeClosed
+        fun listPaginated(
+            params: PipelineListPaginatedParams = PipelineListPaginatedParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<PipelineListPaginatedPage>
+
+        /** @see listPaginated */
+        @MustBeClosed
+        fun listPaginated(
+            params: PipelineListPaginatedParams = PipelineListPaginatedParams.none()
+        ): HttpResponseFor<PipelineListPaginatedPage> = listPaginated(params, RequestOptions.none())
+
+        /** @see listPaginated */
+        @MustBeClosed
+        fun listPaginated(
+            requestOptions: RequestOptions
+        ): HttpResponseFor<PipelineListPaginatedPage> =
+            listPaginated(PipelineListPaginatedParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `put /api/v1/pipelines`, but is otherwise the same as
