@@ -76,21 +76,29 @@ interface DataSinkServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DataSink>
 
-    /** List data sinks for a given project. */
+    /**
+     * List a project's data sinks. Returns at most the first 50.
+     *
+     * Deprecated: use `GET /api/v1/beta/data-sinks`, which is paginated.
+     */
+    @Deprecated("deprecated")
     fun list(): CompletableFuture<List<DataSink>> = list(DataSinkListParams.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: DataSinkListParams = DataSinkListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<DataSink>>
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: DataSinkListParams = DataSinkListParams.none()
     ): CompletableFuture<List<DataSink>> = list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(requestOptions: RequestOptions): CompletableFuture<List<DataSink>> =
         list(DataSinkListParams.none(), requestOptions)
 
@@ -231,21 +239,25 @@ interface DataSinkServiceAsync {
          * Returns a raw HTTP response for `get /api/v1/data-sinks`, but is otherwise the same as
          * [DataSinkServiceAsync.list].
          */
+        @Deprecated("deprecated")
         fun list(): CompletableFuture<HttpResponseFor<List<DataSink>>> =
             list(DataSinkListParams.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             params: DataSinkListParams = DataSinkListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<DataSink>>>
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             params: DataSinkListParams = DataSinkListParams.none()
         ): CompletableFuture<HttpResponseFor<List<DataSink>>> = list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<List<DataSink>>> =
