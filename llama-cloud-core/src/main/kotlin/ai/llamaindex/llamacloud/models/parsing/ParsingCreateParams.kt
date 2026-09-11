@@ -78,7 +78,7 @@ private constructor(
      * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-08-19`
      * - `agentic`: `2026-09-09`
-     * - `agentic_plus`: `2026-08-19`
+     * - `agentic_plus`: `2026-09-11`
      *
      * Full list: `GET /api/v2/parse/versions`.
      *
@@ -466,7 +466,7 @@ private constructor(
          * - `fast`: `2026-06-15`
          * - `cost_effective`: `2026-08-19`
          * - `agentic`: `2026-09-09`
-         * - `agentic_plus`: `2026-08-19`
+         * - `agentic_plus`: `2026-09-11`
          *
          * Full list: `GET /api/v2/parse/versions`.
          */
@@ -1083,7 +1083,7 @@ private constructor(
          * - `fast`: `2026-06-15`
          * - `cost_effective`: `2026-08-19`
          * - `agentic`: `2026-09-09`
-         * - `agentic_plus`: `2026-08-19`
+         * - `agentic_plus`: `2026-09-11`
          *
          * Full list: `GET /api/v2/parse/versions`.
          *
@@ -1517,7 +1517,7 @@ private constructor(
              * - `fast`: `2026-06-15`
              * - `cost_effective`: `2026-08-19`
              * - `agentic`: `2026-09-09`
-             * - `agentic_plus`: `2026-08-19`
+             * - `agentic_plus`: `2026-09-11`
              *
              * Full list: `GET /api/v2/parse/versions`.
              */
@@ -2218,7 +2218,7 @@ private constructor(
      * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-08-19`
      * - `agentic`: `2026-09-09`
-     * - `agentic_plus`: `2026-08-19`
+     * - `agentic_plus`: `2026-09-11`
      *
      * Full list: `GET /api/v2/parse/versions`.
      */
@@ -2238,6 +2238,8 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
+            @JvmField val _2026_09_11 = of("2026-09-11")
+
             @JvmField val _2026_09_09 = of("2026-09-09")
 
             @JvmField val _2026_08_19 = of("2026-08-19")
@@ -2250,6 +2252,7 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
+            _2026_09_11,
             _2026_09_09,
             _2026_08_19,
             _2026_06_15,
@@ -2266,6 +2269,7 @@ private constructor(
          */
         enum class Value {
             LATEST,
+            _2026_09_11,
             _2026_09_09,
             _2026_08_19,
             _2026_06_15,
@@ -2283,6 +2287,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
+                _2026_09_11 -> Value._2026_09_11
                 _2026_09_09 -> Value._2026_09_09
                 _2026_08_19 -> Value._2026_08_19
                 _2026_06_15 -> Value._2026_06_15
@@ -2301,6 +2306,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
+                _2026_09_11 -> Known._2026_09_11
                 _2026_09_09 -> Known._2026_09_09
                 _2026_08_19 -> Known._2026_08_19
                 _2026_06_15 -> Known._2026_06_15
@@ -10956,7 +10962,7 @@ private constructor(
                  * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-08-19`
                  * - `agentic`: `2026-09-09`
-                 * - `agentic_plus`: `2026-08-19`
+                 * - `agentic_plus`: `2026-09-11`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  *
@@ -11460,7 +11466,7 @@ private constructor(
                      * - `fast`: `2026-06-15`
                      * - `cost_effective`: `2026-08-19`
                      * - `agentic`: `2026-09-09`
-                     * - `agentic_plus`: `2026-08-19`
+                     * - `agentic_plus`: `2026-09-11`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
                      */
@@ -13074,7 +13080,7 @@ private constructor(
                  * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-08-19`
                  * - `agentic`: `2026-09-09`
-                 * - `agentic_plus`: `2026-08-19`
+                 * - `agentic_plus`: `2026-09-11`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  */
@@ -13097,6 +13103,8 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
+                        @JvmField val _2026_09_11 = of("2026-09-11")
+
                         @JvmField val _2026_09_09 = of("2026-09-09")
 
                         @JvmField val _2026_08_19 = of("2026-08-19")
@@ -13109,6 +13117,7 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
+                        _2026_09_11,
                         _2026_09_09,
                         _2026_08_19,
                         _2026_06_15,
@@ -13125,6 +13134,7 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
+                        _2026_09_11,
                         _2026_09_09,
                         _2026_08_19,
                         _2026_06_15,
@@ -13145,6 +13155,7 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
+                            _2026_09_11 -> Value._2026_09_11
                             _2026_09_09 -> Value._2026_09_09
                             _2026_08_19 -> Value._2026_08_19
                             _2026_06_15 -> Value._2026_06_15
@@ -13163,6 +13174,7 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
+                            _2026_09_11 -> Known._2026_09_11
                             _2026_09_09 -> Known._2026_09_09
                             _2026_08_19 -> Known._2026_08_19
                             _2026_06_15 -> Known._2026_06_15

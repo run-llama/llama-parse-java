@@ -21,6 +21,9 @@ import ai.llamaindex.llamacloud.models.datasinks.DataSink
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkCreateParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkDeleteParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkGetParams
+import ai.llamaindex.llamacloud.models.datasinks.DataSinkListPaginatedPage
+import ai.llamaindex.llamacloud.models.datasinks.DataSinkListPaginatedPageResponse
+import ai.llamaindex.llamacloud.models.datasinks.DataSinkListPaginatedParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkListParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkUpdateParams
 import java.util.function.Consumer
@@ -59,6 +62,13 @@ class DataSinkServiceImpl internal constructor(private val clientOptions: Client
     override fun get(params: DataSinkGetParams, requestOptions: RequestOptions): DataSink =
         // get /api/v1/data-sinks/{data_sink_id}
         withRawResponse().get(params, requestOptions).parse()
+
+    override fun listPaginated(
+        params: DataSinkListPaginatedParams,
+        requestOptions: RequestOptions,
+    ): DataSinkListPaginatedPage =
+        // get /api/v1/beta/data-sinks
+        withRawResponse().listPaginated(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DataSinkService.WithRawResponse {
@@ -209,6 +219,40 @@ class DataSinkServiceImpl internal constructor(private val clientOptions: Client
                         if (requestOptions.responseValidation!!) {
                             it.validate()
                         }
+                    }
+            }
+        }
+
+        private val listPaginatedHandler: Handler<DataSinkListPaginatedPageResponse> =
+            jsonHandler<DataSinkListPaginatedPageResponse>(clientOptions.jsonMapper)
+
+        override fun listPaginated(
+            params: DataSinkListPaginatedParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DataSinkListPaginatedPage> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v1", "beta", "data-sinks")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { listPaginatedHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+                    .let {
+                        DataSinkListPaginatedPage.builder()
+                            .service(DataSinkServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

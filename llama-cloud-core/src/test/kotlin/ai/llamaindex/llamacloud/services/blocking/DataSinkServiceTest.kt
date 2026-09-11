@@ -114,4 +114,15 @@ internal class DataSinkServiceTest {
 
         dataSink.validate()
     }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun listPaginated() {
+        val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
+        val dataSinkService = client.dataSinks()
+
+        val page = dataSinkService.listPaginated()
+
+        page.response().validate()
+    }
 }
