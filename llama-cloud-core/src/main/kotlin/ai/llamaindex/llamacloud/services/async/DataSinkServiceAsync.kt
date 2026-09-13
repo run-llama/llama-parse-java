@@ -10,6 +10,8 @@ import ai.llamaindex.llamacloud.models.datasinks.DataSink
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkCreateParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkDeleteParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkGetParams
+import ai.llamaindex.llamacloud.models.datasinks.DataSinkListPaginatedPageAsync
+import ai.llamaindex.llamacloud.models.datasinks.DataSinkListPaginatedParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkListParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkUpdateParams
 import ai.llamaindex.llamacloud.models.pipelines.DataSinkCreate
@@ -165,6 +167,28 @@ interface DataSinkServiceAsync {
     /** @see get */
     fun get(dataSinkId: String, requestOptions: RequestOptions): CompletableFuture<DataSink> =
         get(dataSinkId, DataSinkGetParams.none(), requestOptions)
+
+    /** List the data sinks in a project, newest first. */
+    fun listPaginated(): CompletableFuture<DataSinkListPaginatedPageAsync> =
+        listPaginated(DataSinkListPaginatedParams.none())
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: DataSinkListPaginatedParams = DataSinkListPaginatedParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<DataSinkListPaginatedPageAsync>
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: DataSinkListPaginatedParams = DataSinkListPaginatedParams.none()
+    ): CompletableFuture<DataSinkListPaginatedPageAsync> =
+        listPaginated(params, RequestOptions.none())
+
+    /** @see listPaginated */
+    fun listPaginated(
+        requestOptions: RequestOptions
+    ): CompletableFuture<DataSinkListPaginatedPageAsync> =
+        listPaginated(DataSinkListPaginatedParams.none(), requestOptions)
 
     /**
      * A view of [DataSinkServiceAsync] that provides access to raw HTTP responses for each method.
@@ -339,5 +363,30 @@ interface DataSinkServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<DataSink>> =
             get(dataSinkId, DataSinkGetParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/v1/beta/data-sinks`, but is otherwise the same
+         * as [DataSinkServiceAsync.listPaginated].
+         */
+        fun listPaginated(): CompletableFuture<HttpResponseFor<DataSinkListPaginatedPageAsync>> =
+            listPaginated(DataSinkListPaginatedParams.none())
+
+        /** @see listPaginated */
+        fun listPaginated(
+            params: DataSinkListPaginatedParams = DataSinkListPaginatedParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DataSinkListPaginatedPageAsync>>
+
+        /** @see listPaginated */
+        fun listPaginated(
+            params: DataSinkListPaginatedParams = DataSinkListPaginatedParams.none()
+        ): CompletableFuture<HttpResponseFor<DataSinkListPaginatedPageAsync>> =
+            listPaginated(params, RequestOptions.none())
+
+        /** @see listPaginated */
+        fun listPaginated(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<DataSinkListPaginatedPageAsync>> =
+            listPaginated(DataSinkListPaginatedParams.none(), requestOptions)
     }
 }

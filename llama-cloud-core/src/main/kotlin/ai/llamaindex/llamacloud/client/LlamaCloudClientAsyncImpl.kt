@@ -20,6 +20,8 @@ import ai.llamaindex.llamacloud.services.async.DataSourceServiceAsync
 import ai.llamaindex.llamacloud.services.async.DataSourceServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.ExtractServiceAsync
 import ai.llamaindex.llamacloud.services.async.ExtractServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.ExtractionAgentServiceAsync
+import ai.llamaindex.llamacloud.services.async.ExtractionAgentServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.FileServiceAsync
 import ai.llamaindex.llamacloud.services.async.FileServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.JobDataPointServiceAsync
@@ -107,6 +109,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
         DataSinkServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
+    private val extractionAgents: ExtractionAgentServiceAsync by lazy {
+        ExtractionAgentServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
     private val dataSources: DataSourceServiceAsync by lazy {
         DataSourceServiceAsyncImpl(clientOptionsWithUserAgent)
     }
@@ -153,6 +159,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
     override fun jobDataPoints(): JobDataPointServiceAsync = jobDataPoints
 
     override fun dataSinks(): DataSinkServiceAsync = dataSinks
+
+    override fun extractionAgents(): ExtractionAgentServiceAsync = extractionAgents
 
     override fun dataSources(): DataSourceServiceAsync = dataSources
 
@@ -219,6 +227,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
             DataSinkServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val extractionAgents: ExtractionAgentServiceAsync.WithRawResponse by lazy {
+            ExtractionAgentServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val dataSources: DataSourceServiceAsync.WithRawResponse by lazy {
             DataSourceServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
@@ -267,6 +279,9 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
         override fun jobDataPoints(): JobDataPointServiceAsync.WithRawResponse = jobDataPoints
 
         override fun dataSinks(): DataSinkServiceAsync.WithRawResponse = dataSinks
+
+        override fun extractionAgents(): ExtractionAgentServiceAsync.WithRawResponse =
+            extractionAgents
 
         override fun dataSources(): DataSourceServiceAsync.WithRawResponse = dataSources
 

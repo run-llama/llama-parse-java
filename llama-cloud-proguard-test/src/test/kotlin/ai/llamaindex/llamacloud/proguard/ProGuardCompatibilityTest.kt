@@ -63,6 +63,7 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.v2Projects()).isNotNull()
         assertThat(client.jobDataPoints()).isNotNull()
         assertThat(client.dataSinks()).isNotNull()
+        assertThat(client.extractionAgents()).isNotNull()
         assertThat(client.dataSources()).isNotNull()
         assertThat(client.pipelines()).isNotNull()
         assertThat(client.retrievers()).isNotNull()

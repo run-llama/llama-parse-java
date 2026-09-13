@@ -118,20 +118,24 @@ interface WebhookConfigService {
         update(configId, WebhookConfigUpdateParams.none(), requestOptions)
 
     /** List the webhook configurations for the current project, newest first. */
+    @Deprecated("deprecated")
     fun list(): List<WebhookConfigResponse> = list(WebhookConfigListParams.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: WebhookConfigListParams = WebhookConfigListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<WebhookConfigResponse>
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: WebhookConfigListParams = WebhookConfigListParams.none()
     ): List<WebhookConfigResponse> = list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(requestOptions: RequestOptions): List<WebhookConfigResponse> =
         list(WebhookConfigListParams.none(), requestOptions)
 
@@ -306,11 +310,13 @@ interface WebhookConfigService {
          * Returns a raw HTTP response for `get /api/v1/beta/webhook-configs`, but is otherwise the
          * same as [WebhookConfigService.list].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(): HttpResponseFor<List<WebhookConfigResponse>> =
             list(WebhookConfigListParams.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: WebhookConfigListParams = WebhookConfigListParams.none(),
@@ -318,12 +324,14 @@ interface WebhookConfigService {
         ): HttpResponseFor<List<WebhookConfigResponse>>
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: WebhookConfigListParams = WebhookConfigListParams.none()
         ): HttpResponseFor<List<WebhookConfigResponse>> = list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<List<WebhookConfigResponse>> =
             list(WebhookConfigListParams.none(), requestOptions)

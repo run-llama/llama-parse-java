@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.webhookconfigs
+package ai.llamaindex.llamacloud.models.datasinks
 
 import ai.llamaindex.llamacloud.core.Params
 import ai.llamaindex.llamacloud.core.http.Headers
@@ -9,17 +9,31 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** List the webhook configurations for the current project, newest first. */
-@Deprecated("deprecated")
-class WebhookConfigListParams
+/** List the data sinks in a project, newest first. */
+class DataSinkListPaginatedParams
 private constructor(
+    private val includeTotal: Boolean?,
     private val organizationId: String?,
+    private val pageSize: Long?,
+    private val pageToken: String?,
     private val projectId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
+    /**
+     * Return `total_size`, a count of every row matching the filter. It is a second query on every
+     * page, so it is off unless asked for.
+     */
+    fun includeTotal(): Optional<Boolean> = Optional.ofNullable(includeTotal)
+
     fun organizationId(): Optional<String> = Optional.ofNullable(organizationId)
+
+    /** Number of items per page */
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
+
+    /** Cursor from the previous page's `next_page_token`. */
+    fun pageToken(): Optional<String> = Optional.ofNullable(pageToken)
 
     fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
@@ -33,33 +47,76 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): WebhookConfigListParams = builder().build()
+        @JvmStatic fun none(): DataSinkListPaginatedParams = builder().build()
 
-        /** Returns a mutable builder for constructing an instance of [WebhookConfigListParams]. */
+        /**
+         * Returns a mutable builder for constructing an instance of [DataSinkListPaginatedParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [WebhookConfigListParams]. */
+    /** A builder for [DataSinkListPaginatedParams]. */
     class Builder internal constructor() {
 
+        private var includeTotal: Boolean? = null
         private var organizationId: String? = null
+        private var pageSize: Long? = null
+        private var pageToken: String? = null
         private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
-        internal fun from(webhookConfigListParams: WebhookConfigListParams) = apply {
-            organizationId = webhookConfigListParams.organizationId
-            projectId = webhookConfigListParams.projectId
-            additionalHeaders = webhookConfigListParams.additionalHeaders.toBuilder()
-            additionalQueryParams = webhookConfigListParams.additionalQueryParams.toBuilder()
+        internal fun from(dataSinkListPaginatedParams: DataSinkListPaginatedParams) = apply {
+            includeTotal = dataSinkListPaginatedParams.includeTotal
+            organizationId = dataSinkListPaginatedParams.organizationId
+            pageSize = dataSinkListPaginatedParams.pageSize
+            pageToken = dataSinkListPaginatedParams.pageToken
+            projectId = dataSinkListPaginatedParams.projectId
+            additionalHeaders = dataSinkListPaginatedParams.additionalHeaders.toBuilder()
+            additionalQueryParams = dataSinkListPaginatedParams.additionalQueryParams.toBuilder()
         }
+
+        /**
+         * Return `total_size`, a count of every row matching the filter. It is a second query on
+         * every page, so it is off unless asked for.
+         */
+        fun includeTotal(includeTotal: Boolean?) = apply { this.includeTotal = includeTotal }
+
+        /**
+         * Alias for [Builder.includeTotal].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun includeTotal(includeTotal: Boolean) = includeTotal(includeTotal as Boolean?)
+
+        /** Alias for calling [Builder.includeTotal] with `includeTotal.orElse(null)`. */
+        fun includeTotal(includeTotal: Optional<Boolean>) = includeTotal(includeTotal.getOrNull())
 
         fun organizationId(organizationId: String?) = apply { this.organizationId = organizationId }
 
         /** Alias for calling [Builder.organizationId] with `organizationId.orElse(null)`. */
         fun organizationId(organizationId: Optional<String>) =
             organizationId(organizationId.getOrNull())
+
+        /** Number of items per page */
+        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
+
+        /**
+         * Alias for [Builder.pageSize].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
+
+        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
+
+        /** Cursor from the previous page's `next_page_token`. */
+        fun pageToken(pageToken: String?) = apply { this.pageToken = pageToken }
+
+        /** Alias for calling [Builder.pageToken] with `pageToken.orElse(null)`. */
+        fun pageToken(pageToken: Optional<String>) = pageToken(pageToken.getOrNull())
 
         fun projectId(projectId: String?) = apply { this.projectId = projectId }
 
@@ -165,13 +222,16 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [WebhookConfigListParams].
+         * Returns an immutable instance of [DataSinkListPaginatedParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): WebhookConfigListParams =
-            WebhookConfigListParams(
+        fun build(): DataSinkListPaginatedParams =
+            DataSinkListPaginatedParams(
+                includeTotal,
                 organizationId,
+                pageSize,
+                pageToken,
                 projectId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -183,7 +243,10 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
+                includeTotal?.let { put("include_total", it.toString()) }
                 organizationId?.let { put("organization_id", it) }
+                pageSize?.let { put("page_size", it.toString()) }
+                pageToken?.let { put("page_token", it) }
                 projectId?.let { put("project_id", it) }
                 putAll(additionalQueryParams)
             }
@@ -194,16 +257,27 @@ private constructor(
             return true
         }
 
-        return other is WebhookConfigListParams &&
+        return other is DataSinkListPaginatedParams &&
+            includeTotal == other.includeTotal &&
             organizationId == other.organizationId &&
+            pageSize == other.pageSize &&
+            pageToken == other.pageToken &&
             projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(organizationId, projectId, additionalHeaders, additionalQueryParams)
+        Objects.hash(
+            includeTotal,
+            organizationId,
+            pageSize,
+            pageToken,
+            projectId,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
-        "WebhookConfigListParams{organizationId=$organizationId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "DataSinkListPaginatedParams{includeTotal=$includeTotal, organizationId=$organizationId, pageSize=$pageSize, pageToken=$pageToken, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

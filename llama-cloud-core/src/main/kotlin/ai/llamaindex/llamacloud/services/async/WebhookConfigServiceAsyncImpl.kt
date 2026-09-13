@@ -60,6 +60,7 @@ class WebhookConfigServiceAsyncImpl internal constructor(private val clientOptio
         // put /api/v1/beta/webhook-configs/{config_id}
         withRawResponse().update(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun list(
         params: WebhookConfigListParams,
         requestOptions: RequestOptions,
@@ -188,6 +189,7 @@ class WebhookConfigServiceAsyncImpl internal constructor(private val clientOptio
         private val listHandler: Handler<List<WebhookConfigResponse>> =
             jsonHandler<List<WebhookConfigResponse>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun list(
             params: WebhookConfigListParams,
             requestOptions: RequestOptions,

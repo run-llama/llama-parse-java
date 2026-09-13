@@ -125,21 +125,25 @@ interface WebhookConfigServiceAsync {
         update(configId, WebhookConfigUpdateParams.none(), requestOptions)
 
     /** List the webhook configurations for the current project, newest first. */
+    @Deprecated("deprecated")
     fun list(): CompletableFuture<List<WebhookConfigResponse>> =
         list(WebhookConfigListParams.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: WebhookConfigListParams = WebhookConfigListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<WebhookConfigResponse>>
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: WebhookConfigListParams = WebhookConfigListParams.none()
     ): CompletableFuture<List<WebhookConfigResponse>> = list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(requestOptions: RequestOptions): CompletableFuture<List<WebhookConfigResponse>> =
         list(WebhookConfigListParams.none(), requestOptions)
 
@@ -309,22 +313,26 @@ interface WebhookConfigServiceAsync {
          * Returns a raw HTTP response for `get /api/v1/beta/webhook-configs`, but is otherwise the
          * same as [WebhookConfigServiceAsync.list].
          */
+        @Deprecated("deprecated")
         fun list(): CompletableFuture<HttpResponseFor<List<WebhookConfigResponse>>> =
             list(WebhookConfigListParams.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             params: WebhookConfigListParams = WebhookConfigListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<WebhookConfigResponse>>>
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             params: WebhookConfigListParams = WebhookConfigListParams.none()
         ): CompletableFuture<HttpResponseFor<List<WebhookConfigResponse>>> =
             list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<List<WebhookConfigResponse>>> =
