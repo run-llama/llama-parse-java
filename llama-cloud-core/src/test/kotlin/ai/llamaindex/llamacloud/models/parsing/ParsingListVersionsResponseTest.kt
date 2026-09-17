@@ -13,8 +13,8 @@ internal class ParsingListVersionsResponseTest {
     fun create() {
         val parsingListVersionsResponse =
             ParsingListVersionsResponse.builder()
-                .addAgentic(ParsingListVersionsResponse.Agentic._2026_09_09)
-                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_09_11)
+                .addAgentic(ParsingListVersionsResponse.Agentic._2026_09_13)
+                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_08_19)
                 .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_08_19)
                 .addFast(ParsingListVersionsResponse.Fast._2026_06_15)
                 .latest(
@@ -28,9 +28,9 @@ internal class ParsingListVersionsResponseTest {
                 .build()
 
         assertThat(parsingListVersionsResponse.agentic())
-            .containsExactly(ParsingListVersionsResponse.Agentic._2026_09_09)
+            .containsExactly(ParsingListVersionsResponse.Agentic._2026_09_13)
         assertThat(parsingListVersionsResponse.agenticPlus())
-            .containsExactly(ParsingListVersionsResponse.AgenticPlus._2026_09_11)
+            .containsExactly(ParsingListVersionsResponse.AgenticPlus._2026_08_19)
         assertThat(parsingListVersionsResponse.costEffective())
             .containsExactly(ParsingListVersionsResponse.CostEffective._2026_08_19)
         assertThat(parsingListVersionsResponse.fast())
@@ -51,8 +51,8 @@ internal class ParsingListVersionsResponseTest {
         val jsonMapper = jsonMapper()
         val parsingListVersionsResponse =
             ParsingListVersionsResponse.builder()
-                .addAgentic(ParsingListVersionsResponse.Agentic._2026_09_09)
-                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_09_11)
+                .addAgentic(ParsingListVersionsResponse.Agentic._2026_09_13)
+                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_08_19)
                 .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_08_19)
                 .addFast(ParsingListVersionsResponse.Fast._2026_06_15)
                 .latest(

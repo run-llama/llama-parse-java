@@ -22,6 +22,9 @@ import ai.llamaindex.llamacloud.models.retrievers.Retriever
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverCreateParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverDeleteParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverGetParams
+import ai.llamaindex.llamacloud.models.retrievers.RetrieverListPaginatedPage
+import ai.llamaindex.llamacloud.models.retrievers.RetrieverListPaginatedPageResponse
+import ai.llamaindex.llamacloud.models.retrievers.RetrieverListPaginatedParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverListParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverSearchParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverUpdateParams
@@ -55,6 +58,7 @@ class RetrieverServiceImpl internal constructor(private val clientOptions: Clien
         // put /api/v1/retrievers/{retriever_id}
         withRawResponse().update(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun list(
         params: RetrieverListParams,
         requestOptions: RequestOptions,
@@ -70,6 +74,13 @@ class RetrieverServiceImpl internal constructor(private val clientOptions: Clien
     override fun get(params: RetrieverGetParams, requestOptions: RequestOptions): Retriever =
         // get /api/v1/retrievers/{retriever_id}
         withRawResponse().get(params, requestOptions).parse()
+
+    override fun listPaginated(
+        params: RetrieverListPaginatedParams,
+        requestOptions: RequestOptions,
+    ): RetrieverListPaginatedPage =
+        // get /api/v1/beta/retrievers
+        withRawResponse().listPaginated(params, requestOptions).parse()
 
     override fun search(
         params: RetrieverSearchParams,
@@ -163,6 +174,7 @@ class RetrieverServiceImpl internal constructor(private val clientOptions: Clien
         private val listHandler: Handler<List<Retriever>> =
             jsonHandler<List<Retriever>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun list(
             params: RetrieverListParams,
             requestOptions: RequestOptions,
@@ -237,6 +249,40 @@ class RetrieverServiceImpl internal constructor(private val clientOptions: Clien
                         if (requestOptions.responseValidation!!) {
                             it.validate()
                         }
+                    }
+            }
+        }
+
+        private val listPaginatedHandler: Handler<RetrieverListPaginatedPageResponse> =
+            jsonHandler<RetrieverListPaginatedPageResponse>(clientOptions.jsonMapper)
+
+        override fun listPaginated(
+            params: RetrieverListPaginatedParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<RetrieverListPaginatedPage> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v1", "beta", "retrievers")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { listPaginatedHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+                    .let {
+                        RetrieverListPaginatedPage.builder()
+                            .service(RetrieverServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

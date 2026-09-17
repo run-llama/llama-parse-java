@@ -221,6 +221,18 @@ internal class RetrieverServiceAsyncTest {
 
     @Disabled("Mock server tests are disabled")
     @Test
+    fun listPaginated() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val retrieverServiceAsync = client.retrievers()
+
+        val pageFuture = retrieverServiceAsync.listPaginated()
+
+        val page = pageFuture.get()
+        page.response().validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
     fun search() {
         val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
         val retrieverServiceAsync = client.retrievers()

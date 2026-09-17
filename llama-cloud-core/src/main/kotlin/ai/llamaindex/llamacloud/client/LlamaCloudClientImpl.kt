@@ -20,8 +20,6 @@ import ai.llamaindex.llamacloud.services.blocking.DataSourceService
 import ai.llamaindex.llamacloud.services.blocking.DataSourceServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.ExtractService
 import ai.llamaindex.llamacloud.services.blocking.ExtractServiceImpl
-import ai.llamaindex.llamacloud.services.blocking.ExtractionAgentService
-import ai.llamaindex.llamacloud.services.blocking.ExtractionAgentServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.FileService
 import ai.llamaindex.llamacloud.services.blocking.FileServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.JobDataPointService
@@ -99,10 +97,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
         DataSinkServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val extractionAgents: ExtractionAgentService by lazy {
-        ExtractionAgentServiceImpl(clientOptionsWithUserAgent)
-    }
-
     private val dataSources: DataSourceService by lazy {
         DataSourceServiceImpl(clientOptionsWithUserAgent)
     }
@@ -149,8 +143,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
     override fun jobDataPoints(): JobDataPointService = jobDataPoints
 
     override fun dataSinks(): DataSinkService = dataSinks
-
-    override fun extractionAgents(): ExtractionAgentService = extractionAgents
 
     override fun dataSources(): DataSourceService = dataSources
 
@@ -217,10 +209,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
             DataSinkServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
-        private val extractionAgents: ExtractionAgentService.WithRawResponse by lazy {
-            ExtractionAgentServiceImpl.WithRawResponseImpl(clientOptions)
-        }
-
         private val dataSources: DataSourceService.WithRawResponse by lazy {
             DataSourceServiceImpl.WithRawResponseImpl(clientOptions)
         }
@@ -269,8 +257,6 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
         override fun jobDataPoints(): JobDataPointService.WithRawResponse = jobDataPoints
 
         override fun dataSinks(): DataSinkService.WithRawResponse = dataSinks
-
-        override fun extractionAgents(): ExtractionAgentService.WithRawResponse = extractionAgents
 
         override fun dataSources(): DataSourceService.WithRawResponse = dataSources
 

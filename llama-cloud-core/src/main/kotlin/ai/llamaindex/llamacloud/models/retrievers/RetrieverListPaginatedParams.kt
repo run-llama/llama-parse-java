@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.datasinks
+package ai.llamaindex.llamacloud.models.retrievers
 
 import ai.llamaindex.llamacloud.core.Params
 import ai.llamaindex.llamacloud.core.http.Headers
@@ -9,10 +9,11 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** List the data sinks in a project, newest first. */
-class DataSinkListPaginatedParams
+/** List the retrievers in a project, newest first. */
+class RetrieverListPaginatedParams
 private constructor(
     private val includeTotal: Boolean?,
+    private val name: String?,
     private val organizationId: String?,
     private val pageSize: Long?,
     private val pageToken: String?,
@@ -26,6 +27,8 @@ private constructor(
      * page, so it is off unless asked for.
      */
     fun includeTotal(): Optional<Boolean> = Optional.ofNullable(includeTotal)
+
+    fun name(): Optional<String> = Optional.ofNullable(name)
 
     fun organizationId(): Optional<String> = Optional.ofNullable(organizationId)
 
@@ -47,18 +50,19 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): DataSinkListPaginatedParams = builder().build()
+        @JvmStatic fun none(): RetrieverListPaginatedParams = builder().build()
 
         /**
-         * Returns a mutable builder for constructing an instance of [DataSinkListPaginatedParams].
+         * Returns a mutable builder for constructing an instance of [RetrieverListPaginatedParams].
          */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [DataSinkListPaginatedParams]. */
+    /** A builder for [RetrieverListPaginatedParams]. */
     class Builder internal constructor() {
 
         private var includeTotal: Boolean? = null
+        private var name: String? = null
         private var organizationId: String? = null
         private var pageSize: Long? = null
         private var pageToken: String? = null
@@ -67,14 +71,15 @@ private constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
-        internal fun from(dataSinkListPaginatedParams: DataSinkListPaginatedParams) = apply {
-            includeTotal = dataSinkListPaginatedParams.includeTotal
-            organizationId = dataSinkListPaginatedParams.organizationId
-            pageSize = dataSinkListPaginatedParams.pageSize
-            pageToken = dataSinkListPaginatedParams.pageToken
-            projectId = dataSinkListPaginatedParams.projectId
-            additionalHeaders = dataSinkListPaginatedParams.additionalHeaders.toBuilder()
-            additionalQueryParams = dataSinkListPaginatedParams.additionalQueryParams.toBuilder()
+        internal fun from(retrieverListPaginatedParams: RetrieverListPaginatedParams) = apply {
+            includeTotal = retrieverListPaginatedParams.includeTotal
+            name = retrieverListPaginatedParams.name
+            organizationId = retrieverListPaginatedParams.organizationId
+            pageSize = retrieverListPaginatedParams.pageSize
+            pageToken = retrieverListPaginatedParams.pageToken
+            projectId = retrieverListPaginatedParams.projectId
+            additionalHeaders = retrieverListPaginatedParams.additionalHeaders.toBuilder()
+            additionalQueryParams = retrieverListPaginatedParams.additionalQueryParams.toBuilder()
         }
 
         /**
@@ -92,6 +97,11 @@ private constructor(
 
         /** Alias for calling [Builder.includeTotal] with `includeTotal.orElse(null)`. */
         fun includeTotal(includeTotal: Optional<Boolean>) = includeTotal(includeTotal.getOrNull())
+
+        fun name(name: String?) = apply { this.name = name }
+
+        /** Alias for calling [Builder.name] with `name.orElse(null)`. */
+        fun name(name: Optional<String>) = name(name.getOrNull())
 
         fun organizationId(organizationId: String?) = apply { this.organizationId = organizationId }
 
@@ -222,13 +232,14 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [DataSinkListPaginatedParams].
+         * Returns an immutable instance of [RetrieverListPaginatedParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): DataSinkListPaginatedParams =
-            DataSinkListPaginatedParams(
+        fun build(): RetrieverListPaginatedParams =
+            RetrieverListPaginatedParams(
                 includeTotal,
+                name,
                 organizationId,
                 pageSize,
                 pageToken,
@@ -244,6 +255,7 @@ private constructor(
         QueryParams.builder()
             .apply {
                 includeTotal?.let { put("include_total", it.toString()) }
+                name?.let { put("name", it) }
                 organizationId?.let { put("organization_id", it) }
                 pageSize?.let { put("page_size", it.toString()) }
                 pageToken?.let { put("page_token", it) }
@@ -257,8 +269,9 @@ private constructor(
             return true
         }
 
-        return other is DataSinkListPaginatedParams &&
+        return other is RetrieverListPaginatedParams &&
             includeTotal == other.includeTotal &&
+            name == other.name &&
             organizationId == other.organizationId &&
             pageSize == other.pageSize &&
             pageToken == other.pageToken &&
@@ -270,6 +283,7 @@ private constructor(
     override fun hashCode(): Int =
         Objects.hash(
             includeTotal,
+            name,
             organizationId,
             pageSize,
             pageToken,
@@ -279,5 +293,5 @@ private constructor(
         )
 
     override fun toString() =
-        "DataSinkListPaginatedParams{includeTotal=$includeTotal, organizationId=$organizationId, pageSize=$pageSize, pageToken=$pageToken, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "RetrieverListPaginatedParams{includeTotal=$includeTotal, name=$name, organizationId=$organizationId, pageSize=$pageSize, pageToken=$pageToken, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

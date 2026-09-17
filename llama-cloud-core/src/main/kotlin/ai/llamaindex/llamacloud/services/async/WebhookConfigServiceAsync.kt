@@ -9,6 +9,8 @@ import ai.llamaindex.llamacloud.core.http.HttpResponseFor
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigCreate
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigCreateParams
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigDeleteParams
+import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigListPaginatedPageAsync
+import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigListPaginatedParams
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigListParams
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigResponse
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigRetrieveParams
@@ -178,6 +180,28 @@ interface WebhookConfigServiceAsync {
     /** @see delete */
     fun delete(configId: String, requestOptions: RequestOptions): CompletableFuture<Void?> =
         delete(configId, WebhookConfigDeleteParams.none(), requestOptions)
+
+    /** List the webhook configurations for the current project, newest first. */
+    fun listPaginated(): CompletableFuture<WebhookConfigListPaginatedPageAsync> =
+        listPaginated(WebhookConfigListPaginatedParams.none())
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: WebhookConfigListPaginatedParams = WebhookConfigListPaginatedParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<WebhookConfigListPaginatedPageAsync>
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: WebhookConfigListPaginatedParams = WebhookConfigListPaginatedParams.none()
+    ): CompletableFuture<WebhookConfigListPaginatedPageAsync> =
+        listPaginated(params, RequestOptions.none())
+
+    /** @see listPaginated */
+    fun listPaginated(
+        requestOptions: RequestOptions
+    ): CompletableFuture<WebhookConfigListPaginatedPageAsync> =
+        listPaginated(WebhookConfigListPaginatedParams.none(), requestOptions)
 
     /**
      * A view of [WebhookConfigServiceAsync] that provides access to raw HTTP responses for each
@@ -375,5 +399,31 @@ interface WebhookConfigServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> =
             delete(configId, WebhookConfigDeleteParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/v2/webhook-configs`, but is otherwise the same
+         * as [WebhookConfigServiceAsync.listPaginated].
+         */
+        fun listPaginated():
+            CompletableFuture<HttpResponseFor<WebhookConfigListPaginatedPageAsync>> =
+            listPaginated(WebhookConfigListPaginatedParams.none())
+
+        /** @see listPaginated */
+        fun listPaginated(
+            params: WebhookConfigListPaginatedParams = WebhookConfigListPaginatedParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<WebhookConfigListPaginatedPageAsync>>
+
+        /** @see listPaginated */
+        fun listPaginated(
+            params: WebhookConfigListPaginatedParams = WebhookConfigListPaginatedParams.none()
+        ): CompletableFuture<HttpResponseFor<WebhookConfigListPaginatedPageAsync>> =
+            listPaginated(params, RequestOptions.none())
+
+        /** @see listPaginated */
+        fun listPaginated(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<WebhookConfigListPaginatedPageAsync>> =
+            listPaginated(WebhookConfigListPaginatedParams.none(), requestOptions)
     }
 }

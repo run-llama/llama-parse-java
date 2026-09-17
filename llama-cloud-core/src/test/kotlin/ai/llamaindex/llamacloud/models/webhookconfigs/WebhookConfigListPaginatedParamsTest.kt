@@ -1,17 +1,17 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.extractionagents
+package ai.llamaindex.llamacloud.models.webhookconfigs
 
 import ai.llamaindex.llamacloud.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class ExtractionAgentListParamsTest {
+internal class WebhookConfigListPaginatedParamsTest {
 
     @Test
     fun create() {
-        ExtractionAgentListParams.builder()
-            .includeDefault(true)
+        WebhookConfigListPaginatedParams.builder()
+            .includeTotal(true)
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .pageSize(1L)
             .pageToken("page_token")
@@ -22,8 +22,8 @@ internal class ExtractionAgentListParamsTest {
     @Test
     fun queryParams() {
         val params =
-            ExtractionAgentListParams.builder()
-                .includeDefault(true)
+            WebhookConfigListPaginatedParams.builder()
+                .includeTotal(true)
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .pageSize(1L)
                 .pageToken("page_token")
@@ -35,7 +35,7 @@ internal class ExtractionAgentListParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
-                    .put("include_default", "true")
+                    .put("include_total", "true")
                     .put("organization_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("page_size", "1")
                     .put("page_token", "page_token")
@@ -46,7 +46,7 @@ internal class ExtractionAgentListParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = ExtractionAgentListParams.builder().build()
+        val params = WebhookConfigListPaginatedParams.builder().build()
 
         val queryParams = params._queryParams()
 

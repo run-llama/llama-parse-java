@@ -21,9 +21,6 @@ import ai.llamaindex.llamacloud.models.datasinks.DataSink
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkCreateParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkDeleteParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkGetParams
-import ai.llamaindex.llamacloud.models.datasinks.DataSinkListPaginatedPageAsync
-import ai.llamaindex.llamacloud.models.datasinks.DataSinkListPaginatedPageResponse
-import ai.llamaindex.llamacloud.models.datasinks.DataSinkListPaginatedParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkListParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkUpdateParams
 import java.util.concurrent.CompletableFuture
@@ -77,13 +74,6 @@ class DataSinkServiceAsyncImpl internal constructor(private val clientOptions: C
     ): CompletableFuture<DataSink> =
         // get /api/v1/data-sinks/{data_sink_id}
         withRawResponse().get(params, requestOptions).thenApply { it.parse() }
-
-    override fun listPaginated(
-        params: DataSinkListPaginatedParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<DataSinkListPaginatedPageAsync> =
-        // get /api/v1/beta/data-sinks
-        withRawResponse().listPaginated(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DataSinkServiceAsync.WithRawResponse {
@@ -248,44 +238,6 @@ class DataSinkServiceAsyncImpl internal constructor(private val clientOptions: C
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
                                 }
-                            }
-                    }
-                }
-        }
-
-        private val listPaginatedHandler: Handler<DataSinkListPaginatedPageResponse> =
-            jsonHandler<DataSinkListPaginatedPageResponse>(clientOptions.jsonMapper)
-
-        override fun listPaginated(
-            params: DataSinkListPaginatedParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<DataSinkListPaginatedPageAsync>> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("api", "v1", "beta", "data-sinks")
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    errorHandler.handle(response).parseable {
-                        response
-                            .use { listPaginatedHandler.handle(it) }
-                            .also {
-                                if (requestOptions.responseValidation!!) {
-                                    it.validate()
-                                }
-                            }
-                            .let {
-                                DataSinkListPaginatedPageAsync.builder()
-                                    .service(DataSinkServiceAsyncImpl(clientOptions))
-                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
-                                    .params(params)
-                                    .response(it)
-                                    .build()
                             }
                     }
                 }

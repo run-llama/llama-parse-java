@@ -1,63 +1,63 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.datasinks
+package ai.llamaindex.llamacloud.models.retrievers
 
 import ai.llamaindex.llamacloud.core.AutoPager
 import ai.llamaindex.llamacloud.core.Page
 import ai.llamaindex.llamacloud.core.checkRequired
-import ai.llamaindex.llamacloud.services.blocking.DataSinkService
+import ai.llamaindex.llamacloud.services.blocking.RetrieverService
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see DataSinkService.listPaginated */
-class DataSinkListPaginatedPage
+/** @see RetrieverService.listPaginated */
+class RetrieverListPaginatedPage
 private constructor(
-    private val service: DataSinkService,
-    private val params: DataSinkListPaginatedParams,
-    private val response: DataSinkListPaginatedPageResponse,
-) : Page<DataSink> {
+    private val service: RetrieverService,
+    private val params: RetrieverListPaginatedParams,
+    private val response: RetrieverListPaginatedPageResponse,
+) : Page<Retriever> {
 
     /**
-     * Delegates to [DataSinkListPaginatedPageResponse], but gracefully handles missing data.
+     * Delegates to [RetrieverListPaginatedPageResponse], but gracefully handles missing data.
      *
-     * @see DataSinkListPaginatedPageResponse.items
+     * @see RetrieverListPaginatedPageResponse.items
      */
-    override fun items(): List<DataSink> =
+    override fun items(): List<Retriever> =
         response._items().getOptional("items").getOrNull() ?: emptyList()
 
     /**
-     * Delegates to [DataSinkListPaginatedPageResponse], but gracefully handles missing data.
+     * Delegates to [RetrieverListPaginatedPageResponse], but gracefully handles missing data.
      *
-     * @see DataSinkListPaginatedPageResponse.nextPageToken
+     * @see RetrieverListPaginatedPageResponse.nextPageToken
      */
     fun nextPageToken(): Optional<String> = response._nextPageToken().getOptional("next_page_token")
 
     override fun hasNextPage(): Boolean = items().isNotEmpty() && nextPageToken().isPresent
 
-    fun nextPageParams(): DataSinkListPaginatedParams {
+    fun nextPageParams(): RetrieverListPaginatedParams {
         val nextCursor =
             nextPageToken().getOrNull()
                 ?: throw IllegalStateException("Cannot construct next page params")
         return params.toBuilder().pageToken(nextCursor).build()
     }
 
-    override fun nextPage(): DataSinkListPaginatedPage = service.listPaginated(nextPageParams())
+    override fun nextPage(): RetrieverListPaginatedPage = service.listPaginated(nextPageParams())
 
-    fun autoPager(): AutoPager<DataSink> = AutoPager.from(this)
+    fun autoPager(): AutoPager<Retriever> = AutoPager.from(this)
 
     /** The parameters that were used to request this page. */
-    fun params(): DataSinkListPaginatedParams = params
+    fun params(): RetrieverListPaginatedParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): DataSinkListPaginatedPageResponse = response
+    fun response(): RetrieverListPaginatedPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [DataSinkListPaginatedPage].
+         * Returns a mutable builder for constructing an instance of [RetrieverListPaginatedPage].
          *
          * The following fields are required:
          * ```java
@@ -69,32 +69,32 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [DataSinkListPaginatedPage]. */
+    /** A builder for [RetrieverListPaginatedPage]. */
     class Builder internal constructor() {
 
-        private var service: DataSinkService? = null
-        private var params: DataSinkListPaginatedParams? = null
-        private var response: DataSinkListPaginatedPageResponse? = null
+        private var service: RetrieverService? = null
+        private var params: RetrieverListPaginatedParams? = null
+        private var response: RetrieverListPaginatedPageResponse? = null
 
         @JvmSynthetic
-        internal fun from(dataSinkListPaginatedPage: DataSinkListPaginatedPage) = apply {
-            service = dataSinkListPaginatedPage.service
-            params = dataSinkListPaginatedPage.params
-            response = dataSinkListPaginatedPage.response
+        internal fun from(retrieverListPaginatedPage: RetrieverListPaginatedPage) = apply {
+            service = retrieverListPaginatedPage.service
+            params = retrieverListPaginatedPage.params
+            response = retrieverListPaginatedPage.response
         }
 
-        fun service(service: DataSinkService) = apply { this.service = service }
+        fun service(service: RetrieverService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: DataSinkListPaginatedParams) = apply { this.params = params }
+        fun params(params: RetrieverListPaginatedParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: DataSinkListPaginatedPageResponse) = apply {
+        fun response(response: RetrieverListPaginatedPageResponse) = apply {
             this.response = response
         }
 
         /**
-         * Returns an immutable instance of [DataSinkListPaginatedPage].
+         * Returns an immutable instance of [RetrieverListPaginatedPage].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -107,8 +107,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): DataSinkListPaginatedPage =
-            DataSinkListPaginatedPage(
+        fun build(): RetrieverListPaginatedPage =
+            RetrieverListPaginatedPage(
                 checkRequired("service", service),
                 checkRequired("params", params),
                 checkRequired("response", response),
@@ -120,7 +120,7 @@ private constructor(
             return true
         }
 
-        return other is DataSinkListPaginatedPage &&
+        return other is RetrieverListPaginatedPage &&
             service == other.service &&
             params == other.params &&
             response == other.response
@@ -129,5 +129,5 @@ private constructor(
     override fun hashCode(): Int = Objects.hash(service, params, response)
 
     override fun toString() =
-        "DataSinkListPaginatedPage{service=$service, params=$params, response=$response}"
+        "RetrieverListPaginatedPage{service=$service, params=$params, response=$response}"
 }

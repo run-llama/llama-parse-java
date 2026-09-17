@@ -27,7 +27,10 @@ class SplitV1Parameters
 private constructor(
     private val categories: JsonField<List<SplitCategory>>,
     private val productType: JsonValue,
+    private val parseConfigId: JsonField<String>,
+    private val parseTier: JsonField<ParseTier>,
     private val splittingStrategy: JsonField<SplittingStrategy>,
+    private val targetPages: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -37,10 +40,27 @@ private constructor(
         @ExcludeMissing
         categories: JsonField<List<SplitCategory>> = JsonMissing.of(),
         @JsonProperty("product_type") @ExcludeMissing productType: JsonValue = JsonMissing.of(),
+        @JsonProperty("parse_config_id")
+        @ExcludeMissing
+        parseConfigId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("parse_tier")
+        @ExcludeMissing
+        parseTier: JsonField<ParseTier> = JsonMissing.of(),
         @JsonProperty("splitting_strategy")
         @ExcludeMissing
         splittingStrategy: JsonField<SplittingStrategy> = JsonMissing.of(),
-    ) : this(categories, productType, splittingStrategy, mutableMapOf())
+        @JsonProperty("target_pages")
+        @ExcludeMissing
+        targetPages: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        categories,
+        productType,
+        parseConfigId,
+        parseTier,
+        splittingStrategy,
+        targetPages,
+        mutableMapOf(),
+    )
 
     /**
      * Categories to split documents into.
@@ -64,6 +84,26 @@ private constructor(
     @JsonProperty("product_type") @ExcludeMissing fun _productType(): JsonValue = productType
 
     /**
+     * Saved parse configuration ID to control how the document is parsed before splitting. Takes
+     * precedence over parse_tier. Configurations that restrict pages (`target_pages` or `max_pages`
+     * on the parse configuration) are rejected: split results number pages relative to the full
+     * document. Ignored when a completed parse job is supplied as file_input.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun parseConfigId(): Optional<String> = parseConfigId.getOptional("parse_config_id")
+
+    /**
+     * Parse tier used to read the document before splitting. Defaults to fast. Ignored when a
+     * completed parse job is supplied as file_input.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun parseTier(): Optional<ParseTier> = parseTier.getOptional("parse_tier")
+
+    /**
      * Strategy for splitting documents.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -71,6 +111,15 @@ private constructor(
      */
     fun splittingStrategy(): Optional<SplittingStrategy> =
         splittingStrategy.getOptional("splitting_strategy")
+
+    /**
+     * Comma-separated page numbers or ranges to split (1-based). Omit to split all pages. Requires
+     * a completed parse job as file_input.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun targetPages(): Optional<String> = targetPages.getOptional("target_pages")
 
     /**
      * Returns the raw JSON value of [categories].
@@ -82,6 +131,22 @@ private constructor(
     fun _categories(): JsonField<List<SplitCategory>> = categories
 
     /**
+     * Returns the raw JSON value of [parseConfigId].
+     *
+     * Unlike [parseConfigId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("parse_config_id")
+    @ExcludeMissing
+    fun _parseConfigId(): JsonField<String> = parseConfigId
+
+    /**
+     * Returns the raw JSON value of [parseTier].
+     *
+     * Unlike [parseTier], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("parse_tier") @ExcludeMissing fun _parseTier(): JsonField<ParseTier> = parseTier
+
+    /**
      * Returns the raw JSON value of [splittingStrategy].
      *
      * Unlike [splittingStrategy], this method doesn't throw if the JSON field has an unexpected
@@ -90,6 +155,15 @@ private constructor(
     @JsonProperty("splitting_strategy")
     @ExcludeMissing
     fun _splittingStrategy(): JsonField<SplittingStrategy> = splittingStrategy
+
+    /**
+     * Returns the raw JSON value of [targetPages].
+     *
+     * Unlike [targetPages], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("target_pages")
+    @ExcludeMissing
+    fun _targetPages(): JsonField<String> = targetPages
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -121,14 +195,20 @@ private constructor(
 
         private var categories: JsonField<MutableList<SplitCategory>>? = null
         private var productType: JsonValue = JsonValue.from("split_v1")
+        private var parseConfigId: JsonField<String> = JsonMissing.of()
+        private var parseTier: JsonField<ParseTier> = JsonMissing.of()
         private var splittingStrategy: JsonField<SplittingStrategy> = JsonMissing.of()
+        private var targetPages: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(splitV1Parameters: SplitV1Parameters) = apply {
             categories = splitV1Parameters.categories.map { it.toMutableList() }
             productType = splitV1Parameters.productType
+            parseConfigId = splitV1Parameters.parseConfigId
+            parseTier = splitV1Parameters.parseTier
             splittingStrategy = splitV1Parameters.splittingStrategy
+            targetPages = splitV1Parameters.targetPages
             additionalProperties = splitV1Parameters.additionalProperties.toMutableMap()
         }
 
@@ -172,6 +252,48 @@ private constructor(
          */
         fun productType(productType: JsonValue) = apply { this.productType = productType }
 
+        /**
+         * Saved parse configuration ID to control how the document is parsed before splitting.
+         * Takes precedence over parse_tier. Configurations that restrict pages (`target_pages` or
+         * `max_pages` on the parse configuration) are rejected: split results number pages relative
+         * to the full document. Ignored when a completed parse job is supplied as file_input.
+         */
+        fun parseConfigId(parseConfigId: String?) =
+            parseConfigId(JsonField.ofNullable(parseConfigId))
+
+        /** Alias for calling [Builder.parseConfigId] with `parseConfigId.orElse(null)`. */
+        fun parseConfigId(parseConfigId: Optional<String>) =
+            parseConfigId(parseConfigId.getOrNull())
+
+        /**
+         * Sets [Builder.parseConfigId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.parseConfigId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun parseConfigId(parseConfigId: JsonField<String>) = apply {
+            this.parseConfigId = parseConfigId
+        }
+
+        /**
+         * Parse tier used to read the document before splitting. Defaults to fast. Ignored when a
+         * completed parse job is supplied as file_input.
+         */
+        fun parseTier(parseTier: ParseTier?) = parseTier(JsonField.ofNullable(parseTier))
+
+        /** Alias for calling [Builder.parseTier] with `parseTier.orElse(null)`. */
+        fun parseTier(parseTier: Optional<ParseTier>) = parseTier(parseTier.getOrNull())
+
+        /**
+         * Sets [Builder.parseTier] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.parseTier] with a well-typed [ParseTier] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun parseTier(parseTier: JsonField<ParseTier>) = apply { this.parseTier = parseTier }
+
         /** Strategy for splitting documents. */
         fun splittingStrategy(splittingStrategy: SplittingStrategy) =
             splittingStrategy(JsonField.of(splittingStrategy))
@@ -186,6 +308,24 @@ private constructor(
         fun splittingStrategy(splittingStrategy: JsonField<SplittingStrategy>) = apply {
             this.splittingStrategy = splittingStrategy
         }
+
+        /**
+         * Comma-separated page numbers or ranges to split (1-based). Omit to split all pages.
+         * Requires a completed parse job as file_input.
+         */
+        fun targetPages(targetPages: String?) = targetPages(JsonField.ofNullable(targetPages))
+
+        /** Alias for calling [Builder.targetPages] with `targetPages.orElse(null)`. */
+        fun targetPages(targetPages: Optional<String>) = targetPages(targetPages.getOrNull())
+
+        /**
+         * Sets [Builder.targetPages] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.targetPages] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun targetPages(targetPages: JsonField<String>) = apply { this.targetPages = targetPages }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -222,7 +362,10 @@ private constructor(
             SplitV1Parameters(
                 checkRequired("categories", categories).map { it.toImmutable() },
                 productType,
+                parseConfigId,
+                parseTier,
                 splittingStrategy,
+                targetPages,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -248,7 +391,10 @@ private constructor(
                 throw LlamaCloudInvalidDataException("'productType' is invalid, received $it")
             }
         }
+        parseConfigId()
+        parseTier().ifPresent { it.validate() }
         splittingStrategy().ifPresent { it.validate() }
+        targetPages()
         validated = true
     }
 
@@ -269,7 +415,164 @@ private constructor(
     internal fun validity(): Int =
         (categories.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             productType.let { if (it == JsonValue.from("split_v1")) 1 else 0 } +
-            (splittingStrategy.asKnown().getOrNull()?.validity() ?: 0)
+            (if (parseConfigId.asKnown().isPresent) 1 else 0) +
+            (parseTier.asKnown().getOrNull()?.validity() ?: 0) +
+            (splittingStrategy.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (targetPages.asKnown().isPresent) 1 else 0)
+
+    /**
+     * Parse tier used to read the document before splitting. Defaults to fast. Ignored when a
+     * completed parse job is supplied as file_input.
+     */
+    class ParseTier @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val AGENTIC = of("agentic")
+
+            @JvmField val AGENTIC_PLUS = of("agentic_plus")
+
+            @JvmField val COST_EFFECTIVE = of("cost_effective")
+
+            @JvmField val FAST = of("fast")
+
+            @JvmStatic fun of(value: String) = ParseTier(JsonField.of(value))
+        }
+
+        /** An enum containing [ParseTier]'s known values. */
+        enum class Known {
+            AGENTIC,
+            AGENTIC_PLUS,
+            COST_EFFECTIVE,
+            FAST,
+        }
+
+        /**
+         * An enum containing [ParseTier]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [ParseTier] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            AGENTIC,
+            AGENTIC_PLUS,
+            COST_EFFECTIVE,
+            FAST,
+            /**
+             * An enum member indicating that [ParseTier] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                AGENTIC -> Value.AGENTIC
+                AGENTIC_PLUS -> Value.AGENTIC_PLUS
+                COST_EFFECTIVE -> Value.COST_EFFECTIVE
+                FAST -> Value.FAST
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                AGENTIC -> Known.AGENTIC
+                AGENTIC_PLUS -> Known.AGENTIC_PLUS
+                COST_EFFECTIVE -> Known.COST_EFFECTIVE
+                FAST -> Known.FAST
+                else -> throw LlamaCloudInvalidDataException("Unknown ParseTier: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                LlamaCloudInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): ParseTier = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ParseTier && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
 
     /** Strategy for splitting documents. */
     class SplittingStrategy
@@ -715,16 +1018,27 @@ private constructor(
         return other is SplitV1Parameters &&
             categories == other.categories &&
             productType == other.productType &&
+            parseConfigId == other.parseConfigId &&
+            parseTier == other.parseTier &&
             splittingStrategy == other.splittingStrategy &&
+            targetPages == other.targetPages &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(categories, productType, splittingStrategy, additionalProperties)
+        Objects.hash(
+            categories,
+            productType,
+            parseConfigId,
+            parseTier,
+            splittingStrategy,
+            targetPages,
+            additionalProperties,
+        )
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "SplitV1Parameters{categories=$categories, productType=$productType, splittingStrategy=$splittingStrategy, additionalProperties=$additionalProperties}"
+        "SplitV1Parameters{categories=$categories, productType=$productType, parseConfigId=$parseConfigId, parseTier=$parseTier, splittingStrategy=$splittingStrategy, targetPages=$targetPages, additionalProperties=$additionalProperties}"
 }

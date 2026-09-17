@@ -37,8 +37,11 @@ private constructor(
     private val configurationId: JsonField<String>,
     private val createdAt: JsonField<OffsetDateTime>,
     private val errorMessage: JsonField<String>,
+    private val parseConfigId: JsonField<String>,
+    private val parseTier: JsonField<String>,
     private val result: JsonField<SplitResultResponse>,
     private val splittingStrategy: JsonField<SplittingStrategy>,
+    private val targetPages: JsonField<String>,
     private val transactionId: JsonField<String>,
     private val updatedAt: JsonField<OffsetDateTime>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -66,12 +69,19 @@ private constructor(
         @JsonProperty("error_message")
         @ExcludeMissing
         errorMessage: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("parse_config_id")
+        @ExcludeMissing
+        parseConfigId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("parse_tier") @ExcludeMissing parseTier: JsonField<String> = JsonMissing.of(),
         @JsonProperty("result")
         @ExcludeMissing
         result: JsonField<SplitResultResponse> = JsonMissing.of(),
         @JsonProperty("splitting_strategy")
         @ExcludeMissing
         splittingStrategy: JsonField<SplittingStrategy> = JsonMissing.of(),
+        @JsonProperty("target_pages")
+        @ExcludeMissing
+        targetPages: JsonField<String> = JsonMissing.of(),
         @JsonProperty("transaction_id")
         @ExcludeMissing
         transactionId: JsonField<String> = JsonMissing.of(),
@@ -89,8 +99,11 @@ private constructor(
         configurationId,
         createdAt,
         errorMessage,
+        parseConfigId,
+        parseTier,
         result,
         splittingStrategy,
+        targetPages,
         transactionId,
         updatedAt,
         mutableMapOf(),
@@ -178,6 +191,22 @@ private constructor(
     fun errorMessage(): Optional<String> = errorMessage.getOptional("error_message")
 
     /**
+     * Saved parse configuration ID requested for this job, if any.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun parseConfigId(): Optional<String> = parseConfigId.getOptional("parse_config_id")
+
+    /**
+     * Parse tier requested for this job, if any.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun parseTier(): Optional<String> = parseTier.getOptional("parse_tier")
+
+    /**
      * Result of a completed split job.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -193,6 +222,14 @@ private constructor(
      */
     fun splittingStrategy(): Optional<SplittingStrategy> =
         splittingStrategy.getOptional("splitting_strategy")
+
+    /**
+     * Page selection requested for this job, if any.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun targetPages(): Optional<String> = targetPages.getOptional("target_pages")
 
     /**
      * Idempotency key scoped to the project, if one was provided.
@@ -292,6 +329,22 @@ private constructor(
     fun _errorMessage(): JsonField<String> = errorMessage
 
     /**
+     * Returns the raw JSON value of [parseConfigId].
+     *
+     * Unlike [parseConfigId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("parse_config_id")
+    @ExcludeMissing
+    fun _parseConfigId(): JsonField<String> = parseConfigId
+
+    /**
+     * Returns the raw JSON value of [parseTier].
+     *
+     * Unlike [parseTier], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("parse_tier") @ExcludeMissing fun _parseTier(): JsonField<String> = parseTier
+
+    /**
      * Returns the raw JSON value of [result].
      *
      * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
@@ -307,6 +360,15 @@ private constructor(
     @JsonProperty("splitting_strategy")
     @ExcludeMissing
     fun _splittingStrategy(): JsonField<SplittingStrategy> = splittingStrategy
+
+    /**
+     * Returns the raw JSON value of [targetPages].
+     *
+     * Unlike [targetPages], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("target_pages")
+    @ExcludeMissing
+    fun _targetPages(): JsonField<String> = targetPages
 
     /**
      * Returns the raw JSON value of [transactionId].
@@ -370,8 +432,11 @@ private constructor(
         private var configurationId: JsonField<String> = JsonMissing.of()
         private var createdAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var errorMessage: JsonField<String> = JsonMissing.of()
+        private var parseConfigId: JsonField<String> = JsonMissing.of()
+        private var parseTier: JsonField<String> = JsonMissing.of()
         private var result: JsonField<SplitResultResponse> = JsonMissing.of()
         private var splittingStrategy: JsonField<SplittingStrategy> = JsonMissing.of()
+        private var targetPages: JsonField<String> = JsonMissing.of()
         private var transactionId: JsonField<String> = JsonMissing.of()
         private var updatedAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -388,8 +453,11 @@ private constructor(
             configurationId = splitCancelResponse.configurationId
             createdAt = splitCancelResponse.createdAt
             errorMessage = splitCancelResponse.errorMessage
+            parseConfigId = splitCancelResponse.parseConfigId
+            parseTier = splitCancelResponse.parseTier
             result = splitCancelResponse.result
             splittingStrategy = splitCancelResponse.splittingStrategy
+            targetPages = splitCancelResponse.targetPages
             transactionId = splitCancelResponse.transactionId
             updatedAt = splitCancelResponse.updatedAt
             additionalProperties = splitCancelResponse.additionalProperties.toMutableMap()
@@ -546,6 +614,40 @@ private constructor(
             this.errorMessage = errorMessage
         }
 
+        /** Saved parse configuration ID requested for this job, if any. */
+        fun parseConfigId(parseConfigId: String?) =
+            parseConfigId(JsonField.ofNullable(parseConfigId))
+
+        /** Alias for calling [Builder.parseConfigId] with `parseConfigId.orElse(null)`. */
+        fun parseConfigId(parseConfigId: Optional<String>) =
+            parseConfigId(parseConfigId.getOrNull())
+
+        /**
+         * Sets [Builder.parseConfigId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.parseConfigId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun parseConfigId(parseConfigId: JsonField<String>) = apply {
+            this.parseConfigId = parseConfigId
+        }
+
+        /** Parse tier requested for this job, if any. */
+        fun parseTier(parseTier: String?) = parseTier(JsonField.ofNullable(parseTier))
+
+        /** Alias for calling [Builder.parseTier] with `parseTier.orElse(null)`. */
+        fun parseTier(parseTier: Optional<String>) = parseTier(parseTier.getOrNull())
+
+        /**
+         * Sets [Builder.parseTier] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.parseTier] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun parseTier(parseTier: JsonField<String>) = apply { this.parseTier = parseTier }
+
         /** Result of a completed split job. */
         fun result(result: SplitResultResponse?) = result(JsonField.ofNullable(result))
 
@@ -575,6 +677,21 @@ private constructor(
         fun splittingStrategy(splittingStrategy: JsonField<SplittingStrategy>) = apply {
             this.splittingStrategy = splittingStrategy
         }
+
+        /** Page selection requested for this job, if any. */
+        fun targetPages(targetPages: String?) = targetPages(JsonField.ofNullable(targetPages))
+
+        /** Alias for calling [Builder.targetPages] with `targetPages.orElse(null)`. */
+        fun targetPages(targetPages: Optional<String>) = targetPages(targetPages.getOrNull())
+
+        /**
+         * Sets [Builder.targetPages] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.targetPages] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun targetPages(targetPages: JsonField<String>) = apply { this.targetPages = targetPages }
 
         /** Idempotency key scoped to the project, if one was provided. */
         fun transactionId(transactionId: String?) =
@@ -659,8 +776,11 @@ private constructor(
                 configurationId,
                 createdAt,
                 errorMessage,
+                parseConfigId,
+                parseTier,
                 result,
                 splittingStrategy,
+                targetPages,
                 transactionId,
                 updatedAt,
                 additionalProperties.toMutableMap(),
@@ -692,8 +812,11 @@ private constructor(
         configurationId()
         createdAt()
         errorMessage()
+        parseConfigId()
+        parseTier()
         result().ifPresent { it.validate() }
         splittingStrategy().ifPresent { it.validate() }
+        targetPages()
         transactionId()
         updatedAt()
         validated = true
@@ -724,8 +847,11 @@ private constructor(
             (if (configurationId.asKnown().isPresent) 1 else 0) +
             (if (createdAt.asKnown().isPresent) 1 else 0) +
             (if (errorMessage.asKnown().isPresent) 1 else 0) +
+            (if (parseConfigId.asKnown().isPresent) 1 else 0) +
+            (if (parseTier.asKnown().isPresent) 1 else 0) +
             (result.asKnown().getOrNull()?.validity() ?: 0) +
             (splittingStrategy.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (targetPages.asKnown().isPresent) 1 else 0) +
             (if (transactionId.asKnown().isPresent) 1 else 0) +
             (if (updatedAt.asKnown().isPresent) 1 else 0)
 
@@ -1328,8 +1454,11 @@ private constructor(
             configurationId == other.configurationId &&
             createdAt == other.createdAt &&
             errorMessage == other.errorMessage &&
+            parseConfigId == other.parseConfigId &&
+            parseTier == other.parseTier &&
             result == other.result &&
             splittingStrategy == other.splittingStrategy &&
+            targetPages == other.targetPages &&
             transactionId == other.transactionId &&
             updatedAt == other.updatedAt &&
             additionalProperties == other.additionalProperties
@@ -1347,8 +1476,11 @@ private constructor(
             configurationId,
             createdAt,
             errorMessage,
+            parseConfigId,
+            parseTier,
             result,
             splittingStrategy,
+            targetPages,
             transactionId,
             updatedAt,
             additionalProperties,
@@ -1358,5 +1490,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "SplitCancelResponse{id=$id, categories=$categories, documentInputType=$documentInputType, fileInput=$fileInput, projectId=$projectId, status=$status, userId=$userId, configurationId=$configurationId, createdAt=$createdAt, errorMessage=$errorMessage, result=$result, splittingStrategy=$splittingStrategy, transactionId=$transactionId, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
+        "SplitCancelResponse{id=$id, categories=$categories, documentInputType=$documentInputType, fileInput=$fileInput, projectId=$projectId, status=$status, userId=$userId, configurationId=$configurationId, createdAt=$createdAt, errorMessage=$errorMessage, parseConfigId=$parseConfigId, parseTier=$parseTier, result=$result, splittingStrategy=$splittingStrategy, targetPages=$targetPages, transactionId=$transactionId, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
 }

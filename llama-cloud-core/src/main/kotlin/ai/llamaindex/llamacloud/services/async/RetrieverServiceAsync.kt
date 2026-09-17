@@ -12,6 +12,8 @@ import ai.llamaindex.llamacloud.models.retrievers.RetrieverCreate
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverCreateParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverDeleteParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverGetParams
+import ai.llamaindex.llamacloud.models.retrievers.RetrieverListPaginatedPageAsync
+import ai.llamaindex.llamacloud.models.retrievers.RetrieverListPaginatedParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverListParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverSearchParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverUpdateParams
@@ -83,20 +85,24 @@ interface RetrieverServiceAsync {
     ): CompletableFuture<Retriever>
 
     /** List Retrievers for a project. */
+    @Deprecated("deprecated")
     fun list(): CompletableFuture<List<Retriever>> = list(RetrieverListParams.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: RetrieverListParams = RetrieverListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<Retriever>>
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: RetrieverListParams = RetrieverListParams.none()
     ): CompletableFuture<List<Retriever>> = list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(requestOptions: RequestOptions): CompletableFuture<List<Retriever>> =
         list(RetrieverListParams.none(), requestOptions)
 
@@ -163,6 +169,28 @@ interface RetrieverServiceAsync {
     /** @see get */
     fun get(retrieverId: String, requestOptions: RequestOptions): CompletableFuture<Retriever> =
         get(retrieverId, RetrieverGetParams.none(), requestOptions)
+
+    /** List the retrievers in a project, newest first. */
+    fun listPaginated(): CompletableFuture<RetrieverListPaginatedPageAsync> =
+        listPaginated(RetrieverListPaginatedParams.none())
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: RetrieverListPaginatedParams = RetrieverListPaginatedParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<RetrieverListPaginatedPageAsync>
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: RetrieverListPaginatedParams = RetrieverListPaginatedParams.none()
+    ): CompletableFuture<RetrieverListPaginatedPageAsync> =
+        listPaginated(params, RequestOptions.none())
+
+    /** @see listPaginated */
+    fun listPaginated(
+        requestOptions: RequestOptions
+    ): CompletableFuture<RetrieverListPaginatedPageAsync> =
+        listPaginated(RetrieverListPaginatedParams.none(), requestOptions)
 
     /** Retrieve data using specified pipelines without creating a persistent retriever. */
     fun search(params: RetrieverSearchParams): CompletableFuture<CompositeRetrievalResult> =
@@ -275,21 +303,25 @@ interface RetrieverServiceAsync {
          * Returns a raw HTTP response for `get /api/v1/retrievers`, but is otherwise the same as
          * [RetrieverServiceAsync.list].
          */
+        @Deprecated("deprecated")
         fun list(): CompletableFuture<HttpResponseFor<List<Retriever>>> =
             list(RetrieverListParams.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             params: RetrieverListParams = RetrieverListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<Retriever>>>
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             params: RetrieverListParams = RetrieverListParams.none()
         ): CompletableFuture<HttpResponseFor<List<Retriever>>> = list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<List<Retriever>>> =
@@ -371,6 +403,31 @@ interface RetrieverServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Retriever>> =
             get(retrieverId, RetrieverGetParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/v1/beta/retrievers`, but is otherwise the same
+         * as [RetrieverServiceAsync.listPaginated].
+         */
+        fun listPaginated(): CompletableFuture<HttpResponseFor<RetrieverListPaginatedPageAsync>> =
+            listPaginated(RetrieverListPaginatedParams.none())
+
+        /** @see listPaginated */
+        fun listPaginated(
+            params: RetrieverListPaginatedParams = RetrieverListPaginatedParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<RetrieverListPaginatedPageAsync>>
+
+        /** @see listPaginated */
+        fun listPaginated(
+            params: RetrieverListPaginatedParams = RetrieverListPaginatedParams.none()
+        ): CompletableFuture<HttpResponseFor<RetrieverListPaginatedPageAsync>> =
+            listPaginated(params, RequestOptions.none())
+
+        /** @see listPaginated */
+        fun listPaginated(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<RetrieverListPaginatedPageAsync>> =
+            listPaginated(RetrieverListPaginatedParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /api/v1/retrievers/retrieve`, but is otherwise the

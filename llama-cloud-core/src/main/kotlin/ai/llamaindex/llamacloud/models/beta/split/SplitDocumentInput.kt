@@ -31,7 +31,9 @@ private constructor(
     ) : this(type, value, mutableMapOf())
 
     /**
-     * Type of document input. Valid values are: file_id
+     * The beta `POST /api/v1/beta/split/jobs` endpoint accepts only `file_id`. To use a Parse job
+     * as input, call `POST /api/v1/split/jobs` instead, where you can pass the Parse job ID as
+     * `file_input`.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -100,7 +102,11 @@ private constructor(
             additionalProperties = splitDocumentInput.additionalProperties.toMutableMap()
         }
 
-        /** Type of document input. Valid values are: file_id */
+        /**
+         * The beta `POST /api/v1/beta/split/jobs` endpoint accepts only `file_id`. To use a Parse
+         * job as input, call `POST /api/v1/split/jobs` instead, where you can pass the Parse job ID
+         * as `file_input`.
+         */
         fun type(type: String) = type(JsonField.of(type))
 
         /**

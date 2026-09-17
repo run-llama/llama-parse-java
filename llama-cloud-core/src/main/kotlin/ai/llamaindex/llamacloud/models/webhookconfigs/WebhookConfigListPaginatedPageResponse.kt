@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.jobdatapoints
+package ai.llamaindex.llamacloud.models.webhookconfigs
 
 import ai.llamaindex.llamacloud.core.ExcludeMissing
 import ai.llamaindex.llamacloud.core.JsonField
@@ -19,11 +19,11 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Paginated list of job data points. */
-class JobDataPointListPageResponse
+/** A page of webhook configurations. */
+class WebhookConfigListPaginatedPageResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val items: JsonField<List<JobDataPoint>>,
+    private val items: JsonField<List<WebhookConfigResponse>>,
     private val nextPageToken: JsonField<String>,
     private val totalSize: JsonField<Long>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -33,7 +33,7 @@ private constructor(
     private constructor(
         @JsonProperty("items")
         @ExcludeMissing
-        items: JsonField<List<JobDataPoint>> = JsonMissing.of(),
+        items: JsonField<List<WebhookConfigResponse>> = JsonMissing.of(),
         @JsonProperty("next_page_token")
         @ExcludeMissing
         nextPageToken: JsonField<String> = JsonMissing.of(),
@@ -46,7 +46,7 @@ private constructor(
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun items(): List<JobDataPoint> = items.getRequired("items")
+    fun items(): List<WebhookConfigResponse> = items.getRequired("items")
 
     /**
      * A token, which can be sent as page_token to retrieve the next page. If this field is omitted,
@@ -71,7 +71,9 @@ private constructor(
      *
      * Unlike [items], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("items") @ExcludeMissing fun _items(): JsonField<List<JobDataPoint>> = items
+    @JsonProperty("items")
+    @ExcludeMissing
+    fun _items(): JsonField<List<WebhookConfigResponse>> = items
 
     /**
      * Returns the raw JSON value of [nextPageToken].
@@ -104,7 +106,8 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [JobDataPointListPageResponse].
+         * Returns a mutable builder for constructing an instance of
+         * [WebhookConfigListPaginatedPageResponse].
          *
          * The following fields are required:
          * ```java
@@ -114,42 +117,45 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [JobDataPointListPageResponse]. */
+    /** A builder for [WebhookConfigListPaginatedPageResponse]. */
     class Builder internal constructor() {
 
-        private var items: JsonField<MutableList<JobDataPoint>>? = null
+        private var items: JsonField<MutableList<WebhookConfigResponse>>? = null
         private var nextPageToken: JsonField<String> = JsonMissing.of()
         private var totalSize: JsonField<Long> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(jobDataPointListPageResponse: JobDataPointListPageResponse) = apply {
-            items = jobDataPointListPageResponse.items.map { it.toMutableList() }
-            nextPageToken = jobDataPointListPageResponse.nextPageToken
-            totalSize = jobDataPointListPageResponse.totalSize
-            additionalProperties = jobDataPointListPageResponse.additionalProperties.toMutableMap()
+        internal fun from(
+            webhookConfigListPaginatedPageResponse: WebhookConfigListPaginatedPageResponse
+        ) = apply {
+            items = webhookConfigListPaginatedPageResponse.items.map { it.toMutableList() }
+            nextPageToken = webhookConfigListPaginatedPageResponse.nextPageToken
+            totalSize = webhookConfigListPaginatedPageResponse.totalSize
+            additionalProperties =
+                webhookConfigListPaginatedPageResponse.additionalProperties.toMutableMap()
         }
 
         /** The list of items. */
-        fun items(items: List<JobDataPoint>) = items(JsonField.of(items))
+        fun items(items: List<WebhookConfigResponse>) = items(JsonField.of(items))
 
         /**
          * Sets [Builder.items] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.items] with a well-typed `List<JobDataPoint>` value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
+         * You should usually call [Builder.items] with a well-typed `List<WebhookConfigResponse>`
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
          */
-        fun items(items: JsonField<List<JobDataPoint>>) = apply {
+        fun items(items: JsonField<List<WebhookConfigResponse>>) = apply {
             this.items = items.map { it.toMutableList() }
         }
 
         /**
-         * Adds a single [JobDataPoint] to [items].
+         * Adds a single [WebhookConfigResponse] to [items].
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addItem(item: JobDataPoint) = apply {
+        fun addItem(item: WebhookConfigResponse) = apply {
             items =
                 (items ?: JsonField.of(mutableListOf())).also { checkKnown("items", it).add(item) }
         }
@@ -220,7 +226,7 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [JobDataPointListPageResponse].
+         * Returns an immutable instance of [WebhookConfigListPaginatedPageResponse].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -231,8 +237,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): JobDataPointListPageResponse =
-            JobDataPointListPageResponse(
+        fun build(): WebhookConfigListPaginatedPageResponse =
+            WebhookConfigListPaginatedPageResponse(
                 checkRequired("items", items).map { it.toImmutable() },
                 nextPageToken,
                 totalSize,
@@ -250,7 +256,7 @@ private constructor(
      * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
      *   expected type.
      */
-    fun validate(): JobDataPointListPageResponse = apply {
+    fun validate(): WebhookConfigListPaginatedPageResponse = apply {
         if (validated) {
             return@apply
         }
@@ -285,7 +291,7 @@ private constructor(
             return true
         }
 
-        return other is JobDataPointListPageResponse &&
+        return other is WebhookConfigListPaginatedPageResponse &&
             items == other.items &&
             nextPageToken == other.nextPageToken &&
             totalSize == other.totalSize &&
@@ -299,5 +305,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "JobDataPointListPageResponse{items=$items, nextPageToken=$nextPageToken, totalSize=$totalSize, additionalProperties=$additionalProperties}"
+        "WebhookConfigListPaginatedPageResponse{items=$items, nextPageToken=$nextPageToken, totalSize=$totalSize, additionalProperties=$additionalProperties}"
 }

@@ -29,6 +29,8 @@ internal class SplitServiceTest {
                     .configuration(
                         SplitCreateParams.Configuration.builder()
                             .addCategory(SplitCategory.builder().name("x").description("x").build())
+                            .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
+                            .parseTier(SplitCreateParams.Configuration.ParseTier.FAST)
                             .splittingStrategy(
                                 SplitCreateParams.Configuration.SplittingStrategy.builder()
                                     .allowUncategorized(
@@ -42,6 +44,7 @@ internal class SplitServiceTest {
                                     .minPagesPerSplit(1L)
                                     .build()
                             )
+                            .targetPages("1,3,5-7")
                             .build()
                     )
                     .configurationId("cfg-11111111-2222-3333-4444-555555555555")

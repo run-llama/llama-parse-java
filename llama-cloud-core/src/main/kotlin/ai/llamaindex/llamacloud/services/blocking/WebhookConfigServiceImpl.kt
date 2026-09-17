@@ -19,6 +19,9 @@ import ai.llamaindex.llamacloud.core.http.parseable
 import ai.llamaindex.llamacloud.core.prepare
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigCreateParams
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigDeleteParams
+import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigListPaginatedPage
+import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigListPaginatedPageResponse
+import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigListPaginatedParams
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigListParams
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigResponse
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigRetrieveParams
@@ -71,6 +74,13 @@ class WebhookConfigServiceImpl internal constructor(private val clientOptions: C
         // delete /api/v1/beta/webhook-configs/{config_id}
         withRawResponse().delete(params, requestOptions)
     }
+
+    override fun listPaginated(
+        params: WebhookConfigListPaginatedParams,
+        requestOptions: RequestOptions,
+    ): WebhookConfigListPaginatedPage =
+        // get /api/v2/webhook-configs
+        withRawResponse().listPaginated(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         WebhookConfigService.WithRawResponse {
@@ -223,6 +233,40 @@ class WebhookConfigServiceImpl internal constructor(private val clientOptions: C
             val response = clientOptions.httpClient.execute(request, requestOptions)
             return errorHandler.handle(response).parseable {
                 response.use { deleteHandler.handle(it) }
+            }
+        }
+
+        private val listPaginatedHandler: Handler<WebhookConfigListPaginatedPageResponse> =
+            jsonHandler<WebhookConfigListPaginatedPageResponse>(clientOptions.jsonMapper)
+
+        override fun listPaginated(
+            params: WebhookConfigListPaginatedParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<WebhookConfigListPaginatedPage> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "webhook-configs")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { listPaginatedHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+                    .let {
+                        WebhookConfigListPaginatedPage.builder()
+                            .service(WebhookConfigServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
+                    }
             }
         }
     }

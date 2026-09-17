@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.extractionagents
+package ai.llamaindex.llamacloud.models.webhookconfigs
 
 import ai.llamaindex.llamacloud.core.Params
 import ai.llamaindex.llamacloud.core.http.Headers
@@ -9,10 +9,10 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** List the extraction agents in a project, newest first. */
-class ExtractionAgentListParams
+/** List the webhook configurations for the current project, newest first. */
+class WebhookConfigListPaginatedParams
 private constructor(
-    private val includeDefault: Boolean?,
+    private val includeTotal: Boolean?,
     private val organizationId: String?,
     private val pageSize: Long?,
     private val pageToken: String?,
@@ -21,8 +21,11 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** Whether to include default agents in the results */
-    fun includeDefault(): Optional<Boolean> = Optional.ofNullable(includeDefault)
+    /**
+     * Return `total_size`, a count of every row matching the filter. It is a second query on every
+     * page, so it is off unless asked for.
+     */
+    fun includeTotal(): Optional<Boolean> = Optional.ofNullable(includeTotal)
 
     fun organizationId(): Optional<String> = Optional.ofNullable(organizationId)
 
@@ -44,18 +47,19 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): ExtractionAgentListParams = builder().build()
+        @JvmStatic fun none(): WebhookConfigListPaginatedParams = builder().build()
 
         /**
-         * Returns a mutable builder for constructing an instance of [ExtractionAgentListParams].
+         * Returns a mutable builder for constructing an instance of
+         * [WebhookConfigListPaginatedParams].
          */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [ExtractionAgentListParams]. */
+    /** A builder for [WebhookConfigListPaginatedParams]. */
     class Builder internal constructor() {
 
-        private var includeDefault: Boolean? = null
+        private var includeTotal: Boolean? = null
         private var organizationId: String? = null
         private var pageSize: Long? = null
         private var pageToken: String? = null
@@ -64,31 +68,33 @@ private constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
-        internal fun from(extractionAgentListParams: ExtractionAgentListParams) = apply {
-            includeDefault = extractionAgentListParams.includeDefault
-            organizationId = extractionAgentListParams.organizationId
-            pageSize = extractionAgentListParams.pageSize
-            pageToken = extractionAgentListParams.pageToken
-            projectId = extractionAgentListParams.projectId
-            additionalHeaders = extractionAgentListParams.additionalHeaders.toBuilder()
-            additionalQueryParams = extractionAgentListParams.additionalQueryParams.toBuilder()
-        }
-
-        /** Whether to include default agents in the results */
-        fun includeDefault(includeDefault: Boolean?) = apply {
-            this.includeDefault = includeDefault
-        }
+        internal fun from(webhookConfigListPaginatedParams: WebhookConfigListPaginatedParams) =
+            apply {
+                includeTotal = webhookConfigListPaginatedParams.includeTotal
+                organizationId = webhookConfigListPaginatedParams.organizationId
+                pageSize = webhookConfigListPaginatedParams.pageSize
+                pageToken = webhookConfigListPaginatedParams.pageToken
+                projectId = webhookConfigListPaginatedParams.projectId
+                additionalHeaders = webhookConfigListPaginatedParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    webhookConfigListPaginatedParams.additionalQueryParams.toBuilder()
+            }
 
         /**
-         * Alias for [Builder.includeDefault].
+         * Return `total_size`, a count of every row matching the filter. It is a second query on
+         * every page, so it is off unless asked for.
+         */
+        fun includeTotal(includeTotal: Boolean?) = apply { this.includeTotal = includeTotal }
+
+        /**
+         * Alias for [Builder.includeTotal].
          *
          * This unboxed primitive overload exists for backwards compatibility.
          */
-        fun includeDefault(includeDefault: Boolean) = includeDefault(includeDefault as Boolean?)
+        fun includeTotal(includeTotal: Boolean) = includeTotal(includeTotal as Boolean?)
 
-        /** Alias for calling [Builder.includeDefault] with `includeDefault.orElse(null)`. */
-        fun includeDefault(includeDefault: Optional<Boolean>) =
-            includeDefault(includeDefault.getOrNull())
+        /** Alias for calling [Builder.includeTotal] with `includeTotal.orElse(null)`. */
+        fun includeTotal(includeTotal: Optional<Boolean>) = includeTotal(includeTotal.getOrNull())
 
         fun organizationId(organizationId: String?) = apply { this.organizationId = organizationId }
 
@@ -219,13 +225,13 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [ExtractionAgentListParams].
+         * Returns an immutable instance of [WebhookConfigListPaginatedParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): ExtractionAgentListParams =
-            ExtractionAgentListParams(
-                includeDefault,
+        fun build(): WebhookConfigListPaginatedParams =
+            WebhookConfigListPaginatedParams(
+                includeTotal,
                 organizationId,
                 pageSize,
                 pageToken,
@@ -240,7 +246,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                includeDefault?.let { put("include_default", it.toString()) }
+                includeTotal?.let { put("include_total", it.toString()) }
                 organizationId?.let { put("organization_id", it) }
                 pageSize?.let { put("page_size", it.toString()) }
                 pageToken?.let { put("page_token", it) }
@@ -254,8 +260,8 @@ private constructor(
             return true
         }
 
-        return other is ExtractionAgentListParams &&
-            includeDefault == other.includeDefault &&
+        return other is WebhookConfigListPaginatedParams &&
+            includeTotal == other.includeTotal &&
             organizationId == other.organizationId &&
             pageSize == other.pageSize &&
             pageToken == other.pageToken &&
@@ -266,7 +272,7 @@ private constructor(
 
     override fun hashCode(): Int =
         Objects.hash(
-            includeDefault,
+            includeTotal,
             organizationId,
             pageSize,
             pageToken,
@@ -276,5 +282,5 @@ private constructor(
         )
 
     override fun toString() =
-        "ExtractionAgentListParams{includeDefault=$includeDefault, organizationId=$organizationId, pageSize=$pageSize, pageToken=$pageToken, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "WebhookConfigListPaginatedParams{includeTotal=$includeTotal, organizationId=$organizationId, pageSize=$pageSize, pageToken=$pageToken, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
