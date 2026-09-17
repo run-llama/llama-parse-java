@@ -12,7 +12,6 @@ import ai.llamaindex.llamacloud.services.blocking.DataSinkService
 import ai.llamaindex.llamacloud.services.blocking.DataSourceService
 import ai.llamaindex.llamacloud.services.blocking.ExtractService
 import ai.llamaindex.llamacloud.services.blocking.FileService
-import ai.llamaindex.llamacloud.services.blocking.JobDataPointService
 import ai.llamaindex.llamacloud.services.blocking.ParsingService
 import ai.llamaindex.llamacloud.services.blocking.PipelineService
 import ai.llamaindex.llamacloud.services.blocking.ProjectService
@@ -80,8 +79,6 @@ interface LlamaCloudClient {
 
     fun v2Projects(): V2ProjectService
 
-    fun jobDataPoints(): JobDataPointService
-
     fun dataSinks(): DataSinkService
 
     fun dataSources(): DataSourceService
@@ -136,8 +133,6 @@ interface LlamaCloudClient {
         fun projects(): ProjectService.WithRawResponse
 
         fun v2Projects(): V2ProjectService.WithRawResponse
-
-        fun jobDataPoints(): JobDataPointService.WithRawResponse
 
         fun dataSinks(): DataSinkService.WithRawResponse
 
