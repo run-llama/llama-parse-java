@@ -10,6 +10,8 @@ import ai.llamaindex.llamacloud.models.classify.ClassifyCancelResponse
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateParams
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateRequest
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateResponse
+import ai.llamaindex.llamacloud.models.classify.ClassifyDeleteParams
+import ai.llamaindex.llamacloud.models.classify.ClassifyDeleteResponse
 import ai.llamaindex.llamacloud.models.classify.ClassifyGetParams
 import ai.llamaindex.llamacloud.models.classify.ClassifyGetResponse
 import ai.llamaindex.llamacloud.models.classify.ClassifyListPageAsync
@@ -90,6 +92,48 @@ interface ClassifyServiceAsync {
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<ClassifyListPageAsync> =
         list(ClassifyListParams.none(), requestOptions)
+
+    /**
+     * Delete a classify job and its result.
+     *
+     * The job must be in a terminal state (COMPLETED, FAILED, CANCELLED). Cancel a job that is
+     * still running before deleting it.
+     *
+     * Returns the identifiers of the deleted job.
+     */
+    fun delete(jobId: String): CompletableFuture<ClassifyDeleteResponse> =
+        delete(jobId, ClassifyDeleteParams.none())
+
+    /** @see delete */
+    fun delete(
+        jobId: String,
+        params: ClassifyDeleteParams = ClassifyDeleteParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ClassifyDeleteResponse> =
+        delete(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+    /** @see delete */
+    fun delete(
+        jobId: String,
+        params: ClassifyDeleteParams = ClassifyDeleteParams.none(),
+    ): CompletableFuture<ClassifyDeleteResponse> = delete(jobId, params, RequestOptions.none())
+
+    /** @see delete */
+    fun delete(
+        params: ClassifyDeleteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ClassifyDeleteResponse>
+
+    /** @see delete */
+    fun delete(params: ClassifyDeleteParams): CompletableFuture<ClassifyDeleteResponse> =
+        delete(params, RequestOptions.none())
+
+    /** @see delete */
+    fun delete(
+        jobId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ClassifyDeleteResponse> =
+        delete(jobId, ClassifyDeleteParams.none(), requestOptions)
 
     /**
      * Cancel a running classify job.
@@ -237,6 +281,47 @@ interface ClassifyServiceAsync {
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ClassifyListPageAsync>> =
             list(ClassifyListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `delete /api/v2/classify/{job_id}`, but is otherwise the
+         * same as [ClassifyServiceAsync.delete].
+         */
+        fun delete(jobId: String): CompletableFuture<HttpResponseFor<ClassifyDeleteResponse>> =
+            delete(jobId, ClassifyDeleteParams.none())
+
+        /** @see delete */
+        fun delete(
+            jobId: String,
+            params: ClassifyDeleteParams = ClassifyDeleteParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ClassifyDeleteResponse>> =
+            delete(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+        /** @see delete */
+        fun delete(
+            jobId: String,
+            params: ClassifyDeleteParams = ClassifyDeleteParams.none(),
+        ): CompletableFuture<HttpResponseFor<ClassifyDeleteResponse>> =
+            delete(jobId, params, RequestOptions.none())
+
+        /** @see delete */
+        fun delete(
+            params: ClassifyDeleteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ClassifyDeleteResponse>>
+
+        /** @see delete */
+        fun delete(
+            params: ClassifyDeleteParams
+        ): CompletableFuture<HttpResponseFor<ClassifyDeleteResponse>> =
+            delete(params, RequestOptions.none())
+
+        /** @see delete */
+        fun delete(
+            jobId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ClassifyDeleteResponse>> =
+            delete(jobId, ClassifyDeleteParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /api/v2/classify/{job_id}/cancel`, but is otherwise

@@ -10,6 +10,8 @@ import ai.llamaindex.llamacloud.models.classify.ClassifyCancelResponse
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateParams
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateRequest
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateResponse
+import ai.llamaindex.llamacloud.models.classify.ClassifyDeleteParams
+import ai.llamaindex.llamacloud.models.classify.ClassifyDeleteResponse
 import ai.llamaindex.llamacloud.models.classify.ClassifyGetParams
 import ai.llamaindex.llamacloud.models.classify.ClassifyGetResponse
 import ai.llamaindex.llamacloud.models.classify.ClassifyListPage
@@ -87,6 +89,43 @@ interface ClassifyService {
     /** @see list */
     fun list(requestOptions: RequestOptions): ClassifyListPage =
         list(ClassifyListParams.none(), requestOptions)
+
+    /**
+     * Delete a classify job and its result.
+     *
+     * The job must be in a terminal state (COMPLETED, FAILED, CANCELLED). Cancel a job that is
+     * still running before deleting it.
+     *
+     * Returns the identifiers of the deleted job.
+     */
+    fun delete(jobId: String): ClassifyDeleteResponse = delete(jobId, ClassifyDeleteParams.none())
+
+    /** @see delete */
+    fun delete(
+        jobId: String,
+        params: ClassifyDeleteParams = ClassifyDeleteParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ClassifyDeleteResponse = delete(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+    /** @see delete */
+    fun delete(
+        jobId: String,
+        params: ClassifyDeleteParams = ClassifyDeleteParams.none(),
+    ): ClassifyDeleteResponse = delete(jobId, params, RequestOptions.none())
+
+    /** @see delete */
+    fun delete(
+        params: ClassifyDeleteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ClassifyDeleteResponse
+
+    /** @see delete */
+    fun delete(params: ClassifyDeleteParams): ClassifyDeleteResponse =
+        delete(params, RequestOptions.none())
+
+    /** @see delete */
+    fun delete(jobId: String, requestOptions: RequestOptions): ClassifyDeleteResponse =
+        delete(jobId, ClassifyDeleteParams.none(), requestOptions)
 
     /**
      * Cancel a running classify job.
@@ -224,6 +263,50 @@ interface ClassifyService {
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<ClassifyListPage> =
             list(ClassifyListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `delete /api/v2/classify/{job_id}`, but is otherwise the
+         * same as [ClassifyService.delete].
+         */
+        @MustBeClosed
+        fun delete(jobId: String): HttpResponseFor<ClassifyDeleteResponse> =
+            delete(jobId, ClassifyDeleteParams.none())
+
+        /** @see delete */
+        @MustBeClosed
+        fun delete(
+            jobId: String,
+            params: ClassifyDeleteParams = ClassifyDeleteParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ClassifyDeleteResponse> =
+            delete(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+        /** @see delete */
+        @MustBeClosed
+        fun delete(
+            jobId: String,
+            params: ClassifyDeleteParams = ClassifyDeleteParams.none(),
+        ): HttpResponseFor<ClassifyDeleteResponse> = delete(jobId, params, RequestOptions.none())
+
+        /** @see delete */
+        @MustBeClosed
+        fun delete(
+            params: ClassifyDeleteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ClassifyDeleteResponse>
+
+        /** @see delete */
+        @MustBeClosed
+        fun delete(params: ClassifyDeleteParams): HttpResponseFor<ClassifyDeleteResponse> =
+            delete(params, RequestOptions.none())
+
+        /** @see delete */
+        @MustBeClosed
+        fun delete(
+            jobId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ClassifyDeleteResponse> =
+            delete(jobId, ClassifyDeleteParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /api/v2/classify/{job_id}/cancel`, but is otherwise

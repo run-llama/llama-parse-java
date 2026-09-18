@@ -8,6 +8,7 @@ import ai.llamaindex.llamacloud.models.classify.ClassifyCancelParams
 import ai.llamaindex.llamacloud.models.classify.ClassifyConfiguration
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateParams
 import ai.llamaindex.llamacloud.models.classify.ClassifyCreateRequest
+import ai.llamaindex.llamacloud.models.classify.ClassifyDeleteParams
 import ai.llamaindex.llamacloud.models.classify.ClassifyGetParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -97,6 +98,25 @@ internal class ClassifyServiceAsyncTest {
 
         val page = pageFuture.get()
         page.response().validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun delete() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val classifyServiceAsync = client.classify()
+
+        val classifyFuture =
+            classifyServiceAsync.delete(
+                ClassifyDeleteParams.builder()
+                    .jobId("job_id")
+                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        val classify = classifyFuture.get()
+        classify.validate()
     }
 
     @Disabled("Mock server tests are disabled")
