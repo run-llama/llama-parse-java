@@ -116,6 +116,7 @@ internal class ChatServiceAsyncTest {
                     .addIndexId("idx-abc123")
                     .addIndexId("idx-def456")
                     .prompt("What were the main findings in Q3?")
+                    .requireAllIndexes(true)
                     .build()
             )
 

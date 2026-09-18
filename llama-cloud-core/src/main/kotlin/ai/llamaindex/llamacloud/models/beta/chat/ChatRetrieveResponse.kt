@@ -912,6 +912,7 @@ private constructor(
             private val error: JsonField<String>,
             private val isError: JsonField<Boolean>,
             private val usage: JsonField<Usage>,
+            private val skippedIndexIds: JsonField<List<String>>,
             private val type: JsonField<Type>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
@@ -923,8 +924,11 @@ private constructor(
                 @ExcludeMissing
                 isError: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("usage") @ExcludeMissing usage: JsonField<Usage> = JsonMissing.of(),
+                @JsonProperty("skipped_index_ids")
+                @ExcludeMissing
+                skippedIndexIds: JsonField<List<String>> = JsonMissing.of(),
                 @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-            ) : this(error, isError, usage, type, mutableMapOf())
+            ) : this(error, isError, usage, skippedIndexIds, type, mutableMapOf())
 
             /**
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
@@ -945,6 +949,15 @@ private constructor(
              *   value).
              */
             fun usage(): Usage = usage.getRequired("usage")
+
+            /**
+             * Requested indexes this turn could not query.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun skippedIndexIds(): Optional<List<String>> =
+                skippedIndexIds.getOptional("skipped_index_ids")
 
             /**
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
@@ -972,6 +985,16 @@ private constructor(
              * Unlike [usage], this method doesn't throw if the JSON field has an unexpected type.
              */
             @JsonProperty("usage") @ExcludeMissing fun _usage(): JsonField<Usage> = usage
+
+            /**
+             * Returns the raw JSON value of [skippedIndexIds].
+             *
+             * Unlike [skippedIndexIds], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("skipped_index_ids")
+            @ExcludeMissing
+            fun _skippedIndexIds(): JsonField<List<String>> = skippedIndexIds
 
             /**
              * Returns the raw JSON value of [type].
@@ -1013,6 +1036,7 @@ private constructor(
                 private var error: JsonField<String>? = null
                 private var isError: JsonField<Boolean>? = null
                 private var usage: JsonField<Usage>? = null
+                private var skippedIndexIds: JsonField<MutableList<String>>? = null
                 private var type: JsonField<Type> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1021,6 +1045,7 @@ private constructor(
                     error = stop.error
                     isError = stop.isError
                     usage = stop.usage
+                    skippedIndexIds = stop.skippedIndexIds.map { it.toMutableList() }
                     type = stop.type
                     additionalProperties = stop.additionalProperties.toMutableMap()
                 }
@@ -1060,6 +1085,33 @@ private constructor(
                  * supported value.
                  */
                 fun usage(usage: JsonField<Usage>) = apply { this.usage = usage }
+
+                /** Requested indexes this turn could not query. */
+                fun skippedIndexIds(skippedIndexIds: List<String>) =
+                    skippedIndexIds(JsonField.of(skippedIndexIds))
+
+                /**
+                 * Sets [Builder.skippedIndexIds] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.skippedIndexIds] with a well-typed
+                 * `List<String>` value instead. This method is primarily for setting the field to
+                 * an undocumented or not yet supported value.
+                 */
+                fun skippedIndexIds(skippedIndexIds: JsonField<List<String>>) = apply {
+                    this.skippedIndexIds = skippedIndexIds.map { it.toMutableList() }
+                }
+
+                /**
+                 * Adds a single [String] to [skippedIndexIds].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
+                fun addSkippedIndexId(skippedIndexId: String) = apply {
+                    skippedIndexIds =
+                        (skippedIndexIds ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("skippedIndexIds", it).add(skippedIndexId)
+                        }
+                }
 
                 fun type(type: Type) = type(JsonField.of(type))
 
@@ -1113,6 +1165,7 @@ private constructor(
                         checkRequired("error", error),
                         checkRequired("isError", isError),
                         checkRequired("usage", usage),
+                        (skippedIndexIds ?: JsonMissing.of()).map { it.toImmutable() },
                         type,
                         additionalProperties.toMutableMap(),
                     )
@@ -1138,6 +1191,7 @@ private constructor(
                 error()
                 isError()
                 usage().validate()
+                skippedIndexIds()
                 type().ifPresent { it.validate() }
                 validated = true
             }
@@ -1161,6 +1215,7 @@ private constructor(
                 (if (error.asKnown().isPresent) 1 else 0) +
                     (if (isError.asKnown().isPresent) 1 else 0) +
                     (usage.asKnown().getOrNull()?.validity() ?: 0) +
+                    (skippedIndexIds.asKnown().getOrNull()?.size ?: 0) +
                     (type.asKnown().getOrNull()?.validity() ?: 0)
 
             class Usage
@@ -1623,18 +1678,19 @@ private constructor(
                     error == other.error &&
                     isError == other.isError &&
                     usage == other.usage &&
+                    skippedIndexIds == other.skippedIndexIds &&
                     type == other.type &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(error, isError, usage, type, additionalProperties)
+                Objects.hash(error, isError, usage, skippedIndexIds, type, additionalProperties)
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Stop{error=$error, isError=$isError, usage=$usage, type=$type, additionalProperties=$additionalProperties}"
+                "Stop{error=$error, isError=$isError, usage=$usage, skippedIndexIds=$skippedIndexIds, type=$type, additionalProperties=$additionalProperties}"
         }
 
         class TextDelta
