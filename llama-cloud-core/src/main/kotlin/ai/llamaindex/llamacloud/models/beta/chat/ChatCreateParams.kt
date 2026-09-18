@@ -2,6 +2,7 @@
 
 package ai.llamaindex.llamacloud.models.beta.chat
 
+import ai.llamaindex.llamacloud.core.Enum
 import ai.llamaindex.llamacloud.core.ExcludeMissing
 import ai.llamaindex.llamacloud.core.JsonField
 import ai.llamaindex.llamacloud.core.JsonMissing
@@ -45,11 +46,27 @@ private constructor(
     fun indexIds(): Optional<List<String>> = body.indexIds()
 
     /**
+     * What this chat's share link grants: read_only (transcript only) or query (viewers may ask new
+     * questions). Null follows the deployment default.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun sharedAccess(): Optional<SharedAccess> = body.sharedAccess()
+
+    /**
      * Returns the raw JSON value of [indexIds].
      *
      * Unlike [indexIds], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _indexIds(): JsonField<List<String>> = body._indexIds()
+
+    /**
+     * Returns the raw JSON value of [sharedAccess].
+     *
+     * Unlike [sharedAccess], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _sharedAccess(): JsonField<SharedAccess> = body._sharedAccess()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -104,6 +121,7 @@ private constructor(
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [indexIds]
+         * - [sharedAccess]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
@@ -132,6 +150,27 @@ private constructor(
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
         fun addIndexId(indexId: String) = apply { body.addIndexId(indexId) }
+
+        /**
+         * What this chat's share link grants: read_only (transcript only) or query (viewers may ask
+         * new questions). Null follows the deployment default.
+         */
+        fun sharedAccess(sharedAccess: SharedAccess?) = apply { body.sharedAccess(sharedAccess) }
+
+        /** Alias for calling [Builder.sharedAccess] with `sharedAccess.orElse(null)`. */
+        fun sharedAccess(sharedAccess: Optional<SharedAccess>) =
+            sharedAccess(sharedAccess.getOrNull())
+
+        /**
+         * Sets [Builder.sharedAccess] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.sharedAccess] with a well-typed [SharedAccess] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun sharedAccess(sharedAccess: JsonField<SharedAccess>) = apply {
+            body.sharedAccess(sharedAccess)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -283,6 +322,7 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val indexIds: JsonField<List<String>>,
+        private val sharedAccess: JsonField<SharedAccess>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -290,8 +330,11 @@ private constructor(
         private constructor(
             @JsonProperty("index_ids")
             @ExcludeMissing
-            indexIds: JsonField<List<String>> = JsonMissing.of()
-        ) : this(indexIds, mutableMapOf())
+            indexIds: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("shared_access")
+            @ExcludeMissing
+            sharedAccess: JsonField<SharedAccess> = JsonMissing.of(),
+        ) : this(indexIds, sharedAccess, mutableMapOf())
 
         /**
          * Indexes this session will retrieve from. Once set and the first message has been sent,
@@ -304,6 +347,15 @@ private constructor(
         fun indexIds(): Optional<List<String>> = indexIds.getOptional("index_ids")
 
         /**
+         * What this chat's share link grants: read_only (transcript only) or query (viewers may ask
+         * new questions). Null follows the deployment default.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun sharedAccess(): Optional<SharedAccess> = sharedAccess.getOptional("shared_access")
+
+        /**
          * Returns the raw JSON value of [indexIds].
          *
          * Unlike [indexIds], this method doesn't throw if the JSON field has an unexpected type.
@@ -311,6 +363,16 @@ private constructor(
         @JsonProperty("index_ids")
         @ExcludeMissing
         fun _indexIds(): JsonField<List<String>> = indexIds
+
+        /**
+         * Returns the raw JSON value of [sharedAccess].
+         *
+         * Unlike [sharedAccess], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("shared_access")
+        @ExcludeMissing
+        fun _sharedAccess(): JsonField<SharedAccess> = sharedAccess
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -334,11 +396,13 @@ private constructor(
         class Builder internal constructor() {
 
             private var indexIds: JsonField<MutableList<String>>? = null
+            private var sharedAccess: JsonField<SharedAccess> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
                 indexIds = body.indexIds.map { it.toMutableList() }
+                sharedAccess = body.sharedAccess
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
@@ -375,6 +439,28 @@ private constructor(
                     }
             }
 
+            /**
+             * What this chat's share link grants: read_only (transcript only) or query (viewers may
+             * ask new questions). Null follows the deployment default.
+             */
+            fun sharedAccess(sharedAccess: SharedAccess?) =
+                sharedAccess(JsonField.ofNullable(sharedAccess))
+
+            /** Alias for calling [Builder.sharedAccess] with `sharedAccess.orElse(null)`. */
+            fun sharedAccess(sharedAccess: Optional<SharedAccess>) =
+                sharedAccess(sharedAccess.getOrNull())
+
+            /**
+             * Sets [Builder.sharedAccess] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.sharedAccess] with a well-typed [SharedAccess] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun sharedAccess(sharedAccess: JsonField<SharedAccess>) = apply {
+                this.sharedAccess = sharedAccess
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -402,6 +488,7 @@ private constructor(
             fun build(): Body =
                 Body(
                     (indexIds ?: JsonMissing.of()).map { it.toImmutable() },
+                    sharedAccess,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -423,6 +510,7 @@ private constructor(
             }
 
             indexIds()
+            sharedAccess().ifPresent { it.validate() }
             validated = true
         }
 
@@ -440,7 +528,10 @@ private constructor(
          *
          * Used for best match union deserialization.
          */
-        @JvmSynthetic internal fun validity(): Int = (indexIds.asKnown().getOrNull()?.size ?: 0)
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (indexIds.asKnown().getOrNull()?.size ?: 0) +
+                (sharedAccess.asKnown().getOrNull()?.validity() ?: 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -449,15 +540,161 @@ private constructor(
 
             return other is Body &&
                 indexIds == other.indexIds &&
+                sharedAccess == other.sharedAccess &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy { Objects.hash(indexIds, additionalProperties) }
+        private val hashCode: Int by lazy {
+            Objects.hash(indexIds, sharedAccess, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{indexIds=$indexIds, additionalProperties=$additionalProperties}"
+            "Body{indexIds=$indexIds, sharedAccess=$sharedAccess, additionalProperties=$additionalProperties}"
+    }
+
+    /**
+     * What this chat's share link grants: read_only (transcript only) or query (viewers may ask new
+     * questions). Null follows the deployment default.
+     */
+    class SharedAccess @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val QUERY = of("query")
+
+            @JvmField val READ_ONLY = of("read_only")
+
+            @JvmStatic fun of(value: String) = SharedAccess(JsonField.of(value))
+        }
+
+        /** An enum containing [SharedAccess]'s known values. */
+        enum class Known {
+            QUERY,
+            READ_ONLY,
+        }
+
+        /**
+         * An enum containing [SharedAccess]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [SharedAccess] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            QUERY,
+            READ_ONLY,
+            /**
+             * An enum member indicating that [SharedAccess] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                QUERY -> Value.QUERY
+                READ_ONLY -> Value.READ_ONLY
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                QUERY -> Known.QUERY
+                READ_ONLY -> Known.READ_ONLY
+                else -> throw LlamaCloudInvalidDataException("Unknown SharedAccess: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                LlamaCloudInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): SharedAccess = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is SharedAccess && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {
