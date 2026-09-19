@@ -27,6 +27,7 @@ internal class SplitV1ParametersTest {
                         .build()
                 )
                 .targetPages("1,3,5-7")
+                .version("latest")
                 .build()
 
         assertThat(splitV1Parameters.categories())
@@ -45,6 +46,7 @@ internal class SplitV1ParametersTest {
                     .build()
             )
         assertThat(splitV1Parameters.targetPages()).contains("1,3,5-7")
+        assertThat(splitV1Parameters.version()).contains("latest")
     }
 
     @Test
@@ -65,6 +67,7 @@ internal class SplitV1ParametersTest {
                         .build()
                 )
                 .targetPages("1,3,5-7")
+                .version("latest")
                 .build()
 
         val roundtrippedSplitV1Parameters =

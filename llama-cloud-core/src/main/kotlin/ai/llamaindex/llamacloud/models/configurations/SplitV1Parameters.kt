@@ -31,6 +31,7 @@ private constructor(
     private val parseTier: JsonField<ParseTier>,
     private val splittingStrategy: JsonField<SplittingStrategy>,
     private val targetPages: JsonField<String>,
+    private val version: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -52,6 +53,7 @@ private constructor(
         @JsonProperty("target_pages")
         @ExcludeMissing
         targetPages: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("version") @ExcludeMissing version: JsonField<String> = JsonMissing.of(),
     ) : this(
         categories,
         productType,
@@ -59,6 +61,7 @@ private constructor(
         parseTier,
         splittingStrategy,
         targetPages,
+        version,
         mutableMapOf(),
     )
 
@@ -122,6 +125,15 @@ private constructor(
     fun targetPages(): Optional<String> = targetPages.getOptional("target_pages")
 
     /**
+     * Split version to run. Omit for the current release. Preview versions are selectable by name
+     * and never resolved automatically.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun version(): Optional<String> = version.getOptional("version")
+
+    /**
      * Returns the raw JSON value of [categories].
      *
      * Unlike [categories], this method doesn't throw if the JSON field has an unexpected type.
@@ -165,6 +177,13 @@ private constructor(
     @ExcludeMissing
     fun _targetPages(): JsonField<String> = targetPages
 
+    /**
+     * Returns the raw JSON value of [version].
+     *
+     * Unlike [version], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<String> = version
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -199,6 +218,7 @@ private constructor(
         private var parseTier: JsonField<ParseTier> = JsonMissing.of()
         private var splittingStrategy: JsonField<SplittingStrategy> = JsonMissing.of()
         private var targetPages: JsonField<String> = JsonMissing.of()
+        private var version: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -209,6 +229,7 @@ private constructor(
             parseTier = splitV1Parameters.parseTier
             splittingStrategy = splitV1Parameters.splittingStrategy
             targetPages = splitV1Parameters.targetPages
+            version = splitV1Parameters.version
             additionalProperties = splitV1Parameters.additionalProperties.toMutableMap()
         }
 
@@ -327,6 +348,23 @@ private constructor(
          */
         fun targetPages(targetPages: JsonField<String>) = apply { this.targetPages = targetPages }
 
+        /**
+         * Split version to run. Omit for the current release. Preview versions are selectable by
+         * name and never resolved automatically.
+         */
+        fun version(version: String?) = version(JsonField.ofNullable(version))
+
+        /** Alias for calling [Builder.version] with `version.orElse(null)`. */
+        fun version(version: Optional<String>) = version(version.getOrNull())
+
+        /**
+         * Sets [Builder.version] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.version] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun version(version: JsonField<String>) = apply { this.version = version }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -366,6 +404,7 @@ private constructor(
                 parseTier,
                 splittingStrategy,
                 targetPages,
+                version,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -395,6 +434,7 @@ private constructor(
         parseTier().ifPresent { it.validate() }
         splittingStrategy().ifPresent { it.validate() }
         targetPages()
+        version()
         validated = true
     }
 
@@ -418,7 +458,8 @@ private constructor(
             (if (parseConfigId.asKnown().isPresent) 1 else 0) +
             (parseTier.asKnown().getOrNull()?.validity() ?: 0) +
             (splittingStrategy.asKnown().getOrNull()?.validity() ?: 0) +
-            (if (targetPages.asKnown().isPresent) 1 else 0)
+            (if (targetPages.asKnown().isPresent) 1 else 0) +
+            (if (version.asKnown().isPresent) 1 else 0)
 
     /**
      * Parse tier used to read the document before splitting. Defaults to fast. Ignored when a
@@ -1022,6 +1063,7 @@ private constructor(
             parseTier == other.parseTier &&
             splittingStrategy == other.splittingStrategy &&
             targetPages == other.targetPages &&
+            version == other.version &&
             additionalProperties == other.additionalProperties
     }
 
@@ -1033,6 +1075,7 @@ private constructor(
             parseTier,
             splittingStrategy,
             targetPages,
+            version,
             additionalProperties,
         )
     }
@@ -1040,5 +1083,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "SplitV1Parameters{categories=$categories, productType=$productType, parseConfigId=$parseConfigId, parseTier=$parseTier, splittingStrategy=$splittingStrategy, targetPages=$targetPages, additionalProperties=$additionalProperties}"
+        "SplitV1Parameters{categories=$categories, productType=$productType, parseConfigId=$parseConfigId, parseTier=$parseTier, splittingStrategy=$splittingStrategy, targetPages=$targetPages, version=$version, additionalProperties=$additionalProperties}"
 }
