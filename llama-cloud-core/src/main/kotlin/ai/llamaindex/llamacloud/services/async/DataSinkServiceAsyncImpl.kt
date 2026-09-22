@@ -53,6 +53,7 @@ class DataSinkServiceAsyncImpl internal constructor(private val clientOptions: C
         // put /api/v1/data-sinks/{data_sink_id}
         withRawResponse().update(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun list(
         params: DataSinkListParams,
         requestOptions: RequestOptions,
@@ -155,6 +156,7 @@ class DataSinkServiceAsyncImpl internal constructor(private val clientOptions: C
         private val listHandler: Handler<List<DataSink>> =
             jsonHandler<List<DataSink>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun list(
             params: DataSinkListParams,
             requestOptions: RequestOptions,
