@@ -24,7 +24,6 @@ private constructor(
     private val dataSourceId: String?,
     private val fileId: String?,
     private val onlyDirectUpload: Boolean?,
-    private val projectId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -36,8 +35,6 @@ private constructor(
     fun fileId(): Optional<String> = Optional.ofNullable(fileId)
 
     fun onlyDirectUpload(): Optional<Boolean> = Optional.ofNullable(onlyDirectUpload)
-
-    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -65,7 +62,6 @@ private constructor(
         private var dataSourceId: String? = null
         private var fileId: String? = null
         private var onlyDirectUpload: Boolean? = null
-        private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -75,7 +71,6 @@ private constructor(
             dataSourceId = documentGetStatusCountsParams.dataSourceId
             fileId = documentGetStatusCountsParams.fileId
             onlyDirectUpload = documentGetStatusCountsParams.onlyDirectUpload
-            projectId = documentGetStatusCountsParams.projectId
             additionalHeaders = documentGetStatusCountsParams.additionalHeaders.toBuilder()
             additionalQueryParams = documentGetStatusCountsParams.additionalQueryParams.toBuilder()
         }
@@ -110,11 +105,6 @@ private constructor(
         /** Alias for calling [Builder.onlyDirectUpload] with `onlyDirectUpload.orElse(null)`. */
         fun onlyDirectUpload(onlyDirectUpload: Optional<Boolean>) =
             onlyDirectUpload(onlyDirectUpload.getOrNull())
-
-        fun projectId(projectId: String?) = apply { this.projectId = projectId }
-
-        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
-        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -225,7 +215,6 @@ private constructor(
                 dataSourceId,
                 fileId,
                 onlyDirectUpload,
-                projectId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -245,7 +234,6 @@ private constructor(
                 dataSourceId?.let { put("data_source_id", it) }
                 fileId?.let { put("file_id", it) }
                 onlyDirectUpload?.let { put("only_direct_upload", it.toString()) }
-                projectId?.let { put("project_id", it) }
                 putAll(additionalQueryParams)
             }
             .build()
@@ -260,7 +248,6 @@ private constructor(
             dataSourceId == other.dataSourceId &&
             fileId == other.fileId &&
             onlyDirectUpload == other.onlyDirectUpload &&
-            projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
@@ -271,11 +258,10 @@ private constructor(
             dataSourceId,
             fileId,
             onlyDirectUpload,
-            projectId,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "DocumentGetStatusCountsParams{pipelineId=$pipelineId, dataSourceId=$dataSourceId, fileId=$fileId, onlyDirectUpload=$onlyDirectUpload, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "DocumentGetStatusCountsParams{pipelineId=$pipelineId, dataSourceId=$dataSourceId, fileId=$fileId, onlyDirectUpload=$onlyDirectUpload, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

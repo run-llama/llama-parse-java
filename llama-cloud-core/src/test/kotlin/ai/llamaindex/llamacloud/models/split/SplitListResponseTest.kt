@@ -27,8 +27,6 @@ internal class SplitListResponseTest {
                 .configurationId("configuration_id")
                 .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .errorMessage("error_message")
-                .parseConfigId("parse_config_id")
-                .parseTier("parse_tier")
                 .result(
                     SplitResultResponse.builder()
                         .addSegment(
@@ -45,11 +43,8 @@ internal class SplitListResponseTest {
                         .allowUncategorized(
                             SplitListResponse.SplittingStrategy.AllowUncategorized.FORBID
                         )
-                        .customInstructions("Start a new segment at every signature page.")
-                        .minPagesPerSplit(1L)
                         .build()
                 )
-                .targetPages("target_pages")
                 .transactionId("transaction_id")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
@@ -68,8 +63,6 @@ internal class SplitListResponseTest {
         assertThat(splitListResponse.createdAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(splitListResponse.errorMessage()).contains("error_message")
-        assertThat(splitListResponse.parseConfigId()).contains("parse_config_id")
-        assertThat(splitListResponse.parseTier()).contains("parse_tier")
         assertThat(splitListResponse.result())
             .contains(
                 SplitResultResponse.builder()
@@ -88,11 +81,8 @@ internal class SplitListResponseTest {
                     .allowUncategorized(
                         SplitListResponse.SplittingStrategy.AllowUncategorized.FORBID
                     )
-                    .customInstructions("Start a new segment at every signature page.")
-                    .minPagesPerSplit(1L)
                     .build()
             )
-        assertThat(splitListResponse.targetPages()).contains("target_pages")
         assertThat(splitListResponse.transactionId()).contains("transaction_id")
         assertThat(splitListResponse.updatedAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -113,8 +103,6 @@ internal class SplitListResponseTest {
                 .configurationId("configuration_id")
                 .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .errorMessage("error_message")
-                .parseConfigId("parse_config_id")
-                .parseTier("parse_tier")
                 .result(
                     SplitResultResponse.builder()
                         .addSegment(
@@ -131,11 +119,8 @@ internal class SplitListResponseTest {
                         .allowUncategorized(
                             SplitListResponse.SplittingStrategy.AllowUncategorized.FORBID
                         )
-                        .customInstructions("Start a new segment at every signature page.")
-                        .minPagesPerSplit(1L)
                         .build()
                 )
-                .targetPages("target_pages")
                 .transactionId("transaction_id")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()

@@ -5,6 +5,8 @@ package ai.llamaindex.llamacloud.services.blocking
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.blocking.beta.AgentDataService
 import ai.llamaindex.llamacloud.services.blocking.beta.AgentDataServiceImpl
+import ai.llamaindex.llamacloud.services.blocking.beta.AttachmentService
+import ai.llamaindex.llamacloud.services.blocking.beta.AttachmentServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.beta.ChatService
 import ai.llamaindex.llamacloud.services.blocking.beta.ChatServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.beta.DirectoryService
@@ -13,6 +15,8 @@ import ai.llamaindex.llamacloud.services.blocking.beta.IndexService
 import ai.llamaindex.llamacloud.services.blocking.beta.IndexServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.beta.RetrievalService
 import ai.llamaindex.llamacloud.services.blocking.beta.RetrievalServiceImpl
+import ai.llamaindex.llamacloud.services.blocking.beta.SheetService
+import ai.llamaindex.llamacloud.services.blocking.beta.SheetServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.beta.SplitService
 import ai.llamaindex.llamacloud.services.blocking.beta.SplitServiceImpl
 import java.util.function.Consumer
@@ -29,7 +33,11 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
 
     private val chat: ChatService by lazy { ChatServiceImpl(clientOptions) }
 
+    private val attachments: AttachmentService by lazy { AttachmentServiceImpl(clientOptions) }
+
     private val agentData: AgentDataService by lazy { AgentDataServiceImpl(clientOptions) }
+
+    private val sheets: SheetService by lazy { SheetServiceImpl(clientOptions) }
 
     private val directories: DirectoryService by lazy { DirectoryServiceImpl(clientOptions) }
 
@@ -46,7 +54,11 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
 
     override fun chat(): ChatService = chat
 
+    override fun attachments(): AttachmentService = attachments
+
     override fun agentData(): AgentDataService = agentData
+
+    override fun sheets(): SheetService = sheets
 
     override fun directories(): DirectoryService = directories
 
@@ -67,8 +79,16 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
             ChatServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val attachments: AttachmentService.WithRawResponse by lazy {
+            AttachmentServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val agentData: AgentDataService.WithRawResponse by lazy {
             AgentDataServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val sheets: SheetService.WithRawResponse by lazy {
+            SheetServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val directories: DirectoryService.WithRawResponse by lazy {
@@ -92,7 +112,11 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
 
         override fun chat(): ChatService.WithRawResponse = chat
 
+        override fun attachments(): AttachmentService.WithRawResponse = attachments
+
         override fun agentData(): AgentDataService.WithRawResponse = agentData
+
+        override fun sheets(): SheetService.WithRawResponse = sheets
 
         override fun directories(): DirectoryService.WithRawResponse = directories
 

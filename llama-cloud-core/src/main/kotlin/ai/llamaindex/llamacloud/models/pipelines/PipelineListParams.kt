@@ -9,11 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/**
- * Search for pipelines by name, type, or project.
- *
- * Deprecated: use `GET /api/v2/pipelines`, which is paginated.
- */
+/** Search for pipelines by name, type, or project. */
 @Deprecated("deprecated")
 class PipelineListParams
 private constructor(

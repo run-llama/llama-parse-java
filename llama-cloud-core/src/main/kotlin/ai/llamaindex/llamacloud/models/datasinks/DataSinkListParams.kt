@@ -9,12 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/**
- * List a project's data sinks. Returns at most the first 50.
- *
- * Deprecated: use `GET /api/v1/beta/data-sinks`, which is paginated.
- */
-@Deprecated("deprecated")
+/** List data sinks for a given project. */
 class DataSinkListParams
 private constructor(
     private val organizationId: String?,

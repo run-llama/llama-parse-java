@@ -10,7 +10,6 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** List the webhook configurations for the current project, newest first. */
-@Deprecated("deprecated")
 class WebhookConfigListParams
 private constructor(
     private val organizationId: String?,

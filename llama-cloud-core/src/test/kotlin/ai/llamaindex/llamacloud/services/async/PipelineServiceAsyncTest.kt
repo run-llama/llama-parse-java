@@ -15,8 +15,6 @@ import ai.llamaindex.llamacloud.models.pipelines.LlamaParseParameters
 import ai.llamaindex.llamacloud.models.pipelines.MetadataFilters
 import ai.llamaindex.llamacloud.models.pipelines.PipelineCreate
 import ai.llamaindex.llamacloud.models.pipelines.PipelineCreateParams
-import ai.llamaindex.llamacloud.models.pipelines.PipelineDeleteParams
-import ai.llamaindex.llamacloud.models.pipelines.PipelineGetParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetStatusParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineMetadataConfig
@@ -395,7 +393,6 @@ internal class PipelineServiceAsyncTest {
             pipelineServiceAsync.update(
                 PipelineUpdateParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .dataSink(
                         DataSinkCreate.builder()
                             .component(
@@ -693,13 +690,7 @@ internal class PipelineServiceAsyncTest {
         val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
         val pipelineServiceAsync = client.pipelines()
 
-        val future =
-            pipelineServiceAsync.delete(
-                PipelineDeleteParams.builder()
-                    .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val future = pipelineServiceAsync.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val response = future.get()
     }
@@ -710,13 +701,7 @@ internal class PipelineServiceAsyncTest {
         val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
         val pipelineServiceAsync = client.pipelines()
 
-        val pipelineFuture =
-            pipelineServiceAsync.get(
-                PipelineGetParams.builder()
-                    .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val pipelineFuture = pipelineServiceAsync.get("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val pipeline = pipelineFuture.get()
         pipeline.validate()
@@ -733,24 +718,11 @@ internal class PipelineServiceAsyncTest {
                 PipelineGetStatusParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .fullDetails(true)
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
         val managedIngestionStatusResponse = managedIngestionStatusResponseFuture.get()
         managedIngestionStatusResponse.validate()
-    }
-
-    @Disabled("Mock server tests are disabled")
-    @Test
-    fun listPaginated() {
-        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
-        val pipelineServiceAsync = client.pipelines()
-
-        val pageFuture = pipelineServiceAsync.listPaginated()
-
-        val page = pageFuture.get()
-        page.response().validate()
     }
 
     @Disabled("Mock server tests are disabled")

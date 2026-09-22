@@ -25,7 +25,6 @@ private constructor(
     private val offset: Long?,
     private val onlyManuallyUploaded: Boolean?,
     private val orderBy: String?,
-    private val projectId: String?,
     private val statuses: List<Status>?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -44,8 +43,6 @@ private constructor(
     fun onlyManuallyUploaded(): Optional<Boolean> = Optional.ofNullable(onlyManuallyUploaded)
 
     fun orderBy(): Optional<String> = Optional.ofNullable(orderBy)
-
-    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /** Filter by file statuses */
     fun statuses(): Optional<List<Status>> = Optional.ofNullable(statuses)
@@ -76,7 +73,6 @@ private constructor(
         private var offset: Long? = null
         private var onlyManuallyUploaded: Boolean? = null
         private var orderBy: String? = null
-        private var projectId: String? = null
         private var statuses: MutableList<Status>? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -90,7 +86,6 @@ private constructor(
             offset = fileListParams.offset
             onlyManuallyUploaded = fileListParams.onlyManuallyUploaded
             orderBy = fileListParams.orderBy
-            projectId = fileListParams.projectId
             statuses = fileListParams.statuses?.toMutableList()
             additionalHeaders = fileListParams.additionalHeaders.toBuilder()
             additionalQueryParams = fileListParams.additionalQueryParams.toBuilder()
@@ -161,11 +156,6 @@ private constructor(
 
         /** Alias for calling [Builder.orderBy] with `orderBy.orElse(null)`. */
         fun orderBy(orderBy: Optional<String>) = orderBy(orderBy.getOrNull())
-
-        fun projectId(projectId: String?) = apply { this.projectId = projectId }
-
-        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
-        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         /** Filter by file statuses */
         fun statuses(statuses: List<Status>?) = apply { this.statuses = statuses?.toMutableList() }
@@ -294,7 +284,6 @@ private constructor(
                 offset,
                 onlyManuallyUploaded,
                 orderBy,
-                projectId,
                 statuses?.toImmutable(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -318,7 +307,6 @@ private constructor(
                 offset?.let { put("offset", it.toString()) }
                 onlyManuallyUploaded?.let { put("only_manually_uploaded", it.toString()) }
                 orderBy?.let { put("order_by", it) }
-                projectId?.let { put("project_id", it) }
                 statuses?.forEach { put("statuses", it.toString()) }
                 putAll(additionalQueryParams)
             }
@@ -491,7 +479,6 @@ private constructor(
             offset == other.offset &&
             onlyManuallyUploaded == other.onlyManuallyUploaded &&
             orderBy == other.orderBy &&
-            projectId == other.projectId &&
             statuses == other.statuses &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
@@ -506,12 +493,11 @@ private constructor(
             offset,
             onlyManuallyUploaded,
             orderBy,
-            projectId,
             statuses,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "FileListParams{pipelineId=$pipelineId, dataSourceId=$dataSourceId, fileNameContains=$fileNameContains, limit=$limit, offset=$offset, onlyManuallyUploaded=$onlyManuallyUploaded, orderBy=$orderBy, projectId=$projectId, statuses=$statuses, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "FileListParams{pipelineId=$pipelineId, dataSourceId=$dataSourceId, fileNameContains=$fileNameContains, limit=$limit, offset=$offset, onlyManuallyUploaded=$onlyManuallyUploaded, orderBy=$orderBy, statuses=$statuses, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

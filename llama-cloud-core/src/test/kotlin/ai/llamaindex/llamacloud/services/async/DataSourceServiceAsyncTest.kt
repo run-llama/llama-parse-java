@@ -5,8 +5,6 @@ package ai.llamaindex.llamacloud.services.async
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClientAsync
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.models.datasources.DataSourceCreateParams
-import ai.llamaindex.llamacloud.models.datasources.DataSourceDeleteParams
-import ai.llamaindex.llamacloud.models.datasources.DataSourceGetParams
 import ai.llamaindex.llamacloud.models.datasources.DataSourceListParams
 import ai.llamaindex.llamacloud.models.datasources.DataSourceUpdateParams
 import org.junit.jupiter.api.Disabled
@@ -54,7 +52,6 @@ internal class DataSourceServiceAsyncTest {
             dataSourceServiceAsync.update(
                 DataSourceUpdateParams.builder()
                     .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .sourceType(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
                     .component(
                         DataSourceUpdateParams.Component.UnionMember0.builder()
@@ -98,13 +95,7 @@ internal class DataSourceServiceAsyncTest {
         val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
         val dataSourceServiceAsync = client.dataSources()
 
-        val future =
-            dataSourceServiceAsync.delete(
-                DataSourceDeleteParams.builder()
-                    .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val future = dataSourceServiceAsync.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val response = future.get()
     }
@@ -115,13 +106,7 @@ internal class DataSourceServiceAsyncTest {
         val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
         val dataSourceServiceAsync = client.dataSources()
 
-        val dataSourceFuture =
-            dataSourceServiceAsync.get(
-                DataSourceGetParams.builder()
-                    .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val dataSourceFuture = dataSourceServiceAsync.get("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val dataSource = dataSourceFuture.get()
         dataSource.validate()

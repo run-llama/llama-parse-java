@@ -125,15 +125,4 @@ internal class WebhookConfigServiceTest {
                 .build()
         )
     }
-
-    @Disabled("Mock server tests are disabled")
-    @Test
-    fun listPaginated() {
-        val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
-        val webhookConfigService = client.webhookConfigs()
-
-        val page = webhookConfigService.listPaginated()
-
-        page.response().validate()
-    }
 }

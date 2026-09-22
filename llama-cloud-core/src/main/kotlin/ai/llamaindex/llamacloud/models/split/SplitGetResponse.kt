@@ -37,11 +37,8 @@ private constructor(
     private val configurationId: JsonField<String>,
     private val createdAt: JsonField<OffsetDateTime>,
     private val errorMessage: JsonField<String>,
-    private val parseConfigId: JsonField<String>,
-    private val parseTier: JsonField<String>,
     private val result: JsonField<SplitResultResponse>,
     private val splittingStrategy: JsonField<SplittingStrategy>,
-    private val targetPages: JsonField<String>,
     private val transactionId: JsonField<String>,
     private val updatedAt: JsonField<OffsetDateTime>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -69,19 +66,12 @@ private constructor(
         @JsonProperty("error_message")
         @ExcludeMissing
         errorMessage: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("parse_config_id")
-        @ExcludeMissing
-        parseConfigId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("parse_tier") @ExcludeMissing parseTier: JsonField<String> = JsonMissing.of(),
         @JsonProperty("result")
         @ExcludeMissing
         result: JsonField<SplitResultResponse> = JsonMissing.of(),
         @JsonProperty("splitting_strategy")
         @ExcludeMissing
         splittingStrategy: JsonField<SplittingStrategy> = JsonMissing.of(),
-        @JsonProperty("target_pages")
-        @ExcludeMissing
-        targetPages: JsonField<String> = JsonMissing.of(),
         @JsonProperty("transaction_id")
         @ExcludeMissing
         transactionId: JsonField<String> = JsonMissing.of(),
@@ -99,11 +89,8 @@ private constructor(
         configurationId,
         createdAt,
         errorMessage,
-        parseConfigId,
-        parseTier,
         result,
         splittingStrategy,
-        targetPages,
         transactionId,
         updatedAt,
         mutableMapOf(),
@@ -191,22 +178,6 @@ private constructor(
     fun errorMessage(): Optional<String> = errorMessage.getOptional("error_message")
 
     /**
-     * Saved parse configuration ID requested for this job, if any.
-     *
-     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun parseConfigId(): Optional<String> = parseConfigId.getOptional("parse_config_id")
-
-    /**
-     * Parse tier requested for this job, if any.
-     *
-     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun parseTier(): Optional<String> = parseTier.getOptional("parse_tier")
-
-    /**
      * Result of a completed split job.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -222,14 +193,6 @@ private constructor(
      */
     fun splittingStrategy(): Optional<SplittingStrategy> =
         splittingStrategy.getOptional("splitting_strategy")
-
-    /**
-     * Page selection requested for this job, if any.
-     *
-     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun targetPages(): Optional<String> = targetPages.getOptional("target_pages")
 
     /**
      * Idempotency key scoped to the project, if one was provided.
@@ -329,22 +292,6 @@ private constructor(
     fun _errorMessage(): JsonField<String> = errorMessage
 
     /**
-     * Returns the raw JSON value of [parseConfigId].
-     *
-     * Unlike [parseConfigId], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("parse_config_id")
-    @ExcludeMissing
-    fun _parseConfigId(): JsonField<String> = parseConfigId
-
-    /**
-     * Returns the raw JSON value of [parseTier].
-     *
-     * Unlike [parseTier], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("parse_tier") @ExcludeMissing fun _parseTier(): JsonField<String> = parseTier
-
-    /**
      * Returns the raw JSON value of [result].
      *
      * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
@@ -360,15 +307,6 @@ private constructor(
     @JsonProperty("splitting_strategy")
     @ExcludeMissing
     fun _splittingStrategy(): JsonField<SplittingStrategy> = splittingStrategy
-
-    /**
-     * Returns the raw JSON value of [targetPages].
-     *
-     * Unlike [targetPages], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("target_pages")
-    @ExcludeMissing
-    fun _targetPages(): JsonField<String> = targetPages
 
     /**
      * Returns the raw JSON value of [transactionId].
@@ -432,11 +370,8 @@ private constructor(
         private var configurationId: JsonField<String> = JsonMissing.of()
         private var createdAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var errorMessage: JsonField<String> = JsonMissing.of()
-        private var parseConfigId: JsonField<String> = JsonMissing.of()
-        private var parseTier: JsonField<String> = JsonMissing.of()
         private var result: JsonField<SplitResultResponse> = JsonMissing.of()
         private var splittingStrategy: JsonField<SplittingStrategy> = JsonMissing.of()
-        private var targetPages: JsonField<String> = JsonMissing.of()
         private var transactionId: JsonField<String> = JsonMissing.of()
         private var updatedAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -453,11 +388,8 @@ private constructor(
             configurationId = splitGetResponse.configurationId
             createdAt = splitGetResponse.createdAt
             errorMessage = splitGetResponse.errorMessage
-            parseConfigId = splitGetResponse.parseConfigId
-            parseTier = splitGetResponse.parseTier
             result = splitGetResponse.result
             splittingStrategy = splitGetResponse.splittingStrategy
-            targetPages = splitGetResponse.targetPages
             transactionId = splitGetResponse.transactionId
             updatedAt = splitGetResponse.updatedAt
             additionalProperties = splitGetResponse.additionalProperties.toMutableMap()
@@ -614,40 +546,6 @@ private constructor(
             this.errorMessage = errorMessage
         }
 
-        /** Saved parse configuration ID requested for this job, if any. */
-        fun parseConfigId(parseConfigId: String?) =
-            parseConfigId(JsonField.ofNullable(parseConfigId))
-
-        /** Alias for calling [Builder.parseConfigId] with `parseConfigId.orElse(null)`. */
-        fun parseConfigId(parseConfigId: Optional<String>) =
-            parseConfigId(parseConfigId.getOrNull())
-
-        /**
-         * Sets [Builder.parseConfigId] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.parseConfigId] with a well-typed [String] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun parseConfigId(parseConfigId: JsonField<String>) = apply {
-            this.parseConfigId = parseConfigId
-        }
-
-        /** Parse tier requested for this job, if any. */
-        fun parseTier(parseTier: String?) = parseTier(JsonField.ofNullable(parseTier))
-
-        /** Alias for calling [Builder.parseTier] with `parseTier.orElse(null)`. */
-        fun parseTier(parseTier: Optional<String>) = parseTier(parseTier.getOrNull())
-
-        /**
-         * Sets [Builder.parseTier] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.parseTier] with a well-typed [String] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun parseTier(parseTier: JsonField<String>) = apply { this.parseTier = parseTier }
-
         /** Result of a completed split job. */
         fun result(result: SplitResultResponse?) = result(JsonField.ofNullable(result))
 
@@ -677,21 +575,6 @@ private constructor(
         fun splittingStrategy(splittingStrategy: JsonField<SplittingStrategy>) = apply {
             this.splittingStrategy = splittingStrategy
         }
-
-        /** Page selection requested for this job, if any. */
-        fun targetPages(targetPages: String?) = targetPages(JsonField.ofNullable(targetPages))
-
-        /** Alias for calling [Builder.targetPages] with `targetPages.orElse(null)`. */
-        fun targetPages(targetPages: Optional<String>) = targetPages(targetPages.getOrNull())
-
-        /**
-         * Sets [Builder.targetPages] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.targetPages] with a well-typed [String] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun targetPages(targetPages: JsonField<String>) = apply { this.targetPages = targetPages }
 
         /** Idempotency key scoped to the project, if one was provided. */
         fun transactionId(transactionId: String?) =
@@ -776,11 +659,8 @@ private constructor(
                 configurationId,
                 createdAt,
                 errorMessage,
-                parseConfigId,
-                parseTier,
                 result,
                 splittingStrategy,
-                targetPages,
                 transactionId,
                 updatedAt,
                 additionalProperties.toMutableMap(),
@@ -812,11 +692,8 @@ private constructor(
         configurationId()
         createdAt()
         errorMessage()
-        parseConfigId()
-        parseTier()
         result().ifPresent { it.validate() }
         splittingStrategy().ifPresent { it.validate() }
-        targetPages()
         transactionId()
         updatedAt()
         validated = true
@@ -847,11 +724,8 @@ private constructor(
             (if (configurationId.asKnown().isPresent) 1 else 0) +
             (if (createdAt.asKnown().isPresent) 1 else 0) +
             (if (errorMessage.asKnown().isPresent) 1 else 0) +
-            (if (parseConfigId.asKnown().isPresent) 1 else 0) +
-            (if (parseTier.asKnown().isPresent) 1 else 0) +
             (result.asKnown().getOrNull()?.validity() ?: 0) +
             (splittingStrategy.asKnown().getOrNull()?.validity() ?: 0) +
-            (if (targetPages.asKnown().isPresent) 1 else 0) +
             (if (transactionId.asKnown().isPresent) 1 else 0) +
             (if (updatedAt.asKnown().isPresent) 1 else 0)
 
@@ -1007,8 +881,6 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val allowUncategorized: JsonField<AllowUncategorized>,
-        private val customInstructions: JsonField<String>,
-        private val minPagesPerSplit: JsonField<Long>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -1016,14 +888,8 @@ private constructor(
         private constructor(
             @JsonProperty("allow_uncategorized")
             @ExcludeMissing
-            allowUncategorized: JsonField<AllowUncategorized> = JsonMissing.of(),
-            @JsonProperty("custom_instructions")
-            @ExcludeMissing
-            customInstructions: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("min_pages_per_split")
-            @ExcludeMissing
-            minPagesPerSplit: JsonField<Long> = JsonMissing.of(),
-        ) : this(allowUncategorized, customInstructions, minPagesPerSplit, mutableMapOf())
+            allowUncategorized: JsonField<AllowUncategorized> = JsonMissing.of()
+        ) : this(allowUncategorized, mutableMapOf())
 
         /**
          * Controls handling of pages that don't match any category. 'include': pages can be grouped
@@ -1038,24 +904,6 @@ private constructor(
             allowUncategorized.getOptional("allow_uncategorized")
 
         /**
-         * Free-form guidance for where segment boundaries are placed.
-         *
-         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
-         *   the server responded with an unexpected value).
-         */
-        fun customInstructions(): Optional<String> =
-            customInstructions.getOptional("custom_instructions")
-
-        /**
-         * Minimum pages per segment. Shorter segments are merged into an adjacent segment; 1
-         * disables merging.
-         *
-         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
-         *   the server responded with an unexpected value).
-         */
-        fun minPagesPerSplit(): Optional<Long> = minPagesPerSplit.getOptional("min_pages_per_split")
-
-        /**
          * Returns the raw JSON value of [allowUncategorized].
          *
          * Unlike [allowUncategorized], this method doesn't throw if the JSON field has an
@@ -1064,26 +912,6 @@ private constructor(
         @JsonProperty("allow_uncategorized")
         @ExcludeMissing
         fun _allowUncategorized(): JsonField<AllowUncategorized> = allowUncategorized
-
-        /**
-         * Returns the raw JSON value of [customInstructions].
-         *
-         * Unlike [customInstructions], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @JsonProperty("custom_instructions")
-        @ExcludeMissing
-        fun _customInstructions(): JsonField<String> = customInstructions
-
-        /**
-         * Returns the raw JSON value of [minPagesPerSplit].
-         *
-         * Unlike [minPagesPerSplit], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("min_pages_per_split")
-        @ExcludeMissing
-        fun _minPagesPerSplit(): JsonField<Long> = minPagesPerSplit
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -1107,15 +935,11 @@ private constructor(
         class Builder internal constructor() {
 
             private var allowUncategorized: JsonField<AllowUncategorized> = JsonMissing.of()
-            private var customInstructions: JsonField<String> = JsonMissing.of()
-            private var minPagesPerSplit: JsonField<Long> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(splittingStrategy: SplittingStrategy) = apply {
                 allowUncategorized = splittingStrategy.allowUncategorized
-                customInstructions = splittingStrategy.customInstructions
-                minPagesPerSplit = splittingStrategy.minPagesPerSplit
                 additionalProperties = splittingStrategy.additionalProperties.toMutableMap()
             }
 
@@ -1137,46 +961,6 @@ private constructor(
              */
             fun allowUncategorized(allowUncategorized: JsonField<AllowUncategorized>) = apply {
                 this.allowUncategorized = allowUncategorized
-            }
-
-            /** Free-form guidance for where segment boundaries are placed. */
-            fun customInstructions(customInstructions: String?) =
-                customInstructions(JsonField.ofNullable(customInstructions))
-
-            /**
-             * Alias for calling [Builder.customInstructions] with
-             * `customInstructions.orElse(null)`.
-             */
-            fun customInstructions(customInstructions: Optional<String>) =
-                customInstructions(customInstructions.getOrNull())
-
-            /**
-             * Sets [Builder.customInstructions] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.customInstructions] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun customInstructions(customInstructions: JsonField<String>) = apply {
-                this.customInstructions = customInstructions
-            }
-
-            /**
-             * Minimum pages per segment. Shorter segments are merged into an adjacent segment; 1
-             * disables merging.
-             */
-            fun minPagesPerSplit(minPagesPerSplit: Long) =
-                minPagesPerSplit(JsonField.of(minPagesPerSplit))
-
-            /**
-             * Sets [Builder.minPagesPerSplit] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.minPagesPerSplit] with a well-typed [Long] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun minPagesPerSplit(minPagesPerSplit: JsonField<Long>) = apply {
-                this.minPagesPerSplit = minPagesPerSplit
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1204,12 +988,7 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): SplittingStrategy =
-                SplittingStrategy(
-                    allowUncategorized,
-                    customInstructions,
-                    minPagesPerSplit,
-                    additionalProperties.toMutableMap(),
-                )
+                SplittingStrategy(allowUncategorized, additionalProperties.toMutableMap())
         }
 
         private var validated: Boolean = false
@@ -1229,8 +1008,6 @@ private constructor(
             }
 
             allowUncategorized().ifPresent { it.validate() }
-            customInstructions()
-            minPagesPerSplit()
             validated = true
         }
 
@@ -1249,10 +1026,7 @@ private constructor(
          * Used for best match union deserialization.
          */
         @JvmSynthetic
-        internal fun validity(): Int =
-            (allowUncategorized.asKnown().getOrNull()?.validity() ?: 0) +
-                (if (customInstructions.asKnown().isPresent) 1 else 0) +
-                (if (minPagesPerSplit.asKnown().isPresent) 1 else 0)
+        internal fun validity(): Int = (allowUncategorized.asKnown().getOrNull()?.validity() ?: 0)
 
         /**
          * Controls handling of pages that don't match any category. 'include': pages can be grouped
@@ -1418,24 +1192,15 @@ private constructor(
 
             return other is SplittingStrategy &&
                 allowUncategorized == other.allowUncategorized &&
-                customInstructions == other.customInstructions &&
-                minPagesPerSplit == other.minPagesPerSplit &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy {
-            Objects.hash(
-                allowUncategorized,
-                customInstructions,
-                minPagesPerSplit,
-                additionalProperties,
-            )
-        }
+        private val hashCode: Int by lazy { Objects.hash(allowUncategorized, additionalProperties) }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "SplittingStrategy{allowUncategorized=$allowUncategorized, customInstructions=$customInstructions, minPagesPerSplit=$minPagesPerSplit, additionalProperties=$additionalProperties}"
+            "SplittingStrategy{allowUncategorized=$allowUncategorized, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -1454,11 +1219,8 @@ private constructor(
             configurationId == other.configurationId &&
             createdAt == other.createdAt &&
             errorMessage == other.errorMessage &&
-            parseConfigId == other.parseConfigId &&
-            parseTier == other.parseTier &&
             result == other.result &&
             splittingStrategy == other.splittingStrategy &&
-            targetPages == other.targetPages &&
             transactionId == other.transactionId &&
             updatedAt == other.updatedAt &&
             additionalProperties == other.additionalProperties
@@ -1476,11 +1238,8 @@ private constructor(
             configurationId,
             createdAt,
             errorMessage,
-            parseConfigId,
-            parseTier,
             result,
             splittingStrategy,
-            targetPages,
             transactionId,
             updatedAt,
             additionalProperties,
@@ -1490,5 +1249,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "SplitGetResponse{id=$id, categories=$categories, documentInputType=$documentInputType, fileInput=$fileInput, projectId=$projectId, status=$status, userId=$userId, configurationId=$configurationId, createdAt=$createdAt, errorMessage=$errorMessage, parseConfigId=$parseConfigId, parseTier=$parseTier, result=$result, splittingStrategy=$splittingStrategy, targetPages=$targetPages, transactionId=$transactionId, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
+        "SplitGetResponse{id=$id, categories=$categories, documentInputType=$documentInputType, fileInput=$fileInput, projectId=$projectId, status=$status, userId=$userId, configurationId=$configurationId, createdAt=$createdAt, errorMessage=$errorMessage, result=$result, splittingStrategy=$splittingStrategy, transactionId=$transactionId, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
 }

@@ -15,7 +15,6 @@ internal class DocumentGetStatusCountsParamsTest {
             .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .onlyDirectUpload(true)
-            .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
 
@@ -39,7 +38,6 @@ internal class DocumentGetStatusCountsParamsTest {
                 .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .onlyDirectUpload(true)
-                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val queryParams = params._queryParams()
@@ -50,7 +48,6 @@ internal class DocumentGetStatusCountsParamsTest {
                     .put("data_source_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("file_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("only_direct_upload", "true")
-                    .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
     }

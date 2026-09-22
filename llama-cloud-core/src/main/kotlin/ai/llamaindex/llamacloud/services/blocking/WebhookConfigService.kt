@@ -9,8 +9,6 @@ import ai.llamaindex.llamacloud.core.http.HttpResponseFor
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigCreate
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigCreateParams
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigDeleteParams
-import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigListPaginatedPage
-import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigListPaginatedParams
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigListParams
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigResponse
 import ai.llamaindex.llamacloud.models.webhookconfigs.WebhookConfigRetrieveParams
@@ -120,24 +118,20 @@ interface WebhookConfigService {
         update(configId, WebhookConfigUpdateParams.none(), requestOptions)
 
     /** List the webhook configurations for the current project, newest first. */
-    @Deprecated("deprecated")
     fun list(): List<WebhookConfigResponse> = list(WebhookConfigListParams.none())
 
     /** @see list */
-    @Deprecated("deprecated")
     fun list(
         params: WebhookConfigListParams = WebhookConfigListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<WebhookConfigResponse>
 
     /** @see list */
-    @Deprecated("deprecated")
     fun list(
         params: WebhookConfigListParams = WebhookConfigListParams.none()
     ): List<WebhookConfigResponse> = list(params, RequestOptions.none())
 
     /** @see list */
-    @Deprecated("deprecated")
     fun list(requestOptions: RequestOptions): List<WebhookConfigResponse> =
         list(WebhookConfigListParams.none(), requestOptions)
 
@@ -169,25 +163,6 @@ interface WebhookConfigService {
     /** @see delete */
     fun delete(configId: String, requestOptions: RequestOptions) =
         delete(configId, WebhookConfigDeleteParams.none(), requestOptions)
-
-    /** List the webhook configurations for the current project, newest first. */
-    fun listPaginated(): WebhookConfigListPaginatedPage =
-        listPaginated(WebhookConfigListPaginatedParams.none())
-
-    /** @see listPaginated */
-    fun listPaginated(
-        params: WebhookConfigListPaginatedParams = WebhookConfigListPaginatedParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): WebhookConfigListPaginatedPage
-
-    /** @see listPaginated */
-    fun listPaginated(
-        params: WebhookConfigListPaginatedParams = WebhookConfigListPaginatedParams.none()
-    ): WebhookConfigListPaginatedPage = listPaginated(params, RequestOptions.none())
-
-    /** @see listPaginated */
-    fun listPaginated(requestOptions: RequestOptions): WebhookConfigListPaginatedPage =
-        listPaginated(WebhookConfigListPaginatedParams.none(), requestOptions)
 
     /**
      * A view of [WebhookConfigService] that provides access to raw HTTP responses for each method.
@@ -331,13 +306,11 @@ interface WebhookConfigService {
          * Returns a raw HTTP response for `get /api/v1/beta/webhook-configs`, but is otherwise the
          * same as [WebhookConfigService.list].
          */
-        @Deprecated("deprecated")
         @MustBeClosed
         fun list(): HttpResponseFor<List<WebhookConfigResponse>> =
             list(WebhookConfigListParams.none())
 
         /** @see list */
-        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: WebhookConfigListParams = WebhookConfigListParams.none(),
@@ -345,14 +318,12 @@ interface WebhookConfigService {
         ): HttpResponseFor<List<WebhookConfigResponse>>
 
         /** @see list */
-        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: WebhookConfigListParams = WebhookConfigListParams.none()
         ): HttpResponseFor<List<WebhookConfigResponse>> = list(params, RequestOptions.none())
 
         /** @see list */
-        @Deprecated("deprecated")
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<List<WebhookConfigResponse>> =
             list(WebhookConfigListParams.none(), requestOptions)
@@ -396,34 +367,5 @@ interface WebhookConfigService {
         @MustBeClosed
         fun delete(configId: String, requestOptions: RequestOptions): HttpResponse =
             delete(configId, WebhookConfigDeleteParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `get /api/v2/webhook-configs`, but is otherwise the same
-         * as [WebhookConfigService.listPaginated].
-         */
-        @MustBeClosed
-        fun listPaginated(): HttpResponseFor<WebhookConfigListPaginatedPage> =
-            listPaginated(WebhookConfigListPaginatedParams.none())
-
-        /** @see listPaginated */
-        @MustBeClosed
-        fun listPaginated(
-            params: WebhookConfigListPaginatedParams = WebhookConfigListPaginatedParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<WebhookConfigListPaginatedPage>
-
-        /** @see listPaginated */
-        @MustBeClosed
-        fun listPaginated(
-            params: WebhookConfigListPaginatedParams = WebhookConfigListPaginatedParams.none()
-        ): HttpResponseFor<WebhookConfigListPaginatedPage> =
-            listPaginated(params, RequestOptions.none())
-
-        /** @see listPaginated */
-        @MustBeClosed
-        fun listPaginated(
-            requestOptions: RequestOptions
-        ): HttpResponseFor<WebhookConfigListPaginatedPage> =
-            listPaginated(WebhookConfigListPaginatedParams.none(), requestOptions)
     }
 }

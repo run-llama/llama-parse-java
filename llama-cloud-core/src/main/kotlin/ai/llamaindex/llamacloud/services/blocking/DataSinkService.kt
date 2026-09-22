@@ -73,27 +73,20 @@ interface DataSinkService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DataSink
 
-    /**
-     * List a project's data sinks. Returns at most the first 50.
-     *
-     * Deprecated: use `GET /api/v1/beta/data-sinks`, which is paginated.
-     */
-    @Deprecated("deprecated") fun list(): List<DataSink> = list(DataSinkListParams.none())
+    /** List data sinks for a given project. */
+    fun list(): List<DataSink> = list(DataSinkListParams.none())
 
     /** @see list */
-    @Deprecated("deprecated")
     fun list(
         params: DataSinkListParams = DataSinkListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<DataSink>
 
     /** @see list */
-    @Deprecated("deprecated")
     fun list(params: DataSinkListParams = DataSinkListParams.none()): List<DataSink> =
         list(params, RequestOptions.none())
 
     /** @see list */
-    @Deprecated("deprecated")
     fun list(requestOptions: RequestOptions): List<DataSink> =
         list(DataSinkListParams.none(), requestOptions)
 
@@ -222,12 +215,9 @@ interface DataSinkService {
          * Returns a raw HTTP response for `get /api/v1/data-sinks`, but is otherwise the same as
          * [DataSinkService.list].
          */
-        @Deprecated("deprecated")
-        @MustBeClosed
-        fun list(): HttpResponseFor<List<DataSink>> = list(DataSinkListParams.none())
+        @MustBeClosed fun list(): HttpResponseFor<List<DataSink>> = list(DataSinkListParams.none())
 
         /** @see list */
-        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: DataSinkListParams = DataSinkListParams.none(),
@@ -235,14 +225,12 @@ interface DataSinkService {
         ): HttpResponseFor<List<DataSink>>
 
         /** @see list */
-        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: DataSinkListParams = DataSinkListParams.none()
         ): HttpResponseFor<List<DataSink>> = list(params, RequestOptions.none())
 
         /** @see list */
-        @Deprecated("deprecated")
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<List<DataSink>> =
             list(DataSinkListParams.none(), requestOptions)

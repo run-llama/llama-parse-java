@@ -22,7 +22,6 @@ private constructor(
     private val limit: Long?,
     private val onlyApiDataSourceDocuments: Boolean?,
     private val onlyDirectUpload: Boolean?,
-    private val projectId: String?,
     private val skip: Long?,
     private val statusRefreshPolicy: StatusRefreshPolicy?,
     private val additionalHeaders: Headers,
@@ -39,8 +38,6 @@ private constructor(
         Optional.ofNullable(onlyApiDataSourceDocuments)
 
     fun onlyDirectUpload(): Optional<Boolean> = Optional.ofNullable(onlyDirectUpload)
-
-    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     fun skip(): Optional<Long> = Optional.ofNullable(skip)
 
@@ -71,7 +68,6 @@ private constructor(
         private var limit: Long? = null
         private var onlyApiDataSourceDocuments: Boolean? = null
         private var onlyDirectUpload: Boolean? = null
-        private var projectId: String? = null
         private var skip: Long? = null
         private var statusRefreshPolicy: StatusRefreshPolicy? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -84,7 +80,6 @@ private constructor(
             limit = documentListParams.limit
             onlyApiDataSourceDocuments = documentListParams.onlyApiDataSourceDocuments
             onlyDirectUpload = documentListParams.onlyDirectUpload
-            projectId = documentListParams.projectId
             skip = documentListParams.skip
             statusRefreshPolicy = documentListParams.statusRefreshPolicy
             additionalHeaders = documentListParams.additionalHeaders.toBuilder()
@@ -147,11 +142,6 @@ private constructor(
         /** Alias for calling [Builder.onlyDirectUpload] with `onlyDirectUpload.orElse(null)`. */
         fun onlyDirectUpload(onlyDirectUpload: Optional<Boolean>) =
             onlyDirectUpload(onlyDirectUpload.getOrNull())
-
-        fun projectId(projectId: String?) = apply { this.projectId = projectId }
-
-        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
-        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         fun skip(skip: Long?) = apply { this.skip = skip }
 
@@ -285,7 +275,6 @@ private constructor(
                 limit,
                 onlyApiDataSourceDocuments,
                 onlyDirectUpload,
-                projectId,
                 skip,
                 statusRefreshPolicy,
                 additionalHeaders.build(),
@@ -310,7 +299,6 @@ private constructor(
                     put("only_api_data_source_documents", it.toString())
                 }
                 onlyDirectUpload?.let { put("only_direct_upload", it.toString()) }
-                projectId?.let { put("project_id", it) }
                 skip?.let { put("skip", it.toString()) }
                 statusRefreshPolicy?.let { put("status_refresh_policy", it.toString()) }
                 putAll(additionalQueryParams)
@@ -469,7 +457,6 @@ private constructor(
             limit == other.limit &&
             onlyApiDataSourceDocuments == other.onlyApiDataSourceDocuments &&
             onlyDirectUpload == other.onlyDirectUpload &&
-            projectId == other.projectId &&
             skip == other.skip &&
             statusRefreshPolicy == other.statusRefreshPolicy &&
             additionalHeaders == other.additionalHeaders &&
@@ -483,7 +470,6 @@ private constructor(
             limit,
             onlyApiDataSourceDocuments,
             onlyDirectUpload,
-            projectId,
             skip,
             statusRefreshPolicy,
             additionalHeaders,
@@ -491,5 +477,5 @@ private constructor(
         )
 
     override fun toString() =
-        "DocumentListParams{pipelineId=$pipelineId, fileId=$fileId, limit=$limit, onlyApiDataSourceDocuments=$onlyApiDataSourceDocuments, onlyDirectUpload=$onlyDirectUpload, projectId=$projectId, skip=$skip, statusRefreshPolicy=$statusRefreshPolicy, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "DocumentListParams{pipelineId=$pipelineId, fileId=$fileId, limit=$limit, onlyApiDataSourceDocuments=$onlyApiDataSourceDocuments, onlyDirectUpload=$onlyDirectUpload, skip=$skip, statusRefreshPolicy=$statusRefreshPolicy, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

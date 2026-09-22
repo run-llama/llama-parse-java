@@ -10,7 +10,6 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** List Retrievers for a project. */
-@Deprecated("deprecated")
 class RetrieverListParams
 private constructor(
     private val name: String?,

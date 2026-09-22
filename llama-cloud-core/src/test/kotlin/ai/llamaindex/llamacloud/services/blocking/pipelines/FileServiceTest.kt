@@ -24,7 +24,6 @@ internal class FileServiceTest {
             fileService.create(
                 FileCreateParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addBody(
                         FileCreateParams.Body.builder()
                             .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -55,7 +54,6 @@ internal class FileServiceTest {
                 FileUpdateParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .customMetadata(
                         FileUpdateParams.CustomMetadata.builder()
                             .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
@@ -88,7 +86,6 @@ internal class FileServiceTest {
             FileDeleteParams.builder()
                 .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         )
     }
@@ -104,7 +101,6 @@ internal class FileServiceTest {
                 FileGetStatusParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -123,7 +119,6 @@ internal class FileServiceTest {
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .onlyManuallyUploaded(true)
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 

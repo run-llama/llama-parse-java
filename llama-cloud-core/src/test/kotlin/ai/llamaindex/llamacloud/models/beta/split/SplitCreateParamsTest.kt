@@ -23,11 +23,8 @@ internal class SplitCreateParamsTest {
                                 SplitCreateParams.Configuration.SplittingStrategy.AllowUncategorized
                                     .FORBID
                             )
-                            .customInstructions("Start a new segment at every signature page.")
-                            .minPagesPerSplit(1L)
                             .build()
                     )
-                    .version("latest")
                     .build()
             )
             .configurationId("configuration_id")
@@ -51,11 +48,8 @@ internal class SplitCreateParamsTest {
                                         .AllowUncategorized
                                         .FORBID
                                 )
-                                .customInstructions("Start a new segment at every signature page.")
-                                .minPagesPerSplit(1L)
                                 .build()
                         )
-                        .version("latest")
                         .build()
                 )
                 .configurationId("configuration_id")
@@ -101,11 +95,8 @@ internal class SplitCreateParamsTest {
                                         .AllowUncategorized
                                         .FORBID
                                 )
-                                .customInstructions("Start a new segment at every signature page.")
-                                .minPagesPerSplit(1L)
                                 .build()
                         )
-                        .version("latest")
                         .build()
                 )
                 .configurationId("configuration_id")
@@ -125,11 +116,8 @@ internal class SplitCreateParamsTest {
                                 SplitCreateParams.Configuration.SplittingStrategy.AllowUncategorized
                                     .FORBID
                             )
-                            .customInstructions("Start a new segment at every signature page.")
-                            .minPagesPerSplit(1L)
                             .build()
                     )
-                    .version("latest")
                     .build()
             )
         assertThat(body.configurationId()).contains("configuration_id")

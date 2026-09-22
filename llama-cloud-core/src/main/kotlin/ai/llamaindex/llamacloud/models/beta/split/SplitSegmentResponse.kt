@@ -54,7 +54,7 @@ private constructor(
     fun confidenceCategory(): String = confidenceCategory.getRequired("confidence_category")
 
     /**
-     * Page numbers in this segment, as numbered by the input document.
+     * 1-indexed page numbers in this split.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -154,7 +154,7 @@ private constructor(
             this.confidenceCategory = confidenceCategory
         }
 
-        /** Page numbers in this segment, as numbered by the input document. */
+        /** 1-indexed page numbers in this split. */
         fun pages(pages: List<Long>) = pages(JsonField.of(pages))
 
         /**

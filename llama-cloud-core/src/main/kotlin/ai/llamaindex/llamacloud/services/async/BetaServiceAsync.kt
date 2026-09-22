@@ -4,10 +4,12 @@ package ai.llamaindex.llamacloud.services.async
 
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.async.beta.AgentDataServiceAsync
+import ai.llamaindex.llamacloud.services.async.beta.AttachmentServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.ChatServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.DirectoryServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.IndexServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.RetrievalServiceAsync
+import ai.llamaindex.llamacloud.services.async.beta.SheetServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.SplitServiceAsync
 import java.util.function.Consumer
 
@@ -31,7 +33,11 @@ interface BetaServiceAsync {
 
     fun chat(): ChatServiceAsync
 
+    fun attachments(): AttachmentServiceAsync
+
     fun agentData(): AgentDataServiceAsync
+
+    fun sheets(): SheetServiceAsync
 
     fun directories(): DirectoryServiceAsync
 
@@ -53,7 +59,11 @@ interface BetaServiceAsync {
 
         fun chat(): ChatServiceAsync.WithRawResponse
 
+        fun attachments(): AttachmentServiceAsync.WithRawResponse
+
         fun agentData(): AgentDataServiceAsync.WithRawResponse
+
+        fun sheets(): SheetServiceAsync.WithRawResponse
 
         fun directories(): DirectoryServiceAsync.WithRawResponse
 

@@ -17,7 +17,6 @@ internal class ChatStreamParamsTest {
             .addIndexId("idx-abc123")
             .addIndexId("idx-def456")
             .prompt("What were the main findings in Q3?")
-            .requireAllIndexes(true)
             .build()
     }
 
@@ -46,7 +45,6 @@ internal class ChatStreamParamsTest {
                 .addIndexId("idx-abc123")
                 .addIndexId("idx-def456")
                 .prompt("What were the main findings in Q3?")
-                .requireAllIndexes(true)
                 .build()
 
         val queryParams = params._queryParams()
@@ -85,14 +83,12 @@ internal class ChatStreamParamsTest {
                 .addIndexId("idx-abc123")
                 .addIndexId("idx-def456")
                 .prompt("What were the main findings in Q3?")
-                .requireAllIndexes(true)
                 .build()
 
         val body = params._body()
 
         assertThat(body.indexIds()).containsExactly("idx-abc123", "idx-def456")
         assertThat(body.prompt()).isEqualTo("What were the main findings in Q3?")
-        assertThat(body.requireAllIndexes()).contains(true)
     }
 
     @Test
