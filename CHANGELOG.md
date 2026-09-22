@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.7.0](https://github.com/run-llama/llama-parse-java/compare/v1.6.0...v1.7.0) (2026-09-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* **classifier:** the classify v1 job methods (`client.classifier().jobs().create()`, `.list()`, `.get()`, `.getResults()`) are removed. The `/api/v1/classifier/jobs*` routes were unpublished from the API surface; use `client.classify()` instead.
+
+
+### Features
+
+* **api:** map DELETE /api/v2/parse/{job_id} and GET /api/v2/pipelines into the SDKs (LI-9569) ([79761cc](https://github.com/run-llama/llama-parse-java/commit/79761cc5fd9ca377298a80911b761d84b6438cc8))
+
 ## [1.6.0](https://github.com/run-llama/llama-parse-java/compare/v1.5.1...v1.6.0) (2026-08-28)
 
 
