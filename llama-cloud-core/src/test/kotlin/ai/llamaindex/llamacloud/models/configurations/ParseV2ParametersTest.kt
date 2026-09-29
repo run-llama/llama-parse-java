@@ -108,6 +108,7 @@ internal class ParseV2ParametersTest {
                                 .guessSheetName(true)
                                 .build()
                         )
+                        .watermarkHandling(ParseV2Parameters.OutputOptions.WatermarkHandling.REMOVE)
                         .build()
                 )
                 .pageRanges(
@@ -397,6 +398,7 @@ internal class ParseV2ParametersTest {
                             .guessSheetName(true)
                             .build()
                     )
+                    .watermarkHandling(ParseV2Parameters.OutputOptions.WatermarkHandling.REMOVE)
                     .build()
             )
         assertThat(parseV2Parameters.pageRanges())
@@ -684,6 +686,7 @@ internal class ParseV2ParametersTest {
                                 .guessSheetName(true)
                                 .build()
                         )
+                        .watermarkHandling(ParseV2Parameters.OutputOptions.WatermarkHandling.REMOVE)
                         .build()
                 )
                 .pageRanges(

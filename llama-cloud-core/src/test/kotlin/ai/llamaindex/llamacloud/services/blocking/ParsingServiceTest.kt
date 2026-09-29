@@ -123,6 +123,9 @@ internal class ParsingServiceTest {
                                     .guessSheetName(true)
                                     .build()
                             )
+                            .watermarkHandling(
+                                ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE
+                            )
                             .build()
                     )
                     .pageRanges(

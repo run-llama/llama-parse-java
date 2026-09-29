@@ -110,6 +110,7 @@ internal class ParsingCreateParamsTest {
                             .guessSheetName(true)
                             .build()
                     )
+                    .watermarkHandling(ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE)
                     .build()
             )
             .pageRanges(
@@ -406,6 +407,9 @@ internal class ParsingCreateParamsTest {
                                 .enable(true)
                                 .guessSheetName(true)
                                 .build()
+                        )
+                        .watermarkHandling(
+                            ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE
                         )
                         .build()
                 )
@@ -734,6 +738,9 @@ internal class ParsingCreateParamsTest {
                                 .guessSheetName(true)
                                 .build()
                         )
+                        .watermarkHandling(
+                            ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE
+                        )
                         .build()
                 )
                 .pageRanges(
@@ -1035,6 +1042,7 @@ internal class ParsingCreateParamsTest {
                             .guessSheetName(true)
                             .build()
                     )
+                    .watermarkHandling(ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE)
                     .build()
             )
         assertThat(body.pageRanges())
