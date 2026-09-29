@@ -77,7 +77,7 @@ private constructor(
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-09-28`
-     * - `agentic`: `2026-09-28`
+     * - `agentic`: `2026-09-29`
      * - `agentic_plus`: `2026-09-28`
      *
      * Full list: `GET /api/v2/parse/versions`.
@@ -465,7 +465,7 @@ private constructor(
          * Current `latest` by tier:
          * - `fast`: `2026-06-15`
          * - `cost_effective`: `2026-09-28`
-         * - `agentic`: `2026-09-28`
+         * - `agentic`: `2026-09-29`
          * - `agentic_plus`: `2026-09-28`
          *
          * Full list: `GET /api/v2/parse/versions`.
@@ -1082,7 +1082,7 @@ private constructor(
          * Current `latest` by tier:
          * - `fast`: `2026-06-15`
          * - `cost_effective`: `2026-09-28`
-         * - `agentic`: `2026-09-28`
+         * - `agentic`: `2026-09-29`
          * - `agentic_plus`: `2026-09-28`
          *
          * Full list: `GET /api/v2/parse/versions`.
@@ -1516,7 +1516,7 @@ private constructor(
              * Current `latest` by tier:
              * - `fast`: `2026-06-15`
              * - `cost_effective`: `2026-09-28`
-             * - `agentic`: `2026-09-28`
+             * - `agentic`: `2026-09-29`
              * - `agentic_plus`: `2026-09-28`
              *
              * Full list: `GET /api/v2/parse/versions`.
@@ -2217,7 +2217,7 @@ private constructor(
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-09-28`
-     * - `agentic`: `2026-09-28`
+     * - `agentic`: `2026-09-29`
      * - `agentic_plus`: `2026-09-28`
      *
      * Full list: `GET /api/v2/parse/versions`.
@@ -2238,6 +2238,8 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
+            @JvmField val _2026_09_29 = of("2026-09-29")
+
             @JvmField val _2026_09_28 = of("2026-09-28")
 
             @JvmField val _2026_06_15 = of("2026-06-15")
@@ -2248,6 +2250,7 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
+            _2026_09_29,
             _2026_09_28,
             _2026_06_15,
         }
@@ -2263,6 +2266,7 @@ private constructor(
          */
         enum class Value {
             LATEST,
+            _2026_09_29,
             _2026_09_28,
             _2026_06_15,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
@@ -2279,6 +2283,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
+                _2026_09_29 -> Value._2026_09_29
                 _2026_09_28 -> Value._2026_09_28
                 _2026_06_15 -> Value._2026_06_15
                 else -> Value._UNKNOWN
@@ -2296,6 +2301,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
+                _2026_09_29 -> Known._2026_09_29
                 _2026_09_28 -> Known._2026_09_28
                 _2026_06_15 -> Known._2026_06_15
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
@@ -11240,7 +11246,7 @@ private constructor(
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-09-28`
-                 * - `agentic`: `2026-09-28`
+                 * - `agentic`: `2026-09-29`
                  * - `agentic_plus`: `2026-09-28`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
@@ -11744,7 +11750,7 @@ private constructor(
                      * Current `latest` by tier:
                      * - `fast`: `2026-06-15`
                      * - `cost_effective`: `2026-09-28`
-                     * - `agentic`: `2026-09-28`
+                     * - `agentic`: `2026-09-29`
                      * - `agentic_plus`: `2026-09-28`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
@@ -13358,7 +13364,7 @@ private constructor(
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-09-28`
-                 * - `agentic`: `2026-09-28`
+                 * - `agentic`: `2026-09-29`
                  * - `agentic_plus`: `2026-09-28`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
@@ -13382,6 +13388,8 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
+                        @JvmField val _2026_09_29 = of("2026-09-29")
+
                         @JvmField val _2026_09_28 = of("2026-09-28")
 
                         @JvmField val _2026_06_15 = of("2026-06-15")
@@ -13392,6 +13400,7 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
+                        _2026_09_29,
                         _2026_09_28,
                         _2026_06_15,
                     }
@@ -13407,6 +13416,7 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
+                        _2026_09_29,
                         _2026_09_28,
                         _2026_06_15,
                         /**
@@ -13426,6 +13436,7 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
+                            _2026_09_29 -> Value._2026_09_29
                             _2026_09_28 -> Value._2026_09_28
                             _2026_06_15 -> Value._2026_06_15
                             else -> Value._UNKNOWN
@@ -13443,6 +13454,7 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
+                            _2026_09_29 -> Known._2026_09_29
                             _2026_09_28 -> Known._2026_09_28
                             _2026_06_15 -> Known._2026_06_15
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
