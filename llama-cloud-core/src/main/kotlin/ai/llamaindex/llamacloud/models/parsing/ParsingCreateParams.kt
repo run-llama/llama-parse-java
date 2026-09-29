@@ -3653,6 +3653,7 @@ private constructor(
         class Presentation
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
+            private val includeHiddenSlides: JsonField<Boolean>,
             private val outOfBoundsContent: JsonField<Boolean>,
             private val skipEmbeddedData: JsonField<Boolean>,
             private val additionalProperties: MutableMap<String, JsonValue>,
@@ -3660,13 +3661,25 @@ private constructor(
 
             @JsonCreator
             private constructor(
+                @JsonProperty("include_hidden_slides")
+                @ExcludeMissing
+                includeHiddenSlides: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("out_of_bounds_content")
                 @ExcludeMissing
                 outOfBoundsContent: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("skip_embedded_data")
                 @ExcludeMissing
                 skipEmbeddedData: JsonField<Boolean> = JsonMissing.of(),
-            ) : this(outOfBoundsContent, skipEmbeddedData, mutableMapOf())
+            ) : this(includeHiddenSlides, outOfBoundsContent, skipEmbeddedData, mutableMapOf())
+
+            /**
+             * Include hidden PPTX slides in the output. Omitted or false skips hidden slides.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun includeHiddenSlides(): Optional<Boolean> =
+                includeHiddenSlides.getOptional("include_hidden_slides")
 
             /**
              * Extract content positioned outside the visible slide area. Some presentations have
@@ -3687,6 +3700,16 @@ private constructor(
              */
             fun skipEmbeddedData(): Optional<Boolean> =
                 skipEmbeddedData.getOptional("skip_embedded_data")
+
+            /**
+             * Returns the raw JSON value of [includeHiddenSlides].
+             *
+             * Unlike [includeHiddenSlides], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("include_hidden_slides")
+            @ExcludeMissing
+            fun _includeHiddenSlides(): JsonField<Boolean> = includeHiddenSlides
 
             /**
              * Returns the raw JSON value of [outOfBoundsContent].
@@ -3729,15 +3752,49 @@ private constructor(
             /** A builder for [Presentation]. */
             class Builder internal constructor() {
 
+                private var includeHiddenSlides: JsonField<Boolean> = JsonMissing.of()
                 private var outOfBoundsContent: JsonField<Boolean> = JsonMissing.of()
                 private var skipEmbeddedData: JsonField<Boolean> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(presentation: Presentation) = apply {
+                    includeHiddenSlides = presentation.includeHiddenSlides
                     outOfBoundsContent = presentation.outOfBoundsContent
                     skipEmbeddedData = presentation.skipEmbeddedData
                     additionalProperties = presentation.additionalProperties.toMutableMap()
+                }
+
+                /**
+                 * Include hidden PPTX slides in the output. Omitted or false skips hidden slides.
+                 */
+                fun includeHiddenSlides(includeHiddenSlides: Boolean?) =
+                    includeHiddenSlides(JsonField.ofNullable(includeHiddenSlides))
+
+                /**
+                 * Alias for [Builder.includeHiddenSlides].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun includeHiddenSlides(includeHiddenSlides: Boolean) =
+                    includeHiddenSlides(includeHiddenSlides as Boolean?)
+
+                /**
+                 * Alias for calling [Builder.includeHiddenSlides] with
+                 * `includeHiddenSlides.orElse(null)`.
+                 */
+                fun includeHiddenSlides(includeHiddenSlides: Optional<Boolean>) =
+                    includeHiddenSlides(includeHiddenSlides.getOrNull())
+
+                /**
+                 * Sets [Builder.includeHiddenSlides] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.includeHiddenSlides] with a well-typed [Boolean]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun includeHiddenSlides(includeHiddenSlides: JsonField<Boolean>) = apply {
+                    this.includeHiddenSlides = includeHiddenSlides
                 }
 
                 /**
@@ -3835,6 +3892,7 @@ private constructor(
                  */
                 fun build(): Presentation =
                     Presentation(
+                        includeHiddenSlides,
                         outOfBoundsContent,
                         skipEmbeddedData,
                         additionalProperties.toMutableMap(),
@@ -3858,6 +3916,7 @@ private constructor(
                     return@apply
                 }
 
+                includeHiddenSlides()
                 outOfBoundsContent()
                 skipEmbeddedData()
                 validated = true
@@ -3879,7 +3938,8 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (if (outOfBoundsContent.asKnown().isPresent) 1 else 0) +
+                (if (includeHiddenSlides.asKnown().isPresent) 1 else 0) +
+                    (if (outOfBoundsContent.asKnown().isPresent) 1 else 0) +
                     (if (skipEmbeddedData.asKnown().isPresent) 1 else 0)
 
             override fun equals(other: Any?): Boolean {
@@ -3888,19 +3948,25 @@ private constructor(
                 }
 
                 return other is Presentation &&
+                    includeHiddenSlides == other.includeHiddenSlides &&
                     outOfBoundsContent == other.outOfBoundsContent &&
                     skipEmbeddedData == other.skipEmbeddedData &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(outOfBoundsContent, skipEmbeddedData, additionalProperties)
+                Objects.hash(
+                    includeHiddenSlides,
+                    outOfBoundsContent,
+                    skipEmbeddedData,
+                    additionalProperties,
+                )
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Presentation{outOfBoundsContent=$outOfBoundsContent, skipEmbeddedData=$skipEmbeddedData, additionalProperties=$additionalProperties}"
+                "Presentation{includeHiddenSlides=$includeHiddenSlides, outOfBoundsContent=$outOfBoundsContent, skipEmbeddedData=$skipEmbeddedData, additionalProperties=$additionalProperties}"
         }
 
         /** Spreadsheet parsing options (applies to .xlsx, .xls, .csv, .ods files) */

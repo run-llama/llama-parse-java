@@ -49,6 +49,7 @@ internal class ParseV2ParametersTest {
                         .pdf(JsonValue.from(mapOf<String, Any>()))
                         .presentation(
                             ParseV2Parameters.InputOptions.Presentation.builder()
+                                .includeHiddenSlides(true)
                                 .outOfBoundsContent(true)
                                 .skipEmbeddedData(true)
                                 .build()
@@ -338,6 +339,7 @@ internal class ParseV2ParametersTest {
                     .pdf(JsonValue.from(mapOf<String, Any>()))
                     .presentation(
                         ParseV2Parameters.InputOptions.Presentation.builder()
+                            .includeHiddenSlides(true)
                             .outOfBoundsContent(true)
                             .skipEmbeddedData(true)
                             .build()
@@ -627,6 +629,7 @@ internal class ParseV2ParametersTest {
                         .pdf(JsonValue.from(mapOf<String, Any>()))
                         .presentation(
                             ParseV2Parameters.InputOptions.Presentation.builder()
+                                .includeHiddenSlides(true)
                                 .outOfBoundsContent(true)
                                 .skipEmbeddedData(true)
                                 .build()

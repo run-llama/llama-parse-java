@@ -51,6 +51,7 @@ internal class ParsingCreateParamsTest {
                     .pdf(JsonValue.from(mapOf<String, Any>()))
                     .presentation(
                         ParsingCreateParams.InputOptions.Presentation.builder()
+                            .includeHiddenSlides(true)
                             .outOfBoundsContent(true)
                             .skipEmbeddedData(true)
                             .build()
@@ -349,6 +350,7 @@ internal class ParsingCreateParamsTest {
                         .pdf(JsonValue.from(mapOf<String, Any>()))
                         .presentation(
                             ParsingCreateParams.InputOptions.Presentation.builder()
+                                .includeHiddenSlides(true)
                                 .outOfBoundsContent(true)
                                 .skipEmbeddedData(true)
                                 .build()
@@ -679,6 +681,7 @@ internal class ParsingCreateParamsTest {
                         .pdf(JsonValue.from(mapOf<String, Any>()))
                         .presentation(
                             ParsingCreateParams.InputOptions.Presentation.builder()
+                                .includeHiddenSlides(true)
                                 .outOfBoundsContent(true)
                                 .skipEmbeddedData(true)
                                 .build()
@@ -982,6 +985,7 @@ internal class ParsingCreateParamsTest {
                     .pdf(JsonValue.from(mapOf<String, Any>()))
                     .presentation(
                         ParsingCreateParams.InputOptions.Presentation.builder()
+                            .includeHiddenSlides(true)
                             .outOfBoundsContent(true)
                             .skipEmbeddedData(true)
                             .build()
