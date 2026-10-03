@@ -131,8 +131,9 @@ private constructor(
     fun disableCache(): Optional<Boolean> = disableCache.getOptional("disable_cache")
 
     /**
-     * Granularity of extraction: per_doc returns one object per document, per_page returns one
-     * object per page, per_table_row returns one object per table row
+     * Deprecated. Applies only to Agentic and Cost Effective versions 2.0 or earlier. Granularity
+     * of extraction: per_doc returns one object per document, per_page returns one object per page,
+     * per_table_row returns one object per table row. Agentic Plus supports per_doc only.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -471,8 +472,10 @@ private constructor(
         }
 
         /**
+         * Deprecated. Applies only to Agentic and Cost Effective versions 2.0 or earlier.
          * Granularity of extraction: per_doc returns one object per document, per_page returns one
-         * object per page, per_table_row returns one object per table row
+         * object per page, per_table_row returns one object per table row. Agentic Plus supports
+         * per_doc only.
          */
         fun extractionTarget(extractionTarget: ExtractionTarget) =
             extractionTarget(JsonField.of(extractionTarget))
@@ -895,8 +898,9 @@ private constructor(
     }
 
     /**
-     * Granularity of extraction: per_doc returns one object per document, per_page returns one
-     * object per page, per_table_row returns one object per table row
+     * Deprecated. Applies only to Agentic and Cost Effective versions 2.0 or earlier. Granularity
+     * of extraction: per_doc returns one object per document, per_page returns one object per page,
+     * per_table_row returns one object per table row. Agentic Plus supports per_doc only.
      */
     class ExtractionTarget @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
