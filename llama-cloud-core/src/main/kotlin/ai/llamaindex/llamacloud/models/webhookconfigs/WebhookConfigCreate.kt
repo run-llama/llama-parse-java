@@ -71,8 +71,7 @@ private constructor(
     fun webhookUrl(): String = webhookUrl.getRequired("webhook_url")
 
     /**
-     * Events to subscribe to. If null, all events are delivered. An empty list subscribes to
-     * nothing and is rejected.
+     * Events to subscribe to. If null, all events are delivered.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -208,10 +207,7 @@ private constructor(
          */
         fun webhookUrl(webhookUrl: JsonField<String>) = apply { this.webhookUrl = webhookUrl }
 
-        /**
-         * Events to subscribe to. If null, all events are delivered. An empty list subscribes to
-         * nothing and is rejected.
-         */
+        /** Events to subscribe to. If null, all events are delivered. */
         fun webhookEvents(webhookEvents: List<WebhookEvent>?) =
             webhookEvents(JsonField.ofNullable(webhookEvents))
 

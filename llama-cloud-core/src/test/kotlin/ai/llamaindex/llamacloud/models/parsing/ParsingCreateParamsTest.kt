@@ -51,6 +51,7 @@ internal class ParsingCreateParamsTest {
                     .pdf(JsonValue.from(mapOf<String, Any>()))
                     .presentation(
                         ParsingCreateParams.InputOptions.Presentation.builder()
+                            .includeHiddenSlides(true)
                             .outOfBoundsContent(true)
                             .skipEmbeddedData(true)
                             .build()
@@ -110,6 +111,7 @@ internal class ParsingCreateParamsTest {
                             .guessSheetName(true)
                             .build()
                     )
+                    .watermarkHandling(ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE)
                     .build()
             )
             .pageRanges(
@@ -348,6 +350,7 @@ internal class ParsingCreateParamsTest {
                         .pdf(JsonValue.from(mapOf<String, Any>()))
                         .presentation(
                             ParsingCreateParams.InputOptions.Presentation.builder()
+                                .includeHiddenSlides(true)
                                 .outOfBoundsContent(true)
                                 .skipEmbeddedData(true)
                                 .build()
@@ -406,6 +409,9 @@ internal class ParsingCreateParamsTest {
                                 .enable(true)
                                 .guessSheetName(true)
                                 .build()
+                        )
+                        .watermarkHandling(
+                            ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE
                         )
                         .build()
                 )
@@ -675,6 +681,7 @@ internal class ParsingCreateParamsTest {
                         .pdf(JsonValue.from(mapOf<String, Any>()))
                         .presentation(
                             ParsingCreateParams.InputOptions.Presentation.builder()
+                                .includeHiddenSlides(true)
                                 .outOfBoundsContent(true)
                                 .skipEmbeddedData(true)
                                 .build()
@@ -733,6 +740,9 @@ internal class ParsingCreateParamsTest {
                                 .enable(true)
                                 .guessSheetName(true)
                                 .build()
+                        )
+                        .watermarkHandling(
+                            ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE
                         )
                         .build()
                 )
@@ -975,6 +985,7 @@ internal class ParsingCreateParamsTest {
                     .pdf(JsonValue.from(mapOf<String, Any>()))
                     .presentation(
                         ParsingCreateParams.InputOptions.Presentation.builder()
+                            .includeHiddenSlides(true)
                             .outOfBoundsContent(true)
                             .skipEmbeddedData(true)
                             .build()
@@ -1035,6 +1046,7 @@ internal class ParsingCreateParamsTest {
                             .guessSheetName(true)
                             .build()
                     )
+                    .watermarkHandling(ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE)
                     .build()
             )
         assertThat(body.pageRanges())

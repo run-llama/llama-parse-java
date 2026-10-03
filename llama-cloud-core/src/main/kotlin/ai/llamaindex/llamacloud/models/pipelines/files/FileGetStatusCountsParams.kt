@@ -16,7 +16,6 @@ private constructor(
     private val pipelineId: String?,
     private val dataSourceId: String?,
     private val onlyManuallyUploaded: Boolean?,
-    private val projectId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -26,8 +25,6 @@ private constructor(
     fun dataSourceId(): Optional<String> = Optional.ofNullable(dataSourceId)
 
     fun onlyManuallyUploaded(): Optional<Boolean> = Optional.ofNullable(onlyManuallyUploaded)
-
-    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -53,7 +50,6 @@ private constructor(
         private var pipelineId: String? = null
         private var dataSourceId: String? = null
         private var onlyManuallyUploaded: Boolean? = null
-        private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -62,7 +58,6 @@ private constructor(
             pipelineId = fileGetStatusCountsParams.pipelineId
             dataSourceId = fileGetStatusCountsParams.dataSourceId
             onlyManuallyUploaded = fileGetStatusCountsParams.onlyManuallyUploaded
-            projectId = fileGetStatusCountsParams.projectId
             additionalHeaders = fileGetStatusCountsParams.additionalHeaders.toBuilder()
             additionalQueryParams = fileGetStatusCountsParams.additionalQueryParams.toBuilder()
         }
@@ -95,11 +90,6 @@ private constructor(
          */
         fun onlyManuallyUploaded(onlyManuallyUploaded: Optional<Boolean>) =
             onlyManuallyUploaded(onlyManuallyUploaded.getOrNull())
-
-        fun projectId(projectId: String?) = apply { this.projectId = projectId }
-
-        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
-        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -209,7 +199,6 @@ private constructor(
                 pipelineId,
                 dataSourceId,
                 onlyManuallyUploaded,
-                projectId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -228,7 +217,6 @@ private constructor(
             .apply {
                 dataSourceId?.let { put("data_source_id", it) }
                 onlyManuallyUploaded?.let { put("only_manually_uploaded", it.toString()) }
-                projectId?.let { put("project_id", it) }
                 putAll(additionalQueryParams)
             }
             .build()
@@ -242,7 +230,6 @@ private constructor(
             pipelineId == other.pipelineId &&
             dataSourceId == other.dataSourceId &&
             onlyManuallyUploaded == other.onlyManuallyUploaded &&
-            projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
@@ -252,11 +239,10 @@ private constructor(
             pipelineId,
             dataSourceId,
             onlyManuallyUploaded,
-            projectId,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "FileGetStatusCountsParams{pipelineId=$pipelineId, dataSourceId=$dataSourceId, onlyManuallyUploaded=$onlyManuallyUploaded, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "FileGetStatusCountsParams{pipelineId=$pipelineId, dataSourceId=$dataSourceId, onlyManuallyUploaded=$onlyManuallyUploaded, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

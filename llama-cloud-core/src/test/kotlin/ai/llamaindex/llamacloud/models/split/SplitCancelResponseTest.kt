@@ -43,8 +43,6 @@ internal class SplitCancelResponseTest {
                         .allowUncategorized(
                             SplitCancelResponse.SplittingStrategy.AllowUncategorized.FORBID
                         )
-                        .customInstructions("Start a new segment at every signature page.")
-                        .minPagesPerSplit(1L)
                         .build()
                 )
                 .transactionId("transaction_id")
@@ -83,8 +81,6 @@ internal class SplitCancelResponseTest {
                     .allowUncategorized(
                         SplitCancelResponse.SplittingStrategy.AllowUncategorized.FORBID
                     )
-                    .customInstructions("Start a new segment at every signature page.")
-                    .minPagesPerSplit(1L)
                     .build()
             )
         assertThat(splitCancelResponse.transactionId()).contains("transaction_id")
@@ -123,8 +119,6 @@ internal class SplitCancelResponseTest {
                         .allowUncategorized(
                             SplitCancelResponse.SplittingStrategy.AllowUncategorized.FORBID
                         )
-                        .customInstructions("Start a new segment at every signature page.")
-                        .minPagesPerSplit(1L)
                         .build()
                 )
                 .transactionId("transaction_id")

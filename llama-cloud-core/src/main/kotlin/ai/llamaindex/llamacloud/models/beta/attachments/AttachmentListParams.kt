@@ -1,42 +1,37 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.parsing
+package ai.llamaindex.llamacloud.models.beta.attachments
 
-import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.core.Params
+import ai.llamaindex.llamacloud.core.checkRequired
 import ai.llamaindex.llamacloud.core.http.Headers
 import ai.llamaindex.llamacloud.core.http.QueryParams
-import ai.llamaindex.llamacloud.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/**
- * Delete a parse job and its results.
- *
- * The job must be in a terminal state (COMPLETED, FAILED, CANCELLED). Cancel a job that is still
- * running before deleting it.
- *
- * Returns the identifiers of the deleted job.
- */
-class ParsingDeleteParams
+/** List the attachments associated with a file (e.g. per-page screenshots). */
+class AttachmentListParams
 private constructor(
-    private val jobId: String?,
+    private val sourceId: String,
     private val organizationId: String?,
+    private val pageSize: Long?,
+    private val pageToken: String?,
     private val projectId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
-    fun jobId(): Optional<String> = Optional.ofNullable(jobId)
+    /** File UUID or directory file ID (dfl-...). */
+    fun sourceId(): String = sourceId
 
     fun organizationId(): Optional<String> = Optional.ofNullable(organizationId)
 
-    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
-    /** Additional body properties to send with the request. */
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun pageToken(): Optional<String> = Optional.ofNullable(pageToken)
+
+    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -48,42 +43,64 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): ParsingDeleteParams = builder().build()
-
-        /** Returns a mutable builder for constructing an instance of [ParsingDeleteParams]. */
+        /**
+         * Returns a mutable builder for constructing an instance of [AttachmentListParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .sourceId()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [ParsingDeleteParams]. */
+    /** A builder for [AttachmentListParams]. */
     class Builder internal constructor() {
 
-        private var jobId: String? = null
+        private var sourceId: String? = null
         private var organizationId: String? = null
+        private var pageSize: Long? = null
+        private var pageToken: String? = null
         private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(parsingDeleteParams: ParsingDeleteParams) = apply {
-            jobId = parsingDeleteParams.jobId
-            organizationId = parsingDeleteParams.organizationId
-            projectId = parsingDeleteParams.projectId
-            additionalHeaders = parsingDeleteParams.additionalHeaders.toBuilder()
-            additionalQueryParams = parsingDeleteParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties = parsingDeleteParams.additionalBodyProperties.toMutableMap()
+        internal fun from(attachmentListParams: AttachmentListParams) = apply {
+            sourceId = attachmentListParams.sourceId
+            organizationId = attachmentListParams.organizationId
+            pageSize = attachmentListParams.pageSize
+            pageToken = attachmentListParams.pageToken
+            projectId = attachmentListParams.projectId
+            additionalHeaders = attachmentListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = attachmentListParams.additionalQueryParams.toBuilder()
         }
 
-        fun jobId(jobId: String?) = apply { this.jobId = jobId }
-
-        /** Alias for calling [Builder.jobId] with `jobId.orElse(null)`. */
-        fun jobId(jobId: Optional<String>) = jobId(jobId.getOrNull())
+        /** File UUID or directory file ID (dfl-...). */
+        fun sourceId(sourceId: String) = apply { this.sourceId = sourceId }
 
         fun organizationId(organizationId: String?) = apply { this.organizationId = organizationId }
 
         /** Alias for calling [Builder.organizationId] with `organizationId.orElse(null)`. */
         fun organizationId(organizationId: Optional<String>) =
             organizationId(organizationId.getOrNull())
+
+        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
+
+        /**
+         * Alias for [Builder.pageSize].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
+
+        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
+
+        fun pageToken(pageToken: String?) = apply { this.pageToken = pageToken }
+
+        /** Alias for calling [Builder.pageToken] with `pageToken.orElse(null)`. */
+        fun pageToken(pageToken: Optional<String>) = pageToken(pageToken.getOrNull())
 
         fun projectId(projectId: String?) = apply { this.projectId = projectId }
 
@@ -188,59 +205,39 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
-        }
-
         /**
-         * Returns an immutable instance of [ParsingDeleteParams].
+         * Returns an immutable instance of [AttachmentListParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .sourceId()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): ParsingDeleteParams =
-            ParsingDeleteParams(
-                jobId,
+        fun build(): AttachmentListParams =
+            AttachmentListParams(
+                checkRequired("sourceId", sourceId),
                 organizationId,
+                pageSize,
+                pageToken,
                 projectId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
-
-    fun _body(): Optional<Map<String, JsonValue>> =
-        Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> jobId ?: ""
-            else -> ""
-        }
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
+                put("source_id", sourceId)
                 organizationId?.let { put("organization_id", it) }
+                pageSize?.let { put("page_size", it.toString()) }
+                pageToken?.let { put("page_token", it) }
                 projectId?.let { put("project_id", it) }
                 putAll(additionalQueryParams)
             }
@@ -251,25 +248,27 @@ private constructor(
             return true
         }
 
-        return other is ParsingDeleteParams &&
-            jobId == other.jobId &&
+        return other is AttachmentListParams &&
+            sourceId == other.sourceId &&
             organizationId == other.organizationId &&
+            pageSize == other.pageSize &&
+            pageToken == other.pageToken &&
             projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalBodyProperties == other.additionalBodyProperties
+            additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
         Objects.hash(
-            jobId,
+            sourceId,
             organizationId,
+            pageSize,
+            pageToken,
             projectId,
             additionalHeaders,
             additionalQueryParams,
-            additionalBodyProperties,
         )
 
     override fun toString() =
-        "ParsingDeleteParams{jobId=$jobId, organizationId=$organizationId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "AttachmentListParams{sourceId=$sourceId, organizationId=$organizationId, pageSize=$pageSize, pageToken=$pageToken, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

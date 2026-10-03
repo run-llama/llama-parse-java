@@ -35,7 +35,7 @@ internal class RetrievalServiceTest {
                             .build()
                     )
                     .fullTextPipelineWeight(0.0)
-                    .numCandidates(1L)
+                    .numCandidates(0L)
                     .rerank(RetrievalRetrieveParams.Rerank.builder().enabled(true).topN(5L).build())
                     .scoreThreshold(0.0)
                     .staticFilters(

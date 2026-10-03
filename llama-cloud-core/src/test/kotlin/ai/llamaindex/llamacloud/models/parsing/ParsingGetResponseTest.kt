@@ -277,6 +277,7 @@ internal class ParsingGetResponseTest {
                                 .slideSectionName("slide_section_name")
                                 .speakerNotes("speaker_notes")
                                 .triggeredAutoMode(true)
+                                .watermark("watermark")
                                 .build()
                         )
                         .document(
@@ -588,6 +589,7 @@ internal class ParsingGetResponseTest {
                             .slideSectionName("slide_section_name")
                             .speakerNotes("speaker_notes")
                             .triggeredAutoMode(true)
+                            .watermark("watermark")
                             .build()
                     )
                     .document(
@@ -903,6 +905,7 @@ internal class ParsingGetResponseTest {
                                 .slideSectionName("slide_section_name")
                                 .speakerNotes("speaker_notes")
                                 .triggeredAutoMode(true)
+                                .watermark("watermark")
                                 .build()
                         )
                         .document(

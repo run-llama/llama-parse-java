@@ -1,69 +1,67 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.pipelines
+package ai.llamaindex.llamacloud.models.classifier.jobs
 
 import ai.llamaindex.llamacloud.core.AutoPagerAsync
 import ai.llamaindex.llamacloud.core.PageAsync
 import ai.llamaindex.llamacloud.core.checkRequired
-import ai.llamaindex.llamacloud.services.async.PipelineServiceAsync
+import ai.llamaindex.llamacloud.services.async.classifier.JobServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see PipelineServiceAsync.listPaginated */
-class PipelineListPaginatedPageAsync
+/** @see JobServiceAsync.list */
+@Deprecated("Please use `client.classify.list()`")
+class JobListPageAsync
 private constructor(
-    private val service: PipelineServiceAsync,
+    private val service: JobServiceAsync,
     private val streamHandlerExecutor: Executor,
-    private val params: PipelineListPaginatedParams,
-    private val response: PipelineListPaginatedPageResponse,
-) : PageAsync<PipelineListPaginatedResponse> {
+    private val params: JobListParams,
+    private val response: JobListPageResponse,
+) : PageAsync<ClassifyJob> {
 
     /**
-     * Delegates to [PipelineListPaginatedPageResponse], but gracefully handles missing data.
+     * Delegates to [JobListPageResponse], but gracefully handles missing data.
      *
-     * @see PipelineListPaginatedPageResponse.items
+     * @see JobListPageResponse.items
      */
-    override fun items(): List<PipelineListPaginatedResponse> =
+    override fun items(): List<ClassifyJob> =
         response._items().getOptional("items").getOrNull() ?: emptyList()
 
     /**
-     * Delegates to [PipelineListPaginatedPageResponse], but gracefully handles missing data.
+     * Delegates to [JobListPageResponse], but gracefully handles missing data.
      *
-     * @see PipelineListPaginatedPageResponse.nextPageToken
+     * @see JobListPageResponse.nextPageToken
      */
     fun nextPageToken(): Optional<String> = response._nextPageToken().getOptional("next_page_token")
 
     override fun hasNextPage(): Boolean = items().isNotEmpty() && nextPageToken().isPresent
 
-    fun nextPageParams(): PipelineListPaginatedParams {
+    fun nextPageParams(): JobListParams {
         val nextCursor =
             nextPageToken().getOrNull()
                 ?: throw IllegalStateException("Cannot construct next page params")
         return params.toBuilder().pageToken(nextCursor).build()
     }
 
-    override fun nextPage(): CompletableFuture<PipelineListPaginatedPageAsync> =
-        service.listPaginated(nextPageParams())
+    override fun nextPage(): CompletableFuture<JobListPageAsync> = service.list(nextPageParams())
 
-    fun autoPager(): AutoPagerAsync<PipelineListPaginatedResponse> =
-        AutoPagerAsync.from(this, streamHandlerExecutor)
+    fun autoPager(): AutoPagerAsync<ClassifyJob> = AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
-    fun params(): PipelineListPaginatedParams = params
+    fun params(): JobListParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): PipelineListPaginatedPageResponse = response
+    fun response(): JobListPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of
-         * [PipelineListPaginatedPageAsync].
+         * Returns a mutable builder for constructing an instance of [JobListPageAsync].
          *
          * The following fields are required:
          * ```java
@@ -76,38 +74,36 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [PipelineListPaginatedPageAsync]. */
+    /** A builder for [JobListPageAsync]. */
     class Builder internal constructor() {
 
-        private var service: PipelineServiceAsync? = null
+        private var service: JobServiceAsync? = null
         private var streamHandlerExecutor: Executor? = null
-        private var params: PipelineListPaginatedParams? = null
-        private var response: PipelineListPaginatedPageResponse? = null
+        private var params: JobListParams? = null
+        private var response: JobListPageResponse? = null
 
         @JvmSynthetic
-        internal fun from(pipelineListPaginatedPageAsync: PipelineListPaginatedPageAsync) = apply {
-            service = pipelineListPaginatedPageAsync.service
-            streamHandlerExecutor = pipelineListPaginatedPageAsync.streamHandlerExecutor
-            params = pipelineListPaginatedPageAsync.params
-            response = pipelineListPaginatedPageAsync.response
+        internal fun from(jobListPageAsync: JobListPageAsync) = apply {
+            service = jobListPageAsync.service
+            streamHandlerExecutor = jobListPageAsync.streamHandlerExecutor
+            params = jobListPageAsync.params
+            response = jobListPageAsync.response
         }
 
-        fun service(service: PipelineServiceAsync) = apply { this.service = service }
+        fun service(service: JobServiceAsync) = apply { this.service = service }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
         }
 
         /** The parameters that were used to request this page. */
-        fun params(params: PipelineListPaginatedParams) = apply { this.params = params }
+        fun params(params: JobListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: PipelineListPaginatedPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: JobListPageResponse) = apply { this.response = response }
 
         /**
-         * Returns an immutable instance of [PipelineListPaginatedPageAsync].
+         * Returns an immutable instance of [JobListPageAsync].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -121,8 +117,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): PipelineListPaginatedPageAsync =
-            PipelineListPaginatedPageAsync(
+        fun build(): JobListPageAsync =
+            JobListPageAsync(
                 checkRequired("service", service),
                 checkRequired("streamHandlerExecutor", streamHandlerExecutor),
                 checkRequired("params", params),
@@ -135,7 +131,7 @@ private constructor(
             return true
         }
 
-        return other is PipelineListPaginatedPageAsync &&
+        return other is JobListPageAsync &&
             service == other.service &&
             streamHandlerExecutor == other.streamHandlerExecutor &&
             params == other.params &&
@@ -145,5 +141,5 @@ private constructor(
     override fun hashCode(): Int = Objects.hash(service, streamHandlerExecutor, params, response)
 
     override fun toString() =
-        "PipelineListPaginatedPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
+        "JobListPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
 }

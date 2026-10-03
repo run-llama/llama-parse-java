@@ -3,7 +3,6 @@
 package ai.llamaindex.llamacloud.models.pipelines.files
 
 import ai.llamaindex.llamacloud.core.JsonValue
-import ai.llamaindex.llamacloud.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -13,7 +12,6 @@ internal class FileCreateParamsTest {
     fun create() {
         FileCreateParams.builder()
             .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .addBody(
                 FileCreateParams.Body.builder()
                     .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -45,56 +43,10 @@ internal class FileCreateParamsTest {
     }
 
     @Test
-    fun queryParams() {
-        val params =
-            FileCreateParams.builder()
-                .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .addBody(
-                    FileCreateParams.Body.builder()
-                        .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .customMetadata(
-                            FileCreateParams.Body.CustomMetadata.builder()
-                                .putAdditionalProperty("foo", JsonValue.from(mapOf("foo" to "bar")))
-                                .build()
-                        )
-                        .build()
-                )
-                .build()
-
-        val queryParams = params._queryParams()
-
-        assertThat(queryParams)
-            .isEqualTo(
-                QueryParams.builder()
-                    .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
-    }
-
-    @Test
-    fun queryParamsWithoutOptionalFields() {
-        val params =
-            FileCreateParams.builder()
-                .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .addBody(
-                    FileCreateParams.Body.builder()
-                        .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .build()
-                )
-                .build()
-
-        val queryParams = params._queryParams()
-
-        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
-    }
-
-    @Test
     fun body() {
         val params =
             FileCreateParams.builder()
                 .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addBody(
                     FileCreateParams.Body.builder()
                         .fileId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

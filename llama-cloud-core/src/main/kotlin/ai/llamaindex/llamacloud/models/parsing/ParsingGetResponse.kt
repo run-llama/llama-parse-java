@@ -9179,6 +9179,7 @@ private constructor(
             private val slideSectionName: JsonField<String>,
             private val speakerNotes: JsonField<String>,
             private val triggeredAutoMode: JsonField<Boolean>,
+            private val watermark: JsonField<String>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -9208,6 +9209,9 @@ private constructor(
                 @JsonProperty("triggered_auto_mode")
                 @ExcludeMissing
                 triggeredAutoMode: JsonField<Boolean> = JsonMissing.of(),
+                @JsonProperty("watermark")
+                @ExcludeMissing
+                watermark: JsonField<String> = JsonMissing.of(),
             ) : this(
                 pageNumber,
                 confidence,
@@ -9217,6 +9221,7 @@ private constructor(
                 slideSectionName,
                 speakerNotes,
                 triggeredAutoMode,
+                watermark,
                 mutableMapOf(),
             )
 
@@ -9288,6 +9293,15 @@ private constructor(
              */
             fun triggeredAutoMode(): Optional<Boolean> =
                 triggeredAutoMode.getOptional("triggered_auto_mode")
+
+            /**
+             * Watermark text detected on the page (e.g., 'CONFIDENTIAL'). Only reported on version
+             * 2026-09-28 or later of the cost_effective, agentic, and agentic_plus tiers
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun watermark(): Optional<String> = watermark.getOptional("watermark")
 
             /**
              * Returns the raw JSON value of [pageNumber].
@@ -9369,6 +9383,16 @@ private constructor(
             @ExcludeMissing
             fun _triggeredAutoMode(): JsonField<Boolean> = triggeredAutoMode
 
+            /**
+             * Returns the raw JSON value of [watermark].
+             *
+             * Unlike [watermark], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("watermark")
+            @ExcludeMissing
+            fun _watermark(): JsonField<String> = watermark
+
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
                 additionalProperties.put(key, value)
@@ -9405,6 +9429,7 @@ private constructor(
                 private var slideSectionName: JsonField<String> = JsonMissing.of()
                 private var speakerNotes: JsonField<String> = JsonMissing.of()
                 private var triggeredAutoMode: JsonField<Boolean> = JsonMissing.of()
+                private var watermark: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -9417,6 +9442,7 @@ private constructor(
                     slideSectionName = page.slideSectionName
                     speakerNotes = page.speakerNotes
                     triggeredAutoMode = page.triggeredAutoMode
+                    watermark = page.watermark
                     additionalProperties = page.additionalProperties.toMutableMap()
                 }
 
@@ -9605,6 +9631,25 @@ private constructor(
                     this.triggeredAutoMode = triggeredAutoMode
                 }
 
+                /**
+                 * Watermark text detected on the page (e.g., 'CONFIDENTIAL'). Only reported on
+                 * version 2026-09-28 or later of the cost_effective, agentic, and agentic_plus
+                 * tiers
+                 */
+                fun watermark(watermark: String?) = watermark(JsonField.ofNullable(watermark))
+
+                /** Alias for calling [Builder.watermark] with `watermark.orElse(null)`. */
+                fun watermark(watermark: Optional<String>) = watermark(watermark.getOrNull())
+
+                /**
+                 * Sets [Builder.watermark] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.watermark] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun watermark(watermark: JsonField<String>) = apply { this.watermark = watermark }
+
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -9649,6 +9694,7 @@ private constructor(
                         slideSectionName,
                         speakerNotes,
                         triggeredAutoMode,
+                        watermark,
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -9678,6 +9724,7 @@ private constructor(
                 slideSectionName()
                 speakerNotes()
                 triggeredAutoMode()
+                watermark()
                 validated = true
             }
 
@@ -9704,7 +9751,8 @@ private constructor(
                     (if (printedPageNumber.asKnown().isPresent) 1 else 0) +
                     (if (slideSectionName.asKnown().isPresent) 1 else 0) +
                     (if (speakerNotes.asKnown().isPresent) 1 else 0) +
-                    (if (triggeredAutoMode.asKnown().isPresent) 1 else 0)
+                    (if (triggeredAutoMode.asKnown().isPresent) 1 else 0) +
+                    (if (watermark.asKnown().isPresent) 1 else 0)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -9720,6 +9768,7 @@ private constructor(
                     slideSectionName == other.slideSectionName &&
                     speakerNotes == other.speakerNotes &&
                     triggeredAutoMode == other.triggeredAutoMode &&
+                    watermark == other.watermark &&
                     additionalProperties == other.additionalProperties
             }
 
@@ -9733,6 +9782,7 @@ private constructor(
                     slideSectionName,
                     speakerNotes,
                     triggeredAutoMode,
+                    watermark,
                     additionalProperties,
                 )
             }
@@ -9740,7 +9790,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Page{pageNumber=$pageNumber, confidence=$confidence, costOptimized=$costOptimized, originalOrientationAngle=$originalOrientationAngle, printedPageNumber=$printedPageNumber, slideSectionName=$slideSectionName, speakerNotes=$speakerNotes, triggeredAutoMode=$triggeredAutoMode, additionalProperties=$additionalProperties}"
+                "Page{pageNumber=$pageNumber, confidence=$confidence, costOptimized=$costOptimized, originalOrientationAngle=$originalOrientationAngle, printedPageNumber=$printedPageNumber, slideSectionName=$slideSectionName, speakerNotes=$speakerNotes, triggeredAutoMode=$triggeredAutoMode, watermark=$watermark, additionalProperties=$additionalProperties}"
         }
 
         /** Document-level metadata information. */

@@ -36,10 +36,6 @@ internal class SplitServiceAsyncTest {
                                             .AllowUncategorized
                                             .FORBID
                                     )
-                                    .customInstructions(
-                                        "Start a new segment at every signature page."
-                                    )
-                                    .minPagesPerSplit(1L)
                                     .build()
                             )
                             .build()

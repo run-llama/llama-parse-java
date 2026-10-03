@@ -5,6 +5,8 @@ package ai.llamaindex.llamacloud.services.async
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.async.beta.AgentDataServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.AgentDataServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.beta.AttachmentServiceAsync
+import ai.llamaindex.llamacloud.services.async.beta.AttachmentServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.beta.ChatServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.ChatServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.beta.DirectoryServiceAsync
@@ -13,6 +15,8 @@ import ai.llamaindex.llamacloud.services.async.beta.IndexServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.IndexServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.beta.RetrievalServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.RetrievalServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.beta.SheetServiceAsync
+import ai.llamaindex.llamacloud.services.async.beta.SheetServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.beta.SplitServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.SplitServiceAsyncImpl
 import java.util.function.Consumer
@@ -32,9 +36,15 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
 
     private val chat: ChatServiceAsync by lazy { ChatServiceAsyncImpl(clientOptions) }
 
+    private val attachments: AttachmentServiceAsync by lazy {
+        AttachmentServiceAsyncImpl(clientOptions)
+    }
+
     private val agentData: AgentDataServiceAsync by lazy {
         AgentDataServiceAsyncImpl(clientOptions)
     }
+
+    private val sheets: SheetServiceAsync by lazy { SheetServiceAsyncImpl(clientOptions) }
 
     private val directories: DirectoryServiceAsync by lazy {
         DirectoryServiceAsyncImpl(clientOptions)
@@ -53,7 +63,11 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
 
     override fun chat(): ChatServiceAsync = chat
 
+    override fun attachments(): AttachmentServiceAsync = attachments
+
     override fun agentData(): AgentDataServiceAsync = agentData
+
+    override fun sheets(): SheetServiceAsync = sheets
 
     override fun directories(): DirectoryServiceAsync = directories
 
@@ -74,8 +88,16 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
             ChatServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val attachments: AttachmentServiceAsync.WithRawResponse by lazy {
+            AttachmentServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val agentData: AgentDataServiceAsync.WithRawResponse by lazy {
             AgentDataServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val sheets: SheetServiceAsync.WithRawResponse by lazy {
+            SheetServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val directories: DirectoryServiceAsync.WithRawResponse by lazy {
@@ -99,7 +121,11 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
 
         override fun chat(): ChatServiceAsync.WithRawResponse = chat
 
+        override fun attachments(): AttachmentServiceAsync.WithRawResponse = attachments
+
         override fun agentData(): AgentDataServiceAsync.WithRawResponse = agentData
+
+        override fun sheets(): SheetServiceAsync.WithRawResponse = sheets
 
         override fun directories(): DirectoryServiceAsync.WithRawResponse = directories
 

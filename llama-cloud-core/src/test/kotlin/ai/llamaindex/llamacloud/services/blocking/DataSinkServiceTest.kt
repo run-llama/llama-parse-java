@@ -5,8 +5,6 @@ package ai.llamaindex.llamacloud.services.blocking
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClient
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkCreateParams
-import ai.llamaindex.llamacloud.models.datasinks.DataSinkDeleteParams
-import ai.llamaindex.llamacloud.models.datasinks.DataSinkGetParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkListParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkUpdateParams
 import ai.llamaindex.llamacloud.models.pipelines.DataSinkCreate
@@ -53,7 +51,6 @@ internal class DataSinkServiceTest {
             dataSinkService.update(
                 DataSinkUpdateParams.builder()
                     .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .sinkType(DataSinkUpdateParams.SinkType.ASTRA_DB)
                     .component(
                         DataSinkUpdateParams.Component.UnionMember0.builder()
@@ -90,12 +87,7 @@ internal class DataSinkServiceTest {
         val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
         val dataSinkService = client.dataSinks()
 
-        dataSinkService.delete(
-            DataSinkDeleteParams.builder()
-                .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .build()
-        )
+        dataSinkService.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Disabled("Mock server tests are disabled")
@@ -104,13 +96,7 @@ internal class DataSinkServiceTest {
         val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
         val dataSinkService = client.dataSinks()
 
-        val dataSink =
-            dataSinkService.get(
-                DataSinkGetParams.builder()
-                    .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val dataSink = dataSinkService.get("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         dataSink.validate()
     }

@@ -45,8 +45,6 @@ internal class SplitListPageResponseTest {
                                 .allowUncategorized(
                                     SplitListResponse.SplittingStrategy.AllowUncategorized.FORBID
                                 )
-                                .customInstructions("Start a new segment at every signature page.")
-                                .minPagesPerSplit(1L)
                                 .build()
                         )
                         .transactionId("transaction_id")
@@ -86,8 +84,6 @@ internal class SplitListPageResponseTest {
                             .allowUncategorized(
                                 SplitListResponse.SplittingStrategy.AllowUncategorized.FORBID
                             )
-                            .customInstructions("Start a new segment at every signature page.")
-                            .minPagesPerSplit(1L)
                             .build()
                     )
                     .transactionId("transaction_id")
@@ -131,8 +127,6 @@ internal class SplitListPageResponseTest {
                                 .allowUncategorized(
                                     SplitListResponse.SplittingStrategy.AllowUncategorized.FORBID
                                 )
-                                .customInstructions("Start a new segment at every signature page.")
-                                .minPagesPerSplit(1L)
                                 .build()
                         )
                         .transactionId("transaction_id")

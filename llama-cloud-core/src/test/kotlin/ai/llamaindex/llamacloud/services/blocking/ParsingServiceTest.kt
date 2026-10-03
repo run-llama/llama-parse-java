@@ -6,7 +6,6 @@ import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClient
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.models.parsing.ParsingCancelParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateParams
-import ai.llamaindex.llamacloud.models.parsing.ParsingDeleteParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingLanguages
 import org.junit.jupiter.api.Disabled
@@ -63,6 +62,7 @@ internal class ParsingServiceTest {
                             .pdf(JsonValue.from(mapOf<String, Any>()))
                             .presentation(
                                 ParsingCreateParams.InputOptions.Presentation.builder()
+                                    .includeHiddenSlides(true)
                                     .outOfBoundsContent(true)
                                     .skipEmbeddedData(true)
                                     .build()
@@ -123,6 +123,9 @@ internal class ParsingServiceTest {
                                     .enable(true)
                                     .guessSheetName(true)
                                     .build()
+                            )
+                            .watermarkHandling(
+                                ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE
                             )
                             .build()
                     )
@@ -339,24 +342,6 @@ internal class ParsingServiceTest {
         val page = parsingService.list()
 
         page.response().validate()
-    }
-
-    @Disabled("Mock server tests are disabled")
-    @Test
-    fun delete() {
-        val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
-        val parsingService = client.parsing()
-
-        val parsing =
-            parsingService.delete(
-                ParsingDeleteParams.builder()
-                    .jobId("job_id")
-                    .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
-
-        parsing.validate()
     }
 
     @Disabled("Mock server tests are disabled")

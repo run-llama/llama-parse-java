@@ -48,15 +48,12 @@ import kotlin.jvm.optionals.getOrNull
 class DataSourceUpdateParams
 private constructor(
     private val dataSourceId: String?,
-    private val projectId: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun dataSourceId(): Optional<String> = Optional.ofNullable(dataSourceId)
-
-    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /**
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
@@ -143,7 +140,6 @@ private constructor(
     class Builder internal constructor() {
 
         private var dataSourceId: String? = null
-        private var projectId: String? = null
         private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -151,7 +147,6 @@ private constructor(
         @JvmSynthetic
         internal fun from(dataSourceUpdateParams: DataSourceUpdateParams) = apply {
             dataSourceId = dataSourceUpdateParams.dataSourceId
-            projectId = dataSourceUpdateParams.projectId
             body = dataSourceUpdateParams.body.toBuilder()
             additionalHeaders = dataSourceUpdateParams.additionalHeaders.toBuilder()
             additionalQueryParams = dataSourceUpdateParams.additionalQueryParams.toBuilder()
@@ -161,11 +156,6 @@ private constructor(
 
         /** Alias for calling [Builder.dataSourceId] with `dataSourceId.orElse(null)`. */
         fun dataSourceId(dataSourceId: Optional<String>) = dataSourceId(dataSourceId.getOrNull())
-
-        fun projectId(projectId: String?) = apply { this.projectId = projectId }
-
-        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
-        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -460,7 +450,6 @@ private constructor(
         fun build(): DataSourceUpdateParams =
             DataSourceUpdateParams(
                 dataSourceId,
-                projectId,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -477,13 +466,7 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                projectId?.let { put("project_id", it) }
-                putAll(additionalQueryParams)
-            }
-            .build()
+    override fun _queryParams(): QueryParams = additionalQueryParams
 
     /** Schema for updating a data source. */
     class Body
@@ -1889,15 +1872,14 @@ private constructor(
 
         return other is DataSourceUpdateParams &&
             dataSourceId == other.dataSourceId &&
-            projectId == other.projectId &&
             body == other.body &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(dataSourceId, projectId, body, additionalHeaders, additionalQueryParams)
+        Objects.hash(dataSourceId, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "DataSourceUpdateParams{dataSourceId=$dataSourceId, projectId=$projectId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "DataSourceUpdateParams{dataSourceId=$dataSourceId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

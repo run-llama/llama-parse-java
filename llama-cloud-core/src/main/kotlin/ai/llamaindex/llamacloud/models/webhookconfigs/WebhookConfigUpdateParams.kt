@@ -40,7 +40,7 @@ private constructor(
     fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /**
-     * Updated event subscriptions. Omit to leave unchanged; [] is rejected.
+     * Updated event subscriptions.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -186,7 +186,7 @@ private constructor(
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
-        /** Updated event subscriptions. Omit to leave unchanged; [] is rejected. */
+        /** Updated event subscriptions. */
         fun webhookEvents(webhookEvents: List<WebhookEvent>?) = apply {
             body.webhookEvents(webhookEvents)
         }
@@ -486,7 +486,7 @@ private constructor(
         )
 
         /**
-         * Updated event subscriptions. Omit to leave unchanged; [] is rejected.
+         * Updated event subscriptions.
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -616,7 +616,7 @@ private constructor(
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
-            /** Updated event subscriptions. Omit to leave unchanged; [] is rejected. */
+            /** Updated event subscriptions. */
             fun webhookEvents(webhookEvents: List<WebhookEvent>?) =
                 webhookEvents(JsonField.ofNullable(webhookEvents))
 

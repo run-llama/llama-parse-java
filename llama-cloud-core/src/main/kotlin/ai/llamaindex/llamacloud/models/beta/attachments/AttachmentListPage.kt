@@ -1,63 +1,63 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.pipelines
+package ai.llamaindex.llamacloud.models.beta.attachments
 
 import ai.llamaindex.llamacloud.core.AutoPager
 import ai.llamaindex.llamacloud.core.Page
 import ai.llamaindex.llamacloud.core.checkRequired
-import ai.llamaindex.llamacloud.services.blocking.PipelineService
+import ai.llamaindex.llamacloud.services.blocking.beta.AttachmentService
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see PipelineService.listPaginated */
-class PipelineListPaginatedPage
+/** @see AttachmentService.list */
+class AttachmentListPage
 private constructor(
-    private val service: PipelineService,
-    private val params: PipelineListPaginatedParams,
-    private val response: PipelineListPaginatedPageResponse,
-) : Page<PipelineListPaginatedResponse> {
+    private val service: AttachmentService,
+    private val params: AttachmentListParams,
+    private val response: AttachmentListPageResponse,
+) : Page<AttachmentListResponse> {
 
     /**
-     * Delegates to [PipelineListPaginatedPageResponse], but gracefully handles missing data.
+     * Delegates to [AttachmentListPageResponse], but gracefully handles missing data.
      *
-     * @see PipelineListPaginatedPageResponse.items
+     * @see AttachmentListPageResponse.items
      */
-    override fun items(): List<PipelineListPaginatedResponse> =
+    override fun items(): List<AttachmentListResponse> =
         response._items().getOptional("items").getOrNull() ?: emptyList()
 
     /**
-     * Delegates to [PipelineListPaginatedPageResponse], but gracefully handles missing data.
+     * Delegates to [AttachmentListPageResponse], but gracefully handles missing data.
      *
-     * @see PipelineListPaginatedPageResponse.nextPageToken
+     * @see AttachmentListPageResponse.nextPageToken
      */
     fun nextPageToken(): Optional<String> = response._nextPageToken().getOptional("next_page_token")
 
     override fun hasNextPage(): Boolean = items().isNotEmpty() && nextPageToken().isPresent
 
-    fun nextPageParams(): PipelineListPaginatedParams {
+    fun nextPageParams(): AttachmentListParams {
         val nextCursor =
             nextPageToken().getOrNull()
                 ?: throw IllegalStateException("Cannot construct next page params")
         return params.toBuilder().pageToken(nextCursor).build()
     }
 
-    override fun nextPage(): PipelineListPaginatedPage = service.listPaginated(nextPageParams())
+    override fun nextPage(): AttachmentListPage = service.list(nextPageParams())
 
-    fun autoPager(): AutoPager<PipelineListPaginatedResponse> = AutoPager.from(this)
+    fun autoPager(): AutoPager<AttachmentListResponse> = AutoPager.from(this)
 
     /** The parameters that were used to request this page. */
-    fun params(): PipelineListPaginatedParams = params
+    fun params(): AttachmentListParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): PipelineListPaginatedPageResponse = response
+    fun response(): AttachmentListPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [PipelineListPaginatedPage].
+         * Returns a mutable builder for constructing an instance of [AttachmentListPage].
          *
          * The following fields are required:
          * ```java
@@ -69,32 +69,30 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [PipelineListPaginatedPage]. */
+    /** A builder for [AttachmentListPage]. */
     class Builder internal constructor() {
 
-        private var service: PipelineService? = null
-        private var params: PipelineListPaginatedParams? = null
-        private var response: PipelineListPaginatedPageResponse? = null
+        private var service: AttachmentService? = null
+        private var params: AttachmentListParams? = null
+        private var response: AttachmentListPageResponse? = null
 
         @JvmSynthetic
-        internal fun from(pipelineListPaginatedPage: PipelineListPaginatedPage) = apply {
-            service = pipelineListPaginatedPage.service
-            params = pipelineListPaginatedPage.params
-            response = pipelineListPaginatedPage.response
+        internal fun from(attachmentListPage: AttachmentListPage) = apply {
+            service = attachmentListPage.service
+            params = attachmentListPage.params
+            response = attachmentListPage.response
         }
 
-        fun service(service: PipelineService) = apply { this.service = service }
+        fun service(service: AttachmentService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: PipelineListPaginatedParams) = apply { this.params = params }
+        fun params(params: AttachmentListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: PipelineListPaginatedPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: AttachmentListPageResponse) = apply { this.response = response }
 
         /**
-         * Returns an immutable instance of [PipelineListPaginatedPage].
+         * Returns an immutable instance of [AttachmentListPage].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -107,8 +105,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): PipelineListPaginatedPage =
-            PipelineListPaginatedPage(
+        fun build(): AttachmentListPage =
+            AttachmentListPage(
                 checkRequired("service", service),
                 checkRequired("params", params),
                 checkRequired("response", response),
@@ -120,7 +118,7 @@ private constructor(
             return true
         }
 
-        return other is PipelineListPaginatedPage &&
+        return other is AttachmentListPage &&
             service == other.service &&
             params == other.params &&
             response == other.response
@@ -129,5 +127,5 @@ private constructor(
     override fun hashCode(): Int = Objects.hash(service, params, response)
 
     override fun toString() =
-        "PipelineListPaginatedPage{service=$service, params=$params, response=$response}"
+        "AttachmentListPage{service=$service, params=$params, response=$response}"
 }

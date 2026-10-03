@@ -23,8 +23,6 @@ internal class SplitCreateParamsTest {
                                 SplitCreateParams.Configuration.SplittingStrategy.AllowUncategorized
                                     .FORBID
                             )
-                            .customInstructions("Start a new segment at every signature page.")
-                            .minPagesPerSplit(1L)
                             .build()
                     )
                     .build()
@@ -50,8 +48,6 @@ internal class SplitCreateParamsTest {
                                         .AllowUncategorized
                                         .FORBID
                                 )
-                                .customInstructions("Start a new segment at every signature page.")
-                                .minPagesPerSplit(1L)
                                 .build()
                         )
                         .build()
@@ -99,8 +95,6 @@ internal class SplitCreateParamsTest {
                                         .AllowUncategorized
                                         .FORBID
                                 )
-                                .customInstructions("Start a new segment at every signature page.")
-                                .minPagesPerSplit(1L)
                                 .build()
                         )
                         .build()
@@ -122,8 +116,6 @@ internal class SplitCreateParamsTest {
                                 SplitCreateParams.Configuration.SplittingStrategy.AllowUncategorized
                                     .FORBID
                             )
-                            .customInstructions("Start a new segment at every signature page.")
-                            .minPagesPerSplit(1L)
                             .build()
                     )
                     .build()

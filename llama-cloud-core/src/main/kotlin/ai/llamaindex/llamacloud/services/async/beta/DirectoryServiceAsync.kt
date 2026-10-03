@@ -35,7 +35,12 @@ interface DirectoryServiceAsync {
 
     fun files(): FileServiceAsync
 
-    /** Create a new directory within the specified project. */
+    /**
+     * Create a new directory within the specified project.
+     *
+     * A connector subscription syncs into at most one directory. Creating a second one for the same
+     * subscription returns `409` with the existing directory's id in `detail.directory_id`.
+     */
     fun create(params: DirectoryCreateParams): CompletableFuture<DirectoryCreateResponse> =
         create(params, RequestOptions.none())
 

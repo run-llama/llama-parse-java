@@ -1,17 +1,18 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.parsing
+package ai.llamaindex.llamacloud.models.beta.attachments
 
 import ai.llamaindex.llamacloud.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class ParsingDeleteParamsTest {
+internal class AttachmentGetParamsTest {
 
     @Test
     fun create() {
-        ParsingDeleteParams.builder()
-            .jobId("job_id")
+        AttachmentGetParams.builder()
+            .attachmentName("attachment_name")
+            .sourceId("source_id")
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
@@ -19,9 +20,13 @@ internal class ParsingDeleteParamsTest {
 
     @Test
     fun pathParams() {
-        val params = ParsingDeleteParams.builder().jobId("job_id").build()
+        val params =
+            AttachmentGetParams.builder()
+                .attachmentName("attachment_name")
+                .sourceId("source_id")
+                .build()
 
-        assertThat(params._pathParam(0)).isEqualTo("job_id")
+        assertThat(params._pathParam(0)).isEqualTo("attachment_name")
         // out-of-bound path param
         assertThat(params._pathParam(1)).isEqualTo("")
     }
@@ -29,8 +34,9 @@ internal class ParsingDeleteParamsTest {
     @Test
     fun queryParams() {
         val params =
-            ParsingDeleteParams.builder()
-                .jobId("job_id")
+            AttachmentGetParams.builder()
+                .attachmentName("attachment_name")
+                .sourceId("source_id")
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
@@ -40,6 +46,7 @@ internal class ParsingDeleteParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
+                    .put("source_id", "source_id")
                     .put("organization_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
@@ -48,10 +55,15 @@ internal class ParsingDeleteParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = ParsingDeleteParams.builder().jobId("job_id").build()
+        val params =
+            AttachmentGetParams.builder()
+                .attachmentName("attachment_name")
+                .sourceId("source_id")
+                .build()
 
         val queryParams = params._queryParams()
 
-        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
+        assertThat(queryParams)
+            .isEqualTo(QueryParams.builder().put("source_id", "source_id").build())
     }
 }
