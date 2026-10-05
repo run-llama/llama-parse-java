@@ -35,6 +35,7 @@ private constructor(
     private val lastExportedAt: JsonField<OffsetDateTime>,
     private val lastSyncedAt: JsonField<OffsetDateTime>,
     private val metadata: JsonField<Metadata>,
+    private val syncInProgress: JsonField<Boolean>,
     private val updatedAt: JsonField<OffsetDateTime>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -69,6 +70,9 @@ private constructor(
         @ExcludeMissing
         lastSyncedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("metadata") @ExcludeMissing metadata: JsonField<Metadata> = JsonMissing.of(),
+        @JsonProperty("sync_in_progress")
+        @ExcludeMissing
+        syncInProgress: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("updated_at")
         @ExcludeMissing
         updatedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -85,6 +89,7 @@ private constructor(
         lastExportedAt,
         lastSyncedAt,
         metadata,
+        syncInProgress,
         updatedAt,
         mutableMapOf(),
     )
@@ -184,6 +189,14 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun metadata(): Optional<Metadata> = metadata.getOptional("metadata")
+
+    /**
+     * Whether a sync is running. Set only when getting a single index.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun syncInProgress(): Optional<Boolean> = syncInProgress.getOptional("sync_in_progress")
 
     /**
      * Update datetime
@@ -294,6 +307,15 @@ private constructor(
     @JsonProperty("metadata") @ExcludeMissing fun _metadata(): JsonField<Metadata> = metadata
 
     /**
+     * Returns the raw JSON value of [syncInProgress].
+     *
+     * Unlike [syncInProgress], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("sync_in_progress")
+    @ExcludeMissing
+    fun _syncInProgress(): JsonField<Boolean> = syncInProgress
+
+    /**
      * Returns the raw JSON value of [updatedAt].
      *
      * Unlike [updatedAt], this method doesn't throw if the JSON field has an unexpected type.
@@ -348,6 +370,7 @@ private constructor(
         private var lastExportedAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var lastSyncedAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var metadata: JsonField<Metadata> = JsonMissing.of()
+        private var syncInProgress: JsonField<Boolean> = JsonMissing.of()
         private var updatedAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -365,6 +388,7 @@ private constructor(
             lastExportedAt = indexGetResponse.lastExportedAt
             lastSyncedAt = indexGetResponse.lastSyncedAt
             metadata = indexGetResponse.metadata
+            syncInProgress = indexGetResponse.syncInProgress
             updatedAt = indexGetResponse.updatedAt
             additionalProperties = indexGetResponse.additionalProperties.toMutableMap()
         }
@@ -541,6 +565,32 @@ private constructor(
          */
         fun metadata(metadata: JsonField<Metadata>) = apply { this.metadata = metadata }
 
+        /** Whether a sync is running. Set only when getting a single index. */
+        fun syncInProgress(syncInProgress: Boolean?) =
+            syncInProgress(JsonField.ofNullable(syncInProgress))
+
+        /**
+         * Alias for [Builder.syncInProgress].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun syncInProgress(syncInProgress: Boolean) = syncInProgress(syncInProgress as Boolean?)
+
+        /** Alias for calling [Builder.syncInProgress] with `syncInProgress.orElse(null)`. */
+        fun syncInProgress(syncInProgress: Optional<Boolean>) =
+            syncInProgress(syncInProgress.getOrNull())
+
+        /**
+         * Sets [Builder.syncInProgress] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.syncInProgress] with a well-typed [Boolean] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun syncInProgress(syncInProgress: JsonField<Boolean>) = apply {
+            this.syncInProgress = syncInProgress
+        }
+
         /** Update datetime */
         fun updatedAt(updatedAt: OffsetDateTime?) = updatedAt(JsonField.ofNullable(updatedAt))
 
@@ -607,6 +657,7 @@ private constructor(
                 lastExportedAt,
                 lastSyncedAt,
                 metadata,
+                syncInProgress,
                 updatedAt,
                 additionalProperties.toMutableMap(),
             )
@@ -639,6 +690,7 @@ private constructor(
         lastExportedAt()
         lastSyncedAt()
         metadata().ifPresent { it.validate() }
+        syncInProgress()
         updatedAt()
         validated = true
     }
@@ -670,6 +722,7 @@ private constructor(
             (if (lastExportedAt.asKnown().isPresent) 1 else 0) +
             (if (lastSyncedAt.asKnown().isPresent) 1 else 0) +
             (metadata.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (syncInProgress.asKnown().isPresent) 1 else 0) +
             (if (updatedAt.asKnown().isPresent) 1 else 0)
 
     /** Build state and diagnostic info. */
@@ -799,6 +852,7 @@ private constructor(
             lastExportedAt == other.lastExportedAt &&
             lastSyncedAt == other.lastSyncedAt &&
             metadata == other.metadata &&
+            syncInProgress == other.syncInProgress &&
             updatedAt == other.updatedAt &&
             additionalProperties == other.additionalProperties
     }
@@ -817,6 +871,7 @@ private constructor(
             lastExportedAt,
             lastSyncedAt,
             metadata,
+            syncInProgress,
             updatedAt,
             additionalProperties,
         )
@@ -825,5 +880,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "IndexGetResponse{id=$id, exportConfigId=$exportConfigId, name=$name, outputDirectoryId=$outputDirectoryId, projectId=$projectId, sourceDirectoryId=$sourceDirectoryId, syncConfigId=$syncConfigId, createdAt=$createdAt, description=$description, lastExportedAt=$lastExportedAt, lastSyncedAt=$lastSyncedAt, metadata=$metadata, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
+        "IndexGetResponse{id=$id, exportConfigId=$exportConfigId, name=$name, outputDirectoryId=$outputDirectoryId, projectId=$projectId, sourceDirectoryId=$sourceDirectoryId, syncConfigId=$syncConfigId, createdAt=$createdAt, description=$description, lastExportedAt=$lastExportedAt, lastSyncedAt=$lastSyncedAt, metadata=$metadata, syncInProgress=$syncInProgress, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
 }
