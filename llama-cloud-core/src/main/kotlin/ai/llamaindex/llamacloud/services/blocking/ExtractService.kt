@@ -101,7 +101,10 @@ interface ExtractService {
     fun list(requestOptions: RequestOptions): ExtractListPage =
         list(ExtractListParams.none(), requestOptions)
 
-    /** Delete an extraction job and its results. */
+    /**
+     * Delete an extraction job and its results. A non-terminal job is refused; cancel it first, or
+     * pass force=true to delete a job whose workflow is gone.
+     */
     fun delete(jobId: String): ExtractDeleteResponse = delete(jobId, ExtractDeleteParams.none())
 
     /** @see delete */

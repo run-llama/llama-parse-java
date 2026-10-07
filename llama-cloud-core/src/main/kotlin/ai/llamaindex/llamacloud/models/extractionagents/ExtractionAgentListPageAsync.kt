@@ -1,67 +1,67 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.jobdatapoints
+package ai.llamaindex.llamacloud.models.extractionagents
 
 import ai.llamaindex.llamacloud.core.AutoPagerAsync
 import ai.llamaindex.llamacloud.core.PageAsync
 import ai.llamaindex.llamacloud.core.checkRequired
-import ai.llamaindex.llamacloud.services.async.JobDataPointServiceAsync
+import ai.llamaindex.llamacloud.services.async.ExtractionAgentServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see JobDataPointServiceAsync.list */
-class JobDataPointListPageAsync
+/** @see ExtractionAgentServiceAsync.list */
+class ExtractionAgentListPageAsync
 private constructor(
-    private val service: JobDataPointServiceAsync,
+    private val service: ExtractionAgentServiceAsync,
     private val streamHandlerExecutor: Executor,
-    private val params: JobDataPointListParams,
-    private val response: JobDataPointListPageResponse,
-) : PageAsync<JobDataPoint> {
+    private val params: ExtractionAgentListParams,
+    private val response: ExtractionAgentListPageResponse,
+) : PageAsync<ExtractAgent> {
 
     /**
-     * Delegates to [JobDataPointListPageResponse], but gracefully handles missing data.
+     * Delegates to [ExtractionAgentListPageResponse], but gracefully handles missing data.
      *
-     * @see JobDataPointListPageResponse.items
+     * @see ExtractionAgentListPageResponse.items
      */
-    override fun items(): List<JobDataPoint> =
+    override fun items(): List<ExtractAgent> =
         response._items().getOptional("items").getOrNull() ?: emptyList()
 
     /**
-     * Delegates to [JobDataPointListPageResponse], but gracefully handles missing data.
+     * Delegates to [ExtractionAgentListPageResponse], but gracefully handles missing data.
      *
-     * @see JobDataPointListPageResponse.nextPageToken
+     * @see ExtractionAgentListPageResponse.nextPageToken
      */
     fun nextPageToken(): Optional<String> = response._nextPageToken().getOptional("next_page_token")
 
     override fun hasNextPage(): Boolean = items().isNotEmpty() && nextPageToken().isPresent
 
-    fun nextPageParams(): JobDataPointListParams {
+    fun nextPageParams(): ExtractionAgentListParams {
         val nextCursor =
             nextPageToken().getOrNull()
                 ?: throw IllegalStateException("Cannot construct next page params")
         return params.toBuilder().pageToken(nextCursor).build()
     }
 
-    override fun nextPage(): CompletableFuture<JobDataPointListPageAsync> =
+    override fun nextPage(): CompletableFuture<ExtractionAgentListPageAsync> =
         service.list(nextPageParams())
 
-    fun autoPager(): AutoPagerAsync<JobDataPoint> = AutoPagerAsync.from(this, streamHandlerExecutor)
+    fun autoPager(): AutoPagerAsync<ExtractAgent> = AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
-    fun params(): JobDataPointListParams = params
+    fun params(): ExtractionAgentListParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): JobDataPointListPageResponse = response
+    fun response(): ExtractionAgentListPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [JobDataPointListPageAsync].
+         * Returns a mutable builder for constructing an instance of [ExtractionAgentListPageAsync].
          *
          * The following fields are required:
          * ```java
@@ -74,36 +74,36 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [JobDataPointListPageAsync]. */
+    /** A builder for [ExtractionAgentListPageAsync]. */
     class Builder internal constructor() {
 
-        private var service: JobDataPointServiceAsync? = null
+        private var service: ExtractionAgentServiceAsync? = null
         private var streamHandlerExecutor: Executor? = null
-        private var params: JobDataPointListParams? = null
-        private var response: JobDataPointListPageResponse? = null
+        private var params: ExtractionAgentListParams? = null
+        private var response: ExtractionAgentListPageResponse? = null
 
         @JvmSynthetic
-        internal fun from(jobDataPointListPageAsync: JobDataPointListPageAsync) = apply {
-            service = jobDataPointListPageAsync.service
-            streamHandlerExecutor = jobDataPointListPageAsync.streamHandlerExecutor
-            params = jobDataPointListPageAsync.params
-            response = jobDataPointListPageAsync.response
+        internal fun from(extractionAgentListPageAsync: ExtractionAgentListPageAsync) = apply {
+            service = extractionAgentListPageAsync.service
+            streamHandlerExecutor = extractionAgentListPageAsync.streamHandlerExecutor
+            params = extractionAgentListPageAsync.params
+            response = extractionAgentListPageAsync.response
         }
 
-        fun service(service: JobDataPointServiceAsync) = apply { this.service = service }
+        fun service(service: ExtractionAgentServiceAsync) = apply { this.service = service }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
         }
 
         /** The parameters that were used to request this page. */
-        fun params(params: JobDataPointListParams) = apply { this.params = params }
+        fun params(params: ExtractionAgentListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: JobDataPointListPageResponse) = apply { this.response = response }
+        fun response(response: ExtractionAgentListPageResponse) = apply { this.response = response }
 
         /**
-         * Returns an immutable instance of [JobDataPointListPageAsync].
+         * Returns an immutable instance of [ExtractionAgentListPageAsync].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -117,8 +117,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): JobDataPointListPageAsync =
-            JobDataPointListPageAsync(
+        fun build(): ExtractionAgentListPageAsync =
+            ExtractionAgentListPageAsync(
                 checkRequired("service", service),
                 checkRequired("streamHandlerExecutor", streamHandlerExecutor),
                 checkRequired("params", params),
@@ -131,7 +131,7 @@ private constructor(
             return true
         }
 
-        return other is JobDataPointListPageAsync &&
+        return other is ExtractionAgentListPageAsync &&
             service == other.service &&
             streamHandlerExecutor == other.streamHandlerExecutor &&
             params == other.params &&
@@ -141,5 +141,5 @@ private constructor(
     override fun hashCode(): Int = Objects.hash(service, streamHandlerExecutor, params, response)
 
     override fun toString() =
-        "JobDataPointListPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
+        "ExtractionAgentListPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
 }

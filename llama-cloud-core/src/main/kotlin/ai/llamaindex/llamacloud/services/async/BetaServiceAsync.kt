@@ -4,6 +4,7 @@ package ai.llamaindex.llamacloud.services.async
 
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.async.beta.AgentDataServiceAsync
+import ai.llamaindex.llamacloud.services.async.beta.AttachmentServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.ChatServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.DirectoryServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.IndexServiceAsync
@@ -31,6 +32,8 @@ interface BetaServiceAsync {
 
     fun chat(): ChatServiceAsync
 
+    fun attachments(): AttachmentServiceAsync
+
     fun agentData(): AgentDataServiceAsync
 
     fun directories(): DirectoryServiceAsync
@@ -52,6 +55,8 @@ interface BetaServiceAsync {
         fun retrieval(): RetrievalServiceAsync.WithRawResponse
 
         fun chat(): ChatServiceAsync.WithRawResponse
+
+        fun attachments(): AttachmentServiceAsync.WithRawResponse
 
         fun agentData(): AgentDataServiceAsync.WithRawResponse
 

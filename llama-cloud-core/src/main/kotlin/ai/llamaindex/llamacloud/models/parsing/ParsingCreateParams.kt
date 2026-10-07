@@ -76,9 +76,9 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-08-19`
-     * - `agentic`: `2026-09-07`
-     * - `agentic_plus`: `2026-08-19`
+     * - `cost_effective`: `2026-09-28`
+     * - `agentic`: `2026-09-29`
+     * - `agentic_plus`: `2026-09-28`
      *
      * Full list: `GET /api/v2/parse/versions`.
      *
@@ -464,9 +464,9 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2026-06-15`
-         * - `cost_effective`: `2026-08-19`
-         * - `agentic`: `2026-09-07`
-         * - `agentic_plus`: `2026-08-19`
+         * - `cost_effective`: `2026-09-28`
+         * - `agentic`: `2026-09-29`
+         * - `agentic_plus`: `2026-09-28`
          *
          * Full list: `GET /api/v2/parse/versions`.
          */
@@ -1081,9 +1081,9 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2026-06-15`
-         * - `cost_effective`: `2026-08-19`
-         * - `agentic`: `2026-09-07`
-         * - `agentic_plus`: `2026-08-19`
+         * - `cost_effective`: `2026-09-28`
+         * - `agentic`: `2026-09-29`
+         * - `agentic_plus`: `2026-09-28`
          *
          * Full list: `GET /api/v2/parse/versions`.
          *
@@ -1515,9 +1515,9 @@ private constructor(
              *
              * Current `latest` by tier:
              * - `fast`: `2026-06-15`
-             * - `cost_effective`: `2026-08-19`
-             * - `agentic`: `2026-09-07`
-             * - `agentic_plus`: `2026-08-19`
+             * - `cost_effective`: `2026-09-28`
+             * - `agentic`: `2026-09-29`
+             * - `agentic_plus`: `2026-09-28`
              *
              * Full list: `GET /api/v2/parse/versions`.
              */
@@ -2216,9 +2216,9 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-08-19`
-     * - `agentic`: `2026-09-07`
-     * - `agentic_plus`: `2026-08-19`
+     * - `cost_effective`: `2026-09-28`
+     * - `agentic`: `2026-09-29`
+     * - `agentic_plus`: `2026-09-28`
      *
      * Full list: `GET /api/v2/parse/versions`.
      */
@@ -2238,9 +2238,9 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
-            @JvmField val _2026_09_07 = of("2026-09-07")
+            @JvmField val _2026_09_29 = of("2026-09-29")
 
-            @JvmField val _2026_08_19 = of("2026-08-19")
+            @JvmField val _2026_09_28 = of("2026-09-28")
 
             @JvmField val _2026_06_15 = of("2026-06-15")
 
@@ -2250,8 +2250,8 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
-            _2026_09_07,
-            _2026_08_19,
+            _2026_09_29,
+            _2026_09_28,
             _2026_06_15,
         }
 
@@ -2266,8 +2266,8 @@ private constructor(
          */
         enum class Value {
             LATEST,
-            _2026_09_07,
-            _2026_08_19,
+            _2026_09_29,
+            _2026_09_28,
             _2026_06_15,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
             _UNKNOWN,
@@ -2283,8 +2283,8 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
-                _2026_09_07 -> Value._2026_09_07
-                _2026_08_19 -> Value._2026_08_19
+                _2026_09_29 -> Value._2026_09_29
+                _2026_09_28 -> Value._2026_09_28
                 _2026_06_15 -> Value._2026_06_15
                 else -> Value._UNKNOWN
             }
@@ -2301,8 +2301,8 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
-                _2026_09_07 -> Known._2026_09_07
-                _2026_08_19 -> Known._2026_08_19
+                _2026_09_29 -> Known._2026_09_29
+                _2026_09_28 -> Known._2026_09_28
                 _2026_06_15 -> Known._2026_06_15
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
             }
@@ -3659,6 +3659,7 @@ private constructor(
         class Presentation
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
+            private val includeHiddenSlides: JsonField<Boolean>,
             private val outOfBoundsContent: JsonField<Boolean>,
             private val skipEmbeddedData: JsonField<Boolean>,
             private val additionalProperties: MutableMap<String, JsonValue>,
@@ -3666,13 +3667,25 @@ private constructor(
 
             @JsonCreator
             private constructor(
+                @JsonProperty("include_hidden_slides")
+                @ExcludeMissing
+                includeHiddenSlides: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("out_of_bounds_content")
                 @ExcludeMissing
                 outOfBoundsContent: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("skip_embedded_data")
                 @ExcludeMissing
                 skipEmbeddedData: JsonField<Boolean> = JsonMissing.of(),
-            ) : this(outOfBoundsContent, skipEmbeddedData, mutableMapOf())
+            ) : this(includeHiddenSlides, outOfBoundsContent, skipEmbeddedData, mutableMapOf())
+
+            /**
+             * Include hidden PPTX slides in the output. Omitted or false skips hidden slides.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun includeHiddenSlides(): Optional<Boolean> =
+                includeHiddenSlides.getOptional("include_hidden_slides")
 
             /**
              * Extract content positioned outside the visible slide area. Some presentations have
@@ -3693,6 +3706,16 @@ private constructor(
              */
             fun skipEmbeddedData(): Optional<Boolean> =
                 skipEmbeddedData.getOptional("skip_embedded_data")
+
+            /**
+             * Returns the raw JSON value of [includeHiddenSlides].
+             *
+             * Unlike [includeHiddenSlides], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("include_hidden_slides")
+            @ExcludeMissing
+            fun _includeHiddenSlides(): JsonField<Boolean> = includeHiddenSlides
 
             /**
              * Returns the raw JSON value of [outOfBoundsContent].
@@ -3735,15 +3758,49 @@ private constructor(
             /** A builder for [Presentation]. */
             class Builder internal constructor() {
 
+                private var includeHiddenSlides: JsonField<Boolean> = JsonMissing.of()
                 private var outOfBoundsContent: JsonField<Boolean> = JsonMissing.of()
                 private var skipEmbeddedData: JsonField<Boolean> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(presentation: Presentation) = apply {
+                    includeHiddenSlides = presentation.includeHiddenSlides
                     outOfBoundsContent = presentation.outOfBoundsContent
                     skipEmbeddedData = presentation.skipEmbeddedData
                     additionalProperties = presentation.additionalProperties.toMutableMap()
+                }
+
+                /**
+                 * Include hidden PPTX slides in the output. Omitted or false skips hidden slides.
+                 */
+                fun includeHiddenSlides(includeHiddenSlides: Boolean?) =
+                    includeHiddenSlides(JsonField.ofNullable(includeHiddenSlides))
+
+                /**
+                 * Alias for [Builder.includeHiddenSlides].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun includeHiddenSlides(includeHiddenSlides: Boolean) =
+                    includeHiddenSlides(includeHiddenSlides as Boolean?)
+
+                /**
+                 * Alias for calling [Builder.includeHiddenSlides] with
+                 * `includeHiddenSlides.orElse(null)`.
+                 */
+                fun includeHiddenSlides(includeHiddenSlides: Optional<Boolean>) =
+                    includeHiddenSlides(includeHiddenSlides.getOrNull())
+
+                /**
+                 * Sets [Builder.includeHiddenSlides] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.includeHiddenSlides] with a well-typed [Boolean]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun includeHiddenSlides(includeHiddenSlides: JsonField<Boolean>) = apply {
+                    this.includeHiddenSlides = includeHiddenSlides
                 }
 
                 /**
@@ -3841,6 +3898,7 @@ private constructor(
                  */
                 fun build(): Presentation =
                     Presentation(
+                        includeHiddenSlides,
                         outOfBoundsContent,
                         skipEmbeddedData,
                         additionalProperties.toMutableMap(),
@@ -3864,6 +3922,7 @@ private constructor(
                     return@apply
                 }
 
+                includeHiddenSlides()
                 outOfBoundsContent()
                 skipEmbeddedData()
                 validated = true
@@ -3885,7 +3944,8 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (if (outOfBoundsContent.asKnown().isPresent) 1 else 0) +
+                (if (includeHiddenSlides.asKnown().isPresent) 1 else 0) +
+                    (if (outOfBoundsContent.asKnown().isPresent) 1 else 0) +
                     (if (skipEmbeddedData.asKnown().isPresent) 1 else 0)
 
             override fun equals(other: Any?): Boolean {
@@ -3894,19 +3954,25 @@ private constructor(
                 }
 
                 return other is Presentation &&
+                    includeHiddenSlides == other.includeHiddenSlides &&
                     outOfBoundsContent == other.outOfBoundsContent &&
                     skipEmbeddedData == other.skipEmbeddedData &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(outOfBoundsContent, skipEmbeddedData, additionalProperties)
+                Objects.hash(
+                    includeHiddenSlides,
+                    outOfBoundsContent,
+                    skipEmbeddedData,
+                    additionalProperties,
+                )
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Presentation{outOfBoundsContent=$outOfBoundsContent, skipEmbeddedData=$skipEmbeddedData, additionalProperties=$additionalProperties}"
+                "Presentation{includeHiddenSlides=$includeHiddenSlides, outOfBoundsContent=$outOfBoundsContent, skipEmbeddedData=$skipEmbeddedData, additionalProperties=$additionalProperties}"
         }
 
         /** Spreadsheet parsing options (applies to .xlsx, .xls, .csv, .ods files) */
@@ -4276,6 +4342,7 @@ private constructor(
         private val saveOutputPdf: JsonField<Boolean>,
         private val spatialText: JsonField<SpatialText>,
         private val tablesAsSpreadsheet: JsonField<TablesAsSpreadsheet>,
+        private val watermarkHandling: JsonField<WatermarkHandling>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -4305,6 +4372,9 @@ private constructor(
             @JsonProperty("tables_as_spreadsheet")
             @ExcludeMissing
             tablesAsSpreadsheet: JsonField<TablesAsSpreadsheet> = JsonMissing.of(),
+            @JsonProperty("watermark_handling")
+            @ExcludeMissing
+            watermarkHandling: JsonField<WatermarkHandling> = JsonMissing.of(),
         ) : this(
             additionalOutputs,
             extractPrintedPageNumber,
@@ -4314,6 +4384,7 @@ private constructor(
             saveOutputPdf,
             spatialText,
             tablesAsSpreadsheet,
+            watermarkHandling,
             mutableMapOf(),
         )
 
@@ -4410,6 +4481,21 @@ private constructor(
             tablesAsSpreadsheet.getOptional("tables_as_spreadsheet")
 
         /**
+         * What to do with watermark text stamped across the page (e.g., 'CONFIDENTIAL', 'DRAFT'):
+         * 'move_to_end' (default) keeps it as the last block of the page's markdown,
+         * 'move_to_start' as the first block, and 'remove' drops it. The text output follows the
+         * same choice where the watermark is a line of its own in the PDF text layer. In every mode
+         * the detected text is reported in the page's `watermark` metadata. Requires version
+         * 2026-09-28 or later on the cost_effective, agentic, and agentic_plus tiers; ignored
+         * otherwise
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun watermarkHandling(): Optional<WatermarkHandling> =
+            watermarkHandling.getOptional("watermark_handling")
+
+        /**
          * Returns the raw JSON value of [additionalOutputs].
          *
          * Unlike [additionalOutputs], this method doesn't throw if the JSON field has an unexpected
@@ -4485,6 +4571,16 @@ private constructor(
         @ExcludeMissing
         fun _tablesAsSpreadsheet(): JsonField<TablesAsSpreadsheet> = tablesAsSpreadsheet
 
+        /**
+         * Returns the raw JSON value of [watermarkHandling].
+         *
+         * Unlike [watermarkHandling], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("watermark_handling")
+        @ExcludeMissing
+        fun _watermarkHandling(): JsonField<WatermarkHandling> = watermarkHandling
+
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -4514,6 +4610,7 @@ private constructor(
             private var saveOutputPdf: JsonField<Boolean> = JsonMissing.of()
             private var spatialText: JsonField<SpatialText> = JsonMissing.of()
             private var tablesAsSpreadsheet: JsonField<TablesAsSpreadsheet> = JsonMissing.of()
+            private var watermarkHandling: JsonField<WatermarkHandling> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -4526,6 +4623,7 @@ private constructor(
                 saveOutputPdf = outputOptions.saveOutputPdf
                 spatialText = outputOptions.spatialText
                 tablesAsSpreadsheet = outputOptions.tablesAsSpreadsheet
+                watermarkHandling = outputOptions.watermarkHandling
                 additionalProperties = outputOptions.additionalProperties.toMutableMap()
             }
 
@@ -4744,6 +4842,35 @@ private constructor(
                 this.tablesAsSpreadsheet = tablesAsSpreadsheet
             }
 
+            /**
+             * What to do with watermark text stamped across the page (e.g., 'CONFIDENTIAL',
+             * 'DRAFT'): 'move_to_end' (default) keeps it as the last block of the page's markdown,
+             * 'move_to_start' as the first block, and 'remove' drops it. The text output follows
+             * the same choice where the watermark is a line of its own in the PDF text layer. In
+             * every mode the detected text is reported in the page's `watermark` metadata. Requires
+             * version 2026-09-28 or later on the cost_effective, agentic, and agentic_plus tiers;
+             * ignored otherwise
+             */
+            fun watermarkHandling(watermarkHandling: WatermarkHandling?) =
+                watermarkHandling(JsonField.ofNullable(watermarkHandling))
+
+            /**
+             * Alias for calling [Builder.watermarkHandling] with `watermarkHandling.orElse(null)`.
+             */
+            fun watermarkHandling(watermarkHandling: Optional<WatermarkHandling>) =
+                watermarkHandling(watermarkHandling.getOrNull())
+
+            /**
+             * Sets [Builder.watermarkHandling] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.watermarkHandling] with a well-typed
+             * [WatermarkHandling] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
+            fun watermarkHandling(watermarkHandling: JsonField<WatermarkHandling>) = apply {
+                this.watermarkHandling = watermarkHandling
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -4778,6 +4905,7 @@ private constructor(
                     saveOutputPdf,
                     spatialText,
                     tablesAsSpreadsheet,
+                    watermarkHandling,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -4806,6 +4934,7 @@ private constructor(
             saveOutputPdf()
             spatialText().ifPresent { it.validate() }
             tablesAsSpreadsheet().ifPresent { it.validate() }
+            watermarkHandling().ifPresent { it.validate() }
             validated = true
         }
 
@@ -4832,7 +4961,8 @@ private constructor(
                 (markdown.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (saveOutputPdf.asKnown().isPresent) 1 else 0) +
                 (spatialText.asKnown().getOrNull()?.validity() ?: 0) +
-                (tablesAsSpreadsheet.asKnown().getOrNull()?.validity() ?: 0)
+                (tablesAsSpreadsheet.asKnown().getOrNull()?.validity() ?: 0) +
+                (watermarkHandling.asKnown().getOrNull()?.validity() ?: 0)
 
         class GranularBbox @JsonCreator private constructor(private val value: JsonField<String>) :
             Enum {
@@ -6502,6 +6632,165 @@ private constructor(
                 "TablesAsSpreadsheet{enable=$enable, guessSheetName=$guessSheetName, additionalProperties=$additionalProperties}"
         }
 
+        /**
+         * What to do with watermark text stamped across the page (e.g., 'CONFIDENTIAL', 'DRAFT'):
+         * 'move_to_end' (default) keeps it as the last block of the page's markdown,
+         * 'move_to_start' as the first block, and 'remove' drops it. The text output follows the
+         * same choice where the watermark is a line of its own in the PDF text layer. In every mode
+         * the detected text is reported in the page's `watermark` metadata. Requires version
+         * 2026-09-28 or later on the cost_effective, agentic, and agentic_plus tiers; ignored
+         * otherwise
+         */
+        class WatermarkHandling
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val MOVE_TO_END = of("move_to_end")
+
+                @JvmField val MOVE_TO_START = of("move_to_start")
+
+                @JvmField val REMOVE = of("remove")
+
+                @JvmStatic fun of(value: String) = WatermarkHandling(JsonField.of(value))
+            }
+
+            /** An enum containing [WatermarkHandling]'s known values. */
+            enum class Known {
+                MOVE_TO_END,
+                MOVE_TO_START,
+                REMOVE,
+            }
+
+            /**
+             * An enum containing [WatermarkHandling]'s known values, as well as an [_UNKNOWN]
+             * member.
+             *
+             * An instance of [WatermarkHandling] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                MOVE_TO_END,
+                MOVE_TO_START,
+                REMOVE,
+                /**
+                 * An enum member indicating that [WatermarkHandling] was instantiated with an
+                 * unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    MOVE_TO_END -> Value.MOVE_TO_END
+                    MOVE_TO_START -> Value.MOVE_TO_START
+                    REMOVE -> Value.REMOVE
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
+             *   known member.
+             */
+            fun known(): Known =
+                when (this) {
+                    MOVE_TO_END -> Known.MOVE_TO_END
+                    MOVE_TO_START -> Known.MOVE_TO_START
+                    REMOVE -> Known.REMOVE
+                    else ->
+                        throw LlamaCloudInvalidDataException("Unknown WatermarkHandling: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LlamaCloudInvalidDataException if this class instance's value does not have
+             *   the expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LlamaCloudInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
+            fun validate(): WatermarkHandling = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LlamaCloudInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is WatermarkHandling && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -6516,6 +6805,7 @@ private constructor(
                 saveOutputPdf == other.saveOutputPdf &&
                 spatialText == other.spatialText &&
                 tablesAsSpreadsheet == other.tablesAsSpreadsheet &&
+                watermarkHandling == other.watermarkHandling &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -6529,6 +6819,7 @@ private constructor(
                 saveOutputPdf,
                 spatialText,
                 tablesAsSpreadsheet,
+                watermarkHandling,
                 additionalProperties,
             )
         }
@@ -6536,7 +6827,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "OutputOptions{additionalOutputs=$additionalOutputs, extractPrintedPageNumber=$extractPrintedPageNumber, granularBboxes=$granularBboxes, imagesToSave=$imagesToSave, markdown=$markdown, saveOutputPdf=$saveOutputPdf, spatialText=$spatialText, tablesAsSpreadsheet=$tablesAsSpreadsheet, additionalProperties=$additionalProperties}"
+            "OutputOptions{additionalOutputs=$additionalOutputs, extractPrintedPageNumber=$extractPrintedPageNumber, granularBboxes=$granularBboxes, imagesToSave=$imagesToSave, markdown=$markdown, saveOutputPdf=$saveOutputPdf, spatialText=$spatialText, tablesAsSpreadsheet=$tablesAsSpreadsheet, watermarkHandling=$watermarkHandling, additionalProperties=$additionalProperties}"
     }
 
     /** Page selection: limit total pages or specify exact pages to process */
@@ -10954,9 +11245,9 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-08-19`
-                 * - `agentic`: `2026-09-07`
-                 * - `agentic_plus`: `2026-08-19`
+                 * - `cost_effective`: `2026-09-28`
+                 * - `agentic`: `2026-09-29`
+                 * - `agentic_plus`: `2026-09-28`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  *
@@ -11458,9 +11749,9 @@ private constructor(
                      *
                      * Current `latest` by tier:
                      * - `fast`: `2026-06-15`
-                     * - `cost_effective`: `2026-08-19`
-                     * - `agentic`: `2026-09-07`
-                     * - `agentic_plus`: `2026-08-19`
+                     * - `cost_effective`: `2026-09-28`
+                     * - `agentic`: `2026-09-29`
+                     * - `agentic_plus`: `2026-09-28`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
                      */
@@ -13072,9 +13363,9 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-08-19`
-                 * - `agentic`: `2026-09-07`
-                 * - `agentic_plus`: `2026-08-19`
+                 * - `cost_effective`: `2026-09-28`
+                 * - `agentic`: `2026-09-29`
+                 * - `agentic_plus`: `2026-09-28`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  */
@@ -13097,9 +13388,9 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
-                        @JvmField val _2026_09_07 = of("2026-09-07")
+                        @JvmField val _2026_09_29 = of("2026-09-29")
 
-                        @JvmField val _2026_08_19 = of("2026-08-19")
+                        @JvmField val _2026_09_28 = of("2026-09-28")
 
                         @JvmField val _2026_06_15 = of("2026-06-15")
 
@@ -13109,8 +13400,8 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
-                        _2026_09_07,
-                        _2026_08_19,
+                        _2026_09_29,
+                        _2026_09_28,
                         _2026_06_15,
                     }
 
@@ -13125,8 +13416,8 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
-                        _2026_09_07,
-                        _2026_08_19,
+                        _2026_09_29,
+                        _2026_09_28,
                         _2026_06_15,
                         /**
                          * An enum member indicating that [Version] was instantiated with an unknown
@@ -13145,8 +13436,8 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
-                            _2026_09_07 -> Value._2026_09_07
-                            _2026_08_19 -> Value._2026_08_19
+                            _2026_09_29 -> Value._2026_09_29
+                            _2026_09_28 -> Value._2026_09_28
                             _2026_06_15 -> Value._2026_06_15
                             else -> Value._UNKNOWN
                         }
@@ -13163,8 +13454,8 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
-                            _2026_09_07 -> Known._2026_09_07
-                            _2026_08_19 -> Known._2026_08_19
+                            _2026_09_29 -> Known._2026_09_29
+                            _2026_09_28 -> Known._2026_09_28
                             _2026_06_15 -> Known._2026_06_15
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
                         }

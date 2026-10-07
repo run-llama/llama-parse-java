@@ -61,8 +61,8 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.webhookConfigs()).isNotNull()
         assertThat(client.projects()).isNotNull()
         assertThat(client.v2Projects()).isNotNull()
-        assertThat(client.jobDataPoints()).isNotNull()
         assertThat(client.dataSinks()).isNotNull()
+        assertThat(client.extractionAgents()).isNotNull()
         assertThat(client.dataSources()).isNotNull()
         assertThat(client.pipelines()).isNotNull()
         assertThat(client.retrievers()).isNotNull()
@@ -90,6 +90,7 @@ internal class ProGuardCompatibilityTest {
                         .putAdditionalProperty("foo", JsonValue.from("bar"))
                         .build()
                 )
+                .syncInProgress(true)
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
 

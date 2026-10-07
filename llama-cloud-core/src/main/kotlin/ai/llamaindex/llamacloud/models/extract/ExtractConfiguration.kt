@@ -133,8 +133,9 @@ private constructor(
     fun disableCache(): Optional<Boolean> = disableCache.getOptional("disable_cache")
 
     /**
-     * Granularity of extraction: per_doc returns one object per document, per_page returns one
-     * object per page, per_table_row returns one object per table row
+     * Deprecated. Applies only to Agentic and Cost Effective versions 2.0 or earlier. Granularity
+     * of extraction: per_doc returns one object per document, per_page returns one object per page,
+     * per_table_row returns one object per table row. Agentic Plus supports per_doc only.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -218,10 +219,9 @@ private constructor(
     fun tier(): Optional<Tier> = tier.getOptional("tier")
 
     /**
-     * Use 'latest' for the latest release for the selected tier or a date string (YYYY-MM-DD
-     * format) to pin to the nearest release at or before that date. Job responses always report the
-     * concrete resolved version the job runs, fixed at job creation; saved configurations keep the
-     * value as provided.
+     * Extract version name, such as '2.5'. Use 'latest' for the newest compatible release for the
+     * selected tier. Dates (YYYY-MM-DD) are also supported, which will use the latest version on or
+     * before the specified date.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -474,8 +474,10 @@ private constructor(
         }
 
         /**
+         * Deprecated. Applies only to Agentic and Cost Effective versions 2.0 or earlier.
          * Granularity of extraction: per_doc returns one object per document, per_page returns one
-         * object per page, per_table_row returns one object per table row
+         * object per page, per_table_row returns one object per table row. Agentic Plus supports
+         * per_doc only.
          */
         fun extractionTarget(extractionTarget: ExtractionTarget) =
             extractionTarget(JsonField.of(extractionTarget))
@@ -658,10 +660,9 @@ private constructor(
         fun tier(tier: JsonField<Tier>) = apply { this.tier = tier }
 
         /**
-         * Use 'latest' for the latest release for the selected tier or a date string (YYYY-MM-DD
-         * format) to pin to the nearest release at or before that date. Job responses always report
-         * the concrete resolved version the job runs, fixed at job creation; saved configurations
-         * keep the value as provided.
+         * Extract version name, such as '2.5'. Use 'latest' for the newest compatible release for
+         * the selected tier. Dates (YYYY-MM-DD) are also supported, which will use the latest
+         * version on or before the specified date.
          */
         fun version(version: String) = version(JsonField.of(version))
 
@@ -899,8 +900,9 @@ private constructor(
     }
 
     /**
-     * Granularity of extraction: per_doc returns one object per document, per_page returns one
-     * object per page, per_table_row returns one object per table row
+     * Deprecated. Applies only to Agentic and Cost Effective versions 2.0 or earlier. Granularity
+     * of extraction: per_doc returns one object per document, per_page returns one object per page,
+     * per_table_row returns one object per table row. Agentic Plus supports per_doc only.
      */
     class ExtractionTarget @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {

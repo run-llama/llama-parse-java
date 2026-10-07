@@ -63,6 +63,7 @@ internal class ParsingServiceTest {
                             .pdf(JsonValue.from(mapOf<String, Any>()))
                             .presentation(
                                 ParsingCreateParams.InputOptions.Presentation.builder()
+                                    .includeHiddenSlides(true)
                                     .outOfBoundsContent(true)
                                     .skipEmbeddedData(true)
                                     .build()
@@ -123,6 +124,9 @@ internal class ParsingServiceTest {
                                     .enable(true)
                                     .guessSheetName(true)
                                     .build()
+                            )
+                            .watermarkHandling(
+                                ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE
                             )
                             .build()
                     )

@@ -108,6 +108,7 @@ internal class ServiceParamsTest {
                         .pdf(JsonValue.from(mapOf<String, Any>()))
                         .presentation(
                             ParsingCreateParams.InputOptions.Presentation.builder()
+                                .includeHiddenSlides(true)
                                 .outOfBoundsContent(true)
                                 .skipEmbeddedData(true)
                                 .build()
@@ -166,6 +167,9 @@ internal class ServiceParamsTest {
                                 .enable(true)
                                 .guessSheetName(true)
                                 .build()
+                        )
+                        .watermarkHandling(
+                            ParsingCreateParams.OutputOptions.WatermarkHandling.REMOVE
                         )
                         .build()
                 )

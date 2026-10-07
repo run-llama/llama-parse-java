@@ -1,63 +1,63 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package ai.llamaindex.llamacloud.models.jobdatapoints
+package ai.llamaindex.llamacloud.models.retrievers
 
 import ai.llamaindex.llamacloud.core.AutoPager
 import ai.llamaindex.llamacloud.core.Page
 import ai.llamaindex.llamacloud.core.checkRequired
-import ai.llamaindex.llamacloud.services.blocking.JobDataPointService
+import ai.llamaindex.llamacloud.services.blocking.RetrieverService
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see JobDataPointService.list */
-class JobDataPointListPage
+/** @see RetrieverService.listPaginated */
+class RetrieverListPaginatedPage
 private constructor(
-    private val service: JobDataPointService,
-    private val params: JobDataPointListParams,
-    private val response: JobDataPointListPageResponse,
-) : Page<JobDataPoint> {
+    private val service: RetrieverService,
+    private val params: RetrieverListPaginatedParams,
+    private val response: RetrieverListPaginatedPageResponse,
+) : Page<Retriever> {
 
     /**
-     * Delegates to [JobDataPointListPageResponse], but gracefully handles missing data.
+     * Delegates to [RetrieverListPaginatedPageResponse], but gracefully handles missing data.
      *
-     * @see JobDataPointListPageResponse.items
+     * @see RetrieverListPaginatedPageResponse.items
      */
-    override fun items(): List<JobDataPoint> =
+    override fun items(): List<Retriever> =
         response._items().getOptional("items").getOrNull() ?: emptyList()
 
     /**
-     * Delegates to [JobDataPointListPageResponse], but gracefully handles missing data.
+     * Delegates to [RetrieverListPaginatedPageResponse], but gracefully handles missing data.
      *
-     * @see JobDataPointListPageResponse.nextPageToken
+     * @see RetrieverListPaginatedPageResponse.nextPageToken
      */
     fun nextPageToken(): Optional<String> = response._nextPageToken().getOptional("next_page_token")
 
     override fun hasNextPage(): Boolean = items().isNotEmpty() && nextPageToken().isPresent
 
-    fun nextPageParams(): JobDataPointListParams {
+    fun nextPageParams(): RetrieverListPaginatedParams {
         val nextCursor =
             nextPageToken().getOrNull()
                 ?: throw IllegalStateException("Cannot construct next page params")
         return params.toBuilder().pageToken(nextCursor).build()
     }
 
-    override fun nextPage(): JobDataPointListPage = service.list(nextPageParams())
+    override fun nextPage(): RetrieverListPaginatedPage = service.listPaginated(nextPageParams())
 
-    fun autoPager(): AutoPager<JobDataPoint> = AutoPager.from(this)
+    fun autoPager(): AutoPager<Retriever> = AutoPager.from(this)
 
     /** The parameters that were used to request this page. */
-    fun params(): JobDataPointListParams = params
+    fun params(): RetrieverListPaginatedParams = params
 
     /** The response that this page was parsed from. */
-    fun response(): JobDataPointListPageResponse = response
+    fun response(): RetrieverListPaginatedPageResponse = response
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [JobDataPointListPage].
+         * Returns a mutable builder for constructing an instance of [RetrieverListPaginatedPage].
          *
          * The following fields are required:
          * ```java
@@ -69,30 +69,32 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [JobDataPointListPage]. */
+    /** A builder for [RetrieverListPaginatedPage]. */
     class Builder internal constructor() {
 
-        private var service: JobDataPointService? = null
-        private var params: JobDataPointListParams? = null
-        private var response: JobDataPointListPageResponse? = null
+        private var service: RetrieverService? = null
+        private var params: RetrieverListPaginatedParams? = null
+        private var response: RetrieverListPaginatedPageResponse? = null
 
         @JvmSynthetic
-        internal fun from(jobDataPointListPage: JobDataPointListPage) = apply {
-            service = jobDataPointListPage.service
-            params = jobDataPointListPage.params
-            response = jobDataPointListPage.response
+        internal fun from(retrieverListPaginatedPage: RetrieverListPaginatedPage) = apply {
+            service = retrieverListPaginatedPage.service
+            params = retrieverListPaginatedPage.params
+            response = retrieverListPaginatedPage.response
         }
 
-        fun service(service: JobDataPointService) = apply { this.service = service }
+        fun service(service: RetrieverService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: JobDataPointListParams) = apply { this.params = params }
+        fun params(params: RetrieverListPaginatedParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: JobDataPointListPageResponse) = apply { this.response = response }
+        fun response(response: RetrieverListPaginatedPageResponse) = apply {
+            this.response = response
+        }
 
         /**
-         * Returns an immutable instance of [JobDataPointListPage].
+         * Returns an immutable instance of [RetrieverListPaginatedPage].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -105,8 +107,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): JobDataPointListPage =
-            JobDataPointListPage(
+        fun build(): RetrieverListPaginatedPage =
+            RetrieverListPaginatedPage(
                 checkRequired("service", service),
                 checkRequired("params", params),
                 checkRequired("response", response),
@@ -118,7 +120,7 @@ private constructor(
             return true
         }
 
-        return other is JobDataPointListPage &&
+        return other is RetrieverListPaginatedPage &&
             service == other.service &&
             params == other.params &&
             response == other.response
@@ -127,5 +129,5 @@ private constructor(
     override fun hashCode(): Int = Objects.hash(service, params, response)
 
     override fun toString() =
-        "JobDataPointListPage{service=$service, params=$params, response=$response}"
+        "RetrieverListPaginatedPage{service=$service, params=$params, response=$response}"
 }

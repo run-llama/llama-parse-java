@@ -5,6 +5,8 @@ package ai.llamaindex.llamacloud.services.async
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.async.beta.AgentDataServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.AgentDataServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.beta.AttachmentServiceAsync
+import ai.llamaindex.llamacloud.services.async.beta.AttachmentServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.beta.ChatServiceAsync
 import ai.llamaindex.llamacloud.services.async.beta.ChatServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.beta.DirectoryServiceAsync
@@ -32,6 +34,10 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
 
     private val chat: ChatServiceAsync by lazy { ChatServiceAsyncImpl(clientOptions) }
 
+    private val attachments: AttachmentServiceAsync by lazy {
+        AttachmentServiceAsyncImpl(clientOptions)
+    }
+
     private val agentData: AgentDataServiceAsync by lazy {
         AgentDataServiceAsyncImpl(clientOptions)
     }
@@ -53,6 +59,8 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
 
     override fun chat(): ChatServiceAsync = chat
 
+    override fun attachments(): AttachmentServiceAsync = attachments
+
     override fun agentData(): AgentDataServiceAsync = agentData
 
     override fun directories(): DirectoryServiceAsync = directories
@@ -72,6 +80,10 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
 
         private val chat: ChatServiceAsync.WithRawResponse by lazy {
             ChatServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val attachments: AttachmentServiceAsync.WithRawResponse by lazy {
+            AttachmentServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val agentData: AgentDataServiceAsync.WithRawResponse by lazy {
@@ -98,6 +110,8 @@ class BetaServiceAsyncImpl internal constructor(private val clientOptions: Clien
         override fun retrieval(): RetrievalServiceAsync.WithRawResponse = retrieval
 
         override fun chat(): ChatServiceAsync.WithRawResponse = chat
+
+        override fun attachments(): AttachmentServiceAsync.WithRawResponse = attachments
 
         override fun agentData(): AgentDataServiceAsync.WithRawResponse = agentData
 

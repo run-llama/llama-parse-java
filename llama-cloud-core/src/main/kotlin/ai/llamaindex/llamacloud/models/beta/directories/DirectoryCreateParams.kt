@@ -22,7 +22,12 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Create a new directory within the specified project. */
+/**
+ * Create a new directory within the specified project.
+ *
+ * A connector subscription syncs into at most one directory. Creating a second one for the same
+ * subscription returns `409` with the existing directory's id in `detail.directory_id`.
+ */
 class DirectoryCreateParams
 private constructor(
     private val organizationId: String?,

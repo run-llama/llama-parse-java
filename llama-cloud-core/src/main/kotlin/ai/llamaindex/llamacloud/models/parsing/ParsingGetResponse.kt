@@ -2062,6 +2062,7 @@ private constructor(
                 private val forms: JsonField<List<Form>>,
                 private val pageNumber: JsonField<Long>,
                 private val success: JsonValue,
+                private val detectedFormTypes: JsonField<List<String>>,
                 private val pageHeight: JsonField<Double>,
                 private val pageWidth: JsonField<Double>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
@@ -2076,13 +2077,24 @@ private constructor(
                     @ExcludeMissing
                     pageNumber: JsonField<Long> = JsonMissing.of(),
                     @JsonProperty("success") @ExcludeMissing success: JsonValue = JsonMissing.of(),
+                    @JsonProperty("detected_form_types")
+                    @ExcludeMissing
+                    detectedFormTypes: JsonField<List<String>> = JsonMissing.of(),
                     @JsonProperty("page_height")
                     @ExcludeMissing
                     pageHeight: JsonField<Double> = JsonMissing.of(),
                     @JsonProperty("page_width")
                     @ExcludeMissing
                     pageWidth: JsonField<Double> = JsonMissing.of(),
-                ) : this(forms, pageNumber, success, pageHeight, pageWidth, mutableMapOf())
+                ) : this(
+                    forms,
+                    pageNumber,
+                    success,
+                    detectedFormTypes,
+                    pageHeight,
+                    pageWidth,
+                    mutableMapOf(),
+                )
 
                 /**
                  * Forms detected on the page
@@ -2114,6 +2126,15 @@ private constructor(
                  * responded with an unexpected value).
                  */
                 @JsonProperty("success") @ExcludeMissing fun _success(): JsonValue = success
+
+                /**
+                 * Form types detected on the page (e.g. 'w2', 'other'), or null if not a form
+                 *
+                 * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun detectedFormTypes(): Optional<List<String>> =
+                    detectedFormTypes.getOptional("detected_form_types")
 
                 /**
                  * Height of the page in points
@@ -2148,6 +2169,16 @@ private constructor(
                 @JsonProperty("page_number")
                 @ExcludeMissing
                 fun _pageNumber(): JsonField<Long> = pageNumber
+
+                /**
+                 * Returns the raw JSON value of [detectedFormTypes].
+                 *
+                 * Unlike [detectedFormTypes], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("detected_form_types")
+                @ExcludeMissing
+                fun _detectedFormTypes(): JsonField<List<String>> = detectedFormTypes
 
                 /**
                  * Returns the raw JSON value of [pageHeight].
@@ -2201,6 +2232,7 @@ private constructor(
                     private var forms: JsonField<MutableList<Form>>? = null
                     private var pageNumber: JsonField<Long>? = null
                     private var success: JsonValue = JsonValue.from(true)
+                    private var detectedFormTypes: JsonField<MutableList<String>>? = null
                     private var pageHeight: JsonField<Double> = JsonMissing.of()
                     private var pageWidth: JsonField<Double> = JsonMissing.of()
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -2210,6 +2242,8 @@ private constructor(
                         forms = formsResultPage.forms.map { it.toMutableList() }
                         pageNumber = formsResultPage.pageNumber
                         success = formsResultPage.success
+                        detectedFormTypes =
+                            formsResultPage.detectedFormTypes.map { it.toMutableList() }
                         pageHeight = formsResultPage.pageHeight
                         pageWidth = formsResultPage.pageWidth
                         additionalProperties = formsResultPage.additionalProperties.toMutableMap()
@@ -2268,6 +2302,42 @@ private constructor(
                      * supported value.
                      */
                     fun success(success: JsonValue) = apply { this.success = success }
+
+                    /**
+                     * Form types detected on the page (e.g. 'w2', 'other'), or null if not a form
+                     */
+                    fun detectedFormTypes(detectedFormTypes: List<String>?) =
+                        detectedFormTypes(JsonField.ofNullable(detectedFormTypes))
+
+                    /**
+                     * Alias for calling [Builder.detectedFormTypes] with
+                     * `detectedFormTypes.orElse(null)`.
+                     */
+                    fun detectedFormTypes(detectedFormTypes: Optional<List<String>>) =
+                        detectedFormTypes(detectedFormTypes.getOrNull())
+
+                    /**
+                     * Sets [Builder.detectedFormTypes] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.detectedFormTypes] with a well-typed
+                     * `List<String>` value instead. This method is primarily for setting the field
+                     * to an undocumented or not yet supported value.
+                     */
+                    fun detectedFormTypes(detectedFormTypes: JsonField<List<String>>) = apply {
+                        this.detectedFormTypes = detectedFormTypes.map { it.toMutableList() }
+                    }
+
+                    /**
+                     * Adds a single [String] to [detectedFormTypes].
+                     *
+                     * @throws IllegalStateException if the field was previously set to a non-list.
+                     */
+                    fun addDetectedFormType(detectedFormType: String) = apply {
+                        detectedFormTypes =
+                            (detectedFormTypes ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("detectedFormTypes", it).add(detectedFormType)
+                            }
+                    }
 
                     /** Height of the page in points */
                     fun pageHeight(pageHeight: Double?) =
@@ -2359,6 +2429,7 @@ private constructor(
                             checkRequired("forms", forms).map { it.toImmutable() },
                             checkRequired("pageNumber", pageNumber),
                             success,
+                            (detectedFormTypes ?: JsonMissing.of()).map { it.toImmutable() },
                             pageHeight,
                             pageWidth,
                             additionalProperties.toMutableMap(),
@@ -2391,6 +2462,7 @@ private constructor(
                             )
                         }
                     }
+                    detectedFormTypes()
                     pageHeight()
                     pageWidth()
                     validated = true
@@ -2415,6 +2487,7 @@ private constructor(
                     (forms.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                         (if (pageNumber.asKnown().isPresent) 1 else 0) +
                         success.let { if (it == JsonValue.from(true)) 1 else 0 } +
+                        (detectedFormTypes.asKnown().getOrNull()?.size ?: 0) +
                         (if (pageHeight.asKnown().isPresent) 1 else 0) +
                         (if (pageWidth.asKnown().isPresent) 1 else 0)
 
@@ -2427,6 +2500,7 @@ private constructor(
                         forms == other.forms &&
                         pageNumber == other.pageNumber &&
                         success == other.success &&
+                        detectedFormTypes == other.detectedFormTypes &&
                         pageHeight == other.pageHeight &&
                         pageWidth == other.pageWidth &&
                         additionalProperties == other.additionalProperties
@@ -2437,6 +2511,7 @@ private constructor(
                         forms,
                         pageNumber,
                         success,
+                        detectedFormTypes,
                         pageHeight,
                         pageWidth,
                         additionalProperties,
@@ -2446,7 +2521,7 @@ private constructor(
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "FormsResultPage{forms=$forms, pageNumber=$pageNumber, success=$success, pageHeight=$pageHeight, pageWidth=$pageWidth, additionalProperties=$additionalProperties}"
+                    "FormsResultPage{forms=$forms, pageNumber=$pageNumber, success=$success, detectedFormTypes=$detectedFormTypes, pageHeight=$pageHeight, pageWidth=$pageWidth, additionalProperties=$additionalProperties}"
             }
 
             /** A page whose processing failed. */
@@ -9179,6 +9254,7 @@ private constructor(
             private val slideSectionName: JsonField<String>,
             private val speakerNotes: JsonField<String>,
             private val triggeredAutoMode: JsonField<Boolean>,
+            private val watermark: JsonField<String>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -9208,6 +9284,9 @@ private constructor(
                 @JsonProperty("triggered_auto_mode")
                 @ExcludeMissing
                 triggeredAutoMode: JsonField<Boolean> = JsonMissing.of(),
+                @JsonProperty("watermark")
+                @ExcludeMissing
+                watermark: JsonField<String> = JsonMissing.of(),
             ) : this(
                 pageNumber,
                 confidence,
@@ -9217,6 +9296,7 @@ private constructor(
                 slideSectionName,
                 speakerNotes,
                 triggeredAutoMode,
+                watermark,
                 mutableMapOf(),
             )
 
@@ -9288,6 +9368,15 @@ private constructor(
              */
             fun triggeredAutoMode(): Optional<Boolean> =
                 triggeredAutoMode.getOptional("triggered_auto_mode")
+
+            /**
+             * Watermark text detected on the page (e.g., 'CONFIDENTIAL'). Only reported on version
+             * 2026-09-28 or later of the cost_effective, agentic, and agentic_plus tiers
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun watermark(): Optional<String> = watermark.getOptional("watermark")
 
             /**
              * Returns the raw JSON value of [pageNumber].
@@ -9369,6 +9458,16 @@ private constructor(
             @ExcludeMissing
             fun _triggeredAutoMode(): JsonField<Boolean> = triggeredAutoMode
 
+            /**
+             * Returns the raw JSON value of [watermark].
+             *
+             * Unlike [watermark], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("watermark")
+            @ExcludeMissing
+            fun _watermark(): JsonField<String> = watermark
+
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
                 additionalProperties.put(key, value)
@@ -9405,6 +9504,7 @@ private constructor(
                 private var slideSectionName: JsonField<String> = JsonMissing.of()
                 private var speakerNotes: JsonField<String> = JsonMissing.of()
                 private var triggeredAutoMode: JsonField<Boolean> = JsonMissing.of()
+                private var watermark: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -9417,6 +9517,7 @@ private constructor(
                     slideSectionName = page.slideSectionName
                     speakerNotes = page.speakerNotes
                     triggeredAutoMode = page.triggeredAutoMode
+                    watermark = page.watermark
                     additionalProperties = page.additionalProperties.toMutableMap()
                 }
 
@@ -9605,6 +9706,25 @@ private constructor(
                     this.triggeredAutoMode = triggeredAutoMode
                 }
 
+                /**
+                 * Watermark text detected on the page (e.g., 'CONFIDENTIAL'). Only reported on
+                 * version 2026-09-28 or later of the cost_effective, agentic, and agentic_plus
+                 * tiers
+                 */
+                fun watermark(watermark: String?) = watermark(JsonField.ofNullable(watermark))
+
+                /** Alias for calling [Builder.watermark] with `watermark.orElse(null)`. */
+                fun watermark(watermark: Optional<String>) = watermark(watermark.getOrNull())
+
+                /**
+                 * Sets [Builder.watermark] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.watermark] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun watermark(watermark: JsonField<String>) = apply { this.watermark = watermark }
+
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -9649,6 +9769,7 @@ private constructor(
                         slideSectionName,
                         speakerNotes,
                         triggeredAutoMode,
+                        watermark,
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -9678,6 +9799,7 @@ private constructor(
                 slideSectionName()
                 speakerNotes()
                 triggeredAutoMode()
+                watermark()
                 validated = true
             }
 
@@ -9704,7 +9826,8 @@ private constructor(
                     (if (printedPageNumber.asKnown().isPresent) 1 else 0) +
                     (if (slideSectionName.asKnown().isPresent) 1 else 0) +
                     (if (speakerNotes.asKnown().isPresent) 1 else 0) +
-                    (if (triggeredAutoMode.asKnown().isPresent) 1 else 0)
+                    (if (triggeredAutoMode.asKnown().isPresent) 1 else 0) +
+                    (if (watermark.asKnown().isPresent) 1 else 0)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -9720,6 +9843,7 @@ private constructor(
                     slideSectionName == other.slideSectionName &&
                     speakerNotes == other.speakerNotes &&
                     triggeredAutoMode == other.triggeredAutoMode &&
+                    watermark == other.watermark &&
                     additionalProperties == other.additionalProperties
             }
 
@@ -9733,6 +9857,7 @@ private constructor(
                     slideSectionName,
                     speakerNotes,
                     triggeredAutoMode,
+                    watermark,
                     additionalProperties,
                 )
             }
@@ -9740,7 +9865,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Page{pageNumber=$pageNumber, confidence=$confidence, costOptimized=$costOptimized, originalOrientationAngle=$originalOrientationAngle, printedPageNumber=$printedPageNumber, slideSectionName=$slideSectionName, speakerNotes=$speakerNotes, triggeredAutoMode=$triggeredAutoMode, additionalProperties=$additionalProperties}"
+                "Page{pageNumber=$pageNumber, confidence=$confidence, costOptimized=$costOptimized, originalOrientationAngle=$originalOrientationAngle, printedPageNumber=$printedPageNumber, slideSectionName=$slideSectionName, speakerNotes=$speakerNotes, triggeredAutoMode=$triggeredAutoMode, watermark=$watermark, additionalProperties=$additionalProperties}"
         }
 
         /** Document-level metadata information. */

@@ -4,6 +4,7 @@ package ai.llamaindex.llamacloud.services.blocking
 
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.blocking.beta.AgentDataService
+import ai.llamaindex.llamacloud.services.blocking.beta.AttachmentService
 import ai.llamaindex.llamacloud.services.blocking.beta.ChatService
 import ai.llamaindex.llamacloud.services.blocking.beta.DirectoryService
 import ai.llamaindex.llamacloud.services.blocking.beta.IndexService
@@ -31,6 +32,8 @@ interface BetaService {
 
     fun chat(): ChatService
 
+    fun attachments(): AttachmentService
+
     fun agentData(): AgentDataService
 
     fun directories(): DirectoryService
@@ -52,6 +55,8 @@ interface BetaService {
         fun retrieval(): RetrievalService.WithRawResponse
 
         fun chat(): ChatService.WithRawResponse
+
+        fun attachments(): AttachmentService.WithRawResponse
 
         fun agentData(): AgentDataService.WithRawResponse
 

@@ -14,55 +14,55 @@ import ai.llamaindex.llamacloud.core.http.HttpResponse.Handler
 import ai.llamaindex.llamacloud.core.http.HttpResponseFor
 import ai.llamaindex.llamacloud.core.http.parseable
 import ai.llamaindex.llamacloud.core.prepare
-import ai.llamaindex.llamacloud.models.jobdatapoints.JobDataPointListPage
-import ai.llamaindex.llamacloud.models.jobdatapoints.JobDataPointListPageResponse
-import ai.llamaindex.llamacloud.models.jobdatapoints.JobDataPointListParams
+import ai.llamaindex.llamacloud.models.extractionagents.ExtractionAgentListPage
+import ai.llamaindex.llamacloud.models.extractionagents.ExtractionAgentListPageResponse
+import ai.llamaindex.llamacloud.models.extractionagents.ExtractionAgentListParams
 import java.util.function.Consumer
 
-class JobDataPointServiceImpl internal constructor(private val clientOptions: ClientOptions) :
-    JobDataPointService {
+class ExtractionAgentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    ExtractionAgentService {
 
-    private val withRawResponse: JobDataPointService.WithRawResponse by lazy {
+    private val withRawResponse: ExtractionAgentService.WithRawResponse by lazy {
         WithRawResponseImpl(clientOptions)
     }
 
-    override fun withRawResponse(): JobDataPointService.WithRawResponse = withRawResponse
+    override fun withRawResponse(): ExtractionAgentService.WithRawResponse = withRawResponse
 
-    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): JobDataPointService =
-        JobDataPointServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ExtractionAgentService =
+        ExtractionAgentServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(
-        params: JobDataPointListParams,
+        params: ExtractionAgentListParams,
         requestOptions: RequestOptions,
-    ): JobDataPointListPage =
-        // get /api/v1/job-data-points
+    ): ExtractionAgentListPage =
+        // get /api/v1/beta/extraction-agents
         withRawResponse().list(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        JobDataPointService.WithRawResponse {
+        ExtractionAgentService.WithRawResponse {
 
         private val errorHandler: Handler<HttpResponse> =
             errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
-        ): JobDataPointService.WithRawResponse =
-            JobDataPointServiceImpl.WithRawResponseImpl(
+        ): ExtractionAgentService.WithRawResponse =
+            ExtractionAgentServiceImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val listHandler: Handler<JobDataPointListPageResponse> =
-            jsonHandler<JobDataPointListPageResponse>(clientOptions.jsonMapper)
+        private val listHandler: Handler<ExtractionAgentListPageResponse> =
+            jsonHandler<ExtractionAgentListPageResponse>(clientOptions.jsonMapper)
 
         override fun list(
-            params: JobDataPointListParams,
+            params: ExtractionAgentListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<JobDataPointListPage> {
+        ): HttpResponseFor<ExtractionAgentListPage> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
                     .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("api", "v1", "job-data-points")
+                    .addPathSegments("api", "v1", "beta", "extraction-agents")
                     .build()
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
@@ -76,8 +76,8 @@ class JobDataPointServiceImpl internal constructor(private val clientOptions: Cl
                         }
                     }
                     .let {
-                        JobDataPointListPage.builder()
-                            .service(JobDataPointServiceImpl(clientOptions))
+                        ExtractionAgentListPage.builder()
+                            .service(ExtractionAgentServiceImpl(clientOptions))
                             .params(params)
                             .response(it)
                             .build()

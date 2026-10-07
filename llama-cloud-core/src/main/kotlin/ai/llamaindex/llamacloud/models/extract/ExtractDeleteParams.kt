@@ -11,10 +11,14 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Delete an extraction job and its results. */
+/**
+ * Delete an extraction job and its results. A non-terminal job is refused; cancel it first, or pass
+ * force=true to delete a job whose workflow is gone.
+ */
 class ExtractDeleteParams
 private constructor(
     private val jobId: String?,
+    private val force: Boolean?,
     private val organizationId: String?,
     private val projectId: String?,
     private val additionalHeaders: Headers,
@@ -23,6 +27,8 @@ private constructor(
 ) : Params {
 
     fun jobId(): Optional<String> = Optional.ofNullable(jobId)
+
+    fun force(): Optional<Boolean> = Optional.ofNullable(force)
 
     fun organizationId(): Optional<String> = Optional.ofNullable(organizationId)
 
@@ -51,6 +57,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var jobId: String? = null
+        private var force: Boolean? = null
         private var organizationId: String? = null
         private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -60,6 +67,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(extractDeleteParams: ExtractDeleteParams) = apply {
             jobId = extractDeleteParams.jobId
+            force = extractDeleteParams.force
             organizationId = extractDeleteParams.organizationId
             projectId = extractDeleteParams.projectId
             additionalHeaders = extractDeleteParams.additionalHeaders.toBuilder()
@@ -71,6 +79,18 @@ private constructor(
 
         /** Alias for calling [Builder.jobId] with `jobId.orElse(null)`. */
         fun jobId(jobId: Optional<String>) = jobId(jobId.getOrNull())
+
+        fun force(force: Boolean?) = apply { this.force = force }
+
+        /**
+         * Alias for [Builder.force].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun force(force: Boolean) = force(force as Boolean?)
+
+        /** Alias for calling [Builder.force] with `force.orElse(null)`. */
+        fun force(force: Optional<Boolean>) = force(force.getOrNull())
 
         fun organizationId(organizationId: String?) = apply { this.organizationId = organizationId }
 
@@ -211,6 +231,7 @@ private constructor(
         fun build(): ExtractDeleteParams =
             ExtractDeleteParams(
                 jobId,
+                force,
                 organizationId,
                 projectId,
                 additionalHeaders.build(),
@@ -233,6 +254,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
+                force?.let { put("force", it.toString()) }
                 organizationId?.let { put("organization_id", it) }
                 projectId?.let { put("project_id", it) }
                 putAll(additionalQueryParams)
@@ -246,6 +268,7 @@ private constructor(
 
         return other is ExtractDeleteParams &&
             jobId == other.jobId &&
+            force == other.force &&
             organizationId == other.organizationId &&
             projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
@@ -256,6 +279,7 @@ private constructor(
     override fun hashCode(): Int =
         Objects.hash(
             jobId,
+            force,
             organizationId,
             projectId,
             additionalHeaders,
@@ -264,5 +288,5 @@ private constructor(
         )
 
     override fun toString() =
-        "ExtractDeleteParams{jobId=$jobId, organizationId=$organizationId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "ExtractDeleteParams{jobId=$jobId, force=$force, organizationId=$organizationId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

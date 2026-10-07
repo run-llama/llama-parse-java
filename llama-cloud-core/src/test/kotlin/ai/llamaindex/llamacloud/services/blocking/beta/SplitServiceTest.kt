@@ -40,6 +40,7 @@ internal class SplitServiceTest {
                                     .minPagesPerSplit(1L)
                                     .build()
                             )
+                            .version("latest")
                             .build()
                     )
                     .configurationId("configuration_id")

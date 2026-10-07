@@ -31,6 +31,7 @@ internal class IndexListResponseTest {
                         .putAdditionalProperty("foo", JsonValue.from("bar"))
                         .build()
                 )
+                .syncInProgress(true)
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
 
@@ -54,6 +55,7 @@ internal class IndexListResponseTest {
                     .putAdditionalProperty("foo", JsonValue.from("bar"))
                     .build()
             )
+        assertThat(indexListResponse.syncInProgress()).contains(true)
         assertThat(indexListResponse.updatedAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
     }
@@ -79,6 +81,7 @@ internal class IndexListResponseTest {
                         .putAdditionalProperty("foo", JsonValue.from("bar"))
                         .build()
                 )
+                .syncInProgress(true)
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
 

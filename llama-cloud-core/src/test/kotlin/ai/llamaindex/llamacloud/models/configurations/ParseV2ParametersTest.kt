@@ -49,6 +49,7 @@ internal class ParseV2ParametersTest {
                         .pdf(JsonValue.from(mapOf<String, Any>()))
                         .presentation(
                             ParseV2Parameters.InputOptions.Presentation.builder()
+                                .includeHiddenSlides(true)
                                 .outOfBoundsContent(true)
                                 .skipEmbeddedData(true)
                                 .build()
@@ -108,6 +109,7 @@ internal class ParseV2ParametersTest {
                                 .guessSheetName(true)
                                 .build()
                         )
+                        .watermarkHandling(ParseV2Parameters.OutputOptions.WatermarkHandling.REMOVE)
                         .build()
                 )
                 .pageRanges(
@@ -337,6 +339,7 @@ internal class ParseV2ParametersTest {
                     .pdf(JsonValue.from(mapOf<String, Any>()))
                     .presentation(
                         ParseV2Parameters.InputOptions.Presentation.builder()
+                            .includeHiddenSlides(true)
                             .outOfBoundsContent(true)
                             .skipEmbeddedData(true)
                             .build()
@@ -397,6 +400,7 @@ internal class ParseV2ParametersTest {
                             .guessSheetName(true)
                             .build()
                     )
+                    .watermarkHandling(ParseV2Parameters.OutputOptions.WatermarkHandling.REMOVE)
                     .build()
             )
         assertThat(parseV2Parameters.pageRanges())
@@ -625,6 +629,7 @@ internal class ParseV2ParametersTest {
                         .pdf(JsonValue.from(mapOf<String, Any>()))
                         .presentation(
                             ParseV2Parameters.InputOptions.Presentation.builder()
+                                .includeHiddenSlides(true)
                                 .outOfBoundsContent(true)
                                 .skipEmbeddedData(true)
                                 .build()
@@ -684,6 +689,7 @@ internal class ParseV2ParametersTest {
                                 .guessSheetName(true)
                                 .build()
                         )
+                        .watermarkHandling(ParseV2Parameters.OutputOptions.WatermarkHandling.REMOVE)
                         .build()
                 )
                 .pageRanges(

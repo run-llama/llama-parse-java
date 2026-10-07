@@ -20,6 +20,8 @@ internal class SplitCreateParamsTest {
             .configuration(
                 SplitCreateParams.Configuration.builder()
                     .addCategory(SplitCategory.builder().name("x").description("x").build())
+                    .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
+                    .parseTier(SplitCreateParams.Configuration.ParseTier.FAST)
                     .splittingStrategy(
                         SplitCreateParams.Configuration.SplittingStrategy.builder()
                             .allowUncategorized(
@@ -30,6 +32,8 @@ internal class SplitCreateParamsTest {
                             .minPagesPerSplit(1L)
                             .build()
                     )
+                    .targetPages("1,3,5-7")
+                    .version("latest")
                     .build()
             )
             .configurationId("cfg-11111111-2222-3333-4444-555555555555")
@@ -67,6 +71,8 @@ internal class SplitCreateParamsTest {
                 .configuration(
                     SplitCreateParams.Configuration.builder()
                         .addCategory(SplitCategory.builder().name("x").description("x").build())
+                        .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
+                        .parseTier(SplitCreateParams.Configuration.ParseTier.FAST)
                         .splittingStrategy(
                             SplitCreateParams.Configuration.SplittingStrategy.builder()
                                 .allowUncategorized(
@@ -78,6 +84,8 @@ internal class SplitCreateParamsTest {
                                 .minPagesPerSplit(1L)
                                 .build()
                         )
+                        .targetPages("1,3,5-7")
+                        .version("latest")
                         .build()
                 )
                 .configurationId("cfg-11111111-2222-3333-4444-555555555555")
@@ -140,6 +148,8 @@ internal class SplitCreateParamsTest {
                 .configuration(
                     SplitCreateParams.Configuration.builder()
                         .addCategory(SplitCategory.builder().name("x").description("x").build())
+                        .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
+                        .parseTier(SplitCreateParams.Configuration.ParseTier.FAST)
                         .splittingStrategy(
                             SplitCreateParams.Configuration.SplittingStrategy.builder()
                                 .allowUncategorized(
@@ -151,6 +161,8 @@ internal class SplitCreateParamsTest {
                                 .minPagesPerSplit(1L)
                                 .build()
                         )
+                        .targetPages("1,3,5-7")
+                        .version("latest")
                         .build()
                 )
                 .configurationId("cfg-11111111-2222-3333-4444-555555555555")
@@ -187,6 +199,8 @@ internal class SplitCreateParamsTest {
             .contains(
                 SplitCreateParams.Configuration.builder()
                     .addCategory(SplitCategory.builder().name("x").description("x").build())
+                    .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
+                    .parseTier(SplitCreateParams.Configuration.ParseTier.FAST)
                     .splittingStrategy(
                         SplitCreateParams.Configuration.SplittingStrategy.builder()
                             .allowUncategorized(
@@ -197,6 +211,8 @@ internal class SplitCreateParamsTest {
                             .minPagesPerSplit(1L)
                             .build()
                     )
+                    .targetPages("1,3,5-7")
+                    .version("latest")
                     .build()
             )
         assertThat(body.configurationId()).contains("cfg-11111111-2222-3333-4444-555555555555")
