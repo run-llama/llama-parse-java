@@ -9,7 +9,6 @@ import ai.llamaindex.llamacloud.services.blocking.beta.ChatService
 import ai.llamaindex.llamacloud.services.blocking.beta.DirectoryService
 import ai.llamaindex.llamacloud.services.blocking.beta.IndexService
 import ai.llamaindex.llamacloud.services.blocking.beta.RetrievalService
-import ai.llamaindex.llamacloud.services.blocking.beta.SheetService
 import ai.llamaindex.llamacloud.services.blocking.beta.SplitService
 import java.util.function.Consumer
 
@@ -37,8 +36,6 @@ interface BetaService {
 
     fun agentData(): AgentDataService
 
-    fun sheets(): SheetService
-
     fun directories(): DirectoryService
 
     fun split(): SplitService
@@ -62,8 +59,6 @@ interface BetaService {
         fun attachments(): AttachmentService.WithRawResponse
 
         fun agentData(): AgentDataService.WithRawResponse
-
-        fun sheets(): SheetService.WithRawResponse
 
         fun directories(): DirectoryService.WithRawResponse
 

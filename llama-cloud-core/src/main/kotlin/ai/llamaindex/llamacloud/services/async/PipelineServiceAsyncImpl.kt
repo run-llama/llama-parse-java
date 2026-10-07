@@ -23,6 +23,9 @@ import ai.llamaindex.llamacloud.models.pipelines.PipelineCreateParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineDeleteParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetStatusParams
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPageAsync
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPageResponse
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveResponse
@@ -137,6 +140,13 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
     ): CompletableFuture<ManagedIngestionStatusResponse> =
         // get /api/v1/pipelines/{pipeline_id}/status
         withRawResponse().getStatus(params, requestOptions).thenApply { it.parse() }
+
+    override fun listPaginated(
+        params: PipelineListPaginatedParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<PipelineListPaginatedPageAsync> =
+        // get /api/v2/pipelines
+        withRawResponse().listPaginated(params, requestOptions).thenApply { it.parse() }
 
     @Deprecated("deprecated")
     override fun upsert(
@@ -418,6 +428,44 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
                                 }
+                            }
+                    }
+                }
+        }
+
+        private val listPaginatedHandler: Handler<PipelineListPaginatedPageResponse> =
+            jsonHandler<PipelineListPaginatedPageResponse>(clientOptions.jsonMapper)
+
+        override fun listPaginated(
+            params: PipelineListPaginatedParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<PipelineListPaginatedPageAsync>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "pipelines")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { listPaginatedHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                            .let {
+                                PipelineListPaginatedPageAsync.builder()
+                                    .service(PipelineServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

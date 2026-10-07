@@ -28,6 +28,7 @@ class DataSourceSyncParams
 private constructor(
     private val pipelineId: String,
     private val dataSourceId: String?,
+    private val projectId: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -36,6 +37,8 @@ private constructor(
     fun pipelineId(): String = pipelineId
 
     fun dataSourceId(): Optional<String> = Optional.ofNullable(dataSourceId)
+
+    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /**
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -78,6 +81,7 @@ private constructor(
 
         private var pipelineId: String? = null
         private var dataSourceId: String? = null
+        private var projectId: String? = null
         private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -86,6 +90,7 @@ private constructor(
         internal fun from(dataSourceSyncParams: DataSourceSyncParams) = apply {
             pipelineId = dataSourceSyncParams.pipelineId
             dataSourceId = dataSourceSyncParams.dataSourceId
+            projectId = dataSourceSyncParams.projectId
             body = dataSourceSyncParams.body.toBuilder()
             additionalHeaders = dataSourceSyncParams.additionalHeaders.toBuilder()
             additionalQueryParams = dataSourceSyncParams.additionalQueryParams.toBuilder()
@@ -97,6 +102,11 @@ private constructor(
 
         /** Alias for calling [Builder.dataSourceId] with `dataSourceId.orElse(null)`. */
         fun dataSourceId(dataSourceId: Optional<String>) = dataSourceId(dataSourceId.getOrNull())
+
+        fun projectId(projectId: String?) = apply { this.projectId = projectId }
+
+        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
+        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -268,6 +278,7 @@ private constructor(
             DataSourceSyncParams(
                 checkRequired("pipelineId", pipelineId),
                 dataSourceId,
+                projectId,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -285,7 +296,13 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                projectId?.let { put("project_id", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     /**
      * Request model for syncing pipeline data sources.
@@ -482,14 +499,22 @@ private constructor(
         return other is DataSourceSyncParams &&
             pipelineId == other.pipelineId &&
             dataSourceId == other.dataSourceId &&
+            projectId == other.projectId &&
             body == other.body &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(pipelineId, dataSourceId, body, additionalHeaders, additionalQueryParams)
+        Objects.hash(
+            pipelineId,
+            dataSourceId,
+            projectId,
+            body,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
-        "DataSourceSyncParams{pipelineId=$pipelineId, dataSourceId=$dataSourceId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "DataSourceSyncParams{pipelineId=$pipelineId, dataSourceId=$dataSourceId, projectId=$projectId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

@@ -12,6 +12,8 @@ import ai.llamaindex.llamacloud.models.retrievers.RetrieverCreate
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverCreateParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverDeleteParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverGetParams
+import ai.llamaindex.llamacloud.models.retrievers.RetrieverListPaginatedPage
+import ai.llamaindex.llamacloud.models.retrievers.RetrieverListPaginatedParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverListParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverSearchParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverUpdateParams
@@ -80,19 +82,22 @@ interface RetrieverService {
     ): Retriever
 
     /** List Retrievers for a project. */
-    fun list(): List<Retriever> = list(RetrieverListParams.none())
+    @Deprecated("deprecated") fun list(): List<Retriever> = list(RetrieverListParams.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: RetrieverListParams = RetrieverListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<Retriever>
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(params: RetrieverListParams = RetrieverListParams.none()): List<Retriever> =
         list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(requestOptions: RequestOptions): List<Retriever> =
         list(RetrieverListParams.none(), requestOptions)
 
@@ -151,6 +156,25 @@ interface RetrieverService {
     /** @see get */
     fun get(retrieverId: String, requestOptions: RequestOptions): Retriever =
         get(retrieverId, RetrieverGetParams.none(), requestOptions)
+
+    /** List the retrievers in a project, newest first. */
+    fun listPaginated(): RetrieverListPaginatedPage =
+        listPaginated(RetrieverListPaginatedParams.none())
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: RetrieverListPaginatedParams = RetrieverListPaginatedParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): RetrieverListPaginatedPage
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: RetrieverListPaginatedParams = RetrieverListPaginatedParams.none()
+    ): RetrieverListPaginatedPage = listPaginated(params, RequestOptions.none())
+
+    /** @see listPaginated */
+    fun listPaginated(requestOptions: RequestOptions): RetrieverListPaginatedPage =
+        listPaginated(RetrieverListPaginatedParams.none(), requestOptions)
 
     /** Retrieve data using specified pipelines without creating a persistent retriever. */
     fun search(params: RetrieverSearchParams): CompositeRetrievalResult =
@@ -261,10 +285,12 @@ interface RetrieverService {
          * Returns a raw HTTP response for `get /api/v1/retrievers`, but is otherwise the same as
          * [RetrieverService.list].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(): HttpResponseFor<List<Retriever>> = list(RetrieverListParams.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: RetrieverListParams = RetrieverListParams.none(),
@@ -272,12 +298,14 @@ interface RetrieverService {
         ): HttpResponseFor<List<Retriever>>
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: RetrieverListParams = RetrieverListParams.none()
         ): HttpResponseFor<List<Retriever>> = list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<List<Retriever>> =
             list(RetrieverListParams.none(), requestOptions)
@@ -363,6 +391,35 @@ interface RetrieverService {
         @MustBeClosed
         fun get(retrieverId: String, requestOptions: RequestOptions): HttpResponseFor<Retriever> =
             get(retrieverId, RetrieverGetParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/v1/beta/retrievers`, but is otherwise the same
+         * as [RetrieverService.listPaginated].
+         */
+        @MustBeClosed
+        fun listPaginated(): HttpResponseFor<RetrieverListPaginatedPage> =
+            listPaginated(RetrieverListPaginatedParams.none())
+
+        /** @see listPaginated */
+        @MustBeClosed
+        fun listPaginated(
+            params: RetrieverListPaginatedParams = RetrieverListPaginatedParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<RetrieverListPaginatedPage>
+
+        /** @see listPaginated */
+        @MustBeClosed
+        fun listPaginated(
+            params: RetrieverListPaginatedParams = RetrieverListPaginatedParams.none()
+        ): HttpResponseFor<RetrieverListPaginatedPage> =
+            listPaginated(params, RequestOptions.none())
+
+        /** @see listPaginated */
+        @MustBeClosed
+        fun listPaginated(
+            requestOptions: RequestOptions
+        ): HttpResponseFor<RetrieverListPaginatedPage> =
+            listPaginated(RetrieverListPaginatedParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /api/v1/retrievers/retrieve`, but is otherwise the

@@ -26,6 +26,7 @@ internal class ChatServiceTest {
                     .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addIndexId("idx-abc123")
                     .addIndexId("idx-def456")
+                    .sharedAccess(ChatCreateParams.SharedAccess.READ_ONLY)
                     .build()
             )
 
@@ -109,6 +110,7 @@ internal class ChatServiceTest {
                     .addIndexId("idx-abc123")
                     .addIndexId("idx-def456")
                     .prompt("What were the main findings in Q3?")
+                    .requireAllIndexes(true)
                     .build()
             )
 

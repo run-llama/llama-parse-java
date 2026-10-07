@@ -13,6 +13,8 @@ import ai.llamaindex.llamacloud.models.pipelines.PipelineCreateParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineDeleteParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetStatusParams
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPageAsync
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveResponse
@@ -158,7 +160,11 @@ interface PipelineServiceAsync {
     fun update(pipelineId: String, requestOptions: RequestOptions): CompletableFuture<Pipeline> =
         update(pipelineId, PipelineUpdateParams.none(), requestOptions)
 
-    /** Search for pipelines by name, type, or project. */
+    /**
+     * Search for pipelines by name, type, or project.
+     *
+     * Deprecated: use `GET /api/v2/pipelines`, which is paginated.
+     */
     @Deprecated("deprecated")
     fun list(): CompletableFuture<List<Pipeline>> = list(PipelineListParams.none())
 
@@ -307,6 +313,28 @@ interface PipelineServiceAsync {
         requestOptions: RequestOptions,
     ): CompletableFuture<ManagedIngestionStatusResponse> =
         getStatus(pipelineId, PipelineGetStatusParams.none(), requestOptions)
+
+    /** List the pipelines in a project, newest first. */
+    fun listPaginated(): CompletableFuture<PipelineListPaginatedPageAsync> =
+        listPaginated(PipelineListPaginatedParams.none())
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: PipelineListPaginatedParams = PipelineListPaginatedParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<PipelineListPaginatedPageAsync>
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: PipelineListPaginatedParams = PipelineListPaginatedParams.none()
+    ): CompletableFuture<PipelineListPaginatedPageAsync> =
+        listPaginated(params, RequestOptions.none())
+
+    /** @see listPaginated */
+    fun listPaginated(
+        requestOptions: RequestOptions
+    ): CompletableFuture<PipelineListPaginatedPageAsync> =
+        listPaginated(PipelineListPaginatedParams.none(), requestOptions)
 
     /**
      * Upsert a pipeline.
@@ -642,6 +670,31 @@ interface PipelineServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ManagedIngestionStatusResponse>> =
             getStatus(pipelineId, PipelineGetStatusParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/v2/pipelines`, but is otherwise the same as
+         * [PipelineServiceAsync.listPaginated].
+         */
+        fun listPaginated(): CompletableFuture<HttpResponseFor<PipelineListPaginatedPageAsync>> =
+            listPaginated(PipelineListPaginatedParams.none())
+
+        /** @see listPaginated */
+        fun listPaginated(
+            params: PipelineListPaginatedParams = PipelineListPaginatedParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<PipelineListPaginatedPageAsync>>
+
+        /** @see listPaginated */
+        fun listPaginated(
+            params: PipelineListPaginatedParams = PipelineListPaginatedParams.none()
+        ): CompletableFuture<HttpResponseFor<PipelineListPaginatedPageAsync>> =
+            listPaginated(params, RequestOptions.none())
+
+        /** @see listPaginated */
+        fun listPaginated(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<PipelineListPaginatedPageAsync>> =
+            listPaginated(PipelineListPaginatedParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `put /api/v1/pipelines`, but is otherwise the same as

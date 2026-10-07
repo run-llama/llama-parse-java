@@ -132,4 +132,16 @@ internal class WebhookConfigServiceAsyncTest {
 
         val response = future.get()
     }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun listPaginated() {
+        val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val webhookConfigServiceAsync = client.webhookConfigs()
+
+        val pageFuture = webhookConfigServiceAsync.listPaginated()
+
+        val page = pageFuture.get()
+        page.response().validate()
+    }
 }

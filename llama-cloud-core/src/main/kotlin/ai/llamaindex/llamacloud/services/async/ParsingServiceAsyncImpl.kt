@@ -20,6 +20,8 @@ import ai.llamaindex.llamacloud.models.parsing.ParsingCancelParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCancelResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateResponse
+import ai.llamaindex.llamacloud.models.parsing.ParsingDeleteParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingDeleteResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPageAsync
@@ -56,6 +58,13 @@ class ParsingServiceAsyncImpl internal constructor(private val clientOptions: Cl
     ): CompletableFuture<ParsingListPageAsync> =
         // get /api/v2/parse
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
+
+    override fun delete(
+        params: ParsingDeleteParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ParsingDeleteResponse> =
+        // delete /api/v2/parse/{job_id}
+        withRawResponse().delete(params, requestOptions).thenApply { it.parse() }
 
     override fun cancel(
         params: ParsingCancelParams,
@@ -155,6 +164,40 @@ class ParsingServiceAsyncImpl internal constructor(private val clientOptions: Cl
                                     .params(params)
                                     .response(it)
                                     .build()
+                            }
+                    }
+                }
+        }
+
+        private val deleteHandler: Handler<ParsingDeleteResponse> =
+            jsonHandler<ParsingDeleteResponse>(clientOptions.jsonMapper)
+
+        override fun delete(
+            params: ParsingDeleteParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ParsingDeleteResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("jobId", params.jobId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.DELETE)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "parse", params._pathParam(0))
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { deleteHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
                             }
                     }
                 }

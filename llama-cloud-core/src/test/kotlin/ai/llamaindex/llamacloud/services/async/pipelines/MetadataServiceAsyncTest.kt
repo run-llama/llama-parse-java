@@ -4,6 +4,7 @@ package ai.llamaindex.llamacloud.services.async.pipelines
 
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClientAsync
 import ai.llamaindex.llamacloud.models.pipelines.metadata.MetadataCreateParams
+import ai.llamaindex.llamacloud.models.pipelines.metadata.MetadataDeleteAllParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
@@ -19,6 +20,7 @@ internal class MetadataServiceAsyncTest {
             metadataServiceAsync.create(
                 MetadataCreateParams.builder()
                     .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .uploadFile("Example data".byteInputStream())
                     .build()
             )
@@ -33,7 +35,13 @@ internal class MetadataServiceAsyncTest {
         val client = LlamaCloudOkHttpClientAsync.builder().apiKey("My API Key").build()
         val metadataServiceAsync = client.pipelines().metadata()
 
-        val future = metadataServiceAsync.deleteAll("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val future =
+            metadataServiceAsync.deleteAll(
+                MetadataDeleteAllParams.builder()
+                    .pipelineId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
 
         val response = future.get()
     }

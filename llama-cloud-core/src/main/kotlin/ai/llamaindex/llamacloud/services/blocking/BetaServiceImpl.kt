@@ -15,8 +15,6 @@ import ai.llamaindex.llamacloud.services.blocking.beta.IndexService
 import ai.llamaindex.llamacloud.services.blocking.beta.IndexServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.beta.RetrievalService
 import ai.llamaindex.llamacloud.services.blocking.beta.RetrievalServiceImpl
-import ai.llamaindex.llamacloud.services.blocking.beta.SheetService
-import ai.llamaindex.llamacloud.services.blocking.beta.SheetServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.beta.SplitService
 import ai.llamaindex.llamacloud.services.blocking.beta.SplitServiceImpl
 import java.util.function.Consumer
@@ -37,8 +35,6 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
 
     private val agentData: AgentDataService by lazy { AgentDataServiceImpl(clientOptions) }
 
-    private val sheets: SheetService by lazy { SheetServiceImpl(clientOptions) }
-
     private val directories: DirectoryService by lazy { DirectoryServiceImpl(clientOptions) }
 
     private val split: SplitService by lazy { SplitServiceImpl(clientOptions) }
@@ -57,8 +53,6 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
     override fun attachments(): AttachmentService = attachments
 
     override fun agentData(): AgentDataService = agentData
-
-    override fun sheets(): SheetService = sheets
 
     override fun directories(): DirectoryService = directories
 
@@ -87,10 +81,6 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
             AgentDataServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
-        private val sheets: SheetService.WithRawResponse by lazy {
-            SheetServiceImpl.WithRawResponseImpl(clientOptions)
-        }
-
         private val directories: DirectoryService.WithRawResponse by lazy {
             DirectoryServiceImpl.WithRawResponseImpl(clientOptions)
         }
@@ -115,8 +105,6 @@ class BetaServiceImpl internal constructor(private val clientOptions: ClientOpti
         override fun attachments(): AttachmentService.WithRawResponse = attachments
 
         override fun agentData(): AgentDataService.WithRawResponse = agentData
-
-        override fun sheets(): SheetService.WithRawResponse = sheets
 
         override fun directories(): DirectoryService.WithRawResponse = directories
 

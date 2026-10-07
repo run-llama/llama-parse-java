@@ -9,6 +9,8 @@ import ai.llamaindex.llamacloud.models.parsing.ParsingCancelParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCancelResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateResponse
+import ai.llamaindex.llamacloud.models.parsing.ParsingDeleteParams
+import ai.llamaindex.llamacloud.models.parsing.ParsingDeleteResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingGetResponse
 import ai.llamaindex.llamacloud.models.parsing.ParsingListPage
@@ -77,6 +79,43 @@ interface ParsingService {
     /** @see list */
     fun list(requestOptions: RequestOptions): ParsingListPage =
         list(ParsingListParams.none(), requestOptions)
+
+    /**
+     * Delete a parse job and its results.
+     *
+     * The job must be in a terminal state (COMPLETED, FAILED, CANCELLED). Cancel a job that is
+     * still running before deleting it.
+     *
+     * Returns the identifiers of the deleted job.
+     */
+    fun delete(jobId: String): ParsingDeleteResponse = delete(jobId, ParsingDeleteParams.none())
+
+    /** @see delete */
+    fun delete(
+        jobId: String,
+        params: ParsingDeleteParams = ParsingDeleteParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ParsingDeleteResponse = delete(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+    /** @see delete */
+    fun delete(
+        jobId: String,
+        params: ParsingDeleteParams = ParsingDeleteParams.none(),
+    ): ParsingDeleteResponse = delete(jobId, params, RequestOptions.none())
+
+    /** @see delete */
+    fun delete(
+        params: ParsingDeleteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ParsingDeleteResponse
+
+    /** @see delete */
+    fun delete(params: ParsingDeleteParams): ParsingDeleteResponse =
+        delete(params, RequestOptions.none())
+
+    /** @see delete */
+    fun delete(jobId: String, requestOptions: RequestOptions): ParsingDeleteResponse =
+        delete(jobId, ParsingDeleteParams.none(), requestOptions)
 
     /**
      * Cancel a running parse job.
@@ -152,7 +191,7 @@ interface ParsingService {
     fun get(jobId: String, requestOptions: RequestOptions): ParsingGetResponse =
         get(jobId, ParsingGetParams.none(), requestOptions)
 
-    /** List the parse versions accepted by each tier. */
+    /** List the parse versions accepted by each tier and what `latest` resolves to. */
     fun listVersions(): ParsingListVersionsResponse = listVersions(ParsingListVersionsParams.none())
 
     /** @see listVersions */
@@ -218,6 +257,50 @@ interface ParsingService {
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<ParsingListPage> =
             list(ParsingListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `delete /api/v2/parse/{job_id}`, but is otherwise the
+         * same as [ParsingService.delete].
+         */
+        @MustBeClosed
+        fun delete(jobId: String): HttpResponseFor<ParsingDeleteResponse> =
+            delete(jobId, ParsingDeleteParams.none())
+
+        /** @see delete */
+        @MustBeClosed
+        fun delete(
+            jobId: String,
+            params: ParsingDeleteParams = ParsingDeleteParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ParsingDeleteResponse> =
+            delete(params.toBuilder().jobId(jobId).build(), requestOptions)
+
+        /** @see delete */
+        @MustBeClosed
+        fun delete(
+            jobId: String,
+            params: ParsingDeleteParams = ParsingDeleteParams.none(),
+        ): HttpResponseFor<ParsingDeleteResponse> = delete(jobId, params, RequestOptions.none())
+
+        /** @see delete */
+        @MustBeClosed
+        fun delete(
+            params: ParsingDeleteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ParsingDeleteResponse>
+
+        /** @see delete */
+        @MustBeClosed
+        fun delete(params: ParsingDeleteParams): HttpResponseFor<ParsingDeleteResponse> =
+            delete(params, RequestOptions.none())
+
+        /** @see delete */
+        @MustBeClosed
+        fun delete(
+            jobId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ParsingDeleteResponse> =
+            delete(jobId, ParsingDeleteParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /api/v2/parse/{job_id}/cancel`, but is otherwise

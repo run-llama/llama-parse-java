@@ -20,6 +20,7 @@ class PipelineGetStatusParams
 private constructor(
     private val pipelineId: String?,
     private val fullDetails: Boolean?,
+    private val projectId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -27,6 +28,8 @@ private constructor(
     fun pipelineId(): Optional<String> = Optional.ofNullable(pipelineId)
 
     fun fullDetails(): Optional<Boolean> = Optional.ofNullable(fullDetails)
+
+    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -49,6 +52,7 @@ private constructor(
 
         private var pipelineId: String? = null
         private var fullDetails: Boolean? = null
+        private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -56,6 +60,7 @@ private constructor(
         internal fun from(pipelineGetStatusParams: PipelineGetStatusParams) = apply {
             pipelineId = pipelineGetStatusParams.pipelineId
             fullDetails = pipelineGetStatusParams.fullDetails
+            projectId = pipelineGetStatusParams.projectId
             additionalHeaders = pipelineGetStatusParams.additionalHeaders.toBuilder()
             additionalQueryParams = pipelineGetStatusParams.additionalQueryParams.toBuilder()
         }
@@ -76,6 +81,11 @@ private constructor(
 
         /** Alias for calling [Builder.fullDetails] with `fullDetails.orElse(null)`. */
         fun fullDetails(fullDetails: Optional<Boolean>) = fullDetails(fullDetails.getOrNull())
+
+        fun projectId(projectId: String?) = apply { this.projectId = projectId }
+
+        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
+        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -184,6 +194,7 @@ private constructor(
             PipelineGetStatusParams(
                 pipelineId,
                 fullDetails,
+                projectId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -201,6 +212,7 @@ private constructor(
         QueryParams.builder()
             .apply {
                 fullDetails?.let { put("full_details", it.toString()) }
+                projectId?.let { put("project_id", it) }
                 putAll(additionalQueryParams)
             }
             .build()
@@ -213,13 +225,14 @@ private constructor(
         return other is PipelineGetStatusParams &&
             pipelineId == other.pipelineId &&
             fullDetails == other.fullDetails &&
+            projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(pipelineId, fullDetails, additionalHeaders, additionalQueryParams)
+        Objects.hash(pipelineId, fullDetails, projectId, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "PipelineGetStatusParams{pipelineId=$pipelineId, fullDetails=$fullDetails, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "PipelineGetStatusParams{pipelineId=$pipelineId, fullDetails=$fullDetails, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

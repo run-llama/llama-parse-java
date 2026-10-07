@@ -29,6 +29,8 @@ internal class SplitServiceAsyncTest {
                     .configuration(
                         SplitCreateParams.Configuration.builder()
                             .addCategory(SplitCategory.builder().name("x").description("x").build())
+                            .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")
+                            .parseTier(SplitCreateParams.Configuration.ParseTier.FAST)
                             .splittingStrategy(
                                 SplitCreateParams.Configuration.SplittingStrategy.builder()
                                     .allowUncategorized(
@@ -36,8 +38,14 @@ internal class SplitServiceAsyncTest {
                                             .AllowUncategorized
                                             .FORBID
                                     )
+                                    .customInstructions(
+                                        "Start a new segment at every signature page."
+                                    )
+                                    .minPagesPerSplit(1L)
                                     .build()
                             )
+                            .targetPages("1,3,5-7")
+                            .version("latest")
                             .build()
                     )
                     .configurationId("cfg-11111111-2222-3333-4444-555555555555")

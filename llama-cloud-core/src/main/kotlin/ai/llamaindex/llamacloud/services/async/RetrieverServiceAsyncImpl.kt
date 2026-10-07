@@ -22,6 +22,9 @@ import ai.llamaindex.llamacloud.models.retrievers.Retriever
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverCreateParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverDeleteParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverGetParams
+import ai.llamaindex.llamacloud.models.retrievers.RetrieverListPaginatedPageAsync
+import ai.llamaindex.llamacloud.models.retrievers.RetrieverListPaginatedPageResponse
+import ai.llamaindex.llamacloud.models.retrievers.RetrieverListPaginatedParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverListParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverSearchParams
 import ai.llamaindex.llamacloud.models.retrievers.RetrieverUpdateParams
@@ -62,6 +65,7 @@ class RetrieverServiceAsyncImpl internal constructor(private val clientOptions: 
         // put /api/v1/retrievers/{retriever_id}
         withRawResponse().update(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun list(
         params: RetrieverListParams,
         requestOptions: RequestOptions,
@@ -82,6 +86,13 @@ class RetrieverServiceAsyncImpl internal constructor(private val clientOptions: 
     ): CompletableFuture<Retriever> =
         // get /api/v1/retrievers/{retriever_id}
         withRawResponse().get(params, requestOptions).thenApply { it.parse() }
+
+    override fun listPaginated(
+        params: RetrieverListPaginatedParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<RetrieverListPaginatedPageAsync> =
+        // get /api/v1/beta/retrievers
+        withRawResponse().listPaginated(params, requestOptions).thenApply { it.parse() }
 
     override fun search(
         params: RetrieverSearchParams,
@@ -184,6 +195,7 @@ class RetrieverServiceAsyncImpl internal constructor(private val clientOptions: 
         private val listHandler: Handler<List<Retriever>> =
             jsonHandler<List<Retriever>>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun list(
             params: RetrieverListParams,
             requestOptions: RequestOptions,
@@ -266,6 +278,44 @@ class RetrieverServiceAsyncImpl internal constructor(private val clientOptions: 
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
                                 }
+                            }
+                    }
+                }
+        }
+
+        private val listPaginatedHandler: Handler<RetrieverListPaginatedPageResponse> =
+            jsonHandler<RetrieverListPaginatedPageResponse>(clientOptions.jsonMapper)
+
+        override fun listPaginated(
+            params: RetrieverListPaginatedParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<RetrieverListPaginatedPageAsync>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v1", "beta", "retrievers")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { listPaginatedHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                            .let {
+                                RetrieverListPaginatedPageAsync.builder()
+                                    .service(RetrieverServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }
