@@ -12,6 +12,7 @@ internal class IndexGetParamsTest {
     fun create() {
         IndexGetParams.builder()
             .indexId("index_id")
+            .addExpand(IndexGetParams.Expand.SYNC_IN_PROGRESS)
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
@@ -31,6 +32,7 @@ internal class IndexGetParamsTest {
         val params =
             IndexGetParams.builder()
                 .indexId("index_id")
+                .addExpand(IndexGetParams.Expand.SYNC_IN_PROGRESS)
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
@@ -40,6 +42,7 @@ internal class IndexGetParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
+                    .put("expand", "sync_in_progress")
                     .put("organization_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()

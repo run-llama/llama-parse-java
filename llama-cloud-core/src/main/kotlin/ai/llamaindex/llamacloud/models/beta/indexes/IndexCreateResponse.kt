@@ -191,7 +191,8 @@ private constructor(
     fun metadata(): Optional<Metadata> = metadata.getOptional("metadata")
 
     /**
-     * Whether a sync is running. Set only when getting a single index.
+     * Whether the index is syncing its source or exporting the result. Requires
+     * `expand=sync_in_progress`.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -565,7 +566,10 @@ private constructor(
          */
         fun metadata(metadata: JsonField<Metadata>) = apply { this.metadata = metadata }
 
-        /** Whether a sync is running. Set only when getting a single index. */
+        /**
+         * Whether the index is syncing its source or exporting the result. Requires
+         * `expand=sync_in_progress`.
+         */
         fun syncInProgress(syncInProgress: Boolean?) =
             syncInProgress(JsonField.ofNullable(syncInProgress))
 
