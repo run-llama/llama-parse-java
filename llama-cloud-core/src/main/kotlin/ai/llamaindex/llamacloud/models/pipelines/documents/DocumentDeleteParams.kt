@@ -18,6 +18,7 @@ class DocumentDeleteParams
 private constructor(
     private val pipelineId: String,
     private val documentId: String?,
+    private val projectId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -26,6 +27,8 @@ private constructor(
     fun pipelineId(): String = pipelineId
 
     fun documentId(): Optional<String> = Optional.ofNullable(documentId)
+
+    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /** Additional body properties to send with the request. */
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
@@ -56,6 +59,7 @@ private constructor(
 
         private var pipelineId: String? = null
         private var documentId: String? = null
+        private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -64,6 +68,7 @@ private constructor(
         internal fun from(documentDeleteParams: DocumentDeleteParams) = apply {
             pipelineId = documentDeleteParams.pipelineId
             documentId = documentDeleteParams.documentId
+            projectId = documentDeleteParams.projectId
             additionalHeaders = documentDeleteParams.additionalHeaders.toBuilder()
             additionalQueryParams = documentDeleteParams.additionalQueryParams.toBuilder()
             additionalBodyProperties = documentDeleteParams.additionalBodyProperties.toMutableMap()
@@ -75,6 +80,11 @@ private constructor(
 
         /** Alias for calling [Builder.documentId] with `documentId.orElse(null)`. */
         fun documentId(documentId: Optional<String>) = documentId(documentId.getOrNull())
+
+        fun projectId(projectId: String?) = apply { this.projectId = projectId }
+
+        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
+        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -212,6 +222,7 @@ private constructor(
             DocumentDeleteParams(
                 checkRequired("pipelineId", pipelineId),
                 documentId,
+                projectId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -230,7 +241,13 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                projectId?.let { put("project_id", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -240,6 +257,7 @@ private constructor(
         return other is DocumentDeleteParams &&
             pipelineId == other.pipelineId &&
             documentId == other.documentId &&
+            projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams &&
             additionalBodyProperties == other.additionalBodyProperties
@@ -249,11 +267,12 @@ private constructor(
         Objects.hash(
             pipelineId,
             documentId,
+            projectId,
             additionalHeaders,
             additionalQueryParams,
             additionalBodyProperties,
         )
 
     override fun toString() =
-        "DocumentDeleteParams{pipelineId=$pipelineId, documentId=$documentId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "DocumentDeleteParams{pipelineId=$pipelineId, documentId=$documentId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

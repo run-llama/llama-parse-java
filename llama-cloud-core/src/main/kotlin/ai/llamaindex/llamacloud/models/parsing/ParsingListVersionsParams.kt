@@ -7,7 +7,7 @@ import ai.llamaindex.llamacloud.core.http.Headers
 import ai.llamaindex.llamacloud.core.http.QueryParams
 import java.util.Objects
 
-/** List the parse versions accepted by each tier. */
+/** List the parse versions accepted by each tier and what `latest` resolves to. */
 class ParsingListVersionsParams
 private constructor(
     private val additionalHeaders: Headers,

@@ -10,6 +10,8 @@ import ai.llamaindex.llamacloud.models.datasinks.DataSink
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkCreateParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkDeleteParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkGetParams
+import ai.llamaindex.llamacloud.models.datasinks.DataSinkListPaginatedPage
+import ai.llamaindex.llamacloud.models.datasinks.DataSinkListPaginatedParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkListParams
 import ai.llamaindex.llamacloud.models.datasinks.DataSinkUpdateParams
 import ai.llamaindex.llamacloud.models.pipelines.DataSinkCreate
@@ -73,20 +75,27 @@ interface DataSinkService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DataSink
 
-    /** List data sinks for a given project. */
-    fun list(): List<DataSink> = list(DataSinkListParams.none())
+    /**
+     * List a project's data sinks. Returns at most the first 50.
+     *
+     * Deprecated: use `GET /api/v1/beta/data-sinks`, which is paginated.
+     */
+    @Deprecated("deprecated") fun list(): List<DataSink> = list(DataSinkListParams.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(
         params: DataSinkListParams = DataSinkListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<DataSink>
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(params: DataSinkListParams = DataSinkListParams.none()): List<DataSink> =
         list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("deprecated")
     fun list(requestOptions: RequestOptions): List<DataSink> =
         list(DataSinkListParams.none(), requestOptions)
 
@@ -140,6 +149,25 @@ interface DataSinkService {
     /** @see get */
     fun get(dataSinkId: String, requestOptions: RequestOptions): DataSink =
         get(dataSinkId, DataSinkGetParams.none(), requestOptions)
+
+    /** List the data sinks in a project, newest first. */
+    fun listPaginated(): DataSinkListPaginatedPage =
+        listPaginated(DataSinkListPaginatedParams.none())
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: DataSinkListPaginatedParams = DataSinkListPaginatedParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): DataSinkListPaginatedPage
+
+    /** @see listPaginated */
+    fun listPaginated(
+        params: DataSinkListPaginatedParams = DataSinkListPaginatedParams.none()
+    ): DataSinkListPaginatedPage = listPaginated(params, RequestOptions.none())
+
+    /** @see listPaginated */
+    fun listPaginated(requestOptions: RequestOptions): DataSinkListPaginatedPage =
+        listPaginated(DataSinkListPaginatedParams.none(), requestOptions)
 
     /** A view of [DataSinkService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -215,9 +243,12 @@ interface DataSinkService {
          * Returns a raw HTTP response for `get /api/v1/data-sinks`, but is otherwise the same as
          * [DataSinkService.list].
          */
-        @MustBeClosed fun list(): HttpResponseFor<List<DataSink>> = list(DataSinkListParams.none())
+        @Deprecated("deprecated")
+        @MustBeClosed
+        fun list(): HttpResponseFor<List<DataSink>> = list(DataSinkListParams.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: DataSinkListParams = DataSinkListParams.none(),
@@ -225,12 +256,14 @@ interface DataSinkService {
         ): HttpResponseFor<List<DataSink>>
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: DataSinkListParams = DataSinkListParams.none()
         ): HttpResponseFor<List<DataSink>> = list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<List<DataSink>> =
             list(DataSinkListParams.none(), requestOptions)
@@ -315,5 +348,33 @@ interface DataSinkService {
         @MustBeClosed
         fun get(dataSinkId: String, requestOptions: RequestOptions): HttpResponseFor<DataSink> =
             get(dataSinkId, DataSinkGetParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/v1/beta/data-sinks`, but is otherwise the same
+         * as [DataSinkService.listPaginated].
+         */
+        @MustBeClosed
+        fun listPaginated(): HttpResponseFor<DataSinkListPaginatedPage> =
+            listPaginated(DataSinkListPaginatedParams.none())
+
+        /** @see listPaginated */
+        @MustBeClosed
+        fun listPaginated(
+            params: DataSinkListPaginatedParams = DataSinkListPaginatedParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DataSinkListPaginatedPage>
+
+        /** @see listPaginated */
+        @MustBeClosed
+        fun listPaginated(
+            params: DataSinkListPaginatedParams = DataSinkListPaginatedParams.none()
+        ): HttpResponseFor<DataSinkListPaginatedPage> = listPaginated(params, RequestOptions.none())
+
+        /** @see listPaginated */
+        @MustBeClosed
+        fun listPaginated(
+            requestOptions: RequestOptions
+        ): HttpResponseFor<DataSinkListPaginatedPage> =
+            listPaginated(DataSinkListPaginatedParams.none(), requestOptions)
     }
 }

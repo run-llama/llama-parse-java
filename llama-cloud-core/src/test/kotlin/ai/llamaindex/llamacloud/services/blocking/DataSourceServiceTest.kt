@@ -5,6 +5,8 @@ package ai.llamaindex.llamacloud.services.blocking
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClient
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.models.datasources.DataSourceCreateParams
+import ai.llamaindex.llamacloud.models.datasources.DataSourceDeleteParams
+import ai.llamaindex.llamacloud.models.datasources.DataSourceGetParams
 import ai.llamaindex.llamacloud.models.datasources.DataSourceListParams
 import ai.llamaindex.llamacloud.models.datasources.DataSourceUpdateParams
 import org.junit.jupiter.api.Disabled
@@ -51,6 +53,7 @@ internal class DataSourceServiceTest {
             dataSourceService.update(
                 DataSourceUpdateParams.builder()
                     .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .sourceType(DataSourceUpdateParams.SourceType.AZURE_STORAGE_BLOB)
                     .component(
                         DataSourceUpdateParams.Component.UnionMember0.builder()
@@ -92,7 +95,12 @@ internal class DataSourceServiceTest {
         val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
         val dataSourceService = client.dataSources()
 
-        dataSourceService.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        dataSourceService.delete(
+            DataSourceDeleteParams.builder()
+                .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+        )
     }
 
     @Disabled("Mock server tests are disabled")
@@ -101,7 +109,13 @@ internal class DataSourceServiceTest {
         val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
         val dataSourceService = client.dataSources()
 
-        val dataSource = dataSourceService.get("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val dataSource =
+            dataSourceService.get(
+                DataSourceGetParams.builder()
+                    .dataSourceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
 
         dataSource.validate()
     }

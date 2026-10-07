@@ -25,7 +25,7 @@ internal class RetrievalRetrieveParamsTest {
                     .build()
             )
             .fullTextPipelineWeight(0.0)
-            .numCandidates(0L)
+            .numCandidates(1L)
             .rerank(RetrievalRetrieveParams.Rerank.builder().enabled(true).topN(5L).build())
             .scoreThreshold(0.0)
             .staticFilters(
@@ -63,7 +63,7 @@ internal class RetrievalRetrieveParamsTest {
                         .build()
                 )
                 .fullTextPipelineWeight(0.0)
-                .numCandidates(0L)
+                .numCandidates(1L)
                 .rerank(RetrievalRetrieveParams.Rerank.builder().enabled(true).topN(5L).build())
                 .scoreThreshold(0.0)
                 .staticFilters(
@@ -125,7 +125,7 @@ internal class RetrievalRetrieveParamsTest {
                         .build()
                 )
                 .fullTextPipelineWeight(0.0)
-                .numCandidates(0L)
+                .numCandidates(1L)
                 .rerank(RetrievalRetrieveParams.Rerank.builder().enabled(true).topN(5L).build())
                 .scoreThreshold(0.0)
                 .staticFilters(
@@ -160,7 +160,7 @@ internal class RetrievalRetrieveParamsTest {
                     .build()
             )
         assertThat(body.fullTextPipelineWeight()).contains(0.0)
-        assertThat(body.numCandidates()).contains(0L)
+        assertThat(body.numCandidates()).contains(1L)
         assertThat(body.rerank())
             .contains(RetrievalRetrieveParams.Rerank.builder().enabled(true).topN(5L).build())
         assertThat(body.scoreThreshold()).contains(0.0)

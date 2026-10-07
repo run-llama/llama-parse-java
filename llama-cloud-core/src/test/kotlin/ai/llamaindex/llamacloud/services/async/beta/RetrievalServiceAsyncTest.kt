@@ -35,7 +35,7 @@ internal class RetrievalServiceAsyncTest {
                             .build()
                     )
                     .fullTextPipelineWeight(0.0)
-                    .numCandidates(0L)
+                    .numCandidates(1L)
                     .rerank(RetrievalRetrieveParams.Rerank.builder().enabled(true).topN(5L).build())
                     .scoreThreshold(0.0)
                     .staticFilters(

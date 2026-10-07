@@ -2,6 +2,7 @@
 
 package ai.llamaindex.llamacloud.models.beta.chat
 
+import ai.llamaindex.llamacloud.core.Enum
 import ai.llamaindex.llamacloud.core.ExcludeMissing
 import ai.llamaindex.llamacloud.core.JsonField
 import ai.llamaindex.llamacloud.core.JsonMissing
@@ -25,6 +26,7 @@ class ChatGetSummaryResponse
 private constructor(
     private val lastUpdatedAt: JsonField<String>,
     private val sessionId: JsonField<String>,
+    private val sharedAccess: JsonField<SharedAccess>,
     private val generatedTitle: JsonField<String>,
     private val indexIds: JsonField<List<String>>,
     private val jobMetadata: JsonField<JobMetadata>,
@@ -37,6 +39,9 @@ private constructor(
         @ExcludeMissing
         lastUpdatedAt: JsonField<String> = JsonMissing.of(),
         @JsonProperty("session_id") @ExcludeMissing sessionId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("shared_access")
+        @ExcludeMissing
+        sharedAccess: JsonField<SharedAccess> = JsonMissing.of(),
         @JsonProperty("generated_title")
         @ExcludeMissing
         generatedTitle: JsonField<String> = JsonMissing.of(),
@@ -46,7 +51,15 @@ private constructor(
         @JsonProperty("job_metadata")
         @ExcludeMissing
         jobMetadata: JsonField<JobMetadata> = JsonMissing.of(),
-    ) : this(lastUpdatedAt, sessionId, generatedTitle, indexIds, jobMetadata, mutableMapOf())
+    ) : this(
+        lastUpdatedAt,
+        sessionId,
+        sharedAccess,
+        generatedTitle,
+        indexIds,
+        jobMetadata,
+        mutableMapOf(),
+    )
 
     /**
      * ISO-format timestamp showing when the session was last updated.
@@ -63,6 +76,15 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun sessionId(): String = sessionId.getRequired("session_id")
+
+    /**
+     * What this chat's share link grants: read_only (transcript only) or query (viewers may ask new
+     * questions).
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun sharedAccess(): SharedAccess = sharedAccess.getRequired("shared_access")
 
     /**
      * Auto-generated title derived from the first user message.
@@ -103,6 +125,15 @@ private constructor(
      * Unlike [sessionId], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("session_id") @ExcludeMissing fun _sessionId(): JsonField<String> = sessionId
+
+    /**
+     * Returns the raw JSON value of [sharedAccess].
+     *
+     * Unlike [sharedAccess], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("shared_access")
+    @ExcludeMissing
+    fun _sharedAccess(): JsonField<SharedAccess> = sharedAccess
 
     /**
      * Returns the raw JSON value of [generatedTitle].
@@ -150,6 +181,7 @@ private constructor(
          * ```java
          * .lastUpdatedAt()
          * .sessionId()
+         * .sharedAccess()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -160,6 +192,7 @@ private constructor(
 
         private var lastUpdatedAt: JsonField<String>? = null
         private var sessionId: JsonField<String>? = null
+        private var sharedAccess: JsonField<SharedAccess>? = null
         private var generatedTitle: JsonField<String> = JsonMissing.of()
         private var indexIds: JsonField<MutableList<String>>? = null
         private var jobMetadata: JsonField<JobMetadata> = JsonMissing.of()
@@ -169,6 +202,7 @@ private constructor(
         internal fun from(chatGetSummaryResponse: ChatGetSummaryResponse) = apply {
             lastUpdatedAt = chatGetSummaryResponse.lastUpdatedAt
             sessionId = chatGetSummaryResponse.sessionId
+            sharedAccess = chatGetSummaryResponse.sharedAccess
             generatedTitle = chatGetSummaryResponse.generatedTitle
             indexIds = chatGetSummaryResponse.indexIds.map { it.toMutableList() }
             jobMetadata = chatGetSummaryResponse.jobMetadata
@@ -200,6 +234,23 @@ private constructor(
          * value.
          */
         fun sessionId(sessionId: JsonField<String>) = apply { this.sessionId = sessionId }
+
+        /**
+         * What this chat's share link grants: read_only (transcript only) or query (viewers may ask
+         * new questions).
+         */
+        fun sharedAccess(sharedAccess: SharedAccess) = sharedAccess(JsonField.of(sharedAccess))
+
+        /**
+         * Sets [Builder.sharedAccess] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.sharedAccess] with a well-typed [SharedAccess] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun sharedAccess(sharedAccess: JsonField<SharedAccess>) = apply {
+            this.sharedAccess = sharedAccess
+        }
 
         /** Auto-generated title derived from the first user message. */
         fun generatedTitle(generatedTitle: String?) =
@@ -297,6 +348,7 @@ private constructor(
          * ```java
          * .lastUpdatedAt()
          * .sessionId()
+         * .sharedAccess()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -305,6 +357,7 @@ private constructor(
             ChatGetSummaryResponse(
                 checkRequired("lastUpdatedAt", lastUpdatedAt),
                 checkRequired("sessionId", sessionId),
+                checkRequired("sharedAccess", sharedAccess),
                 generatedTitle,
                 (indexIds ?: JsonMissing.of()).map { it.toImmutable() },
                 jobMetadata,
@@ -329,6 +382,7 @@ private constructor(
 
         lastUpdatedAt()
         sessionId()
+        sharedAccess().validate()
         generatedTitle()
         indexIds()
         jobMetadata().ifPresent { it.validate() }
@@ -352,9 +406,153 @@ private constructor(
     internal fun validity(): Int =
         (if (lastUpdatedAt.asKnown().isPresent) 1 else 0) +
             (if (sessionId.asKnown().isPresent) 1 else 0) +
+            (sharedAccess.asKnown().getOrNull()?.validity() ?: 0) +
             (if (generatedTitle.asKnown().isPresent) 1 else 0) +
             (indexIds.asKnown().getOrNull()?.size ?: 0) +
             (jobMetadata.asKnown().getOrNull()?.validity() ?: 0)
+
+    /**
+     * What this chat's share link grants: read_only (transcript only) or query (viewers may ask new
+     * questions).
+     */
+    class SharedAccess @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val QUERY = of("query")
+
+            @JvmField val READ_ONLY = of("read_only")
+
+            @JvmStatic fun of(value: String) = SharedAccess(JsonField.of(value))
+        }
+
+        /** An enum containing [SharedAccess]'s known values. */
+        enum class Known {
+            QUERY,
+            READ_ONLY,
+        }
+
+        /**
+         * An enum containing [SharedAccess]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [SharedAccess] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            QUERY,
+            READ_ONLY,
+            /**
+             * An enum member indicating that [SharedAccess] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                QUERY -> Value.QUERY
+                READ_ONLY -> Value.READ_ONLY
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                QUERY -> Known.QUERY
+                READ_ONLY -> Known.READ_ONLY
+                else -> throw LlamaCloudInvalidDataException("Unknown SharedAccess: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                LlamaCloudInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): SharedAccess = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is SharedAccess && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
 
     /**
      * Token usage and status from the most recent run. Null if the session has not been run yet.
@@ -811,6 +1009,7 @@ private constructor(
         return other is ChatGetSummaryResponse &&
             lastUpdatedAt == other.lastUpdatedAt &&
             sessionId == other.sessionId &&
+            sharedAccess == other.sharedAccess &&
             generatedTitle == other.generatedTitle &&
             indexIds == other.indexIds &&
             jobMetadata == other.jobMetadata &&
@@ -821,6 +1020,7 @@ private constructor(
         Objects.hash(
             lastUpdatedAt,
             sessionId,
+            sharedAccess,
             generatedTitle,
             indexIds,
             jobMetadata,
@@ -831,5 +1031,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ChatGetSummaryResponse{lastUpdatedAt=$lastUpdatedAt, sessionId=$sessionId, generatedTitle=$generatedTitle, indexIds=$indexIds, jobMetadata=$jobMetadata, additionalProperties=$additionalProperties}"
+        "ChatGetSummaryResponse{lastUpdatedAt=$lastUpdatedAt, sessionId=$sessionId, sharedAccess=$sharedAccess, generatedTitle=$generatedTitle, indexIds=$indexIds, jobMetadata=$jobMetadata, additionalProperties=$additionalProperties}"
 }

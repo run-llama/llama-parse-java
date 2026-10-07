@@ -51,7 +51,6 @@ internal class ProGuardCompatibilityTest {
 
         assertThat(client).isNotNull()
         assertThat(client.files()).isNotNull()
-        assertThat(client.sheets()).isNotNull()
         assertThat(client.split()).isNotNull()
         assertThat(client.parsing()).isNotNull()
         assertThat(client.extract()).isNotNull()
@@ -62,8 +61,8 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.webhookConfigs()).isNotNull()
         assertThat(client.projects()).isNotNull()
         assertThat(client.v2Projects()).isNotNull()
-        assertThat(client.jobDataPoints()).isNotNull()
         assertThat(client.dataSinks()).isNotNull()
+        assertThat(client.extractionAgents()).isNotNull()
         assertThat(client.dataSources()).isNotNull()
         assertThat(client.pipelines()).isNotNull()
         assertThat(client.retrievers()).isNotNull()

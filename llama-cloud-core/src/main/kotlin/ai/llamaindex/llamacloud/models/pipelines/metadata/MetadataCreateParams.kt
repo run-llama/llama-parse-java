@@ -28,12 +28,15 @@ import kotlin.jvm.optionals.getOrNull
 class MetadataCreateParams
 private constructor(
     private val pipelineId: String?,
+    private val projectId: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun pipelineId(): Optional<String> = Optional.ofNullable(pipelineId)
+
+    fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /**
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
@@ -75,6 +78,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var pipelineId: String? = null
+        private var projectId: String? = null
         private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -82,6 +86,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(metadataCreateParams: MetadataCreateParams) = apply {
             pipelineId = metadataCreateParams.pipelineId
+            projectId = metadataCreateParams.projectId
             body = metadataCreateParams.body.toBuilder()
             additionalHeaders = metadataCreateParams.additionalHeaders.toBuilder()
             additionalQueryParams = metadataCreateParams.additionalQueryParams.toBuilder()
@@ -91,6 +96,11 @@ private constructor(
 
         /** Alias for calling [Builder.pipelineId] with `pipelineId.orElse(null)`. */
         fun pipelineId(pipelineId: Optional<String>) = pipelineId(pipelineId.getOrNull())
+
+        fun projectId(projectId: String?) = apply { this.projectId = projectId }
+
+        /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
+        fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -250,6 +260,7 @@ private constructor(
         fun build(): MetadataCreateParams =
             MetadataCreateParams(
                 pipelineId,
+                projectId,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -269,7 +280,13 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                projectId?.let { put("project_id", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     class Body
     private constructor(
@@ -441,14 +458,15 @@ private constructor(
 
         return other is MetadataCreateParams &&
             pipelineId == other.pipelineId &&
+            projectId == other.projectId &&
             body == other.body &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(pipelineId, body, additionalHeaders, additionalQueryParams)
+        Objects.hash(pipelineId, projectId, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "MetadataCreateParams{pipelineId=$pipelineId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "MetadataCreateParams{pipelineId=$pipelineId, projectId=$projectId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

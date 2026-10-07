@@ -115,7 +115,7 @@ private constructor(
     fun staticFilters(): Optional<StaticFilters> = body.staticFilters()
 
     /**
-     * Maximum number of results to return.
+     * Maximum number of results to return. Values above 500 are capped at 500.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -422,7 +422,7 @@ private constructor(
             body.staticFilters(staticFilters)
         }
 
-        /** Maximum number of results to return. */
+        /** Maximum number of results to return. Values above 500 are capped at 500. */
         fun topK(topK: Long?) = apply { body.topK(topK) }
 
         /**
@@ -748,7 +748,7 @@ private constructor(
         fun staticFilters(): Optional<StaticFilters> = staticFilters.getOptional("static_filters")
 
         /**
-         * Maximum number of results to return.
+         * Maximum number of results to return. Values above 500 are capped at 500.
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -1064,7 +1064,7 @@ private constructor(
                 this.staticFilters = staticFilters
             }
 
-            /** Maximum number of results to return. */
+            /** Maximum number of results to return. Values above 500 are capped at 500. */
             fun topK(topK: Long?) = topK(JsonField.ofNullable(topK))
 
             /**

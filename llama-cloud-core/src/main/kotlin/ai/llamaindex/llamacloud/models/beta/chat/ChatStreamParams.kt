@@ -56,6 +56,14 @@ private constructor(
     fun prompt(): String = body.prompt()
 
     /**
+     * Fail the turn if any requested index cannot be queried.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun requireAllIndexes(): Optional<Boolean> = body.requireAllIndexes()
+
+    /**
      * Returns the raw JSON value of [indexIds].
      *
      * Unlike [indexIds], this method doesn't throw if the JSON field has an unexpected type.
@@ -68,6 +76,14 @@ private constructor(
      * Unlike [prompt], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _prompt(): JsonField<String> = body._prompt()
+
+    /**
+     * Returns the raw JSON value of [requireAllIndexes].
+     *
+     * Unlike [requireAllIndexes], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    fun _requireAllIndexes(): JsonField<Boolean> = body._requireAllIndexes()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -136,6 +152,7 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [indexIds]
          * - [prompt]
+         * - [requireAllIndexes]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
@@ -168,6 +185,22 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun prompt(prompt: JsonField<String>) = apply { body.prompt(prompt) }
+
+        /** Fail the turn if any requested index cannot be queried. */
+        fun requireAllIndexes(requireAllIndexes: Boolean) = apply {
+            body.requireAllIndexes(requireAllIndexes)
+        }
+
+        /**
+         * Sets [Builder.requireAllIndexes] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.requireAllIndexes] with a well-typed [Boolean] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun requireAllIndexes(requireAllIndexes: JsonField<Boolean>) = apply {
+            body.requireAllIndexes(requireAllIndexes)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -335,6 +368,7 @@ private constructor(
     private constructor(
         private val indexIds: JsonField<List<String>>,
         private val prompt: JsonField<String>,
+        private val requireAllIndexes: JsonField<Boolean>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -344,7 +378,10 @@ private constructor(
             @ExcludeMissing
             indexIds: JsonField<List<String>> = JsonMissing.of(),
             @JsonProperty("prompt") @ExcludeMissing prompt: JsonField<String> = JsonMissing.of(),
-        ) : this(indexIds, prompt, mutableMapOf())
+            @JsonProperty("require_all_indexes")
+            @ExcludeMissing
+            requireAllIndexes: JsonField<Boolean> = JsonMissing.of(),
+        ) : this(indexIds, prompt, requireAllIndexes, mutableMapOf())
 
         /**
          * Indexes to retrieve data from.
@@ -363,6 +400,15 @@ private constructor(
         fun prompt(): String = prompt.getRequired("prompt")
 
         /**
+         * Fail the turn if any requested index cannot be queried.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun requireAllIndexes(): Optional<Boolean> =
+            requireAllIndexes.getOptional("require_all_indexes")
+
+        /**
          * Returns the raw JSON value of [indexIds].
          *
          * Unlike [indexIds], this method doesn't throw if the JSON field has an unexpected type.
@@ -377,6 +423,16 @@ private constructor(
          * Unlike [prompt], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("prompt") @ExcludeMissing fun _prompt(): JsonField<String> = prompt
+
+        /**
+         * Returns the raw JSON value of [requireAllIndexes].
+         *
+         * Unlike [requireAllIndexes], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("require_all_indexes")
+        @ExcludeMissing
+        fun _requireAllIndexes(): JsonField<Boolean> = requireAllIndexes
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -409,12 +465,14 @@ private constructor(
 
             private var indexIds: JsonField<MutableList<String>>? = null
             private var prompt: JsonField<String>? = null
+            private var requireAllIndexes: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
                 indexIds = body.indexIds.map { it.toMutableList() }
                 prompt = body.prompt
+                requireAllIndexes = body.requireAllIndexes
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
@@ -456,6 +514,21 @@ private constructor(
              */
             fun prompt(prompt: JsonField<String>) = apply { this.prompt = prompt }
 
+            /** Fail the turn if any requested index cannot be queried. */
+            fun requireAllIndexes(requireAllIndexes: Boolean) =
+                requireAllIndexes(JsonField.of(requireAllIndexes))
+
+            /**
+             * Sets [Builder.requireAllIndexes] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.requireAllIndexes] with a well-typed [Boolean] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun requireAllIndexes(requireAllIndexes: JsonField<Boolean>) = apply {
+                this.requireAllIndexes = requireAllIndexes
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -492,6 +565,7 @@ private constructor(
                 Body(
                     checkRequired("indexIds", indexIds).map { it.toImmutable() },
                     checkRequired("prompt", prompt),
+                    requireAllIndexes,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -514,6 +588,7 @@ private constructor(
 
             indexIds()
             prompt()
+            requireAllIndexes()
             validated = true
         }
 
@@ -533,7 +608,9 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (indexIds.asKnown().getOrNull()?.size ?: 0) + (if (prompt.asKnown().isPresent) 1 else 0)
+            (indexIds.asKnown().getOrNull()?.size ?: 0) +
+                (if (prompt.asKnown().isPresent) 1 else 0) +
+                (if (requireAllIndexes.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -543,15 +620,18 @@ private constructor(
             return other is Body &&
                 indexIds == other.indexIds &&
                 prompt == other.prompt &&
+                requireAllIndexes == other.requireAllIndexes &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy { Objects.hash(indexIds, prompt, additionalProperties) }
+        private val hashCode: Int by lazy {
+            Objects.hash(indexIds, prompt, requireAllIndexes, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{indexIds=$indexIds, prompt=$prompt, additionalProperties=$additionalProperties}"
+            "Body{indexIds=$indexIds, prompt=$prompt, requireAllIndexes=$requireAllIndexes, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

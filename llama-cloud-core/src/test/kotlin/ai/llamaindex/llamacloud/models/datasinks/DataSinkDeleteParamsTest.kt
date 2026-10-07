@@ -2,6 +2,7 @@
 
 package ai.llamaindex.llamacloud.models.datasinks
 
+import ai.llamaindex.llamacloud.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -9,7 +10,10 @@ internal class DataSinkDeleteParamsTest {
 
     @Test
     fun create() {
-        DataSinkDeleteParams.builder().dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
+        DataSinkDeleteParams.builder()
+            .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .build()
     }
 
     @Test
@@ -22,5 +26,35 @@ internal class DataSinkDeleteParamsTest {
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         // out-of-bound path param
         assertThat(params._pathParam(1)).isEqualTo("")
+    }
+
+    @Test
+    fun queryParams() {
+        val params =
+            DataSinkDeleteParams.builder()
+                .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+    }
+
+    @Test
+    fun queryParamsWithoutOptionalFields() {
+        val params =
+            DataSinkDeleteParams.builder()
+                .dataSinkId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }

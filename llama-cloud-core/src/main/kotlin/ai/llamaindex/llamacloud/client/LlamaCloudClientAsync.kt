@@ -11,13 +11,12 @@ import ai.llamaindex.llamacloud.services.async.ConfigurationServiceAsync
 import ai.llamaindex.llamacloud.services.async.DataSinkServiceAsync
 import ai.llamaindex.llamacloud.services.async.DataSourceServiceAsync
 import ai.llamaindex.llamacloud.services.async.ExtractServiceAsync
+import ai.llamaindex.llamacloud.services.async.ExtractionAgentServiceAsync
 import ai.llamaindex.llamacloud.services.async.FileServiceAsync
-import ai.llamaindex.llamacloud.services.async.JobDataPointServiceAsync
 import ai.llamaindex.llamacloud.services.async.ParsingServiceAsync
 import ai.llamaindex.llamacloud.services.async.PipelineServiceAsync
 import ai.llamaindex.llamacloud.services.async.ProjectServiceAsync
 import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsync
-import ai.llamaindex.llamacloud.services.async.SheetServiceAsync
 import ai.llamaindex.llamacloud.services.async.SplitServiceAsync
 import ai.llamaindex.llamacloud.services.async.V2ProjectServiceAsync
 import ai.llamaindex.llamacloud.services.async.WebhookConfigServiceAsync
@@ -61,8 +60,6 @@ interface LlamaCloudClientAsync {
 
     fun files(): FileServiceAsync
 
-    fun sheets(): SheetServiceAsync
-
     fun split(): SplitServiceAsync
 
     fun parsing(): ParsingServiceAsync
@@ -83,9 +80,9 @@ interface LlamaCloudClientAsync {
 
     fun v2Projects(): V2ProjectServiceAsync
 
-    fun jobDataPoints(): JobDataPointServiceAsync
-
     fun dataSinks(): DataSinkServiceAsync
+
+    fun extractionAgents(): ExtractionAgentServiceAsync
 
     fun dataSources(): DataSourceServiceAsync
 
@@ -124,8 +121,6 @@ interface LlamaCloudClientAsync {
 
         fun files(): FileServiceAsync.WithRawResponse
 
-        fun sheets(): SheetServiceAsync.WithRawResponse
-
         fun split(): SplitServiceAsync.WithRawResponse
 
         fun parsing(): ParsingServiceAsync.WithRawResponse
@@ -146,9 +141,9 @@ interface LlamaCloudClientAsync {
 
         fun v2Projects(): V2ProjectServiceAsync.WithRawResponse
 
-        fun jobDataPoints(): JobDataPointServiceAsync.WithRawResponse
-
         fun dataSinks(): DataSinkServiceAsync.WithRawResponse
+
+        fun extractionAgents(): ExtractionAgentServiceAsync.WithRawResponse
 
         fun dataSources(): DataSourceServiceAsync.WithRawResponse
 
