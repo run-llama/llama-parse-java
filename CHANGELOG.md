@@ -1,5 +1,43 @@
 # Changelog
 
+## [1.8.0](https://github.com/run-llama/llama-parse-java/compare/v1.7.0...v1.8.0) (2026-10-07)
+
+
+### Features
+
+* add redline prompt changes to new prod version ([#27635](https://github.com/run-llama/llama-parse-java/issues/27635)) ([3cfe72e](https://github.com/run-llama/llama-parse-java/commit/3cfe72e8e1ee5864ab7939bf0b1012a881039b98))
+* **chat:** let a chat session refuse queries from its share link ([#27012](https://github.com/run-llama/llama-parse-java/issues/27012)) ([d416708](https://github.com/run-llama/llama-parse-java/commit/d416708fd07dfb62fb4468949c1cbc4cbe98b9a7))
+* **parse:** add option to include hidden PPTX slides ([#27938](https://github.com/run-llama/llama-parse-java/issues/27938)) ([c9a5629](https://github.com/run-llama/llama-parse-java/commit/c9a5629387e1f9b7c67871df0734905b3c303e31))
+* **parse:** agentic 2026-09-09 — cache-stable prompt order + Flash Lite MINIMAL thinking ([#26273](https://github.com/run-llama/llama-parse-java/issues/26273)) ([9c31adf](https://github.com/run-llama/llama-parse-java/commit/9c31adf96fa3099763c2396be3766b30beff1fef))
+* **parse:** apply watermark_handling to text output; add watermark e2e test ([#27932](https://github.com/run-llama/llama-parse-java/issues/27932)) ([4c89f1e](https://github.com/run-llama/llama-parse-java/commit/4c89f1ef618fb6b1dc505734dd7e13ecccdcd902))
+* **parse:** display enriched Forms granular highlights ([#26366](https://github.com/run-llama/llama-parse-java/issues/26366)) ([3d10c5d](https://github.com/run-llama/llama-parse-java/commit/3d10c5d609118526672920b51ff06faa3dd930d8))
+* **parse:** remove_watermark output option with 2026-09-28 tier versions ([#27813](https://github.com/run-llama/llama-parse-java/issues/27813)) ([446099a](https://github.com/run-llama/llama-parse-java/commit/446099a07ade838a27d2a072dddb4faaaea076a0))
+* **sdk:** publish beta.attachments list and get ([5fa78c1](https://github.com/run-llama/llama-parse-java/commit/5fa78c17b3ad07988ad2c5ccc84ae98935dd45b5))
+* **split:** target_pages page selection when splitting a parse job ([#26921](https://github.com/run-llama/llama-parse-java/issues/26921)) ([7c99d43](https://github.com/run-llama/llama-parse-java/commit/7c99d436ac48d8f1af1b5d97cf0333ab3ebe0dae))
+
+
+### Bug Fixes
+
+* **chat:** report every index a chat turn could not query ([#26981](https://github.com/run-llama/llama-parse-java/issues/26981)) ([f93b05c](https://github.com/run-llama/llama-parse-java/commit/f93b05c08fb009fa0401881793a3b0a24880ea57))
+* **extract:** refuse to delete a non-terminal job (LI-8700) ([#23793](https://github.com/run-llama/llama-parse-java/issues/23793)) ([d8e589a](https://github.com/run-llama/llama-parse-java/commit/d8e589ad5811643242072bcc0e0a789394aa0652))
+* **split:** process target_pages in the order written, matching Extract ([#28173](https://github.com/run-llama/llama-parse-java/issues/28173)) ([feaa04c](https://github.com/run-llama/llama-parse-java/commit/feaa04ca31948ebd8805fde802cec8c4e0fd3255))
+* **split:** process target_pages in the order written, matching Extract ([#28173](https://github.com/run-llama/llama-parse-java/issues/28173)) ([eab05d9](https://github.com/run-llama/llama-parse-java/commit/eab05d97c9497d2354ece756ed9946c3ed4806ed))
+
+
+### Chores
+
+* **stlc:** restore generated sources stripped by a poisoned custom-code seal ([fe520ab](https://github.com/run-llama/llama-parse-java/commit/fe520abd8f6aa34395283da13e00d4033cd3c014))
+* **stlc:** restore generated sources stripped by a poisoned custom-code seal ([5418b1f](https://github.com/run-llama/llama-parse-java/commit/5418b1f66d3699e312f38718845cc36c90c3a258))
+* **sync:** resolve back-sync conflicts with production ([f22b437](https://github.com/run-llama/llama-parse-java/commit/f22b437a86110000dd1c1221017dfcc2f71b0e1e))
+
+
+### Documentation
+
+* **changelog:** cite the real generated commit, not the empty one ([9c05e8a](https://github.com/run-llama/llama-parse-java/commit/9c05e8a901f8621021c5919ff8e00606aa504420))
+* **changelog:** correct the 1.7.0 entries ([2cbcdcc](https://github.com/run-llama/llama-parse-java/commit/2cbcdcc789b302a9d16ea759cc3a8b51440706dc))
+* **changelog:** correct the shipped 1.7.0 changelog entries ([70d74ec](https://github.com/run-llama/llama-parse-java/commit/70d74ecfc65c1bc714cacd7b24d3e2e3ef997750))
+* update Extract versions and pricing ([#28128](https://github.com/run-llama/llama-parse-java/issues/28128)) ([975a504](https://github.com/run-llama/llama-parse-java/commit/975a504436a9156808934b79eec7a7ba444284cb))
+
 ## [1.6.0](https://github.com/run-llama/llama-parse-java/compare/v1.5.1...v1.6.0) (2026-08-28)
 
 
