@@ -35,27 +35,33 @@ interface ChatService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): ChatService
 
     /** Create a chat session, optionally bound to indexes (locked after the first message). */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun create(): ChatCreateResponse = create(ChatCreateParams.none())
 
     /** @see create */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun create(
         params: ChatCreateParams = ChatCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ChatCreateResponse
 
     /** @see create */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun create(params: ChatCreateParams = ChatCreateParams.none()): ChatCreateResponse =
         create(params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun create(requestOptions: RequestOptions): ChatCreateResponse =
         create(ChatCreateParams.none(), requestOptions)
 
     /** Retrieve a full session by ID, including its event history. */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(sessionId: String): ChatRetrieveResponse =
         retrieve(sessionId, ChatRetrieveParams.none())
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(
         sessionId: String,
         params: ChatRetrieveParams = ChatRetrieveParams.none(),
@@ -64,46 +70,56 @@ interface ChatService {
         retrieve(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(
         sessionId: String,
         params: ChatRetrieveParams = ChatRetrieveParams.none(),
     ): ChatRetrieveResponse = retrieve(sessionId, params, RequestOptions.none())
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(
         params: ChatRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ChatRetrieveResponse
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(params: ChatRetrieveParams): ChatRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(sessionId: String, requestOptions: RequestOptions): ChatRetrieveResponse =
         retrieve(sessionId, ChatRetrieveParams.none(), requestOptions)
 
     /** List all chat sessions for the current project. */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun list(): ChatListPage = list(ChatListParams.none())
 
     /** @see list */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun list(
         params: ChatListParams = ChatListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ChatListPage
 
     /** @see list */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun list(params: ChatListParams = ChatListParams.none()): ChatListPage =
         list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun list(requestOptions: RequestOptions): ChatListPage =
         list(ChatListParams.none(), requestOptions)
 
     /** Delete a session. */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(sessionId: String) = delete(sessionId, ChatDeleteParams.none())
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(
         sessionId: String,
         params: ChatDeleteParams = ChatDeleteParams.none(),
@@ -111,24 +127,30 @@ interface ChatService {
     ) = delete(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(sessionId: String, params: ChatDeleteParams = ChatDeleteParams.none()) =
         delete(sessionId, params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(params: ChatDeleteParams, requestOptions: RequestOptions = RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(params: ChatDeleteParams) = delete(params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(sessionId: String, requestOptions: RequestOptions) =
         delete(sessionId, ChatDeleteParams.none(), requestOptions)
 
     /** Retrieve a session summary by ID. */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(sessionId: String): ChatGetSummaryResponse =
         getSummary(sessionId, ChatGetSummaryParams.none())
 
     /** @see getSummary */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(
         sessionId: String,
         params: ChatGetSummaryParams = ChatGetSummaryParams.none(),
@@ -137,30 +159,36 @@ interface ChatService {
         getSummary(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
     /** @see getSummary */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(
         sessionId: String,
         params: ChatGetSummaryParams = ChatGetSummaryParams.none(),
     ): ChatGetSummaryResponse = getSummary(sessionId, params, RequestOptions.none())
 
     /** @see getSummary */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(
         params: ChatGetSummaryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ChatGetSummaryResponse
 
     /** @see getSummary */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(params: ChatGetSummaryParams): ChatGetSummaryResponse =
         getSummary(params, RequestOptions.none())
 
     /** @see getSummary */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(sessionId: String, requestOptions: RequestOptions): ChatGetSummaryResponse =
         getSummary(sessionId, ChatGetSummaryParams.none(), requestOptions)
 
     /** Stream agent events for a chat turn as Server-Sent Events. */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun stream(sessionId: String, params: ChatStreamParams): ChatStreamResponse =
         stream(sessionId, params, RequestOptions.none())
 
     /** @see stream */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun stream(
         sessionId: String,
         params: ChatStreamParams,
@@ -168,9 +196,11 @@ interface ChatService {
     ): ChatStreamResponse = stream(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
     /** @see stream */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun stream(params: ChatStreamParams): ChatStreamResponse = stream(params, RequestOptions.none())
 
     /** @see stream */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun stream(
         params: ChatStreamParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -190,10 +220,12 @@ interface ChatService {
          * Returns a raw HTTP response for `post /api/v1/chat`, but is otherwise the same as
          * [ChatService.create].
          */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun create(): HttpResponseFor<ChatCreateResponse> = create(ChatCreateParams.none())
 
         /** @see create */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun create(
             params: ChatCreateParams = ChatCreateParams.none(),
@@ -201,12 +233,14 @@ interface ChatService {
         ): HttpResponseFor<ChatCreateResponse>
 
         /** @see create */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun create(
             params: ChatCreateParams = ChatCreateParams.none()
         ): HttpResponseFor<ChatCreateResponse> = create(params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun create(requestOptions: RequestOptions): HttpResponseFor<ChatCreateResponse> =
             create(ChatCreateParams.none(), requestOptions)
@@ -215,11 +249,13 @@ interface ChatService {
          * Returns a raw HTTP response for `get /api/v1/chat/{session_id}`, but is otherwise the
          * same as [ChatService.retrieve].
          */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun retrieve(sessionId: String): HttpResponseFor<ChatRetrieveResponse> =
             retrieve(sessionId, ChatRetrieveParams.none())
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun retrieve(
             sessionId: String,
@@ -229,6 +265,7 @@ interface ChatService {
             retrieve(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun retrieve(
             sessionId: String,
@@ -237,6 +274,7 @@ interface ChatService {
             retrieve(sessionId, params, RequestOptions.none())
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun retrieve(
             params: ChatRetrieveParams,
@@ -244,11 +282,13 @@ interface ChatService {
         ): HttpResponseFor<ChatRetrieveResponse>
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun retrieve(params: ChatRetrieveParams): HttpResponseFor<ChatRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun retrieve(
             sessionId: String,
@@ -260,9 +300,12 @@ interface ChatService {
          * Returns a raw HTTP response for `get /api/v1/chat`, but is otherwise the same as
          * [ChatService.list].
          */
-        @MustBeClosed fun list(): HttpResponseFor<ChatListPage> = list(ChatListParams.none())
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
+        @MustBeClosed
+        fun list(): HttpResponseFor<ChatListPage> = list(ChatListParams.none())
 
         /** @see list */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun list(
             params: ChatListParams = ChatListParams.none(),
@@ -270,11 +313,13 @@ interface ChatService {
         ): HttpResponseFor<ChatListPage>
 
         /** @see list */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun list(params: ChatListParams = ChatListParams.none()): HttpResponseFor<ChatListPage> =
             list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<ChatListPage> =
             list(ChatListParams.none(), requestOptions)
@@ -283,10 +328,12 @@ interface ChatService {
          * Returns a raw HTTP response for `delete /api/v1/chat/{session_id}`, but is otherwise the
          * same as [ChatService.delete].
          */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun delete(sessionId: String): HttpResponse = delete(sessionId, ChatDeleteParams.none())
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun delete(
             sessionId: String,
@@ -295,6 +342,7 @@ interface ChatService {
         ): HttpResponse = delete(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun delete(
             sessionId: String,
@@ -302,6 +350,7 @@ interface ChatService {
         ): HttpResponse = delete(sessionId, params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun delete(
             params: ChatDeleteParams,
@@ -309,10 +358,12 @@ interface ChatService {
         ): HttpResponse
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun delete(params: ChatDeleteParams): HttpResponse = delete(params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun delete(sessionId: String, requestOptions: RequestOptions): HttpResponse =
             delete(sessionId, ChatDeleteParams.none(), requestOptions)
@@ -321,11 +372,13 @@ interface ChatService {
          * Returns a raw HTTP response for `get /api/v1/chat/{session_id}/summary`, but is otherwise
          * the same as [ChatService.getSummary].
          */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun getSummary(sessionId: String): HttpResponseFor<ChatGetSummaryResponse> =
             getSummary(sessionId, ChatGetSummaryParams.none())
 
         /** @see getSummary */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun getSummary(
             sessionId: String,
@@ -335,6 +388,7 @@ interface ChatService {
             getSummary(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
         /** @see getSummary */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun getSummary(
             sessionId: String,
@@ -343,6 +397,7 @@ interface ChatService {
             getSummary(sessionId, params, RequestOptions.none())
 
         /** @see getSummary */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun getSummary(
             params: ChatGetSummaryParams,
@@ -350,11 +405,13 @@ interface ChatService {
         ): HttpResponseFor<ChatGetSummaryResponse>
 
         /** @see getSummary */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun getSummary(params: ChatGetSummaryParams): HttpResponseFor<ChatGetSummaryResponse> =
             getSummary(params, RequestOptions.none())
 
         /** @see getSummary */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun getSummary(
             sessionId: String,
@@ -366,6 +423,7 @@ interface ChatService {
          * Returns a raw HTTP response for `post /api/v1/chat/{session_id}/messages/stream`, but is
          * otherwise the same as [ChatService.stream].
          */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun stream(
             sessionId: String,
@@ -373,6 +431,7 @@ interface ChatService {
         ): HttpResponseFor<ChatStreamResponse> = stream(sessionId, params, RequestOptions.none())
 
         /** @see stream */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun stream(
             sessionId: String,
@@ -382,11 +441,13 @@ interface ChatService {
             stream(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
         /** @see stream */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun stream(params: ChatStreamParams): HttpResponseFor<ChatStreamResponse> =
             stream(params, RequestOptions.none())
 
         /** @see stream */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         @MustBeClosed
         fun stream(
             params: ChatStreamParams,

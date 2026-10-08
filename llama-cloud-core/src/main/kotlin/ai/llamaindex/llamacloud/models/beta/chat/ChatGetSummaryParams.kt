@@ -10,6 +10,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Retrieve a session summary by ID. */
+@Deprecated("Moved out of beta. Use the top-level chat resource instead")
 class ChatGetSummaryParams
 private constructor(
     private val sessionId: String?,

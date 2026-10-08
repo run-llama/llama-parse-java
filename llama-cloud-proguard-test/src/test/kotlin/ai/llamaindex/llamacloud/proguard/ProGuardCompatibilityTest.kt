@@ -5,7 +5,7 @@ package ai.llamaindex.llamacloud.proguard
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClient
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.core.jsonMapper
-import ai.llamaindex.llamacloud.models.beta.indexes.IndexCreateResponse
+import ai.llamaindex.llamacloud.models.indexes.IndexCreateResponse
 import ai.llamaindex.llamacloud.models.parsing.FailPageMode
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
@@ -66,6 +66,9 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.dataSources()).isNotNull()
         assertThat(client.pipelines()).isNotNull()
         assertThat(client.retrievers()).isNotNull()
+        assertThat(client.indexes()).isNotNull()
+        assertThat(client.retrieval()).isNotNull()
+        assertThat(client.chat()).isNotNull()
         assertThat(client.beta()).isNotNull()
     }
 

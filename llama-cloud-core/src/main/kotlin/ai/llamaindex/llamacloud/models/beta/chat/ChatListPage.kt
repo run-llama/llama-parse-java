@@ -11,6 +11,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** @see ChatService.list */
+@Deprecated("Moved out of beta. Use the top-level chat resource instead")
 class ChatListPage
 private constructor(
     private val service: ChatService,

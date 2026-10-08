@@ -13,6 +13,7 @@ import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
 /** @see IndexServiceAsync.list */
+@Deprecated("Moved out of beta. Use the top-level indexes resource instead")
 class IndexListPageAsync
 private constructor(
     private val service: IndexServiceAsync,

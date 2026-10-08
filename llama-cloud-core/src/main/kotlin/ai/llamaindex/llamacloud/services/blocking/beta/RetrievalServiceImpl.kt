@@ -39,6 +39,7 @@ class RetrievalServiceImpl internal constructor(private val clientOptions: Clien
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): RetrievalService =
         RetrievalServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     override fun retrieve(
         params: RetrievalRetrieveParams,
         requestOptions: RequestOptions,
@@ -46,6 +47,7 @@ class RetrievalServiceImpl internal constructor(private val clientOptions: Clien
         // post /api/v1/retrieval/retrieve
         withRawResponse().retrieve(params, requestOptions).parse()
 
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     override fun find(
         params: RetrievalFindParams,
         requestOptions: RequestOptions,
@@ -53,6 +55,7 @@ class RetrievalServiceImpl internal constructor(private val clientOptions: Clien
         // post /api/v1/retrieval/files/find
         withRawResponse().find(params, requestOptions).parse()
 
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     override fun grep(
         params: RetrievalGrepParams,
         requestOptions: RequestOptions,
@@ -60,6 +63,7 @@ class RetrievalServiceImpl internal constructor(private val clientOptions: Clien
         // post /api/v1/retrieval/files/grep
         withRawResponse().grep(params, requestOptions).parse()
 
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     override fun read(
         params: RetrievalReadParams,
         requestOptions: RequestOptions,
@@ -83,6 +87,7 @@ class RetrievalServiceImpl internal constructor(private val clientOptions: Clien
         private val retrieveHandler: Handler<RetrievalRetrieveResponse> =
             jsonHandler<RetrievalRetrieveResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         override fun retrieve(
             params: RetrievalRetrieveParams,
             requestOptions: RequestOptions,
@@ -111,6 +116,7 @@ class RetrievalServiceImpl internal constructor(private val clientOptions: Clien
         private val findHandler: Handler<RetrievalFindPageResponse> =
             jsonHandler<RetrievalFindPageResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         override fun find(
             params: RetrievalFindParams,
             requestOptions: RequestOptions,
@@ -146,6 +152,7 @@ class RetrievalServiceImpl internal constructor(private val clientOptions: Clien
         private val grepHandler: Handler<RetrievalGrepPageResponse> =
             jsonHandler<RetrievalGrepPageResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         override fun grep(
             params: RetrievalGrepParams,
             requestOptions: RequestOptions,
@@ -181,6 +188,7 @@ class RetrievalServiceImpl internal constructor(private val clientOptions: Clien
         private val readHandler: Handler<RetrievalReadResponse> =
             jsonHandler<RetrievalReadResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         override fun read(
             params: RetrievalReadParams,
             requestOptions: RequestOptions,

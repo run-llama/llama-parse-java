@@ -15,6 +15,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Get an index by ID. */
+@Deprecated("Moved out of beta. Use the top-level indexes resource instead")
 class IndexGetParams
 private constructor(
     private val indexId: String?,

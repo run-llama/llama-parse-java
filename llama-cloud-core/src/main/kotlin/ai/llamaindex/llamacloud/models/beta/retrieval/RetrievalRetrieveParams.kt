@@ -37,6 +37,7 @@ import kotlin.jvm.optionals.getOrNull
  * Retrieve relevant chunks via hybrid search (vector + full-text), with filtering on built-in or
  * user-defined metadata.
  */
+@Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
 class RetrievalRetrieveParams
 private constructor(
     private val organizationId: String?,

@@ -11,6 +11,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** @see IndexService.list */
+@Deprecated("Moved out of beta. Use the top-level indexes resource instead")
 class IndexListPage
 private constructor(
     private val service: IndexService,

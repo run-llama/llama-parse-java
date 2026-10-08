@@ -11,6 +11,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** @see RetrievalService.find */
+@Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
 class RetrievalFindPage
 private constructor(
     private val service: RetrievalService,

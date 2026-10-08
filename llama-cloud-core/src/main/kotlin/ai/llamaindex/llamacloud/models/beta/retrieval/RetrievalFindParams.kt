@@ -21,6 +21,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Search for files by name. */
+@Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
 class RetrievalFindParams
 private constructor(
     private val organizationId: String?,

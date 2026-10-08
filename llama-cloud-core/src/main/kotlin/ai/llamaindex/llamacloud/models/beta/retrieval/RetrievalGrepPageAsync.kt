@@ -13,6 +13,7 @@ import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
 /** @see RetrievalServiceAsync.grep */
+@Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
 class RetrievalGrepPageAsync
 private constructor(
     private val service: RetrievalServiceAsync,

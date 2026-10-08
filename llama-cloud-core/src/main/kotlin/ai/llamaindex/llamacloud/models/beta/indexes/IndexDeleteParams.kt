@@ -12,6 +12,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Delete an index. */
+@Deprecated("Moved out of beta. Use the top-level indexes resource instead")
 class IndexDeleteParams
 private constructor(
     private val indexId: String?,

@@ -5,6 +5,7 @@ package ai.llamaindex.llamacloud.client
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.blocking.BatchService
 import ai.llamaindex.llamacloud.services.blocking.BetaService
+import ai.llamaindex.llamacloud.services.blocking.ChatService
 import ai.llamaindex.llamacloud.services.blocking.ClassifierService
 import ai.llamaindex.llamacloud.services.blocking.ClassifyService
 import ai.llamaindex.llamacloud.services.blocking.ConfigurationService
@@ -13,9 +14,11 @@ import ai.llamaindex.llamacloud.services.blocking.DataSourceService
 import ai.llamaindex.llamacloud.services.blocking.ExtractService
 import ai.llamaindex.llamacloud.services.blocking.ExtractionAgentService
 import ai.llamaindex.llamacloud.services.blocking.FileService
+import ai.llamaindex.llamacloud.services.blocking.IndexService
 import ai.llamaindex.llamacloud.services.blocking.ParsingService
 import ai.llamaindex.llamacloud.services.blocking.PipelineService
 import ai.llamaindex.llamacloud.services.blocking.ProjectService
+import ai.llamaindex.llamacloud.services.blocking.RetrievalService
 import ai.llamaindex.llamacloud.services.blocking.RetrieverService
 import ai.llamaindex.llamacloud.services.blocking.SplitService
 import ai.llamaindex.llamacloud.services.blocking.V2ProjectService
@@ -90,6 +93,12 @@ interface LlamaCloudClient {
 
     fun retrievers(): RetrieverService
 
+    fun indexes(): IndexService
+
+    fun retrieval(): RetrievalService
+
+    fun chat(): ChatService
+
     fun beta(): BetaService
 
     /**
@@ -146,6 +155,12 @@ interface LlamaCloudClient {
         fun pipelines(): PipelineService.WithRawResponse
 
         fun retrievers(): RetrieverService.WithRawResponse
+
+        fun indexes(): IndexService.WithRawResponse
+
+        fun retrieval(): RetrievalService.WithRawResponse
+
+        fun chat(): ChatService.WithRawResponse
 
         fun beta(): BetaService.WithRawResponse
     }

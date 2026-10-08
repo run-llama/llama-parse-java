@@ -35,28 +35,34 @@ interface ChatServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): ChatServiceAsync
 
     /** Create a chat session, optionally bound to indexes (locked after the first message). */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun create(): CompletableFuture<ChatCreateResponse> = create(ChatCreateParams.none())
 
     /** @see create */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun create(
         params: ChatCreateParams = ChatCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ChatCreateResponse>
 
     /** @see create */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun create(
         params: ChatCreateParams = ChatCreateParams.none()
     ): CompletableFuture<ChatCreateResponse> = create(params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun create(requestOptions: RequestOptions): CompletableFuture<ChatCreateResponse> =
         create(ChatCreateParams.none(), requestOptions)
 
     /** Retrieve a full session by ID, including its event history. */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(sessionId: String): CompletableFuture<ChatRetrieveResponse> =
         retrieve(sessionId, ChatRetrieveParams.none())
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(
         sessionId: String,
         params: ChatRetrieveParams = ChatRetrieveParams.none(),
@@ -65,22 +71,26 @@ interface ChatServiceAsync {
         retrieve(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(
         sessionId: String,
         params: ChatRetrieveParams = ChatRetrieveParams.none(),
     ): CompletableFuture<ChatRetrieveResponse> = retrieve(sessionId, params, RequestOptions.none())
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(
         params: ChatRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ChatRetrieveResponse>
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(params: ChatRetrieveParams): CompletableFuture<ChatRetrieveResponse> =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun retrieve(
         sessionId: String,
         requestOptions: RequestOptions,
@@ -88,27 +98,33 @@ interface ChatServiceAsync {
         retrieve(sessionId, ChatRetrieveParams.none(), requestOptions)
 
     /** List all chat sessions for the current project. */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun list(): CompletableFuture<ChatListPageAsync> = list(ChatListParams.none())
 
     /** @see list */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun list(
         params: ChatListParams = ChatListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ChatListPageAsync>
 
     /** @see list */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun list(params: ChatListParams = ChatListParams.none()): CompletableFuture<ChatListPageAsync> =
         list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun list(requestOptions: RequestOptions): CompletableFuture<ChatListPageAsync> =
         list(ChatListParams.none(), requestOptions)
 
     /** Delete a session. */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(sessionId: String): CompletableFuture<Void?> =
         delete(sessionId, ChatDeleteParams.none())
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(
         sessionId: String,
         params: ChatDeleteParams = ChatDeleteParams.none(),
@@ -117,30 +133,36 @@ interface ChatServiceAsync {
         delete(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(
         sessionId: String,
         params: ChatDeleteParams = ChatDeleteParams.none(),
     ): CompletableFuture<Void?> = delete(sessionId, params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(
         params: ChatDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(params: ChatDeleteParams): CompletableFuture<Void?> =
         delete(params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun delete(sessionId: String, requestOptions: RequestOptions): CompletableFuture<Void?> =
         delete(sessionId, ChatDeleteParams.none(), requestOptions)
 
     /** Retrieve a session summary by ID. */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(sessionId: String): CompletableFuture<ChatGetSummaryResponse> =
         getSummary(sessionId, ChatGetSummaryParams.none())
 
     /** @see getSummary */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(
         sessionId: String,
         params: ChatGetSummaryParams = ChatGetSummaryParams.none(),
@@ -149,6 +171,7 @@ interface ChatServiceAsync {
         getSummary(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
     /** @see getSummary */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(
         sessionId: String,
         params: ChatGetSummaryParams = ChatGetSummaryParams.none(),
@@ -156,16 +179,19 @@ interface ChatServiceAsync {
         getSummary(sessionId, params, RequestOptions.none())
 
     /** @see getSummary */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(
         params: ChatGetSummaryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ChatGetSummaryResponse>
 
     /** @see getSummary */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(params: ChatGetSummaryParams): CompletableFuture<ChatGetSummaryResponse> =
         getSummary(params, RequestOptions.none())
 
     /** @see getSummary */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun getSummary(
         sessionId: String,
         requestOptions: RequestOptions,
@@ -173,10 +199,12 @@ interface ChatServiceAsync {
         getSummary(sessionId, ChatGetSummaryParams.none(), requestOptions)
 
     /** Stream agent events for a chat turn as Server-Sent Events. */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun stream(sessionId: String, params: ChatStreamParams): CompletableFuture<ChatStreamResponse> =
         stream(sessionId, params, RequestOptions.none())
 
     /** @see stream */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun stream(
         sessionId: String,
         params: ChatStreamParams,
@@ -185,10 +213,12 @@ interface ChatServiceAsync {
         stream(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
     /** @see stream */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun stream(params: ChatStreamParams): CompletableFuture<ChatStreamResponse> =
         stream(params, RequestOptions.none())
 
     /** @see stream */
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     fun stream(
         params: ChatStreamParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -208,22 +238,26 @@ interface ChatServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/chat`, but is otherwise the same as
          * [ChatServiceAsync.create].
          */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun create(): CompletableFuture<HttpResponseFor<ChatCreateResponse>> =
             create(ChatCreateParams.none())
 
         /** @see create */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun create(
             params: ChatCreateParams = ChatCreateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ChatCreateResponse>>
 
         /** @see create */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun create(
             params: ChatCreateParams = ChatCreateParams.none()
         ): CompletableFuture<HttpResponseFor<ChatCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun create(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ChatCreateResponse>> =
@@ -233,10 +267,12 @@ interface ChatServiceAsync {
          * Returns a raw HTTP response for `get /api/v1/chat/{session_id}`, but is otherwise the
          * same as [ChatServiceAsync.retrieve].
          */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun retrieve(sessionId: String): CompletableFuture<HttpResponseFor<ChatRetrieveResponse>> =
             retrieve(sessionId, ChatRetrieveParams.none())
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun retrieve(
             sessionId: String,
             params: ChatRetrieveParams = ChatRetrieveParams.none(),
@@ -245,6 +281,7 @@ interface ChatServiceAsync {
             retrieve(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun retrieve(
             sessionId: String,
             params: ChatRetrieveParams = ChatRetrieveParams.none(),
@@ -252,18 +289,21 @@ interface ChatServiceAsync {
             retrieve(sessionId, params, RequestOptions.none())
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun retrieve(
             params: ChatRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ChatRetrieveResponse>>
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun retrieve(
             params: ChatRetrieveParams
         ): CompletableFuture<HttpResponseFor<ChatRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun retrieve(
             sessionId: String,
             requestOptions: RequestOptions,
@@ -274,22 +314,26 @@ interface ChatServiceAsync {
          * Returns a raw HTTP response for `get /api/v1/chat`, but is otherwise the same as
          * [ChatServiceAsync.list].
          */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun list(): CompletableFuture<HttpResponseFor<ChatListPageAsync>> =
             list(ChatListParams.none())
 
         /** @see list */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun list(
             params: ChatListParams = ChatListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ChatListPageAsync>>
 
         /** @see list */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun list(
             params: ChatListParams = ChatListParams.none()
         ): CompletableFuture<HttpResponseFor<ChatListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ChatListPageAsync>> =
@@ -299,10 +343,12 @@ interface ChatServiceAsync {
          * Returns a raw HTTP response for `delete /api/v1/chat/{session_id}`, but is otherwise the
          * same as [ChatServiceAsync.delete].
          */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun delete(sessionId: String): CompletableFuture<HttpResponse> =
             delete(sessionId, ChatDeleteParams.none())
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun delete(
             sessionId: String,
             params: ChatDeleteParams = ChatDeleteParams.none(),
@@ -311,22 +357,26 @@ interface ChatServiceAsync {
             delete(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun delete(
             sessionId: String,
             params: ChatDeleteParams = ChatDeleteParams.none(),
         ): CompletableFuture<HttpResponse> = delete(sessionId, params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun delete(
             params: ChatDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun delete(params: ChatDeleteParams): CompletableFuture<HttpResponse> =
             delete(params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun delete(
             sessionId: String,
             requestOptions: RequestOptions,
@@ -337,12 +387,14 @@ interface ChatServiceAsync {
          * Returns a raw HTTP response for `get /api/v1/chat/{session_id}/summary`, but is otherwise
          * the same as [ChatServiceAsync.getSummary].
          */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun getSummary(
             sessionId: String
         ): CompletableFuture<HttpResponseFor<ChatGetSummaryResponse>> =
             getSummary(sessionId, ChatGetSummaryParams.none())
 
         /** @see getSummary */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun getSummary(
             sessionId: String,
             params: ChatGetSummaryParams = ChatGetSummaryParams.none(),
@@ -351,6 +403,7 @@ interface ChatServiceAsync {
             getSummary(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
         /** @see getSummary */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun getSummary(
             sessionId: String,
             params: ChatGetSummaryParams = ChatGetSummaryParams.none(),
@@ -358,18 +411,21 @@ interface ChatServiceAsync {
             getSummary(sessionId, params, RequestOptions.none())
 
         /** @see getSummary */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun getSummary(
             params: ChatGetSummaryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ChatGetSummaryResponse>>
 
         /** @see getSummary */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun getSummary(
             params: ChatGetSummaryParams
         ): CompletableFuture<HttpResponseFor<ChatGetSummaryResponse>> =
             getSummary(params, RequestOptions.none())
 
         /** @see getSummary */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun getSummary(
             sessionId: String,
             requestOptions: RequestOptions,
@@ -380,6 +436,7 @@ interface ChatServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/chat/{session_id}/messages/stream`, but is
          * otherwise the same as [ChatServiceAsync.stream].
          */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun stream(
             sessionId: String,
             params: ChatStreamParams,
@@ -387,6 +444,7 @@ interface ChatServiceAsync {
             stream(sessionId, params, RequestOptions.none())
 
         /** @see stream */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun stream(
             sessionId: String,
             params: ChatStreamParams,
@@ -395,12 +453,14 @@ interface ChatServiceAsync {
             stream(params.toBuilder().sessionId(sessionId).build(), requestOptions)
 
         /** @see stream */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun stream(
             params: ChatStreamParams
         ): CompletableFuture<HttpResponseFor<ChatStreamResponse>> =
             stream(params, RequestOptions.none())
 
         /** @see stream */
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         fun stream(
             params: ChatStreamParams,
             requestOptions: RequestOptions = RequestOptions.none(),

@@ -10,6 +10,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** List indexes for the current project. */
+@Deprecated("Moved out of beta. Use the top-level indexes resource instead")
 class IndexListParams
 private constructor(
     private val organizationId: String?,

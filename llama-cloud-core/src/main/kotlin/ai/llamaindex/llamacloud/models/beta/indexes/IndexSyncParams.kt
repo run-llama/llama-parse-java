@@ -15,6 +15,7 @@ import kotlin.jvm.optionals.getOrNull
  * Trigger a sync and export for an existing index, re-parsing changed files and exporting updated
  * chunks.
  */
+@Deprecated("Moved out of beta. Use the top-level indexes resource instead")
 class IndexSyncParams
 private constructor(
     private val indexId: String?,

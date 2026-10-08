@@ -11,6 +11,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** @see RetrievalService.grep */
+@Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
 class RetrievalGrepPage
 private constructor(
     private val service: RetrievalService,

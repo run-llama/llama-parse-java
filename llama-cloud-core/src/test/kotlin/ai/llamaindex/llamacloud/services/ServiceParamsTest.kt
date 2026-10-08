@@ -5,7 +5,7 @@ package ai.llamaindex.llamacloud.services
 import ai.llamaindex.llamacloud.client.LlamaCloudClient
 import ai.llamaindex.llamacloud.client.okhttp.LlamaCloudOkHttpClient
 import ai.llamaindex.llamacloud.core.JsonValue
-import ai.llamaindex.llamacloud.models.beta.indexes.IndexListParams
+import ai.llamaindex.llamacloud.models.indexes.IndexListParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingCreateParams
 import ai.llamaindex.llamacloud.models.parsing.ParsingLanguages
 import com.github.tomakehurst.wiremock.client.WireMock.anyUrl
@@ -43,7 +43,7 @@ internal class ServiceParamsTest {
     @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
-        val indexService = client.beta().indexes()
+        val indexService = client.indexes()
         stubFor(get(anyUrl()).willReturn(ok("{}")))
 
         indexService.list(

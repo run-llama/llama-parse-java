@@ -12,6 +12,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Delete a session. */
+@Deprecated("Moved out of beta. Use the top-level chat resource instead")
 class ChatDeleteParams
 private constructor(
     private val sessionId: String?,

@@ -23,6 +23,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Create a chat session, optionally bound to indexes (locked after the first message). */
+@Deprecated("Moved out of beta. Use the top-level chat resource instead")
 class ChatCreateParams
 private constructor(
     private val organizationId: String?,

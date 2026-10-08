@@ -5,6 +5,7 @@ package ai.llamaindex.llamacloud.client
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.services.async.BatchServiceAsync
 import ai.llamaindex.llamacloud.services.async.BetaServiceAsync
+import ai.llamaindex.llamacloud.services.async.ChatServiceAsync
 import ai.llamaindex.llamacloud.services.async.ClassifierServiceAsync
 import ai.llamaindex.llamacloud.services.async.ClassifyServiceAsync
 import ai.llamaindex.llamacloud.services.async.ConfigurationServiceAsync
@@ -13,9 +14,11 @@ import ai.llamaindex.llamacloud.services.async.DataSourceServiceAsync
 import ai.llamaindex.llamacloud.services.async.ExtractServiceAsync
 import ai.llamaindex.llamacloud.services.async.ExtractionAgentServiceAsync
 import ai.llamaindex.llamacloud.services.async.FileServiceAsync
+import ai.llamaindex.llamacloud.services.async.IndexServiceAsync
 import ai.llamaindex.llamacloud.services.async.ParsingServiceAsync
 import ai.llamaindex.llamacloud.services.async.PipelineServiceAsync
 import ai.llamaindex.llamacloud.services.async.ProjectServiceAsync
+import ai.llamaindex.llamacloud.services.async.RetrievalServiceAsync
 import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsync
 import ai.llamaindex.llamacloud.services.async.SplitServiceAsync
 import ai.llamaindex.llamacloud.services.async.V2ProjectServiceAsync
@@ -90,6 +93,12 @@ interface LlamaCloudClientAsync {
 
     fun retrievers(): RetrieverServiceAsync
 
+    fun indexes(): IndexServiceAsync
+
+    fun retrieval(): RetrievalServiceAsync
+
+    fun chat(): ChatServiceAsync
+
     fun beta(): BetaServiceAsync
 
     /**
@@ -150,6 +159,12 @@ interface LlamaCloudClientAsync {
         fun pipelines(): PipelineServiceAsync.WithRawResponse
 
         fun retrievers(): RetrieverServiceAsync.WithRawResponse
+
+        fun indexes(): IndexServiceAsync.WithRawResponse
+
+        fun retrieval(): RetrievalServiceAsync.WithRawResponse
+
+        fun chat(): ChatServiceAsync.WithRawResponse
 
         fun beta(): BetaServiceAsync.WithRawResponse
     }

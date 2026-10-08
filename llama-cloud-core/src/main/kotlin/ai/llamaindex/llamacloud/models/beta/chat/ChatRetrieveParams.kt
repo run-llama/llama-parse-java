@@ -10,6 +10,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Retrieve a full session by ID, including its event history. */
+@Deprecated("Moved out of beta. Use the top-level chat resource instead")
 class ChatRetrieveParams
 private constructor(
     private val sessionId: String?,
