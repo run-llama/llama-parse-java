@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.9.0](https://github.com/run-llama/llama-parse-java/compare/v1.8.0...v1.9.0) (2026-10-09)
+
+
+### Features
+
+* **sdk:** move Index v2 indexes, retrieval and chat out of beta (PROD-10331) ([bd278de](https://github.com/run-llama/llama-parse-java/commit/bd278de76bbf4bce34f5ba309fd2f139fee068f7))
+* **sdk:** publish Verify as client.alpha.verify (PROD-10334) ([3b3dbb4](https://github.com/run-llama/llama-parse-java/commit/3b3dbb42ce71b19dbc34a8793d432b63ade7f09e))
+
+
+### Chores
+
+* **stlc:** seal custom-code tracking files ([0f0a23d](https://github.com/run-llama/llama-parse-java/commit/0f0a23d142584b4a1806e0adc37233f15e111f33))
+
 ## [1.8.0](https://github.com/run-llama/llama-parse-java/compare/v1.7.0...v1.8.0) (2026-10-07)
 
 
