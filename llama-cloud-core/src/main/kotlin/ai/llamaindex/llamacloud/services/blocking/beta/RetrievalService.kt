@@ -34,38 +34,46 @@ interface RetrievalService {
      * Retrieve relevant chunks via hybrid search (vector + full-text), with filtering on built-in
      * or user-defined metadata.
      */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun retrieve(params: RetrievalRetrieveParams): RetrievalRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun retrieve(
         params: RetrievalRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RetrievalRetrieveResponse
 
     /** Search for files by name. */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun find(params: RetrievalFindParams): RetrievalFindPage = find(params, RequestOptions.none())
 
     /** @see find */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun find(
         params: RetrievalFindParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RetrievalFindPage
 
     /** Grep within a file's parsed content using a regex pattern. */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun grep(params: RetrievalGrepParams): RetrievalGrepPage = grep(params, RequestOptions.none())
 
     /** @see grep */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun grep(
         params: RetrievalGrepParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RetrievalGrepPage
 
     /** Read the parsed text content of a specific file. */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun read(params: RetrievalReadParams): RetrievalReadResponse =
         read(params, RequestOptions.none())
 
     /** @see read */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun read(
         params: RetrievalReadParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -85,11 +93,13 @@ interface RetrievalService {
          * Returns a raw HTTP response for `post /api/v1/retrieval/retrieve`, but is otherwise the
          * same as [RetrievalService.retrieve].
          */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         @MustBeClosed
         fun retrieve(params: RetrievalRetrieveParams): HttpResponseFor<RetrievalRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         @MustBeClosed
         fun retrieve(
             params: RetrievalRetrieveParams,
@@ -100,11 +110,13 @@ interface RetrievalService {
          * Returns a raw HTTP response for `post /api/v1/retrieval/files/find`, but is otherwise the
          * same as [RetrievalService.find].
          */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         @MustBeClosed
         fun find(params: RetrievalFindParams): HttpResponseFor<RetrievalFindPage> =
             find(params, RequestOptions.none())
 
         /** @see find */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         @MustBeClosed
         fun find(
             params: RetrievalFindParams,
@@ -115,11 +127,13 @@ interface RetrievalService {
          * Returns a raw HTTP response for `post /api/v1/retrieval/files/grep`, but is otherwise the
          * same as [RetrievalService.grep].
          */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         @MustBeClosed
         fun grep(params: RetrievalGrepParams): HttpResponseFor<RetrievalGrepPage> =
             grep(params, RequestOptions.none())
 
         /** @see grep */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         @MustBeClosed
         fun grep(
             params: RetrievalGrepParams,
@@ -130,11 +144,13 @@ interface RetrievalService {
          * Returns a raw HTTP response for `post /api/v1/retrieval/files/read`, but is otherwise the
          * same as [RetrievalService.read].
          */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         @MustBeClosed
         fun read(params: RetrievalReadParams): HttpResponseFor<RetrievalReadResponse> =
             read(params, RequestOptions.none())
 
         /** @see read */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         @MustBeClosed
         fun read(
             params: RetrievalReadParams,

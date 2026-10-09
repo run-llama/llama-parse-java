@@ -23,6 +23,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Stream agent events for a chat turn as Server-Sent Events. */
+@Deprecated("Moved out of beta. Use the top-level chat resource instead")
 class ChatStreamParams
 private constructor(
     private val sessionId: String?,

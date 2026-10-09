@@ -21,6 +21,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Grep within a file's parsed content using a regex pattern. */
+@Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
 class RetrievalGrepParams
 private constructor(
     private val organizationId: String?,

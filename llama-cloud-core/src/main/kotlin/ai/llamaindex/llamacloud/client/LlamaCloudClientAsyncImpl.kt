@@ -4,10 +4,14 @@ package ai.llamaindex.llamacloud.client
 
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.getPackageVersion
+import ai.llamaindex.llamacloud.services.async.AlphaServiceAsync
+import ai.llamaindex.llamacloud.services.async.AlphaServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.BatchServiceAsync
 import ai.llamaindex.llamacloud.services.async.BatchServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.BetaServiceAsync
 import ai.llamaindex.llamacloud.services.async.BetaServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.ChatServiceAsync
+import ai.llamaindex.llamacloud.services.async.ChatServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.ClassifierServiceAsync
 import ai.llamaindex.llamacloud.services.async.ClassifierServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.ClassifyServiceAsync
@@ -24,12 +28,16 @@ import ai.llamaindex.llamacloud.services.async.ExtractionAgentServiceAsync
 import ai.llamaindex.llamacloud.services.async.ExtractionAgentServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.FileServiceAsync
 import ai.llamaindex.llamacloud.services.async.FileServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.IndexServiceAsync
+import ai.llamaindex.llamacloud.services.async.IndexServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.ParsingServiceAsync
 import ai.llamaindex.llamacloud.services.async.ParsingServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.PipelineServiceAsync
 import ai.llamaindex.llamacloud.services.async.PipelineServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.ProjectServiceAsync
 import ai.llamaindex.llamacloud.services.async.ProjectServiceAsyncImpl
+import ai.llamaindex.llamacloud.services.async.RetrievalServiceAsync
+import ai.llamaindex.llamacloud.services.async.RetrievalServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsync
 import ai.llamaindex.llamacloud.services.async.RetrieverServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.SplitServiceAsync
@@ -119,7 +127,21 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
         RetrieverServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
+    private val indexes: IndexServiceAsync by lazy {
+        IndexServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
+    private val retrieval: RetrievalServiceAsync by lazy {
+        RetrievalServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
+    private val chat: ChatServiceAsync by lazy { ChatServiceAsyncImpl(clientOptionsWithUserAgent) }
+
     private val beta: BetaServiceAsync by lazy { BetaServiceAsyncImpl(clientOptionsWithUserAgent) }
+
+    private val alpha: AlphaServiceAsync by lazy {
+        AlphaServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
 
     override fun sync(): LlamaCloudClient = sync
 
@@ -160,7 +182,15 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
     override fun retrievers(): RetrieverServiceAsync = retrievers
 
+    override fun indexes(): IndexServiceAsync = indexes
+
+    override fun retrieval(): RetrievalServiceAsync = retrieval
+
+    override fun chat(): ChatServiceAsync = chat
+
     override fun beta(): BetaServiceAsync = beta
+
+    override fun alpha(): AlphaServiceAsync = alpha
 
     override fun close() = clientOptions.close()
 
@@ -231,8 +261,24 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
             RetrieverServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val indexes: IndexServiceAsync.WithRawResponse by lazy {
+            IndexServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val retrieval: RetrievalServiceAsync.WithRawResponse by lazy {
+            RetrievalServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val chat: ChatServiceAsync.WithRawResponse by lazy {
+            ChatServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val beta: BetaServiceAsync.WithRawResponse by lazy {
             BetaServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val alpha: AlphaServiceAsync.WithRawResponse by lazy {
+            AlphaServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         override fun withOptions(
@@ -275,6 +321,14 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
         override fun retrievers(): RetrieverServiceAsync.WithRawResponse = retrievers
 
+        override fun indexes(): IndexServiceAsync.WithRawResponse = indexes
+
+        override fun retrieval(): RetrievalServiceAsync.WithRawResponse = retrieval
+
+        override fun chat(): ChatServiceAsync.WithRawResponse = chat
+
         override fun beta(): BetaServiceAsync.WithRawResponse = beta
+
+        override fun alpha(): AlphaServiceAsync.WithRawResponse = alpha
     }
 }

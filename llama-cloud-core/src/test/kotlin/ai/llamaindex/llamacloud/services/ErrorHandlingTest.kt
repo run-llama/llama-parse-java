@@ -59,7 +59,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList400() {
-        val indexService = client.beta().indexes()
+        val indexService = client.indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -76,7 +76,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList400WithRawResponse() {
-        val indexService = client.beta().indexes().withRawResponse()
+        val indexService = client.indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -93,7 +93,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList401() {
-        val indexService = client.beta().indexes()
+        val indexService = client.indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -110,7 +110,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList401WithRawResponse() {
-        val indexService = client.beta().indexes().withRawResponse()
+        val indexService = client.indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -127,7 +127,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList403() {
-        val indexService = client.beta().indexes()
+        val indexService = client.indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -144,7 +144,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList403WithRawResponse() {
-        val indexService = client.beta().indexes().withRawResponse()
+        val indexService = client.indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -161,7 +161,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList404() {
-        val indexService = client.beta().indexes()
+        val indexService = client.indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -178,7 +178,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList404WithRawResponse() {
-        val indexService = client.beta().indexes().withRawResponse()
+        val indexService = client.indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -195,7 +195,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList422() {
-        val indexService = client.beta().indexes()
+        val indexService = client.indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -212,7 +212,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList422WithRawResponse() {
-        val indexService = client.beta().indexes().withRawResponse()
+        val indexService = client.indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -229,7 +229,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList429() {
-        val indexService = client.beta().indexes()
+        val indexService = client.indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -246,7 +246,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList429WithRawResponse() {
-        val indexService = client.beta().indexes().withRawResponse()
+        val indexService = client.indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -263,7 +263,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList500() {
-        val indexService = client.beta().indexes()
+        val indexService = client.indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -280,7 +280,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList500WithRawResponse() {
-        val indexService = client.beta().indexes().withRawResponse()
+        val indexService = client.indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -297,7 +297,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList999() {
-        val indexService = client.beta().indexes()
+        val indexService = client.indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -314,7 +314,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesList999WithRawResponse() {
-        val indexService = client.beta().indexes().withRawResponse()
+        val indexService = client.indexes().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -331,7 +331,7 @@ internal class ErrorHandlingTest {
 
     @Test
     fun indexesListInvalidJsonBody() {
-        val indexService = client.beta().indexes()
+        val indexService = client.indexes()
         stubFor(
             get(anyUrl())
                 .willReturn(status(200).withHeader(HEADER_NAME, HEADER_VALUE).withBody(NOT_JSON))

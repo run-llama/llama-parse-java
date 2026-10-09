@@ -82,6 +82,7 @@ internal class IndexServiceAsyncTest {
             indexServiceAsync.get(
                 IndexGetParams.builder()
                     .indexId("index_id")
+                    .addExpand(IndexGetParams.Expand.SYNC_IN_PROGRESS)
                     .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()

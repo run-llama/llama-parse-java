@@ -33,38 +33,46 @@ interface IndexServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): IndexServiceAsync
 
     /** Create a searchable index over a source directory. */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun create(params: IndexCreateParams): CompletableFuture<IndexCreateResponse> =
         create(params, RequestOptions.none())
 
     /** @see create */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun create(
         params: IndexCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<IndexCreateResponse>
 
     /** List indexes for the current project. */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun list(): CompletableFuture<IndexListPageAsync> = list(IndexListParams.none())
 
     /** @see list */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun list(
         params: IndexListParams = IndexListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<IndexListPageAsync>
 
     /** @see list */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun list(
         params: IndexListParams = IndexListParams.none()
     ): CompletableFuture<IndexListPageAsync> = list(params, RequestOptions.none())
 
     /** @see list */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun list(requestOptions: RequestOptions): CompletableFuture<IndexListPageAsync> =
         list(IndexListParams.none(), requestOptions)
 
     /** Delete an index. */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun delete(indexId: String): CompletableFuture<Void?> =
         delete(indexId, IndexDeleteParams.none())
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun delete(
         indexId: String,
         params: IndexDeleteParams = IndexDeleteParams.none(),
@@ -73,30 +81,36 @@ interface IndexServiceAsync {
         delete(params.toBuilder().indexId(indexId).build(), requestOptions)
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun delete(
         indexId: String,
         params: IndexDeleteParams = IndexDeleteParams.none(),
     ): CompletableFuture<Void?> = delete(indexId, params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun delete(
         params: IndexDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun delete(params: IndexDeleteParams): CompletableFuture<Void?> =
         delete(params, RequestOptions.none())
 
     /** @see delete */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun delete(indexId: String, requestOptions: RequestOptions): CompletableFuture<Void?> =
         delete(indexId, IndexDeleteParams.none(), requestOptions)
 
     /** Get an index by ID. */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun get(indexId: String): CompletableFuture<IndexGetResponse> =
         get(indexId, IndexGetParams.none())
 
     /** @see get */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun get(
         indexId: String,
         params: IndexGetParams = IndexGetParams.none(),
@@ -105,22 +119,26 @@ interface IndexServiceAsync {
         get(params.toBuilder().indexId(indexId).build(), requestOptions)
 
     /** @see get */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun get(
         indexId: String,
         params: IndexGetParams = IndexGetParams.none(),
     ): CompletableFuture<IndexGetResponse> = get(indexId, params, RequestOptions.none())
 
     /** @see get */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun get(
         params: IndexGetParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<IndexGetResponse>
 
     /** @see get */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun get(params: IndexGetParams): CompletableFuture<IndexGetResponse> =
         get(params, RequestOptions.none())
 
     /** @see get */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun get(indexId: String, requestOptions: RequestOptions): CompletableFuture<IndexGetResponse> =
         get(indexId, IndexGetParams.none(), requestOptions)
 
@@ -128,10 +146,12 @@ interface IndexServiceAsync {
      * Trigger a sync and export for an existing index, re-parsing changed files and exporting
      * updated chunks.
      */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun sync(indexId: String): CompletableFuture<IndexSyncResponse> =
         sync(indexId, IndexSyncParams.none())
 
     /** @see sync */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun sync(
         indexId: String,
         params: IndexSyncParams = IndexSyncParams.none(),
@@ -140,22 +160,26 @@ interface IndexServiceAsync {
         sync(params.toBuilder().indexId(indexId).build(), requestOptions)
 
     /** @see sync */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun sync(
         indexId: String,
         params: IndexSyncParams = IndexSyncParams.none(),
     ): CompletableFuture<IndexSyncResponse> = sync(indexId, params, RequestOptions.none())
 
     /** @see sync */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun sync(
         params: IndexSyncParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<IndexSyncResponse>
 
     /** @see sync */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun sync(params: IndexSyncParams): CompletableFuture<IndexSyncResponse> =
         sync(params, RequestOptions.none())
 
     /** @see sync */
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     fun sync(
         indexId: String,
         requestOptions: RequestOptions,
@@ -177,12 +201,14 @@ interface IndexServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/indexes`, but is otherwise the same as
          * [IndexServiceAsync.create].
          */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun create(
             params: IndexCreateParams
         ): CompletableFuture<HttpResponseFor<IndexCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see create */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun create(
             params: IndexCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -192,22 +218,26 @@ interface IndexServiceAsync {
          * Returns a raw HTTP response for `get /api/v1/indexes`, but is otherwise the same as
          * [IndexServiceAsync.list].
          */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun list(): CompletableFuture<HttpResponseFor<IndexListPageAsync>> =
             list(IndexListParams.none())
 
         /** @see list */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun list(
             params: IndexListParams = IndexListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<IndexListPageAsync>>
 
         /** @see list */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun list(
             params: IndexListParams = IndexListParams.none()
         ): CompletableFuture<HttpResponseFor<IndexListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see list */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<IndexListPageAsync>> =
@@ -217,10 +247,12 @@ interface IndexServiceAsync {
          * Returns a raw HTTP response for `delete /api/v1/indexes/{index_id}`, but is otherwise the
          * same as [IndexServiceAsync.delete].
          */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun delete(indexId: String): CompletableFuture<HttpResponse> =
             delete(indexId, IndexDeleteParams.none())
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun delete(
             indexId: String,
             params: IndexDeleteParams = IndexDeleteParams.none(),
@@ -229,22 +261,26 @@ interface IndexServiceAsync {
             delete(params.toBuilder().indexId(indexId).build(), requestOptions)
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun delete(
             indexId: String,
             params: IndexDeleteParams = IndexDeleteParams.none(),
         ): CompletableFuture<HttpResponse> = delete(indexId, params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun delete(
             params: IndexDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun delete(params: IndexDeleteParams): CompletableFuture<HttpResponse> =
             delete(params, RequestOptions.none())
 
         /** @see delete */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun delete(
             indexId: String,
             requestOptions: RequestOptions,
@@ -255,10 +291,12 @@ interface IndexServiceAsync {
          * Returns a raw HTTP response for `get /api/v1/indexes/{index_id}`, but is otherwise the
          * same as [IndexServiceAsync.get].
          */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun get(indexId: String): CompletableFuture<HttpResponseFor<IndexGetResponse>> =
             get(indexId, IndexGetParams.none())
 
         /** @see get */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun get(
             indexId: String,
             params: IndexGetParams = IndexGetParams.none(),
@@ -267,6 +305,7 @@ interface IndexServiceAsync {
             get(params.toBuilder().indexId(indexId).build(), requestOptions)
 
         /** @see get */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun get(
             indexId: String,
             params: IndexGetParams = IndexGetParams.none(),
@@ -274,16 +313,19 @@ interface IndexServiceAsync {
             get(indexId, params, RequestOptions.none())
 
         /** @see get */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun get(
             params: IndexGetParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<IndexGetResponse>>
 
         /** @see get */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun get(params: IndexGetParams): CompletableFuture<HttpResponseFor<IndexGetResponse>> =
             get(params, RequestOptions.none())
 
         /** @see get */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun get(
             indexId: String,
             requestOptions: RequestOptions,
@@ -294,10 +336,12 @@ interface IndexServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/indexes/{index_id}/sync`, but is otherwise
          * the same as [IndexServiceAsync.sync].
          */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun sync(indexId: String): CompletableFuture<HttpResponseFor<IndexSyncResponse>> =
             sync(indexId, IndexSyncParams.none())
 
         /** @see sync */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun sync(
             indexId: String,
             params: IndexSyncParams = IndexSyncParams.none(),
@@ -306,6 +350,7 @@ interface IndexServiceAsync {
             sync(params.toBuilder().indexId(indexId).build(), requestOptions)
 
         /** @see sync */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun sync(
             indexId: String,
             params: IndexSyncParams = IndexSyncParams.none(),
@@ -313,16 +358,19 @@ interface IndexServiceAsync {
             sync(indexId, params, RequestOptions.none())
 
         /** @see sync */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun sync(
             params: IndexSyncParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<IndexSyncResponse>>
 
         /** @see sync */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun sync(params: IndexSyncParams): CompletableFuture<HttpResponseFor<IndexSyncResponse>> =
             sync(params, RequestOptions.none())
 
         /** @see sync */
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         fun sync(
             indexId: String,
             requestOptions: RequestOptions,

@@ -10,6 +10,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** List all chat sessions for the current project. */
+@Deprecated("Moved out of beta. Use the top-level chat resource instead")
 class ChatListParams
 private constructor(
     private val organizationId: String?,

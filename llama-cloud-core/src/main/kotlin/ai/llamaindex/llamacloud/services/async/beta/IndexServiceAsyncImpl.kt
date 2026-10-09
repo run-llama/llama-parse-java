@@ -43,6 +43,7 @@ class IndexServiceAsyncImpl internal constructor(private val clientOptions: Clie
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): IndexServiceAsync =
         IndexServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     override fun create(
         params: IndexCreateParams,
         requestOptions: RequestOptions,
@@ -50,6 +51,7 @@ class IndexServiceAsyncImpl internal constructor(private val clientOptions: Clie
         // post /api/v1/indexes
         withRawResponse().create(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     override fun list(
         params: IndexListParams,
         requestOptions: RequestOptions,
@@ -57,6 +59,7 @@ class IndexServiceAsyncImpl internal constructor(private val clientOptions: Clie
         // get /api/v1/indexes
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     override fun delete(
         params: IndexDeleteParams,
         requestOptions: RequestOptions,
@@ -64,6 +67,7 @@ class IndexServiceAsyncImpl internal constructor(private val clientOptions: Clie
         // delete /api/v1/indexes/{index_id}
         withRawResponse().delete(params, requestOptions).thenAccept {}
 
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     override fun get(
         params: IndexGetParams,
         requestOptions: RequestOptions,
@@ -71,6 +75,7 @@ class IndexServiceAsyncImpl internal constructor(private val clientOptions: Clie
         // get /api/v1/indexes/{index_id}
         withRawResponse().get(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     override fun sync(
         params: IndexSyncParams,
         requestOptions: RequestOptions,
@@ -94,6 +99,7 @@ class IndexServiceAsyncImpl internal constructor(private val clientOptions: Clie
         private val createHandler: Handler<IndexCreateResponse> =
             jsonHandler<IndexCreateResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         override fun create(
             params: IndexCreateParams,
             requestOptions: RequestOptions,
@@ -125,6 +131,7 @@ class IndexServiceAsyncImpl internal constructor(private val clientOptions: Clie
         private val listHandler: Handler<IndexListPageResponse> =
             jsonHandler<IndexListPageResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         override fun list(
             params: IndexListParams,
             requestOptions: RequestOptions,
@@ -162,6 +169,7 @@ class IndexServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val deleteHandler: Handler<Void?> = emptyHandler()
 
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         override fun delete(
             params: IndexDeleteParams,
             requestOptions: RequestOptions,
@@ -190,6 +198,7 @@ class IndexServiceAsyncImpl internal constructor(private val clientOptions: Clie
         private val getHandler: Handler<IndexGetResponse> =
             jsonHandler<IndexGetResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         override fun get(
             params: IndexGetParams,
             requestOptions: RequestOptions,
@@ -223,6 +232,7 @@ class IndexServiceAsyncImpl internal constructor(private val clientOptions: Clie
         private val syncHandler: Handler<IndexSyncResponse> =
             jsonHandler<IndexSyncResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         override fun sync(
             params: IndexSyncParams,
             requestOptions: RequestOptions,

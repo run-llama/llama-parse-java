@@ -42,6 +42,7 @@ class IndexServiceImpl internal constructor(private val clientOptions: ClientOpt
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): IndexService =
         IndexServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     override fun create(
         params: IndexCreateParams,
         requestOptions: RequestOptions,
@@ -49,19 +50,23 @@ class IndexServiceImpl internal constructor(private val clientOptions: ClientOpt
         // post /api/v1/indexes
         withRawResponse().create(params, requestOptions).parse()
 
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     override fun list(params: IndexListParams, requestOptions: RequestOptions): IndexListPage =
         // get /api/v1/indexes
         withRawResponse().list(params, requestOptions).parse()
 
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     override fun delete(params: IndexDeleteParams, requestOptions: RequestOptions) {
         // delete /api/v1/indexes/{index_id}
         withRawResponse().delete(params, requestOptions)
     }
 
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     override fun get(params: IndexGetParams, requestOptions: RequestOptions): IndexGetResponse =
         // get /api/v1/indexes/{index_id}
         withRawResponse().get(params, requestOptions).parse()
 
+    @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
     override fun sync(params: IndexSyncParams, requestOptions: RequestOptions): IndexSyncResponse =
         // post /api/v1/indexes/{index_id}/sync
         withRawResponse().sync(params, requestOptions).parse()
@@ -82,6 +87,7 @@ class IndexServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val createHandler: Handler<IndexCreateResponse> =
             jsonHandler<IndexCreateResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         override fun create(
             params: IndexCreateParams,
             requestOptions: RequestOptions,
@@ -110,6 +116,7 @@ class IndexServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val listHandler: Handler<IndexListPageResponse> =
             jsonHandler<IndexListPageResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         override fun list(
             params: IndexListParams,
             requestOptions: RequestOptions,
@@ -143,6 +150,7 @@ class IndexServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val deleteHandler: Handler<Void?> = emptyHandler()
 
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         override fun delete(
             params: IndexDeleteParams,
             requestOptions: RequestOptions,
@@ -168,6 +176,7 @@ class IndexServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val getHandler: Handler<IndexGetResponse> =
             jsonHandler<IndexGetResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         override fun get(
             params: IndexGetParams,
             requestOptions: RequestOptions,
@@ -198,6 +207,7 @@ class IndexServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val syncHandler: Handler<IndexSyncResponse> =
             jsonHandler<IndexSyncResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level indexes resource instead")
         override fun sync(
             params: IndexSyncParams,
             requestOptions: RequestOptions,

@@ -13,6 +13,7 @@ import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
 /** @see RetrievalServiceAsync.find */
+@Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
 class RetrievalFindPageAsync
 private constructor(
     private val service: RetrievalServiceAsync,

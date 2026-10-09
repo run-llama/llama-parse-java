@@ -24,6 +24,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Create a searchable index over a source directory. */
+@Deprecated("Moved out of beta. Use the top-level indexes resource instead")
 class IndexCreateParams
 private constructor(
     private val organizationId: String?,

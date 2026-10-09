@@ -34,40 +34,48 @@ interface RetrievalServiceAsync {
      * Retrieve relevant chunks via hybrid search (vector + full-text), with filtering on built-in
      * or user-defined metadata.
      */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun retrieve(params: RetrievalRetrieveParams): CompletableFuture<RetrievalRetrieveResponse> =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun retrieve(
         params: RetrievalRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<RetrievalRetrieveResponse>
 
     /** Search for files by name. */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun find(params: RetrievalFindParams): CompletableFuture<RetrievalFindPageAsync> =
         find(params, RequestOptions.none())
 
     /** @see find */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun find(
         params: RetrievalFindParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<RetrievalFindPageAsync>
 
     /** Grep within a file's parsed content using a regex pattern. */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun grep(params: RetrievalGrepParams): CompletableFuture<RetrievalGrepPageAsync> =
         grep(params, RequestOptions.none())
 
     /** @see grep */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun grep(
         params: RetrievalGrepParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<RetrievalGrepPageAsync>
 
     /** Read the parsed text content of a specific file. */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun read(params: RetrievalReadParams): CompletableFuture<RetrievalReadResponse> =
         read(params, RequestOptions.none())
 
     /** @see read */
+    @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
     fun read(
         params: RetrievalReadParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -91,12 +99,14 @@ interface RetrievalServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/retrieval/retrieve`, but is otherwise the
          * same as [RetrievalServiceAsync.retrieve].
          */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         fun retrieve(
             params: RetrievalRetrieveParams
         ): CompletableFuture<HttpResponseFor<RetrievalRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         fun retrieve(
             params: RetrievalRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -106,12 +116,14 @@ interface RetrievalServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/retrieval/files/find`, but is otherwise the
          * same as [RetrievalServiceAsync.find].
          */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         fun find(
             params: RetrievalFindParams
         ): CompletableFuture<HttpResponseFor<RetrievalFindPageAsync>> =
             find(params, RequestOptions.none())
 
         /** @see find */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         fun find(
             params: RetrievalFindParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -121,12 +133,14 @@ interface RetrievalServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/retrieval/files/grep`, but is otherwise the
          * same as [RetrievalServiceAsync.grep].
          */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         fun grep(
             params: RetrievalGrepParams
         ): CompletableFuture<HttpResponseFor<RetrievalGrepPageAsync>> =
             grep(params, RequestOptions.none())
 
         /** @see grep */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         fun grep(
             params: RetrievalGrepParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -136,12 +150,14 @@ interface RetrievalServiceAsync {
          * Returns a raw HTTP response for `post /api/v1/retrieval/files/read`, but is otherwise the
          * same as [RetrievalServiceAsync.read].
          */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         fun read(
             params: RetrievalReadParams
         ): CompletableFuture<HttpResponseFor<RetrievalReadResponse>> =
             read(params, RequestOptions.none())
 
         /** @see read */
+        @Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
         fun read(
             params: RetrievalReadParams,
             requestOptions: RequestOptions = RequestOptions.none(),

@@ -3,7 +3,7 @@
 <!-- x-release-please-start-version -->
 
 [![Maven Central](https://img.shields.io/maven-central/v/ai.llamaindex.llamacloud/llama-cloud)](https://central.sonatype.com/artifact/ai.llamaindex.llamacloud/llama-cloud/1.8.0)
-[![javadoc](https://javadoc.io/badge2/ai.llamaindex.llamacloud/llama-cloud/1.8.0/javadoc.svg)](https://javadoc.io/doc/ai.llamaindex.llamacloud/llama-cloud/1.7.0)
+[![javadoc](https://javadoc.io/badge2/ai.llamaindex.llamacloud/llama-cloud/1.8.0/javadoc.svg)](https://javadoc.io/doc/ai.llamaindex.llamacloud/llama-cloud/1.8.0)
 
 <!-- x-release-please-end -->
 
@@ -271,13 +271,13 @@ To access this data, prefix any HTTP method call on a client or service with `wi
 ```java
 import ai.llamaindex.llamacloud.core.http.Headers;
 import ai.llamaindex.llamacloud.core.http.HttpResponseFor;
-import ai.llamaindex.llamacloud.models.beta.indexes.IndexListPage;
-import ai.llamaindex.llamacloud.models.beta.indexes.IndexListParams;
+import ai.llamaindex.llamacloud.models.indexes.IndexListPage;
+import ai.llamaindex.llamacloud.models.indexes.IndexListParams;
 
 IndexListParams params = IndexListParams.builder()
     .projectId("my-project-id")
     .build();
-HttpResponseFor<IndexListPage> page = client.beta().indexes().withRawResponse().list(params);
+HttpResponseFor<IndexListPage> page = client.indexes().withRawResponse().list(params);
 
 int statusCode = page.statusCode();
 Headers headers = page.headers();
@@ -286,7 +286,7 @@ Headers headers = page.headers();
 You can still deserialize the response into an instance of a Java class if needed:
 
 ```java
-import ai.llamaindex.llamacloud.models.beta.indexes.IndexListPage;
+import ai.llamaindex.llamacloud.models.indexes.IndexListPage;
 
 IndexListPage parsedPage = page.parse();
 ```
@@ -497,9 +497,9 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
-import ai.llamaindex.llamacloud.models.beta.indexes.IndexListPage;
+import ai.llamaindex.llamacloud.models.indexes.IndexListPage;
 
-IndexListPage page = client.beta().indexes().list(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
+IndexListPage page = client.indexes().list(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
 ```
 
 Or configure the default for all method calls at the client level:

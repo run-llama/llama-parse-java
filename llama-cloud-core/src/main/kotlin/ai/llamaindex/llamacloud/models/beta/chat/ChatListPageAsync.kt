@@ -13,6 +13,7 @@ import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
 /** @see ChatServiceAsync.list */
+@Deprecated("Moved out of beta. Use the top-level chat resource instead")
 class ChatListPageAsync
 private constructor(
     private val service: ChatServiceAsync,

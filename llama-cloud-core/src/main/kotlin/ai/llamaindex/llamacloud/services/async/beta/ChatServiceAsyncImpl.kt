@@ -45,6 +45,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ChatServiceAsync =
         ChatServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     override fun create(
         params: ChatCreateParams,
         requestOptions: RequestOptions,
@@ -52,6 +53,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
         // post /api/v1/chat
         withRawResponse().create(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     override fun retrieve(
         params: ChatRetrieveParams,
         requestOptions: RequestOptions,
@@ -59,6 +61,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
         // get /api/v1/chat/{session_id}
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     override fun list(
         params: ChatListParams,
         requestOptions: RequestOptions,
@@ -66,6 +69,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
         // get /api/v1/chat
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     override fun delete(
         params: ChatDeleteParams,
         requestOptions: RequestOptions,
@@ -73,6 +77,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
         // delete /api/v1/chat/{session_id}
         withRawResponse().delete(params, requestOptions).thenAccept {}
 
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     override fun getSummary(
         params: ChatGetSummaryParams,
         requestOptions: RequestOptions,
@@ -80,6 +85,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
         // get /api/v1/chat/{session_id}/summary
         withRawResponse().getSummary(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("Moved out of beta. Use the top-level chat resource instead")
     override fun stream(
         params: ChatStreamParams,
         requestOptions: RequestOptions,
@@ -103,6 +109,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
         private val createHandler: Handler<ChatCreateResponse> =
             jsonHandler<ChatCreateResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         override fun create(
             params: ChatCreateParams,
             requestOptions: RequestOptions,
@@ -134,6 +141,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
         private val retrieveHandler: Handler<ChatRetrieveResponse> =
             jsonHandler<ChatRetrieveResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         override fun retrieve(
             params: ChatRetrieveParams,
             requestOptions: RequestOptions,
@@ -167,6 +175,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
         private val listHandler: Handler<ChatListPageResponse> =
             jsonHandler<ChatListPageResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         override fun list(
             params: ChatListParams,
             requestOptions: RequestOptions,
@@ -204,6 +213,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
 
         private val deleteHandler: Handler<Void?> = emptyHandler()
 
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         override fun delete(
             params: ChatDeleteParams,
             requestOptions: RequestOptions,
@@ -232,6 +242,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
         private val getSummaryHandler: Handler<ChatGetSummaryResponse> =
             jsonHandler<ChatGetSummaryResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         override fun getSummary(
             params: ChatGetSummaryParams,
             requestOptions: RequestOptions,
@@ -265,6 +276,7 @@ class ChatServiceAsyncImpl internal constructor(private val clientOptions: Clien
         private val streamHandler: Handler<ChatStreamResponse> =
             jsonHandler<ChatStreamResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("Moved out of beta. Use the top-level chat resource instead")
         override fun stream(
             params: ChatStreamParams,
             requestOptions: RequestOptions,

@@ -21,6 +21,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Read the parsed text content of a specific file. */
+@Deprecated("Moved out of beta. Use the top-level retrieval resource instead")
 class RetrievalReadParams
 private constructor(
     private val organizationId: String?,
