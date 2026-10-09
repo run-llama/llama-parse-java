@@ -974,6 +974,16 @@ private constructor(
 
                 @JvmField val UNMAPPED_EVENT = of("unmapped_event")
 
+                @JvmField val VERIFY_CANCELLED = of("verify.cancelled")
+
+                @JvmField val VERIFY_ERROR = of("verify.error")
+
+                @JvmField val VERIFY_PENDING = of("verify.pending")
+
+                @JvmField val VERIFY_RUNNING = of("verify.running")
+
+                @JvmField val VERIFY_SUCCESS = of("verify.success")
+
                 @JvmStatic fun of(value: String) = WebhookEvent(JsonField.of(value))
             }
 
@@ -1012,6 +1022,11 @@ private constructor(
                 SPLIT_PROCESSING,
                 SPLIT_SUCCESS,
                 UNMAPPED_EVENT,
+                VERIFY_CANCELLED,
+                VERIFY_ERROR,
+                VERIFY_PENDING,
+                VERIFY_RUNNING,
+                VERIFY_SUCCESS,
             }
 
             /**
@@ -1057,6 +1072,11 @@ private constructor(
                 SPLIT_PROCESSING,
                 SPLIT_SUCCESS,
                 UNMAPPED_EVENT,
+                VERIFY_CANCELLED,
+                VERIFY_ERROR,
+                VERIFY_PENDING,
+                VERIFY_RUNNING,
+                VERIFY_SUCCESS,
                 /**
                  * An enum member indicating that [WebhookEvent] was instantiated with an unknown
                  * value.
@@ -1106,6 +1126,11 @@ private constructor(
                     SPLIT_PROCESSING -> Value.SPLIT_PROCESSING
                     SPLIT_SUCCESS -> Value.SPLIT_SUCCESS
                     UNMAPPED_EVENT -> Value.UNMAPPED_EVENT
+                    VERIFY_CANCELLED -> Value.VERIFY_CANCELLED
+                    VERIFY_ERROR -> Value.VERIFY_ERROR
+                    VERIFY_PENDING -> Value.VERIFY_PENDING
+                    VERIFY_RUNNING -> Value.VERIFY_RUNNING
+                    VERIFY_SUCCESS -> Value.VERIFY_SUCCESS
                     else -> Value._UNKNOWN
                 }
 
@@ -1153,6 +1178,11 @@ private constructor(
                     SPLIT_PROCESSING -> Known.SPLIT_PROCESSING
                     SPLIT_SUCCESS -> Known.SPLIT_SUCCESS
                     UNMAPPED_EVENT -> Known.UNMAPPED_EVENT
+                    VERIFY_CANCELLED -> Known.VERIFY_CANCELLED
+                    VERIFY_ERROR -> Known.VERIFY_ERROR
+                    VERIFY_PENDING -> Known.VERIFY_PENDING
+                    VERIFY_RUNNING -> Known.VERIFY_RUNNING
+                    VERIFY_SUCCESS -> Known.VERIFY_SUCCESS
                     else -> throw LlamaCloudInvalidDataException("Unknown WebhookEvent: $value")
                 }
 
