@@ -4,6 +4,8 @@ package ai.llamaindex.llamacloud.client
 
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.getPackageVersion
+import ai.llamaindex.llamacloud.services.async.AlphaServiceAsync
+import ai.llamaindex.llamacloud.services.async.AlphaServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.BatchServiceAsync
 import ai.llamaindex.llamacloud.services.async.BatchServiceAsyncImpl
 import ai.llamaindex.llamacloud.services.async.BetaServiceAsync
@@ -137,6 +139,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
 
     private val beta: BetaServiceAsync by lazy { BetaServiceAsyncImpl(clientOptionsWithUserAgent) }
 
+    private val alpha: AlphaServiceAsync by lazy {
+        AlphaServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
     override fun sync(): LlamaCloudClient = sync
 
     override fun withRawResponse(): LlamaCloudClientAsync.WithRawResponse = withRawResponse
@@ -183,6 +189,8 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
     override fun chat(): ChatServiceAsync = chat
 
     override fun beta(): BetaServiceAsync = beta
+
+    override fun alpha(): AlphaServiceAsync = alpha
 
     override fun close() = clientOptions.close()
 
@@ -269,6 +277,10 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
             BetaServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val alpha: AlphaServiceAsync.WithRawResponse by lazy {
+            AlphaServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): LlamaCloudClientAsync.WithRawResponse =
@@ -316,5 +328,7 @@ class LlamaCloudClientAsyncImpl(private val clientOptions: ClientOptions) : Llam
         override fun chat(): ChatServiceAsync.WithRawResponse = chat
 
         override fun beta(): BetaServiceAsync.WithRawResponse = beta
+
+        override fun alpha(): AlphaServiceAsync.WithRawResponse = alpha
     }
 }

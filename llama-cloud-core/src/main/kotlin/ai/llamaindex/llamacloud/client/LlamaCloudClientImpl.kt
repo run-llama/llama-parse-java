@@ -4,6 +4,8 @@ package ai.llamaindex.llamacloud.client
 
 import ai.llamaindex.llamacloud.core.ClientOptions
 import ai.llamaindex.llamacloud.core.getPackageVersion
+import ai.llamaindex.llamacloud.services.blocking.AlphaService
+import ai.llamaindex.llamacloud.services.blocking.AlphaServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.BatchService
 import ai.llamaindex.llamacloud.services.blocking.BatchServiceImpl
 import ai.llamaindex.llamacloud.services.blocking.BetaService
@@ -125,6 +127,8 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
 
     private val beta: BetaService by lazy { BetaServiceImpl(clientOptionsWithUserAgent) }
 
+    private val alpha: AlphaService by lazy { AlphaServiceImpl(clientOptionsWithUserAgent) }
+
     override fun async(): LlamaCloudClientAsync = async
 
     override fun withRawResponse(): LlamaCloudClient.WithRawResponse = withRawResponse
@@ -171,6 +175,8 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
     override fun chat(): ChatService = chat
 
     override fun beta(): BetaService = beta
+
+    override fun alpha(): AlphaService = alpha
 
     override fun close() = clientOptions.close()
 
@@ -257,6 +263,10 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
             BetaServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val alpha: AlphaService.WithRawResponse by lazy {
+            AlphaServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): LlamaCloudClient.WithRawResponse =
@@ -303,5 +313,7 @@ class LlamaCloudClientImpl(private val clientOptions: ClientOptions) : LlamaClou
         override fun chat(): ChatService.WithRawResponse = chat
 
         override fun beta(): BetaService.WithRawResponse = beta
+
+        override fun alpha(): AlphaService.WithRawResponse = alpha
     }
 }

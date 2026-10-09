@@ -70,6 +70,7 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.retrieval()).isNotNull()
         assertThat(client.chat()).isNotNull()
         assertThat(client.beta()).isNotNull()
+        assertThat(client.alpha()).isNotNull()
     }
 
     @Test

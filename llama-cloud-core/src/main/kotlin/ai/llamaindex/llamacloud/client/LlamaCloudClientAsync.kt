@@ -3,6 +3,7 @@
 package ai.llamaindex.llamacloud.client
 
 import ai.llamaindex.llamacloud.core.ClientOptions
+import ai.llamaindex.llamacloud.services.async.AlphaServiceAsync
 import ai.llamaindex.llamacloud.services.async.BatchServiceAsync
 import ai.llamaindex.llamacloud.services.async.BetaServiceAsync
 import ai.llamaindex.llamacloud.services.async.ChatServiceAsync
@@ -101,6 +102,8 @@ interface LlamaCloudClientAsync {
 
     fun beta(): BetaServiceAsync
 
+    fun alpha(): AlphaServiceAsync
+
     /**
      * Closes this client, relinquishing any underlying resources.
      *
@@ -167,5 +170,7 @@ interface LlamaCloudClientAsync {
         fun chat(): ChatServiceAsync.WithRawResponse
 
         fun beta(): BetaServiceAsync.WithRawResponse
+
+        fun alpha(): AlphaServiceAsync.WithRawResponse
     }
 }

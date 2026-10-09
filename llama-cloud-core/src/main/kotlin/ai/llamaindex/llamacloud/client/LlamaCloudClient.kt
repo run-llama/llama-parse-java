@@ -3,6 +3,7 @@
 package ai.llamaindex.llamacloud.client
 
 import ai.llamaindex.llamacloud.core.ClientOptions
+import ai.llamaindex.llamacloud.services.blocking.AlphaService
 import ai.llamaindex.llamacloud.services.blocking.BatchService
 import ai.llamaindex.llamacloud.services.blocking.BetaService
 import ai.llamaindex.llamacloud.services.blocking.ChatService
@@ -101,6 +102,8 @@ interface LlamaCloudClient {
 
     fun beta(): BetaService
 
+    fun alpha(): AlphaService
+
     /**
      * Closes this client, relinquishing any underlying resources.
      *
@@ -163,5 +166,7 @@ interface LlamaCloudClient {
         fun chat(): ChatService.WithRawResponse
 
         fun beta(): BetaService.WithRawResponse
+
+        fun alpha(): AlphaService.WithRawResponse
     }
 }
