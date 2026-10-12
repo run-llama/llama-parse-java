@@ -30,12 +30,12 @@ internal class VerifyGetDetailsResponseTest {
                         .family("family")
                         .score(0.0)
                         .tool("tool")
-                        .data(
-                            VerifyGetDetailsResponse.Evidence.Data.builder()
+                        .hard(true)
+                        .metadataTool(
+                            VerifyGetDetailsResponse.Evidence.MetadataTool.builder()
                                 .putAdditionalProperty("foo", JsonValue.from("bar"))
                                 .build()
                         )
-                        .hard(true)
                         .build()
                 )
                 .addHeatmap(
@@ -90,12 +90,12 @@ internal class VerifyGetDetailsResponseTest {
                     .family("family")
                     .score(0.0)
                     .tool("tool")
-                    .data(
-                        VerifyGetDetailsResponse.Evidence.Data.builder()
+                    .hard(true)
+                    .metadataTool(
+                        VerifyGetDetailsResponse.Evidence.MetadataTool.builder()
                             .putAdditionalProperty("foo", JsonValue.from("bar"))
                             .build()
                     )
-                    .hard(true)
                     .build()
             )
         assertThat(verifyGetDetailsResponse.heatmaps().getOrNull())
@@ -157,12 +157,12 @@ internal class VerifyGetDetailsResponseTest {
                         .family("family")
                         .score(0.0)
                         .tool("tool")
-                        .data(
-                            VerifyGetDetailsResponse.Evidence.Data.builder()
+                        .hard(true)
+                        .metadataTool(
+                            VerifyGetDetailsResponse.Evidence.MetadataTool.builder()
                                 .putAdditionalProperty("foo", JsonValue.from("bar"))
                                 .build()
                         )
-                        .hard(true)
                         .build()
                 )
                 .addHeatmap(
