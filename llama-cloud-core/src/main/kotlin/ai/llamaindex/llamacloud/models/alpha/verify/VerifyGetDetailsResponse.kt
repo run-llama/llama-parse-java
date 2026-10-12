@@ -700,7 +700,7 @@ private constructor(
         private val score: JsonField<Double>,
         private val tool: JsonField<String>,
         private val hard: JsonField<Boolean>,
-        private val metadataTool: JsonField<MetadataTool>,
+        private val metadata: JsonField<Metadata>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -712,10 +712,10 @@ private constructor(
             @JsonProperty("score") @ExcludeMissing score: JsonField<Double> = JsonMissing.of(),
             @JsonProperty("tool") @ExcludeMissing tool: JsonField<String> = JsonMissing.of(),
             @JsonProperty("hard") @ExcludeMissing hard: JsonField<Boolean> = JsonMissing.of(),
-            @JsonProperty("metadata_tool")
+            @JsonProperty("metadata")
             @ExcludeMissing
-            metadataTool: JsonField<MetadataTool> = JsonMissing.of(),
-        ) : this(code, detail, family, score, tool, hard, metadataTool, mutableMapOf())
+            metadata: JsonField<Metadata> = JsonMissing.of(),
+        ) : this(code, detail, family, score, tool, hard, metadata, mutableMapOf())
 
         /**
          * Machine-readable evidence code
@@ -771,7 +771,7 @@ private constructor(
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
-        fun metadataTool(): Optional<MetadataTool> = metadataTool.getOptional("metadata_tool")
+        fun metadata(): Optional<Metadata> = metadata.getOptional("metadata")
 
         /**
          * Returns the raw JSON value of [code].
@@ -816,14 +816,11 @@ private constructor(
         @JsonProperty("hard") @ExcludeMissing fun _hard(): JsonField<Boolean> = hard
 
         /**
-         * Returns the raw JSON value of [metadataTool].
+         * Returns the raw JSON value of [metadata].
          *
-         * Unlike [metadataTool], this method doesn't throw if the JSON field has an unexpected
-         * type.
+         * Unlike [metadata], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("metadata_tool")
-        @ExcludeMissing
-        fun _metadataTool(): JsonField<MetadataTool> = metadataTool
+        @JsonProperty("metadata") @ExcludeMissing fun _metadata(): JsonField<Metadata> = metadata
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -863,7 +860,7 @@ private constructor(
             private var score: JsonField<Double>? = null
             private var tool: JsonField<String>? = null
             private var hard: JsonField<Boolean> = JsonMissing.of()
-            private var metadataTool: JsonField<MetadataTool> = JsonMissing.of()
+            private var metadata: JsonField<Metadata> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -874,7 +871,7 @@ private constructor(
                 score = evidence.score
                 tool = evidence.tool
                 hard = evidence.hard
-                metadataTool = evidence.metadataTool
+                metadata = evidence.metadata
                 additionalProperties = evidence.additionalProperties.toMutableMap()
             }
 
@@ -951,18 +948,16 @@ private constructor(
             fun hard(hard: JsonField<Boolean>) = apply { this.hard = hard }
 
             /** Raw values from the tool behind this finding; the shape varies by tool */
-            fun metadataTool(metadataTool: MetadataTool) = metadataTool(JsonField.of(metadataTool))
+            fun metadata(metadata: Metadata) = metadata(JsonField.of(metadata))
 
             /**
-             * Sets [Builder.metadataTool] to an arbitrary JSON value.
+             * Sets [Builder.metadata] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.metadataTool] with a well-typed [MetadataTool] value
+             * You should usually call [Builder.metadata] with a well-typed [Metadata] value
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun metadataTool(metadataTool: JsonField<MetadataTool>) = apply {
-                this.metadataTool = metadataTool
-            }
+            fun metadata(metadata: JsonField<Metadata>) = apply { this.metadata = metadata }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1007,7 +1002,7 @@ private constructor(
                     checkRequired("score", score),
                     checkRequired("tool", tool),
                     hard,
-                    metadataTool,
+                    metadata,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1034,7 +1029,7 @@ private constructor(
             score()
             tool()
             hard()
-            metadataTool().ifPresent { it.validate() }
+            metadata().ifPresent { it.validate() }
             validated = true
         }
 
@@ -1060,10 +1055,10 @@ private constructor(
                 (if (score.asKnown().isPresent) 1 else 0) +
                 (if (tool.asKnown().isPresent) 1 else 0) +
                 (if (hard.asKnown().isPresent) 1 else 0) +
-                (metadataTool.asKnown().getOrNull()?.validity() ?: 0)
+                (metadata.asKnown().getOrNull()?.validity() ?: 0)
 
         /** Raw values from the tool behind this finding; the shape varies by tool */
-        class MetadataTool
+        class Metadata
         @JsonCreator
         private constructor(
             @com.fasterxml.jackson.annotation.JsonValue
@@ -1078,18 +1073,18 @@ private constructor(
 
             companion object {
 
-                /** Returns a mutable builder for constructing an instance of [MetadataTool]. */
+                /** Returns a mutable builder for constructing an instance of [Metadata]. */
                 @JvmStatic fun builder() = Builder()
             }
 
-            /** A builder for [MetadataTool]. */
+            /** A builder for [Metadata]. */
             class Builder internal constructor() {
 
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
-                internal fun from(metadataTool: MetadataTool) = apply {
-                    additionalProperties = metadataTool.additionalProperties.toMutableMap()
+                internal fun from(metadata: Metadata) = apply {
+                    additionalProperties = metadata.additionalProperties.toMutableMap()
                 }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1115,11 +1110,11 @@ private constructor(
                 }
 
                 /**
-                 * Returns an immutable instance of [MetadataTool].
+                 * Returns an immutable instance of [Metadata].
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
                  */
-                fun build(): MetadataTool = MetadataTool(additionalProperties.toImmutable())
+                fun build(): Metadata = Metadata(additionalProperties.toImmutable())
             }
 
             private var validated: Boolean = false
@@ -1134,7 +1129,7 @@ private constructor(
              * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
              *   its expected type.
              */
-            fun validate(): MetadataTool = apply {
+            fun validate(): Metadata = apply {
                 if (validated) {
                     return@apply
                 }
@@ -1165,14 +1160,14 @@ private constructor(
                     return true
                 }
 
-                return other is MetadataTool && additionalProperties == other.additionalProperties
+                return other is Metadata && additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
 
             override fun hashCode(): Int = hashCode
 
-            override fun toString() = "MetadataTool{additionalProperties=$additionalProperties}"
+            override fun toString() = "Metadata{additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
@@ -1187,27 +1182,18 @@ private constructor(
                 score == other.score &&
                 tool == other.tool &&
                 hard == other.hard &&
-                metadataTool == other.metadataTool &&
+                metadata == other.metadata &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(
-                code,
-                detail,
-                family,
-                score,
-                tool,
-                hard,
-                metadataTool,
-                additionalProperties,
-            )
+            Objects.hash(code, detail, family, score, tool, hard, metadata, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Evidence{code=$code, detail=$detail, family=$family, score=$score, tool=$tool, hard=$hard, metadataTool=$metadataTool, additionalProperties=$additionalProperties}"
+            "Evidence{code=$code, detail=$detail, family=$family, score=$score, tool=$tool, hard=$hard, metadata=$metadata, additionalProperties=$additionalProperties}"
     }
 
     /** A per-page forensic heatmap overlay, as a presigned image URL. */

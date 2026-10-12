@@ -31,8 +31,8 @@ internal class VerifyGetDetailsResponseTest {
                         .score(0.0)
                         .tool("tool")
                         .hard(true)
-                        .metadataTool(
-                            VerifyGetDetailsResponse.Evidence.MetadataTool.builder()
+                        .metadata(
+                            VerifyGetDetailsResponse.Evidence.Metadata.builder()
                                 .putAdditionalProperty("foo", JsonValue.from("bar"))
                                 .build()
                         )
@@ -91,8 +91,8 @@ internal class VerifyGetDetailsResponseTest {
                     .score(0.0)
                     .tool("tool")
                     .hard(true)
-                    .metadataTool(
-                        VerifyGetDetailsResponse.Evidence.MetadataTool.builder()
+                    .metadata(
+                        VerifyGetDetailsResponse.Evidence.Metadata.builder()
                             .putAdditionalProperty("foo", JsonValue.from("bar"))
                             .build()
                     )
@@ -158,8 +158,8 @@ internal class VerifyGetDetailsResponseTest {
                         .score(0.0)
                         .tool("tool")
                         .hard(true)
-                        .metadataTool(
-                            VerifyGetDetailsResponse.Evidence.MetadataTool.builder()
+                        .metadata(
+                            VerifyGetDetailsResponse.Evidence.Metadata.builder()
                                 .putAdditionalProperty("foo", JsonValue.from("bar"))
                                 .build()
                         )
