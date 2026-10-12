@@ -104,7 +104,7 @@ private constructor(
     fun job(): Job = job.getRequired("job")
 
     /**
-     * Per-page form analysis results (one entry per page).
+     * Beta: per-page form analysis results; node types the calling SDK predates are left out.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -357,7 +357,9 @@ private constructor(
          */
         fun job(job: JsonField<Job>) = apply { this.job = job }
 
-        /** Per-page form analysis results (one entry per page). */
+        /**
+         * Beta: per-page form analysis results; node types the calling SDK predates are left out.
+         */
         fun forms(forms: Forms?) = forms(JsonField.ofNullable(forms))
 
         /** Alias for calling [Builder.forms] with `forms.orElse(null)`. */
@@ -1653,7 +1655,7 @@ private constructor(
             "Job{id=$id, projectId=$projectId, status=$status, createdAt=$createdAt, errorMessage=$errorMessage, name=$name, tier=$tier, updatedAt=$updatedAt, usage=$usage, userMetadata=$userMetadata, additionalProperties=$additionalProperties}"
     }
 
-    /** Per-page form analysis results (one entry per page). */
+    /** Beta: per-page form analysis results; node types the calling SDK predates are left out. */
     class Forms
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(

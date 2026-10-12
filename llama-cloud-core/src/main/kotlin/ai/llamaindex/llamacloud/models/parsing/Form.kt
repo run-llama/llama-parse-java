@@ -45,7 +45,7 @@ private constructor(
     ) : this(json, list, mutableMapOf())
 
     /**
-     * Structured representation: an ordered tree of sections, fields, and tables
+     * Structured representation: an ordered tree of sections, fields, tables, and text
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -114,7 +114,7 @@ private constructor(
             additionalProperties = form.additionalProperties.toMutableMap()
         }
 
-        /** Structured representation: an ordered tree of sections, fields, and tables */
+        /** Structured representation: an ordered tree of sections, fields, tables, and text */
         fun json(json: List<Json>) = json(JsonField.of(json))
 
         /**
