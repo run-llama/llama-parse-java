@@ -42,22 +42,14 @@ interface VerifyServiceAsync {
      * The job runs asynchronously. Poll `GET /verify/{job_id}` with `expand=result` to check status
      * and retrieve results.
      */
-    fun create(): CompletableFuture<VerifyCreateResponse> = create(VerifyCreateParams.none())
+    fun create(params: VerifyCreateParams): CompletableFuture<VerifyCreateResponse> =
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
-        params: VerifyCreateParams = VerifyCreateParams.none(),
+        params: VerifyCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<VerifyCreateResponse>
-
-    /** @see create */
-    fun create(
-        params: VerifyCreateParams = VerifyCreateParams.none()
-    ): CompletableFuture<VerifyCreateResponse> = create(params, RequestOptions.none())
-
-    /** @see create */
-    fun create(requestOptions: RequestOptions): CompletableFuture<VerifyCreateResponse> =
-        create(VerifyCreateParams.none(), requestOptions)
 
     /**
      * List Verify jobs with optional filtering and pagination.
@@ -221,26 +213,16 @@ interface VerifyServiceAsync {
          * Returns a raw HTTP response for `post /api/alpha/verify`, but is otherwise the same as
          * [VerifyServiceAsync.create].
          */
-        fun create(): CompletableFuture<HttpResponseFor<VerifyCreateResponse>> =
-            create(VerifyCreateParams.none())
-
-        /** @see create */
         fun create(
-            params: VerifyCreateParams = VerifyCreateParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<VerifyCreateResponse>>
-
-        /** @see create */
-        fun create(
-            params: VerifyCreateParams = VerifyCreateParams.none()
+            params: VerifyCreateParams
         ): CompletableFuture<HttpResponseFor<VerifyCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
-            requestOptions: RequestOptions
-        ): CompletableFuture<HttpResponseFor<VerifyCreateResponse>> =
-            create(VerifyCreateParams.none(), requestOptions)
+            params: VerifyCreateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<VerifyCreateResponse>>
 
         /**
          * Returns a raw HTTP response for `get /api/alpha/verify`, but is otherwise the same as

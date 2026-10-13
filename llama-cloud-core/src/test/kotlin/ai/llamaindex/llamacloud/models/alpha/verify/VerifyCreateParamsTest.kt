@@ -15,14 +15,13 @@ internal class VerifyCreateParamsTest {
         VerifyCreateParams.builder()
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
             .configuration(
                 VerifyCreateParams.Configuration.builder()
                     .targetPages("1,3,5-7")
                     .tier(VerifyCreateParams.Configuration.Tier.AGENTIC)
                     .build()
             )
-            .fileId("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
-            .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
             .transactionId("tx-unique-idempotency-key")
             .addWebhookConfigurationId("whc-...")
             .addWebhookConfigurationId("whc-...")
@@ -53,14 +52,13 @@ internal class VerifyCreateParamsTest {
             VerifyCreateParams.builder()
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                 .configuration(
                     VerifyCreateParams.Configuration.builder()
                         .targetPages("1,3,5-7")
                         .tier(VerifyCreateParams.Configuration.Tier.AGENTIC)
                         .build()
                 )
-                .fileId("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
-                .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                 .transactionId("tx-unique-idempotency-key")
                 .addWebhookConfigurationId("whc-...")
                 .addWebhookConfigurationId("whc-...")
@@ -100,7 +98,10 @@ internal class VerifyCreateParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = VerifyCreateParams.builder().build()
+        val params =
+            VerifyCreateParams.builder()
+                .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+                .build()
 
         val queryParams = params._queryParams()
 
@@ -113,14 +114,13 @@ internal class VerifyCreateParamsTest {
             VerifyCreateParams.builder()
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                 .configuration(
                     VerifyCreateParams.Configuration.builder()
                         .targetPages("1,3,5-7")
                         .tier(VerifyCreateParams.Configuration.Tier.AGENTIC)
                         .build()
                 )
-                .fileId("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
-                .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
                 .transactionId("tx-unique-idempotency-key")
                 .addWebhookConfigurationId("whc-...")
                 .addWebhookConfigurationId("whc-...")
@@ -149,6 +149,7 @@ internal class VerifyCreateParamsTest {
 
         val body = params._body()
 
+        assertThat(body.fileInput()).isEqualTo("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
         assertThat(body.configuration())
             .contains(
                 VerifyCreateParams.Configuration.builder()
@@ -156,8 +157,6 @@ internal class VerifyCreateParamsTest {
                     .tier(VerifyCreateParams.Configuration.Tier.AGENTIC)
                     .build()
             )
-        assertThat(body.fileId()).contains("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
-        assertThat(body.fileInput()).contains("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
         assertThat(body.transactionId()).contains("tx-unique-idempotency-key")
         assertThat(body.webhookConfigurationIds().getOrNull()).containsExactly("whc-...", "whc-...")
         assertThat(body.webhookConfigurations().getOrNull())
@@ -183,8 +182,13 @@ internal class VerifyCreateParamsTest {
 
     @Test
     fun bodyWithoutOptionalFields() {
-        val params = VerifyCreateParams.builder().build()
+        val params =
+            VerifyCreateParams.builder()
+                .fileInput("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+                .build()
 
         val body = params._body()
+
+        assertThat(body.fileInput()).isEqualTo("dfl-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
     }
 }
