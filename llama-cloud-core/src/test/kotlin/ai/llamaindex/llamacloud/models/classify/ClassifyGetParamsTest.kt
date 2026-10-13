@@ -12,6 +12,7 @@ internal class ClassifyGetParamsTest {
     fun create() {
         ClassifyGetParams.builder()
             .jobId("job_id")
+            .addExpand("string")
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
@@ -31,6 +32,7 @@ internal class ClassifyGetParamsTest {
         val params =
             ClassifyGetParams.builder()
                 .jobId("job_id")
+                .addExpand("string")
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
@@ -40,6 +42,7 @@ internal class ClassifyGetParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
+                    .put("expand", "string")
                     .put("organization_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
