@@ -11,7 +11,10 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Delete a split job and its results. */
+/**
+ * Delete a split job and its results. A job that is not in a terminal state is refused with 409;
+ * cancel it first.
+ */
 class SplitDeleteParams
 private constructor(
     private val splitJobId: String?,

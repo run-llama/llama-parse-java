@@ -84,7 +84,10 @@ interface SplitServiceAsync {
     fun list(requestOptions: RequestOptions): CompletableFuture<SplitListPageAsync> =
         list(SplitListParams.none(), requestOptions)
 
-    /** Delete a split job and its results. */
+    /**
+     * Delete a split job and its results. A job that is not in a terminal state is refused with
+     * 409; cancel it first.
+     */
     fun delete(splitJobId: String): CompletableFuture<SplitDeleteResponse> =
         delete(splitJobId, SplitDeleteParams.none())
 
