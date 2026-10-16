@@ -393,6 +393,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val _2026_10_16 = of("2026-10-16")
+
             @JvmField val _2026_10_15 = of("2026-10-15")
 
             @JvmField val _2026_09_29 = of("2026-09-29")
@@ -498,6 +500,7 @@ private constructor(
 
         /** An enum containing [Agentic]'s known values. */
         enum class Known {
+            _2026_10_16,
             _2026_10_15,
             _2026_09_29,
             _2026_09_28,
@@ -560,6 +563,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            _2026_10_16,
             _2026_10_15,
             _2026_09_29,
             _2026_09_28,
@@ -623,6 +627,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                _2026_10_16 -> Value._2026_10_16
                 _2026_10_15 -> Value._2026_10_15
                 _2026_09_29 -> Value._2026_09_29
                 _2026_09_28 -> Value._2026_09_28
@@ -687,6 +692,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                _2026_10_16 -> Known._2026_10_16
                 _2026_10_15 -> Known._2026_10_15
                 _2026_09_29 -> Known._2026_09_29
                 _2026_09_28 -> Known._2026_09_28
