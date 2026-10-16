@@ -699,8 +699,8 @@ private constructor(
         private val family: JsonField<String>,
         private val score: JsonField<Double>,
         private val tool: JsonField<String>,
-        private val data: JsonField<Data>,
         private val hard: JsonField<Boolean>,
+        private val metadata: JsonField<Metadata>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -711,9 +711,11 @@ private constructor(
             @JsonProperty("family") @ExcludeMissing family: JsonField<String> = JsonMissing.of(),
             @JsonProperty("score") @ExcludeMissing score: JsonField<Double> = JsonMissing.of(),
             @JsonProperty("tool") @ExcludeMissing tool: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("data") @ExcludeMissing data: JsonField<Data> = JsonMissing.of(),
             @JsonProperty("hard") @ExcludeMissing hard: JsonField<Boolean> = JsonMissing.of(),
-        ) : this(code, detail, family, score, tool, data, hard, mutableMapOf())
+            @JsonProperty("metadata")
+            @ExcludeMissing
+            metadata: JsonField<Metadata> = JsonMissing.of(),
+        ) : this(code, detail, family, score, tool, hard, metadata, mutableMapOf())
 
         /**
          * Machine-readable evidence code
@@ -756,20 +758,20 @@ private constructor(
         fun tool(): String = tool.getRequired("tool")
 
         /**
-         * Tool-specific structured payload
-         *
-         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
-         *   the server responded with an unexpected value).
-         */
-        fun data(): Optional<Data> = data.getOptional("data")
-
-        /**
          * Whether this is hard (conclusive) evidence
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun hard(): Optional<Boolean> = hard.getOptional("hard")
+
+        /**
+         * Raw values from the tool behind this finding; the shape varies by tool
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun metadata(): Optional<Metadata> = metadata.getOptional("metadata")
 
         /**
          * Returns the raw JSON value of [code].
@@ -807,18 +809,18 @@ private constructor(
         @JsonProperty("tool") @ExcludeMissing fun _tool(): JsonField<String> = tool
 
         /**
-         * Returns the raw JSON value of [data].
-         *
-         * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
-
-        /**
          * Returns the raw JSON value of [hard].
          *
          * Unlike [hard], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("hard") @ExcludeMissing fun _hard(): JsonField<Boolean> = hard
+
+        /**
+         * Returns the raw JSON value of [metadata].
+         *
+         * Unlike [metadata], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("metadata") @ExcludeMissing fun _metadata(): JsonField<Metadata> = metadata
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -857,8 +859,8 @@ private constructor(
             private var family: JsonField<String>? = null
             private var score: JsonField<Double>? = null
             private var tool: JsonField<String>? = null
-            private var data: JsonField<Data> = JsonMissing.of()
             private var hard: JsonField<Boolean> = JsonMissing.of()
+            private var metadata: JsonField<Metadata> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -868,8 +870,8 @@ private constructor(
                 family = evidence.family
                 score = evidence.score
                 tool = evidence.tool
-                data = evidence.data
                 hard = evidence.hard
+                metadata = evidence.metadata
                 additionalProperties = evidence.additionalProperties.toMutableMap()
             }
 
@@ -933,18 +935,6 @@ private constructor(
              */
             fun tool(tool: JsonField<String>) = apply { this.tool = tool }
 
-            /** Tool-specific structured payload */
-            fun data(data: Data) = data(JsonField.of(data))
-
-            /**
-             * Sets [Builder.data] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.data] with a well-typed [Data] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun data(data: JsonField<Data>) = apply { this.data = data }
-
             /** Whether this is hard (conclusive) evidence */
             fun hard(hard: Boolean) = hard(JsonField.of(hard))
 
@@ -956,6 +946,18 @@ private constructor(
              * supported value.
              */
             fun hard(hard: JsonField<Boolean>) = apply { this.hard = hard }
+
+            /** Raw values from the tool behind this finding; the shape varies by tool */
+            fun metadata(metadata: Metadata) = metadata(JsonField.of(metadata))
+
+            /**
+             * Sets [Builder.metadata] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.metadata] with a well-typed [Metadata] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun metadata(metadata: JsonField<Metadata>) = apply { this.metadata = metadata }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -999,8 +1001,8 @@ private constructor(
                     checkRequired("family", family),
                     checkRequired("score", score),
                     checkRequired("tool", tool),
-                    data,
                     hard,
+                    metadata,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1026,8 +1028,8 @@ private constructor(
             family()
             score()
             tool()
-            data().ifPresent { it.validate() }
             hard()
+            metadata().ifPresent { it.validate() }
             validated = true
         }
 
@@ -1052,11 +1054,11 @@ private constructor(
                 (if (family.asKnown().isPresent) 1 else 0) +
                 (if (score.asKnown().isPresent) 1 else 0) +
                 (if (tool.asKnown().isPresent) 1 else 0) +
-                (data.asKnown().getOrNull()?.validity() ?: 0) +
-                (if (hard.asKnown().isPresent) 1 else 0)
+                (if (hard.asKnown().isPresent) 1 else 0) +
+                (metadata.asKnown().getOrNull()?.validity() ?: 0)
 
-        /** Tool-specific structured payload */
-        class Data
+        /** Raw values from the tool behind this finding; the shape varies by tool */
+        class Metadata
         @JsonCreator
         private constructor(
             @com.fasterxml.jackson.annotation.JsonValue
@@ -1071,18 +1073,18 @@ private constructor(
 
             companion object {
 
-                /** Returns a mutable builder for constructing an instance of [Data]. */
+                /** Returns a mutable builder for constructing an instance of [Metadata]. */
                 @JvmStatic fun builder() = Builder()
             }
 
-            /** A builder for [Data]. */
+            /** A builder for [Metadata]. */
             class Builder internal constructor() {
 
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
-                internal fun from(data: Data) = apply {
-                    additionalProperties = data.additionalProperties.toMutableMap()
+                internal fun from(metadata: Metadata) = apply {
+                    additionalProperties = metadata.additionalProperties.toMutableMap()
                 }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1108,11 +1110,11 @@ private constructor(
                 }
 
                 /**
-                 * Returns an immutable instance of [Data].
+                 * Returns an immutable instance of [Metadata].
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
                  */
-                fun build(): Data = Data(additionalProperties.toImmutable())
+                fun build(): Metadata = Metadata(additionalProperties.toImmutable())
             }
 
             private var validated: Boolean = false
@@ -1127,7 +1129,7 @@ private constructor(
              * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
              *   its expected type.
              */
-            fun validate(): Data = apply {
+            fun validate(): Metadata = apply {
                 if (validated) {
                     return@apply
                 }
@@ -1158,14 +1160,14 @@ private constructor(
                     return true
                 }
 
-                return other is Data && additionalProperties == other.additionalProperties
+                return other is Metadata && additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
 
             override fun hashCode(): Int = hashCode
 
-            override fun toString() = "Data{additionalProperties=$additionalProperties}"
+            override fun toString() = "Metadata{additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
@@ -1179,19 +1181,19 @@ private constructor(
                 family == other.family &&
                 score == other.score &&
                 tool == other.tool &&
-                data == other.data &&
                 hard == other.hard &&
+                metadata == other.metadata &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(code, detail, family, score, tool, data, hard, additionalProperties)
+            Objects.hash(code, detail, family, score, tool, hard, metadata, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Evidence{code=$code, detail=$detail, family=$family, score=$score, tool=$tool, data=$data, hard=$hard, additionalProperties=$additionalProperties}"
+            "Evidence{code=$code, detail=$detail, family=$family, score=$score, tool=$tool, hard=$hard, metadata=$metadata, additionalProperties=$additionalProperties}"
     }
 
     /** A per-page forensic heatmap overlay, as a presigned image URL. */

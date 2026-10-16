@@ -42,21 +42,14 @@ interface VerifyService {
      * The job runs asynchronously. Poll `GET /verify/{job_id}` with `expand=result` to check status
      * and retrieve results.
      */
-    fun create(): VerifyCreateResponse = create(VerifyCreateParams.none())
-
-    /** @see create */
-    fun create(
-        params: VerifyCreateParams = VerifyCreateParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): VerifyCreateResponse
-
-    /** @see create */
-    fun create(params: VerifyCreateParams = VerifyCreateParams.none()): VerifyCreateResponse =
+    fun create(params: VerifyCreateParams): VerifyCreateResponse =
         create(params, RequestOptions.none())
 
     /** @see create */
-    fun create(requestOptions: RequestOptions): VerifyCreateResponse =
-        create(VerifyCreateParams.none(), requestOptions)
+    fun create(
+        params: VerifyCreateParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): VerifyCreateResponse
 
     /**
      * List Verify jobs with optional filtering and pagination.
@@ -202,25 +195,15 @@ interface VerifyService {
          * [VerifyService.create].
          */
         @MustBeClosed
-        fun create(): HttpResponseFor<VerifyCreateResponse> = create(VerifyCreateParams.none())
+        fun create(params: VerifyCreateParams): HttpResponseFor<VerifyCreateResponse> =
+            create(params, RequestOptions.none())
 
         /** @see create */
         @MustBeClosed
         fun create(
-            params: VerifyCreateParams = VerifyCreateParams.none(),
+            params: VerifyCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<VerifyCreateResponse>
-
-        /** @see create */
-        @MustBeClosed
-        fun create(
-            params: VerifyCreateParams = VerifyCreateParams.none()
-        ): HttpResponseFor<VerifyCreateResponse> = create(params, RequestOptions.none())
-
-        /** @see create */
-        @MustBeClosed
-        fun create(requestOptions: RequestOptions): HttpResponseFor<VerifyCreateResponse> =
-            create(VerifyCreateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/alpha/verify`, but is otherwise the same as

@@ -5,6 +5,7 @@ package ai.llamaindex.llamacloud.models.classify
 import ai.llamaindex.llamacloud.core.Params
 import ai.llamaindex.llamacloud.core.http.Headers
 import ai.llamaindex.llamacloud.core.http.QueryParams
+import ai.llamaindex.llamacloud.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -13,11 +14,13 @@ import kotlin.jvm.optionals.getOrNull
  * Get a classify job by ID.
  *
  * Returns the job status, configuration, and classify result when complete. The result includes the
- * matched document type, confidence score, and reasoning.
+ * matched document type, confidence score, and reasoning. Use `expand=usage` for credits billed
+ * against the job.
  */
 class ClassifyGetParams
 private constructor(
     private val jobId: String?,
+    private val expand: List<String>?,
     private val organizationId: String?,
     private val projectId: String?,
     private val additionalHeaders: Headers,
@@ -25,6 +28,9 @@ private constructor(
 ) : Params {
 
     fun jobId(): Optional<String> = Optional.ofNullable(jobId)
+
+    /** Additional fields to include: usage */
+    fun expand(): Optional<List<String>> = Optional.ofNullable(expand)
 
     fun organizationId(): Optional<String> = Optional.ofNullable(organizationId)
 
@@ -50,6 +56,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var jobId: String? = null
+        private var expand: MutableList<String>? = null
         private var organizationId: String? = null
         private var projectId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -58,6 +65,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(classifyGetParams: ClassifyGetParams) = apply {
             jobId = classifyGetParams.jobId
+            expand = classifyGetParams.expand?.toMutableList()
             organizationId = classifyGetParams.organizationId
             projectId = classifyGetParams.projectId
             additionalHeaders = classifyGetParams.additionalHeaders.toBuilder()
@@ -68,6 +76,21 @@ private constructor(
 
         /** Alias for calling [Builder.jobId] with `jobId.orElse(null)`. */
         fun jobId(jobId: Optional<String>) = jobId(jobId.getOrNull())
+
+        /** Additional fields to include: usage */
+        fun expand(expand: List<String>?) = apply { this.expand = expand?.toMutableList() }
+
+        /** Alias for calling [Builder.expand] with `expand.orElse(null)`. */
+        fun expand(expand: Optional<List<String>>) = expand(expand.getOrNull())
+
+        /**
+         * Adds a single [String] to [Builder.expand].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addExpand(expand: String) = apply {
+            this.expand = (this.expand ?: mutableListOf()).apply { add(expand) }
+        }
 
         fun organizationId(organizationId: String?) = apply { this.organizationId = organizationId }
 
@@ -186,6 +209,7 @@ private constructor(
         fun build(): ClassifyGetParams =
             ClassifyGetParams(
                 jobId,
+                expand?.toImmutable(),
                 organizationId,
                 projectId,
                 additionalHeaders.build(),
@@ -204,6 +228,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
+                expand?.forEach { put("expand", it) }
                 organizationId?.let { put("organization_id", it) }
                 projectId?.let { put("project_id", it) }
                 putAll(additionalQueryParams)
@@ -217,6 +242,7 @@ private constructor(
 
         return other is ClassifyGetParams &&
             jobId == other.jobId &&
+            expand == other.expand &&
             organizationId == other.organizationId &&
             projectId == other.projectId &&
             additionalHeaders == other.additionalHeaders &&
@@ -224,8 +250,15 @@ private constructor(
     }
 
     override fun hashCode(): Int =
-        Objects.hash(jobId, organizationId, projectId, additionalHeaders, additionalQueryParams)
+        Objects.hash(
+            jobId,
+            expand,
+            organizationId,
+            projectId,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
-        "ClassifyGetParams{jobId=$jobId, organizationId=$organizationId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "ClassifyGetParams{jobId=$jobId, expand=$expand, organizationId=$organizationId, projectId=$projectId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

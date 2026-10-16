@@ -53,6 +53,9 @@ internal class ClassifyCancelResponseTest {
                 )
                 .transactionId("transaction_id")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .usage(
+                    ClassifyCancelResponse.Usage.builder().credits(30.0).parseCredits(3.0).build()
+                )
                 .build()
 
         assertThat(classifyCancelResponse.id()).isEqualTo("id")
@@ -94,6 +97,10 @@ internal class ClassifyCancelResponseTest {
         assertThat(classifyCancelResponse.transactionId()).contains("transaction_id")
         assertThat(classifyCancelResponse.updatedAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(classifyCancelResponse.usage())
+            .contains(
+                ClassifyCancelResponse.Usage.builder().credits(30.0).parseCredits(3.0).build()
+            )
     }
 
     @Test
@@ -140,6 +147,9 @@ internal class ClassifyCancelResponseTest {
                 )
                 .transactionId("transaction_id")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .usage(
+                    ClassifyCancelResponse.Usage.builder().credits(30.0).parseCredits(3.0).build()
+                )
                 .build()
 
         val roundtrippedClassifyCancelResponse =

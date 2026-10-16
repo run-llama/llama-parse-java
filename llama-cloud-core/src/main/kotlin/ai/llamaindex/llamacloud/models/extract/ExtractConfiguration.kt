@@ -25,6 +25,7 @@ class ExtractConfiguration
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val dataSchema: JsonField<DataSchema>,
+    private val advancedCitations: JsonField<Boolean>,
     private val citeSources: JsonField<Boolean>,
     private val confidenceScores: JsonField<Boolean>,
     private val disableCache: JsonField<Boolean>,
@@ -46,6 +47,9 @@ private constructor(
         @JsonProperty("data_schema")
         @ExcludeMissing
         dataSchema: JsonField<DataSchema> = JsonMissing.of(),
+        @JsonProperty("advanced_citations")
+        @ExcludeMissing
+        advancedCitations: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("cite_sources")
         @ExcludeMissing
         citeSources: JsonField<Boolean> = JsonMissing.of(),
@@ -81,6 +85,7 @@ private constructor(
         @JsonProperty("version") @ExcludeMissing version: JsonField<String> = JsonMissing.of(),
     ) : this(
         dataSchema,
+        advancedCitations,
         citeSources,
         confidenceScores,
         disableCache,
@@ -105,6 +110,15 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun dataSchema(): DataSchema = dataSchema.getRequired("data_schema")
+
+    /**
+     * More precise citation bounding boxes. Set to false for faster extraction with less precise
+     * boxes.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun advancedCitations(): Optional<Boolean> = advancedCitations.getOptional("advanced_citations")
 
     /**
      * Include citations in results. Returned under `extract_metadata` (auto-included when set).
@@ -236,6 +250,16 @@ private constructor(
     @JsonProperty("data_schema")
     @ExcludeMissing
     fun _dataSchema(): JsonField<DataSchema> = dataSchema
+
+    /**
+     * Returns the raw JSON value of [advancedCitations].
+     *
+     * Unlike [advancedCitations], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("advanced_citations")
+    @ExcludeMissing
+    fun _advancedCitations(): JsonField<Boolean> = advancedCitations
 
     /**
      * Returns the raw JSON value of [citeSources].
@@ -377,6 +401,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var dataSchema: JsonField<DataSchema>? = null
+        private var advancedCitations: JsonField<Boolean> = JsonMissing.of()
         private var citeSources: JsonField<Boolean> = JsonMissing.of()
         private var confidenceScores: JsonField<Boolean> = JsonMissing.of()
         private var disableCache: JsonField<Boolean> = JsonMissing.of()
@@ -395,6 +420,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(extractConfiguration: ExtractConfiguration) = apply {
             dataSchema = extractConfiguration.dataSchema
+            advancedCitations = extractConfiguration.advancedCitations
             citeSources = extractConfiguration.citeSources
             confidenceScores = extractConfiguration.confidenceScores
             disableCache = extractConfiguration.disableCache
@@ -425,6 +451,24 @@ private constructor(
          * supported value.
          */
         fun dataSchema(dataSchema: JsonField<DataSchema>) = apply { this.dataSchema = dataSchema }
+
+        /**
+         * More precise citation bounding boxes. Set to false for faster extraction with less
+         * precise boxes.
+         */
+        fun advancedCitations(advancedCitations: Boolean) =
+            advancedCitations(JsonField.of(advancedCitations))
+
+        /**
+         * Sets [Builder.advancedCitations] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.advancedCitations] with a well-typed [Boolean] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun advancedCitations(advancedCitations: JsonField<Boolean>) = apply {
+            this.advancedCitations = advancedCitations
+        }
 
         /**
          * Include citations in results. Returned under `extract_metadata` (auto-included when set).
@@ -708,6 +752,7 @@ private constructor(
         fun build(): ExtractConfiguration =
             ExtractConfiguration(
                 checkRequired("dataSchema", dataSchema),
+                advancedCitations,
                 citeSources,
                 confidenceScores,
                 disableCache,
@@ -741,6 +786,7 @@ private constructor(
         }
 
         dataSchema().validate()
+        advancedCitations()
         citeSources()
         confidenceScores()
         disableCache()
@@ -773,6 +819,7 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (dataSchema.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (advancedCitations.asKnown().isPresent) 1 else 0) +
             (if (citeSources.asKnown().isPresent) 1 else 0) +
             (if (confidenceScores.asKnown().isPresent) 1 else 0) +
             (if (disableCache.asKnown().isPresent) 1 else 0) +
@@ -1364,6 +1411,7 @@ private constructor(
 
         return other is ExtractConfiguration &&
             dataSchema == other.dataSchema &&
+            advancedCitations == other.advancedCitations &&
             citeSources == other.citeSources &&
             confidenceScores == other.confidenceScores &&
             disableCache == other.disableCache &&
@@ -1383,6 +1431,7 @@ private constructor(
     private val hashCode: Int by lazy {
         Objects.hash(
             dataSchema,
+            advancedCitations,
             citeSources,
             confidenceScores,
             disableCache,
@@ -1403,5 +1452,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ExtractConfiguration{dataSchema=$dataSchema, citeSources=$citeSources, confidenceScores=$confidenceScores, disableCache=$disableCache, extractionTarget=$extractionTarget, maxPages=$maxPages, parseConfigId=$parseConfigId, parseTier=$parseTier, sheetNames=$sheetNames, spreadsheetMode=$spreadsheetMode, systemPrompt=$systemPrompt, targetPages=$targetPages, tier=$tier, version=$version, additionalProperties=$additionalProperties}"
+        "ExtractConfiguration{dataSchema=$dataSchema, advancedCitations=$advancedCitations, citeSources=$citeSources, confidenceScores=$confidenceScores, disableCache=$disableCache, extractionTarget=$extractionTarget, maxPages=$maxPages, parseConfigId=$parseConfigId, parseTier=$parseTier, sheetNames=$sheetNames, spreadsheetMode=$spreadsheetMode, systemPrompt=$systemPrompt, targetPages=$targetPages, tier=$tier, version=$version, additionalProperties=$additionalProperties}"
 }

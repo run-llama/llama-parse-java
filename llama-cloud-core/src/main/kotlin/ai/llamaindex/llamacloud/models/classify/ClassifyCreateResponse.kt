@@ -37,6 +37,7 @@ private constructor(
     private val result: JsonField<ClassifyResult>,
     private val transactionId: JsonField<String>,
     private val updatedAt: JsonField<OffsetDateTime>,
+    private val usage: JsonField<Usage>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -74,6 +75,7 @@ private constructor(
         @JsonProperty("updated_at")
         @ExcludeMissing
         updatedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("usage") @ExcludeMissing usage: JsonField<Usage> = JsonMissing.of(),
     ) : this(
         id,
         configuration,
@@ -89,6 +91,7 @@ private constructor(
         result,
         transactionId,
         updatedAt,
+        usage,
         mutableMapOf(),
     )
 
@@ -206,6 +209,18 @@ private constructor(
     fun updatedAt(): Optional<OffsetDateTime> = updatedAt.getOptional("updated_at")
 
     /**
+     * Usage recorded against a classify job.
+     *
+     * Classify bills through the parse job it runs on a file input, so that parse job's credits are
+     * the whole total. A job run on a parse job you created bills nothing of its own:
+     * ``parse_credits`` is null and ``credits`` is 0.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun usage(): Optional<Usage> = usage.getOptional("usage")
+
+    /**
      * Returns the raw JSON value of [id].
      *
      * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
@@ -318,6 +333,13 @@ private constructor(
     @ExcludeMissing
     fun _updatedAt(): JsonField<OffsetDateTime> = updatedAt
 
+    /**
+     * Returns the raw JSON value of [usage].
+     *
+     * Unlike [usage], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("usage") @ExcludeMissing fun _usage(): JsonField<Usage> = usage
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -366,6 +388,7 @@ private constructor(
         private var result: JsonField<ClassifyResult> = JsonMissing.of()
         private var transactionId: JsonField<String> = JsonMissing.of()
         private var updatedAt: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var usage: JsonField<Usage> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -384,6 +407,7 @@ private constructor(
             result = classifyCreateResponse.result
             transactionId = classifyCreateResponse.transactionId
             updatedAt = classifyCreateResponse.updatedAt
+            usage = classifyCreateResponse.usage
             additionalProperties = classifyCreateResponse.additionalProperties.toMutableMap()
         }
 
@@ -589,6 +613,26 @@ private constructor(
          */
         fun updatedAt(updatedAt: JsonField<OffsetDateTime>) = apply { this.updatedAt = updatedAt }
 
+        /**
+         * Usage recorded against a classify job.
+         *
+         * Classify bills through the parse job it runs on a file input, so that parse job's credits
+         * are the whole total. A job run on a parse job you created bills nothing of its own:
+         * ``parse_credits`` is null and ``credits`` is 0.
+         */
+        fun usage(usage: Usage?) = usage(JsonField.ofNullable(usage))
+
+        /** Alias for calling [Builder.usage] with `usage.orElse(null)`. */
+        fun usage(usage: Optional<Usage>) = usage(usage.getOrNull())
+
+        /**
+         * Sets [Builder.usage] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.usage] with a well-typed [Usage] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun usage(usage: JsonField<Usage>) = apply { this.usage = usage }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -642,6 +686,7 @@ private constructor(
                 result,
                 transactionId,
                 updatedAt,
+                usage,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -675,6 +720,7 @@ private constructor(
         result().ifPresent { it.validate() }
         transactionId()
         updatedAt()
+        usage().ifPresent { it.validate() }
         validated = true
     }
 
@@ -706,7 +752,8 @@ private constructor(
             (if (parseJobId.asKnown().isPresent) 1 else 0) +
             (result.asKnown().getOrNull()?.validity() ?: 0) +
             (if (transactionId.asKnown().isPresent) 1 else 0) +
-            (if (updatedAt.asKnown().isPresent) 1 else 0)
+            (if (updatedAt.asKnown().isPresent) 1 else 0) +
+            (usage.asKnown().getOrNull()?.validity() ?: 0)
 
     /** Whether the input was a file or parse job (FILE or PARSE_JOB) */
     class DocumentInputType @JsonCreator private constructor(private val value: JsonField<String>) :
@@ -1010,6 +1057,230 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Usage recorded against a classify job.
+     *
+     * Classify bills through the parse job it runs on a file input, so that parse job's credits are
+     * the whole total. A job run on a parse job you created bills nothing of its own:
+     * ``parse_credits`` is null and ``credits`` is 0.
+     */
+    class Usage
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val credits: JsonField<Double>,
+        private val parseCredits: JsonField<Double>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("credits") @ExcludeMissing credits: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("parse_credits")
+            @ExcludeMissing
+            parseCredits: JsonField<Double> = JsonMissing.of(),
+        ) : this(credits, parseCredits, mutableMapOf())
+
+        /**
+         * Total credits billed against this job. Null until billing has recorded it.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun credits(): Optional<Double> = credits.getOptional("credits")
+
+        /**
+         * Credits billed against the parse job Classify ran on the input file
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun parseCredits(): Optional<Double> = parseCredits.getOptional("parse_credits")
+
+        /**
+         * Returns the raw JSON value of [credits].
+         *
+         * Unlike [credits], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("credits") @ExcludeMissing fun _credits(): JsonField<Double> = credits
+
+        /**
+         * Returns the raw JSON value of [parseCredits].
+         *
+         * Unlike [parseCredits], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("parse_credits")
+        @ExcludeMissing
+        fun _parseCredits(): JsonField<Double> = parseCredits
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Usage]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Usage]. */
+        class Builder internal constructor() {
+
+            private var credits: JsonField<Double> = JsonMissing.of()
+            private var parseCredits: JsonField<Double> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(usage: Usage) = apply {
+                credits = usage.credits
+                parseCredits = usage.parseCredits
+                additionalProperties = usage.additionalProperties.toMutableMap()
+            }
+
+            /** Total credits billed against this job. Null until billing has recorded it. */
+            fun credits(credits: Double?) = credits(JsonField.ofNullable(credits))
+
+            /**
+             * Alias for [Builder.credits].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun credits(credits: Double) = credits(credits as Double?)
+
+            /** Alias for calling [Builder.credits] with `credits.orElse(null)`. */
+            fun credits(credits: Optional<Double>) = credits(credits.getOrNull())
+
+            /**
+             * Sets [Builder.credits] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.credits] with a well-typed [Double] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun credits(credits: JsonField<Double>) = apply { this.credits = credits }
+
+            /** Credits billed against the parse job Classify ran on the input file */
+            fun parseCredits(parseCredits: Double?) =
+                parseCredits(JsonField.ofNullable(parseCredits))
+
+            /**
+             * Alias for [Builder.parseCredits].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun parseCredits(parseCredits: Double) = parseCredits(parseCredits as Double?)
+
+            /** Alias for calling [Builder.parseCredits] with `parseCredits.orElse(null)`. */
+            fun parseCredits(parseCredits: Optional<Double>) =
+                parseCredits(parseCredits.getOrNull())
+
+            /**
+             * Sets [Builder.parseCredits] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.parseCredits] with a well-typed [Double] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun parseCredits(parseCredits: JsonField<Double>) = apply {
+                this.parseCredits = parseCredits
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Usage].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Usage = Usage(credits, parseCredits, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): Usage = apply {
+            if (validated) {
+                return@apply
+            }
+
+            credits()
+            parseCredits()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (credits.asKnown().isPresent) 1 else 0) +
+                (if (parseCredits.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Usage &&
+                credits == other.credits &&
+                parseCredits == other.parseCredits &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(credits, parseCredits, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Usage{credits=$credits, parseCredits=$parseCredits, additionalProperties=$additionalProperties}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -1030,6 +1301,7 @@ private constructor(
             result == other.result &&
             transactionId == other.transactionId &&
             updatedAt == other.updatedAt &&
+            usage == other.usage &&
             additionalProperties == other.additionalProperties
     }
 
@@ -1049,6 +1321,7 @@ private constructor(
             result,
             transactionId,
             updatedAt,
+            usage,
             additionalProperties,
         )
     }
@@ -1056,5 +1329,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ClassifyCreateResponse{id=$id, configuration=$configuration, documentInputType=$documentInputType, fileInput=$fileInput, projectId=$projectId, status=$status, userId=$userId, configurationId=$configurationId, createdAt=$createdAt, errorMessage=$errorMessage, parseJobId=$parseJobId, result=$result, transactionId=$transactionId, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
+        "ClassifyCreateResponse{id=$id, configuration=$configuration, documentInputType=$documentInputType, fileInput=$fileInput, projectId=$projectId, status=$status, userId=$userId, configurationId=$configurationId, createdAt=$createdAt, errorMessage=$errorMessage, parseJobId=$parseJobId, result=$result, transactionId=$transactionId, updatedAt=$updatedAt, usage=$usage, additionalProperties=$additionalProperties}"
 }

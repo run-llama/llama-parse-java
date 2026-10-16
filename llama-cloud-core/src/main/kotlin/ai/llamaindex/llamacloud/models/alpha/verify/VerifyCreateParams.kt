@@ -9,6 +9,7 @@ import ai.llamaindex.llamacloud.core.JsonMissing
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.core.Params
 import ai.llamaindex.llamacloud.core.checkKnown
+import ai.llamaindex.llamacloud.core.checkRequired
 import ai.llamaindex.llamacloud.core.http.Headers
 import ai.llamaindex.llamacloud.core.http.QueryParams
 import ai.llamaindex.llamacloud.core.toImmutable
@@ -46,28 +47,20 @@ private constructor(
     fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
     /**
+     * File ID of the document to analyze
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun fileInput(): String = body.fileInput()
+
+    /**
      * Configuration for a Verify job.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun configuration(): Optional<Configuration> = body.configuration()
-
-    /**
-     * Deprecated: use file_input instead
-     *
-     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    @Deprecated("deprecated") fun fileId(): Optional<String> = body.fileId()
-
-    /**
-     * File ID of the document to analyze
-     *
-     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun fileInput(): Optional<String> = body.fileInput()
 
     /**
      * Idempotency key scoped to the project. Reusing a key returns the original job; the new
@@ -95,25 +88,18 @@ private constructor(
     fun webhookConfigurations(): Optional<List<WebhookConfiguration>> = body.webhookConfigurations()
 
     /**
-     * Returns the raw JSON value of [configuration].
-     *
-     * Unlike [configuration], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    fun _configuration(): JsonField<Configuration> = body._configuration()
-
-    /**
-     * Returns the raw JSON value of [fileId].
-     *
-     * Unlike [fileId], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @Deprecated("deprecated") fun _fileId(): JsonField<String> = body._fileId()
-
-    /**
      * Returns the raw JSON value of [fileInput].
      *
      * Unlike [fileInput], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _fileInput(): JsonField<String> = body._fileInput()
+
+    /**
+     * Returns the raw JSON value of [configuration].
+     *
+     * Unlike [configuration], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _configuration(): JsonField<Configuration> = body._configuration()
 
     /**
      * Returns the raw JSON value of [transactionId].
@@ -151,9 +137,14 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): VerifyCreateParams = builder().build()
-
-        /** Returns a mutable builder for constructing an instance of [VerifyCreateParams]. */
+        /**
+         * Returns a mutable builder for constructing an instance of [VerifyCreateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .fileInput()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -191,14 +182,26 @@ private constructor(
          *
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
-         * - [configuration]
-         * - [fileId]
          * - [fileInput]
+         * - [configuration]
          * - [transactionId]
          * - [webhookConfigurationIds]
+         * - [webhookConfigurations]
          * - etc.
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
+
+        /** File ID of the document to analyze */
+        fun fileInput(fileInput: String) = apply { body.fileInput(fileInput) }
+
+        /**
+         * Sets [Builder.fileInput] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.fileInput] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun fileInput(fileInput: JsonField<String>) = apply { body.fileInput(fileInput) }
 
         /** Configuration for a Verify job. */
         fun configuration(configuration: Configuration?) = apply {
@@ -219,36 +222,6 @@ private constructor(
         fun configuration(configuration: JsonField<Configuration>) = apply {
             body.configuration(configuration)
         }
-
-        /** Deprecated: use file_input instead */
-        @Deprecated("deprecated") fun fileId(fileId: String?) = apply { body.fileId(fileId) }
-
-        /** Alias for calling [Builder.fileId] with `fileId.orElse(null)`. */
-        @Deprecated("deprecated") fun fileId(fileId: Optional<String>) = fileId(fileId.getOrNull())
-
-        /**
-         * Sets [Builder.fileId] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.fileId] with a well-typed [String] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        @Deprecated("deprecated")
-        fun fileId(fileId: JsonField<String>) = apply { body.fileId(fileId) }
-
-        /** File ID of the document to analyze */
-        fun fileInput(fileInput: String?) = apply { body.fileInput(fileInput) }
-
-        /** Alias for calling [Builder.fileInput] with `fileInput.orElse(null)`. */
-        fun fileInput(fileInput: Optional<String>) = fileInput(fileInput.getOrNull())
-
-        /**
-         * Sets [Builder.fileInput] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.fileInput] with a well-typed [String] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun fileInput(fileInput: JsonField<String>) = apply { body.fileInput(fileInput) }
 
         /**
          * Idempotency key scoped to the project. Reusing a key returns the original job; the new
@@ -457,6 +430,13 @@ private constructor(
          * Returns an immutable instance of [VerifyCreateParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .fileInput()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): VerifyCreateParams =
             VerifyCreateParams(
@@ -485,9 +465,8 @@ private constructor(
     class Body
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val configuration: JsonField<Configuration>,
-        private val fileId: JsonField<String>,
         private val fileInput: JsonField<String>,
+        private val configuration: JsonField<Configuration>,
         private val transactionId: JsonField<String>,
         private val webhookConfigurationIds: JsonField<List<String>>,
         private val webhookConfigurations: JsonField<List<WebhookConfiguration>>,
@@ -496,13 +475,12 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("configuration")
-            @ExcludeMissing
-            configuration: JsonField<Configuration> = JsonMissing.of(),
-            @JsonProperty("file_id") @ExcludeMissing fileId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("file_input")
             @ExcludeMissing
             fileInput: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("configuration")
+            @ExcludeMissing
+            configuration: JsonField<Configuration> = JsonMissing.of(),
             @JsonProperty("transaction_id")
             @ExcludeMissing
             transactionId: JsonField<String> = JsonMissing.of(),
@@ -513,14 +491,21 @@ private constructor(
             @ExcludeMissing
             webhookConfigurations: JsonField<List<WebhookConfiguration>> = JsonMissing.of(),
         ) : this(
-            configuration,
-            fileId,
             fileInput,
+            configuration,
             transactionId,
             webhookConfigurationIds,
             webhookConfigurations,
             mutableMapOf(),
         )
+
+        /**
+         * File ID of the document to analyze
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun fileInput(): String = fileInput.getRequired("file_input")
 
         /**
          * Configuration for a Verify job.
@@ -529,22 +514,6 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun configuration(): Optional<Configuration> = configuration.getOptional("configuration")
-
-        /**
-         * Deprecated: use file_input instead
-         *
-         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
-         *   the server responded with an unexpected value).
-         */
-        @Deprecated("deprecated") fun fileId(): Optional<String> = fileId.getOptional("file_id")
-
-        /**
-         * File ID of the document to analyze
-         *
-         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
-         *   the server responded with an unexpected value).
-         */
-        fun fileInput(): Optional<String> = fileInput.getOptional("file_input")
 
         /**
          * Idempotency key scoped to the project. Reusing a key returns the original job; the new
@@ -574,6 +543,13 @@ private constructor(
             webhookConfigurations.getOptional("webhook_configurations")
 
         /**
+         * Returns the raw JSON value of [fileInput].
+         *
+         * Unlike [fileInput], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("file_input") @ExcludeMissing fun _fileInput(): JsonField<String> = fileInput
+
+        /**
          * Returns the raw JSON value of [configuration].
          *
          * Unlike [configuration], this method doesn't throw if the JSON field has an unexpected
@@ -582,23 +558,6 @@ private constructor(
         @JsonProperty("configuration")
         @ExcludeMissing
         fun _configuration(): JsonField<Configuration> = configuration
-
-        /**
-         * Returns the raw JSON value of [fileId].
-         *
-         * Unlike [fileId], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @Deprecated("deprecated")
-        @JsonProperty("file_id")
-        @ExcludeMissing
-        fun _fileId(): JsonField<String> = fileId
-
-        /**
-         * Returns the raw JSON value of [fileInput].
-         *
-         * Unlike [fileInput], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("file_input") @ExcludeMissing fun _fileInput(): JsonField<String> = fileInput
 
         /**
          * Returns the raw JSON value of [transactionId].
@@ -644,16 +603,22 @@ private constructor(
 
         companion object {
 
-            /** Returns a mutable builder for constructing an instance of [Body]. */
+            /**
+             * Returns a mutable builder for constructing an instance of [Body].
+             *
+             * The following fields are required:
+             * ```java
+             * .fileInput()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
         /** A builder for [Body]. */
         class Builder internal constructor() {
 
+            private var fileInput: JsonField<String>? = null
             private var configuration: JsonField<Configuration> = JsonMissing.of()
-            private var fileId: JsonField<String> = JsonMissing.of()
-            private var fileInput: JsonField<String> = JsonMissing.of()
             private var transactionId: JsonField<String> = JsonMissing.of()
             private var webhookConfigurationIds: JsonField<MutableList<String>>? = null
             private var webhookConfigurations: JsonField<MutableList<WebhookConfiguration>>? = null
@@ -661,14 +626,25 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
-                configuration = body.configuration
-                fileId = body.fileId
                 fileInput = body.fileInput
+                configuration = body.configuration
                 transactionId = body.transactionId
                 webhookConfigurationIds = body.webhookConfigurationIds.map { it.toMutableList() }
                 webhookConfigurations = body.webhookConfigurations.map { it.toMutableList() }
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
+
+            /** File ID of the document to analyze */
+            fun fileInput(fileInput: String) = fileInput(JsonField.of(fileInput))
+
+            /**
+             * Sets [Builder.fileInput] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.fileInput] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun fileInput(fileInput: JsonField<String>) = apply { this.fileInput = fileInput }
 
             /** Configuration for a Verify job. */
             fun configuration(configuration: Configuration?) =
@@ -688,39 +664,6 @@ private constructor(
             fun configuration(configuration: JsonField<Configuration>) = apply {
                 this.configuration = configuration
             }
-
-            /** Deprecated: use file_input instead */
-            @Deprecated("deprecated")
-            fun fileId(fileId: String?) = fileId(JsonField.ofNullable(fileId))
-
-            /** Alias for calling [Builder.fileId] with `fileId.orElse(null)`. */
-            @Deprecated("deprecated")
-            fun fileId(fileId: Optional<String>) = fileId(fileId.getOrNull())
-
-            /**
-             * Sets [Builder.fileId] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.fileId] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            @Deprecated("deprecated")
-            fun fileId(fileId: JsonField<String>) = apply { this.fileId = fileId }
-
-            /** File ID of the document to analyze */
-            fun fileInput(fileInput: String?) = fileInput(JsonField.ofNullable(fileInput))
-
-            /** Alias for calling [Builder.fileInput] with `fileInput.orElse(null)`. */
-            fun fileInput(fileInput: Optional<String>) = fileInput(fileInput.getOrNull())
-
-            /**
-             * Sets [Builder.fileInput] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.fileInput] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun fileInput(fileInput: JsonField<String>) = apply { this.fileInput = fileInput }
 
             /**
              * Idempotency key scoped to the project. Reusing a key returns the original job; the
@@ -837,12 +780,18 @@ private constructor(
              * Returns an immutable instance of [Body].
              *
              * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .fileInput()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
              */
             fun build(): Body =
                 Body(
+                    checkRequired("fileInput", fileInput),
                     configuration,
-                    fileId,
-                    fileInput,
                     transactionId,
                     (webhookConfigurationIds ?: JsonMissing.of()).map { it.toImmutable() },
                     (webhookConfigurations ?: JsonMissing.of()).map { it.toImmutable() },
@@ -866,9 +815,8 @@ private constructor(
                 return@apply
             }
 
-            configuration().ifPresent { it.validate() }
-            fileId()
             fileInput()
+            configuration().ifPresent { it.validate() }
             transactionId()
             webhookConfigurationIds()
             webhookConfigurations().ifPresent { it.forEach { it.validate() } }
@@ -891,9 +839,8 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (configuration.asKnown().getOrNull()?.validity() ?: 0) +
-                (if (fileId.asKnown().isPresent) 1 else 0) +
-                (if (fileInput.asKnown().isPresent) 1 else 0) +
+            (if (fileInput.asKnown().isPresent) 1 else 0) +
+                (configuration.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (transactionId.asKnown().isPresent) 1 else 0) +
                 (webhookConfigurationIds.asKnown().getOrNull()?.size ?: 0) +
                 (webhookConfigurations.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
@@ -904,9 +851,8 @@ private constructor(
             }
 
             return other is Body &&
-                configuration == other.configuration &&
-                fileId == other.fileId &&
                 fileInput == other.fileInput &&
+                configuration == other.configuration &&
                 transactionId == other.transactionId &&
                 webhookConfigurationIds == other.webhookConfigurationIds &&
                 webhookConfigurations == other.webhookConfigurations &&
@@ -915,9 +861,8 @@ private constructor(
 
         private val hashCode: Int by lazy {
             Objects.hash(
-                configuration,
-                fileId,
                 fileInput,
+                configuration,
                 transactionId,
                 webhookConfigurationIds,
                 webhookConfigurations,
@@ -928,7 +873,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{configuration=$configuration, fileId=$fileId, fileInput=$fileInput, transactionId=$transactionId, webhookConfigurationIds=$webhookConfigurationIds, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
+            "Body{fileInput=$fileInput, configuration=$configuration, transactionId=$transactionId, webhookConfigurationIds=$webhookConfigurationIds, webhookConfigurations=$webhookConfigurations, additionalProperties=$additionalProperties}"
     }
 
     /** Configuration for a Verify job. */

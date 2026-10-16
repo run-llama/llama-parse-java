@@ -53,6 +53,7 @@ internal class ClassifyListResponseTest {
                 )
                 .transactionId("transaction_id")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .usage(ClassifyListResponse.Usage.builder().credits(30.0).parseCredits(3.0).build())
                 .build()
 
         assertThat(classifyListResponse.id()).isEqualTo("id")
@@ -93,6 +94,8 @@ internal class ClassifyListResponseTest {
         assertThat(classifyListResponse.transactionId()).contains("transaction_id")
         assertThat(classifyListResponse.updatedAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(classifyListResponse.usage())
+            .contains(ClassifyListResponse.Usage.builder().credits(30.0).parseCredits(3.0).build())
     }
 
     @Test
@@ -139,6 +142,7 @@ internal class ClassifyListResponseTest {
                 )
                 .transactionId("transaction_id")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .usage(ClassifyListResponse.Usage.builder().credits(30.0).parseCredits(3.0).build())
                 .build()
 
         val roundtrippedClassifyListResponse =
