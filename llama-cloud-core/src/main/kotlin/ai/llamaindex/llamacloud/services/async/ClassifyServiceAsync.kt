@@ -179,7 +179,8 @@ interface ClassifyServiceAsync {
      * Get a classify job by ID.
      *
      * Returns the job status, configuration, and classify result when complete. The result includes
-     * the matched document type, confidence score, and reasoning.
+     * the matched document type, confidence score, and reasoning. Use `expand=usage` for credits
+     * billed against the job.
      */
     fun get(jobId: String): CompletableFuture<ClassifyGetResponse> =
         get(jobId, ClassifyGetParams.none())

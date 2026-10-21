@@ -144,6 +144,7 @@ internal class ClassifyServiceTest {
             classifyService.get(
                 ClassifyGetParams.builder()
                     .jobId("job_id")
+                    .addExpand("string")
                     .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()

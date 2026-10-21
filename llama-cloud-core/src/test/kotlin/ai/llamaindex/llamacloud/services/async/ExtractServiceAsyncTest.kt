@@ -54,6 +54,7 @@ internal class ExtractServiceAsyncTest {
                                             .putAdditionalProperty("type", JsonValue.from("object"))
                                             .build()
                                     )
+                                    .advancedCitations(false)
                                     .citeSources(true)
                                     .confidenceScores(true)
                                     .disableCache(true)

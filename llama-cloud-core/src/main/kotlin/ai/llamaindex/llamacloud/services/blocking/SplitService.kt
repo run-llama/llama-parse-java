@@ -83,7 +83,10 @@ interface SplitService {
     fun list(requestOptions: RequestOptions): SplitListPage =
         list(SplitListParams.none(), requestOptions)
 
-    /** Delete a split job and its results. */
+    /**
+     * Delete a split job and its results. A job that is not in a terminal state is refused with
+     * 409; cancel it first.
+     */
     fun delete(splitJobId: String): SplitDeleteResponse =
         delete(splitJobId, SplitDeleteParams.none())
 
