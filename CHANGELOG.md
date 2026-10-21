@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.10.0](https://github.com/run-llama/llama-parse-java/compare/v1.9.0...v1.10.0) (2026-10-21)
+
+
+### Features
+
+* **classify:** add expand=usage to GET /api/v2/classify/{job_id} ([#29577](https://github.com/run-llama/llama-parse-java/issues/29577)) ([031311b](https://github.com/run-llama/llama-parse-java/commit/031311b933c26b733dadc0181a485d16aea9fe5b))
+
+
+### Bug Fixes
+
+* **parse:** apply watermark and wrapped-word rules to Lite fallbacks ([#30128](https://github.com/run-llama/llama-parse-java/issues/30128)) ([972d540](https://github.com/run-llama/llama-parse-java/commit/972d540aaca9f36afc8476eb367320a0555a528a))
+* **sdk:** one FormText model for the forms text node (PROD-10339) ([80cc983](https://github.com/run-llama/llama-parse-java/commit/80cc983e4f04e88f0c7060cd0196df5fd0ceb738))
+* **split:** refuse to delete a non-terminal job ([#29785](https://github.com/run-llama/llama-parse-java/issues/29785)) ([e71421a](https://github.com/run-llama/llama-parse-java/commit/e71421a3e146595fa30435939b5b63980bba3fcf))
+
+
+### Chores
+
+* **stlc:** seal custom-code tracking files ([01805c5](https://github.com/run-llama/llama-parse-java/commit/01805c52f7b5ddf09095d93e1e3813acc66998c9))
+
 ## [1.9.0](https://github.com/run-llama/llama-parse-java/compare/v1.8.0...v1.9.0) (2026-10-09)
 
 
