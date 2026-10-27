@@ -2246,20 +2246,22 @@ private constructor(
         ) : this(embeddingConfigHash, parsingConfigHash, transformConfigHash, mutableMapOf())
 
         /**
-         * Hash of the embedding config.
+         * Hash of the embedding config. Null in API responses.
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
+        @Deprecated("deprecated")
         fun embeddingConfigHash(): Optional<String> =
             embeddingConfigHash.getOptional("embedding_config_hash")
 
         /**
-         * Hash of the llama parse parameters.
+         * Hash of the llama parse parameters. Null in API responses.
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
+        @Deprecated("deprecated")
         fun parsingConfigHash(): Optional<String> =
             parsingConfigHash.getOptional("parsing_config_hash")
 
@@ -2278,6 +2280,7 @@ private constructor(
          * Unlike [embeddingConfigHash], this method doesn't throw if the JSON field has an
          * unexpected type.
          */
+        @Deprecated("deprecated")
         @JsonProperty("embedding_config_hash")
         @ExcludeMissing
         fun _embeddingConfigHash(): JsonField<String> = embeddingConfigHash
@@ -2288,6 +2291,7 @@ private constructor(
          * Unlike [parsingConfigHash], this method doesn't throw if the JSON field has an unexpected
          * type.
          */
+        @Deprecated("deprecated")
         @JsonProperty("parsing_config_hash")
         @ExcludeMissing
         fun _parsingConfigHash(): JsonField<String> = parsingConfigHash
@@ -2336,7 +2340,8 @@ private constructor(
                 additionalProperties = configHash.additionalProperties.toMutableMap()
             }
 
-            /** Hash of the embedding config. */
+            /** Hash of the embedding config. Null in API responses. */
+            @Deprecated("deprecated")
             fun embeddingConfigHash(embeddingConfigHash: String?) =
                 embeddingConfigHash(JsonField.ofNullable(embeddingConfigHash))
 
@@ -2344,6 +2349,7 @@ private constructor(
              * Alias for calling [Builder.embeddingConfigHash] with
              * `embeddingConfigHash.orElse(null)`.
              */
+            @Deprecated("deprecated")
             fun embeddingConfigHash(embeddingConfigHash: Optional<String>) =
                 embeddingConfigHash(embeddingConfigHash.getOrNull())
 
@@ -2354,17 +2360,20 @@ private constructor(
              * value instead. This method is primarily for setting the field to an undocumented or
              * not yet supported value.
              */
+            @Deprecated("deprecated")
             fun embeddingConfigHash(embeddingConfigHash: JsonField<String>) = apply {
                 this.embeddingConfigHash = embeddingConfigHash
             }
 
-            /** Hash of the llama parse parameters. */
+            /** Hash of the llama parse parameters. Null in API responses. */
+            @Deprecated("deprecated")
             fun parsingConfigHash(parsingConfigHash: String?) =
                 parsingConfigHash(JsonField.ofNullable(parsingConfigHash))
 
             /**
              * Alias for calling [Builder.parsingConfigHash] with `parsingConfigHash.orElse(null)`.
              */
+            @Deprecated("deprecated")
             fun parsingConfigHash(parsingConfigHash: Optional<String>) =
                 parsingConfigHash(parsingConfigHash.getOrNull())
 
@@ -2375,6 +2384,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
+            @Deprecated("deprecated")
             fun parsingConfigHash(parsingConfigHash: JsonField<String>) = apply {
                 this.parsingConfigHash = parsingConfigHash
             }
