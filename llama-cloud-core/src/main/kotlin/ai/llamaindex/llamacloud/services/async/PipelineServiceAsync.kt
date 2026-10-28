@@ -16,6 +16,7 @@ import ai.llamaindex.llamacloud.models.pipelines.PipelineGetStatusParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPageAsync
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListParams
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListResponse
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveResponse
 import ai.llamaindex.llamacloud.models.pipelines.PipelineUpdateParams
@@ -163,27 +164,33 @@ interface PipelineServiceAsync {
     /**
      * Search for pipelines by name, type, or project.
      *
+     * Legacy pipelines with unavailable embedding configurations return `embedding_config: null`.
+     *
+     * Unavailable linked model configurations return `embedding_model_config: null`, retaining
+     * their IDs. A stored-config fallback in this list does not repair the pipeline; detail reads
+     * and retrieval still require valid configuration.
+     *
      * Deprecated: use `GET /api/v2/pipelines`, which is paginated.
      */
     @Deprecated("deprecated")
-    fun list(): CompletableFuture<List<Pipeline>> = list(PipelineListParams.none())
+    fun list(): CompletableFuture<List<PipelineListResponse>> = list(PipelineListParams.none())
 
     /** @see list */
     @Deprecated("deprecated")
     fun list(
         params: PipelineListParams = PipelineListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<Pipeline>>
+    ): CompletableFuture<List<PipelineListResponse>>
 
     /** @see list */
     @Deprecated("deprecated")
     fun list(
         params: PipelineListParams = PipelineListParams.none()
-    ): CompletableFuture<List<Pipeline>> = list(params, RequestOptions.none())
+    ): CompletableFuture<List<PipelineListResponse>> = list(params, RequestOptions.none())
 
     /** @see list */
     @Deprecated("deprecated")
-    fun list(requestOptions: RequestOptions): CompletableFuture<List<Pipeline>> =
+    fun list(requestOptions: RequestOptions): CompletableFuture<List<PipelineListResponse>> =
         list(PipelineListParams.none(), requestOptions)
 
     /**
@@ -510,7 +517,7 @@ interface PipelineServiceAsync {
          * [PipelineServiceAsync.list].
          */
         @Deprecated("deprecated")
-        fun list(): CompletableFuture<HttpResponseFor<List<Pipeline>>> =
+        fun list(): CompletableFuture<HttpResponseFor<List<PipelineListResponse>>> =
             list(PipelineListParams.none())
 
         /** @see list */
@@ -518,19 +525,20 @@ interface PipelineServiceAsync {
         fun list(
             params: PipelineListParams = PipelineListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<Pipeline>>>
+        ): CompletableFuture<HttpResponseFor<List<PipelineListResponse>>>
 
         /** @see list */
         @Deprecated("deprecated")
         fun list(
             params: PipelineListParams = PipelineListParams.none()
-        ): CompletableFuture<HttpResponseFor<List<Pipeline>>> = list(params, RequestOptions.none())
+        ): CompletableFuture<HttpResponseFor<List<PipelineListResponse>>> =
+            list(params, RequestOptions.none())
 
         /** @see list */
         @Deprecated("deprecated")
         fun list(
             requestOptions: RequestOptions
-        ): CompletableFuture<HttpResponseFor<List<Pipeline>>> =
+        ): CompletableFuture<HttpResponseFor<List<PipelineListResponse>>> =
             list(PipelineListParams.none(), requestOptions)
 
         /**

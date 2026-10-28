@@ -27,6 +27,7 @@ import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPage
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPageResponse
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListParams
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListResponse
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveResponse
 import ai.llamaindex.llamacloud.models.pipelines.PipelineUpdateParams
@@ -101,7 +102,10 @@ class PipelineServiceImpl internal constructor(private val clientOptions: Client
         withRawResponse().update(params, requestOptions).parse()
 
     @Deprecated("deprecated")
-    override fun list(params: PipelineListParams, requestOptions: RequestOptions): List<Pipeline> =
+    override fun list(
+        params: PipelineListParams,
+        requestOptions: RequestOptions,
+    ): List<PipelineListResponse> =
         // get /api/v1/pipelines
         withRawResponse().list(params, requestOptions).parse()
 
@@ -278,14 +282,14 @@ class PipelineServiceImpl internal constructor(private val clientOptions: Client
             }
         }
 
-        private val listHandler: Handler<List<Pipeline>> =
-            jsonHandler<List<Pipeline>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<List<PipelineListResponse>> =
+            jsonHandler<List<PipelineListResponse>>(clientOptions.jsonMapper)
 
         @Deprecated("deprecated")
         override fun list(
             params: PipelineListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<Pipeline>> {
+        ): HttpResponseFor<List<PipelineListResponse>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
