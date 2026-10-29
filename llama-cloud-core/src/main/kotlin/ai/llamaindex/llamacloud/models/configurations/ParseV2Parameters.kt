@@ -257,8 +257,8 @@ private constructor(
         webhookConfigurationIds.getOptional("webhook_configuration_ids")
 
     /**
-     * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-     * different events or services
+     * Webhook endpoints for job notifications. Maximum 10 total, including
+     * webhook_configuration_ids.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -705,8 +705,8 @@ private constructor(
         }
 
         /**
-         * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-         * different events or services
+         * Webhook endpoints for job notifications. Maximum 10 total, including
+         * webhook_configuration_ids.
          */
         fun webhookConfigurations(webhookConfigurations: List<WebhookConfiguration>) =
             webhookConfigurations(JsonField.of(webhookConfigurations))
