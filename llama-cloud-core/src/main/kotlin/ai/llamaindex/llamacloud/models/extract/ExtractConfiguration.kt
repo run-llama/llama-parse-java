@@ -196,11 +196,8 @@ private constructor(
     fun sheetNames(): Optional<List<String>> = sheetNames.getOptional("sheet_names")
 
     /**
-     * Beta. When true, extract structured data directly from a spreadsheet workbook
-     * (.xlsx/.xls/.csv) — the agent reads cells straight from the workbook instead of the standard
-     * document path. Off by default (spreadsheets keep the standard path). Requires the
-     * agentic_plus tier. Billed on the standard per-page extract rate, against a page count derived
-     * from workbook size. Citations and confidence scores are not available in this mode.
+     * Extract structured data directly from spreadsheet cells (.xlsx/.xls/.csv). Billed at the
+     * standard per-page Extract rate, with page count derived from workbook size.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -634,12 +631,8 @@ private constructor(
         }
 
         /**
-         * Beta. When true, extract structured data directly from a spreadsheet workbook
-         * (.xlsx/.xls/.csv) — the agent reads cells straight from the workbook instead of the
-         * standard document path. Off by default (spreadsheets keep the standard path). Requires
-         * the agentic_plus tier. Billed on the standard per-page extract rate, against a page count
-         * derived from workbook size. Citations and confidence scores are not available in this
-         * mode.
+         * Extract structured data directly from spreadsheet cells (.xlsx/.xls/.csv). Billed at the
+         * standard per-page Extract rate, with page count derived from workbook size.
          */
         fun spreadsheetMode(spreadsheetMode: Boolean) =
             spreadsheetMode(JsonField.of(spreadsheetMode))
