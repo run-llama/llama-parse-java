@@ -13,12 +13,12 @@ import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class PipelineListResponseTest {
+internal class PipelineListItemTest {
 
     @Test
     fun create() {
-        val pipelineListResponse =
-            PipelineListResponse.builder()
+        val pipelineListItem =
+            PipelineListItem.builder()
                 .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .embeddingConfig(
                     AzureOpenAIEmbeddingConfig.builder()
@@ -55,7 +55,7 @@ internal class PipelineListResponseTest {
                 .name("name")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .configHash(
-                    PipelineListResponse.ConfigHash.builder()
+                    PipelineListItem.ConfigHash.builder()
                         .embeddingConfigHash("embedding_config_hash")
                         .parsingConfigHash("parsing_config_hash")
                         .transformConfigHash("transform_config_hash")
@@ -78,7 +78,7 @@ internal class PipelineListResponseTest {
                         .build()
                 )
                 .embeddingModelConfig(
-                    PipelineListResponse.EmbeddingModelConfig.builder()
+                    PipelineListItem.EmbeddingModelConfig.builder()
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .embeddingConfig(
                             AzureOpenAIEmbeddingConfig.builder()
@@ -327,7 +327,7 @@ internal class PipelineListResponseTest {
                         .modelType(SparseModelConfig.ModelType.AUTO)
                         .build()
                 )
-                .status(PipelineListResponse.Status.CREATED)
+                .status(PipelineListItem.Status.CREATED)
                 .transformConfig(
                     AutoTransformConfig.builder()
                         .chunkOverlap(0L)
@@ -338,10 +338,10 @@ internal class PipelineListResponseTest {
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
 
-        assertThat(pipelineListResponse.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(pipelineListResponse.embeddingConfig())
+        assertThat(pipelineListItem.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(pipelineListItem.embeddingConfig())
             .contains(
-                PipelineListResponse.EmbeddingConfig.ofAzureEmbedding(
+                PipelineListItem.EmbeddingConfig.ofAzureEmbedding(
                     AzureOpenAIEmbeddingConfig.builder()
                         .component(
                             AzureOpenAIEmbedding.builder()
@@ -374,20 +374,19 @@ internal class PipelineListResponseTest {
                         .build()
                 )
             )
-        assertThat(pipelineListResponse.name()).isEqualTo("name")
-        assertThat(pipelineListResponse.projectId())
-            .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(pipelineListResponse.configHash())
+        assertThat(pipelineListItem.name()).isEqualTo("name")
+        assertThat(pipelineListItem.projectId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(pipelineListItem.configHash())
             .contains(
-                PipelineListResponse.ConfigHash.builder()
+                PipelineListItem.ConfigHash.builder()
                     .embeddingConfigHash("embedding_config_hash")
                     .parsingConfigHash("parsing_config_hash")
                     .transformConfigHash("transform_config_hash")
                     .build()
             )
-        assertThat(pipelineListResponse.createdAt())
+        assertThat(pipelineListItem.createdAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(pipelineListResponse.dataSink())
+        assertThat(pipelineListItem.dataSink())
             .contains(
                 DataSink.builder()
                     .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -403,9 +402,9 @@ internal class PipelineListResponseTest {
                     .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
-        assertThat(pipelineListResponse.embeddingModelConfig())
+        assertThat(pipelineListItem.embeddingModelConfig())
             .contains(
-                PipelineListResponse.EmbeddingModelConfig.builder()
+                PipelineListItem.EmbeddingModelConfig.builder()
                     .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .embeddingConfig(
                         AzureOpenAIEmbeddingConfig.builder()
@@ -445,9 +444,9 @@ internal class PipelineListResponseTest {
                     .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
-        assertThat(pipelineListResponse.embeddingModelConfigId())
+        assertThat(pipelineListItem.embeddingModelConfigId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(pipelineListResponse.llamaParseParameters())
+        assertThat(pipelineListItem.llamaParseParameters())
             .contains(
                 LlamaParseParameters.builder()
                     .adaptiveLongTable(true)
@@ -600,17 +599,17 @@ internal class PipelineListResponseTest {
                     .webhookUrl("webhook_url")
                     .build()
             )
-        assertThat(pipelineListResponse.managedPipelineId())
+        assertThat(pipelineListItem.managedPipelineId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(pipelineListResponse.metadataConfig())
+        assertThat(pipelineListItem.metadataConfig())
             .contains(
                 PipelineMetadataConfig.builder()
                     .addExcludedEmbedMetadataKey("string")
                     .addExcludedLlmMetadataKey("string")
                     .build()
             )
-        assertThat(pipelineListResponse.pipelineType()).contains(PipelineType.MANAGED)
-        assertThat(pipelineListResponse.presetRetrievalParameters())
+        assertThat(pipelineListItem.pipelineType()).contains(PipelineType.MANAGED)
+        assertThat(pipelineListItem.presetRetrievalParameters())
             .contains(
                 PresetRetrievalParams.builder()
                     .alpha(0.0)
@@ -646,17 +645,17 @@ internal class PipelineListResponseTest {
                     .sparseSimilarityTopK(1L)
                     .build()
             )
-        assertThat(pipelineListResponse.sparseModelConfig())
+        assertThat(pipelineListItem.sparseModelConfig())
             .contains(
                 SparseModelConfig.builder()
                     .className("class_name")
                     .modelType(SparseModelConfig.ModelType.AUTO)
                     .build()
             )
-        assertThat(pipelineListResponse.status()).contains(PipelineListResponse.Status.CREATED)
-        assertThat(pipelineListResponse.transformConfig())
+        assertThat(pipelineListItem.status()).contains(PipelineListItem.Status.CREATED)
+        assertThat(pipelineListItem.transformConfig())
             .contains(
-                PipelineListResponse.TransformConfig.ofAuto(
+                PipelineListItem.TransformConfig.ofAuto(
                     AutoTransformConfig.builder()
                         .chunkOverlap(0L)
                         .chunkSize(1L)
@@ -664,15 +663,15 @@ internal class PipelineListResponseTest {
                         .build()
                 )
             )
-        assertThat(pipelineListResponse.updatedAt())
+        assertThat(pipelineListItem.updatedAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
     }
 
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val pipelineListResponse =
-            PipelineListResponse.builder()
+        val pipelineListItem =
+            PipelineListItem.builder()
                 .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .embeddingConfig(
                     AzureOpenAIEmbeddingConfig.builder()
@@ -709,7 +708,7 @@ internal class PipelineListResponseTest {
                 .name("name")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .configHash(
-                    PipelineListResponse.ConfigHash.builder()
+                    PipelineListItem.ConfigHash.builder()
                         .embeddingConfigHash("embedding_config_hash")
                         .parsingConfigHash("parsing_config_hash")
                         .transformConfigHash("transform_config_hash")
@@ -732,7 +731,7 @@ internal class PipelineListResponseTest {
                         .build()
                 )
                 .embeddingModelConfig(
-                    PipelineListResponse.EmbeddingModelConfig.builder()
+                    PipelineListItem.EmbeddingModelConfig.builder()
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .embeddingConfig(
                             AzureOpenAIEmbeddingConfig.builder()
@@ -981,7 +980,7 @@ internal class PipelineListResponseTest {
                         .modelType(SparseModelConfig.ModelType.AUTO)
                         .build()
                 )
-                .status(PipelineListResponse.Status.CREATED)
+                .status(PipelineListItem.Status.CREATED)
                 .transformConfig(
                     AutoTransformConfig.builder()
                         .chunkOverlap(0L)
@@ -992,12 +991,12 @@ internal class PipelineListResponseTest {
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
 
-        val roundtrippedPipelineListResponse =
+        val roundtrippedPipelineListItem =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(pipelineListResponse),
-                jacksonTypeRef<PipelineListResponse>(),
+                jsonMapper.writeValueAsString(pipelineListItem),
+                jacksonTypeRef<PipelineListItem>(),
             )
 
-        assertThat(roundtrippedPipelineListResponse).isEqualTo(pipelineListResponse)
+        assertThat(roundtrippedPipelineListItem).isEqualTo(pipelineListItem)
     }
 }

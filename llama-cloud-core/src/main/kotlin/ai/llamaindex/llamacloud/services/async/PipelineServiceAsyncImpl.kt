@@ -23,11 +23,11 @@ import ai.llamaindex.llamacloud.models.pipelines.PipelineCreateParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineDeleteParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetStatusParams
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListItem
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPageAsync
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPageResponse
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListParams
-import ai.llamaindex.llamacloud.models.pipelines.PipelineListResponse
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineRetrieveResponse
 import ai.llamaindex.llamacloud.models.pipelines.PipelineUpdateParams
@@ -114,7 +114,7 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
     override fun list(
         params: PipelineListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<List<PipelineListResponse>> =
+    ): CompletableFuture<List<PipelineListItem>> =
         // get /api/v1/pipelines
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
@@ -308,14 +308,14 @@ class PipelineServiceAsyncImpl internal constructor(private val clientOptions: C
                 }
         }
 
-        private val listHandler: Handler<List<PipelineListResponse>> =
-            jsonHandler<List<PipelineListResponse>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<List<PipelineListItem>> =
+            jsonHandler<List<PipelineListItem>>(clientOptions.jsonMapper)
 
         @Deprecated("deprecated")
         override fun list(
             params: PipelineListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<PipelineListResponse>>> {
+        ): CompletableFuture<HttpResponseFor<List<PipelineListItem>>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

@@ -669,7 +669,7 @@ internal class PipelineServiceTest {
         val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
         val pipelineService = client.pipelines()
 
-        val pipelines =
+        val pipelineListItems =
             pipelineService.list(
                 PipelineListParams.builder()
                     .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -680,7 +680,7 @@ internal class PipelineServiceTest {
                     .build()
             )
 
-        pipelines.forEach { it.validate() }
+        pipelineListItems.forEach { it.validate() }
     }
 
     @Disabled("Mock server tests are disabled")

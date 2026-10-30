@@ -32,7 +32,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** A pipeline returned by the legacy list endpoint. */
-class PipelineListResponse
+class PipelineListItem
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
@@ -449,7 +449,7 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [PipelineListResponse].
+         * Returns a mutable builder for constructing an instance of [PipelineListItem].
          *
          * The following fields are required:
          * ```java
@@ -462,7 +462,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [PipelineListResponse]. */
+    /** A builder for [PipelineListItem]. */
     class Builder internal constructor() {
 
         private var id: JsonField<String>? = null
@@ -486,26 +486,26 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(pipelineListResponse: PipelineListResponse) = apply {
-            id = pipelineListResponse.id
-            embeddingConfig = pipelineListResponse.embeddingConfig
-            name = pipelineListResponse.name
-            projectId = pipelineListResponse.projectId
-            configHash = pipelineListResponse.configHash
-            createdAt = pipelineListResponse.createdAt
-            dataSink = pipelineListResponse.dataSink
-            embeddingModelConfig = pipelineListResponse.embeddingModelConfig
-            embeddingModelConfigId = pipelineListResponse.embeddingModelConfigId
-            llamaParseParameters = pipelineListResponse.llamaParseParameters
-            managedPipelineId = pipelineListResponse.managedPipelineId
-            metadataConfig = pipelineListResponse.metadataConfig
-            pipelineType = pipelineListResponse.pipelineType
-            presetRetrievalParameters = pipelineListResponse.presetRetrievalParameters
-            sparseModelConfig = pipelineListResponse.sparseModelConfig
-            status = pipelineListResponse.status
-            transformConfig = pipelineListResponse.transformConfig
-            updatedAt = pipelineListResponse.updatedAt
-            additionalProperties = pipelineListResponse.additionalProperties.toMutableMap()
+        internal fun from(pipelineListItem: PipelineListItem) = apply {
+            id = pipelineListItem.id
+            embeddingConfig = pipelineListItem.embeddingConfig
+            name = pipelineListItem.name
+            projectId = pipelineListItem.projectId
+            configHash = pipelineListItem.configHash
+            createdAt = pipelineListItem.createdAt
+            dataSink = pipelineListItem.dataSink
+            embeddingModelConfig = pipelineListItem.embeddingModelConfig
+            embeddingModelConfigId = pipelineListItem.embeddingModelConfigId
+            llamaParseParameters = pipelineListItem.llamaParseParameters
+            managedPipelineId = pipelineListItem.managedPipelineId
+            metadataConfig = pipelineListItem.metadataConfig
+            pipelineType = pipelineListItem.pipelineType
+            presetRetrievalParameters = pipelineListItem.presetRetrievalParameters
+            sparseModelConfig = pipelineListItem.sparseModelConfig
+            status = pipelineListItem.status
+            transformConfig = pipelineListItem.transformConfig
+            updatedAt = pipelineListItem.updatedAt
+            additionalProperties = pipelineListItem.additionalProperties.toMutableMap()
         }
 
         /** Unique identifier */
@@ -895,7 +895,7 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [PipelineListResponse].
+         * Returns an immutable instance of [PipelineListItem].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -909,8 +909,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): PipelineListResponse =
-            PipelineListResponse(
+        fun build(): PipelineListItem =
+            PipelineListItem(
                 checkRequired("id", id),
                 checkRequired("embeddingConfig", embeddingConfig),
                 checkRequired("name", name),
@@ -943,7 +943,7 @@ private constructor(
      * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
      *   expected type.
      */
-    fun validate(): PipelineListResponse = apply {
+    fun validate(): PipelineListItem = apply {
         if (validated) {
             return@apply
         }
@@ -3735,7 +3735,7 @@ private constructor(
             return true
         }
 
-        return other is PipelineListResponse &&
+        return other is PipelineListItem &&
             id == other.id &&
             embeddingConfig == other.embeddingConfig &&
             name == other.name &&
@@ -3784,5 +3784,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "PipelineListResponse{id=$id, embeddingConfig=$embeddingConfig, name=$name, projectId=$projectId, configHash=$configHash, createdAt=$createdAt, dataSink=$dataSink, embeddingModelConfig=$embeddingModelConfig, embeddingModelConfigId=$embeddingModelConfigId, llamaParseParameters=$llamaParseParameters, managedPipelineId=$managedPipelineId, metadataConfig=$metadataConfig, pipelineType=$pipelineType, presetRetrievalParameters=$presetRetrievalParameters, sparseModelConfig=$sparseModelConfig, status=$status, transformConfig=$transformConfig, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
+        "PipelineListItem{id=$id, embeddingConfig=$embeddingConfig, name=$name, projectId=$projectId, configHash=$configHash, createdAt=$createdAt, dataSink=$dataSink, embeddingModelConfig=$embeddingModelConfig, embeddingModelConfigId=$embeddingModelConfigId, llamaParseParameters=$llamaParseParameters, managedPipelineId=$managedPipelineId, metadataConfig=$metadataConfig, pipelineType=$pipelineType, presetRetrievalParameters=$presetRetrievalParameters, sparseModelConfig=$sparseModelConfig, status=$status, transformConfig=$transformConfig, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
 }
