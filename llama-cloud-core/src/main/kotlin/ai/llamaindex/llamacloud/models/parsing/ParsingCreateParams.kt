@@ -78,7 +78,7 @@ private constructor(
      * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-09-28`
      * - `agentic`: `2026-10-16`
-     * - `agentic_plus`: `2026-09-28`
+     * - `agentic_plus`: `2026-10-28`
      *
      * Full list: `GET /api/v2/parse/versions`.
      *
@@ -231,8 +231,8 @@ private constructor(
     fun webhookConfigurationIds(): Optional<List<String>> = body.webhookConfigurationIds()
 
     /**
-     * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-     * different events or services
+     * Webhook endpoints for job notifications. Maximum 10 total, including
+     * webhook_configuration_ids.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -466,7 +466,7 @@ private constructor(
          * - `fast`: `2026-06-15`
          * - `cost_effective`: `2026-09-28`
          * - `agentic`: `2026-10-16`
-         * - `agentic_plus`: `2026-09-28`
+         * - `agentic_plus`: `2026-10-28`
          *
          * Full list: `GET /api/v2/parse/versions`.
          */
@@ -781,8 +781,8 @@ private constructor(
         }
 
         /**
-         * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-         * different events or services
+         * Webhook endpoints for job notifications. Maximum 10 total, including
+         * webhook_configuration_ids.
          */
         fun webhookConfigurations(webhookConfigurations: List<WebhookConfiguration>) = apply {
             body.webhookConfigurations(webhookConfigurations)
@@ -1083,7 +1083,7 @@ private constructor(
          * - `fast`: `2026-06-15`
          * - `cost_effective`: `2026-09-28`
          * - `agentic`: `2026-10-16`
-         * - `agentic_plus`: `2026-09-28`
+         * - `agentic_plus`: `2026-10-28`
          *
          * Full list: `GET /api/v2/parse/versions`.
          *
@@ -1242,8 +1242,8 @@ private constructor(
             webhookConfigurationIds.getOptional("webhook_configuration_ids")
 
         /**
-         * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-         * different events or services
+         * Webhook endpoints for job notifications. Maximum 10 total, including
+         * webhook_configuration_ids.
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -1517,7 +1517,7 @@ private constructor(
              * - `fast`: `2026-06-15`
              * - `cost_effective`: `2026-09-28`
              * - `agentic`: `2026-10-16`
-             * - `agentic_plus`: `2026-09-28`
+             * - `agentic_plus`: `2026-10-28`
              *
              * Full list: `GET /api/v2/parse/versions`.
              */
@@ -1840,8 +1840,8 @@ private constructor(
             }
 
             /**
-             * Webhook endpoints for job status notifications. Multiple webhooks can be configured
-             * for different events or services
+             * Webhook endpoints for job notifications. Maximum 10 total, including
+             * webhook_configuration_ids.
              */
             fun webhookConfigurations(webhookConfigurations: List<WebhookConfiguration>) =
                 webhookConfigurations(JsonField.of(webhookConfigurations))
@@ -2218,7 +2218,7 @@ private constructor(
      * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-09-28`
      * - `agentic`: `2026-10-16`
-     * - `agentic_plus`: `2026-09-28`
+     * - `agentic_plus`: `2026-10-28`
      *
      * Full list: `GET /api/v2/parse/versions`.
      */
@@ -2238,6 +2238,8 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
+            @JvmField val _2026_10_28 = of("2026-10-28")
+
             @JvmField val _2026_10_16 = of("2026-10-16")
 
             @JvmField val _2026_09_28 = of("2026-09-28")
@@ -2250,6 +2252,7 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
+            _2026_10_28,
             _2026_10_16,
             _2026_09_28,
             _2026_06_15,
@@ -2266,6 +2269,7 @@ private constructor(
          */
         enum class Value {
             LATEST,
+            _2026_10_28,
             _2026_10_16,
             _2026_09_28,
             _2026_06_15,
@@ -2283,6 +2287,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
+                _2026_10_28 -> Value._2026_10_28
                 _2026_10_16 -> Value._2026_10_16
                 _2026_09_28 -> Value._2026_09_28
                 _2026_06_15 -> Value._2026_06_15
@@ -2301,6 +2306,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
+                _2026_10_28 -> Known._2026_10_28
                 _2026_10_16 -> Known._2026_10_16
                 _2026_09_28 -> Known._2026_09_28
                 _2026_06_15 -> Known._2026_06_15
@@ -11247,7 +11253,7 @@ private constructor(
                  * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-09-28`
                  * - `agentic`: `2026-10-16`
-                 * - `agentic_plus`: `2026-09-28`
+                 * - `agentic_plus`: `2026-10-28`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  *
@@ -11751,7 +11757,7 @@ private constructor(
                      * - `fast`: `2026-06-15`
                      * - `cost_effective`: `2026-09-28`
                      * - `agentic`: `2026-10-16`
-                     * - `agentic_plus`: `2026-09-28`
+                     * - `agentic_plus`: `2026-10-28`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
                      */
@@ -13365,7 +13371,7 @@ private constructor(
                  * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-09-28`
                  * - `agentic`: `2026-10-16`
-                 * - `agentic_plus`: `2026-09-28`
+                 * - `agentic_plus`: `2026-10-28`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  */
@@ -13388,6 +13394,8 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
+                        @JvmField val _2026_10_28 = of("2026-10-28")
+
                         @JvmField val _2026_10_16 = of("2026-10-16")
 
                         @JvmField val _2026_09_28 = of("2026-09-28")
@@ -13400,6 +13408,7 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
+                        _2026_10_28,
                         _2026_10_16,
                         _2026_09_28,
                         _2026_06_15,
@@ -13416,6 +13425,7 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
+                        _2026_10_28,
                         _2026_10_16,
                         _2026_09_28,
                         _2026_06_15,
@@ -13436,6 +13446,7 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
+                            _2026_10_28 -> Value._2026_10_28
                             _2026_10_16 -> Value._2026_10_16
                             _2026_09_28 -> Value._2026_09_28
                             _2026_06_15 -> Value._2026_06_15
@@ -13454,6 +13465,7 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
+                            _2026_10_28 -> Known._2026_10_28
                             _2026_10_16 -> Known._2026_10_16
                             _2026_09_28 -> Known._2026_09_28
                             _2026_06_15 -> Known._2026_06_15

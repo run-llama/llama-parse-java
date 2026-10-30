@@ -13,6 +13,7 @@ import ai.llamaindex.llamacloud.models.pipelines.PipelineCreateParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineDeleteParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineGetStatusParams
+import ai.llamaindex.llamacloud.models.pipelines.PipelineListItem
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedPage
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListPaginatedParams
 import ai.llamaindex.llamacloud.models.pipelines.PipelineListParams
@@ -156,25 +157,31 @@ interface PipelineService {
     /**
      * Search for pipelines by name, type, or project.
      *
+     * Legacy pipelines with unavailable embedding configurations return `embedding_config: null`.
+     *
+     * Unavailable linked model configurations return `embedding_model_config: null`, retaining
+     * their IDs. A stored-config fallback in this list does not repair the pipeline; detail reads
+     * and retrieval still require valid configuration.
+     *
      * Deprecated: use `GET /api/v2/pipelines`, which is paginated.
      */
-    @Deprecated("deprecated") fun list(): List<Pipeline> = list(PipelineListParams.none())
+    @Deprecated("deprecated") fun list(): List<PipelineListItem> = list(PipelineListParams.none())
 
     /** @see list */
     @Deprecated("deprecated")
     fun list(
         params: PipelineListParams = PipelineListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Pipeline>
+    ): List<PipelineListItem>
 
     /** @see list */
     @Deprecated("deprecated")
-    fun list(params: PipelineListParams = PipelineListParams.none()): List<Pipeline> =
+    fun list(params: PipelineListParams = PipelineListParams.none()): List<PipelineListItem> =
         list(params, RequestOptions.none())
 
     /** @see list */
     @Deprecated("deprecated")
-    fun list(requestOptions: RequestOptions): List<Pipeline> =
+    fun list(requestOptions: RequestOptions): List<PipelineListItem> =
         list(PipelineListParams.none(), requestOptions)
 
     /**
@@ -487,7 +494,7 @@ interface PipelineService {
          */
         @Deprecated("deprecated")
         @MustBeClosed
-        fun list(): HttpResponseFor<List<Pipeline>> = list(PipelineListParams.none())
+        fun list(): HttpResponseFor<List<PipelineListItem>> = list(PipelineListParams.none())
 
         /** @see list */
         @Deprecated("deprecated")
@@ -495,19 +502,19 @@ interface PipelineService {
         fun list(
             params: PipelineListParams = PipelineListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Pipeline>>
+        ): HttpResponseFor<List<PipelineListItem>>
 
         /** @see list */
         @Deprecated("deprecated")
         @MustBeClosed
         fun list(
             params: PipelineListParams = PipelineListParams.none()
-        ): HttpResponseFor<List<Pipeline>> = list(params, RequestOptions.none())
+        ): HttpResponseFor<List<PipelineListItem>> = list(params, RequestOptions.none())
 
         /** @see list */
         @Deprecated("deprecated")
         @MustBeClosed
-        fun list(requestOptions: RequestOptions): HttpResponseFor<List<Pipeline>> =
+        fun list(requestOptions: RequestOptions): HttpResponseFor<List<PipelineListItem>> =
             list(PipelineListParams.none(), requestOptions)
 
         /**
