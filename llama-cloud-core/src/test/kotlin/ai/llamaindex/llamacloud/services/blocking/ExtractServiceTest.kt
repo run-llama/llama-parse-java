@@ -58,6 +58,7 @@ internal class ExtractServiceTest {
                                     .citeSources(true)
                                     .confidenceScores(true)
                                     .disableCache(true)
+                                    .effort(ExtractConfiguration.Effort.MAX)
                                     .extractionTarget(ExtractConfiguration.ExtractionTarget.PER_DOC)
                                     .maxPages(10L)
                                     .parseConfigId("cfg-11111111-2222-3333-4444-555555555555")

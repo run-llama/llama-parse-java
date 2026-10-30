@@ -29,6 +29,7 @@ private constructor(
     private val citeSources: JsonField<Boolean>,
     private val confidenceScores: JsonField<Boolean>,
     private val disableCache: JsonField<Boolean>,
+    private val effort: JsonField<Effort>,
     private val extractionTarget: JsonField<ExtractionTarget>,
     private val maxPages: JsonField<Long>,
     private val parseConfigId: JsonField<String>,
@@ -59,6 +60,7 @@ private constructor(
         @JsonProperty("disable_cache")
         @ExcludeMissing
         disableCache: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("effort") @ExcludeMissing effort: JsonField<Effort> = JsonMissing.of(),
         @JsonProperty("extraction_target")
         @ExcludeMissing
         extractionTarget: JsonField<ExtractionTarget> = JsonMissing.of(),
@@ -89,6 +91,7 @@ private constructor(
         citeSources,
         confidenceScores,
         disableCache,
+        effort,
         extractionTarget,
         maxPages,
         parseConfigId,
@@ -145,6 +148,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun disableCache(): Optional<Boolean> = disableCache.getOptional("disable_cache")
+
+    /**
+     * Use 'max' for additional processing effort on agentic_plus. Bills by model usage with the
+     * page charge as a minimum. Omit or set to null for the tier's default behavior.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun effort(): Optional<Effort> = effort.getOptional("effort")
 
     /**
      * Deprecated. Applies only to Agentic and Cost Effective versions 2.0 or earlier. Granularity
@@ -287,6 +299,13 @@ private constructor(
     fun _disableCache(): JsonField<Boolean> = disableCache
 
     /**
+     * Returns the raw JSON value of [effort].
+     *
+     * Unlike [effort], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("effort") @ExcludeMissing fun _effort(): JsonField<Effort> = effort
+
+    /**
      * Returns the raw JSON value of [extractionTarget].
      *
      * Unlike [extractionTarget], this method doesn't throw if the JSON field has an unexpected
@@ -402,6 +421,7 @@ private constructor(
         private var citeSources: JsonField<Boolean> = JsonMissing.of()
         private var confidenceScores: JsonField<Boolean> = JsonMissing.of()
         private var disableCache: JsonField<Boolean> = JsonMissing.of()
+        private var effort: JsonField<Effort> = JsonMissing.of()
         private var extractionTarget: JsonField<ExtractionTarget> = JsonMissing.of()
         private var maxPages: JsonField<Long> = JsonMissing.of()
         private var parseConfigId: JsonField<String> = JsonMissing.of()
@@ -421,6 +441,7 @@ private constructor(
             citeSources = extractConfiguration.citeSources
             confidenceScores = extractConfiguration.confidenceScores
             disableCache = extractConfiguration.disableCache
+            effort = extractConfiguration.effort
             extractionTarget = extractConfiguration.extractionTarget
             maxPages = extractConfiguration.maxPages
             parseConfigId = extractConfiguration.parseConfigId
@@ -513,6 +534,23 @@ private constructor(
         fun disableCache(disableCache: JsonField<Boolean>) = apply {
             this.disableCache = disableCache
         }
+
+        /**
+         * Use 'max' for additional processing effort on agentic_plus. Bills by model usage with the
+         * page charge as a minimum. Omit or set to null for the tier's default behavior.
+         */
+        fun effort(effort: Effort?) = effort(JsonField.ofNullable(effort))
+
+        /** Alias for calling [Builder.effort] with `effort.orElse(null)`. */
+        fun effort(effort: Optional<Effort>) = effort(effort.getOrNull())
+
+        /**
+         * Sets [Builder.effort] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.effort] with a well-typed [Effort] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun effort(effort: JsonField<Effort>) = apply { this.effort = effort }
 
         /**
          * Deprecated. Applies only to Agentic and Cost Effective versions 2.0 or earlier.
@@ -749,6 +787,7 @@ private constructor(
                 citeSources,
                 confidenceScores,
                 disableCache,
+                effort,
                 extractionTarget,
                 maxPages,
                 parseConfigId,
@@ -783,6 +822,7 @@ private constructor(
         citeSources()
         confidenceScores()
         disableCache()
+        effort().ifPresent { it.validate() }
         extractionTarget().ifPresent { it.validate() }
         maxPages()
         parseConfigId()
@@ -816,6 +856,7 @@ private constructor(
             (if (citeSources.asKnown().isPresent) 1 else 0) +
             (if (confidenceScores.asKnown().isPresent) 1 else 0) +
             (if (disableCache.asKnown().isPresent) 1 else 0) +
+            (effort.asKnown().getOrNull()?.validity() ?: 0) +
             (extractionTarget.asKnown().getOrNull()?.validity() ?: 0) +
             (if (maxPages.asKnown().isPresent) 1 else 0) +
             (if (parseConfigId.asKnown().isPresent) 1 else 0) +
@@ -937,6 +978,140 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() = "DataSchema{additionalProperties=$additionalProperties}"
+    }
+
+    /**
+     * Use 'max' for additional processing effort on agentic_plus. Bills by model usage with the
+     * page charge as a minimum. Omit or set to null for the tier's default behavior.
+     */
+    class Effort @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val MAX = of("max")
+
+            @JvmStatic fun of(value: String) = Effort(JsonField.of(value))
+        }
+
+        /** An enum containing [Effort]'s known values. */
+        enum class Known {
+            MAX
+        }
+
+        /**
+         * An enum containing [Effort]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [Effort] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            MAX,
+            /** An enum member indicating that [Effort] was instantiated with an unknown value. */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                MAX -> Value.MAX
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                MAX -> Known.MAX
+                else -> throw LlamaCloudInvalidDataException("Unknown Effort: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                LlamaCloudInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): Effort = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Effort && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     /**
@@ -1408,6 +1583,7 @@ private constructor(
             citeSources == other.citeSources &&
             confidenceScores == other.confidenceScores &&
             disableCache == other.disableCache &&
+            effort == other.effort &&
             extractionTarget == other.extractionTarget &&
             maxPages == other.maxPages &&
             parseConfigId == other.parseConfigId &&
@@ -1428,6 +1604,7 @@ private constructor(
             citeSources,
             confidenceScores,
             disableCache,
+            effort,
             extractionTarget,
             maxPages,
             parseConfigId,
@@ -1445,5 +1622,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ExtractConfiguration{dataSchema=$dataSchema, advancedCitations=$advancedCitations, citeSources=$citeSources, confidenceScores=$confidenceScores, disableCache=$disableCache, extractionTarget=$extractionTarget, maxPages=$maxPages, parseConfigId=$parseConfigId, parseTier=$parseTier, sheetNames=$sheetNames, spreadsheetMode=$spreadsheetMode, systemPrompt=$systemPrompt, targetPages=$targetPages, tier=$tier, version=$version, additionalProperties=$additionalProperties}"
+        "ExtractConfiguration{dataSchema=$dataSchema, advancedCitations=$advancedCitations, citeSources=$citeSources, confidenceScores=$confidenceScores, disableCache=$disableCache, effort=$effort, extractionTarget=$extractionTarget, maxPages=$maxPages, parseConfigId=$parseConfigId, parseTier=$parseTier, sheetNames=$sheetNames, spreadsheetMode=$spreadsheetMode, systemPrompt=$systemPrompt, targetPages=$targetPages, tier=$tier, version=$version, additionalProperties=$additionalProperties}"
 }
