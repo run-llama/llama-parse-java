@@ -393,6 +393,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val _2026_10_30 = of("2026-10-30")
+
             @JvmField val _2026_10_16 = of("2026-10-16")
 
             @JvmField val _2026_10_15 = of("2026-10-15")
@@ -500,6 +502,7 @@ private constructor(
 
         /** An enum containing [Agentic]'s known values. */
         enum class Known {
+            _2026_10_30,
             _2026_10_16,
             _2026_10_15,
             _2026_09_29,
@@ -563,6 +566,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            _2026_10_30,
             _2026_10_16,
             _2026_10_15,
             _2026_09_29,
@@ -627,6 +631,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                _2026_10_30 -> Value._2026_10_30
                 _2026_10_16 -> Value._2026_10_16
                 _2026_10_15 -> Value._2026_10_15
                 _2026_09_29 -> Value._2026_09_29
@@ -692,6 +697,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                _2026_10_30 -> Known._2026_10_30
                 _2026_10_16 -> Known._2026_10_16
                 _2026_10_15 -> Known._2026_10_15
                 _2026_09_29 -> Known._2026_09_29
@@ -1227,6 +1233,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val _2026_10_30 = of("2026-10-30")
+
             @JvmField val _2026_09_28 = of("2026-09-28")
 
             @JvmField val _2026_08_19 = of("2026-08-19")
@@ -1264,6 +1272,7 @@ private constructor(
 
         /** An enum containing [CostEffective]'s known values. */
         enum class Known {
+            _2026_10_30,
             _2026_09_28,
             _2026_08_19,
             _2026_08_11,
@@ -1292,6 +1301,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            _2026_10_30,
             _2026_09_28,
             _2026_08_19,
             _2026_08_11,
@@ -1324,6 +1334,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                _2026_10_30 -> Value._2026_10_30
                 _2026_09_28 -> Value._2026_09_28
                 _2026_08_19 -> Value._2026_08_19
                 _2026_08_11 -> Value._2026_08_11
@@ -1354,6 +1365,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                _2026_10_30 -> Known._2026_10_30
                 _2026_09_28 -> Known._2026_09_28
                 _2026_08_19 -> Known._2026_08_19
                 _2026_08_11 -> Known._2026_08_11
