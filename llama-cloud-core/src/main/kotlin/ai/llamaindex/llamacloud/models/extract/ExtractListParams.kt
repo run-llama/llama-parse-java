@@ -19,9 +19,11 @@ import kotlin.jvm.optionals.getOrNull
 /**
  * List extraction jobs with optional filtering and pagination.
  *
- * Filter by `configuration_id`, `status`, `file_input`, or creation date range. Results are
- * returned newest-first. Use `expand=configuration` to include the full configuration used, and
- * `expand=extract_metadata` for per-field metadata.
+ * Filter by `configuration_id`, `status`, `file_input`, `review_status`, or creation date range.
+ * Results are returned newest-first. `review_status=pending` lists completed jobs waiting for
+ * review, unless `status` names another. A review stays pending when its job fails or is cancelled,
+ * so pass that `status` to list those. Use `expand=configuration` to include the full configuration
+ * used, and `expand=extract_metadata` for per-field metadata.
  */
 class ExtractListParams
 private constructor(
@@ -37,6 +39,7 @@ private constructor(
     private val pageSize: Long?,
     private val pageToken: String?,
     private val projectId: String?,
+    private val reviewStatus: ReviewStatus?,
     private val status: Status?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -77,6 +80,9 @@ private constructor(
 
     fun projectId(): Optional<String> = Optional.ofNullable(projectId)
 
+    /** Filter by review status; none is a job without a review */
+    fun reviewStatus(): Optional<ReviewStatus> = Optional.ofNullable(reviewStatus)
+
     /** Filter by status */
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
@@ -111,6 +117,7 @@ private constructor(
         private var pageSize: Long? = null
         private var pageToken: String? = null
         private var projectId: String? = null
+        private var reviewStatus: ReviewStatus? = null
         private var status: Status? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -129,6 +136,7 @@ private constructor(
             pageSize = extractListParams.pageSize
             pageToken = extractListParams.pageToken
             projectId = extractListParams.projectId
+            reviewStatus = extractListParams.reviewStatus
             status = extractListParams.status
             additionalHeaders = extractListParams.additionalHeaders.toBuilder()
             additionalQueryParams = extractListParams.additionalQueryParams.toBuilder()
@@ -253,6 +261,13 @@ private constructor(
         /** Alias for calling [Builder.projectId] with `projectId.orElse(null)`. */
         fun projectId(projectId: Optional<String>) = projectId(projectId.getOrNull())
 
+        /** Filter by review status; none is a job without a review */
+        fun reviewStatus(reviewStatus: ReviewStatus?) = apply { this.reviewStatus = reviewStatus }
+
+        /** Alias for calling [Builder.reviewStatus] with `reviewStatus.orElse(null)`. */
+        fun reviewStatus(reviewStatus: Optional<ReviewStatus>) =
+            reviewStatus(reviewStatus.getOrNull())
+
         /** Filter by status */
         fun status(status: Status?) = apply { this.status = status }
 
@@ -376,6 +391,7 @@ private constructor(
                 pageSize,
                 pageToken,
                 projectId,
+                reviewStatus,
                 status,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -406,10 +422,163 @@ private constructor(
                 pageSize?.let { put("page_size", it.toString()) }
                 pageToken?.let { put("page_token", it) }
                 projectId?.let { put("project_id", it) }
+                reviewStatus?.let { put("review_status", it.toString()) }
                 status?.let { put("status", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
+
+    /** Filter by review status; none is a job without a review */
+    class ReviewStatus @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val APPROVED = of("approved")
+
+            @JvmField val NONE = of("none")
+
+            @JvmField val PENDING = of("pending")
+
+            @JvmField val REJECTED = of("rejected")
+
+            @JvmStatic fun of(value: String) = ReviewStatus(JsonField.of(value))
+        }
+
+        /** An enum containing [ReviewStatus]'s known values. */
+        enum class Known {
+            APPROVED,
+            NONE,
+            PENDING,
+            REJECTED,
+        }
+
+        /**
+         * An enum containing [ReviewStatus]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [ReviewStatus] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            APPROVED,
+            NONE,
+            PENDING,
+            REJECTED,
+            /**
+             * An enum member indicating that [ReviewStatus] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                APPROVED -> Value.APPROVED
+                NONE -> Value.NONE
+                PENDING -> Value.PENDING
+                REJECTED -> Value.REJECTED
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                APPROVED -> Known.APPROVED
+                NONE -> Known.NONE
+                PENDING -> Known.PENDING
+                REJECTED -> Known.REJECTED
+                else -> throw LlamaCloudInvalidDataException("Unknown ReviewStatus: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LlamaCloudInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                LlamaCloudInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): ReviewStatus = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ReviewStatus && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
 
     /** Filter by status */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
@@ -590,6 +759,7 @@ private constructor(
             pageSize == other.pageSize &&
             pageToken == other.pageToken &&
             projectId == other.projectId &&
+            reviewStatus == other.reviewStatus &&
             status == other.status &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
@@ -609,11 +779,12 @@ private constructor(
             pageSize,
             pageToken,
             projectId,
+            reviewStatus,
             status,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "ExtractListParams{configurationId=$configurationId, createdAtOnOrAfter=$createdAtOnOrAfter, createdAtOnOrBefore=$createdAtOnOrBefore, documentInputType=$documentInputType, documentInputValue=$documentInputValue, expand=$expand, fileInput=$fileInput, jobIds=$jobIds, organizationId=$organizationId, pageSize=$pageSize, pageToken=$pageToken, projectId=$projectId, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "ExtractListParams{configurationId=$configurationId, createdAtOnOrAfter=$createdAtOnOrAfter, createdAtOnOrBefore=$createdAtOnOrBefore, documentInputType=$documentInputType, documentInputValue=$documentInputValue, expand=$expand, fileInput=$fileInput, jobIds=$jobIds, organizationId=$organizationId, pageSize=$pageSize, pageToken=$pageToken, projectId=$projectId, reviewStatus=$reviewStatus, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
