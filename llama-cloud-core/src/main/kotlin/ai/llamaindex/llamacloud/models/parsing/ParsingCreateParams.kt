@@ -4421,12 +4421,13 @@ private constructor(
         /**
          * Bounding-box granularity levels to compute for the parse. 'word' computes one bounding
          * box per detected word; 'line' computes one per text line; 'cell' computes one per table
-         * cell. Multiple levels can be requested. Empty list (default) disables granular bboxes —
-         * only item-level layout boxes are returned on the result. When set, the computed boxes are
-         * not inlined on the result items; they are written to a separate `grounded_items` sidecar
-         * (JSONL, one row per page) and exposed as `result_content_metadata.grounded_items` (a
-         * presigned download URL) on the parse result. Each row matches the `GroundedJsonItem`
-         * shape.
+         * cell; 'char' adds one box per character inside each grounded word (`chars` on each word),
+         * available on the `agentic_plus` tier only. Multiple levels can be requested. Empty list
+         * (default) disables granular bboxes — only item-level layout boxes are returned on the
+         * result. When set, the computed boxes are not inlined on the result items; they are
+         * written to a separate `grounded_items` sidecar (JSONL, one row per page) and exposed as
+         * `result_content_metadata.grounded_items` (a presigned download URL) on the parse result.
+         * Each row matches the `GroundedJsonItem` shape.
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -4703,12 +4704,14 @@ private constructor(
             /**
              * Bounding-box granularity levels to compute for the parse. 'word' computes one
              * bounding box per detected word; 'line' computes one per text line; 'cell' computes
-             * one per table cell. Multiple levels can be requested. Empty list (default) disables
-             * granular bboxes — only item-level layout boxes are returned on the result. When set,
-             * the computed boxes are not inlined on the result items; they are written to a
-             * separate `grounded_items` sidecar (JSONL, one row per page) and exposed as
-             * `result_content_metadata.grounded_items` (a presigned download URL) on the parse
-             * result. Each row matches the `GroundedJsonItem` shape.
+             * one per table cell; 'char' adds one box per character inside each grounded word
+             * (`chars` on each word), available on the `agentic_plus` tier only. Multiple levels
+             * can be requested. Empty list (default) disables granular bboxes — only item-level
+             * layout boxes are returned on the result. When set, the computed boxes are not inlined
+             * on the result items; they are written to a separate `grounded_items` sidecar (JSONL,
+             * one row per page) and exposed as `result_content_metadata.grounded_items` (a
+             * presigned download URL) on the parse result. Each row matches the `GroundedJsonItem`
+             * shape.
              */
             fun granularBboxes(granularBboxes: List<GranularBbox>) =
                 granularBboxes(JsonField.of(granularBboxes))
@@ -4981,6 +4984,8 @@ private constructor(
 
                 @JvmField val CELL = of("cell")
 
+                @JvmField val CHAR = of("char")
+
                 @JvmField val LINE = of("line")
 
                 @JvmField val WORD = of("word")
@@ -4991,6 +4996,7 @@ private constructor(
             /** An enum containing [GranularBbox]'s known values. */
             enum class Known {
                 CELL,
+                CHAR,
                 LINE,
                 WORD,
             }
@@ -5006,6 +5012,7 @@ private constructor(
              */
             enum class Value {
                 CELL,
+                CHAR,
                 LINE,
                 WORD,
                 /**
@@ -5025,6 +5032,7 @@ private constructor(
             fun value(): Value =
                 when (this) {
                     CELL -> Value.CELL
+                    CHAR -> Value.CHAR
                     LINE -> Value.LINE
                     WORD -> Value.WORD
                     else -> Value._UNKNOWN
@@ -5042,6 +5050,7 @@ private constructor(
             fun known(): Known =
                 when (this) {
                     CELL -> Known.CELL
+                    CHAR -> Known.CHAR
                     LINE -> Known.LINE
                     WORD -> Known.WORD
                     else -> throw LlamaCloudInvalidDataException("Unknown GranularBbox: $value")
