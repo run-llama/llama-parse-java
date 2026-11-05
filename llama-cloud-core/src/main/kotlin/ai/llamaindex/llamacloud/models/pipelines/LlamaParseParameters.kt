@@ -6464,10 +6464,11 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    /** Configuration for a single outbound webhook endpoint. */
+    /** A webhook endpoint kept in a saved configuration or pipeline. */
     class WebhookConfiguration
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
+        private val id: JsonField<String>,
         private val webhookEvents: JsonField<List<WebhookEvent>>,
         private val webhookHeaders: JsonField<WebhookHeaders>,
         private val webhookOutputFormat: JsonField<String>,
@@ -6478,6 +6479,7 @@ private constructor(
 
         @JsonCreator
         private constructor(
+            @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
             @JsonProperty("webhook_events")
             @ExcludeMissing
             webhookEvents: JsonField<List<WebhookEvent>> = JsonMissing.of(),
@@ -6494,6 +6496,7 @@ private constructor(
             @ExcludeMissing
             webhookUrl: JsonField<String> = JsonMissing.of(),
         ) : this(
+            id,
             webhookEvents,
             webhookHeaders,
             webhookOutputFormat,
@@ -6501,6 +6504,15 @@ private constructor(
             webhookUrl,
             mutableMapOf(),
         )
+
+        /**
+         * Webhook ID, set by the server. Send it back unchanged so a masked credential keeps this
+         * webhook's saved value.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun id(): Optional<String> = id.getOptional("id")
 
         /**
          * Events to subscribe to (e.g. 'parse.success', 'extract.error'). If null, all events are
@@ -6549,6 +6561,13 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun webhookUrl(): Optional<String> = webhookUrl.getOptional("webhook_url")
+
+        /**
+         * Returns the raw JSON value of [id].
+         *
+         * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
         /**
          * Returns the raw JSON value of [webhookEvents].
@@ -6620,6 +6639,7 @@ private constructor(
         /** A builder for [WebhookConfiguration]. */
         class Builder internal constructor() {
 
+            private var id: JsonField<String> = JsonMissing.of()
             private var webhookEvents: JsonField<MutableList<WebhookEvent>>? = null
             private var webhookHeaders: JsonField<WebhookHeaders> = JsonMissing.of()
             private var webhookOutputFormat: JsonField<String> = JsonMissing.of()
@@ -6629,6 +6649,7 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(webhookConfiguration: WebhookConfiguration) = apply {
+                id = webhookConfiguration.id
                 webhookEvents = webhookConfiguration.webhookEvents.map { it.toMutableList() }
                 webhookHeaders = webhookConfiguration.webhookHeaders
                 webhookOutputFormat = webhookConfiguration.webhookOutputFormat
@@ -6636,6 +6657,24 @@ private constructor(
                 webhookUrl = webhookConfiguration.webhookUrl
                 additionalProperties = webhookConfiguration.additionalProperties.toMutableMap()
             }
+
+            /**
+             * Webhook ID, set by the server. Send it back unchanged so a masked credential keeps
+             * this webhook's saved value.
+             */
+            fun id(id: String?) = id(JsonField.ofNullable(id))
+
+            /** Alias for calling [Builder.id] with `id.orElse(null)`. */
+            fun id(id: Optional<String>) = id(id.getOrNull())
+
+            /**
+             * Sets [Builder.id] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.id] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun id(id: JsonField<String>) = apply { this.id = id }
 
             /**
              * Events to subscribe to (e.g. 'parse.success', 'extract.error'). If null, all events
@@ -6780,6 +6819,7 @@ private constructor(
              */
             fun build(): WebhookConfiguration =
                 WebhookConfiguration(
+                    id,
                     (webhookEvents ?: JsonMissing.of()).map { it.toImmutable() },
                     webhookHeaders,
                     webhookOutputFormat,
@@ -6805,6 +6845,7 @@ private constructor(
                 return@apply
             }
 
+            id()
             webhookEvents().ifPresent { it.forEach { it.validate() } }
             webhookHeaders().ifPresent { it.validate() }
             webhookOutputFormat()
@@ -6829,7 +6870,8 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (webhookEvents.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+            (if (id.asKnown().isPresent) 1 else 0) +
+                (webhookEvents.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (webhookHeaders.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (webhookOutputFormat.asKnown().isPresent) 1 else 0) +
                 (if (webhookSigningSecret.asKnown().isPresent) 1 else 0) +
@@ -7311,6 +7353,7 @@ private constructor(
             }
 
             return other is WebhookConfiguration &&
+                id == other.id &&
                 webhookEvents == other.webhookEvents &&
                 webhookHeaders == other.webhookHeaders &&
                 webhookOutputFormat == other.webhookOutputFormat &&
@@ -7321,6 +7364,7 @@ private constructor(
 
         private val hashCode: Int by lazy {
             Objects.hash(
+                id,
                 webhookEvents,
                 webhookHeaders,
                 webhookOutputFormat,
@@ -7333,7 +7377,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "WebhookConfiguration{webhookEvents=$webhookEvents, webhookHeaders=$webhookHeaders, webhookOutputFormat=$webhookOutputFormat, webhookSigningSecret=$webhookSigningSecret, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
+            "WebhookConfiguration{id=$id, webhookEvents=$webhookEvents, webhookHeaders=$webhookHeaders, webhookOutputFormat=$webhookOutputFormat, webhookSigningSecret=$webhookSigningSecret, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
