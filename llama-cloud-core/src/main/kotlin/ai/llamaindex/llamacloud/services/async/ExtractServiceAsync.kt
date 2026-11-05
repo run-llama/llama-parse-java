@@ -20,6 +20,7 @@ import ai.llamaindex.llamacloud.models.extract.ExtractV2SchemaGenerateRequest
 import ai.llamaindex.llamacloud.models.extract.ExtractV2SchemaValidateRequest
 import ai.llamaindex.llamacloud.models.extract.ExtractV2SchemaValidateResponse
 import ai.llamaindex.llamacloud.models.extract.ExtractValidateSchemaParams
+import ai.llamaindex.llamacloud.services.async.extract.ReviewServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -36,6 +37,8 @@ interface ExtractServiceAsync {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): ExtractServiceAsync
+
+    fun review(): ReviewServiceAsync
 
     /**
      * Create an extraction job.
@@ -289,6 +292,8 @@ interface ExtractServiceAsync {
         fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): ExtractServiceAsync.WithRawResponse
+
+        fun review(): ReviewServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /api/v2/extract`, but is otherwise the same as
