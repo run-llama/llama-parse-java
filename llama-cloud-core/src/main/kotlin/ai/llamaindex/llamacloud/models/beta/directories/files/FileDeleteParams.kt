@@ -15,6 +15,8 @@ import kotlin.jvm.optionals.getOrNull
 /**
  * Delete a directory file by `directory_file_id`; to resolve from `unique_id`, list with a filter
  * first.
+ *
+ * The uploaded file is deleted with it unless another directory or index still uses it.
  */
 class FileDeleteParams
 private constructor(
