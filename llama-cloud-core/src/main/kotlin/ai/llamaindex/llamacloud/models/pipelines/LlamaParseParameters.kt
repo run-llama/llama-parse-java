@@ -6922,6 +6922,8 @@ private constructor(
 
                 @JvmField val EXTRACT_PENDING = of("extract.pending")
 
+                @JvmField val EXTRACT_RUNNING = of("extract.running")
+
                 @JvmField val EXTRACT_SUCCESS = of("extract.success")
 
                 @JvmField val PARSE_CANCELLED = of("parse.cancelled")
@@ -6988,6 +6990,7 @@ private constructor(
                 EXTRACT_ERROR,
                 EXTRACT_PARTIAL_SUCCESS,
                 EXTRACT_PENDING,
+                EXTRACT_RUNNING,
                 EXTRACT_SUCCESS,
                 PARSE_CANCELLED,
                 PARSE_ERROR,
@@ -7038,6 +7041,7 @@ private constructor(
                 EXTRACT_ERROR,
                 EXTRACT_PARTIAL_SUCCESS,
                 EXTRACT_PENDING,
+                EXTRACT_RUNNING,
                 EXTRACT_SUCCESS,
                 PARSE_CANCELLED,
                 PARSE_ERROR,
@@ -7092,6 +7096,7 @@ private constructor(
                     EXTRACT_ERROR -> Value.EXTRACT_ERROR
                     EXTRACT_PARTIAL_SUCCESS -> Value.EXTRACT_PARTIAL_SUCCESS
                     EXTRACT_PENDING -> Value.EXTRACT_PENDING
+                    EXTRACT_RUNNING -> Value.EXTRACT_RUNNING
                     EXTRACT_SUCCESS -> Value.EXTRACT_SUCCESS
                     PARSE_CANCELLED -> Value.PARSE_CANCELLED
                     PARSE_ERROR -> Value.PARSE_ERROR
@@ -7144,6 +7149,7 @@ private constructor(
                     EXTRACT_ERROR -> Known.EXTRACT_ERROR
                     EXTRACT_PARTIAL_SUCCESS -> Known.EXTRACT_PARTIAL_SUCCESS
                     EXTRACT_PENDING -> Known.EXTRACT_PENDING
+                    EXTRACT_RUNNING -> Known.EXTRACT_RUNNING
                     EXTRACT_SUCCESS -> Known.EXTRACT_SUCCESS
                     PARSE_CANCELLED -> Known.PARSE_CANCELLED
                     PARSE_ERROR -> Known.PARSE_ERROR
