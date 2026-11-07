@@ -13,9 +13,9 @@ internal class ParsingListVersionsResponseTest {
     fun create() {
         val parsingListVersionsResponse =
             ParsingListVersionsResponse.builder()
-                .addAgentic(ParsingListVersionsResponse.Agentic._2026_10_16)
-                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_09_28)
-                .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_09_28)
+                .addAgentic(ParsingListVersionsResponse.Agentic._2026_11_05)
+                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_11_07)
+                .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_11_05)
                 .addFast(ParsingListVersionsResponse.Fast._2026_06_15)
                 .latest(
                     ParsingListVersionsResponse.Latest.builder()
@@ -28,11 +28,11 @@ internal class ParsingListVersionsResponseTest {
                 .build()
 
         assertThat(parsingListVersionsResponse.agentic())
-            .containsExactly(ParsingListVersionsResponse.Agentic._2026_10_16)
+            .containsExactly(ParsingListVersionsResponse.Agentic._2026_11_05)
         assertThat(parsingListVersionsResponse.agenticPlus())
-            .containsExactly(ParsingListVersionsResponse.AgenticPlus._2026_09_28)
+            .containsExactly(ParsingListVersionsResponse.AgenticPlus._2026_11_07)
         assertThat(parsingListVersionsResponse.costEffective())
-            .containsExactly(ParsingListVersionsResponse.CostEffective._2026_09_28)
+            .containsExactly(ParsingListVersionsResponse.CostEffective._2026_11_05)
         assertThat(parsingListVersionsResponse.fast())
             .containsExactly(ParsingListVersionsResponse.Fast._2026_06_15)
         assertThat(parsingListVersionsResponse.latest())
@@ -51,9 +51,9 @@ internal class ParsingListVersionsResponseTest {
         val jsonMapper = jsonMapper()
         val parsingListVersionsResponse =
             ParsingListVersionsResponse.builder()
-                .addAgentic(ParsingListVersionsResponse.Agentic._2026_10_16)
-                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_09_28)
-                .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_09_28)
+                .addAgentic(ParsingListVersionsResponse.Agentic._2026_11_05)
+                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_11_07)
+                .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_11_05)
                 .addFast(ParsingListVersionsResponse.Fast._2026_06_15)
                 .latest(
                     ParsingListVersionsResponse.Latest.builder()

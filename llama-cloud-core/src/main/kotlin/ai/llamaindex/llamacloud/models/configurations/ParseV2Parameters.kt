@@ -142,9 +142,9 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-09-28`
-     * - `agentic`: `2026-10-16`
-     * - `agentic_plus`: `2026-09-28`
+     * - `cost_effective`: `2026-11-05`
+     * - `agentic`: `2026-11-05`
+     * - `agentic_plus`: `2026-11-07`
      *
      * Full list: `GET /api/v2/parse/versions`.
      *
@@ -257,8 +257,8 @@ private constructor(
         webhookConfigurationIds.getOptional("webhook_configuration_ids")
 
     /**
-     * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-     * different events or services
+     * Webhook endpoints for job notifications. Maximum 10 total, including
+     * webhook_configuration_ids.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -480,9 +480,9 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2026-06-15`
-         * - `cost_effective`: `2026-09-28`
-         * - `agentic`: `2026-10-16`
-         * - `agentic_plus`: `2026-09-28`
+         * - `cost_effective`: `2026-11-05`
+         * - `agentic`: `2026-11-05`
+         * - `agentic_plus`: `2026-11-07`
          *
          * Full list: `GET /api/v2/parse/versions`.
          */
@@ -705,8 +705,8 @@ private constructor(
         }
 
         /**
-         * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-         * different events or services
+         * Webhook endpoints for job notifications. Maximum 10 total, including
+         * webhook_configuration_ids.
          */
         fun webhookConfigurations(webhookConfigurations: List<WebhookConfiguration>) =
             webhookConfigurations(JsonField.of(webhookConfigurations))
@@ -1011,9 +1011,9 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-09-28`
-     * - `agentic`: `2026-10-16`
-     * - `agentic_plus`: `2026-09-28`
+     * - `cost_effective`: `2026-11-05`
+     * - `agentic`: `2026-11-05`
+     * - `agentic_plus`: `2026-11-07`
      *
      * Full list: `GET /api/v2/parse/versions`.
      */
@@ -1033,9 +1033,9 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
-            @JvmField val _2026_10_16 = of("2026-10-16")
+            @JvmField val _2026_11_07 = of("2026-11-07")
 
-            @JvmField val _2026_09_28 = of("2026-09-28")
+            @JvmField val _2026_11_05 = of("2026-11-05")
 
             @JvmField val _2026_06_15 = of("2026-06-15")
 
@@ -1045,8 +1045,8 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
-            _2026_10_16,
-            _2026_09_28,
+            _2026_11_07,
+            _2026_11_05,
             _2026_06_15,
         }
 
@@ -1061,8 +1061,8 @@ private constructor(
          */
         enum class Value {
             LATEST,
-            _2026_10_16,
-            _2026_09_28,
+            _2026_11_07,
+            _2026_11_05,
             _2026_06_15,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
             _UNKNOWN,
@@ -1078,8 +1078,8 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
-                _2026_10_16 -> Value._2026_10_16
-                _2026_09_28 -> Value._2026_09_28
+                _2026_11_07 -> Value._2026_11_07
+                _2026_11_05 -> Value._2026_11_05
                 _2026_06_15 -> Value._2026_06_15
                 else -> Value._UNKNOWN
             }
@@ -1096,8 +1096,8 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
-                _2026_10_16 -> Known._2026_10_16
-                _2026_09_28 -> Known._2026_09_28
+                _2026_11_07 -> Known._2026_11_07
+                _2026_11_05 -> Known._2026_11_05
                 _2026_06_15 -> Known._2026_06_15
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
             }
@@ -3216,12 +3216,13 @@ private constructor(
         /**
          * Bounding-box granularity levels to compute for the parse. 'word' computes one bounding
          * box per detected word; 'line' computes one per text line; 'cell' computes one per table
-         * cell. Multiple levels can be requested. Empty list (default) disables granular bboxes —
-         * only item-level layout boxes are returned on the result. When set, the computed boxes are
-         * not inlined on the result items; they are written to a separate `grounded_items` sidecar
-         * (JSONL, one row per page) and exposed as `result_content_metadata.grounded_items` (a
-         * presigned download URL) on the parse result. Each row matches the `GroundedJsonItem`
-         * shape.
+         * cell; 'char' adds one box per character inside each grounded word (`chars` on each word),
+         * available on the `agentic_plus` tier only. Multiple levels can be requested. Empty list
+         * (default) disables granular bboxes — only item-level layout boxes are returned on the
+         * result. When set, the computed boxes are not inlined on the result items; they are
+         * written to a separate `grounded_items` sidecar (JSONL, one row per page) and exposed as
+         * `result_content_metadata.grounded_items` (a presigned download URL) on the parse result.
+         * Each row matches the `GroundedJsonItem` shape.
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -3498,12 +3499,14 @@ private constructor(
             /**
              * Bounding-box granularity levels to compute for the parse. 'word' computes one
              * bounding box per detected word; 'line' computes one per text line; 'cell' computes
-             * one per table cell. Multiple levels can be requested. Empty list (default) disables
-             * granular bboxes — only item-level layout boxes are returned on the result. When set,
-             * the computed boxes are not inlined on the result items; they are written to a
-             * separate `grounded_items` sidecar (JSONL, one row per page) and exposed as
-             * `result_content_metadata.grounded_items` (a presigned download URL) on the parse
-             * result. Each row matches the `GroundedJsonItem` shape.
+             * one per table cell; 'char' adds one box per character inside each grounded word
+             * (`chars` on each word), available on the `agentic_plus` tier only. Multiple levels
+             * can be requested. Empty list (default) disables granular bboxes — only item-level
+             * layout boxes are returned on the result. When set, the computed boxes are not inlined
+             * on the result items; they are written to a separate `grounded_items` sidecar (JSONL,
+             * one row per page) and exposed as `result_content_metadata.grounded_items` (a
+             * presigned download URL) on the parse result. Each row matches the `GroundedJsonItem`
+             * shape.
              */
             fun granularBboxes(granularBboxes: List<GranularBbox>) =
                 granularBboxes(JsonField.of(granularBboxes))
@@ -3776,6 +3779,8 @@ private constructor(
 
                 @JvmField val CELL = of("cell")
 
+                @JvmField val CHAR = of("char")
+
                 @JvmField val LINE = of("line")
 
                 @JvmField val WORD = of("word")
@@ -3786,6 +3791,7 @@ private constructor(
             /** An enum containing [GranularBbox]'s known values. */
             enum class Known {
                 CELL,
+                CHAR,
                 LINE,
                 WORD,
             }
@@ -3801,6 +3807,7 @@ private constructor(
              */
             enum class Value {
                 CELL,
+                CHAR,
                 LINE,
                 WORD,
                 /**
@@ -3820,6 +3827,7 @@ private constructor(
             fun value(): Value =
                 when (this) {
                     CELL -> Value.CELL
+                    CHAR -> Value.CHAR
                     LINE -> Value.LINE
                     WORD -> Value.WORD
                     else -> Value._UNKNOWN
@@ -3837,6 +3845,7 @@ private constructor(
             fun known(): Known =
                 when (this) {
                     CELL -> Known.CELL
+                    CHAR -> Known.CHAR
                     LINE -> Known.LINE
                     WORD -> Known.WORD
                     else -> throw LlamaCloudInvalidDataException("Unknown GranularBbox: $value")
@@ -10040,9 +10049,9 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-09-28`
-                 * - `agentic`: `2026-10-16`
-                 * - `agentic_plus`: `2026-09-28`
+                 * - `cost_effective`: `2026-11-05`
+                 * - `agentic`: `2026-11-05`
+                 * - `agentic_plus`: `2026-11-07`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  *
@@ -10544,9 +10553,9 @@ private constructor(
                      *
                      * Current `latest` by tier:
                      * - `fast`: `2026-06-15`
-                     * - `cost_effective`: `2026-09-28`
-                     * - `agentic`: `2026-10-16`
-                     * - `agentic_plus`: `2026-09-28`
+                     * - `cost_effective`: `2026-11-05`
+                     * - `agentic`: `2026-11-05`
+                     * - `agentic_plus`: `2026-11-07`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
                      */
@@ -12158,9 +12167,9 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-09-28`
-                 * - `agentic`: `2026-10-16`
-                 * - `agentic_plus`: `2026-09-28`
+                 * - `cost_effective`: `2026-11-05`
+                 * - `agentic`: `2026-11-05`
+                 * - `agentic_plus`: `2026-11-07`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  */
@@ -12183,9 +12192,9 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
-                        @JvmField val _2026_10_16 = of("2026-10-16")
+                        @JvmField val _2026_11_07 = of("2026-11-07")
 
-                        @JvmField val _2026_09_28 = of("2026-09-28")
+                        @JvmField val _2026_11_05 = of("2026-11-05")
 
                         @JvmField val _2026_06_15 = of("2026-06-15")
 
@@ -12195,8 +12204,8 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
-                        _2026_10_16,
-                        _2026_09_28,
+                        _2026_11_07,
+                        _2026_11_05,
                         _2026_06_15,
                     }
 
@@ -12211,8 +12220,8 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
-                        _2026_10_16,
-                        _2026_09_28,
+                        _2026_11_07,
+                        _2026_11_05,
                         _2026_06_15,
                         /**
                          * An enum member indicating that [Version] was instantiated with an unknown
@@ -12231,8 +12240,8 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
-                            _2026_10_16 -> Value._2026_10_16
-                            _2026_09_28 -> Value._2026_09_28
+                            _2026_11_07 -> Value._2026_11_07
+                            _2026_11_05 -> Value._2026_11_05
                             _2026_06_15 -> Value._2026_06_15
                             else -> Value._UNKNOWN
                         }
@@ -12249,8 +12258,8 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
-                            _2026_10_16 -> Known._2026_10_16
-                            _2026_09_28 -> Known._2026_09_28
+                            _2026_11_07 -> Known._2026_11_07
+                            _2026_11_05 -> Known._2026_11_05
                             _2026_06_15 -> Known._2026_06_15
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
                         }
@@ -18633,15 +18642,11 @@ private constructor(
             "ProcessingOptions{aggressiveTableExtraction=$aggressiveTableExtraction, autoModeConfiguration=$autoModeConfiguration, confidenceScoreEffort=$confidenceScoreEffort, costOptimizer=$costOptimizer, disableHeuristics=$disableHeuristics, forms=$forms, ignore=$ignore, ocrParameters=$ocrParameters, specializedChartParsing=$specializedChartParsing, additionalProperties=$additionalProperties}"
     }
 
-    /**
-     * Webhook configuration for receiving parsing job notifications.
-     *
-     * Webhooks are called when specified events occur during job processing. Configure multiple
-     * webhook configurations to send to different endpoints.
-     */
+    /** A webhook endpoint kept in a saved Parse configuration. */
     class WebhookConfiguration
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
+        private val id: JsonField<String>,
         private val webhookEvents: JsonField<List<String>>,
         private val webhookHeaders: JsonField<WebhookHeaders>,
         private val webhookOutputFormat: JsonField<WebhookOutputFormat>,
@@ -18652,6 +18657,7 @@ private constructor(
 
         @JsonCreator
         private constructor(
+            @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
             @JsonProperty("webhook_events")
             @ExcludeMissing
             webhookEvents: JsonField<List<String>> = JsonMissing.of(),
@@ -18668,6 +18674,7 @@ private constructor(
             @ExcludeMissing
             webhookUrl: JsonField<String> = JsonMissing.of(),
         ) : this(
+            id,
             webhookEvents,
             webhookHeaders,
             webhookOutputFormat,
@@ -18675,6 +18682,15 @@ private constructor(
             webhookUrl,
             mutableMapOf(),
         )
+
+        /**
+         * Webhook ID, set by the server. Send it back unchanged so a masked credential keeps this
+         * webhook's saved value.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun id(): Optional<String> = id.getOptional("id")
 
         /**
          * Events that trigger this webhook. Options: 'parse.success' (job completed), 'parse.error'
@@ -18725,6 +18741,13 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun webhookUrl(): Optional<String> = webhookUrl.getOptional("webhook_url")
+
+        /**
+         * Returns the raw JSON value of [id].
+         *
+         * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
         /**
          * Returns the raw JSON value of [webhookEvents].
@@ -18796,6 +18819,7 @@ private constructor(
         /** A builder for [WebhookConfiguration]. */
         class Builder internal constructor() {
 
+            private var id: JsonField<String> = JsonMissing.of()
             private var webhookEvents: JsonField<MutableList<String>>? = null
             private var webhookHeaders: JsonField<WebhookHeaders> = JsonMissing.of()
             private var webhookOutputFormat: JsonField<WebhookOutputFormat> = JsonMissing.of()
@@ -18805,6 +18829,7 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(webhookConfiguration: WebhookConfiguration) = apply {
+                id = webhookConfiguration.id
                 webhookEvents = webhookConfiguration.webhookEvents.map { it.toMutableList() }
                 webhookHeaders = webhookConfiguration.webhookHeaders
                 webhookOutputFormat = webhookConfiguration.webhookOutputFormat
@@ -18812,6 +18837,24 @@ private constructor(
                 webhookUrl = webhookConfiguration.webhookUrl
                 additionalProperties = webhookConfiguration.additionalProperties.toMutableMap()
             }
+
+            /**
+             * Webhook ID, set by the server. Send it back unchanged so a masked credential keeps
+             * this webhook's saved value.
+             */
+            fun id(id: String?) = id(JsonField.ofNullable(id))
+
+            /** Alias for calling [Builder.id] with `id.orElse(null)`. */
+            fun id(id: Optional<String>) = id(id.getOrNull())
+
+            /**
+             * Sets [Builder.id] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.id] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun id(id: JsonField<String>) = apply { this.id = id }
 
             /**
              * Events that trigger this webhook. Options: 'parse.success' (job completed),
@@ -18964,6 +19007,7 @@ private constructor(
              */
             fun build(): WebhookConfiguration =
                 WebhookConfiguration(
+                    id,
                     (webhookEvents ?: JsonMissing.of()).map { it.toImmutable() },
                     webhookHeaders,
                     webhookOutputFormat,
@@ -18989,6 +19033,7 @@ private constructor(
                 return@apply
             }
 
+            id()
             webhookEvents()
             webhookHeaders().ifPresent { it.validate() }
             webhookOutputFormat().ifPresent { it.validate() }
@@ -19013,7 +19058,8 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (webhookEvents.asKnown().getOrNull()?.size ?: 0) +
+            (if (id.asKnown().isPresent) 1 else 0) +
+                (webhookEvents.asKnown().getOrNull()?.size ?: 0) +
                 (webhookHeaders.asKnown().getOrNull()?.validity() ?: 0) +
                 (webhookOutputFormat.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (webhookSigningSecret.asKnown().isPresent) 1 else 0) +
@@ -19290,6 +19336,7 @@ private constructor(
             }
 
             return other is WebhookConfiguration &&
+                id == other.id &&
                 webhookEvents == other.webhookEvents &&
                 webhookHeaders == other.webhookHeaders &&
                 webhookOutputFormat == other.webhookOutputFormat &&
@@ -19300,6 +19347,7 @@ private constructor(
 
         private val hashCode: Int by lazy {
             Objects.hash(
+                id,
                 webhookEvents,
                 webhookHeaders,
                 webhookOutputFormat,
@@ -19312,7 +19360,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "WebhookConfiguration{webhookEvents=$webhookEvents, webhookHeaders=$webhookHeaders, webhookOutputFormat=$webhookOutputFormat, webhookSigningSecret=$webhookSigningSecret, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
+            "WebhookConfiguration{id=$id, webhookEvents=$webhookEvents, webhookHeaders=$webhookHeaders, webhookOutputFormat=$webhookOutputFormat, webhookSigningSecret=$webhookSigningSecret, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

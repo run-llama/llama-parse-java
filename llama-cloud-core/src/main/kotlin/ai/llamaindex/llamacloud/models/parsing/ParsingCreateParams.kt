@@ -76,9 +76,9 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-09-28`
-     * - `agentic`: `2026-10-16`
-     * - `agentic_plus`: `2026-09-28`
+     * - `cost_effective`: `2026-11-05`
+     * - `agentic`: `2026-11-05`
+     * - `agentic_plus`: `2026-11-07`
      *
      * Full list: `GET /api/v2/parse/versions`.
      *
@@ -231,8 +231,8 @@ private constructor(
     fun webhookConfigurationIds(): Optional<List<String>> = body.webhookConfigurationIds()
 
     /**
-     * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-     * different events or services
+     * Webhook endpoints for job notifications. Maximum 10 total, including
+     * webhook_configuration_ids.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -464,9 +464,9 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2026-06-15`
-         * - `cost_effective`: `2026-09-28`
-         * - `agentic`: `2026-10-16`
-         * - `agentic_plus`: `2026-09-28`
+         * - `cost_effective`: `2026-11-05`
+         * - `agentic`: `2026-11-05`
+         * - `agentic_plus`: `2026-11-07`
          *
          * Full list: `GET /api/v2/parse/versions`.
          */
@@ -781,8 +781,8 @@ private constructor(
         }
 
         /**
-         * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-         * different events or services
+         * Webhook endpoints for job notifications. Maximum 10 total, including
+         * webhook_configuration_ids.
          */
         fun webhookConfigurations(webhookConfigurations: List<WebhookConfiguration>) = apply {
             body.webhookConfigurations(webhookConfigurations)
@@ -1081,9 +1081,9 @@ private constructor(
          *
          * Current `latest` by tier:
          * - `fast`: `2026-06-15`
-         * - `cost_effective`: `2026-09-28`
-         * - `agentic`: `2026-10-16`
-         * - `agentic_plus`: `2026-09-28`
+         * - `cost_effective`: `2026-11-05`
+         * - `agentic`: `2026-11-05`
+         * - `agentic_plus`: `2026-11-07`
          *
          * Full list: `GET /api/v2/parse/versions`.
          *
@@ -1242,8 +1242,8 @@ private constructor(
             webhookConfigurationIds.getOptional("webhook_configuration_ids")
 
         /**
-         * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-         * different events or services
+         * Webhook endpoints for job notifications. Maximum 10 total, including
+         * webhook_configuration_ids.
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -1515,9 +1515,9 @@ private constructor(
              *
              * Current `latest` by tier:
              * - `fast`: `2026-06-15`
-             * - `cost_effective`: `2026-09-28`
-             * - `agentic`: `2026-10-16`
-             * - `agentic_plus`: `2026-09-28`
+             * - `cost_effective`: `2026-11-05`
+             * - `agentic`: `2026-11-05`
+             * - `agentic_plus`: `2026-11-07`
              *
              * Full list: `GET /api/v2/parse/versions`.
              */
@@ -1840,8 +1840,8 @@ private constructor(
             }
 
             /**
-             * Webhook endpoints for job status notifications. Multiple webhooks can be configured
-             * for different events or services
+             * Webhook endpoints for job notifications. Maximum 10 total, including
+             * webhook_configuration_ids.
              */
             fun webhookConfigurations(webhookConfigurations: List<WebhookConfiguration>) =
                 webhookConfigurations(JsonField.of(webhookConfigurations))
@@ -2216,9 +2216,9 @@ private constructor(
      *
      * Current `latest` by tier:
      * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-09-28`
-     * - `agentic`: `2026-10-16`
-     * - `agentic_plus`: `2026-09-28`
+     * - `cost_effective`: `2026-11-05`
+     * - `agentic`: `2026-11-05`
+     * - `agentic_plus`: `2026-11-07`
      *
      * Full list: `GET /api/v2/parse/versions`.
      */
@@ -2238,9 +2238,9 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
-            @JvmField val _2026_10_16 = of("2026-10-16")
+            @JvmField val _2026_11_07 = of("2026-11-07")
 
-            @JvmField val _2026_09_28 = of("2026-09-28")
+            @JvmField val _2026_11_05 = of("2026-11-05")
 
             @JvmField val _2026_06_15 = of("2026-06-15")
 
@@ -2250,8 +2250,8 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
-            _2026_10_16,
-            _2026_09_28,
+            _2026_11_07,
+            _2026_11_05,
             _2026_06_15,
         }
 
@@ -2266,8 +2266,8 @@ private constructor(
          */
         enum class Value {
             LATEST,
-            _2026_10_16,
-            _2026_09_28,
+            _2026_11_07,
+            _2026_11_05,
             _2026_06_15,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
             _UNKNOWN,
@@ -2283,8 +2283,8 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
-                _2026_10_16 -> Value._2026_10_16
-                _2026_09_28 -> Value._2026_09_28
+                _2026_11_07 -> Value._2026_11_07
+                _2026_11_05 -> Value._2026_11_05
                 _2026_06_15 -> Value._2026_06_15
                 else -> Value._UNKNOWN
             }
@@ -2301,8 +2301,8 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
-                _2026_10_16 -> Known._2026_10_16
-                _2026_09_28 -> Known._2026_09_28
+                _2026_11_07 -> Known._2026_11_07
+                _2026_11_05 -> Known._2026_11_05
                 _2026_06_15 -> Known._2026_06_15
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
             }
@@ -4421,12 +4421,13 @@ private constructor(
         /**
          * Bounding-box granularity levels to compute for the parse. 'word' computes one bounding
          * box per detected word; 'line' computes one per text line; 'cell' computes one per table
-         * cell. Multiple levels can be requested. Empty list (default) disables granular bboxes —
-         * only item-level layout boxes are returned on the result. When set, the computed boxes are
-         * not inlined on the result items; they are written to a separate `grounded_items` sidecar
-         * (JSONL, one row per page) and exposed as `result_content_metadata.grounded_items` (a
-         * presigned download URL) on the parse result. Each row matches the `GroundedJsonItem`
-         * shape.
+         * cell; 'char' adds one box per character inside each grounded word (`chars` on each word),
+         * available on the `agentic_plus` tier only. Multiple levels can be requested. Empty list
+         * (default) disables granular bboxes — only item-level layout boxes are returned on the
+         * result. When set, the computed boxes are not inlined on the result items; they are
+         * written to a separate `grounded_items` sidecar (JSONL, one row per page) and exposed as
+         * `result_content_metadata.grounded_items` (a presigned download URL) on the parse result.
+         * Each row matches the `GroundedJsonItem` shape.
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -4703,12 +4704,14 @@ private constructor(
             /**
              * Bounding-box granularity levels to compute for the parse. 'word' computes one
              * bounding box per detected word; 'line' computes one per text line; 'cell' computes
-             * one per table cell. Multiple levels can be requested. Empty list (default) disables
-             * granular bboxes — only item-level layout boxes are returned on the result. When set,
-             * the computed boxes are not inlined on the result items; they are written to a
-             * separate `grounded_items` sidecar (JSONL, one row per page) and exposed as
-             * `result_content_metadata.grounded_items` (a presigned download URL) on the parse
-             * result. Each row matches the `GroundedJsonItem` shape.
+             * one per table cell; 'char' adds one box per character inside each grounded word
+             * (`chars` on each word), available on the `agentic_plus` tier only. Multiple levels
+             * can be requested. Empty list (default) disables granular bboxes — only item-level
+             * layout boxes are returned on the result. When set, the computed boxes are not inlined
+             * on the result items; they are written to a separate `grounded_items` sidecar (JSONL,
+             * one row per page) and exposed as `result_content_metadata.grounded_items` (a
+             * presigned download URL) on the parse result. Each row matches the `GroundedJsonItem`
+             * shape.
              */
             fun granularBboxes(granularBboxes: List<GranularBbox>) =
                 granularBboxes(JsonField.of(granularBboxes))
@@ -4981,6 +4984,8 @@ private constructor(
 
                 @JvmField val CELL = of("cell")
 
+                @JvmField val CHAR = of("char")
+
                 @JvmField val LINE = of("line")
 
                 @JvmField val WORD = of("word")
@@ -4991,6 +4996,7 @@ private constructor(
             /** An enum containing [GranularBbox]'s known values. */
             enum class Known {
                 CELL,
+                CHAR,
                 LINE,
                 WORD,
             }
@@ -5006,6 +5012,7 @@ private constructor(
              */
             enum class Value {
                 CELL,
+                CHAR,
                 LINE,
                 WORD,
                 /**
@@ -5025,6 +5032,7 @@ private constructor(
             fun value(): Value =
                 when (this) {
                     CELL -> Value.CELL
+                    CHAR -> Value.CHAR
                     LINE -> Value.LINE
                     WORD -> Value.WORD
                     else -> Value._UNKNOWN
@@ -5042,6 +5050,7 @@ private constructor(
             fun known(): Known =
                 when (this) {
                     CELL -> Known.CELL
+                    CHAR -> Known.CHAR
                     LINE -> Known.LINE
                     WORD -> Known.WORD
                     else -> throw LlamaCloudInvalidDataException("Unknown GranularBbox: $value")
@@ -11245,9 +11254,9 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-09-28`
-                 * - `agentic`: `2026-10-16`
-                 * - `agentic_plus`: `2026-09-28`
+                 * - `cost_effective`: `2026-11-05`
+                 * - `agentic`: `2026-11-05`
+                 * - `agentic_plus`: `2026-11-07`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  *
@@ -11749,9 +11758,9 @@ private constructor(
                      *
                      * Current `latest` by tier:
                      * - `fast`: `2026-06-15`
-                     * - `cost_effective`: `2026-09-28`
-                     * - `agentic`: `2026-10-16`
-                     * - `agentic_plus`: `2026-09-28`
+                     * - `cost_effective`: `2026-11-05`
+                     * - `agentic`: `2026-11-05`
+                     * - `agentic_plus`: `2026-11-07`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
                      */
@@ -13363,9 +13372,9 @@ private constructor(
                  *
                  * Current `latest` by tier:
                  * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-09-28`
-                 * - `agentic`: `2026-10-16`
-                 * - `agentic_plus`: `2026-09-28`
+                 * - `cost_effective`: `2026-11-05`
+                 * - `agentic`: `2026-11-05`
+                 * - `agentic_plus`: `2026-11-07`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  */
@@ -13388,9 +13397,9 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
-                        @JvmField val _2026_10_16 = of("2026-10-16")
+                        @JvmField val _2026_11_07 = of("2026-11-07")
 
-                        @JvmField val _2026_09_28 = of("2026-09-28")
+                        @JvmField val _2026_11_05 = of("2026-11-05")
 
                         @JvmField val _2026_06_15 = of("2026-06-15")
 
@@ -13400,8 +13409,8 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
-                        _2026_10_16,
-                        _2026_09_28,
+                        _2026_11_07,
+                        _2026_11_05,
                         _2026_06_15,
                     }
 
@@ -13416,8 +13425,8 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
-                        _2026_10_16,
-                        _2026_09_28,
+                        _2026_11_07,
+                        _2026_11_05,
                         _2026_06_15,
                         /**
                          * An enum member indicating that [Version] was instantiated with an unknown
@@ -13436,8 +13445,8 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
-                            _2026_10_16 -> Value._2026_10_16
-                            _2026_09_28 -> Value._2026_09_28
+                            _2026_11_07 -> Value._2026_11_07
+                            _2026_11_05 -> Value._2026_11_05
                             _2026_06_15 -> Value._2026_06_15
                             else -> Value._UNKNOWN
                         }
@@ -13454,8 +13463,8 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
-                            _2026_10_16 -> Known._2026_10_16
-                            _2026_09_28 -> Known._2026_09_28
+                            _2026_11_07 -> Known._2026_11_07
+                            _2026_11_05 -> Known._2026_11_05
                             _2026_06_15 -> Known._2026_06_15
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
                         }

@@ -25,6 +25,7 @@ internal class ExtractListParamsTest {
             .pageSize(1L)
             .pageToken("page_token")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .reviewStatus(ExtractListParams.ReviewStatus.APPROVED)
             .status(ExtractListParams.Status.CANCELLED)
             .build()
     }
@@ -46,6 +47,7 @@ internal class ExtractListParamsTest {
                 .pageSize(1L)
                 .pageToken("page_token")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .reviewStatus(ExtractListParams.ReviewStatus.APPROVED)
                 .status(ExtractListParams.Status.CANCELLED)
                 .build()
 
@@ -67,6 +69,7 @@ internal class ExtractListParamsTest {
                     .put("page_size", "1")
                     .put("page_token", "page_token")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("review_status", "approved")
                     .put("status", "CANCELLED")
                     .build()
             )

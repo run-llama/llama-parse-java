@@ -197,6 +197,7 @@ internal class PipelineCreateParamsTest {
                             .version("version")
                             .addWebhookConfiguration(
                                 LlamaParseParameters.WebhookConfiguration.builder()
+                                    .id("cwh-8f3k2m9q1x7v4b6n0p5r2t8y1w3z6")
                                     .addWebhookEvent(
                                         LlamaParseParameters.WebhookConfiguration.WebhookEvent
                                             .PARSE_SUCCESS
@@ -481,6 +482,7 @@ internal class PipelineCreateParamsTest {
                                 .version("version")
                                 .addWebhookConfiguration(
                                     LlamaParseParameters.WebhookConfiguration.builder()
+                                        .id("cwh-8f3k2m9q1x7v4b6n0p5r2t8y1w3z6")
                                         .addWebhookEvent(
                                             LlamaParseParameters.WebhookConfiguration.WebhookEvent
                                                 .PARSE_SUCCESS
@@ -787,6 +789,7 @@ internal class PipelineCreateParamsTest {
                                 .version("version")
                                 .addWebhookConfiguration(
                                     LlamaParseParameters.WebhookConfiguration.builder()
+                                        .id("cwh-8f3k2m9q1x7v4b6n0p5r2t8y1w3z6")
                                         .addWebhookEvent(
                                             LlamaParseParameters.WebhookConfiguration.WebhookEvent
                                                 .PARSE_SUCCESS
@@ -1060,6 +1063,7 @@ internal class PipelineCreateParamsTest {
                             .version("version")
                             .addWebhookConfiguration(
                                 LlamaParseParameters.WebhookConfiguration.builder()
+                                    .id("cwh-8f3k2m9q1x7v4b6n0p5r2t8y1w3z6")
                                     .addWebhookEvent(
                                         LlamaParseParameters.WebhookConfiguration.WebhookEvent
                                             .PARSE_SUCCESS
