@@ -144,7 +144,7 @@ private constructor(
      * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-11-05`
      * - `agentic`: `2026-11-05`
-     * - `agentic_plus`: `2026-11-02`
+     * - `agentic_plus`: `2026-11-07`
      *
      * Full list: `GET /api/v2/parse/versions`.
      *
@@ -482,7 +482,7 @@ private constructor(
          * - `fast`: `2026-06-15`
          * - `cost_effective`: `2026-11-05`
          * - `agentic`: `2026-11-05`
-         * - `agentic_plus`: `2026-11-02`
+         * - `agentic_plus`: `2026-11-07`
          *
          * Full list: `GET /api/v2/parse/versions`.
          */
@@ -1013,7 +1013,7 @@ private constructor(
      * - `fast`: `2026-06-15`
      * - `cost_effective`: `2026-11-05`
      * - `agentic`: `2026-11-05`
-     * - `agentic_plus`: `2026-11-02`
+     * - `agentic_plus`: `2026-11-07`
      *
      * Full list: `GET /api/v2/parse/versions`.
      */
@@ -1033,9 +1033,9 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
-            @JvmField val _2026_11_05 = of("2026-11-05")
+            @JvmField val _2026_11_07 = of("2026-11-07")
 
-            @JvmField val _2026_11_02 = of("2026-11-02")
+            @JvmField val _2026_11_05 = of("2026-11-05")
 
             @JvmField val _2026_06_15 = of("2026-06-15")
 
@@ -1045,8 +1045,8 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
+            _2026_11_07,
             _2026_11_05,
-            _2026_11_02,
             _2026_06_15,
         }
 
@@ -1061,8 +1061,8 @@ private constructor(
          */
         enum class Value {
             LATEST,
+            _2026_11_07,
             _2026_11_05,
-            _2026_11_02,
             _2026_06_15,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
             _UNKNOWN,
@@ -1078,8 +1078,8 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
+                _2026_11_07 -> Value._2026_11_07
                 _2026_11_05 -> Value._2026_11_05
-                _2026_11_02 -> Value._2026_11_02
                 _2026_06_15 -> Value._2026_06_15
                 else -> Value._UNKNOWN
             }
@@ -1096,8 +1096,8 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
+                _2026_11_07 -> Known._2026_11_07
                 _2026_11_05 -> Known._2026_11_05
-                _2026_11_02 -> Known._2026_11_02
                 _2026_06_15 -> Known._2026_06_15
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
             }
@@ -10051,7 +10051,7 @@ private constructor(
                  * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-11-05`
                  * - `agentic`: `2026-11-05`
-                 * - `agentic_plus`: `2026-11-02`
+                 * - `agentic_plus`: `2026-11-07`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  *
@@ -10555,7 +10555,7 @@ private constructor(
                      * - `fast`: `2026-06-15`
                      * - `cost_effective`: `2026-11-05`
                      * - `agentic`: `2026-11-05`
-                     * - `agentic_plus`: `2026-11-02`
+                     * - `agentic_plus`: `2026-11-07`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
                      */
@@ -12169,7 +12169,7 @@ private constructor(
                  * - `fast`: `2026-06-15`
                  * - `cost_effective`: `2026-11-05`
                  * - `agentic`: `2026-11-05`
-                 * - `agentic_plus`: `2026-11-02`
+                 * - `agentic_plus`: `2026-11-07`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  */
@@ -12192,9 +12192,9 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
-                        @JvmField val _2026_11_05 = of("2026-11-05")
+                        @JvmField val _2026_11_07 = of("2026-11-07")
 
-                        @JvmField val _2026_11_02 = of("2026-11-02")
+                        @JvmField val _2026_11_05 = of("2026-11-05")
 
                         @JvmField val _2026_06_15 = of("2026-06-15")
 
@@ -12204,8 +12204,8 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
+                        _2026_11_07,
                         _2026_11_05,
-                        _2026_11_02,
                         _2026_06_15,
                     }
 
@@ -12220,8 +12220,8 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
+                        _2026_11_07,
                         _2026_11_05,
-                        _2026_11_02,
                         _2026_06_15,
                         /**
                          * An enum member indicating that [Version] was instantiated with an unknown
@@ -12240,8 +12240,8 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
+                            _2026_11_07 -> Value._2026_11_07
                             _2026_11_05 -> Value._2026_11_05
-                            _2026_11_02 -> Value._2026_11_02
                             _2026_06_15 -> Value._2026_06_15
                             else -> Value._UNKNOWN
                         }
@@ -12258,8 +12258,8 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
+                            _2026_11_07 -> Known._2026_11_07
                             _2026_11_05 -> Known._2026_11_05
-                            _2026_11_02 -> Known._2026_11_02
                             _2026_06_15 -> Known._2026_06_15
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
                         }
