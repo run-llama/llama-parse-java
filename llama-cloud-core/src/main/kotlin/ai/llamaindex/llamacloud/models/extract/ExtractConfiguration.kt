@@ -150,8 +150,9 @@ private constructor(
     fun disableCache(): Optional<Boolean> = disableCache.getOptional("disable_cache")
 
     /**
-     * Use 'max' for additional processing effort on agentic_plus. Bills by model usage with the
-     * page charge as a minimum. Omit or set to null for the tier's default behavior.
+     * Use 'max' for additional processing effort on agentic_plus. Priced by the processing each
+     * document needs, with the page price as the minimum. Omit or set to null for the tier's
+     * default behavior.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -536,8 +537,9 @@ private constructor(
         }
 
         /**
-         * Use 'max' for additional processing effort on agentic_plus. Bills by model usage with the
-         * page charge as a minimum. Omit or set to null for the tier's default behavior.
+         * Use 'max' for additional processing effort on agentic_plus. Priced by the processing each
+         * document needs, with the page price as the minimum. Omit or set to null for the tier's
+         * default behavior.
          */
         fun effort(effort: Effort?) = effort(JsonField.ofNullable(effort))
 
@@ -981,8 +983,9 @@ private constructor(
     }
 
     /**
-     * Use 'max' for additional processing effort on agentic_plus. Bills by model usage with the
-     * page charge as a minimum. Omit or set to null for the tier's default behavior.
+     * Use 'max' for additional processing effort on agentic_plus. Priced by the processing each
+     * document needs, with the page price as the minimum. Omit or set to null for the tier's
+     * default behavior.
      */
     class Effort @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
