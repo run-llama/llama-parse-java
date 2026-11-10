@@ -14,7 +14,7 @@ internal class ParsingListVersionsResponseTest {
         val parsingListVersionsResponse =
             ParsingListVersionsResponse.builder()
                 .addAgentic(ParsingListVersionsResponse.Agentic._2026_11_09)
-                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_11_07)
+                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_11_10)
                 .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_11_09)
                 .addFast(ParsingListVersionsResponse.Fast._2026_06_15)
                 .latest(
@@ -30,7 +30,7 @@ internal class ParsingListVersionsResponseTest {
         assertThat(parsingListVersionsResponse.agentic())
             .containsExactly(ParsingListVersionsResponse.Agentic._2026_11_09)
         assertThat(parsingListVersionsResponse.agenticPlus())
-            .containsExactly(ParsingListVersionsResponse.AgenticPlus._2026_11_07)
+            .containsExactly(ParsingListVersionsResponse.AgenticPlus._2026_11_10)
         assertThat(parsingListVersionsResponse.costEffective())
             .containsExactly(ParsingListVersionsResponse.CostEffective._2026_11_09)
         assertThat(parsingListVersionsResponse.fast())
@@ -52,7 +52,7 @@ internal class ParsingListVersionsResponseTest {
         val parsingListVersionsResponse =
             ParsingListVersionsResponse.builder()
                 .addAgentic(ParsingListVersionsResponse.Agentic._2026_11_09)
-                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_11_07)
+                .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_11_10)
                 .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_11_09)
                 .addFast(ParsingListVersionsResponse.Fast._2026_06_15)
                 .latest(
