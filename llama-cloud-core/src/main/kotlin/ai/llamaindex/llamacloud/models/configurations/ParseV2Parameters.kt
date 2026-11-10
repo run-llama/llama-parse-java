@@ -7408,6 +7408,7 @@ private constructor(
             private val layoutElementInPage: JsonField<String>,
             private val layoutElementInPageConfidenceThreshold:
                 JsonField<LayoutElementInPageConfidenceThreshold>,
+            private val minComplexity: JsonField<MinComplexity>,
             private val pageContainsAtLeastNCharts: JsonField<PageContainsAtLeastNCharts>,
             private val pageContainsAtLeastNImages: JsonField<PageContainsAtLeastNImages>,
             private val pageContainsAtLeastNLayoutElements:
@@ -7476,6 +7477,9 @@ private constructor(
                 layoutElementInPageConfidenceThreshold:
                     JsonField<LayoutElementInPageConfidenceThreshold> =
                     JsonMissing.of(),
+                @JsonProperty("min_complexity")
+                @ExcludeMissing
+                minComplexity: JsonField<MinComplexity> = JsonMissing.of(),
                 @JsonProperty("page_contains_at_least_n_charts")
                 @ExcludeMissing
                 pageContainsAtLeastNCharts: JsonField<PageContainsAtLeastNCharts> =
@@ -7574,6 +7578,7 @@ private constructor(
                 imageInPage,
                 layoutElementInPage,
                 layoutElementInPageConfidenceThreshold,
+                minComplexity,
                 pageContainsAtLeastNCharts,
                 pageContainsAtLeastNImages,
                 pageContainsAtLeastNLayoutElements,
@@ -7693,6 +7698,16 @@ private constructor(
                 layoutElementInPageConfidenceThreshold.getOptional(
                     "layout_element_in_page_confidence_threshold"
                 )
+
+            /**
+             * Trigger on pages at least this complex. high: pages whose tables look wrong. medium:
+             * also pages that are mostly scanned text.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun minComplexity(): Optional<MinComplexity> =
+                minComplexity.getOptional("min_complexity")
 
             /**
              * Trigger if page has more than N charts
@@ -8036,6 +8051,16 @@ private constructor(
                 layoutElementInPageConfidenceThreshold
 
             /**
+             * Returns the raw JSON value of [minComplexity].
+             *
+             * Unlike [minComplexity], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("min_complexity")
+            @ExcludeMissing
+            fun _minComplexity(): JsonField<MinComplexity> = minComplexity
+
+            /**
              * Returns the raw JSON value of [pageContainsAtLeastNCharts].
              *
              * Unlike [pageContainsAtLeastNCharts], this method doesn't throw if the JSON field has
@@ -8355,6 +8380,7 @@ private constructor(
                 private var layoutElementInPageConfidenceThreshold:
                     JsonField<LayoutElementInPageConfidenceThreshold> =
                     JsonMissing.of()
+                private var minComplexity: JsonField<MinComplexity> = JsonMissing.of()
                 private var pageContainsAtLeastNCharts: JsonField<PageContainsAtLeastNCharts> =
                     JsonMissing.of()
                 private var pageContainsAtLeastNImages: JsonField<PageContainsAtLeastNImages> =
@@ -8421,6 +8447,7 @@ private constructor(
                     layoutElementInPage = autoModeConfiguration.layoutElementInPage
                     layoutElementInPageConfidenceThreshold =
                         autoModeConfiguration.layoutElementInPageConfidenceThreshold
+                    minComplexity = autoModeConfiguration.minComplexity
                     pageContainsAtLeastNCharts = autoModeConfiguration.pageContainsAtLeastNCharts
                     pageContainsAtLeastNImages = autoModeConfiguration.pageContainsAtLeastNImages
                     pageContainsAtLeastNLayoutElements =
@@ -8735,6 +8762,28 @@ private constructor(
                     layoutElementInPageConfidenceThreshold(
                         LayoutElementInPageConfidenceThreshold.ofString(string)
                     )
+
+                /**
+                 * Trigger on pages at least this complex. high: pages whose tables look wrong.
+                 * medium: also pages that are mostly scanned text.
+                 */
+                fun minComplexity(minComplexity: MinComplexity?) =
+                    minComplexity(JsonField.ofNullable(minComplexity))
+
+                /** Alias for calling [Builder.minComplexity] with `minComplexity.orElse(null)`. */
+                fun minComplexity(minComplexity: Optional<MinComplexity>) =
+                    minComplexity(minComplexity.getOrNull())
+
+                /**
+                 * Sets [Builder.minComplexity] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.minComplexity] with a well-typed [MinComplexity]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun minComplexity(minComplexity: JsonField<MinComplexity>) = apply {
+                    this.minComplexity = minComplexity
+                }
 
                 /** Trigger if page has more than N charts */
                 fun pageContainsAtLeastNCharts(
@@ -9713,6 +9762,7 @@ private constructor(
                         imageInPage,
                         layoutElementInPage,
                         layoutElementInPageConfidenceThreshold,
+                        minComplexity,
                         pageContainsAtLeastNCharts,
                         pageContainsAtLeastNImages,
                         pageContainsAtLeastNLayoutElements,
@@ -9770,6 +9820,7 @@ private constructor(
                 imageInPage()
                 layoutElementInPage()
                 layoutElementInPageConfidenceThreshold().ifPresent { it.validate() }
+                minComplexity().ifPresent { it.validate() }
                 pageContainsAtLeastNCharts().ifPresent { it.validate() }
                 pageContainsAtLeastNImages().ifPresent { it.validate() }
                 pageContainsAtLeastNLayoutElements().ifPresent { it.validate() }
@@ -9826,6 +9877,7 @@ private constructor(
                     (if (layoutElementInPage.asKnown().isPresent) 1 else 0) +
                     (layoutElementInPageConfidenceThreshold.asKnown().getOrNull()?.validity()
                         ?: 0) +
+                    (minComplexity.asKnown().getOrNull()?.validity() ?: 0) +
                     (pageContainsAtLeastNCharts.asKnown().getOrNull()?.validity() ?: 0) +
                     (pageContainsAtLeastNImages.asKnown().getOrNull()?.validity() ?: 0) +
                     (pageContainsAtLeastNLayoutElements.asKnown().getOrNull()?.validity() ?: 0) +
@@ -12845,6 +12897,154 @@ private constructor(
                         }
                     }
                 }
+            }
+
+            /**
+             * Trigger on pages at least this complex. high: pages whose tables look wrong. medium:
+             * also pages that are mostly scanned text.
+             */
+            class MinComplexity
+            @JsonCreator
+            private constructor(private val value: JsonField<String>) : Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val HIGH = of("high")
+
+                    @JvmField val MEDIUM = of("medium")
+
+                    @JvmStatic fun of(value: String) = MinComplexity(JsonField.of(value))
+                }
+
+                /** An enum containing [MinComplexity]'s known values. */
+                enum class Known {
+                    HIGH,
+                    MEDIUM,
+                }
+
+                /**
+                 * An enum containing [MinComplexity]'s known values, as well as an [_UNKNOWN]
+                 * member.
+                 *
+                 * An instance of [MinComplexity] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    HIGH,
+                    MEDIUM,
+                    /**
+                     * An enum member indicating that [MinComplexity] was instantiated with an
+                     * unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        HIGH -> Value.HIGH
+                        MEDIUM -> Value.MEDIUM
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        HIGH -> Known.HIGH
+                        MEDIUM -> Known.MEDIUM
+                        else ->
+                            throw LlamaCloudInvalidDataException("Unknown MinComplexity: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value does not
+                 *   have the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LlamaCloudInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LlamaCloudInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
+                fun validate(): MinComplexity = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LlamaCloudInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is MinComplexity && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
             }
 
             /** Trigger if page has more than N charts */
@@ -17382,6 +17582,7 @@ private constructor(
                     layoutElementInPage == other.layoutElementInPage &&
                     layoutElementInPageConfidenceThreshold ==
                         other.layoutElementInPageConfidenceThreshold &&
+                    minComplexity == other.minComplexity &&
                     pageContainsAtLeastNCharts == other.pageContainsAtLeastNCharts &&
                     pageContainsAtLeastNImages == other.pageContainsAtLeastNImages &&
                     pageContainsAtLeastNLayoutElements ==
@@ -17425,6 +17626,7 @@ private constructor(
                     imageInPage,
                     layoutElementInPage,
                     layoutElementInPageConfidenceThreshold,
+                    minComplexity,
                     pageContainsAtLeastNCharts,
                     pageContainsAtLeastNImages,
                     pageContainsAtLeastNLayoutElements,
@@ -17458,7 +17660,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "AutoModeConfiguration{parsingConf=$parsingConf, filenameMatchGlob=$filenameMatchGlob, filenameMatchGlobList=$filenameMatchGlobList, filenameRegexp=$filenameRegexp, filenameRegexpMode=$filenameRegexpMode, fullPageImageInPage=$fullPageImageInPage, fullPageImageInPageThreshold=$fullPageImageInPageThreshold, imageInPage=$imageInPage, layoutElementInPage=$layoutElementInPage, layoutElementInPageConfidenceThreshold=$layoutElementInPageConfidenceThreshold, pageContainsAtLeastNCharts=$pageContainsAtLeastNCharts, pageContainsAtLeastNImages=$pageContainsAtLeastNImages, pageContainsAtLeastNLayoutElements=$pageContainsAtLeastNLayoutElements, pageContainsAtLeastNLines=$pageContainsAtLeastNLines, pageContainsAtLeastNLinks=$pageContainsAtLeastNLinks, pageContainsAtLeastNNumbers=$pageContainsAtLeastNNumbers, pageContainsAtLeastNPercentNumbers=$pageContainsAtLeastNPercentNumbers, pageContainsAtLeastNTables=$pageContainsAtLeastNTables, pageContainsAtLeastNWords=$pageContainsAtLeastNWords, pageContainsAtMostNCharts=$pageContainsAtMostNCharts, pageContainsAtMostNImages=$pageContainsAtMostNImages, pageContainsAtMostNLayoutElements=$pageContainsAtMostNLayoutElements, pageContainsAtMostNLines=$pageContainsAtMostNLines, pageContainsAtMostNLinks=$pageContainsAtMostNLinks, pageContainsAtMostNNumbers=$pageContainsAtMostNNumbers, pageContainsAtMostNPercentNumbers=$pageContainsAtMostNPercentNumbers, pageContainsAtMostNTables=$pageContainsAtMostNTables, pageContainsAtMostNWords=$pageContainsAtMostNWords, pageLongerThanNChars=$pageLongerThanNChars, pageMdError=$pageMdError, pageShorterThanNChars=$pageShorterThanNChars, regexpInPage=$regexpInPage, regexpInPageMode=$regexpInPageMode, tableInPage=$tableInPage, textInPage=$textInPage, triggerMode=$triggerMode, additionalProperties=$additionalProperties}"
+                "AutoModeConfiguration{parsingConf=$parsingConf, filenameMatchGlob=$filenameMatchGlob, filenameMatchGlobList=$filenameMatchGlobList, filenameRegexp=$filenameRegexp, filenameRegexpMode=$filenameRegexpMode, fullPageImageInPage=$fullPageImageInPage, fullPageImageInPageThreshold=$fullPageImageInPageThreshold, imageInPage=$imageInPage, layoutElementInPage=$layoutElementInPage, layoutElementInPageConfidenceThreshold=$layoutElementInPageConfidenceThreshold, minComplexity=$minComplexity, pageContainsAtLeastNCharts=$pageContainsAtLeastNCharts, pageContainsAtLeastNImages=$pageContainsAtLeastNImages, pageContainsAtLeastNLayoutElements=$pageContainsAtLeastNLayoutElements, pageContainsAtLeastNLines=$pageContainsAtLeastNLines, pageContainsAtLeastNLinks=$pageContainsAtLeastNLinks, pageContainsAtLeastNNumbers=$pageContainsAtLeastNNumbers, pageContainsAtLeastNPercentNumbers=$pageContainsAtLeastNPercentNumbers, pageContainsAtLeastNTables=$pageContainsAtLeastNTables, pageContainsAtLeastNWords=$pageContainsAtLeastNWords, pageContainsAtMostNCharts=$pageContainsAtMostNCharts, pageContainsAtMostNImages=$pageContainsAtMostNImages, pageContainsAtMostNLayoutElements=$pageContainsAtMostNLayoutElements, pageContainsAtMostNLines=$pageContainsAtMostNLines, pageContainsAtMostNLinks=$pageContainsAtMostNLinks, pageContainsAtMostNNumbers=$pageContainsAtMostNNumbers, pageContainsAtMostNPercentNumbers=$pageContainsAtMostNPercentNumbers, pageContainsAtMostNTables=$pageContainsAtMostNTables, pageContainsAtMostNWords=$pageContainsAtMostNWords, pageLongerThanNChars=$pageLongerThanNChars, pageMdError=$pageMdError, pageShorterThanNChars=$pageShorterThanNChars, regexpInPage=$regexpInPage, regexpInPageMode=$regexpInPageMode, tableInPage=$tableInPage, textInPage=$textInPage, triggerMode=$triggerMode, additionalProperties=$additionalProperties}"
         }
 
         /**

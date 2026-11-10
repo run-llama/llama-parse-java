@@ -223,6 +223,11 @@ internal class ParsingCreateParamsTest {
                             .imageInPage(true)
                             .layoutElementInPage("layout_element_in_page")
                             .layoutElementInPageConfidenceThreshold(0.0)
+                            .minComplexity(
+                                ParsingCreateParams.ProcessingOptions.AutoModeConfiguration
+                                    .MinComplexity
+                                    .HIGH
+                            )
                             .pageContainsAtLeastNCharts(0L)
                             .pageContainsAtLeastNImages(0L)
                             .pageContainsAtLeastNLayoutElements(0L)
@@ -531,6 +536,11 @@ internal class ParsingCreateParamsTest {
                                 .imageInPage(true)
                                 .layoutElementInPage("layout_element_in_page")
                                 .layoutElementInPageConfidenceThreshold(0.0)
+                                .minComplexity(
+                                    ParsingCreateParams.ProcessingOptions.AutoModeConfiguration
+                                        .MinComplexity
+                                        .HIGH
+                                )
                                 .pageContainsAtLeastNCharts(0L)
                                 .pageContainsAtLeastNImages(0L)
                                 .pageContainsAtLeastNLayoutElements(0L)
@@ -862,6 +872,11 @@ internal class ParsingCreateParamsTest {
                                 .imageInPage(true)
                                 .layoutElementInPage("layout_element_in_page")
                                 .layoutElementInPageConfidenceThreshold(0.0)
+                                .minComplexity(
+                                    ParsingCreateParams.ProcessingOptions.AutoModeConfiguration
+                                        .MinComplexity
+                                        .HIGH
+                                )
                                 .pageContainsAtLeastNCharts(0L)
                                 .pageContainsAtLeastNImages(0L)
                                 .pageContainsAtLeastNLayoutElements(0L)
@@ -1161,6 +1176,11 @@ internal class ParsingCreateParamsTest {
                             .imageInPage(true)
                             .layoutElementInPage("layout_element_in_page")
                             .layoutElementInPageConfidenceThreshold(0.0)
+                            .minComplexity(
+                                ParsingCreateParams.ProcessingOptions.AutoModeConfiguration
+                                    .MinComplexity
+                                    .HIGH
+                            )
                             .pageContainsAtLeastNCharts(0L)
                             .pageContainsAtLeastNImages(0L)
                             .pageContainsAtLeastNLayoutElements(0L)

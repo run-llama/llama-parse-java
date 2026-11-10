@@ -228,6 +228,11 @@ internal class ParseV2ParametersTest {
                                 .imageInPage(true)
                                 .layoutElementInPage("layout_element_in_page")
                                 .layoutElementInPageConfidenceThreshold(0.0)
+                                .minComplexity(
+                                    ParseV2Parameters.ProcessingOptions.AutoModeConfiguration
+                                        .MinComplexity
+                                        .HIGH
+                                )
                                 .pageContainsAtLeastNCharts(0L)
                                 .pageContainsAtLeastNImages(0L)
                                 .pageContainsAtLeastNLayoutElements(0L)
@@ -516,6 +521,11 @@ internal class ParseV2ParametersTest {
                             .imageInPage(true)
                             .layoutElementInPage("layout_element_in_page")
                             .layoutElementInPageConfidenceThreshold(0.0)
+                            .minComplexity(
+                                ParseV2Parameters.ProcessingOptions.AutoModeConfiguration
+                                    .MinComplexity
+                                    .HIGH
+                            )
                             .pageContainsAtLeastNCharts(0L)
                             .pageContainsAtLeastNImages(0L)
                             .pageContainsAtLeastNLayoutElements(0L)
@@ -810,6 +820,11 @@ internal class ParseV2ParametersTest {
                                 .imageInPage(true)
                                 .layoutElementInPage("layout_element_in_page")
                                 .layoutElementInPageConfidenceThreshold(0.0)
+                                .minComplexity(
+                                    ParseV2Parameters.ProcessingOptions.AutoModeConfiguration
+                                        .MinComplexity
+                                        .HIGH
+                                )
                                 .pageContainsAtLeastNCharts(0L)
                                 .pageContainsAtLeastNImages(0L)
                                 .pageContainsAtLeastNLayoutElements(0L)
