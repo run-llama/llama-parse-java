@@ -7700,8 +7700,9 @@ private constructor(
                 )
 
             /**
-             * Trigger on pages at least this complex. high: pages whose tables look wrong. medium:
-             * also pages that are mostly scanned text.
+             * Trigger on pages with at least 100 source words. low: table warnings or at least 50%
+             * OCR words. medium: at least 3 table concerns or missed tables. high: medium plus at
+             * least 2 detected tables.
              *
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
              *   if the server responded with an unexpected value).
@@ -8764,8 +8765,9 @@ private constructor(
                     )
 
                 /**
-                 * Trigger on pages at least this complex. high: pages whose tables look wrong.
-                 * medium: also pages that are mostly scanned text.
+                 * Trigger on pages with at least 100 source words. low: table warnings or at least
+                 * 50% OCR words. medium: at least 3 table concerns or missed tables. high: medium
+                 * plus at least 2 detected tables.
                  */
                 fun minComplexity(minComplexity: MinComplexity?) =
                     minComplexity(JsonField.ofNullable(minComplexity))
@@ -12900,8 +12902,9 @@ private constructor(
             }
 
             /**
-             * Trigger on pages at least this complex. high: pages whose tables look wrong. medium:
-             * also pages that are mostly scanned text.
+             * Trigger on pages with at least 100 source words. low: table warnings or at least 50%
+             * OCR words. medium: at least 3 table concerns or missed tables. high: medium plus at
+             * least 2 detected tables.
              */
             class MinComplexity
             @JsonCreator
@@ -12921,6 +12924,8 @@ private constructor(
 
                     @JvmField val HIGH = of("high")
 
+                    @JvmField val LOW = of("low")
+
                     @JvmField val MEDIUM = of("medium")
 
                     @JvmStatic fun of(value: String) = MinComplexity(JsonField.of(value))
@@ -12929,6 +12934,7 @@ private constructor(
                 /** An enum containing [MinComplexity]'s known values. */
                 enum class Known {
                     HIGH,
+                    LOW,
                     MEDIUM,
                 }
 
@@ -12944,6 +12950,7 @@ private constructor(
                  */
                 enum class Value {
                     HIGH,
+                    LOW,
                     MEDIUM,
                     /**
                      * An enum member indicating that [MinComplexity] was instantiated with an
@@ -12962,6 +12969,7 @@ private constructor(
                 fun value(): Value =
                     when (this) {
                         HIGH -> Value.HIGH
+                        LOW -> Value.LOW
                         MEDIUM -> Value.MEDIUM
                         else -> Value._UNKNOWN
                     }
@@ -12978,6 +12986,7 @@ private constructor(
                 fun known(): Known =
                     when (this) {
                         HIGH -> Known.HIGH
+                        LOW -> Known.LOW
                         MEDIUM -> Known.MEDIUM
                         else ->
                             throw LlamaCloudInvalidDataException("Unknown MinComplexity: $value")
