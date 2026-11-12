@@ -1510,6 +1510,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val _2026_11_12 = of("2026-11-12")
+
             @JvmField val _2026_06_15 = of("2026-06-15")
 
             @JvmField val _2025_12_11 = of("2025-12-11")
@@ -1519,6 +1521,7 @@ private constructor(
 
         /** An enum containing [Fast]'s known values. */
         enum class Known {
+            _2026_11_12,
             _2026_06_15,
             _2025_12_11,
         }
@@ -1533,6 +1536,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            _2026_11_12,
             _2026_06_15,
             _2025_12_11,
             /** An enum member indicating that [Fast] was instantiated with an unknown value. */
@@ -1548,6 +1552,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                _2026_11_12 -> Value._2026_11_12
                 _2026_06_15 -> Value._2026_06_15
                 _2025_12_11 -> Value._2025_12_11
                 else -> Value._UNKNOWN
@@ -1564,6 +1569,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                _2026_11_12 -> Known._2026_11_12
                 _2026_06_15 -> Known._2026_06_15
                 _2025_12_11 -> Known._2025_12_11
                 else -> throw LlamaCloudInvalidDataException("Unknown Fast: $value")

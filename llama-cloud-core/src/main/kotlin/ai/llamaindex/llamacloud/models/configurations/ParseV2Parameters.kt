@@ -141,7 +141,7 @@ private constructor(
      * Version for the selected tier. Use `latest`, or pin one of that tier's dated versions.
      *
      * Current `latest` by tier:
-     * - `fast`: `2026-06-15`
+     * - `fast`: `2026-11-12`
      * - `cost_effective`: `2026-11-09`
      * - `agentic`: `2026-11-09`
      * - `agentic_plus`: `2026-11-11`
@@ -479,7 +479,7 @@ private constructor(
          * Version for the selected tier. Use `latest`, or pin one of that tier's dated versions.
          *
          * Current `latest` by tier:
-         * - `fast`: `2026-06-15`
+         * - `fast`: `2026-11-12`
          * - `cost_effective`: `2026-11-09`
          * - `agentic`: `2026-11-09`
          * - `agentic_plus`: `2026-11-11`
@@ -1010,7 +1010,7 @@ private constructor(
      * Version for the selected tier. Use `latest`, or pin one of that tier's dated versions.
      *
      * Current `latest` by tier:
-     * - `fast`: `2026-06-15`
+     * - `fast`: `2026-11-12`
      * - `cost_effective`: `2026-11-09`
      * - `agentic`: `2026-11-09`
      * - `agentic_plus`: `2026-11-11`
@@ -1033,11 +1033,11 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
+            @JvmField val _2026_11_12 = of("2026-11-12")
+
             @JvmField val _2026_11_11 = of("2026-11-11")
 
             @JvmField val _2026_11_09 = of("2026-11-09")
-
-            @JvmField val _2026_06_15 = of("2026-06-15")
 
             @JvmStatic fun of(value: String) = Version(JsonField.of(value))
         }
@@ -1045,9 +1045,9 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
+            _2026_11_12,
             _2026_11_11,
             _2026_11_09,
-            _2026_06_15,
         }
 
         /**
@@ -1061,9 +1061,9 @@ private constructor(
          */
         enum class Value {
             LATEST,
+            _2026_11_12,
             _2026_11_11,
             _2026_11_09,
-            _2026_06_15,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -1078,9 +1078,9 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
+                _2026_11_12 -> Value._2026_11_12
                 _2026_11_11 -> Value._2026_11_11
                 _2026_11_09 -> Value._2026_11_09
-                _2026_06_15 -> Value._2026_06_15
                 else -> Value._UNKNOWN
             }
 
@@ -1096,9 +1096,9 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
+                _2026_11_12 -> Known._2026_11_12
                 _2026_11_11 -> Known._2026_11_11
                 _2026_11_09 -> Known._2026_11_09
-                _2026_06_15 -> Known._2026_06_15
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
             }
 
@@ -10102,7 +10102,7 @@ private constructor(
                  * one of that tier's dated versions.
                  *
                  * Current `latest` by tier:
-                 * - `fast`: `2026-06-15`
+                 * - `fast`: `2026-11-12`
                  * - `cost_effective`: `2026-11-09`
                  * - `agentic`: `2026-11-09`
                  * - `agentic_plus`: `2026-11-11`
@@ -10606,7 +10606,7 @@ private constructor(
                      * pin one of that tier's dated versions.
                      *
                      * Current `latest` by tier:
-                     * - `fast`: `2026-06-15`
+                     * - `fast`: `2026-11-12`
                      * - `cost_effective`: `2026-11-09`
                      * - `agentic`: `2026-11-09`
                      * - `agentic_plus`: `2026-11-11`
@@ -12220,7 +12220,7 @@ private constructor(
                  * one of that tier's dated versions.
                  *
                  * Current `latest` by tier:
-                 * - `fast`: `2026-06-15`
+                 * - `fast`: `2026-11-12`
                  * - `cost_effective`: `2026-11-09`
                  * - `agentic`: `2026-11-09`
                  * - `agentic_plus`: `2026-11-11`
@@ -12246,11 +12246,11 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
+                        @JvmField val _2026_11_12 = of("2026-11-12")
+
                         @JvmField val _2026_11_11 = of("2026-11-11")
 
                         @JvmField val _2026_11_09 = of("2026-11-09")
-
-                        @JvmField val _2026_06_15 = of("2026-06-15")
 
                         @JvmStatic fun of(value: String) = Version(JsonField.of(value))
                     }
@@ -12258,9 +12258,9 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
+                        _2026_11_12,
                         _2026_11_11,
                         _2026_11_09,
-                        _2026_06_15,
                     }
 
                     /**
@@ -12274,9 +12274,9 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
+                        _2026_11_12,
                         _2026_11_11,
                         _2026_11_09,
-                        _2026_06_15,
                         /**
                          * An enum member indicating that [Version] was instantiated with an unknown
                          * value.
@@ -12294,9 +12294,9 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
+                            _2026_11_12 -> Value._2026_11_12
                             _2026_11_11 -> Value._2026_11_11
                             _2026_11_09 -> Value._2026_11_09
-                            _2026_06_15 -> Value._2026_06_15
                             else -> Value._UNKNOWN
                         }
 
@@ -12312,9 +12312,9 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
+                            _2026_11_12 -> Known._2026_11_12
                             _2026_11_11 -> Known._2026_11_11
                             _2026_11_09 -> Known._2026_11_09
-                            _2026_06_15 -> Known._2026_06_15
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
                         }
 
