@@ -11,7 +11,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Permanently delete a directory. */
+/** Permanently delete a directory, and the files in it that no other directory or index uses. */
 class DirectoryDeleteParams
 private constructor(
     private val directoryId: String?,

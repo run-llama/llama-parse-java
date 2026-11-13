@@ -235,6 +235,7 @@ internal class PipelineServiceTest {
                                     .version("version")
                                     .addWebhookConfiguration(
                                         LlamaParseParameters.WebhookConfiguration.builder()
+                                            .id("cwh-8f3k2m9q1x7v4b6n0p5r2t8y1w3z6")
                                             .addWebhookEvent(
                                                 LlamaParseParameters.WebhookConfiguration
                                                     .WebhookEvent
@@ -571,6 +572,7 @@ internal class PipelineServiceTest {
                             .version("version")
                             .addWebhookConfiguration(
                                 LlamaParseParameters.WebhookConfiguration.builder()
+                                    .id("cwh-8f3k2m9q1x7v4b6n0p5r2t8y1w3z6")
                                     .addWebhookEvent(
                                         LlamaParseParameters.WebhookConfiguration.WebhookEvent
                                             .PARSE_SUCCESS
@@ -669,7 +671,7 @@ internal class PipelineServiceTest {
         val client = LlamaCloudOkHttpClient.builder().apiKey("My API Key").build()
         val pipelineService = client.pipelines()
 
-        val pipelines =
+        val pipelineListItems =
             pipelineService.list(
                 PipelineListParams.builder()
                     .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -680,7 +682,7 @@ internal class PipelineServiceTest {
                     .build()
             )
 
-        pipelines.forEach { it.validate() }
+        pipelineListItems.forEach { it.validate() }
     }
 
     @Disabled("Mock server tests are disabled")
@@ -946,6 +948,7 @@ internal class PipelineServiceTest {
                                     .version("version")
                                     .addWebhookConfiguration(
                                         LlamaParseParameters.WebhookConfiguration.builder()
+                                            .id("cwh-8f3k2m9q1x7v4b6n0p5r2t8y1w3z6")
                                             .addWebhookEvent(
                                                 LlamaParseParameters.WebhookConfiguration
                                                     .WebhookEvent

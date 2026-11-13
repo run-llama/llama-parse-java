@@ -219,6 +219,8 @@ internal class ParseV2ParametersTest {
                                         )
                                         .build()
                                 )
+                                .documentLongerThanNPages(5L)
+                                .documentShorterThanNPages(5L)
                                 .filenameMatchGlob("*.txt")
                                 .addFilenameMatchGlobList("string")
                                 .filenameRegexp("filename_regexp")
@@ -228,6 +230,11 @@ internal class ParseV2ParametersTest {
                                 .imageInPage(true)
                                 .layoutElementInPage("layout_element_in_page")
                                 .layoutElementInPageConfidenceThreshold(0.0)
+                                .minComplexity(
+                                    ParseV2Parameters.ProcessingOptions.AutoModeConfiguration
+                                        .MinComplexity
+                                        .HIGH
+                                )
                                 .pageContainsAtLeastNCharts(0L)
                                 .pageContainsAtLeastNImages(0L)
                                 .pageContainsAtLeastNLayoutElements(0L)
@@ -287,6 +294,7 @@ internal class ParseV2ParametersTest {
                 .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     ParseV2Parameters.WebhookConfiguration.builder()
+                        .id("cwh-8f3k2m9q1x7v4b6n0p5r2t8y1w3z6")
                         .addWebhookEvent("parse.success")
                         .addWebhookEvent("parse.error")
                         .webhookHeaders(
@@ -506,6 +514,8 @@ internal class ParseV2ParametersTest {
                                     )
                                     .build()
                             )
+                            .documentLongerThanNPages(5L)
+                            .documentShorterThanNPages(5L)
                             .filenameMatchGlob("*.txt")
                             .addFilenameMatchGlobList("string")
                             .filenameRegexp("filename_regexp")
@@ -515,6 +525,11 @@ internal class ParseV2ParametersTest {
                             .imageInPage(true)
                             .layoutElementInPage("layout_element_in_page")
                             .layoutElementInPageConfidenceThreshold(0.0)
+                            .minComplexity(
+                                ParseV2Parameters.ProcessingOptions.AutoModeConfiguration
+                                    .MinComplexity
+                                    .HIGH
+                            )
                             .pageContainsAtLeastNCharts(0L)
                             .pageContainsAtLeastNImages(0L)
                             .pageContainsAtLeastNLayoutElements(0L)
@@ -575,6 +590,7 @@ internal class ParseV2ParametersTest {
         assertThat(parseV2Parameters.webhookConfigurations().getOrNull())
             .containsExactly(
                 ParseV2Parameters.WebhookConfiguration.builder()
+                    .id("cwh-8f3k2m9q1x7v4b6n0p5r2t8y1w3z6")
                     .addWebhookEvent("parse.success")
                     .addWebhookEvent("parse.error")
                     .webhookHeaders(
@@ -799,6 +815,8 @@ internal class ParseV2ParametersTest {
                                         )
                                         .build()
                                 )
+                                .documentLongerThanNPages(5L)
+                                .documentShorterThanNPages(5L)
                                 .filenameMatchGlob("*.txt")
                                 .addFilenameMatchGlobList("string")
                                 .filenameRegexp("filename_regexp")
@@ -808,6 +826,11 @@ internal class ParseV2ParametersTest {
                                 .imageInPage(true)
                                 .layoutElementInPage("layout_element_in_page")
                                 .layoutElementInPageConfidenceThreshold(0.0)
+                                .minComplexity(
+                                    ParseV2Parameters.ProcessingOptions.AutoModeConfiguration
+                                        .MinComplexity
+                                        .HIGH
+                                )
                                 .pageContainsAtLeastNCharts(0L)
                                 .pageContainsAtLeastNImages(0L)
                                 .pageContainsAtLeastNLayoutElements(0L)
@@ -867,6 +890,7 @@ internal class ParseV2ParametersTest {
                 .addWebhookConfigurationId("whc-...")
                 .addWebhookConfiguration(
                     ParseV2Parameters.WebhookConfiguration.builder()
+                        .id("cwh-8f3k2m9q1x7v4b6n0p5r2t8y1w3z6")
                         .addWebhookEvent("parse.success")
                         .addWebhookEvent("parse.error")
                         .webhookHeaders(

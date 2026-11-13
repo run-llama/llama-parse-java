@@ -99,7 +99,9 @@ interface DirectoryService {
     fun list(requestOptions: RequestOptions): DirectoryListPage =
         list(DirectoryListParams.none(), requestOptions)
 
-    /** Permanently delete a directory. */
+    /**
+     * Permanently delete a directory, and the files in it that no other directory or index uses.
+     */
     fun delete(directoryId: String) = delete(directoryId, DirectoryDeleteParams.none())
 
     /** @see delete */

@@ -73,6 +73,34 @@ internal class FormTableCellItemsTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Id.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
                                                 .build()
@@ -119,6 +147,34 @@ internal class FormTableCellItemsTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Label.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
                                                 .build()
@@ -164,6 +220,34 @@ internal class FormTableCellItemsTest {
                                                         )
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
+                                                        )
+                                                        .addChar(
+                                                            FormField.Grounding.Value.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
                                                         )
                                                         .build()
                                                 )
@@ -252,6 +336,51 @@ internal class FormTableCellItemsTest {
                                                                                 mapOf<String, Any>()
                                                                             )
                                                                         )
+                                                                        .addChar(
+                                                                            FormTable.Grounding.Id
+                                                                                .Line
+                                                                                .Word
+                                                                                .Char
+                                                                                .builder()
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .build()
+                                                                        )
                                                                         .build()
                                                                 )
                                                                 .build()
@@ -313,6 +442,52 @@ internal class FormTableCellItemsTest {
                                                                                 mapOf<String, Any>()
                                                                             )
                                                                         )
+                                                                        .addChar(
+                                                                            FormTable.Grounding
+                                                                                .Column
+                                                                                .Line
+                                                                                .Word
+                                                                                .Char
+                                                                                .builder()
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .build()
+                                                                        )
                                                                         .build()
                                                                 )
                                                                 .build()
@@ -372,6 +547,52 @@ internal class FormTableCellItemsTest {
                                                                             JsonValue.from(
                                                                                 mapOf<String, Any>()
                                                                             )
+                                                                        )
+                                                                        .addChar(
+                                                                            FormTable.Grounding
+                                                                                .Label
+                                                                                .Line
+                                                                                .Word
+                                                                                .Char
+                                                                                .builder()
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .build()
                                                                         )
                                                                         .build()
                                                                 )
@@ -446,6 +667,55 @@ internal class FormTableCellItemsTest {
                                                                                     >()
                                                                                 )
                                                                             )
+                                                                            .addChar(
+                                                                                FormTable.Grounding
+                                                                                    .FormTextGrounding
+                                                                                    .Line
+                                                                                    .Word
+                                                                                    .Char
+                                                                                    .builder()
+                                                                                    .bbox(
+                                                                                        BBox
+                                                                                            .builder()
+                                                                                            .h(0.0)
+                                                                                            .w(0.0)
+                                                                                            .x(0.0)
+                                                                                            .y(0.0)
+                                                                                            .confidence(
+                                                                                                0.0
+                                                                                            )
+                                                                                            .endIndex(
+                                                                                                0L
+                                                                                            )
+                                                                                            .label(
+                                                                                                "label"
+                                                                                            )
+                                                                                            .r(0.0)
+                                                                                            .startIndex(
+                                                                                                0L
+                                                                                            )
+                                                                                            .build()
+                                                                                    )
+                                                                                    .addSpan(
+                                                                                        JsonValue
+                                                                                            .from(
+                                                                                                mapOf<
+                                                                                                    String,
+                                                                                                    Any,
+                                                                                                >()
+                                                                                            )
+                                                                                    )
+                                                                                    .addSpan(
+                                                                                        JsonValue
+                                                                                            .from(
+                                                                                                mapOf<
+                                                                                                    String,
+                                                                                                    Any,
+                                                                                                >()
+                                                                                            )
+                                                                                    )
+                                                                                    .build()
+                                                                            )
                                                                             .build()
                                                                     )
                                                                     .build()
@@ -512,6 +782,36 @@ internal class FormTableCellItemsTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormSection.Grounding.Id.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
                                                         .build()
@@ -566,6 +866,36 @@ internal class FormTableCellItemsTest {
                                                                     JsonValue.from(
                                                                         mapOf<String, Any>()
                                                                     )
+                                                                )
+                                                                .addChar(
+                                                                    FormSection.Grounding.Label.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
                                                                 )
                                                                 .build()
                                                         )
@@ -644,6 +974,34 @@ internal class FormTableCellItemsTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Id.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
                                                 .build()
@@ -690,6 +1048,34 @@ internal class FormTableCellItemsTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Label.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
                                                 .build()
@@ -735,6 +1121,34 @@ internal class FormTableCellItemsTest {
                                                         )
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
+                                                        )
+                                                        .addChar(
+                                                            FormField.Grounding.Value.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
                                                         )
                                                         .build()
                                                 )
@@ -823,6 +1237,51 @@ internal class FormTableCellItemsTest {
                                                                                 mapOf<String, Any>()
                                                                             )
                                                                         )
+                                                                        .addChar(
+                                                                            FormTable.Grounding.Id
+                                                                                .Line
+                                                                                .Word
+                                                                                .Char
+                                                                                .builder()
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .build()
+                                                                        )
                                                                         .build()
                                                                 )
                                                                 .build()
@@ -884,6 +1343,52 @@ internal class FormTableCellItemsTest {
                                                                                 mapOf<String, Any>()
                                                                             )
                                                                         )
+                                                                        .addChar(
+                                                                            FormTable.Grounding
+                                                                                .Column
+                                                                                .Line
+                                                                                .Word
+                                                                                .Char
+                                                                                .builder()
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .build()
+                                                                        )
                                                                         .build()
                                                                 )
                                                                 .build()
@@ -943,6 +1448,52 @@ internal class FormTableCellItemsTest {
                                                                             JsonValue.from(
                                                                                 mapOf<String, Any>()
                                                                             )
+                                                                        )
+                                                                        .addChar(
+                                                                            FormTable.Grounding
+                                                                                .Label
+                                                                                .Line
+                                                                                .Word
+                                                                                .Char
+                                                                                .builder()
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .build()
                                                                         )
                                                                         .build()
                                                                 )
@@ -1017,6 +1568,55 @@ internal class FormTableCellItemsTest {
                                                                                     >()
                                                                                 )
                                                                             )
+                                                                            .addChar(
+                                                                                FormTable.Grounding
+                                                                                    .FormTextGrounding
+                                                                                    .Line
+                                                                                    .Word
+                                                                                    .Char
+                                                                                    .builder()
+                                                                                    .bbox(
+                                                                                        BBox
+                                                                                            .builder()
+                                                                                            .h(0.0)
+                                                                                            .w(0.0)
+                                                                                            .x(0.0)
+                                                                                            .y(0.0)
+                                                                                            .confidence(
+                                                                                                0.0
+                                                                                            )
+                                                                                            .endIndex(
+                                                                                                0L
+                                                                                            )
+                                                                                            .label(
+                                                                                                "label"
+                                                                                            )
+                                                                                            .r(0.0)
+                                                                                            .startIndex(
+                                                                                                0L
+                                                                                            )
+                                                                                            .build()
+                                                                                    )
+                                                                                    .addSpan(
+                                                                                        JsonValue
+                                                                                            .from(
+                                                                                                mapOf<
+                                                                                                    String,
+                                                                                                    Any,
+                                                                                                >()
+                                                                                            )
+                                                                                    )
+                                                                                    .addSpan(
+                                                                                        JsonValue
+                                                                                            .from(
+                                                                                                mapOf<
+                                                                                                    String,
+                                                                                                    Any,
+                                                                                                >()
+                                                                                            )
+                                                                                    )
+                                                                                    .build()
+                                                                            )
                                                                             .build()
                                                                     )
                                                                     .build()
@@ -1083,6 +1683,36 @@ internal class FormTableCellItemsTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormSection.Grounding.Id.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
                                                         .build()
@@ -1137,6 +1767,36 @@ internal class FormTableCellItemsTest {
                                                                     JsonValue.from(
                                                                         mapOf<String, Any>()
                                                                     )
+                                                                )
+                                                                .addChar(
+                                                                    FormSection.Grounding.Label.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
                                                                 )
                                                                 .build()
                                                         )
@@ -1219,6 +1879,34 @@ internal class FormTableCellItemsTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Id.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
                                                 .build()
@@ -1265,6 +1953,34 @@ internal class FormTableCellItemsTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Label.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
                                                 .build()
@@ -1310,6 +2026,34 @@ internal class FormTableCellItemsTest {
                                                         )
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
+                                                        )
+                                                        .addChar(
+                                                            FormField.Grounding.Value.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
                                                         )
                                                         .build()
                                                 )
@@ -1398,6 +2142,51 @@ internal class FormTableCellItemsTest {
                                                                                 mapOf<String, Any>()
                                                                             )
                                                                         )
+                                                                        .addChar(
+                                                                            FormTable.Grounding.Id
+                                                                                .Line
+                                                                                .Word
+                                                                                .Char
+                                                                                .builder()
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .build()
+                                                                        )
                                                                         .build()
                                                                 )
                                                                 .build()
@@ -1459,6 +2248,52 @@ internal class FormTableCellItemsTest {
                                                                                 mapOf<String, Any>()
                                                                             )
                                                                         )
+                                                                        .addChar(
+                                                                            FormTable.Grounding
+                                                                                .Column
+                                                                                .Line
+                                                                                .Word
+                                                                                .Char
+                                                                                .builder()
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .build()
+                                                                        )
                                                                         .build()
                                                                 )
                                                                 .build()
@@ -1518,6 +2353,52 @@ internal class FormTableCellItemsTest {
                                                                             JsonValue.from(
                                                                                 mapOf<String, Any>()
                                                                             )
+                                                                        )
+                                                                        .addChar(
+                                                                            FormTable.Grounding
+                                                                                .Label
+                                                                                .Line
+                                                                                .Word
+                                                                                .Char
+                                                                                .builder()
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .addSpan(
+                                                                                    JsonValue.from(
+                                                                                        mapOf<
+                                                                                            String,
+                                                                                            Any,
+                                                                                        >()
+                                                                                    )
+                                                                                )
+                                                                                .build()
                                                                         )
                                                                         .build()
                                                                 )
@@ -1592,6 +2473,55 @@ internal class FormTableCellItemsTest {
                                                                                     >()
                                                                                 )
                                                                             )
+                                                                            .addChar(
+                                                                                FormTable.Grounding
+                                                                                    .FormTextGrounding
+                                                                                    .Line
+                                                                                    .Word
+                                                                                    .Char
+                                                                                    .builder()
+                                                                                    .bbox(
+                                                                                        BBox
+                                                                                            .builder()
+                                                                                            .h(0.0)
+                                                                                            .w(0.0)
+                                                                                            .x(0.0)
+                                                                                            .y(0.0)
+                                                                                            .confidence(
+                                                                                                0.0
+                                                                                            )
+                                                                                            .endIndex(
+                                                                                                0L
+                                                                                            )
+                                                                                            .label(
+                                                                                                "label"
+                                                                                            )
+                                                                                            .r(0.0)
+                                                                                            .startIndex(
+                                                                                                0L
+                                                                                            )
+                                                                                            .build()
+                                                                                    )
+                                                                                    .addSpan(
+                                                                                        JsonValue
+                                                                                            .from(
+                                                                                                mapOf<
+                                                                                                    String,
+                                                                                                    Any,
+                                                                                                >()
+                                                                                            )
+                                                                                    )
+                                                                                    .addSpan(
+                                                                                        JsonValue
+                                                                                            .from(
+                                                                                                mapOf<
+                                                                                                    String,
+                                                                                                    Any,
+                                                                                                >()
+                                                                                            )
+                                                                                    )
+                                                                                    .build()
+                                                                            )
                                                                             .build()
                                                                     )
                                                                     .build()
@@ -1658,6 +2588,36 @@ internal class FormTableCellItemsTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormSection.Grounding.Id.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
                                                         .build()
@@ -1712,6 +2672,36 @@ internal class FormTableCellItemsTest {
                                                                     JsonValue.from(
                                                                         mapOf<String, Any>()
                                                                     )
+                                                                )
+                                                                .addChar(
+                                                                    FormSection.Grounding.Label.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
                                                                 )
                                                                 .build()
                                                         )

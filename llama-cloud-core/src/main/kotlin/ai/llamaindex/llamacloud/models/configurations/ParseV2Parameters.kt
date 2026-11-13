@@ -141,10 +141,10 @@ private constructor(
      * Version for the selected tier. Use `latest`, or pin one of that tier's dated versions.
      *
      * Current `latest` by tier:
-     * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-09-28`
-     * - `agentic`: `2026-10-16`
-     * - `agentic_plus`: `2026-09-28`
+     * - `fast`: `2026-11-12`
+     * - `cost_effective`: `2026-11-09`
+     * - `agentic`: `2026-11-09`
+     * - `agentic_plus`: `2026-11-11`
      *
      * Full list: `GET /api/v2/parse/versions`.
      *
@@ -257,8 +257,8 @@ private constructor(
         webhookConfigurationIds.getOptional("webhook_configuration_ids")
 
     /**
-     * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-     * different events or services
+     * Webhook endpoints for job notifications. Maximum 10 total, including
+     * webhook_configuration_ids.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -479,10 +479,10 @@ private constructor(
          * Version for the selected tier. Use `latest`, or pin one of that tier's dated versions.
          *
          * Current `latest` by tier:
-         * - `fast`: `2026-06-15`
-         * - `cost_effective`: `2026-09-28`
-         * - `agentic`: `2026-10-16`
-         * - `agentic_plus`: `2026-09-28`
+         * - `fast`: `2026-11-12`
+         * - `cost_effective`: `2026-11-09`
+         * - `agentic`: `2026-11-09`
+         * - `agentic_plus`: `2026-11-11`
          *
          * Full list: `GET /api/v2/parse/versions`.
          */
@@ -705,8 +705,8 @@ private constructor(
         }
 
         /**
-         * Webhook endpoints for job status notifications. Multiple webhooks can be configured for
-         * different events or services
+         * Webhook endpoints for job notifications. Maximum 10 total, including
+         * webhook_configuration_ids.
          */
         fun webhookConfigurations(webhookConfigurations: List<WebhookConfiguration>) =
             webhookConfigurations(JsonField.of(webhookConfigurations))
@@ -1010,10 +1010,10 @@ private constructor(
      * Version for the selected tier. Use `latest`, or pin one of that tier's dated versions.
      *
      * Current `latest` by tier:
-     * - `fast`: `2026-06-15`
-     * - `cost_effective`: `2026-09-28`
-     * - `agentic`: `2026-10-16`
-     * - `agentic_plus`: `2026-09-28`
+     * - `fast`: `2026-11-12`
+     * - `cost_effective`: `2026-11-09`
+     * - `agentic`: `2026-11-09`
+     * - `agentic_plus`: `2026-11-11`
      *
      * Full list: `GET /api/v2/parse/versions`.
      */
@@ -1033,11 +1033,11 @@ private constructor(
 
             @JvmField val LATEST = of("latest")
 
-            @JvmField val _2026_10_16 = of("2026-10-16")
+            @JvmField val _2026_11_12 = of("2026-11-12")
 
-            @JvmField val _2026_09_28 = of("2026-09-28")
+            @JvmField val _2026_11_11 = of("2026-11-11")
 
-            @JvmField val _2026_06_15 = of("2026-06-15")
+            @JvmField val _2026_11_09 = of("2026-11-09")
 
             @JvmStatic fun of(value: String) = Version(JsonField.of(value))
         }
@@ -1045,9 +1045,9 @@ private constructor(
         /** An enum containing [Version]'s known values. */
         enum class Known {
             LATEST,
-            _2026_10_16,
-            _2026_09_28,
-            _2026_06_15,
+            _2026_11_12,
+            _2026_11_11,
+            _2026_11_09,
         }
 
         /**
@@ -1061,9 +1061,9 @@ private constructor(
          */
         enum class Value {
             LATEST,
-            _2026_10_16,
-            _2026_09_28,
-            _2026_06_15,
+            _2026_11_12,
+            _2026_11_11,
+            _2026_11_09,
             /** An enum member indicating that [Version] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -1078,9 +1078,9 @@ private constructor(
         fun value(): Value =
             when (this) {
                 LATEST -> Value.LATEST
-                _2026_10_16 -> Value._2026_10_16
-                _2026_09_28 -> Value._2026_09_28
-                _2026_06_15 -> Value._2026_06_15
+                _2026_11_12 -> Value._2026_11_12
+                _2026_11_11 -> Value._2026_11_11
+                _2026_11_09 -> Value._2026_11_09
                 else -> Value._UNKNOWN
             }
 
@@ -1096,9 +1096,9 @@ private constructor(
         fun known(): Known =
             when (this) {
                 LATEST -> Known.LATEST
-                _2026_10_16 -> Known._2026_10_16
-                _2026_09_28 -> Known._2026_09_28
-                _2026_06_15 -> Known._2026_06_15
+                _2026_11_12 -> Known._2026_11_12
+                _2026_11_11 -> Known._2026_11_11
+                _2026_11_09 -> Known._2026_11_09
                 else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
             }
 
@@ -3216,12 +3216,13 @@ private constructor(
         /**
          * Bounding-box granularity levels to compute for the parse. 'word' computes one bounding
          * box per detected word; 'line' computes one per text line; 'cell' computes one per table
-         * cell. Multiple levels can be requested. Empty list (default) disables granular bboxes —
-         * only item-level layout boxes are returned on the result. When set, the computed boxes are
-         * not inlined on the result items; they are written to a separate `grounded_items` sidecar
-         * (JSONL, one row per page) and exposed as `result_content_metadata.grounded_items` (a
-         * presigned download URL) on the parse result. Each row matches the `GroundedJsonItem`
-         * shape.
+         * cell; 'char' adds one box per character inside each grounded word (`chars` on each word),
+         * available on the `agentic_plus` tier only. Multiple levels can be requested. Empty list
+         * (default) disables granular bboxes — only item-level layout boxes are returned on the
+         * result. When set, the computed boxes are not inlined on the result items; they are
+         * written to a separate `grounded_items` sidecar (JSONL, one row per page) and exposed as
+         * `result_content_metadata.grounded_items` (a presigned download URL) on the parse result.
+         * Each row matches the `GroundedJsonItem` shape.
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -3498,12 +3499,14 @@ private constructor(
             /**
              * Bounding-box granularity levels to compute for the parse. 'word' computes one
              * bounding box per detected word; 'line' computes one per text line; 'cell' computes
-             * one per table cell. Multiple levels can be requested. Empty list (default) disables
-             * granular bboxes — only item-level layout boxes are returned on the result. When set,
-             * the computed boxes are not inlined on the result items; they are written to a
-             * separate `grounded_items` sidecar (JSONL, one row per page) and exposed as
-             * `result_content_metadata.grounded_items` (a presigned download URL) on the parse
-             * result. Each row matches the `GroundedJsonItem` shape.
+             * one per table cell; 'char' adds one box per character inside each grounded word
+             * (`chars` on each word), available on the `agentic_plus` tier only. Multiple levels
+             * can be requested. Empty list (default) disables granular bboxes — only item-level
+             * layout boxes are returned on the result. When set, the computed boxes are not inlined
+             * on the result items; they are written to a separate `grounded_items` sidecar (JSONL,
+             * one row per page) and exposed as `result_content_metadata.grounded_items` (a
+             * presigned download URL) on the parse result. Each row matches the `GroundedJsonItem`
+             * shape.
              */
             fun granularBboxes(granularBboxes: List<GranularBbox>) =
                 granularBboxes(JsonField.of(granularBboxes))
@@ -3776,6 +3779,8 @@ private constructor(
 
                 @JvmField val CELL = of("cell")
 
+                @JvmField val CHAR = of("char")
+
                 @JvmField val LINE = of("line")
 
                 @JvmField val WORD = of("word")
@@ -3786,6 +3791,7 @@ private constructor(
             /** An enum containing [GranularBbox]'s known values. */
             enum class Known {
                 CELL,
+                CHAR,
                 LINE,
                 WORD,
             }
@@ -3801,6 +3807,7 @@ private constructor(
              */
             enum class Value {
                 CELL,
+                CHAR,
                 LINE,
                 WORD,
                 /**
@@ -3820,6 +3827,7 @@ private constructor(
             fun value(): Value =
                 when (this) {
                     CELL -> Value.CELL
+                    CHAR -> Value.CHAR
                     LINE -> Value.LINE
                     WORD -> Value.WORD
                     else -> Value._UNKNOWN
@@ -3837,6 +3845,7 @@ private constructor(
             fun known(): Known =
                 when (this) {
                     CELL -> Known.CELL
+                    CHAR -> Known.CHAR
                     LINE -> Known.LINE
                     WORD -> Known.WORD
                     else -> throw LlamaCloudInvalidDataException("Unknown GranularBbox: $value")
@@ -7389,6 +7398,8 @@ private constructor(
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val parsingConf: JsonField<ParsingConf>,
+            private val documentLongerThanNPages: JsonField<Long>,
+            private val documentShorterThanNPages: JsonField<Long>,
             private val filenameMatchGlob: JsonField<String>,
             private val filenameMatchGlobList: JsonField<List<String>>,
             private val filenameRegexp: JsonField<String>,
@@ -7399,6 +7410,7 @@ private constructor(
             private val layoutElementInPage: JsonField<String>,
             private val layoutElementInPageConfidenceThreshold:
                 JsonField<LayoutElementInPageConfidenceThreshold>,
+            private val minComplexity: JsonField<MinComplexity>,
             private val pageContainsAtLeastNCharts: JsonField<PageContainsAtLeastNCharts>,
             private val pageContainsAtLeastNImages: JsonField<PageContainsAtLeastNImages>,
             private val pageContainsAtLeastNLayoutElements:
@@ -7437,6 +7449,12 @@ private constructor(
                 @JsonProperty("parsing_conf")
                 @ExcludeMissing
                 parsingConf: JsonField<ParsingConf> = JsonMissing.of(),
+                @JsonProperty("document_longer_than_n_pages")
+                @ExcludeMissing
+                documentLongerThanNPages: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("document_shorter_than_n_pages")
+                @ExcludeMissing
+                documentShorterThanNPages: JsonField<Long> = JsonMissing.of(),
                 @JsonProperty("filename_match_glob")
                 @ExcludeMissing
                 filenameMatchGlob: JsonField<String> = JsonMissing.of(),
@@ -7467,6 +7485,9 @@ private constructor(
                 layoutElementInPageConfidenceThreshold:
                     JsonField<LayoutElementInPageConfidenceThreshold> =
                     JsonMissing.of(),
+                @JsonProperty("min_complexity")
+                @ExcludeMissing
+                minComplexity: JsonField<MinComplexity> = JsonMissing.of(),
                 @JsonProperty("page_contains_at_least_n_charts")
                 @ExcludeMissing
                 pageContainsAtLeastNCharts: JsonField<PageContainsAtLeastNCharts> =
@@ -7556,6 +7577,8 @@ private constructor(
                 triggerMode: JsonField<String> = JsonMissing.of(),
             ) : this(
                 parsingConf,
+                documentLongerThanNPages,
+                documentShorterThanNPages,
                 filenameMatchGlob,
                 filenameMatchGlobList,
                 filenameRegexp,
@@ -7565,6 +7588,7 @@ private constructor(
                 imageInPage,
                 layoutElementInPage,
                 layoutElementInPageConfidenceThreshold,
+                minComplexity,
                 pageContainsAtLeastNCharts,
                 pageContainsAtLeastNImages,
                 pageContainsAtLeastNLayoutElements,
@@ -7602,6 +7626,24 @@ private constructor(
              *   value).
              */
             fun parsingConf(): ParsingConf = parsingConf.getRequired("parsing_conf")
+
+            /**
+             * Match every page when the document has more than N pages
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun documentLongerThanNPages(): Optional<Long> =
+                documentLongerThanNPages.getOptional("document_longer_than_n_pages")
+
+            /**
+             * Match every page when the document has fewer than N pages
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun documentShorterThanNPages(): Optional<Long> =
+                documentShorterThanNPages.getOptional("document_shorter_than_n_pages")
 
             /**
              * Single glob pattern to match against filename
@@ -7684,6 +7726,16 @@ private constructor(
                 layoutElementInPageConfidenceThreshold.getOptional(
                     "layout_element_in_page_confidence_threshold"
                 )
+
+            /**
+             * Minimum page complexity that sends a page to the escalation tier. Lower levels
+             * escalate more pages: low escalates the most, high only the most complex pages.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun minComplexity(): Optional<MinComplexity> =
+                minComplexity.getOptional("min_complexity")
 
             /**
              * Trigger if page has more than N charts
@@ -7934,6 +7986,26 @@ private constructor(
             fun _parsingConf(): JsonField<ParsingConf> = parsingConf
 
             /**
+             * Returns the raw JSON value of [documentLongerThanNPages].
+             *
+             * Unlike [documentLongerThanNPages], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("document_longer_than_n_pages")
+            @ExcludeMissing
+            fun _documentLongerThanNPages(): JsonField<Long> = documentLongerThanNPages
+
+            /**
+             * Returns the raw JSON value of [documentShorterThanNPages].
+             *
+             * Unlike [documentShorterThanNPages], this method doesn't throw if the JSON field has
+             * an unexpected type.
+             */
+            @JsonProperty("document_shorter_than_n_pages")
+            @ExcludeMissing
+            fun _documentShorterThanNPages(): JsonField<Long> = documentShorterThanNPages
+
+            /**
              * Returns the raw JSON value of [filenameMatchGlob].
              *
              * Unlike [filenameMatchGlob], this method doesn't throw if the JSON field has an
@@ -8025,6 +8097,16 @@ private constructor(
             fun _layoutElementInPageConfidenceThreshold():
                 JsonField<LayoutElementInPageConfidenceThreshold> =
                 layoutElementInPageConfidenceThreshold
+
+            /**
+             * Returns the raw JSON value of [minComplexity].
+             *
+             * Unlike [minComplexity], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("min_complexity")
+            @ExcludeMissing
+            fun _minComplexity(): JsonField<MinComplexity> = minComplexity
 
             /**
              * Returns the raw JSON value of [pageContainsAtLeastNCharts].
@@ -8334,6 +8416,8 @@ private constructor(
             class Builder internal constructor() {
 
                 private var parsingConf: JsonField<ParsingConf>? = null
+                private var documentLongerThanNPages: JsonField<Long> = JsonMissing.of()
+                private var documentShorterThanNPages: JsonField<Long> = JsonMissing.of()
                 private var filenameMatchGlob: JsonField<String> = JsonMissing.of()
                 private var filenameMatchGlobList: JsonField<MutableList<String>>? = null
                 private var filenameRegexp: JsonField<String> = JsonMissing.of()
@@ -8346,6 +8430,7 @@ private constructor(
                 private var layoutElementInPageConfidenceThreshold:
                     JsonField<LayoutElementInPageConfidenceThreshold> =
                     JsonMissing.of()
+                private var minComplexity: JsonField<MinComplexity> = JsonMissing.of()
                 private var pageContainsAtLeastNCharts: JsonField<PageContainsAtLeastNCharts> =
                     JsonMissing.of()
                 private var pageContainsAtLeastNImages: JsonField<PageContainsAtLeastNImages> =
@@ -8400,6 +8485,8 @@ private constructor(
                 @JvmSynthetic
                 internal fun from(autoModeConfiguration: AutoModeConfiguration) = apply {
                     parsingConf = autoModeConfiguration.parsingConf
+                    documentLongerThanNPages = autoModeConfiguration.documentLongerThanNPages
+                    documentShorterThanNPages = autoModeConfiguration.documentShorterThanNPages
                     filenameMatchGlob = autoModeConfiguration.filenameMatchGlob
                     filenameMatchGlobList =
                         autoModeConfiguration.filenameMatchGlobList.map { it.toMutableList() }
@@ -8412,6 +8499,7 @@ private constructor(
                     layoutElementInPage = autoModeConfiguration.layoutElementInPage
                     layoutElementInPageConfidenceThreshold =
                         autoModeConfiguration.layoutElementInPageConfidenceThreshold
+                    minComplexity = autoModeConfiguration.minComplexity
                     pageContainsAtLeastNCharts = autoModeConfiguration.pageContainsAtLeastNCharts
                     pageContainsAtLeastNImages = autoModeConfiguration.pageContainsAtLeastNImages
                     pageContainsAtLeastNLayoutElements =
@@ -8457,6 +8545,66 @@ private constructor(
                  */
                 fun parsingConf(parsingConf: JsonField<ParsingConf>) = apply {
                     this.parsingConf = parsingConf
+                }
+
+                /** Match every page when the document has more than N pages */
+                fun documentLongerThanNPages(documentLongerThanNPages: Long?) =
+                    documentLongerThanNPages(JsonField.ofNullable(documentLongerThanNPages))
+
+                /**
+                 * Alias for [Builder.documentLongerThanNPages].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun documentLongerThanNPages(documentLongerThanNPages: Long) =
+                    documentLongerThanNPages(documentLongerThanNPages as Long?)
+
+                /**
+                 * Alias for calling [Builder.documentLongerThanNPages] with
+                 * `documentLongerThanNPages.orElse(null)`.
+                 */
+                fun documentLongerThanNPages(documentLongerThanNPages: Optional<Long>) =
+                    documentLongerThanNPages(documentLongerThanNPages.getOrNull())
+
+                /**
+                 * Sets [Builder.documentLongerThanNPages] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.documentLongerThanNPages] with a well-typed
+                 * [Long] value instead. This method is primarily for setting the field to an
+                 * undocumented or not yet supported value.
+                 */
+                fun documentLongerThanNPages(documentLongerThanNPages: JsonField<Long>) = apply {
+                    this.documentLongerThanNPages = documentLongerThanNPages
+                }
+
+                /** Match every page when the document has fewer than N pages */
+                fun documentShorterThanNPages(documentShorterThanNPages: Long?) =
+                    documentShorterThanNPages(JsonField.ofNullable(documentShorterThanNPages))
+
+                /**
+                 * Alias for [Builder.documentShorterThanNPages].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun documentShorterThanNPages(documentShorterThanNPages: Long) =
+                    documentShorterThanNPages(documentShorterThanNPages as Long?)
+
+                /**
+                 * Alias for calling [Builder.documentShorterThanNPages] with
+                 * `documentShorterThanNPages.orElse(null)`.
+                 */
+                fun documentShorterThanNPages(documentShorterThanNPages: Optional<Long>) =
+                    documentShorterThanNPages(documentShorterThanNPages.getOrNull())
+
+                /**
+                 * Sets [Builder.documentShorterThanNPages] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.documentShorterThanNPages] with a well-typed
+                 * [Long] value instead. This method is primarily for setting the field to an
+                 * undocumented or not yet supported value.
+                 */
+                fun documentShorterThanNPages(documentShorterThanNPages: JsonField<Long>) = apply {
+                    this.documentShorterThanNPages = documentShorterThanNPages
                 }
 
                 /** Single glob pattern to match against filename */
@@ -8726,6 +8874,28 @@ private constructor(
                     layoutElementInPageConfidenceThreshold(
                         LayoutElementInPageConfidenceThreshold.ofString(string)
                     )
+
+                /**
+                 * Minimum page complexity that sends a page to the escalation tier. Lower levels
+                 * escalate more pages: low escalates the most, high only the most complex pages.
+                 */
+                fun minComplexity(minComplexity: MinComplexity?) =
+                    minComplexity(JsonField.ofNullable(minComplexity))
+
+                /** Alias for calling [Builder.minComplexity] with `minComplexity.orElse(null)`. */
+                fun minComplexity(minComplexity: Optional<MinComplexity>) =
+                    minComplexity(minComplexity.getOrNull())
+
+                /**
+                 * Sets [Builder.minComplexity] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.minComplexity] with a well-typed [MinComplexity]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun minComplexity(minComplexity: JsonField<MinComplexity>) = apply {
+                    this.minComplexity = minComplexity
+                }
 
                 /** Trigger if page has more than N charts */
                 fun pageContainsAtLeastNCharts(
@@ -9695,6 +9865,8 @@ private constructor(
                 fun build(): AutoModeConfiguration =
                     AutoModeConfiguration(
                         checkRequired("parsingConf", parsingConf),
+                        documentLongerThanNPages,
+                        documentShorterThanNPages,
                         filenameMatchGlob,
                         (filenameMatchGlobList ?: JsonMissing.of()).map { it.toImmutable() },
                         filenameRegexp,
@@ -9704,6 +9876,7 @@ private constructor(
                         imageInPage,
                         layoutElementInPage,
                         layoutElementInPageConfidenceThreshold,
+                        minComplexity,
                         pageContainsAtLeastNCharts,
                         pageContainsAtLeastNImages,
                         pageContainsAtLeastNLayoutElements,
@@ -9752,6 +9925,8 @@ private constructor(
                 }
 
                 parsingConf().validate()
+                documentLongerThanNPages()
+                documentShorterThanNPages()
                 filenameMatchGlob()
                 filenameMatchGlobList()
                 filenameRegexp()
@@ -9761,6 +9936,7 @@ private constructor(
                 imageInPage()
                 layoutElementInPage()
                 layoutElementInPageConfidenceThreshold().ifPresent { it.validate() }
+                minComplexity().ifPresent { it.validate() }
                 pageContainsAtLeastNCharts().ifPresent { it.validate() }
                 pageContainsAtLeastNImages().ifPresent { it.validate() }
                 pageContainsAtLeastNLayoutElements().ifPresent { it.validate() }
@@ -9807,6 +9983,8 @@ private constructor(
             @JvmSynthetic
             internal fun validity(): Int =
                 (parsingConf.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (documentLongerThanNPages.asKnown().isPresent) 1 else 0) +
+                    (if (documentShorterThanNPages.asKnown().isPresent) 1 else 0) +
                     (if (filenameMatchGlob.asKnown().isPresent) 1 else 0) +
                     (filenameMatchGlobList.asKnown().getOrNull()?.size ?: 0) +
                     (if (filenameRegexp.asKnown().isPresent) 1 else 0) +
@@ -9817,6 +9995,7 @@ private constructor(
                     (if (layoutElementInPage.asKnown().isPresent) 1 else 0) +
                     (layoutElementInPageConfidenceThreshold.asKnown().getOrNull()?.validity()
                         ?: 0) +
+                    (minComplexity.asKnown().getOrNull()?.validity() ?: 0) +
                     (pageContainsAtLeastNCharts.asKnown().getOrNull()?.validity() ?: 0) +
                     (pageContainsAtLeastNImages.asKnown().getOrNull()?.validity() ?: 0) +
                     (pageContainsAtLeastNLayoutElements.asKnown().getOrNull()?.validity() ?: 0) +
@@ -10039,10 +10218,10 @@ private constructor(
                  * one of that tier's dated versions.
                  *
                  * Current `latest` by tier:
-                 * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-09-28`
-                 * - `agentic`: `2026-10-16`
-                 * - `agentic_plus`: `2026-09-28`
+                 * - `fast`: `2026-11-12`
+                 * - `cost_effective`: `2026-11-09`
+                 * - `agentic`: `2026-11-09`
+                 * - `agentic_plus`: `2026-11-11`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  *
@@ -10543,10 +10722,10 @@ private constructor(
                      * pin one of that tier's dated versions.
                      *
                      * Current `latest` by tier:
-                     * - `fast`: `2026-06-15`
-                     * - `cost_effective`: `2026-09-28`
-                     * - `agentic`: `2026-10-16`
-                     * - `agentic_plus`: `2026-09-28`
+                     * - `fast`: `2026-11-12`
+                     * - `cost_effective`: `2026-11-09`
+                     * - `agentic`: `2026-11-09`
+                     * - `agentic_plus`: `2026-11-11`
                      *
                      * Full list: `GET /api/v2/parse/versions`.
                      */
@@ -12157,10 +12336,10 @@ private constructor(
                  * one of that tier's dated versions.
                  *
                  * Current `latest` by tier:
-                 * - `fast`: `2026-06-15`
-                 * - `cost_effective`: `2026-09-28`
-                 * - `agentic`: `2026-10-16`
-                 * - `agentic_plus`: `2026-09-28`
+                 * - `fast`: `2026-11-12`
+                 * - `cost_effective`: `2026-11-09`
+                 * - `agentic`: `2026-11-09`
+                 * - `agentic_plus`: `2026-11-11`
                  *
                  * Full list: `GET /api/v2/parse/versions`.
                  */
@@ -12183,11 +12362,11 @@ private constructor(
 
                         @JvmField val LATEST = of("latest")
 
-                        @JvmField val _2026_10_16 = of("2026-10-16")
+                        @JvmField val _2026_11_12 = of("2026-11-12")
 
-                        @JvmField val _2026_09_28 = of("2026-09-28")
+                        @JvmField val _2026_11_11 = of("2026-11-11")
 
-                        @JvmField val _2026_06_15 = of("2026-06-15")
+                        @JvmField val _2026_11_09 = of("2026-11-09")
 
                         @JvmStatic fun of(value: String) = Version(JsonField.of(value))
                     }
@@ -12195,9 +12374,9 @@ private constructor(
                     /** An enum containing [Version]'s known values. */
                     enum class Known {
                         LATEST,
-                        _2026_10_16,
-                        _2026_09_28,
-                        _2026_06_15,
+                        _2026_11_12,
+                        _2026_11_11,
+                        _2026_11_09,
                     }
 
                     /**
@@ -12211,9 +12390,9 @@ private constructor(
                      */
                     enum class Value {
                         LATEST,
-                        _2026_10_16,
-                        _2026_09_28,
-                        _2026_06_15,
+                        _2026_11_12,
+                        _2026_11_11,
+                        _2026_11_09,
                         /**
                          * An enum member indicating that [Version] was instantiated with an unknown
                          * value.
@@ -12231,9 +12410,9 @@ private constructor(
                     fun value(): Value =
                         when (this) {
                             LATEST -> Value.LATEST
-                            _2026_10_16 -> Value._2026_10_16
-                            _2026_09_28 -> Value._2026_09_28
-                            _2026_06_15 -> Value._2026_06_15
+                            _2026_11_12 -> Value._2026_11_12
+                            _2026_11_11 -> Value._2026_11_11
+                            _2026_11_09 -> Value._2026_11_09
                             else -> Value._UNKNOWN
                         }
 
@@ -12249,9 +12428,9 @@ private constructor(
                     fun known(): Known =
                         when (this) {
                             LATEST -> Known.LATEST
-                            _2026_10_16 -> Known._2026_10_16
-                            _2026_09_28 -> Known._2026_09_28
-                            _2026_06_15 -> Known._2026_06_15
+                            _2026_11_12 -> Known._2026_11_12
+                            _2026_11_11 -> Known._2026_11_11
+                            _2026_11_09 -> Known._2026_11_09
                             else -> throw LlamaCloudInvalidDataException("Unknown Version: $value")
                         }
 
@@ -12836,6 +13015,160 @@ private constructor(
                         }
                     }
                 }
+            }
+
+            /**
+             * Minimum page complexity that sends a page to the escalation tier. Lower levels
+             * escalate more pages: low escalates the most, high only the most complex pages.
+             */
+            class MinComplexity
+            @JsonCreator
+            private constructor(private val value: JsonField<String>) : Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val HIGH = of("high")
+
+                    @JvmField val LOW = of("low")
+
+                    @JvmField val MEDIUM = of("medium")
+
+                    @JvmStatic fun of(value: String) = MinComplexity(JsonField.of(value))
+                }
+
+                /** An enum containing [MinComplexity]'s known values. */
+                enum class Known {
+                    HIGH,
+                    LOW,
+                    MEDIUM,
+                }
+
+                /**
+                 * An enum containing [MinComplexity]'s known values, as well as an [_UNKNOWN]
+                 * member.
+                 *
+                 * An instance of [MinComplexity] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    HIGH,
+                    LOW,
+                    MEDIUM,
+                    /**
+                     * An enum member indicating that [MinComplexity] was instantiated with an
+                     * unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        HIGH -> Value.HIGH
+                        LOW -> Value.LOW
+                        MEDIUM -> Value.MEDIUM
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        HIGH -> Known.HIGH
+                        LOW -> Known.LOW
+                        MEDIUM -> Known.MEDIUM
+                        else ->
+                            throw LlamaCloudInvalidDataException("Unknown MinComplexity: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value does not
+                 *   have the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LlamaCloudInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LlamaCloudInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
+                fun validate(): MinComplexity = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LlamaCloudInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is MinComplexity && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
             }
 
             /** Trigger if page has more than N charts */
@@ -17363,6 +17696,8 @@ private constructor(
 
                 return other is AutoModeConfiguration &&
                     parsingConf == other.parsingConf &&
+                    documentLongerThanNPages == other.documentLongerThanNPages &&
+                    documentShorterThanNPages == other.documentShorterThanNPages &&
                     filenameMatchGlob == other.filenameMatchGlob &&
                     filenameMatchGlobList == other.filenameMatchGlobList &&
                     filenameRegexp == other.filenameRegexp &&
@@ -17373,6 +17708,7 @@ private constructor(
                     layoutElementInPage == other.layoutElementInPage &&
                     layoutElementInPageConfidenceThreshold ==
                         other.layoutElementInPageConfidenceThreshold &&
+                    minComplexity == other.minComplexity &&
                     pageContainsAtLeastNCharts == other.pageContainsAtLeastNCharts &&
                     pageContainsAtLeastNImages == other.pageContainsAtLeastNImages &&
                     pageContainsAtLeastNLayoutElements ==
@@ -17407,6 +17743,8 @@ private constructor(
             private val hashCode: Int by lazy {
                 Objects.hash(
                     parsingConf,
+                    documentLongerThanNPages,
+                    documentShorterThanNPages,
                     filenameMatchGlob,
                     filenameMatchGlobList,
                     filenameRegexp,
@@ -17416,6 +17754,7 @@ private constructor(
                     imageInPage,
                     layoutElementInPage,
                     layoutElementInPageConfidenceThreshold,
+                    minComplexity,
                     pageContainsAtLeastNCharts,
                     pageContainsAtLeastNImages,
                     pageContainsAtLeastNLayoutElements,
@@ -17449,7 +17788,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "AutoModeConfiguration{parsingConf=$parsingConf, filenameMatchGlob=$filenameMatchGlob, filenameMatchGlobList=$filenameMatchGlobList, filenameRegexp=$filenameRegexp, filenameRegexpMode=$filenameRegexpMode, fullPageImageInPage=$fullPageImageInPage, fullPageImageInPageThreshold=$fullPageImageInPageThreshold, imageInPage=$imageInPage, layoutElementInPage=$layoutElementInPage, layoutElementInPageConfidenceThreshold=$layoutElementInPageConfidenceThreshold, pageContainsAtLeastNCharts=$pageContainsAtLeastNCharts, pageContainsAtLeastNImages=$pageContainsAtLeastNImages, pageContainsAtLeastNLayoutElements=$pageContainsAtLeastNLayoutElements, pageContainsAtLeastNLines=$pageContainsAtLeastNLines, pageContainsAtLeastNLinks=$pageContainsAtLeastNLinks, pageContainsAtLeastNNumbers=$pageContainsAtLeastNNumbers, pageContainsAtLeastNPercentNumbers=$pageContainsAtLeastNPercentNumbers, pageContainsAtLeastNTables=$pageContainsAtLeastNTables, pageContainsAtLeastNWords=$pageContainsAtLeastNWords, pageContainsAtMostNCharts=$pageContainsAtMostNCharts, pageContainsAtMostNImages=$pageContainsAtMostNImages, pageContainsAtMostNLayoutElements=$pageContainsAtMostNLayoutElements, pageContainsAtMostNLines=$pageContainsAtMostNLines, pageContainsAtMostNLinks=$pageContainsAtMostNLinks, pageContainsAtMostNNumbers=$pageContainsAtMostNNumbers, pageContainsAtMostNPercentNumbers=$pageContainsAtMostNPercentNumbers, pageContainsAtMostNTables=$pageContainsAtMostNTables, pageContainsAtMostNWords=$pageContainsAtMostNWords, pageLongerThanNChars=$pageLongerThanNChars, pageMdError=$pageMdError, pageShorterThanNChars=$pageShorterThanNChars, regexpInPage=$regexpInPage, regexpInPageMode=$regexpInPageMode, tableInPage=$tableInPage, textInPage=$textInPage, triggerMode=$triggerMode, additionalProperties=$additionalProperties}"
+                "AutoModeConfiguration{parsingConf=$parsingConf, documentLongerThanNPages=$documentLongerThanNPages, documentShorterThanNPages=$documentShorterThanNPages, filenameMatchGlob=$filenameMatchGlob, filenameMatchGlobList=$filenameMatchGlobList, filenameRegexp=$filenameRegexp, filenameRegexpMode=$filenameRegexpMode, fullPageImageInPage=$fullPageImageInPage, fullPageImageInPageThreshold=$fullPageImageInPageThreshold, imageInPage=$imageInPage, layoutElementInPage=$layoutElementInPage, layoutElementInPageConfidenceThreshold=$layoutElementInPageConfidenceThreshold, minComplexity=$minComplexity, pageContainsAtLeastNCharts=$pageContainsAtLeastNCharts, pageContainsAtLeastNImages=$pageContainsAtLeastNImages, pageContainsAtLeastNLayoutElements=$pageContainsAtLeastNLayoutElements, pageContainsAtLeastNLines=$pageContainsAtLeastNLines, pageContainsAtLeastNLinks=$pageContainsAtLeastNLinks, pageContainsAtLeastNNumbers=$pageContainsAtLeastNNumbers, pageContainsAtLeastNPercentNumbers=$pageContainsAtLeastNPercentNumbers, pageContainsAtLeastNTables=$pageContainsAtLeastNTables, pageContainsAtLeastNWords=$pageContainsAtLeastNWords, pageContainsAtMostNCharts=$pageContainsAtMostNCharts, pageContainsAtMostNImages=$pageContainsAtMostNImages, pageContainsAtMostNLayoutElements=$pageContainsAtMostNLayoutElements, pageContainsAtMostNLines=$pageContainsAtMostNLines, pageContainsAtMostNLinks=$pageContainsAtMostNLinks, pageContainsAtMostNNumbers=$pageContainsAtMostNNumbers, pageContainsAtMostNPercentNumbers=$pageContainsAtMostNPercentNumbers, pageContainsAtMostNTables=$pageContainsAtMostNTables, pageContainsAtMostNWords=$pageContainsAtMostNWords, pageLongerThanNChars=$pageLongerThanNChars, pageMdError=$pageMdError, pageShorterThanNChars=$pageShorterThanNChars, regexpInPage=$regexpInPage, regexpInPageMode=$regexpInPageMode, tableInPage=$tableInPage, textInPage=$textInPage, triggerMode=$triggerMode, additionalProperties=$additionalProperties}"
         }
 
         /**
@@ -18633,15 +18972,11 @@ private constructor(
             "ProcessingOptions{aggressiveTableExtraction=$aggressiveTableExtraction, autoModeConfiguration=$autoModeConfiguration, confidenceScoreEffort=$confidenceScoreEffort, costOptimizer=$costOptimizer, disableHeuristics=$disableHeuristics, forms=$forms, ignore=$ignore, ocrParameters=$ocrParameters, specializedChartParsing=$specializedChartParsing, additionalProperties=$additionalProperties}"
     }
 
-    /**
-     * Webhook configuration for receiving parsing job notifications.
-     *
-     * Webhooks are called when specified events occur during job processing. Configure multiple
-     * webhook configurations to send to different endpoints.
-     */
+    /** A webhook endpoint kept in a saved Parse configuration. */
     class WebhookConfiguration
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
+        private val id: JsonField<String>,
         private val webhookEvents: JsonField<List<String>>,
         private val webhookHeaders: JsonField<WebhookHeaders>,
         private val webhookOutputFormat: JsonField<WebhookOutputFormat>,
@@ -18652,6 +18987,7 @@ private constructor(
 
         @JsonCreator
         private constructor(
+            @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
             @JsonProperty("webhook_events")
             @ExcludeMissing
             webhookEvents: JsonField<List<String>> = JsonMissing.of(),
@@ -18668,6 +19004,7 @@ private constructor(
             @ExcludeMissing
             webhookUrl: JsonField<String> = JsonMissing.of(),
         ) : this(
+            id,
             webhookEvents,
             webhookHeaders,
             webhookOutputFormat,
@@ -18675,6 +19012,15 @@ private constructor(
             webhookUrl,
             mutableMapOf(),
         )
+
+        /**
+         * Webhook ID, set by the server. Send it back unchanged so a masked credential keeps this
+         * webhook's saved value.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun id(): Optional<String> = id.getOptional("id")
 
         /**
          * Events that trigger this webhook. Options: 'parse.success' (job completed), 'parse.error'
@@ -18725,6 +19071,13 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun webhookUrl(): Optional<String> = webhookUrl.getOptional("webhook_url")
+
+        /**
+         * Returns the raw JSON value of [id].
+         *
+         * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
         /**
          * Returns the raw JSON value of [webhookEvents].
@@ -18796,6 +19149,7 @@ private constructor(
         /** A builder for [WebhookConfiguration]. */
         class Builder internal constructor() {
 
+            private var id: JsonField<String> = JsonMissing.of()
             private var webhookEvents: JsonField<MutableList<String>>? = null
             private var webhookHeaders: JsonField<WebhookHeaders> = JsonMissing.of()
             private var webhookOutputFormat: JsonField<WebhookOutputFormat> = JsonMissing.of()
@@ -18805,6 +19159,7 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(webhookConfiguration: WebhookConfiguration) = apply {
+                id = webhookConfiguration.id
                 webhookEvents = webhookConfiguration.webhookEvents.map { it.toMutableList() }
                 webhookHeaders = webhookConfiguration.webhookHeaders
                 webhookOutputFormat = webhookConfiguration.webhookOutputFormat
@@ -18812,6 +19167,24 @@ private constructor(
                 webhookUrl = webhookConfiguration.webhookUrl
                 additionalProperties = webhookConfiguration.additionalProperties.toMutableMap()
             }
+
+            /**
+             * Webhook ID, set by the server. Send it back unchanged so a masked credential keeps
+             * this webhook's saved value.
+             */
+            fun id(id: String?) = id(JsonField.ofNullable(id))
+
+            /** Alias for calling [Builder.id] with `id.orElse(null)`. */
+            fun id(id: Optional<String>) = id(id.getOrNull())
+
+            /**
+             * Sets [Builder.id] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.id] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun id(id: JsonField<String>) = apply { this.id = id }
 
             /**
              * Events that trigger this webhook. Options: 'parse.success' (job completed),
@@ -18964,6 +19337,7 @@ private constructor(
              */
             fun build(): WebhookConfiguration =
                 WebhookConfiguration(
+                    id,
                     (webhookEvents ?: JsonMissing.of()).map { it.toImmutable() },
                     webhookHeaders,
                     webhookOutputFormat,
@@ -18989,6 +19363,7 @@ private constructor(
                 return@apply
             }
 
+            id()
             webhookEvents()
             webhookHeaders().ifPresent { it.validate() }
             webhookOutputFormat().ifPresent { it.validate() }
@@ -19013,7 +19388,8 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (webhookEvents.asKnown().getOrNull()?.size ?: 0) +
+            (if (id.asKnown().isPresent) 1 else 0) +
+                (webhookEvents.asKnown().getOrNull()?.size ?: 0) +
                 (webhookHeaders.asKnown().getOrNull()?.validity() ?: 0) +
                 (webhookOutputFormat.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (webhookSigningSecret.asKnown().isPresent) 1 else 0) +
@@ -19290,6 +19666,7 @@ private constructor(
             }
 
             return other is WebhookConfiguration &&
+                id == other.id &&
                 webhookEvents == other.webhookEvents &&
                 webhookHeaders == other.webhookHeaders &&
                 webhookOutputFormat == other.webhookOutputFormat &&
@@ -19300,6 +19677,7 @@ private constructor(
 
         private val hashCode: Int by lazy {
             Objects.hash(
+                id,
                 webhookEvents,
                 webhookHeaders,
                 webhookOutputFormat,
@@ -19312,7 +19690,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "WebhookConfiguration{webhookEvents=$webhookEvents, webhookHeaders=$webhookHeaders, webhookOutputFormat=$webhookOutputFormat, webhookSigningSecret=$webhookSigningSecret, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
+            "WebhookConfiguration{id=$id, webhookEvents=$webhookEvents, webhookHeaders=$webhookHeaders, webhookOutputFormat=$webhookOutputFormat, webhookSigningSecret=$webhookSigningSecret, webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
