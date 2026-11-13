@@ -280,6 +280,8 @@ internal class ServiceParamsTest {
                                         )
                                         .build()
                                 )
+                                .documentLongerThanNPages(5L)
+                                .documentShorterThanNPages(5L)
                                 .filenameMatchGlob("*.txt")
                                 .addFilenameMatchGlobList("string")
                                 .filenameRegexp("filename_regexp")

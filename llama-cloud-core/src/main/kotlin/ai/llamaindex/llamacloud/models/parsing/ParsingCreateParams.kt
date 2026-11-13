@@ -8603,6 +8603,8 @@ private constructor(
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val parsingConf: JsonField<ParsingConf>,
+            private val documentLongerThanNPages: JsonField<Long>,
+            private val documentShorterThanNPages: JsonField<Long>,
             private val filenameMatchGlob: JsonField<String>,
             private val filenameMatchGlobList: JsonField<List<String>>,
             private val filenameRegexp: JsonField<String>,
@@ -8652,6 +8654,12 @@ private constructor(
                 @JsonProperty("parsing_conf")
                 @ExcludeMissing
                 parsingConf: JsonField<ParsingConf> = JsonMissing.of(),
+                @JsonProperty("document_longer_than_n_pages")
+                @ExcludeMissing
+                documentLongerThanNPages: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("document_shorter_than_n_pages")
+                @ExcludeMissing
+                documentShorterThanNPages: JsonField<Long> = JsonMissing.of(),
                 @JsonProperty("filename_match_glob")
                 @ExcludeMissing
                 filenameMatchGlob: JsonField<String> = JsonMissing.of(),
@@ -8774,6 +8782,8 @@ private constructor(
                 triggerMode: JsonField<String> = JsonMissing.of(),
             ) : this(
                 parsingConf,
+                documentLongerThanNPages,
+                documentShorterThanNPages,
                 filenameMatchGlob,
                 filenameMatchGlobList,
                 filenameRegexp,
@@ -8821,6 +8831,24 @@ private constructor(
              *   value).
              */
             fun parsingConf(): ParsingConf = parsingConf.getRequired("parsing_conf")
+
+            /**
+             * Match every page when the document has more than N pages
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun documentLongerThanNPages(): Optional<Long> =
+                documentLongerThanNPages.getOptional("document_longer_than_n_pages")
+
+            /**
+             * Match every page when the document has fewer than N pages
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun documentShorterThanNPages(): Optional<Long> =
+                documentShorterThanNPages.getOptional("document_shorter_than_n_pages")
 
             /**
              * Single glob pattern to match against filename
@@ -9162,6 +9190,26 @@ private constructor(
             @JsonProperty("parsing_conf")
             @ExcludeMissing
             fun _parsingConf(): JsonField<ParsingConf> = parsingConf
+
+            /**
+             * Returns the raw JSON value of [documentLongerThanNPages].
+             *
+             * Unlike [documentLongerThanNPages], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("document_longer_than_n_pages")
+            @ExcludeMissing
+            fun _documentLongerThanNPages(): JsonField<Long> = documentLongerThanNPages
+
+            /**
+             * Returns the raw JSON value of [documentShorterThanNPages].
+             *
+             * Unlike [documentShorterThanNPages], this method doesn't throw if the JSON field has
+             * an unexpected type.
+             */
+            @JsonProperty("document_shorter_than_n_pages")
+            @ExcludeMissing
+            fun _documentShorterThanNPages(): JsonField<Long> = documentShorterThanNPages
 
             /**
              * Returns the raw JSON value of [filenameMatchGlob].
@@ -9574,6 +9622,8 @@ private constructor(
             class Builder internal constructor() {
 
                 private var parsingConf: JsonField<ParsingConf>? = null
+                private var documentLongerThanNPages: JsonField<Long> = JsonMissing.of()
+                private var documentShorterThanNPages: JsonField<Long> = JsonMissing.of()
                 private var filenameMatchGlob: JsonField<String> = JsonMissing.of()
                 private var filenameMatchGlobList: JsonField<MutableList<String>>? = null
                 private var filenameRegexp: JsonField<String> = JsonMissing.of()
@@ -9641,6 +9691,8 @@ private constructor(
                 @JvmSynthetic
                 internal fun from(autoModeConfiguration: AutoModeConfiguration) = apply {
                     parsingConf = autoModeConfiguration.parsingConf
+                    documentLongerThanNPages = autoModeConfiguration.documentLongerThanNPages
+                    documentShorterThanNPages = autoModeConfiguration.documentShorterThanNPages
                     filenameMatchGlob = autoModeConfiguration.filenameMatchGlob
                     filenameMatchGlobList =
                         autoModeConfiguration.filenameMatchGlobList.map { it.toMutableList() }
@@ -9699,6 +9751,66 @@ private constructor(
                  */
                 fun parsingConf(parsingConf: JsonField<ParsingConf>) = apply {
                     this.parsingConf = parsingConf
+                }
+
+                /** Match every page when the document has more than N pages */
+                fun documentLongerThanNPages(documentLongerThanNPages: Long?) =
+                    documentLongerThanNPages(JsonField.ofNullable(documentLongerThanNPages))
+
+                /**
+                 * Alias for [Builder.documentLongerThanNPages].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun documentLongerThanNPages(documentLongerThanNPages: Long) =
+                    documentLongerThanNPages(documentLongerThanNPages as Long?)
+
+                /**
+                 * Alias for calling [Builder.documentLongerThanNPages] with
+                 * `documentLongerThanNPages.orElse(null)`.
+                 */
+                fun documentLongerThanNPages(documentLongerThanNPages: Optional<Long>) =
+                    documentLongerThanNPages(documentLongerThanNPages.getOrNull())
+
+                /**
+                 * Sets [Builder.documentLongerThanNPages] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.documentLongerThanNPages] with a well-typed
+                 * [Long] value instead. This method is primarily for setting the field to an
+                 * undocumented or not yet supported value.
+                 */
+                fun documentLongerThanNPages(documentLongerThanNPages: JsonField<Long>) = apply {
+                    this.documentLongerThanNPages = documentLongerThanNPages
+                }
+
+                /** Match every page when the document has fewer than N pages */
+                fun documentShorterThanNPages(documentShorterThanNPages: Long?) =
+                    documentShorterThanNPages(JsonField.ofNullable(documentShorterThanNPages))
+
+                /**
+                 * Alias for [Builder.documentShorterThanNPages].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun documentShorterThanNPages(documentShorterThanNPages: Long) =
+                    documentShorterThanNPages(documentShorterThanNPages as Long?)
+
+                /**
+                 * Alias for calling [Builder.documentShorterThanNPages] with
+                 * `documentShorterThanNPages.orElse(null)`.
+                 */
+                fun documentShorterThanNPages(documentShorterThanNPages: Optional<Long>) =
+                    documentShorterThanNPages(documentShorterThanNPages.getOrNull())
+
+                /**
+                 * Sets [Builder.documentShorterThanNPages] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.documentShorterThanNPages] with a well-typed
+                 * [Long] value instead. This method is primarily for setting the field to an
+                 * undocumented or not yet supported value.
+                 */
+                fun documentShorterThanNPages(documentShorterThanNPages: JsonField<Long>) = apply {
+                    this.documentShorterThanNPages = documentShorterThanNPages
                 }
 
                 /** Single glob pattern to match against filename */
@@ -10960,6 +11072,8 @@ private constructor(
                 fun build(): AutoModeConfiguration =
                     AutoModeConfiguration(
                         checkRequired("parsingConf", parsingConf),
+                        documentLongerThanNPages,
+                        documentShorterThanNPages,
                         filenameMatchGlob,
                         (filenameMatchGlobList ?: JsonMissing.of()).map { it.toImmutable() },
                         filenameRegexp,
@@ -11018,6 +11132,8 @@ private constructor(
                 }
 
                 parsingConf().validate()
+                documentLongerThanNPages()
+                documentShorterThanNPages()
                 filenameMatchGlob()
                 filenameMatchGlobList()
                 filenameRegexp()
@@ -11074,6 +11190,8 @@ private constructor(
             @JvmSynthetic
             internal fun validity(): Int =
                 (parsingConf.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (documentLongerThanNPages.asKnown().isPresent) 1 else 0) +
+                    (if (documentShorterThanNPages.asKnown().isPresent) 1 else 0) +
                     (if (filenameMatchGlob.asKnown().isPresent) 1 else 0) +
                     (filenameMatchGlobList.asKnown().getOrNull()?.size ?: 0) +
                     (if (filenameRegexp.asKnown().isPresent) 1 else 0) +
@@ -18786,6 +18904,8 @@ private constructor(
 
                 return other is AutoModeConfiguration &&
                     parsingConf == other.parsingConf &&
+                    documentLongerThanNPages == other.documentLongerThanNPages &&
+                    documentShorterThanNPages == other.documentShorterThanNPages &&
                     filenameMatchGlob == other.filenameMatchGlob &&
                     filenameMatchGlobList == other.filenameMatchGlobList &&
                     filenameRegexp == other.filenameRegexp &&
@@ -18831,6 +18951,8 @@ private constructor(
             private val hashCode: Int by lazy {
                 Objects.hash(
                     parsingConf,
+                    documentLongerThanNPages,
+                    documentShorterThanNPages,
                     filenameMatchGlob,
                     filenameMatchGlobList,
                     filenameRegexp,
@@ -18874,7 +18996,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "AutoModeConfiguration{parsingConf=$parsingConf, filenameMatchGlob=$filenameMatchGlob, filenameMatchGlobList=$filenameMatchGlobList, filenameRegexp=$filenameRegexp, filenameRegexpMode=$filenameRegexpMode, fullPageImageInPage=$fullPageImageInPage, fullPageImageInPageThreshold=$fullPageImageInPageThreshold, imageInPage=$imageInPage, layoutElementInPage=$layoutElementInPage, layoutElementInPageConfidenceThreshold=$layoutElementInPageConfidenceThreshold, minComplexity=$minComplexity, pageContainsAtLeastNCharts=$pageContainsAtLeastNCharts, pageContainsAtLeastNImages=$pageContainsAtLeastNImages, pageContainsAtLeastNLayoutElements=$pageContainsAtLeastNLayoutElements, pageContainsAtLeastNLines=$pageContainsAtLeastNLines, pageContainsAtLeastNLinks=$pageContainsAtLeastNLinks, pageContainsAtLeastNNumbers=$pageContainsAtLeastNNumbers, pageContainsAtLeastNPercentNumbers=$pageContainsAtLeastNPercentNumbers, pageContainsAtLeastNTables=$pageContainsAtLeastNTables, pageContainsAtLeastNWords=$pageContainsAtLeastNWords, pageContainsAtMostNCharts=$pageContainsAtMostNCharts, pageContainsAtMostNImages=$pageContainsAtMostNImages, pageContainsAtMostNLayoutElements=$pageContainsAtMostNLayoutElements, pageContainsAtMostNLines=$pageContainsAtMostNLines, pageContainsAtMostNLinks=$pageContainsAtMostNLinks, pageContainsAtMostNNumbers=$pageContainsAtMostNNumbers, pageContainsAtMostNPercentNumbers=$pageContainsAtMostNPercentNumbers, pageContainsAtMostNTables=$pageContainsAtMostNTables, pageContainsAtMostNWords=$pageContainsAtMostNWords, pageLongerThanNChars=$pageLongerThanNChars, pageMdError=$pageMdError, pageShorterThanNChars=$pageShorterThanNChars, regexpInPage=$regexpInPage, regexpInPageMode=$regexpInPageMode, tableInPage=$tableInPage, textInPage=$textInPage, triggerMode=$triggerMode, additionalProperties=$additionalProperties}"
+                "AutoModeConfiguration{parsingConf=$parsingConf, documentLongerThanNPages=$documentLongerThanNPages, documentShorterThanNPages=$documentShorterThanNPages, filenameMatchGlob=$filenameMatchGlob, filenameMatchGlobList=$filenameMatchGlobList, filenameRegexp=$filenameRegexp, filenameRegexpMode=$filenameRegexpMode, fullPageImageInPage=$fullPageImageInPage, fullPageImageInPageThreshold=$fullPageImageInPageThreshold, imageInPage=$imageInPage, layoutElementInPage=$layoutElementInPage, layoutElementInPageConfidenceThreshold=$layoutElementInPageConfidenceThreshold, minComplexity=$minComplexity, pageContainsAtLeastNCharts=$pageContainsAtLeastNCharts, pageContainsAtLeastNImages=$pageContainsAtLeastNImages, pageContainsAtLeastNLayoutElements=$pageContainsAtLeastNLayoutElements, pageContainsAtLeastNLines=$pageContainsAtLeastNLines, pageContainsAtLeastNLinks=$pageContainsAtLeastNLinks, pageContainsAtLeastNNumbers=$pageContainsAtLeastNNumbers, pageContainsAtLeastNPercentNumbers=$pageContainsAtLeastNPercentNumbers, pageContainsAtLeastNTables=$pageContainsAtLeastNTables, pageContainsAtLeastNWords=$pageContainsAtLeastNWords, pageContainsAtMostNCharts=$pageContainsAtMostNCharts, pageContainsAtMostNImages=$pageContainsAtMostNImages, pageContainsAtMostNLayoutElements=$pageContainsAtMostNLayoutElements, pageContainsAtMostNLines=$pageContainsAtMostNLines, pageContainsAtMostNLinks=$pageContainsAtMostNLinks, pageContainsAtMostNNumbers=$pageContainsAtMostNNumbers, pageContainsAtMostNPercentNumbers=$pageContainsAtMostNPercentNumbers, pageContainsAtMostNTables=$pageContainsAtMostNTables, pageContainsAtMostNWords=$pageContainsAtMostNWords, pageLongerThanNChars=$pageLongerThanNChars, pageMdError=$pageMdError, pageShorterThanNChars=$pageShorterThanNChars, regexpInPage=$regexpInPage, regexpInPageMode=$regexpInPageMode, tableInPage=$tableInPage, textInPage=$textInPage, triggerMode=$triggerMode, additionalProperties=$additionalProperties}"
         }
 
         /**
