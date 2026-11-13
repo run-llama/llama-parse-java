@@ -8933,11 +8933,8 @@ private constructor(
                 )
 
             /**
-             * All levels trigger when at least 50% of grounded words inside detected table regions
-             * lack table-cell grounding, regardless of word count. Pages with at least 100 source
-             * words also trigger by level: low: table warnings or at least 50% OCR words. medium:
-             * at least 3 table concerns or missed tables. high: medium plus at least 2 detected
-             * tables.
+             * Minimum page complexity that sends a page to the escalation tier. Lower levels
+             * escalate more pages: low escalates the most, high only the most complex pages.
              *
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
              *   if the server responded with an unexpected value).
@@ -10084,11 +10081,8 @@ private constructor(
                     )
 
                 /**
-                 * All levels trigger when at least 50% of grounded words inside detected table
-                 * regions lack table-cell grounding, regardless of word count. Pages with at least
-                 * 100 source words also trigger by level: low: table warnings or at least 50% OCR
-                 * words. medium: at least 3 table concerns or missed tables. high: medium plus at
-                 * least 2 detected tables.
+                 * Minimum page complexity that sends a page to the escalation tier. Lower levels
+                 * escalate more pages: low escalates the most, high only the most complex pages.
                  */
                 fun minComplexity(minComplexity: MinComplexity?) =
                     minComplexity(JsonField.ofNullable(minComplexity))
@@ -14229,11 +14223,8 @@ private constructor(
             }
 
             /**
-             * All levels trigger when at least 50% of grounded words inside detected table regions
-             * lack table-cell grounding, regardless of word count. Pages with at least 100 source
-             * words also trigger by level: low: table warnings or at least 50% OCR words. medium:
-             * at least 3 table concerns or missed tables. high: medium plus at least 2 detected
-             * tables.
+             * Minimum page complexity that sends a page to the escalation tier. Lower levels
+             * escalate more pages: low escalates the most, high only the most complex pages.
              */
             class MinComplexity
             @JsonCreator
