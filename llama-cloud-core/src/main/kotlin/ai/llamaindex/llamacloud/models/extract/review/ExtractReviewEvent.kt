@@ -70,12 +70,12 @@ private constructor(
     fun id(): String = id.getRequired("id")
 
     /**
-     * ID of the user who acted.
+     * ID of the user who acted; null when a review policy turned review on.
      *
-     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun actorId(): String = actorId.getRequired("actor_id")
+    fun actorId(): Optional<String> = actorId.getOptional("actor_id")
 
     /**
      * When it happened.
@@ -239,8 +239,11 @@ private constructor(
          */
         fun id(id: JsonField<String>) = apply { this.id = id }
 
-        /** ID of the user who acted. */
-        fun actorId(actorId: String) = actorId(JsonField.of(actorId))
+        /** ID of the user who acted; null when a review policy turned review on. */
+        fun actorId(actorId: String?) = actorId(JsonField.ofNullable(actorId))
+
+        /** Alias for calling [Builder.actorId] with `actorId.orElse(null)`. */
+        fun actorId(actorId: Optional<String>) = actorId(actorId.getOrNull())
 
         /**
          * Sets [Builder.actorId] to an arbitrary JSON value.
@@ -935,7 +938,8 @@ private constructor(
             fun fieldsInScope(): List<String> = fieldsInScope.getRequired("fields_in_scope")
 
             /**
-             * Turned on as the job ran, from History, by a first edit, or by the API.
+             * Turned on as the job ran, from History, by a first edit, by the API, or by the
+             * configuration's review policy as the job completed.
              *
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
              *   unexpectedly missing or null (e.g. if the server responded with an unexpected
@@ -1081,7 +1085,10 @@ private constructor(
                         }
                 }
 
-                /** Turned on as the job ran, from History, by a first edit, or by the API. */
+                /**
+                 * Turned on as the job ran, from History, by a first edit, by the API, or by the
+                 * configuration's review policy as the job completed.
+                 */
                 fun origin(origin: Origin) = origin(JsonField.of(origin))
 
                 /**
@@ -1212,7 +1219,10 @@ private constructor(
                     (origin.asKnown().getOrNull()?.validity() ?: 0) +
                     (requiredFields.asKnown().getOrNull()?.size ?: 0)
 
-            /** Turned on as the job ran, from History, by a first edit, or by the API. */
+            /**
+             * Turned on as the job ran, from History, by a first edit, by the API, or by the
+             * configuration's review policy as the job completed.
+             */
             class Origin @JsonCreator private constructor(private val value: JsonField<String>) :
                 Enum {
 
@@ -1234,6 +1244,8 @@ private constructor(
 
                     @JvmField val HISTORY = of("history")
 
+                    @JvmField val POLICY = of("policy")
+
                     @JvmField val RUN = of("run")
 
                     @JvmStatic fun of(value: String) = Origin(JsonField.of(value))
@@ -1244,6 +1256,7 @@ private constructor(
                     API,
                     EDIT,
                     HISTORY,
+                    POLICY,
                     RUN,
                 }
 
@@ -1260,6 +1273,7 @@ private constructor(
                     API,
                     EDIT,
                     HISTORY,
+                    POLICY,
                     RUN,
                     /**
                      * An enum member indicating that [Origin] was instantiated with an unknown
@@ -1280,6 +1294,7 @@ private constructor(
                         API -> Value.API
                         EDIT -> Value.EDIT
                         HISTORY -> Value.HISTORY
+                        POLICY -> Value.POLICY
                         RUN -> Value.RUN
                         else -> Value._UNKNOWN
                     }
@@ -1298,6 +1313,7 @@ private constructor(
                         API -> Known.API
                         EDIT -> Known.EDIT
                         HISTORY -> Known.HISTORY
+                        POLICY -> Known.POLICY
                         RUN -> Known.RUN
                         else -> throw LlamaCloudInvalidDataException("Unknown Origin: $value")
                     }

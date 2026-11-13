@@ -33,7 +33,7 @@ internal class ExtractReviewEventTest {
                 .build()
 
         assertThat(extractReviewEvent.id()).isEqualTo("id")
-        assertThat(extractReviewEvent.actorId()).isEqualTo("actor_id")
+        assertThat(extractReviewEvent.actorId()).contains("actor_id")
         assertThat(extractReviewEvent.createdAt())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(extractReviewEvent.kind()).isEqualTo(ExtractReviewEvent.Kind.APPROVED)
