@@ -8,6 +8,7 @@ import ai.llamaindex.llamacloud.models.beta.split.SplitResultResponse
 import ai.llamaindex.llamacloud.models.beta.split.SplitSegmentResponse
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -53,6 +54,13 @@ internal class SplitCreateResponseTest {
                 .targetPages("target_pages")
                 .transactionId("transaction_id")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .addWarning(
+                    SplitCreateResponse.Warning.builder()
+                        .addCategoryName("string")
+                        .code(SplitCreateResponse.Warning.Code.CATCH_ALL_CATEGORY)
+                        .message("message")
+                        .build()
+                )
                 .build()
 
         assertThat(splitCreateResponse.id()).isEqualTo("id")
@@ -98,6 +106,14 @@ internal class SplitCreateResponseTest {
         assertThat(splitCreateResponse.transactionId()).contains("transaction_id")
         assertThat(splitCreateResponse.updatedAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(splitCreateResponse.warnings().getOrNull())
+            .containsExactly(
+                SplitCreateResponse.Warning.builder()
+                    .addCategoryName("string")
+                    .code(SplitCreateResponse.Warning.Code.CATCH_ALL_CATEGORY)
+                    .message("message")
+                    .build()
+            )
     }
 
     @Test
@@ -141,6 +157,13 @@ internal class SplitCreateResponseTest {
                 .targetPages("target_pages")
                 .transactionId("transaction_id")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .addWarning(
+                    SplitCreateResponse.Warning.builder()
+                        .addCategoryName("string")
+                        .code(SplitCreateResponse.Warning.Code.CATCH_ALL_CATEGORY)
+                        .message("message")
+                        .build()
+                )
                 .build()
 
         val roundtrippedSplitCreateResponse =
