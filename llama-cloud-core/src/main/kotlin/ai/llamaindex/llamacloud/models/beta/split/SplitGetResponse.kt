@@ -30,6 +30,7 @@ private constructor(
     private val projectId: JsonField<String>,
     private val status: JsonField<String>,
     private val userId: JsonField<String>,
+    private val version: JsonField<String>,
     private val configurationId: JsonField<String>,
     private val createdAt: JsonField<OffsetDateTime>,
     private val errorMessage: JsonField<String>,
@@ -50,6 +51,7 @@ private constructor(
         @JsonProperty("project_id") @ExcludeMissing projectId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("status") @ExcludeMissing status: JsonField<String> = JsonMissing.of(),
         @JsonProperty("user_id") @ExcludeMissing userId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("version") @ExcludeMissing version: JsonField<String> = JsonMissing.of(),
         @JsonProperty("configuration_id")
         @ExcludeMissing
         configurationId: JsonField<String> = JsonMissing.of(),
@@ -72,6 +74,7 @@ private constructor(
         projectId,
         status,
         userId,
+        version,
         configurationId,
         createdAt,
         errorMessage,
@@ -128,6 +131,14 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun userId(): String = userId.getRequired("user_id")
+
+    /**
+     * Split version used for this job.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun version(): String = version.getRequired("version")
 
     /**
      * Split configuration ID used for this job.
@@ -216,6 +227,13 @@ private constructor(
     @JsonProperty("user_id") @ExcludeMissing fun _userId(): JsonField<String> = userId
 
     /**
+     * Returns the raw JSON value of [version].
+     *
+     * Unlike [version], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<String> = version
+
+    /**
      * Returns the raw JSON value of [configurationId].
      *
      * Unlike [configurationId], this method doesn't throw if the JSON field has an unexpected type.
@@ -283,6 +301,7 @@ private constructor(
          * .projectId()
          * .status()
          * .userId()
+         * .version()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -297,6 +316,7 @@ private constructor(
         private var projectId: JsonField<String>? = null
         private var status: JsonField<String>? = null
         private var userId: JsonField<String>? = null
+        private var version: JsonField<String>? = null
         private var configurationId: JsonField<String> = JsonMissing.of()
         private var createdAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var errorMessage: JsonField<String> = JsonMissing.of()
@@ -312,6 +332,7 @@ private constructor(
             projectId = splitGetResponse.projectId
             status = splitGetResponse.status
             userId = splitGetResponse.userId
+            version = splitGetResponse.version
             configurationId = splitGetResponse.configurationId
             createdAt = splitGetResponse.createdAt
             errorMessage = splitGetResponse.errorMessage
@@ -408,6 +429,17 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun userId(userId: JsonField<String>) = apply { this.userId = userId }
+
+        /** Split version used for this job. */
+        fun version(version: String) = version(JsonField.of(version))
+
+        /**
+         * Sets [Builder.version] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.version] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun version(version: JsonField<String>) = apply { this.version = version }
 
         /** Split configuration ID used for this job. */
         fun configurationId(configurationId: String?) =
@@ -522,6 +554,7 @@ private constructor(
          * .projectId()
          * .status()
          * .userId()
+         * .version()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -534,6 +567,7 @@ private constructor(
                 checkRequired("projectId", projectId),
                 checkRequired("status", status),
                 checkRequired("userId", userId),
+                checkRequired("version", version),
                 configurationId,
                 createdAt,
                 errorMessage,
@@ -564,6 +598,7 @@ private constructor(
         projectId()
         status()
         userId()
+        version()
         configurationId()
         createdAt()
         errorMessage()
@@ -593,6 +628,7 @@ private constructor(
             (if (projectId.asKnown().isPresent) 1 else 0) +
             (if (status.asKnown().isPresent) 1 else 0) +
             (if (userId.asKnown().isPresent) 1 else 0) +
+            (if (version.asKnown().isPresent) 1 else 0) +
             (if (configurationId.asKnown().isPresent) 1 else 0) +
             (if (createdAt.asKnown().isPresent) 1 else 0) +
             (if (errorMessage.asKnown().isPresent) 1 else 0) +
@@ -611,6 +647,7 @@ private constructor(
             projectId == other.projectId &&
             status == other.status &&
             userId == other.userId &&
+            version == other.version &&
             configurationId == other.configurationId &&
             createdAt == other.createdAt &&
             errorMessage == other.errorMessage &&
@@ -627,6 +664,7 @@ private constructor(
             projectId,
             status,
             userId,
+            version,
             configurationId,
             createdAt,
             errorMessage,
@@ -639,5 +677,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "SplitGetResponse{id=$id, categories=$categories, documentInput=$documentInput, projectId=$projectId, status=$status, userId=$userId, configurationId=$configurationId, createdAt=$createdAt, errorMessage=$errorMessage, result=$result, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
+        "SplitGetResponse{id=$id, categories=$categories, documentInput=$documentInput, projectId=$projectId, status=$status, userId=$userId, version=$version, configurationId=$configurationId, createdAt=$createdAt, errorMessage=$errorMessage, result=$result, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
 }
