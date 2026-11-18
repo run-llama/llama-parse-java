@@ -66,7 +66,8 @@ private constructor(
     )
 
     /**
-     * Categories to split documents into.
+     * Categories to split documents into. Names must be unique; 'uncategorized' is reserved unless
+     * allow_uncategorized is 'forbid'.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -233,7 +234,10 @@ private constructor(
             additionalProperties = splitV1Parameters.additionalProperties.toMutableMap()
         }
 
-        /** Categories to split documents into. */
+        /**
+         * Categories to split documents into. Names must be unique; 'uncategorized' is reserved
+         * unless allow_uncategorized is 'forbid'.
+         */
         fun categories(categories: List<SplitCategory>) = categories(JsonField.of(categories))
 
         /**
