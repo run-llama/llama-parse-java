@@ -12,7 +12,7 @@ internal class ChatListParamsTest {
     fun create() {
         ChatListParams.builder()
             .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .pageSize(0L)
+            .pageSize(1L)
             .pageToken("page_token")
             .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
@@ -23,7 +23,7 @@ internal class ChatListParamsTest {
         val params =
             ChatListParams.builder()
                 .organizationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .pageSize(0L)
+                .pageSize(1L)
                 .pageToken("page_token")
                 .projectId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
@@ -34,7 +34,7 @@ internal class ChatListParamsTest {
             .isEqualTo(
                 QueryParams.builder()
                     .put("organization_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .put("page_size", "0")
+                    .put("page_size", "1")
                     .put("page_token", "page_token")
                     .put("project_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
