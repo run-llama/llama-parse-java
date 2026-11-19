@@ -38,6 +38,7 @@ private constructor(
     private val id: JsonField<String>,
     private val grounding: JsonField<Grounding>,
     private val label: JsonField<String>,
+    private val markdownSpan: JsonField<List<JsonValue>>,
     private val type: JsonField<Type>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -50,8 +51,11 @@ private constructor(
         @ExcludeMissing
         grounding: JsonField<Grounding> = JsonMissing.of(),
         @JsonProperty("label") @ExcludeMissing label: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("markdown_span")
+        @ExcludeMissing
+        markdownSpan: JsonField<List<JsonValue>> = JsonMissing.of(),
         @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-    ) : this(items, id, grounding, label, type, mutableMapOf())
+    ) : this(items, id, grounding, label, markdownSpan, type, mutableMapOf())
 
     /**
      * Child form nodes in reading order
@@ -84,6 +88,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun label(): Optional<String> = label.getOptional("label")
+
+    /**
+     * `[start, end)` UTF-8 byte offsets of the section heading in its page's `markdown` string
+     * (forms=enrich_pro only). Absent when it has no place in the markdown
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun markdownSpan(): Optional<List<JsonValue>> = markdownSpan.getOptional("markdown_span")
 
     /**
      * Form section node
@@ -120,6 +133,15 @@ private constructor(
      * Unlike [label], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("label") @ExcludeMissing fun _label(): JsonField<String> = label
+
+    /**
+     * Returns the raw JSON value of [markdownSpan].
+     *
+     * Unlike [markdownSpan], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("markdown_span")
+    @ExcludeMissing
+    fun _markdownSpan(): JsonField<List<JsonValue>> = markdownSpan
 
     /**
      * Returns the raw JSON value of [type].
@@ -160,6 +182,7 @@ private constructor(
         private var id: JsonField<String> = JsonMissing.of()
         private var grounding: JsonField<Grounding> = JsonMissing.of()
         private var label: JsonField<String> = JsonMissing.of()
+        private var markdownSpan: JsonField<MutableList<JsonValue>>? = null
         private var type: JsonField<Type> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -169,6 +192,7 @@ private constructor(
             id = formSection.id
             grounding = formSection.grounding
             label = formSection.label
+            markdownSpan = formSection.markdownSpan.map { it.toMutableList() }
             type = formSection.type
             additionalProperties = formSection.additionalProperties.toMutableMap()
         }
@@ -300,6 +324,40 @@ private constructor(
          */
         fun label(label: JsonField<String>) = apply { this.label = label }
 
+        /**
+         * `[start, end)` UTF-8 byte offsets of the section heading in its page's `markdown` string
+         * (forms=enrich_pro only). Absent when it has no place in the markdown
+         */
+        fun markdownSpan(markdownSpan: List<JsonValue>?) =
+            markdownSpan(JsonField.ofNullable(markdownSpan))
+
+        /** Alias for calling [Builder.markdownSpan] with `markdownSpan.orElse(null)`. */
+        fun markdownSpan(markdownSpan: Optional<List<JsonValue>>) =
+            markdownSpan(markdownSpan.getOrNull())
+
+        /**
+         * Sets [Builder.markdownSpan] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.markdownSpan] with a well-typed `List<JsonValue>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun markdownSpan(markdownSpan: JsonField<List<JsonValue>>) = apply {
+            this.markdownSpan = markdownSpan.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [JsonValue] to [Builder.markdownSpan].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addMarkdownSpan(markdownSpan: JsonValue) = apply {
+            this.markdownSpan =
+                (this.markdownSpan ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("markdownSpan", it).add(markdownSpan)
+                }
+        }
+
         /** Form section node */
         fun type(type: Type) = type(JsonField.of(type))
 
@@ -348,6 +406,7 @@ private constructor(
                 id,
                 grounding,
                 label,
+                (markdownSpan ?: JsonMissing.of()).map { it.toImmutable() },
                 type,
                 additionalProperties.toMutableMap(),
             )
@@ -372,6 +431,7 @@ private constructor(
         id()
         grounding().ifPresent { it.validate() }
         label()
+        markdownSpan()
         type().ifPresent { it.validate() }
         validated = true
     }
@@ -395,6 +455,7 @@ private constructor(
             (if (id.asKnown().isPresent) 1 else 0) +
             (grounding.asKnown().getOrNull()?.validity() ?: 0) +
             (if (label.asKnown().isPresent) 1 else 0) +
+            (markdownSpan.asKnown().getOrNull()?.size ?: 0) +
             (type.asKnown().getOrNull()?.validity() ?: 0)
 
     /** One labeled form entry: a text input, checkbox, select group, or signature line. */
@@ -3084,16 +3145,17 @@ private constructor(
             id == other.id &&
             grounding == other.grounding &&
             label == other.label &&
+            markdownSpan == other.markdownSpan &&
             type == other.type &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(items, id, grounding, label, type, additionalProperties)
+        Objects.hash(items, id, grounding, label, markdownSpan, type, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "FormSection{items=$items, id=$id, grounding=$grounding, label=$label, type=$type, additionalProperties=$additionalProperties}"
+        "FormSection{items=$items, id=$id, grounding=$grounding, label=$label, markdownSpan=$markdownSpan, type=$type, additionalProperties=$additionalProperties}"
 }

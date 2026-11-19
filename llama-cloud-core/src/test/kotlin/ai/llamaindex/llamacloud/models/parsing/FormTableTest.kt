@@ -305,6 +305,8 @@ internal class FormTableTest {
                 )
                 .html("html")
                 .label("label")
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                 .type(FormTable.Type.TABLE)
                 .build()
 
@@ -585,6 +587,11 @@ internal class FormTableTest {
             )
         assertThat(formTable.html()).contains("html")
         assertThat(formTable.label()).contains("label")
+        assertThat(formTable.markdownSpan().getOrNull())
+            .containsExactly(
+                JsonValue.from(mapOf<String, Any>()),
+                JsonValue.from(mapOf<String, Any>()),
+            )
         assertThat(formTable.type()).contains(FormTable.Type.TABLE)
     }
 
@@ -883,6 +890,8 @@ internal class FormTableTest {
                 )
                 .html("html")
                 .label("label")
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                 .type(FormTable.Type.TABLE)
                 .build()
 

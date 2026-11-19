@@ -41,6 +41,8 @@ private constructor(
     private val grounding: JsonField<Grounding>,
     private val isEmpty: JsonField<Boolean>,
     private val label: JsonField<String>,
+    private val labelMarkdownSpan: JsonField<List<JsonValue>>,
+    private val markdownSpan: JsonField<List<JsonValue>>,
     private val type: JsonField<Type>,
     private val value: JsonField<Value>,
     private val valueItems: JsonField<List<ValueItem>>,
@@ -57,12 +59,31 @@ private constructor(
         grounding: JsonField<Grounding> = JsonMissing.of(),
         @JsonProperty("isEmpty") @ExcludeMissing isEmpty: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("label") @ExcludeMissing label: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("label_markdown_span")
+        @ExcludeMissing
+        labelMarkdownSpan: JsonField<List<JsonValue>> = JsonMissing.of(),
+        @JsonProperty("markdown_span")
+        @ExcludeMissing
+        markdownSpan: JsonField<List<JsonValue>> = JsonMissing.of(),
         @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
         @JsonProperty("value") @ExcludeMissing value: JsonField<Value> = JsonMissing.of(),
         @JsonProperty("valueItems")
         @ExcludeMissing
         valueItems: JsonField<List<ValueItem>> = JsonMissing.of(),
-    ) : this(field, id, bbox, grounding, isEmpty, label, type, value, valueItems, mutableMapOf())
+    ) : this(
+        field,
+        id,
+        bbox,
+        grounding,
+        isEmpty,
+        label,
+        labelMarkdownSpan,
+        markdownSpan,
+        type,
+        value,
+        valueItems,
+        mutableMapOf(),
+    )
 
     /**
      * Kind of entry: text (any free-text input), checkbox, single_select, multi_select, or
@@ -112,6 +133,27 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun label(): Optional<String> = label.getOptional("label")
+
+    /**
+     * `[start, end)` UTF-8 byte offsets of the field's printed caption (a table cell's column
+     * header) in its page's `markdown` string (forms=enrich_pro only). Absent when it has no place
+     * in the markdown
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun labelMarkdownSpan(): Optional<List<JsonValue>> =
+        labelMarkdownSpan.getOptional("label_markdown_span")
+
+    /**
+     * `[start, end)` UTF-8 byte offsets of the field's value in its page's `markdown` string
+     * (forms=enrich_pro only). A checkbox covers its `[x]` or `[ ]`, and a blank table cell covers
+     * the whole cell. Absent when the value has no place in the markdown
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun markdownSpan(): Optional<List<JsonValue>> = markdownSpan.getOptional("markdown_span")
 
     /**
      * Form field node
@@ -181,6 +223,25 @@ private constructor(
     @JsonProperty("label") @ExcludeMissing fun _label(): JsonField<String> = label
 
     /**
+     * Returns the raw JSON value of [labelMarkdownSpan].
+     *
+     * Unlike [labelMarkdownSpan], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("label_markdown_span")
+    @ExcludeMissing
+    fun _labelMarkdownSpan(): JsonField<List<JsonValue>> = labelMarkdownSpan
+
+    /**
+     * Returns the raw JSON value of [markdownSpan].
+     *
+     * Unlike [markdownSpan], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("markdown_span")
+    @ExcludeMissing
+    fun _markdownSpan(): JsonField<List<JsonValue>> = markdownSpan
+
+    /**
      * Returns the raw JSON value of [type].
      *
      * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
@@ -237,6 +298,8 @@ private constructor(
         private var grounding: JsonField<Grounding> = JsonMissing.of()
         private var isEmpty: JsonField<Boolean> = JsonMissing.of()
         private var label: JsonField<String> = JsonMissing.of()
+        private var labelMarkdownSpan: JsonField<MutableList<JsonValue>>? = null
+        private var markdownSpan: JsonField<MutableList<JsonValue>>? = null
         private var type: JsonField<Type> = JsonMissing.of()
         private var value: JsonField<Value> = JsonMissing.of()
         private var valueItems: JsonField<MutableList<ValueItem>>? = null
@@ -250,6 +313,8 @@ private constructor(
             grounding = formField.grounding
             isEmpty = formField.isEmpty
             label = formField.label
+            labelMarkdownSpan = formField.labelMarkdownSpan.map { it.toMutableList() }
+            markdownSpan = formField.markdownSpan.map { it.toMutableList() }
             type = formField.type
             value = formField.value
             valueItems = formField.valueItems.map { it.toMutableList() }
@@ -361,6 +426,76 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun label(label: JsonField<String>) = apply { this.label = label }
+
+        /**
+         * `[start, end)` UTF-8 byte offsets of the field's printed caption (a table cell's column
+         * header) in its page's `markdown` string (forms=enrich_pro only). Absent when it has no
+         * place in the markdown
+         */
+        fun labelMarkdownSpan(labelMarkdownSpan: List<JsonValue>?) =
+            labelMarkdownSpan(JsonField.ofNullable(labelMarkdownSpan))
+
+        /** Alias for calling [Builder.labelMarkdownSpan] with `labelMarkdownSpan.orElse(null)`. */
+        fun labelMarkdownSpan(labelMarkdownSpan: Optional<List<JsonValue>>) =
+            labelMarkdownSpan(labelMarkdownSpan.getOrNull())
+
+        /**
+         * Sets [Builder.labelMarkdownSpan] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.labelMarkdownSpan] with a well-typed `List<JsonValue>`
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun labelMarkdownSpan(labelMarkdownSpan: JsonField<List<JsonValue>>) = apply {
+            this.labelMarkdownSpan = labelMarkdownSpan.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [JsonValue] to [Builder.labelMarkdownSpan].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addLabelMarkdownSpan(labelMarkdownSpan: JsonValue) = apply {
+            this.labelMarkdownSpan =
+                (this.labelMarkdownSpan ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("labelMarkdownSpan", it).add(labelMarkdownSpan)
+                }
+        }
+
+        /**
+         * `[start, end)` UTF-8 byte offsets of the field's value in its page's `markdown` string
+         * (forms=enrich_pro only). A checkbox covers its `[x]` or `[ ]`, and a blank table cell
+         * covers the whole cell. Absent when the value has no place in the markdown
+         */
+        fun markdownSpan(markdownSpan: List<JsonValue>?) =
+            markdownSpan(JsonField.ofNullable(markdownSpan))
+
+        /** Alias for calling [Builder.markdownSpan] with `markdownSpan.orElse(null)`. */
+        fun markdownSpan(markdownSpan: Optional<List<JsonValue>>) =
+            markdownSpan(markdownSpan.getOrNull())
+
+        /**
+         * Sets [Builder.markdownSpan] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.markdownSpan] with a well-typed `List<JsonValue>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun markdownSpan(markdownSpan: JsonField<List<JsonValue>>) = apply {
+            this.markdownSpan = markdownSpan.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [JsonValue] to [Builder.markdownSpan].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addMarkdownSpan(markdownSpan: JsonValue) = apply {
+            this.markdownSpan =
+                (this.markdownSpan ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("markdownSpan", it).add(markdownSpan)
+                }
+        }
 
         /** Form field node */
         fun type(type: Type) = type(JsonField.of(type))
@@ -524,6 +659,8 @@ private constructor(
                 grounding,
                 isEmpty,
                 label,
+                (labelMarkdownSpan ?: JsonMissing.of()).map { it.toImmutable() },
+                (markdownSpan ?: JsonMissing.of()).map { it.toImmutable() },
                 type,
                 value,
                 (valueItems ?: JsonMissing.of()).map { it.toImmutable() },
@@ -552,6 +689,8 @@ private constructor(
         grounding().ifPresent { it.validate() }
         isEmpty()
         label()
+        labelMarkdownSpan()
+        markdownSpan()
         type().ifPresent { it.validate() }
         value().ifPresent { it.validate() }
         valueItems().ifPresent { it.forEach { it.validate() } }
@@ -579,6 +718,8 @@ private constructor(
             (grounding.asKnown().getOrNull()?.validity() ?: 0) +
             (if (isEmpty.asKnown().isPresent) 1 else 0) +
             (if (label.asKnown().isPresent) 1 else 0) +
+            (labelMarkdownSpan.asKnown().getOrNull()?.size ?: 0) +
+            (markdownSpan.asKnown().getOrNull()?.size ?: 0) +
             (type.asKnown().getOrNull()?.validity() ?: 0) +
             (value.asKnown().getOrNull()?.validity() ?: 0) +
             (valueItems.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
@@ -4715,6 +4856,8 @@ private constructor(
             grounding == other.grounding &&
             isEmpty == other.isEmpty &&
             label == other.label &&
+            labelMarkdownSpan == other.labelMarkdownSpan &&
+            markdownSpan == other.markdownSpan &&
             type == other.type &&
             value == other.value &&
             valueItems == other.valueItems &&
@@ -4729,6 +4872,8 @@ private constructor(
             grounding,
             isEmpty,
             label,
+            labelMarkdownSpan,
+            markdownSpan,
             type,
             value,
             valueItems,
@@ -4739,5 +4884,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "FormField{field=$field, id=$id, bbox=$bbox, grounding=$grounding, isEmpty=$isEmpty, label=$label, type=$type, value=$value, valueItems=$valueItems, additionalProperties=$additionalProperties}"
+        "FormField{field=$field, id=$id, bbox=$bbox, grounding=$grounding, isEmpty=$isEmpty, label=$label, labelMarkdownSpan=$labelMarkdownSpan, markdownSpan=$markdownSpan, type=$type, value=$value, valueItems=$valueItems, additionalProperties=$additionalProperties}"
 }

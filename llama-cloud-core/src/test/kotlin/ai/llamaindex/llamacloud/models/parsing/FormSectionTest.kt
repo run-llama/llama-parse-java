@@ -5,6 +5,7 @@ package ai.llamaindex.llamacloud.models.parsing
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -259,6 +260,10 @@ internal class FormSectionTest {
                         )
                         .isEmpty(true)
                         .label("label")
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                         .type(FormField.Type.FIELD)
                         .value("string")
                         .addValueItem(
@@ -638,6 +643,8 @@ internal class FormSectionTest {
                                 )
                                 .html("html")
                                 .label("label")
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                                 .type(FormTable.Type.TABLE)
                                 .build()
                         )
@@ -781,6 +788,8 @@ internal class FormSectionTest {
                         .build()
                 )
                 .label("label")
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                 .type(FormSection.Type.SECTION)
                 .build()
 
@@ -1031,6 +1040,10 @@ internal class FormSectionTest {
                         )
                         .isEmpty(true)
                         .label("label")
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                         .type(FormField.Type.FIELD)
                         .value("string")
                         .addValueItem(
@@ -1410,6 +1423,8 @@ internal class FormSectionTest {
                                 )
                                 .html("html")
                                 .label("label")
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                                 .type(FormTable.Type.TABLE)
                                 .build()
                         )
@@ -1545,6 +1560,11 @@ internal class FormSectionTest {
                     .build()
             )
         assertThat(formSection.label()).contains("label")
+        assertThat(formSection.markdownSpan().getOrNull())
+            .containsExactly(
+                JsonValue.from(mapOf<String, Any>()),
+                JsonValue.from(mapOf<String, Any>()),
+            )
         assertThat(formSection.type()).contains(FormSection.Type.SECTION)
     }
 
@@ -1798,6 +1818,10 @@ internal class FormSectionTest {
                         )
                         .isEmpty(true)
                         .label("label")
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                         .type(FormField.Type.FIELD)
                         .value("string")
                         .addValueItem(
@@ -2177,6 +2201,8 @@ internal class FormSectionTest {
                                 )
                                 .html("html")
                                 .label("label")
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                                 .type(FormTable.Type.TABLE)
                                 .build()
                         )
@@ -2320,6 +2346,8 @@ internal class FormSectionTest {
                         .build()
                 )
                 .label("label")
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                 .type(FormSection.Type.SECTION)
                 .build()
 
