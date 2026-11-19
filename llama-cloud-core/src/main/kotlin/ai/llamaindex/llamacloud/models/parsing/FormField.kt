@@ -1100,6 +1100,7 @@ private constructor(
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val lines: JsonField<List<Line>>,
+            private val bbox: JsonField<BBox>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -1107,8 +1108,9 @@ private constructor(
             private constructor(
                 @JsonProperty("lines")
                 @ExcludeMissing
-                lines: JsonField<List<Line>> = JsonMissing.of()
-            ) : this(lines, mutableMapOf())
+                lines: JsonField<List<Line>> = JsonMissing.of(),
+                @JsonProperty("bbox") @ExcludeMissing bbox: JsonField<BBox> = JsonMissing.of(),
+            ) : this(lines, bbox, mutableMapOf())
 
             /**
              * Supported lines. Word requests include supported words; gaps are valid. Boxes use
@@ -1121,11 +1123,26 @@ private constructor(
             fun lines(): List<Line> = lines.getRequired("lines")
 
             /**
+             * Bounding box with coordinates and optional metadata.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun bbox(): Optional<BBox> = bbox.getOptional("bbox")
+
+            /**
              * Returns the raw JSON value of [lines].
              *
              * Unlike [lines], this method doesn't throw if the JSON field has an unexpected type.
              */
             @JsonProperty("lines") @ExcludeMissing fun _lines(): JsonField<List<Line>> = lines
+
+            /**
+             * Returns the raw JSON value of [bbox].
+             *
+             * Unlike [bbox], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("bbox") @ExcludeMissing fun _bbox(): JsonField<BBox> = bbox
 
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -1156,11 +1173,13 @@ private constructor(
             class Builder internal constructor() {
 
                 private var lines: JsonField<MutableList<Line>>? = null
+                private var bbox: JsonField<BBox> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(id: Id) = apply {
                     lines = id.lines.map { it.toMutableList() }
+                    bbox = id.bbox
                     additionalProperties = id.additionalProperties.toMutableMap()
                 }
 
@@ -1192,6 +1211,21 @@ private constructor(
                             checkKnown("lines", it).add(line)
                         }
                 }
+
+                /** Bounding box with coordinates and optional metadata. */
+                fun bbox(bbox: BBox?) = bbox(JsonField.ofNullable(bbox))
+
+                /** Alias for calling [Builder.bbox] with `bbox.orElse(null)`. */
+                fun bbox(bbox: Optional<BBox>) = bbox(bbox.getOrNull())
+
+                /**
+                 * Sets [Builder.bbox] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.bbox] with a well-typed [BBox] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun bbox(bbox: JsonField<BBox>) = apply { this.bbox = bbox }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1230,6 +1264,7 @@ private constructor(
                 fun build(): Id =
                     Id(
                         checkRequired("lines", lines).map { it.toImmutable() },
+                        bbox,
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -1252,6 +1287,7 @@ private constructor(
                 }
 
                 lines().forEach { it.validate() }
+                bbox().ifPresent { it.validate() }
                 validated = true
             }
 
@@ -1271,7 +1307,8 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (lines.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+                (lines.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                    (bbox.asKnown().getOrNull()?.validity() ?: 0)
 
             /** One grounded line of text with an optional per-word breakdown. */
             class Line
@@ -2119,14 +2156,16 @@ private constructor(
 
                 return other is Id &&
                     lines == other.lines &&
+                    bbox == other.bbox &&
                     additionalProperties == other.additionalProperties
             }
 
-            private val hashCode: Int by lazy { Objects.hash(lines, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(lines, bbox, additionalProperties) }
 
             override fun hashCode(): Int = hashCode
 
-            override fun toString() = "Id{lines=$lines, additionalProperties=$additionalProperties}"
+            override fun toString() =
+                "Id{lines=$lines, bbox=$bbox, additionalProperties=$additionalProperties}"
         }
 
         /** Supported text with half-open UTF-8 byte spans into the complete property string. */
@@ -2134,6 +2173,7 @@ private constructor(
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val lines: JsonField<List<Line>>,
+            private val bbox: JsonField<BBox>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -2141,8 +2181,9 @@ private constructor(
             private constructor(
                 @JsonProperty("lines")
                 @ExcludeMissing
-                lines: JsonField<List<Line>> = JsonMissing.of()
-            ) : this(lines, mutableMapOf())
+                lines: JsonField<List<Line>> = JsonMissing.of(),
+                @JsonProperty("bbox") @ExcludeMissing bbox: JsonField<BBox> = JsonMissing.of(),
+            ) : this(lines, bbox, mutableMapOf())
 
             /**
              * Supported lines. Word requests include supported words; gaps are valid. Boxes use
@@ -2155,11 +2196,26 @@ private constructor(
             fun lines(): List<Line> = lines.getRequired("lines")
 
             /**
+             * Bounding box with coordinates and optional metadata.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun bbox(): Optional<BBox> = bbox.getOptional("bbox")
+
+            /**
              * Returns the raw JSON value of [lines].
              *
              * Unlike [lines], this method doesn't throw if the JSON field has an unexpected type.
              */
             @JsonProperty("lines") @ExcludeMissing fun _lines(): JsonField<List<Line>> = lines
+
+            /**
+             * Returns the raw JSON value of [bbox].
+             *
+             * Unlike [bbox], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("bbox") @ExcludeMissing fun _bbox(): JsonField<BBox> = bbox
 
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -2190,11 +2246,13 @@ private constructor(
             class Builder internal constructor() {
 
                 private var lines: JsonField<MutableList<Line>>? = null
+                private var bbox: JsonField<BBox> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(label: Label) = apply {
                     lines = label.lines.map { it.toMutableList() }
+                    bbox = label.bbox
                     additionalProperties = label.additionalProperties.toMutableMap()
                 }
 
@@ -2226,6 +2284,21 @@ private constructor(
                             checkKnown("lines", it).add(line)
                         }
                 }
+
+                /** Bounding box with coordinates and optional metadata. */
+                fun bbox(bbox: BBox?) = bbox(JsonField.ofNullable(bbox))
+
+                /** Alias for calling [Builder.bbox] with `bbox.orElse(null)`. */
+                fun bbox(bbox: Optional<BBox>) = bbox(bbox.getOrNull())
+
+                /**
+                 * Sets [Builder.bbox] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.bbox] with a well-typed [BBox] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun bbox(bbox: JsonField<BBox>) = apply { this.bbox = bbox }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -2264,6 +2337,7 @@ private constructor(
                 fun build(): Label =
                     Label(
                         checkRequired("lines", lines).map { it.toImmutable() },
+                        bbox,
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -2286,6 +2360,7 @@ private constructor(
                 }
 
                 lines().forEach { it.validate() }
+                bbox().ifPresent { it.validate() }
                 validated = true
             }
 
@@ -2305,7 +2380,8 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (lines.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+                (lines.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                    (bbox.asKnown().getOrNull()?.validity() ?: 0)
 
             /** One grounded line of text with an optional per-word breakdown. */
             class Line
@@ -3153,15 +3229,16 @@ private constructor(
 
                 return other is Label &&
                     lines == other.lines &&
+                    bbox == other.bbox &&
                     additionalProperties == other.additionalProperties
             }
 
-            private val hashCode: Int by lazy { Objects.hash(lines, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(lines, bbox, additionalProperties) }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Label{lines=$lines, additionalProperties=$additionalProperties}"
+                "Label{lines=$lines, bbox=$bbox, additionalProperties=$additionalProperties}"
         }
 
         /** Supported text with half-open UTF-8 byte spans into the complete property string. */
@@ -3169,6 +3246,7 @@ private constructor(
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val lines: JsonField<List<Line>>,
+            private val bbox: JsonField<BBox>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -3176,8 +3254,9 @@ private constructor(
             private constructor(
                 @JsonProperty("lines")
                 @ExcludeMissing
-                lines: JsonField<List<Line>> = JsonMissing.of()
-            ) : this(lines, mutableMapOf())
+                lines: JsonField<List<Line>> = JsonMissing.of(),
+                @JsonProperty("bbox") @ExcludeMissing bbox: JsonField<BBox> = JsonMissing.of(),
+            ) : this(lines, bbox, mutableMapOf())
 
             /**
              * Supported lines. Word requests include supported words; gaps are valid. Boxes use
@@ -3190,11 +3269,26 @@ private constructor(
             fun lines(): List<Line> = lines.getRequired("lines")
 
             /**
+             * Bounding box with coordinates and optional metadata.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun bbox(): Optional<BBox> = bbox.getOptional("bbox")
+
+            /**
              * Returns the raw JSON value of [lines].
              *
              * Unlike [lines], this method doesn't throw if the JSON field has an unexpected type.
              */
             @JsonProperty("lines") @ExcludeMissing fun _lines(): JsonField<List<Line>> = lines
+
+            /**
+             * Returns the raw JSON value of [bbox].
+             *
+             * Unlike [bbox], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("bbox") @ExcludeMissing fun _bbox(): JsonField<BBox> = bbox
 
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -3225,11 +3319,13 @@ private constructor(
             class Builder internal constructor() {
 
                 private var lines: JsonField<MutableList<Line>>? = null
+                private var bbox: JsonField<BBox> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(value: Value) = apply {
                     lines = value.lines.map { it.toMutableList() }
+                    bbox = value.bbox
                     additionalProperties = value.additionalProperties.toMutableMap()
                 }
 
@@ -3261,6 +3357,21 @@ private constructor(
                             checkKnown("lines", it).add(line)
                         }
                 }
+
+                /** Bounding box with coordinates and optional metadata. */
+                fun bbox(bbox: BBox?) = bbox(JsonField.ofNullable(bbox))
+
+                /** Alias for calling [Builder.bbox] with `bbox.orElse(null)`. */
+                fun bbox(bbox: Optional<BBox>) = bbox(bbox.getOrNull())
+
+                /**
+                 * Sets [Builder.bbox] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.bbox] with a well-typed [BBox] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun bbox(bbox: JsonField<BBox>) = apply { this.bbox = bbox }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -3299,6 +3410,7 @@ private constructor(
                 fun build(): Value =
                     Value(
                         checkRequired("lines", lines).map { it.toImmutable() },
+                        bbox,
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -3321,6 +3433,7 @@ private constructor(
                 }
 
                 lines().forEach { it.validate() }
+                bbox().ifPresent { it.validate() }
                 validated = true
             }
 
@@ -3340,7 +3453,8 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (lines.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+                (lines.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                    (bbox.asKnown().getOrNull()?.validity() ?: 0)
 
             /** One grounded line of text with an optional per-word breakdown. */
             class Line
@@ -4188,15 +4302,16 @@ private constructor(
 
                 return other is Value &&
                     lines == other.lines &&
+                    bbox == other.bbox &&
                     additionalProperties == other.additionalProperties
             }
 
-            private val hashCode: Int by lazy { Objects.hash(lines, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(lines, bbox, additionalProperties) }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Value{lines=$lines, additionalProperties=$additionalProperties}"
+                "Value{lines=$lines, bbox=$bbox, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {

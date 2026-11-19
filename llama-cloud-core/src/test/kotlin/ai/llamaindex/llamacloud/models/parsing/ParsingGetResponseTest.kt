@@ -193,6 +193,19 @@ internal class ParsingGetResponseTest {
                                                                         )
                                                                         .build()
                                                                 )
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
                                                         .label(
@@ -330,6 +343,19 @@ internal class ParsingGetResponseTest {
                                                                         )
                                                                         .build()
                                                                 )
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
                                                         .value(
@@ -465,6 +491,19 @@ internal class ParsingGetResponseTest {
                                                                                 )
                                                                                 .build()
                                                                         )
+                                                                        .build()
+                                                                )
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
                                                                         .build()
                                                                 )
                                                                 .build()
@@ -695,6 +734,27 @@ internal class ParsingGetResponseTest {
                                                                                         )
                                                                                         .build()
                                                                                 )
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
                                                                                 .build()
                                                                         )
                                                                         .addColumn(
@@ -875,6 +935,27 @@ internal class ParsingGetResponseTest {
                                                                                                         .build()
                                                                                                 )
                                                                                                 .build()
+                                                                                        )
+                                                                                        .build()
+                                                                                )
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
                                                                                         )
                                                                                         .build()
                                                                                 )
@@ -1061,6 +1142,27 @@ internal class ParsingGetResponseTest {
                                                                                         )
                                                                                         .build()
                                                                                 )
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
                                                                                 .build()
                                                                         )
                                                                         .addRow(
@@ -1242,6 +1344,28 @@ internal class ParsingGetResponseTest {
                                                                                                             .build()
                                                                                                     )
                                                                                                     .build()
+                                                                                            )
+                                                                                            .build()
+                                                                                    )
+                                                                                    .bbox(
+                                                                                        BBox
+                                                                                            .builder()
+                                                                                            .h(0.0)
+                                                                                            .w(0.0)
+                                                                                            .x(0.0)
+                                                                                            .y(0.0)
+                                                                                            .confidence(
+                                                                                                0.0
+                                                                                            )
+                                                                                            .endIndex(
+                                                                                                0L
+                                                                                            )
+                                                                                            .label(
+                                                                                                "label"
+                                                                                            )
+                                                                                            .r(0.0)
+                                                                                            .startIndex(
+                                                                                                0L
                                                                                             )
                                                                                             .build()
                                                                                     )
@@ -1433,6 +1557,19 @@ internal class ParsingGetResponseTest {
                                                                                 )
                                                                                 .build()
                                                                         )
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
                                                                         .build()
                                                                 )
                                                                 .label(
@@ -1599,6 +1736,19 @@ internal class ParsingGetResponseTest {
                                                                                         )
                                                                                         .build()
                                                                                 )
+                                                                                .build()
+                                                                        )
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
                                                                                 .build()
                                                                         )
                                                                         .build()
@@ -2007,6 +2157,19 @@ internal class ParsingGetResponseTest {
                                                                     )
                                                                     .build()
                                                             )
+                                                            .bbox(
+                                                                BBox.builder()
+                                                                    .h(0.0)
+                                                                    .w(0.0)
+                                                                    .x(0.0)
+                                                                    .y(0.0)
+                                                                    .confidence(0.0)
+                                                                    .endIndex(0L)
+                                                                    .label("label")
+                                                                    .r(0.0)
+                                                                    .startIndex(0L)
+                                                                    .build()
+                                                            )
                                                             .build()
                                                     )
                                                     .label(
@@ -2124,6 +2287,19 @@ internal class ParsingGetResponseTest {
                                                                     )
                                                                     .build()
                                                             )
+                                                            .bbox(
+                                                                BBox.builder()
+                                                                    .h(0.0)
+                                                                    .w(0.0)
+                                                                    .x(0.0)
+                                                                    .y(0.0)
+                                                                    .confidence(0.0)
+                                                                    .endIndex(0L)
+                                                                    .label("label")
+                                                                    .r(0.0)
+                                                                    .startIndex(0L)
+                                                                    .build()
+                                                            )
                                                             .build()
                                                     )
                                                     .value(
@@ -2239,6 +2415,19 @@ internal class ParsingGetResponseTest {
                                                                             )
                                                                             .build()
                                                                     )
+                                                                    .build()
+                                                            )
+                                                            .bbox(
+                                                                BBox.builder()
+                                                                    .h(0.0)
+                                                                    .w(0.0)
+                                                                    .x(0.0)
+                                                                    .y(0.0)
+                                                                    .confidence(0.0)
+                                                                    .endIndex(0L)
+                                                                    .label("label")
+                                                                    .r(0.0)
+                                                                    .startIndex(0L)
                                                                     .build()
                                                             )
                                                             .build()
@@ -2452,6 +2641,19 @@ internal class ParsingGetResponseTest {
                                                                                     )
                                                                                     .build()
                                                                             )
+                                                                            .bbox(
+                                                                                BBox.builder()
+                                                                                    .h(0.0)
+                                                                                    .w(0.0)
+                                                                                    .x(0.0)
+                                                                                    .y(0.0)
+                                                                                    .confidence(0.0)
+                                                                                    .endIndex(0L)
+                                                                                    .label("label")
+                                                                                    .r(0.0)
+                                                                                    .startIndex(0L)
+                                                                                    .build()
+                                                                            )
                                                                             .build()
                                                                     )
                                                                     .addColumn(
@@ -2623,6 +2825,19 @@ internal class ParsingGetResponseTest {
                                                                                     )
                                                                                     .build()
                                                                             )
+                                                                            .bbox(
+                                                                                BBox.builder()
+                                                                                    .h(0.0)
+                                                                                    .w(0.0)
+                                                                                    .x(0.0)
+                                                                                    .y(0.0)
+                                                                                    .confidence(0.0)
+                                                                                    .endIndex(0L)
+                                                                                    .label("label")
+                                                                                    .r(0.0)
+                                                                                    .startIndex(0L)
+                                                                                    .build()
+                                                                            )
                                                                             .build()
                                                                     )
                                                                     .label(
@@ -2792,6 +3007,19 @@ internal class ParsingGetResponseTest {
                                                                                             )
                                                                                             .build()
                                                                                     )
+                                                                                    .build()
+                                                                            )
+                                                                            .bbox(
+                                                                                BBox.builder()
+                                                                                    .h(0.0)
+                                                                                    .w(0.0)
+                                                                                    .x(0.0)
+                                                                                    .y(0.0)
+                                                                                    .confidence(0.0)
+                                                                                    .endIndex(0L)
+                                                                                    .label("label")
+                                                                                    .r(0.0)
+                                                                                    .startIndex(0L)
                                                                                     .build()
                                                                             )
                                                                             .build()
@@ -2978,6 +3206,27 @@ internal class ParsingGetResponseTest {
                                                                                         )
                                                                                         .build()
                                                                                 )
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
                                                                                 .build()
                                                                         )
                                                                     )
@@ -3143,6 +3392,19 @@ internal class ParsingGetResponseTest {
                                                                             )
                                                                             .build()
                                                                     )
+                                                                    .bbox(
+                                                                        BBox.builder()
+                                                                            .h(0.0)
+                                                                            .w(0.0)
+                                                                            .x(0.0)
+                                                                            .y(0.0)
+                                                                            .confidence(0.0)
+                                                                            .endIndex(0L)
+                                                                            .label("label")
+                                                                            .r(0.0)
+                                                                            .startIndex(0L)
+                                                                            .build()
+                                                                    )
                                                                     .build()
                                                             )
                                                             .label(
@@ -3290,6 +3552,19 @@ internal class ParsingGetResponseTest {
                                                                                     )
                                                                                     .build()
                                                                             )
+                                                                            .build()
+                                                                    )
+                                                                    .bbox(
+                                                                        BBox.builder()
+                                                                            .h(0.0)
+                                                                            .w(0.0)
+                                                                            .x(0.0)
+                                                                            .y(0.0)
+                                                                            .confidence(0.0)
+                                                                            .endIndex(0L)
+                                                                            .label("label")
+                                                                            .r(0.0)
+                                                                            .startIndex(0L)
                                                                             .build()
                                                                     )
                                                                     .build()
@@ -3720,6 +3995,19 @@ internal class ParsingGetResponseTest {
                                                                         )
                                                                         .build()
                                                                 )
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
                                                         .label(
@@ -3857,6 +4145,19 @@ internal class ParsingGetResponseTest {
                                                                         )
                                                                         .build()
                                                                 )
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
                                                         .value(
@@ -3992,6 +4293,19 @@ internal class ParsingGetResponseTest {
                                                                                 )
                                                                                 .build()
                                                                         )
+                                                                        .build()
+                                                                )
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
                                                                         .build()
                                                                 )
                                                                 .build()
@@ -4222,6 +4536,27 @@ internal class ParsingGetResponseTest {
                                                                                         )
                                                                                         .build()
                                                                                 )
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
                                                                                 .build()
                                                                         )
                                                                         .addColumn(
@@ -4402,6 +4737,27 @@ internal class ParsingGetResponseTest {
                                                                                                         .build()
                                                                                                 )
                                                                                                 .build()
+                                                                                        )
+                                                                                        .build()
+                                                                                )
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
                                                                                         )
                                                                                         .build()
                                                                                 )
@@ -4588,6 +4944,27 @@ internal class ParsingGetResponseTest {
                                                                                         )
                                                                                         .build()
                                                                                 )
+                                                                                .bbox(
+                                                                                    BBox.builder()
+                                                                                        .h(0.0)
+                                                                                        .w(0.0)
+                                                                                        .x(0.0)
+                                                                                        .y(0.0)
+                                                                                        .confidence(
+                                                                                            0.0
+                                                                                        )
+                                                                                        .endIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .label(
+                                                                                            "label"
+                                                                                        )
+                                                                                        .r(0.0)
+                                                                                        .startIndex(
+                                                                                            0L
+                                                                                        )
+                                                                                        .build()
+                                                                                )
                                                                                 .build()
                                                                         )
                                                                         .addRow(
@@ -4769,6 +5146,28 @@ internal class ParsingGetResponseTest {
                                                                                                             .build()
                                                                                                     )
                                                                                                     .build()
+                                                                                            )
+                                                                                            .build()
+                                                                                    )
+                                                                                    .bbox(
+                                                                                        BBox
+                                                                                            .builder()
+                                                                                            .h(0.0)
+                                                                                            .w(0.0)
+                                                                                            .x(0.0)
+                                                                                            .y(0.0)
+                                                                                            .confidence(
+                                                                                                0.0
+                                                                                            )
+                                                                                            .endIndex(
+                                                                                                0L
+                                                                                            )
+                                                                                            .label(
+                                                                                                "label"
+                                                                                            )
+                                                                                            .r(0.0)
+                                                                                            .startIndex(
+                                                                                                0L
                                                                                             )
                                                                                             .build()
                                                                                     )
@@ -4960,6 +5359,19 @@ internal class ParsingGetResponseTest {
                                                                                 )
                                                                                 .build()
                                                                         )
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
                                                                         .build()
                                                                 )
                                                                 .label(
@@ -5126,6 +5538,19 @@ internal class ParsingGetResponseTest {
                                                                                         )
                                                                                         .build()
                                                                                 )
+                                                                                .build()
+                                                                        )
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
                                                                                 .build()
                                                                         )
                                                                         .build()
