@@ -136,8 +136,8 @@ private constructor(
 
     /**
      * `[start, end)` UTF-8 byte offsets of the field's printed caption (a table cell's column
-     * header) in its page's `markdown` string (forms=enrich_pro only). Absent when it has no place
-     * in the markdown
+     * header) in its page's `markdown` string, on some Agentic Plus jobs from version 2026-11-19.
+     * Absent on other jobs and when it has no place in the markdown
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -146,9 +146,10 @@ private constructor(
         labelMarkdownSpan.getOptional("label_markdown_span")
 
     /**
-     * `[start, end)` UTF-8 byte offsets of the field's value in its page's `markdown` string
-     * (forms=enrich_pro only). A checkbox covers its `[x]` or `[ ]`, and a blank table cell covers
-     * the whole cell. Absent when the value has no place in the markdown
+     * `[start, end)` UTF-8 byte offsets of the field's value in its page's `markdown` string, on
+     * some Agentic Plus jobs from version 2026-11-19. A checkbox covers its `[x]` or `[ ]`, and a
+     * blank table cell covers the whole cell. Absent on other jobs and when the value has no place
+     * in the markdown
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -429,8 +430,8 @@ private constructor(
 
         /**
          * `[start, end)` UTF-8 byte offsets of the field's printed caption (a table cell's column
-         * header) in its page's `markdown` string (forms=enrich_pro only). Absent when it has no
-         * place in the markdown
+         * header) in its page's `markdown` string, on some Agentic Plus jobs from version
+         * 2026-11-19. Absent on other jobs and when it has no place in the markdown
          */
         fun labelMarkdownSpan(labelMarkdownSpan: List<JsonValue>?) =
             labelMarkdownSpan(JsonField.ofNullable(labelMarkdownSpan))
@@ -463,9 +464,10 @@ private constructor(
         }
 
         /**
-         * `[start, end)` UTF-8 byte offsets of the field's value in its page's `markdown` string
-         * (forms=enrich_pro only). A checkbox covers its `[x]` or `[ ]`, and a blank table cell
-         * covers the whole cell. Absent when the value has no place in the markdown
+         * `[start, end)` UTF-8 byte offsets of the field's value in its page's `markdown` string,
+         * on some Agentic Plus jobs from version 2026-11-19. A checkbox covers its `[x]` or `[ ]`,
+         * and a blank table cell covers the whole cell. Absent on other jobs and when the value has
+         * no place in the markdown
          */
         fun markdownSpan(markdownSpan: List<JsonValue>?) =
             markdownSpan(JsonField.ofNullable(markdownSpan))

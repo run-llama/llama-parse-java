@@ -6895,9 +6895,7 @@ private constructor(
          * Beta: set to 'enrich' to run an additional AI form-analysis pass on pages detected as
          * forms, producing a structured tree of the form's sections, fields, and fillable grids.
          * Retrieve the result with expand=forms. 'default' (the default) applies standard parsing
-         * with no extra pass. Not available on the fast tier. 'enrich_pro' reads forms with higher
-         * accuracy than 'enrich' and returns the same expand=forms tree; it is available on
-         * tier='agentic_plus' with version 'latest' or 2026-11-17 or later
+         * with no extra pass. Not available on the fast tier
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -7225,10 +7223,7 @@ private constructor(
              * Beta: set to 'enrich' to run an additional AI form-analysis pass on pages detected as
              * forms, producing a structured tree of the form's sections, fields, and fillable
              * grids. Retrieve the result with expand=forms. 'default' (the default) applies
-             * standard parsing with no extra pass. Not available on the fast tier. 'enrich_pro'
-             * reads forms with higher accuracy than 'enrich' and returns the same expand=forms
-             * tree; it is available on tier='agentic_plus' with version 'latest' or 2026-11-17 or
-             * later
+             * standard parsing with no extra pass. Not available on the fast tier
              */
             fun forms(forms: Forms?) = forms(JsonField.ofNullable(forms))
 
@@ -18126,9 +18121,7 @@ private constructor(
          * Beta: set to 'enrich' to run an additional AI form-analysis pass on pages detected as
          * forms, producing a structured tree of the form's sections, fields, and fillable grids.
          * Retrieve the result with expand=forms. 'default' (the default) applies standard parsing
-         * with no extra pass. Not available on the fast tier. 'enrich_pro' reads forms with higher
-         * accuracy than 'enrich' and returns the same expand=forms tree; it is available on
-         * tier='agentic_plus' with version 'latest' or 2026-11-17 or later
+         * with no extra pass. Not available on the fast tier
          */
         class Forms @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -18148,8 +18141,6 @@ private constructor(
 
                 @JvmField val ENRICH = of("enrich")
 
-                @JvmField val ENRICH_PRO = of("enrich_pro")
-
                 @JvmStatic fun of(value: String) = Forms(JsonField.of(value))
             }
 
@@ -18157,7 +18148,6 @@ private constructor(
             enum class Known {
                 DEFAULT,
                 ENRICH,
-                ENRICH_PRO,
             }
 
             /**
@@ -18172,7 +18162,6 @@ private constructor(
             enum class Value {
                 DEFAULT,
                 ENRICH,
-                ENRICH_PRO,
                 /**
                  * An enum member indicating that [Forms] was instantiated with an unknown value.
                  */
@@ -18190,7 +18179,6 @@ private constructor(
                 when (this) {
                     DEFAULT -> Value.DEFAULT
                     ENRICH -> Value.ENRICH
-                    ENRICH_PRO -> Value.ENRICH_PRO
                     else -> Value._UNKNOWN
                 }
 
@@ -18207,7 +18195,6 @@ private constructor(
                 when (this) {
                     DEFAULT -> Known.DEFAULT
                     ENRICH -> Known.ENRICH
-                    ENRICH_PRO -> Known.ENRICH_PRO
                     else -> throw LlamaCloudInvalidDataException("Unknown Forms: $value")
                 }
 

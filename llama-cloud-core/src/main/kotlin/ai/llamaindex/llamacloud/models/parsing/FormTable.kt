@@ -124,8 +124,9 @@ private constructor(
     fun label(): Optional<String> = label.getOptional("label")
 
     /**
-     * `[start, end)` UTF-8 byte offsets of the table caption in its page's `markdown` string
-     * (forms=enrich_pro only). Absent when it has no place in the markdown
+     * `[start, end)` UTF-8 byte offsets of the table caption in its page's `markdown` string, on
+     * some Agentic Plus jobs from version 2026-11-19. Absent on other jobs and when it has no place
+     * in the markdown
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -399,8 +400,9 @@ private constructor(
         fun label(label: JsonField<String>) = apply { this.label = label }
 
         /**
-         * `[start, end)` UTF-8 byte offsets of the table caption in its page's `markdown` string
-         * (forms=enrich_pro only). Absent when it has no place in the markdown
+         * `[start, end)` UTF-8 byte offsets of the table caption in its page's `markdown` string,
+         * on some Agentic Plus jobs from version 2026-11-19. Absent on other jobs and when it has
+         * no place in the markdown
          */
         fun markdownSpan(markdownSpan: List<JsonValue>?) =
             markdownSpan(JsonField.ofNullable(markdownSpan))
