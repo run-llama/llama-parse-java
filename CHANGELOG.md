@@ -1,5 +1,39 @@
 # Changelog
 
+## [1.11.0](https://github.com/run-llama/llama-parse-java/compare/v1.10.0...v1.11.0) (2026-11-20)
+
+
+### Features
+
+* **extract:** expose Max effort in the public API ([#30756](https://github.com/run-llama/llama-parse-java/issues/30756)) ([5ec457a](https://github.com/run-llama/llama-parse-java/commit/5ec457a76d97b36f4aa9dee2d419884cfbf82980))
+* **extract:** send a saved configuration's completed jobs to review by policy ([#34124](https://github.com/run-llama/llama-parse-java/issues/34124)) ([842d68d](https://github.com/run-llama/llama-parse-java/commit/842d68d7618260149abff6abd770a2e294c2ef6c))
+* **parse-eval:** keep ground truth in Evaluate-owned storage ([#33781](https://github.com/run-llama/llama-parse-java/issues/33781)) ([fa22954](https://github.com/run-llama/llama-parse-java/commit/fa229549551b2d9c0295feb302ab4a392c7e6266))
+* **parse-eval:** let Parse delete ground-truth jobs like any other job ([#35004](https://github.com/run-llama/llama-parse-java/issues/35004)) ([68d90ce](https://github.com/run-llama/llama-parse-java/commit/68d90ceb7be51219456cfd382453f2f739791c84))
+* **parse:** add document page count bounds ([#34227](https://github.com/run-llama/llama-parse-java/issues/34227)) ([6243d06](https://github.com/run-llama/llama-parse-java/commit/6243d06d81722da7923e9998adf348ef9f5fba11))
+* **parse:** Agentic and Cost Effective 2026-11-09 lead with OCRIA 1.5 ([#33718](https://github.com/run-llama/llama-parse-java/issues/33718)) ([1be01d1](https://github.com/run-llama/llama-parse-java/commit/1be01d1db5bc4a41decb89aeb00033d9c7782d79))
+* **parse:** optional `bbox` on form text grounding in the public API schema ([#35073](https://github.com/run-llama/llama-parse-java/issues/35073)) ([0f2420e](https://github.com/run-llama/llama-parse-java/commit/0f2420eb86407d239a6433170a1b622002448e29))
+* **split:** advisory warnings for ambiguous category configs ([#34714](https://github.com/run-llama/llama-parse-java/issues/34714)) ([2e8f20e](https://github.com/run-llama/llama-parse-java/commit/2e8f20e04334c8e81b3e1a74c907e1d577170db5))
+* **split:** category segment boundary in 1.3.0 ([#35081](https://github.com/run-llama/llama-parse-java/issues/35081)) ([4f57bfb](https://github.com/run-llama/llama-parse-java/commit/4f57bfbefbd171338fa33eb98694c5976dd4d6e6))
+* **webhooks:** keep a saved webhook's masked credentials by its id ([#32736](https://github.com/run-llama/llama-parse-java/issues/32736)) ([f04a1f0](https://github.com/run-llama/llama-parse-java/commit/f04a1f09cbaebcbc739b0d3b693284d93dbfc63a))
+
+
+### Bug Fixes
+
+* **api:** reject a page_size below 1 on every list route's pagination query (PROD-10603) ([#30406](https://github.com/run-llama/llama-parse-java/issues/30406)) ([dd26597](https://github.com/run-llama/llama-parse-java/commit/dd265978008a7236f0e562d778b8467507d693d3))
+* keep legacy pipelines with empty embedding configs listable ([#31282](https://github.com/run-llama/llama-parse-java/issues/31282)) ([61b8470](https://github.com/run-llama/llama-parse-java/commit/61b8470a809145e93ef8572120a81e59a4705d49))
+* **split:** reject category names that make segment labels ambiguous (PROD-10501) ([#29963](https://github.com/run-llama/llama-parse-java/issues/29963)) ([2761fa3](https://github.com/run-llama/llama-parse-java/commit/2761fa31670a080790554e0ab5d89101c3c13197))
+
+
+### Chores
+
+* **stlc:** seal custom-code tracking files ([8e38ade](https://github.com/run-llama/llama-parse-java/commit/8e38adeb9f8f16f23aaacfc0de59d764d40ee8c4))
+
+
+### Documentation
+
+* **extract:** describe Max effort pricing by the processing each document needs ([#33403](https://github.com/run-llama/llama-parse-java/issues/33403)) ([dd360d5](https://github.com/run-llama/llama-parse-java/commit/dd360d574d4c6086fef24122605dc27a63b62d3e))
+* **split:** PPTX segment pages count visible slides only (PROD-10504) ([#29972](https://github.com/run-llama/llama-parse-java/issues/29972)) ([7048062](https://github.com/run-llama/llama-parse-java/commit/7048062de20d44d497d9b38d27b5bcdf75b2723b))
+
 ## [1.10.0](https://github.com/run-llama/llama-parse-java/compare/v1.9.0...v1.10.0) (2026-10-21)
 
 
