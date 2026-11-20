@@ -289,6 +289,7 @@ private constructor(
         private val downloadUrl: JsonField<PresignedUrl>,
         private val expiresAt: JsonField<OffsetDateTime>,
         private val externalFileId: JsonField<String>,
+        private val fileSize: JsonField<Long>,
         private val fileType: JsonField<String>,
         private val lastModifiedAt: JsonField<OffsetDateTime>,
         private val purpose: JsonField<String>,
@@ -311,6 +312,7 @@ private constructor(
             @JsonProperty("external_file_id")
             @ExcludeMissing
             externalFileId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("file_size") @ExcludeMissing fileSize: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("file_type")
             @ExcludeMissing
             fileType: JsonField<String> = JsonMissing.of(),
@@ -325,6 +327,7 @@ private constructor(
             downloadUrl,
             expiresAt,
             externalFileId,
+            fileSize,
             fileType,
             lastModifiedAt,
             purpose,
@@ -378,6 +381,14 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun externalFileId(): Optional<String> = externalFileId.getOptional("external_file_id")
+
+        /**
+         * Recorded file size in bytes. Null means no size was recorded.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun fileSize(): Optional<Long> = fileSize.getOptional("file_size")
 
         /**
          * File extension (pdf, docx, png, etc.)
@@ -455,6 +466,13 @@ private constructor(
         fun _externalFileId(): JsonField<String> = externalFileId
 
         /**
+         * Returns the raw JSON value of [fileSize].
+         *
+         * Unlike [fileSize], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("file_size") @ExcludeMissing fun _fileSize(): JsonField<Long> = fileSize
+
+        /**
          * Returns the raw JSON value of [fileType].
          *
          * Unlike [fileType], this method doesn't throw if the JSON field has an unexpected type.
@@ -514,6 +532,7 @@ private constructor(
             private var downloadUrl: JsonField<PresignedUrl> = JsonMissing.of()
             private var expiresAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var externalFileId: JsonField<String> = JsonMissing.of()
+            private var fileSize: JsonField<Long> = JsonMissing.of()
             private var fileType: JsonField<String> = JsonMissing.of()
             private var lastModifiedAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var purpose: JsonField<String> = JsonMissing.of()
@@ -527,6 +546,7 @@ private constructor(
                 downloadUrl = item.downloadUrl
                 expiresAt = item.expiresAt
                 externalFileId = item.externalFileId
+                fileSize = item.fileSize
                 fileType = item.fileType
                 lastModifiedAt = item.lastModifiedAt
                 purpose = item.purpose
@@ -624,6 +644,28 @@ private constructor(
                 this.externalFileId = externalFileId
             }
 
+            /** Recorded file size in bytes. Null means no size was recorded. */
+            fun fileSize(fileSize: Long?) = fileSize(JsonField.ofNullable(fileSize))
+
+            /**
+             * Alias for [Builder.fileSize].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun fileSize(fileSize: Long) = fileSize(fileSize as Long?)
+
+            /** Alias for calling [Builder.fileSize] with `fileSize.orElse(null)`. */
+            fun fileSize(fileSize: Optional<Long>) = fileSize(fileSize.getOrNull())
+
+            /**
+             * Sets [Builder.fileSize] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.fileSize] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun fileSize(fileSize: JsonField<Long>) = apply { this.fileSize = fileSize }
+
             /** File extension (pdf, docx, png, etc.) */
             fun fileType(fileType: String?) = fileType(JsonField.ofNullable(fileType))
 
@@ -717,6 +759,7 @@ private constructor(
                     downloadUrl,
                     expiresAt,
                     externalFileId,
+                    fileSize,
                     fileType,
                     lastModifiedAt,
                     purpose,
@@ -746,6 +789,7 @@ private constructor(
             downloadUrl().ifPresent { it.validate() }
             expiresAt()
             externalFileId()
+            fileSize()
             fileType()
             lastModifiedAt()
             purpose()
@@ -774,6 +818,7 @@ private constructor(
                 (downloadUrl.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (expiresAt.asKnown().isPresent) 1 else 0) +
                 (if (externalFileId.asKnown().isPresent) 1 else 0) +
+                (if (fileSize.asKnown().isPresent) 1 else 0) +
                 (if (fileType.asKnown().isPresent) 1 else 0) +
                 (if (lastModifiedAt.asKnown().isPresent) 1 else 0) +
                 (if (purpose.asKnown().isPresent) 1 else 0)
@@ -790,6 +835,7 @@ private constructor(
                 downloadUrl == other.downloadUrl &&
                 expiresAt == other.expiresAt &&
                 externalFileId == other.externalFileId &&
+                fileSize == other.fileSize &&
                 fileType == other.fileType &&
                 lastModifiedAt == other.lastModifiedAt &&
                 purpose == other.purpose &&
@@ -804,6 +850,7 @@ private constructor(
                 downloadUrl,
                 expiresAt,
                 externalFileId,
+                fileSize,
                 fileType,
                 lastModifiedAt,
                 purpose,
@@ -814,7 +861,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Item{id=$id, name=$name, projectId=$projectId, downloadUrl=$downloadUrl, expiresAt=$expiresAt, externalFileId=$externalFileId, fileType=$fileType, lastModifiedAt=$lastModifiedAt, purpose=$purpose, additionalProperties=$additionalProperties}"
+            "Item{id=$id, name=$name, projectId=$projectId, downloadUrl=$downloadUrl, expiresAt=$expiresAt, externalFileId=$externalFileId, fileSize=$fileSize, fileType=$fileType, lastModifiedAt=$lastModifiedAt, purpose=$purpose, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

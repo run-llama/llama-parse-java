@@ -104,7 +104,9 @@ interface DirectoryServiceAsync {
     fun list(requestOptions: RequestOptions): CompletableFuture<DirectoryListPageAsync> =
         list(DirectoryListParams.none(), requestOptions)
 
-    /** Permanently delete a directory. */
+    /**
+     * Permanently delete a directory, and the files in it that no other directory or index uses.
+     */
     fun delete(directoryId: String): CompletableFuture<Void?> =
         delete(directoryId, DirectoryDeleteParams.none())
 

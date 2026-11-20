@@ -30,6 +30,10 @@ internal class SplitCreateParamsTest {
                             )
                             .customInstructions("Start a new segment at every signature page.")
                             .minPagesPerSplit(1L)
+                            .segmentBoundary(
+                                SplitCreateParams.Configuration.SplittingStrategy.SegmentBoundary
+                                    .CATEGORY
+                            )
                             .build()
                     )
                     .targetPages("1,3,5-7")
@@ -82,6 +86,11 @@ internal class SplitCreateParamsTest {
                                 )
                                 .customInstructions("Start a new segment at every signature page.")
                                 .minPagesPerSplit(1L)
+                                .segmentBoundary(
+                                    SplitCreateParams.Configuration.SplittingStrategy
+                                        .SegmentBoundary
+                                        .CATEGORY
+                                )
                                 .build()
                         )
                         .targetPages("1,3,5-7")
@@ -159,6 +168,11 @@ internal class SplitCreateParamsTest {
                                 )
                                 .customInstructions("Start a new segment at every signature page.")
                                 .minPagesPerSplit(1L)
+                                .segmentBoundary(
+                                    SplitCreateParams.Configuration.SplittingStrategy
+                                        .SegmentBoundary
+                                        .CATEGORY
+                                )
                                 .build()
                         )
                         .targetPages("1,3,5-7")
@@ -209,6 +223,10 @@ internal class SplitCreateParamsTest {
                             )
                             .customInstructions("Start a new segment at every signature page.")
                             .minPagesPerSplit(1L)
+                            .segmentBoundary(
+                                SplitCreateParams.Configuration.SplittingStrategy.SegmentBoundary
+                                    .CATEGORY
+                            )
                             .build()
                     )
                     .targetPages("1,3,5-7")

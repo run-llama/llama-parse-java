@@ -54,7 +54,9 @@ private constructor(
     fun confidenceCategory(): String = confidenceCategory.getRequired("confidence_category")
 
     /**
-     * Page numbers in this segment, as numbered by the input document.
+     * Page numbers in this segment, as numbered by the input document. For PPTX, hidden slides are
+     * skipped unless the parse config or parse job sets
+     * `input_options.presentation.include_hidden_slides`.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -154,7 +156,11 @@ private constructor(
             this.confidenceCategory = confidenceCategory
         }
 
-        /** Page numbers in this segment, as numbered by the input document. */
+        /**
+         * Page numbers in this segment, as numbered by the input document. For PPTX, hidden slides
+         * are skipped unless the parse config or parse job sets
+         * `input_options.presentation.include_hidden_slides`.
+         */
         fun pages(pages: List<Long>) = pages(JsonField.of(pages))
 
         /**

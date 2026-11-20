@@ -5,6 +5,7 @@ package ai.llamaindex.llamacloud.models.parsing
 import ai.llamaindex.llamacloud.core.JsonValue
 import ai.llamaindex.llamacloud.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -73,8 +74,49 @@ internal class FormSectionTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Id.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
+                                                .build()
+                                        )
+                                        .bbox(
+                                            BBox.builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .confidence(0.0)
+                                                .endIndex(0L)
+                                                .label("label")
+                                                .r(0.0)
+                                                .startIndex(0L)
                                                 .build()
                                         )
                                         .build()
@@ -119,8 +161,49 @@ internal class FormSectionTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Label.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
+                                                .build()
+                                        )
+                                        .bbox(
+                                            BBox.builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .confidence(0.0)
+                                                .endIndex(0L)
+                                                .label("label")
+                                                .r(0.0)
+                                                .startIndex(0L)
                                                 .build()
                                         )
                                         .build()
@@ -165,8 +248,49 @@ internal class FormSectionTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Value.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
+                                                .build()
+                                        )
+                                        .bbox(
+                                            BBox.builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .confidence(0.0)
+                                                .endIndex(0L)
+                                                .label("label")
+                                                .r(0.0)
+                                                .startIndex(0L)
                                                 .build()
                                         )
                                         .build()
@@ -175,6 +299,10 @@ internal class FormSectionTest {
                         )
                         .isEmpty(true)
                         .label("label")
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                         .type(FormField.Type.FIELD)
                         .value("string")
                         .addValueItem(
@@ -246,8 +374,50 @@ internal class FormSectionTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormTable.Grounding.Id.Line.Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
+                                                        .build()
+                                                )
+                                                .bbox(
+                                                    BBox.builder()
+                                                        .h(0.0)
+                                                        .w(0.0)
+                                                        .x(0.0)
+                                                        .y(0.0)
+                                                        .confidence(0.0)
+                                                        .endIndex(0L)
+                                                        .label("label")
+                                                        .r(0.0)
+                                                        .startIndex(0L)
                                                         .build()
                                                 )
                                                 .build()
@@ -301,8 +471,51 @@ internal class FormSectionTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormTable.Grounding.Column.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
+                                                        .build()
+                                                )
+                                                .bbox(
+                                                    BBox.builder()
+                                                        .h(0.0)
+                                                        .w(0.0)
+                                                        .x(0.0)
+                                                        .y(0.0)
+                                                        .confidence(0.0)
+                                                        .endIndex(0L)
+                                                        .label("label")
+                                                        .r(0.0)
+                                                        .startIndex(0L)
                                                         .build()
                                                 )
                                                 .build()
@@ -356,8 +569,51 @@ internal class FormSectionTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormTable.Grounding.Label.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
+                                                        .build()
+                                                )
+                                                .bbox(
+                                                    BBox.builder()
+                                                        .h(0.0)
+                                                        .w(0.0)
+                                                        .x(0.0)
+                                                        .y(0.0)
+                                                        .confidence(0.0)
+                                                        .endIndex(0L)
+                                                        .label("label")
+                                                        .r(0.0)
+                                                        .startIndex(0L)
                                                         .build()
                                                 )
                                                 .build()
@@ -416,8 +672,59 @@ internal class FormSectionTest {
                                                                             mapOf<String, Any>()
                                                                         )
                                                                     )
+                                                                    .addChar(
+                                                                        FormTable.Grounding
+                                                                            .FormTextGrounding
+                                                                            .Line
+                                                                            .Word
+                                                                            .Char
+                                                                            .builder()
+                                                                            .bbox(
+                                                                                BBox.builder()
+                                                                                    .h(0.0)
+                                                                                    .w(0.0)
+                                                                                    .x(0.0)
+                                                                                    .y(0.0)
+                                                                                    .confidence(0.0)
+                                                                                    .endIndex(0L)
+                                                                                    .label("label")
+                                                                                    .r(0.0)
+                                                                                    .startIndex(0L)
+                                                                                    .build()
+                                                                            )
+                                                                            .addSpan(
+                                                                                JsonValue.from(
+                                                                                    mapOf<
+                                                                                        String,
+                                                                                        Any,
+                                                                                    >()
+                                                                                )
+                                                                            )
+                                                                            .addSpan(
+                                                                                JsonValue.from(
+                                                                                    mapOf<
+                                                                                        String,
+                                                                                        Any,
+                                                                                    >()
+                                                                                )
+                                                                            )
+                                                                            .build()
+                                                                    )
                                                                     .build()
                                                             )
+                                                            .build()
+                                                    )
+                                                    .bbox(
+                                                        BBox.builder()
+                                                            .h(0.0)
+                                                            .w(0.0)
+                                                            .x(0.0)
+                                                            .y(0.0)
+                                                            .confidence(0.0)
+                                                            .endIndex(0L)
+                                                            .label("label")
+                                                            .r(0.0)
+                                                            .startIndex(0L)
                                                             .build()
                                                     )
                                                     .build()
@@ -427,6 +734,8 @@ internal class FormSectionTest {
                                 )
                                 .html("html")
                                 .label("label")
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                                 .type(FormTable.Type.TABLE)
                                 .build()
                         )
@@ -471,8 +780,45 @@ internal class FormSectionTest {
                                                 )
                                                 .addSpan(JsonValue.from(mapOf<String, Any>()))
                                                 .addSpan(JsonValue.from(mapOf<String, Any>()))
+                                                .addChar(
+                                                    FormSection.Grounding.Id.Line.Word.Char
+                                                        .builder()
+                                                        .bbox(
+                                                            BBox.builder()
+                                                                .h(0.0)
+                                                                .w(0.0)
+                                                                .x(0.0)
+                                                                .y(0.0)
+                                                                .confidence(0.0)
+                                                                .endIndex(0L)
+                                                                .label("label")
+                                                                .r(0.0)
+                                                                .startIndex(0L)
+                                                                .build()
+                                                        )
+                                                        .addSpan(
+                                                            JsonValue.from(mapOf<String, Any>())
+                                                        )
+                                                        .addSpan(
+                                                            JsonValue.from(mapOf<String, Any>())
+                                                        )
+                                                        .build()
+                                                )
                                                 .build()
                                         )
+                                        .build()
+                                )
+                                .bbox(
+                                    BBox.builder()
+                                        .h(0.0)
+                                        .w(0.0)
+                                        .x(0.0)
+                                        .y(0.0)
+                                        .confidence(0.0)
+                                        .endIndex(0L)
+                                        .label("label")
+                                        .r(0.0)
+                                        .startIndex(0L)
                                         .build()
                                 )
                                 .build()
@@ -513,8 +859,45 @@ internal class FormSectionTest {
                                                 )
                                                 .addSpan(JsonValue.from(mapOf<String, Any>()))
                                                 .addSpan(JsonValue.from(mapOf<String, Any>()))
+                                                .addChar(
+                                                    FormSection.Grounding.Label.Line.Word.Char
+                                                        .builder()
+                                                        .bbox(
+                                                            BBox.builder()
+                                                                .h(0.0)
+                                                                .w(0.0)
+                                                                .x(0.0)
+                                                                .y(0.0)
+                                                                .confidence(0.0)
+                                                                .endIndex(0L)
+                                                                .label("label")
+                                                                .r(0.0)
+                                                                .startIndex(0L)
+                                                                .build()
+                                                        )
+                                                        .addSpan(
+                                                            JsonValue.from(mapOf<String, Any>())
+                                                        )
+                                                        .addSpan(
+                                                            JsonValue.from(mapOf<String, Any>())
+                                                        )
+                                                        .build()
+                                                )
                                                 .build()
                                         )
+                                        .build()
+                                )
+                                .bbox(
+                                    BBox.builder()
+                                        .h(0.0)
+                                        .w(0.0)
+                                        .x(0.0)
+                                        .y(0.0)
+                                        .confidence(0.0)
+                                        .endIndex(0L)
+                                        .label("label")
+                                        .r(0.0)
+                                        .startIndex(0L)
                                         .build()
                                 )
                                 .build()
@@ -522,6 +905,8 @@ internal class FormSectionTest {
                         .build()
                 )
                 .label("label")
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                 .type(FormSection.Type.SECTION)
                 .build()
 
@@ -586,8 +971,49 @@ internal class FormSectionTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Id.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
+                                                .build()
+                                        )
+                                        .bbox(
+                                            BBox.builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .confidence(0.0)
+                                                .endIndex(0L)
+                                                .label("label")
+                                                .r(0.0)
+                                                .startIndex(0L)
                                                 .build()
                                         )
                                         .build()
@@ -632,8 +1058,49 @@ internal class FormSectionTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Label.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
+                                                .build()
+                                        )
+                                        .bbox(
+                                            BBox.builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .confidence(0.0)
+                                                .endIndex(0L)
+                                                .label("label")
+                                                .r(0.0)
+                                                .startIndex(0L)
                                                 .build()
                                         )
                                         .build()
@@ -678,8 +1145,49 @@ internal class FormSectionTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Value.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
+                                                .build()
+                                        )
+                                        .bbox(
+                                            BBox.builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .confidence(0.0)
+                                                .endIndex(0L)
+                                                .label("label")
+                                                .r(0.0)
+                                                .startIndex(0L)
                                                 .build()
                                         )
                                         .build()
@@ -688,6 +1196,10 @@ internal class FormSectionTest {
                         )
                         .isEmpty(true)
                         .label("label")
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                         .type(FormField.Type.FIELD)
                         .value("string")
                         .addValueItem(
@@ -759,8 +1271,50 @@ internal class FormSectionTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormTable.Grounding.Id.Line.Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
+                                                        .build()
+                                                )
+                                                .bbox(
+                                                    BBox.builder()
+                                                        .h(0.0)
+                                                        .w(0.0)
+                                                        .x(0.0)
+                                                        .y(0.0)
+                                                        .confidence(0.0)
+                                                        .endIndex(0L)
+                                                        .label("label")
+                                                        .r(0.0)
+                                                        .startIndex(0L)
                                                         .build()
                                                 )
                                                 .build()
@@ -814,8 +1368,51 @@ internal class FormSectionTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormTable.Grounding.Column.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
+                                                        .build()
+                                                )
+                                                .bbox(
+                                                    BBox.builder()
+                                                        .h(0.0)
+                                                        .w(0.0)
+                                                        .x(0.0)
+                                                        .y(0.0)
+                                                        .confidence(0.0)
+                                                        .endIndex(0L)
+                                                        .label("label")
+                                                        .r(0.0)
+                                                        .startIndex(0L)
                                                         .build()
                                                 )
                                                 .build()
@@ -869,8 +1466,51 @@ internal class FormSectionTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormTable.Grounding.Label.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
+                                                        .build()
+                                                )
+                                                .bbox(
+                                                    BBox.builder()
+                                                        .h(0.0)
+                                                        .w(0.0)
+                                                        .x(0.0)
+                                                        .y(0.0)
+                                                        .confidence(0.0)
+                                                        .endIndex(0L)
+                                                        .label("label")
+                                                        .r(0.0)
+                                                        .startIndex(0L)
                                                         .build()
                                                 )
                                                 .build()
@@ -929,8 +1569,59 @@ internal class FormSectionTest {
                                                                             mapOf<String, Any>()
                                                                         )
                                                                     )
+                                                                    .addChar(
+                                                                        FormTable.Grounding
+                                                                            .FormTextGrounding
+                                                                            .Line
+                                                                            .Word
+                                                                            .Char
+                                                                            .builder()
+                                                                            .bbox(
+                                                                                BBox.builder()
+                                                                                    .h(0.0)
+                                                                                    .w(0.0)
+                                                                                    .x(0.0)
+                                                                                    .y(0.0)
+                                                                                    .confidence(0.0)
+                                                                                    .endIndex(0L)
+                                                                                    .label("label")
+                                                                                    .r(0.0)
+                                                                                    .startIndex(0L)
+                                                                                    .build()
+                                                                            )
+                                                                            .addSpan(
+                                                                                JsonValue.from(
+                                                                                    mapOf<
+                                                                                        String,
+                                                                                        Any,
+                                                                                    >()
+                                                                                )
+                                                                            )
+                                                                            .addSpan(
+                                                                                JsonValue.from(
+                                                                                    mapOf<
+                                                                                        String,
+                                                                                        Any,
+                                                                                    >()
+                                                                                )
+                                                                            )
+                                                                            .build()
+                                                                    )
                                                                     .build()
                                                             )
+                                                            .build()
+                                                    )
+                                                    .bbox(
+                                                        BBox.builder()
+                                                            .h(0.0)
+                                                            .w(0.0)
+                                                            .x(0.0)
+                                                            .y(0.0)
+                                                            .confidence(0.0)
+                                                            .endIndex(0L)
+                                                            .label("label")
+                                                            .r(0.0)
+                                                            .startIndex(0L)
                                                             .build()
                                                     )
                                                     .build()
@@ -940,6 +1631,8 @@ internal class FormSectionTest {
                                 )
                                 .html("html")
                                 .label("label")
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                                 .type(FormTable.Type.TABLE)
                                 .build()
                         )
@@ -986,8 +1679,40 @@ internal class FormSectionTest {
                                             )
                                             .addSpan(JsonValue.from(mapOf<String, Any>()))
                                             .addSpan(JsonValue.from(mapOf<String, Any>()))
+                                            .addChar(
+                                                FormSection.Grounding.Id.Line.Word.Char.builder()
+                                                    .bbox(
+                                                        BBox.builder()
+                                                            .h(0.0)
+                                                            .w(0.0)
+                                                            .x(0.0)
+                                                            .y(0.0)
+                                                            .confidence(0.0)
+                                                            .endIndex(0L)
+                                                            .label("label")
+                                                            .r(0.0)
+                                                            .startIndex(0L)
+                                                            .build()
+                                                    )
+                                                    .addSpan(JsonValue.from(mapOf<String, Any>()))
+                                                    .addSpan(JsonValue.from(mapOf<String, Any>()))
+                                                    .build()
+                                            )
                                             .build()
                                     )
+                                    .build()
+                            )
+                            .bbox(
+                                BBox.builder()
+                                    .h(0.0)
+                                    .w(0.0)
+                                    .x(0.0)
+                                    .y(0.0)
+                                    .confidence(0.0)
+                                    .endIndex(0L)
+                                    .label("label")
+                                    .r(0.0)
+                                    .startIndex(0L)
                                     .build()
                             )
                             .build()
@@ -1028,8 +1753,40 @@ internal class FormSectionTest {
                                             )
                                             .addSpan(JsonValue.from(mapOf<String, Any>()))
                                             .addSpan(JsonValue.from(mapOf<String, Any>()))
+                                            .addChar(
+                                                FormSection.Grounding.Label.Line.Word.Char.builder()
+                                                    .bbox(
+                                                        BBox.builder()
+                                                            .h(0.0)
+                                                            .w(0.0)
+                                                            .x(0.0)
+                                                            .y(0.0)
+                                                            .confidence(0.0)
+                                                            .endIndex(0L)
+                                                            .label("label")
+                                                            .r(0.0)
+                                                            .startIndex(0L)
+                                                            .build()
+                                                    )
+                                                    .addSpan(JsonValue.from(mapOf<String, Any>()))
+                                                    .addSpan(JsonValue.from(mapOf<String, Any>()))
+                                                    .build()
+                                            )
                                             .build()
                                     )
+                                    .build()
+                            )
+                            .bbox(
+                                BBox.builder()
+                                    .h(0.0)
+                                    .w(0.0)
+                                    .x(0.0)
+                                    .y(0.0)
+                                    .confidence(0.0)
+                                    .endIndex(0L)
+                                    .label("label")
+                                    .r(0.0)
+                                    .startIndex(0L)
                                     .build()
                             )
                             .build()
@@ -1037,6 +1794,11 @@ internal class FormSectionTest {
                     .build()
             )
         assertThat(formSection.label()).contains("label")
+        assertThat(formSection.markdownSpan().getOrNull())
+            .containsExactly(
+                JsonValue.from(mapOf<String, Any>()),
+                JsonValue.from(mapOf<String, Any>()),
+            )
         assertThat(formSection.type()).contains(FormSection.Type.SECTION)
     }
 
@@ -1104,8 +1866,49 @@ internal class FormSectionTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Id.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
+                                                .build()
+                                        )
+                                        .bbox(
+                                            BBox.builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .confidence(0.0)
+                                                .endIndex(0L)
+                                                .label("label")
+                                                .r(0.0)
+                                                .startIndex(0L)
                                                 .build()
                                         )
                                         .build()
@@ -1150,8 +1953,49 @@ internal class FormSectionTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Label.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
+                                                .build()
+                                        )
+                                        .bbox(
+                                            BBox.builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .confidence(0.0)
+                                                .endIndex(0L)
+                                                .label("label")
+                                                .r(0.0)
+                                                .startIndex(0L)
                                                 .build()
                                         )
                                         .build()
@@ -1196,8 +2040,49 @@ internal class FormSectionTest {
                                                         .addSpan(
                                                             JsonValue.from(mapOf<String, Any>())
                                                         )
+                                                        .addChar(
+                                                            FormField.Grounding.Value.Line.Word.Char
+                                                                .builder()
+                                                                .bbox(
+                                                                    BBox.builder()
+                                                                        .h(0.0)
+                                                                        .w(0.0)
+                                                                        .x(0.0)
+                                                                        .y(0.0)
+                                                                        .confidence(0.0)
+                                                                        .endIndex(0L)
+                                                                        .label("label")
+                                                                        .r(0.0)
+                                                                        .startIndex(0L)
+                                                                        .build()
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .addSpan(
+                                                                    JsonValue.from(
+                                                                        mapOf<String, Any>()
+                                                                    )
+                                                                )
+                                                                .build()
+                                                        )
                                                         .build()
                                                 )
+                                                .build()
+                                        )
+                                        .bbox(
+                                            BBox.builder()
+                                                .h(0.0)
+                                                .w(0.0)
+                                                .x(0.0)
+                                                .y(0.0)
+                                                .confidence(0.0)
+                                                .endIndex(0L)
+                                                .label("label")
+                                                .r(0.0)
+                                                .startIndex(0L)
                                                 .build()
                                         )
                                         .build()
@@ -1206,6 +2091,10 @@ internal class FormSectionTest {
                         )
                         .isEmpty(true)
                         .label("label")
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addLabelMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                        .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                         .type(FormField.Type.FIELD)
                         .value("string")
                         .addValueItem(
@@ -1277,8 +2166,50 @@ internal class FormSectionTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormTable.Grounding.Id.Line.Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
+                                                        .build()
+                                                )
+                                                .bbox(
+                                                    BBox.builder()
+                                                        .h(0.0)
+                                                        .w(0.0)
+                                                        .x(0.0)
+                                                        .y(0.0)
+                                                        .confidence(0.0)
+                                                        .endIndex(0L)
+                                                        .label("label")
+                                                        .r(0.0)
+                                                        .startIndex(0L)
                                                         .build()
                                                 )
                                                 .build()
@@ -1332,8 +2263,51 @@ internal class FormSectionTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormTable.Grounding.Column.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
+                                                        .build()
+                                                )
+                                                .bbox(
+                                                    BBox.builder()
+                                                        .h(0.0)
+                                                        .w(0.0)
+                                                        .x(0.0)
+                                                        .y(0.0)
+                                                        .confidence(0.0)
+                                                        .endIndex(0L)
+                                                        .label("label")
+                                                        .r(0.0)
+                                                        .startIndex(0L)
                                                         .build()
                                                 )
                                                 .build()
@@ -1387,8 +2361,51 @@ internal class FormSectionTest {
                                                                         mapOf<String, Any>()
                                                                     )
                                                                 )
+                                                                .addChar(
+                                                                    FormTable.Grounding.Label.Line
+                                                                        .Word
+                                                                        .Char
+                                                                        .builder()
+                                                                        .bbox(
+                                                                            BBox.builder()
+                                                                                .h(0.0)
+                                                                                .w(0.0)
+                                                                                .x(0.0)
+                                                                                .y(0.0)
+                                                                                .confidence(0.0)
+                                                                                .endIndex(0L)
+                                                                                .label("label")
+                                                                                .r(0.0)
+                                                                                .startIndex(0L)
+                                                                                .build()
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .addSpan(
+                                                                            JsonValue.from(
+                                                                                mapOf<String, Any>()
+                                                                            )
+                                                                        )
+                                                                        .build()
+                                                                )
                                                                 .build()
                                                         )
+                                                        .build()
+                                                )
+                                                .bbox(
+                                                    BBox.builder()
+                                                        .h(0.0)
+                                                        .w(0.0)
+                                                        .x(0.0)
+                                                        .y(0.0)
+                                                        .confidence(0.0)
+                                                        .endIndex(0L)
+                                                        .label("label")
+                                                        .r(0.0)
+                                                        .startIndex(0L)
                                                         .build()
                                                 )
                                                 .build()
@@ -1447,8 +2464,59 @@ internal class FormSectionTest {
                                                                             mapOf<String, Any>()
                                                                         )
                                                                     )
+                                                                    .addChar(
+                                                                        FormTable.Grounding
+                                                                            .FormTextGrounding
+                                                                            .Line
+                                                                            .Word
+                                                                            .Char
+                                                                            .builder()
+                                                                            .bbox(
+                                                                                BBox.builder()
+                                                                                    .h(0.0)
+                                                                                    .w(0.0)
+                                                                                    .x(0.0)
+                                                                                    .y(0.0)
+                                                                                    .confidence(0.0)
+                                                                                    .endIndex(0L)
+                                                                                    .label("label")
+                                                                                    .r(0.0)
+                                                                                    .startIndex(0L)
+                                                                                    .build()
+                                                                            )
+                                                                            .addSpan(
+                                                                                JsonValue.from(
+                                                                                    mapOf<
+                                                                                        String,
+                                                                                        Any,
+                                                                                    >()
+                                                                                )
+                                                                            )
+                                                                            .addSpan(
+                                                                                JsonValue.from(
+                                                                                    mapOf<
+                                                                                        String,
+                                                                                        Any,
+                                                                                    >()
+                                                                                )
+                                                                            )
+                                                                            .build()
+                                                                    )
                                                                     .build()
                                                             )
+                                                            .build()
+                                                    )
+                                                    .bbox(
+                                                        BBox.builder()
+                                                            .h(0.0)
+                                                            .w(0.0)
+                                                            .x(0.0)
+                                                            .y(0.0)
+                                                            .confidence(0.0)
+                                                            .endIndex(0L)
+                                                            .label("label")
+                                                            .r(0.0)
+                                                            .startIndex(0L)
                                                             .build()
                                                     )
                                                     .build()
@@ -1458,6 +2526,8 @@ internal class FormSectionTest {
                                 )
                                 .html("html")
                                 .label("label")
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                                 .type(FormTable.Type.TABLE)
                                 .build()
                         )
@@ -1502,8 +2572,45 @@ internal class FormSectionTest {
                                                 )
                                                 .addSpan(JsonValue.from(mapOf<String, Any>()))
                                                 .addSpan(JsonValue.from(mapOf<String, Any>()))
+                                                .addChar(
+                                                    FormSection.Grounding.Id.Line.Word.Char
+                                                        .builder()
+                                                        .bbox(
+                                                            BBox.builder()
+                                                                .h(0.0)
+                                                                .w(0.0)
+                                                                .x(0.0)
+                                                                .y(0.0)
+                                                                .confidence(0.0)
+                                                                .endIndex(0L)
+                                                                .label("label")
+                                                                .r(0.0)
+                                                                .startIndex(0L)
+                                                                .build()
+                                                        )
+                                                        .addSpan(
+                                                            JsonValue.from(mapOf<String, Any>())
+                                                        )
+                                                        .addSpan(
+                                                            JsonValue.from(mapOf<String, Any>())
+                                                        )
+                                                        .build()
+                                                )
                                                 .build()
                                         )
+                                        .build()
+                                )
+                                .bbox(
+                                    BBox.builder()
+                                        .h(0.0)
+                                        .w(0.0)
+                                        .x(0.0)
+                                        .y(0.0)
+                                        .confidence(0.0)
+                                        .endIndex(0L)
+                                        .label("label")
+                                        .r(0.0)
+                                        .startIndex(0L)
                                         .build()
                                 )
                                 .build()
@@ -1544,8 +2651,45 @@ internal class FormSectionTest {
                                                 )
                                                 .addSpan(JsonValue.from(mapOf<String, Any>()))
                                                 .addSpan(JsonValue.from(mapOf<String, Any>()))
+                                                .addChar(
+                                                    FormSection.Grounding.Label.Line.Word.Char
+                                                        .builder()
+                                                        .bbox(
+                                                            BBox.builder()
+                                                                .h(0.0)
+                                                                .w(0.0)
+                                                                .x(0.0)
+                                                                .y(0.0)
+                                                                .confidence(0.0)
+                                                                .endIndex(0L)
+                                                                .label("label")
+                                                                .r(0.0)
+                                                                .startIndex(0L)
+                                                                .build()
+                                                        )
+                                                        .addSpan(
+                                                            JsonValue.from(mapOf<String, Any>())
+                                                        )
+                                                        .addSpan(
+                                                            JsonValue.from(mapOf<String, Any>())
+                                                        )
+                                                        .build()
+                                                )
                                                 .build()
                                         )
+                                        .build()
+                                )
+                                .bbox(
+                                    BBox.builder()
+                                        .h(0.0)
+                                        .w(0.0)
+                                        .x(0.0)
+                                        .y(0.0)
+                                        .confidence(0.0)
+                                        .endIndex(0L)
+                                        .label("label")
+                                        .r(0.0)
+                                        .startIndex(0L)
                                         .build()
                                 )
                                 .build()
@@ -1553,6 +2697,8 @@ internal class FormSectionTest {
                         .build()
                 )
                 .label("label")
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
+                .addMarkdownSpan(JsonValue.from(mapOf<String, Any>()))
                 .type(FormSection.Type.SECTION)
                 .build()
 

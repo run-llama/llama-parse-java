@@ -34,6 +34,7 @@ private constructor(
     private val projectId: JsonField<String>,
     private val status: JsonField<String>,
     private val userId: JsonField<String>,
+    private val version: JsonField<String>,
     private val configurationId: JsonField<String>,
     private val createdAt: JsonField<OffsetDateTime>,
     private val errorMessage: JsonField<String>,
@@ -44,6 +45,7 @@ private constructor(
     private val targetPages: JsonField<String>,
     private val transactionId: JsonField<String>,
     private val updatedAt: JsonField<OffsetDateTime>,
+    private val warnings: JsonField<List<Warning>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -60,6 +62,7 @@ private constructor(
         @JsonProperty("project_id") @ExcludeMissing projectId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("status") @ExcludeMissing status: JsonField<String> = JsonMissing.of(),
         @JsonProperty("user_id") @ExcludeMissing userId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("version") @ExcludeMissing version: JsonField<String> = JsonMissing.of(),
         @JsonProperty("configuration_id")
         @ExcludeMissing
         configurationId: JsonField<String> = JsonMissing.of(),
@@ -88,6 +91,9 @@ private constructor(
         @JsonProperty("updated_at")
         @ExcludeMissing
         updatedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("warnings")
+        @ExcludeMissing
+        warnings: JsonField<List<Warning>> = JsonMissing.of(),
     ) : this(
         id,
         categories,
@@ -96,6 +102,7 @@ private constructor(
         projectId,
         status,
         userId,
+        version,
         configurationId,
         createdAt,
         errorMessage,
@@ -106,6 +113,7 @@ private constructor(
         targetPages,
         transactionId,
         updatedAt,
+        warnings,
         mutableMapOf(),
     )
 
@@ -165,6 +173,14 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun userId(): String = userId.getRequired("user_id")
+
+    /**
+     * Split version used for this job.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun version(): String = version.getRequired("version")
 
     /**
      * Split configuration ID used for this job.
@@ -248,6 +264,14 @@ private constructor(
     fun updatedAt(): Optional<OffsetDateTime> = updatedAt.getOptional("updated_at")
 
     /**
+     * Advisory findings about the categories this job uses; empty when none.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun warnings(): Optional<List<Warning>> = warnings.getOptional("warnings")
+
+    /**
      * Returns the raw JSON value of [id].
      *
      * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
@@ -300,6 +324,13 @@ private constructor(
      * Unlike [userId], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("user_id") @ExcludeMissing fun _userId(): JsonField<String> = userId
+
+    /**
+     * Returns the raw JSON value of [version].
+     *
+     * Unlike [version], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<String> = version
 
     /**
      * Returns the raw JSON value of [configurationId].
@@ -388,6 +419,13 @@ private constructor(
     @ExcludeMissing
     fun _updatedAt(): JsonField<OffsetDateTime> = updatedAt
 
+    /**
+     * Returns the raw JSON value of [warnings].
+     *
+     * Unlike [warnings], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("warnings") @ExcludeMissing fun _warnings(): JsonField<List<Warning>> = warnings
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -414,6 +452,7 @@ private constructor(
          * .projectId()
          * .status()
          * .userId()
+         * .version()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -429,6 +468,7 @@ private constructor(
         private var projectId: JsonField<String>? = null
         private var status: JsonField<String>? = null
         private var userId: JsonField<String>? = null
+        private var version: JsonField<String>? = null
         private var configurationId: JsonField<String> = JsonMissing.of()
         private var createdAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var errorMessage: JsonField<String> = JsonMissing.of()
@@ -439,6 +479,7 @@ private constructor(
         private var targetPages: JsonField<String> = JsonMissing.of()
         private var transactionId: JsonField<String> = JsonMissing.of()
         private var updatedAt: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var warnings: JsonField<MutableList<Warning>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -450,6 +491,7 @@ private constructor(
             projectId = splitCreateResponse.projectId
             status = splitCreateResponse.status
             userId = splitCreateResponse.userId
+            version = splitCreateResponse.version
             configurationId = splitCreateResponse.configurationId
             createdAt = splitCreateResponse.createdAt
             errorMessage = splitCreateResponse.errorMessage
@@ -460,6 +502,7 @@ private constructor(
             targetPages = splitCreateResponse.targetPages
             transactionId = splitCreateResponse.transactionId
             updatedAt = splitCreateResponse.updatedAt
+            warnings = splitCreateResponse.warnings.map { it.toMutableList() }
             additionalProperties = splitCreateResponse.additionalProperties.toMutableMap()
         }
 
@@ -562,6 +605,17 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun userId(userId: JsonField<String>) = apply { this.userId = userId }
+
+        /** Split version used for this job. */
+        fun version(version: String) = version(JsonField.of(version))
+
+        /**
+         * Sets [Builder.version] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.version] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun version(version: JsonField<String>) = apply { this.version = version }
 
         /** Split configuration ID used for this job. */
         fun configurationId(configurationId: String?) =
@@ -727,6 +781,32 @@ private constructor(
          */
         fun updatedAt(updatedAt: JsonField<OffsetDateTime>) = apply { this.updatedAt = updatedAt }
 
+        /** Advisory findings about the categories this job uses; empty when none. */
+        fun warnings(warnings: List<Warning>) = warnings(JsonField.of(warnings))
+
+        /**
+         * Sets [Builder.warnings] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.warnings] with a well-typed `List<Warning>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun warnings(warnings: JsonField<List<Warning>>) = apply {
+            this.warnings = warnings.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [Warning] to [warnings].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addWarning(warning: Warning) = apply {
+            warnings =
+                (warnings ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("warnings", it).add(warning)
+                }
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -760,6 +840,7 @@ private constructor(
          * .projectId()
          * .status()
          * .userId()
+         * .version()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -773,6 +854,7 @@ private constructor(
                 checkRequired("projectId", projectId),
                 checkRequired("status", status),
                 checkRequired("userId", userId),
+                checkRequired("version", version),
                 configurationId,
                 createdAt,
                 errorMessage,
@@ -783,6 +865,7 @@ private constructor(
                 targetPages,
                 transactionId,
                 updatedAt,
+                (warnings ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
     }
@@ -809,6 +892,7 @@ private constructor(
         projectId()
         status()
         userId()
+        version()
         configurationId()
         createdAt()
         errorMessage()
@@ -819,6 +903,7 @@ private constructor(
         targetPages()
         transactionId()
         updatedAt()
+        warnings().ifPresent { it.forEach { it.validate() } }
         validated = true
     }
 
@@ -844,6 +929,7 @@ private constructor(
             (if (projectId.asKnown().isPresent) 1 else 0) +
             (if (status.asKnown().isPresent) 1 else 0) +
             (if (userId.asKnown().isPresent) 1 else 0) +
+            (if (version.asKnown().isPresent) 1 else 0) +
             (if (configurationId.asKnown().isPresent) 1 else 0) +
             (if (createdAt.asKnown().isPresent) 1 else 0) +
             (if (errorMessage.asKnown().isPresent) 1 else 0) +
@@ -853,7 +939,8 @@ private constructor(
             (splittingStrategy.asKnown().getOrNull()?.validity() ?: 0) +
             (if (targetPages.asKnown().isPresent) 1 else 0) +
             (if (transactionId.asKnown().isPresent) 1 else 0) +
-            (if (updatedAt.asKnown().isPresent) 1 else 0)
+            (if (updatedAt.asKnown().isPresent) 1 else 0) +
+            (warnings.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
     /** Whether the input was a file or parse job */
     class DocumentInputType @JsonCreator private constructor(private val value: JsonField<String>) :
@@ -1009,6 +1096,7 @@ private constructor(
         private val allowUncategorized: JsonField<AllowUncategorized>,
         private val customInstructions: JsonField<String>,
         private val minPagesPerSplit: JsonField<Long>,
+        private val segmentBoundary: JsonField<SegmentBoundary>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -1023,7 +1111,16 @@ private constructor(
             @JsonProperty("min_pages_per_split")
             @ExcludeMissing
             minPagesPerSplit: JsonField<Long> = JsonMissing.of(),
-        ) : this(allowUncategorized, customInstructions, minPagesPerSplit, mutableMapOf())
+            @JsonProperty("segment_boundary")
+            @ExcludeMissing
+            segmentBoundary: JsonField<SegmentBoundary> = JsonMissing.of(),
+        ) : this(
+            allowUncategorized,
+            customInstructions,
+            minPagesPerSplit,
+            segmentBoundary,
+            mutableMapOf(),
+        )
 
         /**
          * Controls handling of pages that don't match any category. 'include': pages can be grouped
@@ -1056,6 +1153,16 @@ private constructor(
         fun minPagesPerSplit(): Optional<Long> = minPagesPerSplit.getOptional("min_pages_per_split")
 
         /**
+         * Where a new segment starts: document at each new document, category wherever the category
+         * changes. Unset means document. category requires version 1.3.0 or later.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun segmentBoundary(): Optional<SegmentBoundary> =
+            segmentBoundary.getOptional("segment_boundary")
+
+        /**
          * Returns the raw JSON value of [allowUncategorized].
          *
          * Unlike [allowUncategorized], this method doesn't throw if the JSON field has an
@@ -1085,6 +1192,16 @@ private constructor(
         @ExcludeMissing
         fun _minPagesPerSplit(): JsonField<Long> = minPagesPerSplit
 
+        /**
+         * Returns the raw JSON value of [segmentBoundary].
+         *
+         * Unlike [segmentBoundary], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("segment_boundary")
+        @ExcludeMissing
+        fun _segmentBoundary(): JsonField<SegmentBoundary> = segmentBoundary
+
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -1109,6 +1226,7 @@ private constructor(
             private var allowUncategorized: JsonField<AllowUncategorized> = JsonMissing.of()
             private var customInstructions: JsonField<String> = JsonMissing.of()
             private var minPagesPerSplit: JsonField<Long> = JsonMissing.of()
+            private var segmentBoundary: JsonField<SegmentBoundary> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -1116,6 +1234,7 @@ private constructor(
                 allowUncategorized = splittingStrategy.allowUncategorized
                 customInstructions = splittingStrategy.customInstructions
                 minPagesPerSplit = splittingStrategy.minPagesPerSplit
+                segmentBoundary = splittingStrategy.segmentBoundary
                 additionalProperties = splittingStrategy.additionalProperties.toMutableMap()
             }
 
@@ -1179,6 +1298,28 @@ private constructor(
                 this.minPagesPerSplit = minPagesPerSplit
             }
 
+            /**
+             * Where a new segment starts: document at each new document, category wherever the
+             * category changes. Unset means document. category requires version 1.3.0 or later.
+             */
+            fun segmentBoundary(segmentBoundary: SegmentBoundary?) =
+                segmentBoundary(JsonField.ofNullable(segmentBoundary))
+
+            /** Alias for calling [Builder.segmentBoundary] with `segmentBoundary.orElse(null)`. */
+            fun segmentBoundary(segmentBoundary: Optional<SegmentBoundary>) =
+                segmentBoundary(segmentBoundary.getOrNull())
+
+            /**
+             * Sets [Builder.segmentBoundary] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.segmentBoundary] with a well-typed [SegmentBoundary]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun segmentBoundary(segmentBoundary: JsonField<SegmentBoundary>) = apply {
+                this.segmentBoundary = segmentBoundary
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -1208,6 +1349,7 @@ private constructor(
                     allowUncategorized,
                     customInstructions,
                     minPagesPerSplit,
+                    segmentBoundary,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1231,6 +1373,7 @@ private constructor(
             allowUncategorized().ifPresent { it.validate() }
             customInstructions()
             minPagesPerSplit()
+            segmentBoundary().ifPresent { it.validate() }
             validated = true
         }
 
@@ -1252,7 +1395,8 @@ private constructor(
         internal fun validity(): Int =
             (allowUncategorized.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (customInstructions.asKnown().isPresent) 1 else 0) +
-                (if (minPagesPerSplit.asKnown().isPresent) 1 else 0)
+                (if (minPagesPerSplit.asKnown().isPresent) 1 else 0) +
+                (segmentBoundary.asKnown().getOrNull()?.validity() ?: 0)
 
         /**
          * Controls handling of pages that don't match any category. 'include': pages can be grouped
@@ -1411,6 +1555,152 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        /**
+         * Where a new segment starts: document at each new document, category wherever the category
+         * changes. Unset means document. category requires version 1.3.0 or later.
+         */
+        class SegmentBoundary
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val CATEGORY = of("category")
+
+                @JvmField val DOCUMENT = of("document")
+
+                @JvmStatic fun of(value: String) = SegmentBoundary(JsonField.of(value))
+            }
+
+            /** An enum containing [SegmentBoundary]'s known values. */
+            enum class Known {
+                CATEGORY,
+                DOCUMENT,
+            }
+
+            /**
+             * An enum containing [SegmentBoundary]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [SegmentBoundary] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                CATEGORY,
+                DOCUMENT,
+                /**
+                 * An enum member indicating that [SegmentBoundary] was instantiated with an unknown
+                 * value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    CATEGORY -> Value.CATEGORY
+                    DOCUMENT -> Value.DOCUMENT
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
+             *   known member.
+             */
+            fun known(): Known =
+                when (this) {
+                    CATEGORY -> Known.CATEGORY
+                    DOCUMENT -> Known.DOCUMENT
+                    else -> throw LlamaCloudInvalidDataException("Unknown SegmentBoundary: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LlamaCloudInvalidDataException if this class instance's value does not have
+             *   the expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LlamaCloudInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
+            fun validate(): SegmentBoundary = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LlamaCloudInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is SegmentBoundary && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -1420,6 +1710,7 @@ private constructor(
                 allowUncategorized == other.allowUncategorized &&
                 customInstructions == other.customInstructions &&
                 minPagesPerSplit == other.minPagesPerSplit &&
+                segmentBoundary == other.segmentBoundary &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -1428,6 +1719,7 @@ private constructor(
                 allowUncategorized,
                 customInstructions,
                 minPagesPerSplit,
+                segmentBoundary,
                 additionalProperties,
             )
         }
@@ -1435,7 +1727,424 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "SplittingStrategy{allowUncategorized=$allowUncategorized, customInstructions=$customInstructions, minPagesPerSplit=$minPagesPerSplit, additionalProperties=$additionalProperties}"
+            "SplittingStrategy{allowUncategorized=$allowUncategorized, customInstructions=$customInstructions, minPagesPerSplit=$minPagesPerSplit, segmentBoundary=$segmentBoundary, additionalProperties=$additionalProperties}"
+    }
+
+    /** Advisory finding about split categories; the job still runs. */
+    class Warning
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val categoryNames: JsonField<List<String>>,
+        private val code: JsonField<Code>,
+        private val message: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("category_names")
+            @ExcludeMissing
+            categoryNames: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("code") @ExcludeMissing code: JsonField<Code> = JsonMissing.of(),
+            @JsonProperty("message") @ExcludeMissing message: JsonField<String> = JsonMissing.of(),
+        ) : this(categoryNames, code, message, mutableMapOf())
+
+        /**
+         * Names of the categories the warning concerns.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun categoryNames(): List<String> = categoryNames.getRequired("category_names")
+
+        /**
+         * Rule that produced the warning.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun code(): Code = code.getRequired("code")
+
+        /**
+         * What is ambiguous and how to fix it.
+         *
+         * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun message(): String = message.getRequired("message")
+
+        /**
+         * Returns the raw JSON value of [categoryNames].
+         *
+         * Unlike [categoryNames], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("category_names")
+        @ExcludeMissing
+        fun _categoryNames(): JsonField<List<String>> = categoryNames
+
+        /**
+         * Returns the raw JSON value of [code].
+         *
+         * Unlike [code], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Code> = code
+
+        /**
+         * Returns the raw JSON value of [message].
+         *
+         * Unlike [message], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("message") @ExcludeMissing fun _message(): JsonField<String> = message
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [Warning].
+             *
+             * The following fields are required:
+             * ```java
+             * .categoryNames()
+             * .code()
+             * .message()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Warning]. */
+        class Builder internal constructor() {
+
+            private var categoryNames: JsonField<MutableList<String>>? = null
+            private var code: JsonField<Code>? = null
+            private var message: JsonField<String>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(warning: Warning) = apply {
+                categoryNames = warning.categoryNames.map { it.toMutableList() }
+                code = warning.code
+                message = warning.message
+                additionalProperties = warning.additionalProperties.toMutableMap()
+            }
+
+            /** Names of the categories the warning concerns. */
+            fun categoryNames(categoryNames: List<String>) =
+                categoryNames(JsonField.of(categoryNames))
+
+            /**
+             * Sets [Builder.categoryNames] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.categoryNames] with a well-typed `List<String>`
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun categoryNames(categoryNames: JsonField<List<String>>) = apply {
+                this.categoryNames = categoryNames.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [String] to [categoryNames].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addCategoryName(categoryName: String) = apply {
+                categoryNames =
+                    (categoryNames ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("categoryNames", it).add(categoryName)
+                    }
+            }
+
+            /** Rule that produced the warning. */
+            fun code(code: Code) = code(JsonField.of(code))
+
+            /**
+             * Sets [Builder.code] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.code] with a well-typed [Code] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun code(code: JsonField<Code>) = apply { this.code = code }
+
+            /** What is ambiguous and how to fix it. */
+            fun message(message: String) = message(JsonField.of(message))
+
+            /**
+             * Sets [Builder.message] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.message] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun message(message: JsonField<String>) = apply { this.message = message }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Warning].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .categoryNames()
+             * .code()
+             * .message()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): Warning =
+                Warning(
+                    checkRequired("categoryNames", categoryNames).map { it.toImmutable() },
+                    checkRequired("code", code),
+                    checkRequired("message", message),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): Warning = apply {
+            if (validated) {
+                return@apply
+            }
+
+            categoryNames()
+            code().validate()
+            message()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LlamaCloudInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (categoryNames.asKnown().getOrNull()?.size ?: 0) +
+                (code.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (message.asKnown().isPresent) 1 else 0)
+
+        /** Rule that produced the warning. */
+        class Code @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val CATCH_ALL_CATEGORY = of("catch_all_category")
+
+                @JvmField val MISSING_DESCRIPTION = of("missing_description")
+
+                @JvmField val NEAR_DUPLICATE_DESCRIPTION = of("near_duplicate_description")
+
+                @JvmField val NEAR_DUPLICATE_NAME = of("near_duplicate_name")
+
+                @JvmStatic fun of(value: String) = Code(JsonField.of(value))
+            }
+
+            /** An enum containing [Code]'s known values. */
+            enum class Known {
+                CATCH_ALL_CATEGORY,
+                MISSING_DESCRIPTION,
+                NEAR_DUPLICATE_DESCRIPTION,
+                NEAR_DUPLICATE_NAME,
+            }
+
+            /**
+             * An enum containing [Code]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Code] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                CATCH_ALL_CATEGORY,
+                MISSING_DESCRIPTION,
+                NEAR_DUPLICATE_DESCRIPTION,
+                NEAR_DUPLICATE_NAME,
+                /** An enum member indicating that [Code] was instantiated with an unknown value. */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    CATCH_ALL_CATEGORY -> Value.CATCH_ALL_CATEGORY
+                    MISSING_DESCRIPTION -> Value.MISSING_DESCRIPTION
+                    NEAR_DUPLICATE_DESCRIPTION -> Value.NEAR_DUPLICATE_DESCRIPTION
+                    NEAR_DUPLICATE_NAME -> Value.NEAR_DUPLICATE_NAME
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
+             *   known member.
+             */
+            fun known(): Known =
+                when (this) {
+                    CATCH_ALL_CATEGORY -> Known.CATCH_ALL_CATEGORY
+                    MISSING_DESCRIPTION -> Known.MISSING_DESCRIPTION
+                    NEAR_DUPLICATE_DESCRIPTION -> Known.NEAR_DUPLICATE_DESCRIPTION
+                    NEAR_DUPLICATE_NAME -> Known.NEAR_DUPLICATE_NAME
+                    else -> throw LlamaCloudInvalidDataException("Unknown Code: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LlamaCloudInvalidDataException if this class instance's value does not have
+             *   the expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LlamaCloudInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LlamaCloudInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
+            fun validate(): Code = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LlamaCloudInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Code && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Warning &&
+                categoryNames == other.categoryNames &&
+                code == other.code &&
+                message == other.message &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(categoryNames, code, message, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Warning{categoryNames=$categoryNames, code=$code, message=$message, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -1451,6 +2160,7 @@ private constructor(
             projectId == other.projectId &&
             status == other.status &&
             userId == other.userId &&
+            version == other.version &&
             configurationId == other.configurationId &&
             createdAt == other.createdAt &&
             errorMessage == other.errorMessage &&
@@ -1461,6 +2171,7 @@ private constructor(
             targetPages == other.targetPages &&
             transactionId == other.transactionId &&
             updatedAt == other.updatedAt &&
+            warnings == other.warnings &&
             additionalProperties == other.additionalProperties
     }
 
@@ -1473,6 +2184,7 @@ private constructor(
             projectId,
             status,
             userId,
+            version,
             configurationId,
             createdAt,
             errorMessage,
@@ -1483,6 +2195,7 @@ private constructor(
             targetPages,
             transactionId,
             updatedAt,
+            warnings,
             additionalProperties,
         )
     }
@@ -1490,5 +2203,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "SplitCreateResponse{id=$id, categories=$categories, documentInputType=$documentInputType, fileInput=$fileInput, projectId=$projectId, status=$status, userId=$userId, configurationId=$configurationId, createdAt=$createdAt, errorMessage=$errorMessage, parseConfigId=$parseConfigId, parseTier=$parseTier, result=$result, splittingStrategy=$splittingStrategy, targetPages=$targetPages, transactionId=$transactionId, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
+        "SplitCreateResponse{id=$id, categories=$categories, documentInputType=$documentInputType, fileInput=$fileInput, projectId=$projectId, status=$status, userId=$userId, version=$version, configurationId=$configurationId, createdAt=$createdAt, errorMessage=$errorMessage, parseConfigId=$parseConfigId, parseTier=$parseTier, result=$result, splittingStrategy=$splittingStrategy, targetPages=$targetPages, transactionId=$transactionId, updatedAt=$updatedAt, warnings=$warnings, additionalProperties=$additionalProperties}"
 }

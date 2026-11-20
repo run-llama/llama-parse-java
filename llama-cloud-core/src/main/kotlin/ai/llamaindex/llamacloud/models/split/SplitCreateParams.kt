@@ -1018,7 +1018,8 @@ private constructor(
         )
 
         /**
-         * Categories to split documents into.
+         * Categories to split documents into. Names must be unique; 'uncategorized' is reserved
+         * unless allow_uncategorized is 'forbid'.
          *
          * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -1173,7 +1174,10 @@ private constructor(
                 additionalProperties = configuration.additionalProperties.toMutableMap()
             }
 
-            /** Categories to split documents into. */
+            /**
+             * Categories to split documents into. Names must be unique; 'uncategorized' is reserved
+             * unless allow_uncategorized is 'forbid'.
+             */
             fun categories(categories: List<SplitCategory>) = categories(JsonField.of(categories))
 
             /**
@@ -1550,6 +1554,7 @@ private constructor(
             private val allowUncategorized: JsonField<AllowUncategorized>,
             private val customInstructions: JsonField<String>,
             private val minPagesPerSplit: JsonField<Long>,
+            private val segmentBoundary: JsonField<SegmentBoundary>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -1564,7 +1569,16 @@ private constructor(
                 @JsonProperty("min_pages_per_split")
                 @ExcludeMissing
                 minPagesPerSplit: JsonField<Long> = JsonMissing.of(),
-            ) : this(allowUncategorized, customInstructions, minPagesPerSplit, mutableMapOf())
+                @JsonProperty("segment_boundary")
+                @ExcludeMissing
+                segmentBoundary: JsonField<SegmentBoundary> = JsonMissing.of(),
+            ) : this(
+                allowUncategorized,
+                customInstructions,
+                minPagesPerSplit,
+                segmentBoundary,
+                mutableMapOf(),
+            )
 
             /**
              * Controls handling of pages that don't match any category. 'include': pages can be
@@ -1598,6 +1612,16 @@ private constructor(
                 minPagesPerSplit.getOptional("min_pages_per_split")
 
             /**
+             * Where a new segment starts: document at each new document, category wherever the
+             * category changes. Unset means document. category requires version 1.3.0 or later.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun segmentBoundary(): Optional<SegmentBoundary> =
+                segmentBoundary.getOptional("segment_boundary")
+
+            /**
              * Returns the raw JSON value of [allowUncategorized].
              *
              * Unlike [allowUncategorized], this method doesn't throw if the JSON field has an
@@ -1627,6 +1651,16 @@ private constructor(
             @ExcludeMissing
             fun _minPagesPerSplit(): JsonField<Long> = minPagesPerSplit
 
+            /**
+             * Returns the raw JSON value of [segmentBoundary].
+             *
+             * Unlike [segmentBoundary], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("segment_boundary")
+            @ExcludeMissing
+            fun _segmentBoundary(): JsonField<SegmentBoundary> = segmentBoundary
+
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
                 additionalProperties.put(key, value)
@@ -1653,6 +1687,7 @@ private constructor(
                 private var allowUncategorized: JsonField<AllowUncategorized> = JsonMissing.of()
                 private var customInstructions: JsonField<String> = JsonMissing.of()
                 private var minPagesPerSplit: JsonField<Long> = JsonMissing.of()
+                private var segmentBoundary: JsonField<SegmentBoundary> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -1660,6 +1695,7 @@ private constructor(
                     allowUncategorized = splittingStrategy.allowUncategorized
                     customInstructions = splittingStrategy.customInstructions
                     minPagesPerSplit = splittingStrategy.minPagesPerSplit
+                    segmentBoundary = splittingStrategy.segmentBoundary
                     additionalProperties = splittingStrategy.additionalProperties.toMutableMap()
                 }
 
@@ -1723,6 +1759,30 @@ private constructor(
                     this.minPagesPerSplit = minPagesPerSplit
                 }
 
+                /**
+                 * Where a new segment starts: document at each new document, category wherever the
+                 * category changes. Unset means document. category requires version 1.3.0 or later.
+                 */
+                fun segmentBoundary(segmentBoundary: SegmentBoundary?) =
+                    segmentBoundary(JsonField.ofNullable(segmentBoundary))
+
+                /**
+                 * Alias for calling [Builder.segmentBoundary] with `segmentBoundary.orElse(null)`.
+                 */
+                fun segmentBoundary(segmentBoundary: Optional<SegmentBoundary>) =
+                    segmentBoundary(segmentBoundary.getOrNull())
+
+                /**
+                 * Sets [Builder.segmentBoundary] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.segmentBoundary] with a well-typed
+                 * [SegmentBoundary] value instead. This method is primarily for setting the field
+                 * to an undocumented or not yet supported value.
+                 */
+                fun segmentBoundary(segmentBoundary: JsonField<SegmentBoundary>) = apply {
+                    this.segmentBoundary = segmentBoundary
+                }
+
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -1755,6 +1815,7 @@ private constructor(
                         allowUncategorized,
                         customInstructions,
                         minPagesPerSplit,
+                        segmentBoundary,
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -1779,6 +1840,7 @@ private constructor(
                 allowUncategorized().ifPresent { it.validate() }
                 customInstructions()
                 minPagesPerSplit()
+                segmentBoundary().ifPresent { it.validate() }
                 validated = true
             }
 
@@ -1800,7 +1862,8 @@ private constructor(
             internal fun validity(): Int =
                 (allowUncategorized.asKnown().getOrNull()?.validity() ?: 0) +
                     (if (customInstructions.asKnown().isPresent) 1 else 0) +
-                    (if (minPagesPerSplit.asKnown().isPresent) 1 else 0)
+                    (if (minPagesPerSplit.asKnown().isPresent) 1 else 0) +
+                    (segmentBoundary.asKnown().getOrNull()?.validity() ?: 0)
 
             /**
              * Controls handling of pages that don't match any category. 'include': pages can be
@@ -1961,6 +2024,155 @@ private constructor(
                 override fun toString() = value.toString()
             }
 
+            /**
+             * Where a new segment starts: document at each new document, category wherever the
+             * category changes. Unset means document. category requires version 1.3.0 or later.
+             */
+            class SegmentBoundary
+            @JsonCreator
+            private constructor(private val value: JsonField<String>) : Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val CATEGORY = of("category")
+
+                    @JvmField val DOCUMENT = of("document")
+
+                    @JvmStatic fun of(value: String) = SegmentBoundary(JsonField.of(value))
+                }
+
+                /** An enum containing [SegmentBoundary]'s known values. */
+                enum class Known {
+                    CATEGORY,
+                    DOCUMENT,
+                }
+
+                /**
+                 * An enum containing [SegmentBoundary]'s known values, as well as an [_UNKNOWN]
+                 * member.
+                 *
+                 * An instance of [SegmentBoundary] can contain an unknown value in a couple of
+                 * cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    CATEGORY,
+                    DOCUMENT,
+                    /**
+                     * An enum member indicating that [SegmentBoundary] was instantiated with an
+                     * unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        CATEGORY -> Value.CATEGORY
+                        DOCUMENT -> Value.DOCUMENT
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        CATEGORY -> Known.CATEGORY
+                        DOCUMENT -> Known.DOCUMENT
+                        else ->
+                            throw LlamaCloudInvalidDataException("Unknown SegmentBoundary: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LlamaCloudInvalidDataException if this class instance's value does not
+                 *   have the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LlamaCloudInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LlamaCloudInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
+                fun validate(): SegmentBoundary = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LlamaCloudInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is SegmentBoundary && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
@@ -1970,6 +2182,7 @@ private constructor(
                     allowUncategorized == other.allowUncategorized &&
                     customInstructions == other.customInstructions &&
                     minPagesPerSplit == other.minPagesPerSplit &&
+                    segmentBoundary == other.segmentBoundary &&
                     additionalProperties == other.additionalProperties
             }
 
@@ -1978,6 +2191,7 @@ private constructor(
                     allowUncategorized,
                     customInstructions,
                     minPagesPerSplit,
+                    segmentBoundary,
                     additionalProperties,
                 )
             }
@@ -1985,7 +2199,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "SplittingStrategy{allowUncategorized=$allowUncategorized, customInstructions=$customInstructions, minPagesPerSplit=$minPagesPerSplit, additionalProperties=$additionalProperties}"
+                "SplittingStrategy{allowUncategorized=$allowUncategorized, customInstructions=$customInstructions, minPagesPerSplit=$minPagesPerSplit, segmentBoundary=$segmentBoundary, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
@@ -2437,6 +2651,8 @@ private constructor(
 
                 @JvmField val EXTRACT_PENDING = of("extract.pending")
 
+                @JvmField val EXTRACT_RUNNING = of("extract.running")
+
                 @JvmField val EXTRACT_SUCCESS = of("extract.success")
 
                 @JvmField val PARSE_CANCELLED = of("parse.cancelled")
@@ -2503,6 +2719,7 @@ private constructor(
                 EXTRACT_ERROR,
                 EXTRACT_PARTIAL_SUCCESS,
                 EXTRACT_PENDING,
+                EXTRACT_RUNNING,
                 EXTRACT_SUCCESS,
                 PARSE_CANCELLED,
                 PARSE_ERROR,
@@ -2553,6 +2770,7 @@ private constructor(
                 EXTRACT_ERROR,
                 EXTRACT_PARTIAL_SUCCESS,
                 EXTRACT_PENDING,
+                EXTRACT_RUNNING,
                 EXTRACT_SUCCESS,
                 PARSE_CANCELLED,
                 PARSE_ERROR,
@@ -2607,6 +2825,7 @@ private constructor(
                     EXTRACT_ERROR -> Value.EXTRACT_ERROR
                     EXTRACT_PARTIAL_SUCCESS -> Value.EXTRACT_PARTIAL_SUCCESS
                     EXTRACT_PENDING -> Value.EXTRACT_PENDING
+                    EXTRACT_RUNNING -> Value.EXTRACT_RUNNING
                     EXTRACT_SUCCESS -> Value.EXTRACT_SUCCESS
                     PARSE_CANCELLED -> Value.PARSE_CANCELLED
                     PARSE_ERROR -> Value.PARSE_ERROR
@@ -2659,6 +2878,7 @@ private constructor(
                     EXTRACT_ERROR -> Known.EXTRACT_ERROR
                     EXTRACT_PARTIAL_SUCCESS -> Known.EXTRACT_PARTIAL_SUCCESS
                     EXTRACT_PENDING -> Known.EXTRACT_PENDING
+                    EXTRACT_RUNNING -> Known.EXTRACT_RUNNING
                     EXTRACT_SUCCESS -> Known.EXTRACT_SUCCESS
                     PARSE_CANCELLED -> Known.PARSE_CANCELLED
                     PARSE_ERROR -> Known.PARSE_ERROR

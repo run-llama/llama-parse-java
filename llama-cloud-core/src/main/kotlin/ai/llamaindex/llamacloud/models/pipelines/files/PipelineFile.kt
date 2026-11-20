@@ -131,7 +131,7 @@ private constructor(
     fun pipelineId(): String = pipelineId.getRequired("pipeline_id")
 
     /**
-     * Hashes for the configuration of the pipeline.
+     * Hashes for the configuration of the pipeline. Every hash but `transform_config_hash` is null.
      *
      * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -520,7 +520,10 @@ private constructor(
          */
         fun pipelineId(pipelineId: JsonField<String>) = apply { this.pipelineId = pipelineId }
 
-        /** Hashes for the configuration of the pipeline. */
+        /**
+         * Hashes for the configuration of the pipeline. Every hash but `transform_config_hash` is
+         * null.
+         */
         fun configHash(configHash: ConfigHash?) = configHash(JsonField.ofNullable(configHash))
 
         /** Alias for calling [Builder.configHash] with `configHash.orElse(null)`. */
@@ -943,7 +946,9 @@ private constructor(
             (if (statusUpdatedAt.asKnown().isPresent) 1 else 0) +
             (if (updatedAt.asKnown().isPresent) 1 else 0)
 
-    /** Hashes for the configuration of the pipeline. */
+    /**
+     * Hashes for the configuration of the pipeline. Every hash but `transform_config_hash` is null.
+     */
     class ConfigHash
     @JsonCreator
     private constructor(

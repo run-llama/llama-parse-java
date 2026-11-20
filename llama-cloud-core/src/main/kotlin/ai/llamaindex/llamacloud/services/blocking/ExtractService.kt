@@ -20,6 +20,7 @@ import ai.llamaindex.llamacloud.models.extract.ExtractV2SchemaGenerateRequest
 import ai.llamaindex.llamacloud.models.extract.ExtractV2SchemaValidateRequest
 import ai.llamaindex.llamacloud.models.extract.ExtractV2SchemaValidateResponse
 import ai.llamaindex.llamacloud.models.extract.ExtractValidateSchemaParams
+import ai.llamaindex.llamacloud.services.blocking.extract.ReviewService
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
@@ -36,6 +37,8 @@ interface ExtractService {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): ExtractService
+
+    fun review(): ReviewService
 
     /**
      * Create an extraction job.
@@ -81,9 +84,11 @@ interface ExtractService {
     /**
      * List extraction jobs with optional filtering and pagination.
      *
-     * Filter by `configuration_id`, `status`, `file_input`, or creation date range. Results are
-     * returned newest-first. Use `expand=configuration` to include the full configuration used, and
-     * `expand=extract_metadata` for per-field metadata.
+     * Filter by `configuration_id`, `status`, `file_input`, `review_status`, or creation date
+     * range. Results are returned newest-first. `review_status=pending` lists completed jobs
+     * waiting for review, unless `status` names another. A review stays pending when its job fails
+     * or is cancelled, so pass that `status` to list those. Use `expand=configuration` to include
+     * the full configuration used, and `expand=extract_metadata` for per-field metadata.
      */
     fun list(): ExtractListPage = list(ExtractListParams.none())
 
@@ -265,6 +270,8 @@ interface ExtractService {
          * The original service is not modified.
          */
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): ExtractService.WithRawResponse
+
+        fun review(): ReviewService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /api/v2/extract`, but is otherwise the same as

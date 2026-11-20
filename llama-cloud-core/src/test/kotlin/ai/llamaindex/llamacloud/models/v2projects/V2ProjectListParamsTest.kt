@@ -13,7 +13,7 @@ internal class V2ProjectListParamsTest {
         V2ProjectListParams.builder()
             .name("name")
             .organizationId("organization_id")
-            .pageSize(0L)
+            .pageSize(1L)
             .pageToken("page_token")
             .build()
     }
@@ -24,7 +24,7 @@ internal class V2ProjectListParamsTest {
             V2ProjectListParams.builder()
                 .name("name")
                 .organizationId("organization_id")
-                .pageSize(0L)
+                .pageSize(1L)
                 .pageToken("page_token")
                 .build()
 
@@ -35,7 +35,7 @@ internal class V2ProjectListParamsTest {
                 QueryParams.builder()
                     .put("name", "name")
                     .put("organization_id", "organization_id")
-                    .put("page_size", "0")
+                    .put("page_size", "1")
                     .put("page_token", "page_token")
                     .build()
             )

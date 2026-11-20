@@ -280,6 +280,8 @@ internal class ServiceParamsTest {
                                         )
                                         .build()
                                 )
+                                .documentLongerThanNPages(5L)
+                                .documentShorterThanNPages(5L)
                                 .filenameMatchGlob("*.txt")
                                 .addFilenameMatchGlobList("string")
                                 .filenameRegexp("filename_regexp")
@@ -289,6 +291,11 @@ internal class ServiceParamsTest {
                                 .imageInPage(true)
                                 .layoutElementInPage("layout_element_in_page")
                                 .layoutElementInPageConfidenceThreshold(0.0)
+                                .minComplexity(
+                                    ParsingCreateParams.ProcessingOptions.AutoModeConfiguration
+                                        .MinComplexity
+                                        .HIGH
+                                )
                                 .pageContainsAtLeastNCharts(0L)
                                 .pageContainsAtLeastNImages(0L)
                                 .pageContainsAtLeastNLayoutElements(0L)

@@ -8,6 +8,7 @@ import ai.llamaindex.llamacloud.models.beta.split.SplitResultResponse
 import ai.llamaindex.llamacloud.models.beta.split.SplitSegmentResponse
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -24,6 +25,7 @@ internal class SplitListResponseTest {
                 .projectId("project_id")
                 .status("status")
                 .userId("user_id")
+                .version("1.1.0")
                 .configurationId("configuration_id")
                 .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .errorMessage("error_message")
@@ -47,11 +49,21 @@ internal class SplitListResponseTest {
                         )
                         .customInstructions("Start a new segment at every signature page.")
                         .minPagesPerSplit(1L)
+                        .segmentBoundary(
+                            SplitListResponse.SplittingStrategy.SegmentBoundary.CATEGORY
+                        )
                         .build()
                 )
                 .targetPages("target_pages")
                 .transactionId("transaction_id")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .addWarning(
+                    SplitListResponse.Warning.builder()
+                        .addCategoryName("string")
+                        .code(SplitListResponse.Warning.Code.CATCH_ALL_CATEGORY)
+                        .message("message")
+                        .build()
+                )
                 .build()
 
         assertThat(splitListResponse.id()).isEqualTo("id")
@@ -64,6 +76,7 @@ internal class SplitListResponseTest {
         assertThat(splitListResponse.projectId()).isEqualTo("project_id")
         assertThat(splitListResponse.status()).isEqualTo("status")
         assertThat(splitListResponse.userId()).isEqualTo("user_id")
+        assertThat(splitListResponse.version()).isEqualTo("1.1.0")
         assertThat(splitListResponse.configurationId()).contains("configuration_id")
         assertThat(splitListResponse.createdAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -90,12 +103,21 @@ internal class SplitListResponseTest {
                     )
                     .customInstructions("Start a new segment at every signature page.")
                     .minPagesPerSplit(1L)
+                    .segmentBoundary(SplitListResponse.SplittingStrategy.SegmentBoundary.CATEGORY)
                     .build()
             )
         assertThat(splitListResponse.targetPages()).contains("target_pages")
         assertThat(splitListResponse.transactionId()).contains("transaction_id")
         assertThat(splitListResponse.updatedAt())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(splitListResponse.warnings().getOrNull())
+            .containsExactly(
+                SplitListResponse.Warning.builder()
+                    .addCategoryName("string")
+                    .code(SplitListResponse.Warning.Code.CATCH_ALL_CATEGORY)
+                    .message("message")
+                    .build()
+            )
     }
 
     @Test
@@ -110,6 +132,7 @@ internal class SplitListResponseTest {
                 .projectId("project_id")
                 .status("status")
                 .userId("user_id")
+                .version("1.1.0")
                 .configurationId("configuration_id")
                 .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .errorMessage("error_message")
@@ -133,11 +156,21 @@ internal class SplitListResponseTest {
                         )
                         .customInstructions("Start a new segment at every signature page.")
                         .minPagesPerSplit(1L)
+                        .segmentBoundary(
+                            SplitListResponse.SplittingStrategy.SegmentBoundary.CATEGORY
+                        )
                         .build()
                 )
                 .targetPages("target_pages")
                 .transactionId("transaction_id")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .addWarning(
+                    SplitListResponse.Warning.builder()
+                        .addCategoryName("string")
+                        .code(SplitListResponse.Warning.Code.CATCH_ALL_CATEGORY)
+                        .message("message")
+                        .build()
+                )
                 .build()
 
         val roundtrippedSplitListResponse =

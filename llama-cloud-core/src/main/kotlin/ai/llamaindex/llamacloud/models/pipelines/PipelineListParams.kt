@@ -12,6 +12,12 @@ import kotlin.jvm.optionals.getOrNull
 /**
  * Search for pipelines by name, type, or project.
  *
+ * Legacy pipelines with unavailable embedding configurations return `embedding_config: null`.
+ *
+ * Unavailable linked model configurations return `embedding_model_config: null`, retaining their
+ * IDs. A stored-config fallback in this list does not repair the pipeline; detail reads and
+ * retrieval still require valid configuration.
+ *
  * Deprecated: use `GET /api/v2/pipelines`, which is paginated.
  */
 @Deprecated("deprecated")

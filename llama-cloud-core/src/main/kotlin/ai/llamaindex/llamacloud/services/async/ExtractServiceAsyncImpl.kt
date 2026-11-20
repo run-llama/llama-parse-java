@@ -29,6 +29,8 @@ import ai.llamaindex.llamacloud.models.extract.ExtractV2Job
 import ai.llamaindex.llamacloud.models.extract.ExtractV2JobQueryResponse
 import ai.llamaindex.llamacloud.models.extract.ExtractV2SchemaValidateResponse
 import ai.llamaindex.llamacloud.models.extract.ExtractValidateSchemaParams
+import ai.llamaindex.llamacloud.services.async.extract.ReviewServiceAsync
+import ai.llamaindex.llamacloud.services.async.extract.ReviewServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -40,10 +42,14 @@ class ExtractServiceAsyncImpl internal constructor(private val clientOptions: Cl
         WithRawResponseImpl(clientOptions)
     }
 
+    private val review: ReviewServiceAsync by lazy { ReviewServiceAsyncImpl(clientOptions) }
+
     override fun withRawResponse(): ExtractServiceAsync.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ExtractServiceAsync =
         ExtractServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
+    override fun review(): ReviewServiceAsync = review
 
     override fun create(
         params: ExtractCreateParams,
@@ -100,12 +106,18 @@ class ExtractServiceAsyncImpl internal constructor(private val clientOptions: Cl
         private val errorHandler: Handler<HttpResponse> =
             errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
+        private val review: ReviewServiceAsync.WithRawResponse by lazy {
+            ReviewServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): ExtractServiceAsync.WithRawResponse =
             ExtractServiceAsyncImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
+
+        override fun review(): ReviewServiceAsync.WithRawResponse = review
 
         private val createHandler: Handler<ExtractV2Job> =
             jsonHandler<ExtractV2Job>(clientOptions.jsonMapper)
