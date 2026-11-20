@@ -49,6 +49,9 @@ internal class SplitCreateResponseTest {
                         )
                         .customInstructions("Start a new segment at every signature page.")
                         .minPagesPerSplit(1L)
+                        .segmentBoundary(
+                            SplitCreateResponse.SplittingStrategy.SegmentBoundary.CATEGORY
+                        )
                         .build()
                 )
                 .targetPages("target_pages")
@@ -100,6 +103,7 @@ internal class SplitCreateResponseTest {
                     )
                     .customInstructions("Start a new segment at every signature page.")
                     .minPagesPerSplit(1L)
+                    .segmentBoundary(SplitCreateResponse.SplittingStrategy.SegmentBoundary.CATEGORY)
                     .build()
             )
         assertThat(splitCreateResponse.targetPages()).contains("target_pages")
@@ -152,6 +156,9 @@ internal class SplitCreateResponseTest {
                         )
                         .customInstructions("Start a new segment at every signature page.")
                         .minPagesPerSplit(1L)
+                        .segmentBoundary(
+                            SplitCreateResponse.SplittingStrategy.SegmentBoundary.CATEGORY
+                        )
                         .build()
                 )
                 .targetPages("target_pages")

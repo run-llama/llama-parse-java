@@ -24,6 +24,9 @@ internal class SplitV1ParametersTest {
                         )
                         .customInstructions("Start a new segment at every signature page.")
                         .minPagesPerSplit(1L)
+                        .segmentBoundary(
+                            SplitV1Parameters.SplittingStrategy.SegmentBoundary.CATEGORY
+                        )
                         .build()
                 )
                 .targetPages("1,3,5-7")
@@ -43,6 +46,7 @@ internal class SplitV1ParametersTest {
                     )
                     .customInstructions("Start a new segment at every signature page.")
                     .minPagesPerSplit(1L)
+                    .segmentBoundary(SplitV1Parameters.SplittingStrategy.SegmentBoundary.CATEGORY)
                     .build()
             )
         assertThat(splitV1Parameters.targetPages()).contains("1,3,5-7")
@@ -64,6 +68,9 @@ internal class SplitV1ParametersTest {
                         )
                         .customInstructions("Start a new segment at every signature page.")
                         .minPagesPerSplit(1L)
+                        .segmentBoundary(
+                            SplitV1Parameters.SplittingStrategy.SegmentBoundary.CATEGORY
+                        )
                         .build()
                 )
                 .targetPages("1,3,5-7")

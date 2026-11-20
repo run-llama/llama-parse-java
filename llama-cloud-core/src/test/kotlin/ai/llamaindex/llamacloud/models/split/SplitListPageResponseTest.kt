@@ -50,6 +50,9 @@ internal class SplitListPageResponseTest {
                                 )
                                 .customInstructions("Start a new segment at every signature page.")
                                 .minPagesPerSplit(1L)
+                                .segmentBoundary(
+                                    SplitListResponse.SplittingStrategy.SegmentBoundary.CATEGORY
+                                )
                                 .build()
                         )
                         .targetPages("target_pages")
@@ -102,6 +105,9 @@ internal class SplitListPageResponseTest {
                             )
                             .customInstructions("Start a new segment at every signature page.")
                             .minPagesPerSplit(1L)
+                            .segmentBoundary(
+                                SplitListResponse.SplittingStrategy.SegmentBoundary.CATEGORY
+                            )
                             .build()
                     )
                     .targetPages("target_pages")
@@ -158,6 +164,9 @@ internal class SplitListPageResponseTest {
                                 )
                                 .customInstructions("Start a new segment at every signature page.")
                                 .minPagesPerSplit(1L)
+                                .segmentBoundary(
+                                    SplitListResponse.SplittingStrategy.SegmentBoundary.CATEGORY
+                                )
                                 .build()
                         )
                         .targetPages("target_pages")

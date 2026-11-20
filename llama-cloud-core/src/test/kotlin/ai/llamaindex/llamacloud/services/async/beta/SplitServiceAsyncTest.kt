@@ -38,6 +38,11 @@ internal class SplitServiceAsyncTest {
                                         "Start a new segment at every signature page."
                                     )
                                     .minPagesPerSplit(1L)
+                                    .segmentBoundary(
+                                        SplitCreateParams.Configuration.SplittingStrategy
+                                            .SegmentBoundary
+                                            .CATEGORY
+                                    )
                                     .build()
                             )
                             .version("latest")
