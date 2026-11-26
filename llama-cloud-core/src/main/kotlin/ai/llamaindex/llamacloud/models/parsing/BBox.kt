@@ -27,6 +27,7 @@ private constructor(
     private val y: JsonField<Double>,
     private val confidence: JsonField<Double>,
     private val endIndex: JsonField<Long>,
+    private val imageFilename: JsonField<String>,
     private val label: JsonField<String>,
     private val r: JsonField<Double>,
     private val startIndex: JsonField<Long>,
@@ -43,10 +44,13 @@ private constructor(
         @ExcludeMissing
         confidence: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("end_index") @ExcludeMissing endIndex: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("image_filename")
+        @ExcludeMissing
+        imageFilename: JsonField<String> = JsonMissing.of(),
         @JsonProperty("label") @ExcludeMissing label: JsonField<String> = JsonMissing.of(),
         @JsonProperty("r") @ExcludeMissing r: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("start_index") @ExcludeMissing startIndex: JsonField<Long> = JsonMissing.of(),
-    ) : this(h, w, x, y, confidence, endIndex, label, r, startIndex, mutableMapOf())
+    ) : this(h, w, x, y, confidence, endIndex, imageFilename, label, r, startIndex, mutableMapOf())
 
     /**
      * Height of the bounding box
@@ -95,6 +99,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun endIndex(): Optional<Long> = endIndex.getOptional("end_index")
+
+    /**
+     * Filename of the saved layout image cut from this region; equals `filename` of an
+     * `images_content_metadata` entry.
+     *
+     * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun imageFilename(): Optional<String> = imageFilename.getOptional("image_filename")
 
     /**
      * Label for the bounding box
@@ -163,6 +176,15 @@ private constructor(
     @JsonProperty("end_index") @ExcludeMissing fun _endIndex(): JsonField<Long> = endIndex
 
     /**
+     * Returns the raw JSON value of [imageFilename].
+     *
+     * Unlike [imageFilename], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("image_filename")
+    @ExcludeMissing
+    fun _imageFilename(): JsonField<String> = imageFilename
+
+    /**
      * Returns the raw JSON value of [label].
      *
      * Unlike [label], this method doesn't throw if the JSON field has an unexpected type.
@@ -220,6 +242,7 @@ private constructor(
         private var y: JsonField<Double>? = null
         private var confidence: JsonField<Double> = JsonMissing.of()
         private var endIndex: JsonField<Long> = JsonMissing.of()
+        private var imageFilename: JsonField<String> = JsonMissing.of()
         private var label: JsonField<String> = JsonMissing.of()
         private var r: JsonField<Double> = JsonMissing.of()
         private var startIndex: JsonField<Long> = JsonMissing.of()
@@ -233,6 +256,7 @@ private constructor(
             y = bBox.y
             confidence = bBox.confidence
             endIndex = bBox.endIndex
+            imageFilename = bBox.imageFilename
             label = bBox.label
             r = bBox.r
             startIndex = bBox.startIndex
@@ -325,6 +349,28 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun endIndex(endIndex: JsonField<Long>) = apply { this.endIndex = endIndex }
+
+        /**
+         * Filename of the saved layout image cut from this region; equals `filename` of an
+         * `images_content_metadata` entry.
+         */
+        fun imageFilename(imageFilename: String?) =
+            imageFilename(JsonField.ofNullable(imageFilename))
+
+        /** Alias for calling [Builder.imageFilename] with `imageFilename.orElse(null)`. */
+        fun imageFilename(imageFilename: Optional<String>) =
+            imageFilename(imageFilename.getOrNull())
+
+        /**
+         * Sets [Builder.imageFilename] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.imageFilename] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun imageFilename(imageFilename: JsonField<String>) = apply {
+            this.imageFilename = imageFilename
+        }
 
         /** Label for the bounding box */
         fun label(label: String?) = label(JsonField.ofNullable(label))
@@ -424,6 +470,7 @@ private constructor(
                 checkRequired("y", y),
                 confidence,
                 endIndex,
+                imageFilename,
                 label,
                 r,
                 startIndex,
@@ -452,6 +499,7 @@ private constructor(
         y()
         confidence()
         endIndex()
+        imageFilename()
         label()
         r()
         startIndex()
@@ -479,6 +527,7 @@ private constructor(
             (if (y.asKnown().isPresent) 1 else 0) +
             (if (confidence.asKnown().isPresent) 1 else 0) +
             (if (endIndex.asKnown().isPresent) 1 else 0) +
+            (if (imageFilename.asKnown().isPresent) 1 else 0) +
             (if (label.asKnown().isPresent) 1 else 0) +
             (if (r.asKnown().isPresent) 1 else 0) +
             (if (startIndex.asKnown().isPresent) 1 else 0)
@@ -495,6 +544,7 @@ private constructor(
             y == other.y &&
             confidence == other.confidence &&
             endIndex == other.endIndex &&
+            imageFilename == other.imageFilename &&
             label == other.label &&
             r == other.r &&
             startIndex == other.startIndex &&
@@ -502,11 +552,23 @@ private constructor(
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(h, w, x, y, confidence, endIndex, label, r, startIndex, additionalProperties)
+        Objects.hash(
+            h,
+            w,
+            x,
+            y,
+            confidence,
+            endIndex,
+            imageFilename,
+            label,
+            r,
+            startIndex,
+            additionalProperties,
+        )
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "BBox{h=$h, w=$w, x=$x, y=$y, confidence=$confidence, endIndex=$endIndex, label=$label, r=$r, startIndex=$startIndex, additionalProperties=$additionalProperties}"
+        "BBox{h=$h, w=$w, x=$x, y=$y, confidence=$confidence, endIndex=$endIndex, imageFilename=$imageFilename, label=$label, r=$r, startIndex=$startIndex, additionalProperties=$additionalProperties}"
 }

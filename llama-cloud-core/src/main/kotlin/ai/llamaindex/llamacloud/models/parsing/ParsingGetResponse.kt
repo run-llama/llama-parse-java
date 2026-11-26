@@ -3027,8 +3027,10 @@ private constructor(
             private val bbox: JsonField<Bbox>,
             private val category: JsonField<Category>,
             private val contentType: JsonField<String>,
+            private val label: JsonField<String>,
             private val presignedUrl: JsonField<String>,
             private val sizeBytes: JsonField<Long>,
+            private val sublabels: JsonField<List<String>>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -3045,20 +3047,26 @@ private constructor(
                 @JsonProperty("content_type")
                 @ExcludeMissing
                 contentType: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("label") @ExcludeMissing label: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("presigned_url")
                 @ExcludeMissing
                 presignedUrl: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("size_bytes")
                 @ExcludeMissing
                 sizeBytes: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("sublabels")
+                @ExcludeMissing
+                sublabels: JsonField<List<String>> = JsonMissing.of(),
             ) : this(
                 filename,
                 index,
                 bbox,
                 category,
                 contentType,
+                label,
                 presignedUrl,
                 sizeBytes,
+                sublabels,
                 mutableMapOf(),
             )
 
@@ -3106,6 +3114,15 @@ private constructor(
             fun contentType(): Optional<String> = contentType.getOptional("content_type")
 
             /**
+             * Layout class of the region a layout image was cut from: 'chart', 'table', 'image' or
+             * 'seal'. Null for other images.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun label(): Optional<String> = label.getOptional("label")
+
+            /**
              * Presigned URL to download the image
              *
              * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
@@ -3121,6 +3138,15 @@ private constructor(
              */
             @Deprecated("deprecated")
             fun sizeBytes(): Optional<Long> = sizeBytes.getOptional("size_bytes")
+
+            /**
+             * Figure classes of the region a layout image was cut from, e.g. ['line_chart'] or
+             * ['logo']; empty when the region has no figure classification. Null for other images.
+             *
+             * @throws LlamaCloudInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun sublabels(): Optional<List<String>> = sublabels.getOptional("sublabels")
 
             /**
              * Returns the raw JSON value of [filename].
@@ -3165,6 +3191,13 @@ private constructor(
             fun _contentType(): JsonField<String> = contentType
 
             /**
+             * Returns the raw JSON value of [label].
+             *
+             * Unlike [label], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("label") @ExcludeMissing fun _label(): JsonField<String> = label
+
+            /**
              * Returns the raw JSON value of [presignedUrl].
              *
              * Unlike [presignedUrl], this method doesn't throw if the JSON field has an unexpected
@@ -3184,6 +3217,16 @@ private constructor(
             @JsonProperty("size_bytes")
             @ExcludeMissing
             fun _sizeBytes(): JsonField<Long> = sizeBytes
+
+            /**
+             * Returns the raw JSON value of [sublabels].
+             *
+             * Unlike [sublabels], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("sublabels")
+            @ExcludeMissing
+            fun _sublabels(): JsonField<List<String>> = sublabels
 
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -3219,8 +3262,10 @@ private constructor(
                 private var bbox: JsonField<Bbox> = JsonMissing.of()
                 private var category: JsonField<Category> = JsonMissing.of()
                 private var contentType: JsonField<String> = JsonMissing.of()
+                private var label: JsonField<String> = JsonMissing.of()
                 private var presignedUrl: JsonField<String> = JsonMissing.of()
                 private var sizeBytes: JsonField<Long> = JsonMissing.of()
+                private var sublabels: JsonField<MutableList<String>>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -3230,8 +3275,10 @@ private constructor(
                     bbox = image.bbox
                     category = image.category
                     contentType = image.contentType
+                    label = image.label
                     presignedUrl = image.presignedUrl
                     sizeBytes = image.sizeBytes
+                    sublabels = image.sublabels.map { it.toMutableList() }
                     additionalProperties = image.additionalProperties.toMutableMap()
                 }
 
@@ -3311,6 +3358,24 @@ private constructor(
                     this.contentType = contentType
                 }
 
+                /**
+                 * Layout class of the region a layout image was cut from: 'chart', 'table', 'image'
+                 * or 'seal'. Null for other images.
+                 */
+                fun label(label: String?) = label(JsonField.ofNullable(label))
+
+                /** Alias for calling [Builder.label] with `label.orElse(null)`. */
+                fun label(label: Optional<String>) = label(label.getOrNull())
+
+                /**
+                 * Sets [Builder.label] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.label] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun label(label: JsonField<String>) = apply { this.label = label }
+
                 /** Presigned URL to download the image */
                 fun presignedUrl(presignedUrl: String?) =
                     presignedUrl(JsonField.ofNullable(presignedUrl))
@@ -3356,6 +3421,39 @@ private constructor(
                 @Deprecated("deprecated")
                 fun sizeBytes(sizeBytes: JsonField<Long>) = apply { this.sizeBytes = sizeBytes }
 
+                /**
+                 * Figure classes of the region a layout image was cut from, e.g. ['line_chart'] or
+                 * ['logo']; empty when the region has no figure classification. Null for other
+                 * images.
+                 */
+                fun sublabels(sublabels: List<String>?) = sublabels(JsonField.ofNullable(sublabels))
+
+                /** Alias for calling [Builder.sublabels] with `sublabels.orElse(null)`. */
+                fun sublabels(sublabels: Optional<List<String>>) = sublabels(sublabels.getOrNull())
+
+                /**
+                 * Sets [Builder.sublabels] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.sublabels] with a well-typed `List<String>`
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun sublabels(sublabels: JsonField<List<String>>) = apply {
+                    this.sublabels = sublabels.map { it.toMutableList() }
+                }
+
+                /**
+                 * Adds a single [String] to [sublabels].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
+                fun addSublabel(sublabel: String) = apply {
+                    sublabels =
+                        (sublabels ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("sublabels", it).add(sublabel)
+                        }
+                }
+
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -3398,8 +3496,10 @@ private constructor(
                         bbox,
                         category,
                         contentType,
+                        label,
                         presignedUrl,
                         sizeBytes,
+                        (sublabels ?: JsonMissing.of()).map { it.toImmutable() },
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -3426,8 +3526,10 @@ private constructor(
                 bbox().ifPresent { it.validate() }
                 category().ifPresent { it.validate() }
                 contentType()
+                label()
                 presignedUrl()
                 sizeBytes()
+                sublabels()
                 validated = true
             }
 
@@ -3452,8 +3554,10 @@ private constructor(
                     (bbox.asKnown().getOrNull()?.validity() ?: 0) +
                     (category.asKnown().getOrNull()?.validity() ?: 0) +
                     (if (contentType.asKnown().isPresent) 1 else 0) +
+                    (if (label.asKnown().isPresent) 1 else 0) +
                     (if (presignedUrl.asKnown().isPresent) 1 else 0) +
-                    (if (sizeBytes.asKnown().isPresent) 1 else 0)
+                    (if (sizeBytes.asKnown().isPresent) 1 else 0) +
+                    (sublabels.asKnown().getOrNull()?.size ?: 0)
 
             /** Bounding box for an image on its page. */
             class Bbox
@@ -3907,8 +4011,10 @@ private constructor(
                     bbox == other.bbox &&
                     category == other.category &&
                     contentType == other.contentType &&
+                    label == other.label &&
                     presignedUrl == other.presignedUrl &&
                     sizeBytes == other.sizeBytes &&
+                    sublabels == other.sublabels &&
                     additionalProperties == other.additionalProperties
             }
 
@@ -3919,8 +4025,10 @@ private constructor(
                     bbox,
                     category,
                     contentType,
+                    label,
                     presignedUrl,
                     sizeBytes,
+                    sublabels,
                     additionalProperties,
                 )
             }
@@ -3928,7 +4036,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Image{filename=$filename, index=$index, bbox=$bbox, category=$category, contentType=$contentType, presignedUrl=$presignedUrl, sizeBytes=$sizeBytes, additionalProperties=$additionalProperties}"
+                "Image{filename=$filename, index=$index, bbox=$bbox, category=$category, contentType=$contentType, label=$label, presignedUrl=$presignedUrl, sizeBytes=$sizeBytes, sublabels=$sublabels, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
