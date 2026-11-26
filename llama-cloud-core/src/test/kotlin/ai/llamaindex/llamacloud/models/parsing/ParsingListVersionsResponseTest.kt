@@ -15,7 +15,7 @@ internal class ParsingListVersionsResponseTest {
             ParsingListVersionsResponse.builder()
                 .addAgentic(ParsingListVersionsResponse.Agentic._2026_11_22)
                 .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_11_19)
-                .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_11_22)
+                .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_11_24)
                 .addFast(ParsingListVersionsResponse.Fast._2026_11_12)
                 .latest(
                     ParsingListVersionsResponse.Latest.builder()
@@ -32,7 +32,7 @@ internal class ParsingListVersionsResponseTest {
         assertThat(parsingListVersionsResponse.agenticPlus())
             .containsExactly(ParsingListVersionsResponse.AgenticPlus._2026_11_19)
         assertThat(parsingListVersionsResponse.costEffective())
-            .containsExactly(ParsingListVersionsResponse.CostEffective._2026_11_22)
+            .containsExactly(ParsingListVersionsResponse.CostEffective._2026_11_24)
         assertThat(parsingListVersionsResponse.fast())
             .containsExactly(ParsingListVersionsResponse.Fast._2026_11_12)
         assertThat(parsingListVersionsResponse.latest())
@@ -53,7 +53,7 @@ internal class ParsingListVersionsResponseTest {
             ParsingListVersionsResponse.builder()
                 .addAgentic(ParsingListVersionsResponse.Agentic._2026_11_22)
                 .addAgenticPlus(ParsingListVersionsResponse.AgenticPlus._2026_11_19)
-                .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_11_22)
+                .addCostEffective(ParsingListVersionsResponse.CostEffective._2026_11_24)
                 .addFast(ParsingListVersionsResponse.Fast._2026_11_12)
                 .latest(
                     ParsingListVersionsResponse.Latest.builder()
